@@ -220,7 +220,8 @@ class PermintaanPembelianController extends Controller
         $tipe_barang = DB::table('tipe_barang')->get();
         $tipe_persediaan = DB::table('tipe_persediaan')->get();
         $kategori_barang = DB::table('kategori_barang')->get();
-        return view('pembelian/permintaan.datapermintaan', compact('nama_barang','tipe_barang', 'tipe_persediaan', 'kategori_barang'));
+        
+        return view('pembelian/permintaan.datapermintaan', compact('routeFetch','nama_barang','tipe_barang', 'tipe_persediaan', 'kategori_barang'));
     }
 
     public function dataPermintaan(Request $request)
