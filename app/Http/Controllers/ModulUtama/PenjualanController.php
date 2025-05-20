@@ -5,23 +5,81 @@ namespace App\Http\Controllers\ModulUtama;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
+use App\Models\ModulUtama\Penjualan\PenawaranPenjualan;
+use App\Models\ModulUtama\Penjualan\PesananPenjualan;
 
 class PenjualanController extends Controller
 {
     // =====================
     // PENAWARAN PENJUALAN
     // =====================
-    public function indexPenawaran() {
+    public function indexPenawaran()
+    {
         $nama_barang = DB::table('barang')->get();
         $tipe_barang = DB::table('tipe_barang')->get();
         $tipe_persediaan = DB::table('tipe_persediaan')->get();
         $kategori_barang = DB::table('kategori_barang')->get();
         $routeFetch = route('penjualan.penawaran.fetch');
-        return view('modulutama.penjualan.penawaran.data', compact('routeFetch','nama_barang','tipe_barang', 'tipe_persediaan', 'kategori_barang'));
+        return view('modulutama.penjualan.penawaran.data', compact('routeFetch', 'nama_barang', 'tipe_barang', 'tipe_persediaan', 'kategori_barang'));
     }
 
-    public function fetchPenawaran() {
-        return response()->json('helo');
+    public function fetchPenawaran(Request $request)
+    {
+        $model = PenawaranPenjualan::with(['user', 'cabang'])
+            ->when($request->filled('no_penawaran'), function ($q) use ($request) {
+                $q->where('no_penawaran', 'like', '%' . $request->no_penawaran . '%');
+            })
+            ->when($request->filled('tgl_penawaran'), function ($q) use ($request) {
+                $q->whereDate('tgl_penawaran', $request->tgl_penawaran);
+            })
+            ->when($request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereBetween('tgl_penawaran', [$request->tgl_mulai, $request->tgl_sampai]);
+            })
+            ->when($request->filled('tgl_mulai') && !$request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereDate('tgl_penawaran', '>=', $request->tgl_mulai);
+            })
+            ->when(!$request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereDate('tgl_penawaran', '<=', $request->tgl_sampai);
+            });
+
+        return datatables()->of($model)
+            ->addIndexColumn()
+            ->addColumn('pengguna', fn($row) => $row->user->name ?? '-')
+            ->addColumn('cabang', fn($row) => $row->cabang->nama ?? '-')
+            ->addColumn('catatan_pemeriksaan', fn($row) => $row->catatan_pemeriksaan ? true : false)
+            ->addColumn('tindak_lanjut', fn($row) => $row->tindak_lanjut ? true : false)
+            ->addColumn('disetujui', fn($row) => $row->disetujui ? true : false)
+            ->make(true);
+    }
+
+    public function fetchPesanan(Request $request)
+    {
+        $model = PesananPenjualan::with(['user', 'cabang'])
+            ->when($request->filled('no_pesanan'), function ($q) use ($request) {
+                $q->where('no_pesanan', 'like', '%' . $request->no_pesanan . '%');
+            })
+            ->when($request->filled('tgl_pesanan'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', $request->tgl_pesanan);
+            })
+            ->when($request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereBetween('tgl_pesanan', [$request->tgl_mulai, $request->tgl_sampai]);
+            })
+            ->when($request->filled('tgl_mulai') && !$request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', '>=', $request->tgl_mulai);
+            })
+            ->when(!$request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', '<=', $request->tgl_sampai);
+            });
+
+        return DataTables::of($model)
+            ->addIndexColumn()
+            ->addColumn('pengguna', fn($row) => $row->user->name ?? '-')
+            ->addColumn('cabang', fn($row) => $row->cabang->nama ?? '-')
+            ->addColumn('catatan_pemeriksaan', fn($row) => $row->catatan_pemeriksaan ? true : false)
+            ->addColumn('tindak_lanjut', fn($row) => $row->tindak_lanjut ? true : false)
+            ->addColumn('disetujui', fn($row) => $row->disetujui ? true : false)
+            ->make(true);
     }
     public function createPenawaran() {}
     public function storePenawaran(Request $request) {}
@@ -32,7 +90,15 @@ class PenjualanController extends Controller
     // =====================
     // PESANAN PENJUALAN
     // =====================
-    public function indexPesanan() {}
+    public function indexPesanan()
+    {
+        $nama_barang = DB::table('barang')->get();
+        $tipe_barang = DB::table('tipe_barang')->get();
+        $tipe_persediaan = DB::table('tipe_persediaan')->get();
+        $kategori_barang = DB::table('kategori_barang')->get();
+        $routeFetch = route('penjualan.pesanan.fetch');
+        return view('modulutama.penjualan.pesanan.data', compact('routeFetch', 'nama_barang', 'tipe_barang', 'tipe_persediaan', 'kategori_barang'));
+    }
     public function createPesanan() {}
     public function storePesanan(Request $request) {}
     public function editPesanan($id) {}
@@ -88,5 +154,4 @@ class PenjualanController extends Controller
     public function editRetur($id) {}
     public function updateRetur(Request $request, $id) {}
     public function destroyRetur($id) {}
-
 }

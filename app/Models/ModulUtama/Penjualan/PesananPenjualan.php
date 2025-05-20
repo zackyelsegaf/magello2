@@ -4,7 +4,7 @@ namespace App\Models\ModulUtama\Penjualan;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PenawaranPenjualan extends Model
+class PesananPenjualan extends Model
 {
     //
 }
