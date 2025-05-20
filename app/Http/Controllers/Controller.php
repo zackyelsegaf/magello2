@@ -19,8 +19,8 @@ class Controller extends BaseController
         $tipe_barang = DB::table('tipe_barang')->get();
         $tipe_persediaan = DB::table('tipe_persediaan')->get();
         $kategori_barang = DB::table('kategori_barang')->get();
-        $routeFetch = route('penjualan.penawaran.fetch');
+        $routeFetch = route("penjualan.$this->menu.fetch");
 
-        return view('modulutama.penjualan.'.$this->menu.'.data', compact('routeFetch', 'nama_barang', 'tipe_barang', 'tipe_persediaan', 'kategori_barang'));
+        return view("modulutama.penjualan.$this->menu.data", compact('routeFetch', 'nama_barang', 'tipe_barang', 'tipe_persediaan', 'kategori_barang'));
     }
 }
