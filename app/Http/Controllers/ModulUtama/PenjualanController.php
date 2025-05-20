@@ -16,12 +16,8 @@ class PenjualanController extends Controller
     // =====================
     public function indexPenawaran()
     {
-        $nama_barang = DB::table('barang')->get();
-        $tipe_barang = DB::table('tipe_barang')->get();
-        $tipe_persediaan = DB::table('tipe_persediaan')->get();
-        $kategori_barang = DB::table('kategori_barang')->get();
-        $routeFetch = route('penjualan.penawaran.fetch');
-        return view('modulutama.penjualan.penawaran.data', compact('routeFetch', 'nama_barang', 'tipe_barang', 'tipe_persediaan', 'kategori_barang'));
+        $this->menu = 'penawaran';
+        return $this->dataUtama();
     }
 
     public function fetchPenawaran(Request $request)
@@ -92,12 +88,8 @@ class PenjualanController extends Controller
     // =====================
     public function indexPesanan()
     {
-        $nama_barang = DB::table('barang')->get();
-        $tipe_barang = DB::table('tipe_barang')->get();
-        $tipe_persediaan = DB::table('tipe_persediaan')->get();
-        $kategori_barang = DB::table('kategori_barang')->get();
-        $routeFetch = route('penjualan.pesanan.fetch');
-        return view('modulutama.penjualan.pesanan.data', compact('routeFetch', 'nama_barang', 'tipe_barang', 'tipe_persediaan', 'kategori_barang'));
+        $this->menu = 'pesanan';
+        return $this->dataUtama();
     }
     public function createPesanan() {}
     public function storePesanan(Request $request) {}
@@ -108,7 +100,10 @@ class PenjualanController extends Controller
     // =====================
     // PENGIRIMAN PENJUALAN
     // =====================
-    public function indexPengiriman() {}
+    public function indexPengiriman() {
+        $this->menu = 'pengiriman';
+        $this->dataUtama();
+    }
     public function createPengiriman() {}
     public function storePengiriman(Request $request) {}
     public function editPengiriman($id) {}

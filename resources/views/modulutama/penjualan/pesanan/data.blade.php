@@ -6,7 +6,7 @@
                 <div class="row align-items-center">
                     <div class="col">
                         <div class="mt-5">
-                            <h4 class="card-title float-left mt-2">Data Penawaran Penjualan</h4>
+                            <h4 class="card-title float-left mt-2">Data Pesanan Penjualan</h4>
                         </div>
                     </div>
                 </div>

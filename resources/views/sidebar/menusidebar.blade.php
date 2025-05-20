@@ -86,6 +86,17 @@
                                 <li><a class="{{ set_active(['pembelian/permintaan/list/page']) }}" href="{{ route('pembelian/permintaan/list/page') }}">Permintaan Pembelian</a></li>
                             </ul>
                         </li>
+                        <li class="submenu"> <a href="#"></i> <span> Penjualan </span> <span class="menu-arrow"></span></a>
+                            <ul class="submenu_class" style="display: none;">
+                                <li><a class="{{ set_active(['penjualan.penawaran.index']) }}" href="{{ route('penjualan.penawaran.index') }}">Penawaran Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.pesanan.index']) }}" href="{{ route('penjualan.pesanan.index') }}">Pesanan Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.pengiriman.index']) }}" href="{{ route('penjualan.pengiriman.index') }}">Pengiriman Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.fakturpenjualan.index']) }}" href="{{ route('penjualan.fakturpenjualan.index') }}">Faktur Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.fakturpenagihan.index']) }}" href="{{ route('penjualan.fakturpenagihan.index') }}">Faktur Penagihan</a></li>
+                                <li><a class="{{ set_active(['penjualan.penerimaan.index']) }}" href="{{ route('penjualan.penerimaan.index') }}">Penerimaan Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.retur.index']) }}" href="{{ route('penjualan.retur.index') }}">Retur Penjualan</a></li>
+                            </ul>
+                        </li>
                         <li class="submenu"> <a href="#"></i> <span> Persediaan </span> <span class="menu-arrow"></span></a>
                             <ul class="submenu_class" style="display: none;">
                                 <li><a class="{{ set_active(['satuan/list/page']) }}" href="{{ route('satuan/list/page') }}">Satuan</a></li>
