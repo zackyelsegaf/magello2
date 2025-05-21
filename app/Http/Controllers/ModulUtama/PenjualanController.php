@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ModulUtama;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\ModulUtama\Penjualan\FakturPenjualan;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\ModulUtama\Penjualan\PenawaranPenjualan;
 use App\Models\ModulUtama\Penjualan\PesananPenjualan;
@@ -77,6 +78,35 @@ class PenjualanController extends Controller
             ->addColumn('disetujui', fn($row) => $row->disetujui ? true : false)
             ->make(true);
     }
+
+    public function fetchFakturPenjualan(Request $request)
+    {
+        $model = FakturPenjualan::with(['user', 'cabang'])
+            ->when($request->filled('no_pesanan'), function ($q) use ($request) {
+                $q->where('no_pesanan', 'like', '%' . $request->no_pesanan . '%');
+            })
+            ->when($request->filled('tgl_pesanan'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', $request->tgl_pesanan);
+            })
+            ->when($request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereBetween('tgl_pesanan', [$request->tgl_mulai, $request->tgl_sampai]);
+            })
+            ->when($request->filled('tgl_mulai') && !$request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', '>=', $request->tgl_mulai);
+            })
+            ->when(!$request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', '<=', $request->tgl_sampai);
+            });
+
+        return DataTables::of($model)
+            ->addIndexColumn()
+            ->addColumn('pengguna', fn($row) => $row->user->name ?? '-')
+            ->addColumn('cabang', fn($row) => $row->cabang->nama ?? '-')
+            ->addColumn('catatan_pemeriksaan', fn($row) => $row->catatan_pemeriksaan ? true : false)
+            ->addColumn('tindak_lanjut', fn($row) => $row->tindak_lanjut ? true : false)
+            ->addColumn('disetujui', fn($row) => $row->disetujui ? true : false)
+            ->make(true);
+    }
     public function createPenawaran() {}
     public function storePenawaran(Request $request) {}
     public function editPenawaran($id) {}
@@ -113,7 +143,10 @@ class PenjualanController extends Controller
     // =====================
     // FAKTUR PENJUALAN
     // =====================
-    public function indexFakturPenjualan() {}
+    public function indexFakturPenjualan() {
+        $this->menu = 'fakturpenjualan';
+        $this->dataUtama();
+    }
     public function createFakturPenjualan() {}
     public function storeFakturPenjualan(Request $request) {}
     public function editFakturPenjualan($id) {}

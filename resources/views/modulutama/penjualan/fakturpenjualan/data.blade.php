@@ -6,7 +6,7 @@
                 <div class="row align-items-center">
                     <div class="col">
                         <div class="mt-5">
-                            <h4 class="card-title float-left mt-2">Data Pesanan Penjualan</h4>
+                            <h4 class="card-title float-left mt-2">Data Faktur Penjualan</h4>
                         </div>
                     </div>
                 </div>
@@ -91,25 +91,17 @@
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover table-center mb-0"
                                     id="PermintaanList">
-                                    <thead class="thead-dark">
+                                    <thead>
                                         <tr>
-                                            <th><input type="checkbox" id="select_all"></th>
                                             <th>No</th>
-                                            <th hidden>ID</th>
-                                            <th>No. Pesanan</th>
-                                            <th>Tanggal Pesanan</th>
+                                            <th>No. Faktur</th>
+                                            <th>Tgl Faktur</th>
+                                            <th>Deskripsi</th>
+                                            <th>Status</th>
+                                            <th>Nilai Faktur</th>
                                             <th>No. Pelanggan</th>
                                             <th>Nama Pelanggan</th>
-                                            <th>Status</th>
-                                            <th>No. PO</th>
-                                            <th>Nilai Diskon</th>
-                                            <th>Total Pajak</th>
-                                            <th>Nilai Pajak 1</th>
-                                            <th>Nilai Pajak 2</th>
-                                            <th>Nilai Pesanan</th>
                                             <th>Uang Muka</th>
-                                            <th>Uang Muka Terpakai</th>
-                                            <th>Deskripsi</th>
                                             <th>Pengguna</th>
                                             <th>Cabang</th>
                                             <th>No. Persetujuan</th>
@@ -206,25 +198,24 @@
                     },
                 ],
                 columns: [{
-                        data: 'checkbox',
+                        data: 'DT_RowIndex',
                         orderable: false,
                         searchable: false
                     },
                     {
-                        data: 'no',
-                        orderable: false,
-                        searchable: false
+                        data: 'no_faktur'
                     },
                     {
-                        data: 'id',
-                        visible: false
-                    },
-
-                    {
-                        data: 'no_pesanan'
+                        data: 'tgl_faktur'
                     },
                     {
-                        data: 'tgl_pesanan'
+                        data: 'deskripsi'
+                    },
+                    {
+                        data: 'status'
+                    },
+                    {
+                        data: 'nilai_faktur'
                     },
                     {
                         data: 'no_pelanggan'
@@ -233,37 +224,8 @@
                         data: 'nama_pelanggan'
                     },
                     {
-                        data: 'status'
-                    },
-                    {
-                        data: 'no_po'
-                    },
-
-                    {
-                        data: 'nilai_diskon'
-                    },
-                    {
-                        data: 'total_pajak'
-                    },
-                    {
-                        data: 'nilai_pajak_1'
-                    },
-                    {
-                        data: 'nilai_pajak_2'
-                    },
-                    {
-                        data: 'nilai_pesanan'
-                    },
-                    {
                         data: 'uang_muka'
                     },
-                    {
-                        data: 'uang_muka_terpakai'
-                    },
-                    {
-                        data: 'deskripsi'
-                    },
-
                     {
                         data: 'pengguna'
                     },
@@ -273,7 +235,6 @@
                     {
                         data: 'no_persetujuan'
                     },
-
                     {
                         data: 'catatan_pemeriksaan',
                         render: data => data ? '<input type="checkbox" checked>' :
@@ -290,8 +251,7 @@
                             '<input type="checkbox">'
                     },
                     {
-                        data: 'urgensi',
-                        render: data => data
+                        data: 'urgensi'
                     }
                 ]
             });
