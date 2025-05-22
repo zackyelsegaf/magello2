@@ -5,10 +5,14 @@ namespace App\Http\Controllers\ModulUtama;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\ModulUtama\Penjualan\FakturPenagihan;
 use App\Models\ModulUtama\Penjualan\FakturPenjualan;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\ModulUtama\Penjualan\PenawaranPenjualan;
+use App\Models\ModulUtama\Penjualan\PenerimaanPenjualan;
+use App\Models\ModulUtama\Penjualan\PengirimanPenjualan;
 use App\Models\ModulUtama\Penjualan\PesananPenjualan;
+use App\Models\ModulUtama\Penjualan\ReturPenjualan;
 
 class PenjualanController extends Controller
 {
@@ -107,6 +111,120 @@ class PenjualanController extends Controller
             ->addColumn('disetujui', fn($row) => $row->disetujui ? true : false)
             ->make(true);
     }
+
+    public function fetchPengiriman(Request $request)
+    {
+        $model = PengirimanPenjualan::with(['user', 'cabang'])
+            ->when($request->filled('no_pesanan'), function ($q) use ($request) {
+                $q->where('no_pesanan', 'like', '%' . $request->no_pesanan . '%');
+            })
+            ->when($request->filled('tgl_pesanan'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', $request->tgl_pesanan);
+            })
+            ->when($request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereBetween('tgl_pesanan', [$request->tgl_mulai, $request->tgl_sampai]);
+            })
+            ->when($request->filled('tgl_mulai') && !$request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', '>=', $request->tgl_mulai);
+            })
+            ->when(!$request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', '<=', $request->tgl_sampai);
+            });
+
+        return DataTables::of($model)
+            ->addIndexColumn()
+            ->addColumn('pengguna', fn($row) => $row->user->name ?? '-')
+            ->addColumn('cabang', fn($row) => $row->cabang->nama ?? '-')
+            ->addColumn('catatan_pemeriksaan', fn($row) => $row->catatan_pemeriksaan ? true : false)
+            ->addColumn('tindak_lanjut', fn($row) => $row->tindak_lanjut ? true : false)
+            ->addColumn('disetujui', fn($row) => $row->disetujui ? true : false)
+            ->make(true);
+    }
+
+    public function fetchFakturPenagihan(Request $request)
+    {
+        $model = FakturPenagihan::with(['user', 'cabang'])
+            ->when($request->filled('no_pesanan'), function ($q) use ($request) {
+                $q->where('no_pesanan', 'like', '%' . $request->no_pesanan . '%');
+            })
+            ->when($request->filled('tgl_pesanan'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', $request->tgl_pesanan);
+            })
+            ->when($request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereBetween('tgl_pesanan', [$request->tgl_mulai, $request->tgl_sampai]);
+            })
+            ->when($request->filled('tgl_mulai') && !$request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', '>=', $request->tgl_mulai);
+            })
+            ->when(!$request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', '<=', $request->tgl_sampai);
+            });
+
+        return DataTables::of($model)
+            ->addIndexColumn()
+            ->addColumn('pengguna', fn($row) => $row->user->name ?? '-')
+            ->addColumn('cabang', fn($row) => $row->cabang->nama ?? '-')
+            ->addColumn('catatan_pemeriksaan', fn($row) => $row->catatan_pemeriksaan ? true : false)
+            ->addColumn('tindak_lanjut', fn($row) => $row->tindak_lanjut ? true : false)
+            ->addColumn('disetujui', fn($row) => $row->disetujui ? true : false)
+            ->make(true);
+    }
+    public function fetchPenerimaan(Request $request)
+    {
+        $model = PenerimaanPenjualan::with(['user', 'cabang'])
+            ->when($request->filled('no_pesanan'), function ($q) use ($request) {
+                $q->where('no_pesanan', 'like', '%' . $request->no_pesanan . '%');
+            })
+            ->when($request->filled('tgl_pesanan'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', $request->tgl_pesanan);
+            })
+            ->when($request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereBetween('tgl_pesanan', [$request->tgl_mulai, $request->tgl_sampai]);
+            })
+            ->when($request->filled('tgl_mulai') && !$request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', '>=', $request->tgl_mulai);
+            })
+            ->when(!$request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', '<=', $request->tgl_sampai);
+            });
+
+        return DataTables::of($model)
+            ->addIndexColumn()
+            ->addColumn('pengguna', fn($row) => $row->user->name ?? '-')
+            ->addColumn('cabang', fn($row) => $row->cabang->nama ?? '-')
+            ->addColumn('catatan_pemeriksaan', fn($row) => $row->catatan_pemeriksaan ? true : false)
+            ->addColumn('tindak_lanjut', fn($row) => $row->tindak_lanjut ? true : false)
+            ->addColumn('disetujui', fn($row) => $row->disetujui ? true : false)
+            ->make(true);
+    }
+    public function fetchRetur(Request $request)
+    {
+        $model = ReturPenjualan::with(['user', 'cabang'])
+            ->when($request->filled('no_pesanan'), function ($q) use ($request) {
+                $q->where('no_pesanan', 'like', '%' . $request->no_pesanan . '%');
+            })
+            ->when($request->filled('tgl_pesanan'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', $request->tgl_pesanan);
+            })
+            ->when($request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereBetween('tgl_pesanan', [$request->tgl_mulai, $request->tgl_sampai]);
+            })
+            ->when($request->filled('tgl_mulai') && !$request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', '>=', $request->tgl_mulai);
+            })
+            ->when(!$request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                $q->whereDate('tgl_pesanan', '<=', $request->tgl_sampai);
+            });
+
+        return DataTables::of($model)
+            ->addIndexColumn()
+            ->addColumn('pengguna', fn($row) => $row->user->name ?? '-')
+            ->addColumn('cabang', fn($row) => $row->cabang->nama ?? '-')
+            ->addColumn('catatan_pemeriksaan', fn($row) => $row->catatan_pemeriksaan ? true : false)
+            ->addColumn('tindak_lanjut', fn($row) => $row->tindak_lanjut ? true : false)
+            ->addColumn('disetujui', fn($row) => $row->disetujui ? true : false)
+            ->make(true);
+    }
     public function createPenawaran() {}
     public function storePenawaran(Request $request) {}
     public function editPenawaran($id) {}
@@ -132,7 +250,7 @@ class PenjualanController extends Controller
     // =====================
     public function indexPengiriman() {
         $this->menu = 'pengiriman';
-        $this->dataUtama();
+        return $this->dataUtama();
     }
     public function createPengiriman() {}
     public function storePengiriman(Request $request) {}
@@ -145,7 +263,7 @@ class PenjualanController extends Controller
     // =====================
     public function indexFakturPenjualan() {
         $this->menu = 'fakturpenjualan';
-        $this->dataUtama();
+        return $this->dataUtama();
     }
     public function createFakturPenjualan() {}
     public function storeFakturPenjualan(Request $request) {}
@@ -156,7 +274,10 @@ class PenjualanController extends Controller
     // =====================
     // FAKTUR PENAGIHAN
     // =====================
-    public function indexFakturPenagihan() {}
+    public function indexFakturPenagihan() {
+        $this->menu = 'fakturpenagihan';
+        return $this->dataUtama();
+    }
     public function createFakturPenagihan() {}
     public function storeFakturPenagihan(Request $request) {}
     public function editFakturPenagihan($id) {}
@@ -166,7 +287,10 @@ class PenjualanController extends Controller
     // =====================
     // PENERIMAAN PEMBAYARAN
     // =====================
-    public function indexPenerimaan() {}
+    public function indexPenerimaan() {
+        $this->menu = 'penerimaan';
+        return $this->dataUtama();
+    }
     public function createPenerimaan() {}
     public function storePenerimaan(Request $request) {}
     public function editPenerimaan($id) {}
@@ -176,7 +300,10 @@ class PenjualanController extends Controller
     // =====================
     // RETUR PENJUALAN
     // =====================
-    public function indexRetur() {}
+    public function indexRetur() {
+        $this->menu = 'returpenjualan';
+        return $this->dataUtama();
+    }
     public function createRetur() {}
     public function storeRetur(Request $request) {}
     public function editRetur($id) {}

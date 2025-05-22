@@ -6,7 +6,7 @@
                 <div class="row align-items-center">
                     <div class="col">
                         <div class="mt-5">
-                            <h4 class="card-title float-left mt-2">Data Faktur Penjualan</h4>
+                            <h4 class="card-title float-left mt-2">Data Faktur Penagihan</h4>
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-md-8">
+                <div class="col-xl">
                     <div class="card card-table">
                         <div class="card-body booking_card">
                             <div class="table-responsive">
@@ -197,7 +197,7 @@
                         }
                     },
                 ],
-                    columns: [{
+                columns: [{
                         data: 'DT_RowIndex',
                         orderable: false,
                         searchable: false

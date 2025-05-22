@@ -6,7 +6,7 @@
                 <div class="row align-items-center">
                     <div class="col">
                         <div class="mt-5">
-                            <h4 class="card-title float-left mt-2">Data Pesanan Penjualan</h4>
+                            <h4 class="card-title float-left mt-2">Data Penerimaan Penjualan</h4>
                         </div>
                     </div>
                 </div>
@@ -91,25 +91,17 @@
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover table-center mb-0"
                                     id="PermintaanList">
-                                    <thead class="thead-dark">
+                                    <thead>
                                         <tr>
-                                            <th><input type="checkbox" id="select_all"></th>
                                             <th>No</th>
-                                            <th hidden>ID</th>
-                                            <th>No. Pesanan</th>
-                                            <th>Tanggal Pesanan</th>
+                                            <th>No. Formulir</th>
+                                            <th>Tgl Penerimaan</th>
+                                            <th>Tgl Cek</th>
                                             <th>No. Pelanggan</th>
                                             <th>Nama Pelanggan</th>
-                                            <th>Status</th>
-                                            <th>No. PO</th>
-                                            <th>Nilai Diskon</th>
-                                            <th>Total Pajak</th>
-                                            <th>Nilai Pajak 1</th>
-                                            <th>Nilai Pajak 2</th>
-                                            <th>Nilai Pesanan</th>
-                                            <th>Uang Muka</th>
-                                            <th>Uang Muka Terpakai</th>
                                             <th>Deskripsi</th>
+                                            <th>Jumlah Cek</th>
+                                            <th>Diskon</th>
                                             <th>Pengguna</th>
                                             <th>Cabang</th>
                                             <th>No. Persetujuan</th>
@@ -117,6 +109,7 @@
                                             <th>Tindak Lanjut</th>
                                             <th>Disetujui</th>
                                             <th>Urgensi</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -216,84 +209,75 @@
                         searchable: false
                     },
                     {
-                        data: 'id',
-                        visible: false
-                    },
-
-                    {
-                        data: 'no_pesanan'
+                        data: 'no_formulir',
+                        name: 'no_formulir'
                     },
                     {
-                        data: 'tgl_pesanan'
+                        data: 'tgl_penerimaan',
+                        name: 'tgl_penerimaan'
                     },
                     {
-                        data: 'no_pelanggan'
+                        data: 'tgl_cek',
+                        name: 'tgl_cek'
                     },
                     {
-                        data: 'nama_pelanggan'
+                        data: 'no_pelanggan',
+                        name: 'no_pelanggan'
                     },
                     {
-                        data: 'status'
+                        data: 'nama_pelanggan',
+                        name: 'nama_pelanggan'
                     },
                     {
-                        data: 'no_po'
-                    },
-
-                    {
-                        data: 'nilai_diskon'
+                        data: 'deskripsi',
+                        name: 'deskripsi'
                     },
                     {
-                        data: 'total_pajak'
+                        data: 'jumlah_cek',
+                        name: 'jumlah_cek',
+                        className: 'text-end'
                     },
                     {
-                        data: 'nilai_pajak_1'
+                        data: 'diskon',
+                        name: 'diskon',
+                        className: 'text-end'
                     },
                     {
-                        data: 'nilai_pajak_2'
+                        data: 'pengguna',
+                        name: 'pengguna'
                     },
                     {
-                        data: 'nilai_pesanan'
+                        data: 'cabang',
+                        name: 'cabang'
                     },
                     {
-                        data: 'uang_muka'
+                        data: 'no_persetujuan',
+                        name: 'no_persetujuan'
                     },
-                    {
-                        data: 'uang_muka_terpakai'
-                    },
-                    {
-                        data: 'deskripsi'
-                    },
-
-                    {
-                        data: 'pengguna'
-                    },
-                    {
-                        data: 'cabang'
-                    },
-                    {
-                        data: 'no_persetujuan'
-                    },
-
                     {
                         data: 'catatan_pemeriksaan',
-                        render: data => data ? '<input type="checkbox" checked>' :
-                            '<input type="checkbox">'
+                        name: 'catatan_pemeriksaan',
+                        render: data => data ? '<input type="checkbox" checked disabled>' :
+                            '<input type="checkbox" disabled>'
                     },
                     {
                         data: 'tindak_lanjut',
-                        render: data => data ? '<input type="checkbox" checked>' :
-                            '<input type="checkbox">'
+                        name: 'tindak_lanjut',
+                        render: data => data ? '<input type="checkbox" checked disabled>' :
+                            '<input type="checkbox" disabled>'
                     },
                     {
                         data: 'disetujui',
-                        render: data => data ? '<input type="checkbox" checked>' :
-                            '<input type="checkbox">'
+                        name: 'disetujui',
+                        render: data => data ? '<input type="checkbox" checked disabled>' :
+                            '<input type="checkbox" disabled>'
                     },
                     {
                         data: 'urgensi',
-                        render: data => data
+                        name: 'urgensi'
                     }
                 ]
+
             });
 
             $('form').on('submit', function(e) {

@@ -6,7 +6,7 @@
                 <div class="row align-items-center">
                     <div class="col">
                         <div class="mt-5">
-                            <h4 class="card-title float-left mt-2">Data Faktur Penjualan</h4>
+                            <h4 class="card-title float-left mt-2">Data Retur Penjualan</h4>
                         </div>
                     </div>
                 </div>
@@ -93,21 +93,27 @@
                                     id="PermintaanList">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
+                                            <th></th>
+                                            <th class="text-center">No</th>
+                                            <th>No. Retur</th>
+                                            <th>Tgl Retur</th>
                                             <th>No. Faktur</th>
-                                            <th>Tgl Faktur</th>
-                                            <th>Deskripsi</th>
                                             <th>Status</th>
-                                            <th>Nilai Faktur</th>
                                             <th>No. Pelanggan</th>
                                             <th>Nama Pelanggan</th>
-                                            <th>Uang Muka</th>
-                                            <th>Pengguna</th>
-                                            <th>Cabang</th>
-                                            <th>No. Persetujuan</th>
+                                            <th class="text-end">Nilai Faktur</th>
+                                            <th>Deskripsi</th>
+                                            <th>Tercetak</th>
                                             <th>Catatan Pemeriksaan</th>
                                             <th>Tindak Lanjut</th>
                                             <th>Disetujui</th>
+                                            <th>No. Persetujuan</th>
+                                            <th>Sumber</th>
+                                            <th>Pengguna</th>
+                                            <th>Cabang</th>
+                                            <th>Catatan Pemeriksaan (2)</th>
+                                            <th>Tindak Lanjut (2)</th>
+                                            <th>Disetujui (2)</th>
                                             <th>Urgensi</th>
                                         </tr>
                                     </thead>
@@ -197,61 +203,110 @@
                         }
                     },
                 ],
-                    columns: [{
-                        data: 'DT_RowIndex',
+                columns: [{
+                        data: 'checkbox',
                         orderable: false,
                         searchable: false
                     },
                     {
-                        data: 'no_faktur'
+                        data: 'no',
+                        orderable: false,
+                        searchable: false
                     },
                     {
-                        data: 'tgl_faktur'
+                        data: 'no_retur',
+                        name: 'no_retur'
                     },
                     {
-                        data: 'deskripsi'
+                        data: 'tgl_retur',
+                        name: 'tgl_retur'
                     },
                     {
-                        data: 'status'
+                        data: 'no_faktur',
+                        name: 'no_faktur'
                     },
                     {
-                        data: 'nilai_faktur'
+                        data: 'status',
+                        name: 'status'
                     },
                     {
-                        data: 'no_pelanggan'
+                        data: 'no_pelanggan',
+                        name: 'no_pelanggan'
                     },
                     {
-                        data: 'nama_pelanggan'
+                        data: 'nama_pelanggan',
+                        name: 'nama_pelanggan'
                     },
                     {
-                        data: 'uang_muka'
+                        data: 'nilai_faktur',
+                        name: 'nilai_faktur',
+                        className: 'text-end'
                     },
                     {
-                        data: 'pengguna'
+                        data: 'deskripsi',
+                        name: 'deskripsi'
                     },
                     {
-                        data: 'cabang'
-                    },
-                    {
-                        data: 'no_persetujuan'
+                        data: 'tercetak',
+                        name: 'tercetak',
+                        render: data => data ? '<input type="checkbox" checked disabled>' :
+                            '<input type="checkbox" disabled>'
                     },
                     {
                         data: 'catatan_pemeriksaan',
-                        render: data => data ? '<input type="checkbox" checked>' :
-                            '<input type="checkbox">'
+                        name: 'catatan_pemeriksaan',
+                        render: data => data ? '<input type="checkbox" checked disabled>' :
+                            '<input type="checkbox" disabled>'
                     },
                     {
                         data: 'tindak_lanjut',
-                        render: data => data ? '<input type="checkbox" checked>' :
-                            '<input type="checkbox">'
+                        name: 'tindak_lanjut',
+                        render: data => data ? '<input type="checkbox" checked disabled>' :
+                            '<input type="checkbox" disabled>'
                     },
                     {
                         data: 'disetujui',
-                        render: data => data ? '<input type="checkbox" checked>' :
-                            '<input type="checkbox">'
+                        name: 'disetujui',
+                        render: data => data ? '<input type="checkbox" checked disabled>' :
+                            '<input type="checkbox" disabled>'
                     },
                     {
-                        data: 'urgensi'
+                        data: 'no_persetujuan',
+                        name: 'no_persetujuan'
+                    },
+                    {
+                        data: 'sumber',
+                        name: 'sumber'
+                    },
+                    {
+                        data: 'pengguna',
+                        name: 'pengguna'
+                    },
+                    {
+                        data: 'cabang',
+                        name: 'cabang'
+                    },
+                    {
+                        data: 'catatan_pemeriksaan_2',
+                        name: 'catatan_pemeriksaan_2',
+                        render: data => data ? '<input type="checkbox" checked disabled>' :
+                            '<input type="checkbox" disabled>'
+                    },
+                    {
+                        data: 'tindak_lanjut_2',
+                        name: 'tindak_lanjut_2',
+                        render: data => data ? '<input type="checkbox" checked disabled>' :
+                            '<input type="checkbox" disabled>'
+                    },
+                    {
+                        data: 'disetujui_2',
+                        name: 'disetujui_2',
+                        render: data => data ? '<input type="checkbox" checked disabled>' :
+                            '<input type="checkbox" disabled>'
+                    },
+                    {
+                        data: 'urgensi',
+                        name: 'urgensi'
                     }
                 ]
             });
