@@ -1,119 +1,149 @@
 @extends('layouts.master')
 @section('content')
-<div class="page-wrapper">
-    <div class="content container-fluid">
-        <div class="page-header">
-            <div class="row align-items-center">
-                <div class="col">
-                    <div class="mt-5">
-                        <h4 class="card-title float-left mt-2">Data Permintaan Barang</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div id="filterBox" class="col-md-4" style="{{ request('filter') == '1' ? '' : 'display: none;' }}">
-                <div class="card rounded-default p-3 bg-dark text-white">
-                    <form method="GET" action="{{ route('pembelian/permintaan/list/page') }}">
-                        <input type="hidden" name="filter" value="1">
-                        <div class="form-group">
-                            <label>Pencarian</label>
-                            <input type="text" name="no_barang" class="form-control" onchange="this.form.submit()" placeholder="Cari berdasarkan ID" value="{{ request('no_barang') }}">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="nama_barang" class="form-control" onchange="this.form.submit()" placeholder="Nama Barang" value="{{ request('nama_barang') }}">
-                        </div>   
-                        <div class="form-group">
-                            <label>Dihentikan</label><br>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="" {{ request('dihentikan') === null ? 'checked' : '' }}>
-                                <label class="form-check-label">Semua</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="1" {{ request('dihentikan') === '1' ? 'checked' : '' }}>
-                                <label class="form-check-label">Ya</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="0" {{ request('dihentikan') === '0' ? 'checked' : '' }}>
-                                <label class="form-check-label">Tidak</label>
-                            </div>
-                        </div>    
-                        <div class="form-group">
-                            <label>Tipe Barang</label>
-                            <select class="form-control" name="tipe_barang" onchange="this.form.submit()">
-                                <option value="" selected></option>
-                                @foreach ($tipe_barang as $items)
-                                    <option value="{{ $items->nama }}" {{ request('tipe_barang') == $items->nama ? 'selected' : '' }}>
-                                        {{ $items->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Kategori Barang</label>
-                            <select class="form-control" name="kategori_barang" onchange="this.form.submit()">
-                                <option value="" selected> Tipe Pelanggan </option>
-                                @foreach ($kategori_barang as $items)
-                                    <option value="{{ $items->nama }}" {{ request('kategori_barang') == $items->nama ? 'selected' : '' }}>
-                                        {{ $items->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>     
-                        <div class="form-group">
-                            <label>Tipe Persediaan</label>
-                            <select class="form-control" name="tipe_persediaan" onchange="this.form.submit()">
-                                <option value="" selected> Tipe Pelanggan </option>
-                                @foreach ($tipe_persediaan as $items)
-                                    <option value="{{ $items->nama }}" {{ request('tipe_persediaan') == $items->nama ? 'selected' : '' }}>
-                                        {{ $items->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>   
-                    </form>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card card-table">
-                    <div class="card-body booking_card">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover table-center mb-0" id="PermintaanList">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th width="20"><input type="checkbox" id="select_all"></th>
-                                        <th>No</th>
-                                        <th hidden>ID</th>
-                                        <th>No. Permintaan</th>
-                                        <th>Tanggal Permintaan</th>
-                                        <th>Deskripsi</th>
-                                        {{-- <th>Status</th> --}}
-                                        <th>Pengguna</th>
-                                        {{-- <th>Cabang</th> --}}
-                                        {{-- <th>No. Persetujuan</th> --}}
-                                        <th>Catatan Pemeriksaan</th>
-                                        <th>Tindak Lanjut</th>
-                                        <th>Disetujui</th>
-                                        <th>Urgensi</th>
-                                    </tr>
-                                </thead>
-                            </table>
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <div class="mt-5">
+                            <h4 class="card-title float-left mt-2">Data Permintaan Barang</h4>
+                            <br>
+
                         </div>
                     </div>
                 </div>
-                <div class="page-header">
-                    <div class="mb-15 row">
-                        <div class="col">
-                            <a href="{{ route('pembelian/permintaan/add/new') }}" class="btn btn-primary float-left veiwbutton"><i class="fas fa-plus mr-2"></i>Tambah</a>
-                            <button class="btn btn-primary float-left veiwbutton ml-3" onclick="toggleFilter()"><i class="fas fa-filter mr-2"></i>Filter</button>
-                            <button id="deleteSelected" class="btn btn-primary float-left veiwbutton ml-3"><i class="fas fa-trash mr-2"></i>Hapus</button>
+            </div>
+            <div class="row">
+                <div id="filterBox" class="col-md-4" style="{{ request('filter') == '1' ? '' : 'display: none;' }}">
+                    <div class="card rounded-default p-3 bg-dark text-white">
+                        <form method="GET" action="{{ route('pembelian/permintaan/list/page') }}">
+                            <input type="hidden" name="filter" value="1">
+                            <div class="form-group">
+                                <label>Pencarian</label>
+                                <input type="text" name="no_barang" class="form-control" onchange="this.form.submit()"
+                                    placeholder="Cari berdasarkan ID" value="{{ request('no_barang') }}">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" name="nama_barang" class="form-control" onchange="this.form.submit()"
+                                    placeholder="Nama Barang" value="{{ request('nama_barang') }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Dihentikan</label><br>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" onchange="this.form.submit()"
+                                        name="dihentikan" value=""
+                                        {{ request('dihentikan') === null ? 'checked' : '' }}>
+                                    <label class="form-check-label">Semua</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" onchange="this.form.submit()"
+                                        name="dihentikan" value="1"
+                                        {{ request('dihentikan') === '1' ? 'checked' : '' }}>
+                                    <label class="form-check-label">Ya</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" onchange="this.form.submit()"
+                                        name="dihentikan" value="0"
+                                        {{ request('dihentikan') === '0' ? 'checked' : '' }}>
+                                    <label class="form-check-label">Tidak</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Tipe Barang</label>
+                                <select class="form-control" name="tipe_barang" onchange="this.form.submit()">
+                                    <option value="" selected></option>
+                                    @foreach ($tipe_barang as $items)
+                                        <option value="{{ $items->nama }}"
+                                            {{ request('tipe_barang') == $items->nama ? 'selected' : '' }}>
+                                            {{ $items->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Kategori Barang</label>
+                                <select class="form-control" name="kategori_barang" onchange="this.form.submit()">
+                                    <option value="" selected> Tipe Pelanggan </option>
+                                    @foreach ($kategori_barang as $items)
+                                        <option value="{{ $items->nama }}"
+                                            {{ request('kategori_barang') == $items->nama ? 'selected' : '' }}>
+                                            {{ $items->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Tipe Persediaan</label>
+                                <select class="form-control" name="tipe_persediaan" onchange="this.form.submit()">
+                                    <option value="" selected> Tipe Pelanggan </option>
+                                    @foreach ($tipe_persediaan as $items)
+                                        <option value="{{ $items->nama }}"
+                                            {{ request('tipe_persediaan') == $items->nama ? 'selected' : '' }}>
+                                            {{ $items->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card card-table">
+                        <div class="card-body booking_card">
+
+                            <div class="table-responsive">
+
+                                <table class="table table-striped table-bordered table-hover table-center mb-0"
+                                    id="PermintaanList">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th width="20"><input type="checkbox" id="select_all"></th>
+                                            <th>No</th>
+                                            <th hidden>ID</th>
+                                            <th>No. Permintaan</th>
+                                            <th>Tanggal Permintaan</th>
+                                            <th>Deskripsi</th>
+                                            {{-- <th>Status</th> --}}
+                                            <th>Pengguna</th>
+                                            {{-- <th>Cabang</th> --}}
+                                            {{-- <th>No. Persetujuan</th> --}}
+                                            <th>Catatan Pemeriksaan</th>
+                                            <th>Tindak Lanjut</th>
+                                            <th>Disetujui</th>
+                                            <th>Urgensi</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <select class="selectpicker" data-live-search="true">
+                                <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
+                                <option data-tokens="mustard">Burger, Shake and a Smile</option>
+                                <option data-tokens="frosting">Sugar, Spice and all things nice</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="page-header">
+                        <div class="mb-15 row">
+                            <div class="col">
+                                <a href="{{ route('pembelian/permintaan/add/new') }}"
+                                    class="btn btn-primary float-left veiwbutton"><i class="fas fa-plus mr-2"></i>Tambah</a>
+                                <button class="btn btn-primary float-left veiwbutton ml-3" onclick="toggleFilter()"><i
+                                        class="fas fa-filter mr-2"></i>Filter</button>
+                                <button id="deleteSelected" class="btn btn-primary float-left veiwbutton ml-3"><i
+                                        class="fas fa-trash mr-2"></i>Hapus</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @section('script')
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
@@ -140,10 +170,9 @@
                     // }
                 },
                 dom: "<'row'<'col-sm-12'B>>" +
-                    "<'row'<'col-sm-12 mt-3'tr>>" + 
-                    "<'row'<'col-sm-12 col-md-6 mt-2'l><'col-sm-12 col-md-6'p>>", 
-                buttons: [
-                    {
+                    "<'row'<'col-sm-12 mt-3'tr>>" +
+                    "<'row'<'col-sm-12 col-md-6 mt-2'l><'col-sm-12 col-md-6'p>>",
+                buttons: [{
                         extend: 'copyHtml5',
                         text: '<i class="fa fa-copy"></i> <span class="btn_text_align font-weight-bold">Copy</span>',
                         className: 'btn btn-primary veiwbutton',
@@ -234,9 +263,9 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            return data == 1
-                                ? '<input type="checkbox" checked>'
-                                : '<input type="checkbox">';
+                            return data == 1 ?
+                                '<input type="checkbox" checked>' :
+                                '<input type="checkbox">';
                         }
                     },
                     {
@@ -245,9 +274,9 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            return data == 1
-                                ? '<input type="checkbox" checked>'
-                                : '<input type="checkbox">';
+                            return data == 1 ?
+                                '<input type="checkbox" checked>' :
+                                '<input type="checkbox">';
                         }
                     },
                     {
@@ -262,9 +291,9 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            return data == 1
-                                ? '<input type="checkbox" checked>'
-                                : '<input type="checkbox">';
+                            return data == 1 ?
+                                '<input type="checkbox" checked>' :
+                                '<input type="checkbox">';
                         }
                     },
                 ]
@@ -314,28 +343,29 @@
                 }
 
                 var data = table.row(this).data();
-                    if (data) {
-                        window.location.href = "/pembelian/permintaan/edit/" + data.id + "/" + data.no_permintaan;
-                    }
+                if (data) {
+                    window.location.href = "/pembelian/permintaan/edit/" + data.id + "/" + data
+                        .no_permintaan;
+                }
             });
         });
     </script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const filterBox = document.getElementById("filterBox");
             const filterStatus = localStorage.getItem("filterStatus");
-    
+
             if (filterStatus === "open") {
                 filterBox.style.display = "block";
             } else {
                 filterBox.style.display = "none";
             }
         });
-    
+
         function toggleFilter() {
             const filterBox = document.getElementById("filterBox");
             const isVisible = filterBox.style.display === "block";
-    
+
             if (isVisible) {
                 filterBox.style.display = "none";
                 localStorage.setItem("filterStatus", "closed");
@@ -344,6 +374,6 @@
                 localStorage.setItem("filterStatus", "open");
             }
         }
-    </script>    
+    </script>
 @endsection
 @endsection

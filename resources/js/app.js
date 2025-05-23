@@ -6,13 +6,21 @@
 import 'select2/dist/css/select2.min.css';
 import 'select2';
 
-$(document).ready(function() {
-    $('#select-kota').select2({
-        placeholder: "--Pilih Kota--",
-        allowClear: true,
-        width: '100%'
+import 'bootstrap'; // pastikan sudah install bootstrap
+import 'jquery';  
+import 'bootstrap-select/dist/js/bootstrap-select.min.js';
+import 'bootstrap-select/dist/css/bootstrap-select.min.css';
+
+// Contoh inisialisasi otomatis
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.ts-select').forEach(function (el) {
+        new TomSelect(el, {
+            create: false,
+            placeholder: el.getAttribute('placeholder') || 'Pilih opsi...',
+        });
     });
 });
+
 
 
 require('./bootstrap');

@@ -15,7 +15,9 @@
         "vite": "^6.0"
     },
     "dependencies": {
+        "bootstrap-select": "^1.13.18",
         "select2": "^4.1.0-rc.0",
-        "toastr": "^2.1.4"
+        "toastr": "^2.1.4",
+        "tom-select": "^2.4.3"
     }
 }
