@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Easy Accounting | Dashboard</title>
+    
     <link rel="shortcut icon" type="image/x-icon" href="{{ URL::to('assets/img/logo_EA7.svg') }}">
     <link rel="stylesheet" href="{{ URL::to('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ URL::to('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
@@ -22,13 +23,15 @@
 
     <!-- (Optional) Latest compiled and minified JavaScript translation files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+
+    @stack('scripts')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <link rel="stylesheet" type="text/css" href="{{ URL::to('assets/css/bootstrap-datetimepicker.min.css') }}">
 
 <body div="app">
 
-    @stack('scripts')
+    
     <div class="main-wrapper">
         <div class="header">
             <a href="javascript:void(0);" id="toggle_btn"> <i class="fe fe-text-align-justify"></i> </a>
@@ -173,8 +176,8 @@
     <script src="{{ URL::to('assets/plugins/datatables/datatables.min.js') }}"></script>
     <script src="{{ URL::to('assets/js/script.js') }}"></script>
     <script src="{{ URL::to('assets/js/moment.min.js') }}"></script>
-    <script src="{{ URL::to('assets/plugins/morris/morris.min.js') }}"></script>
-    <script src="{{ URL::to('assets/js/chart.morris.js') }}"></script>
+    {{-- <script src="{{ URL::to('assets/plugins/morris/morris.min.js') }}"></script>
+    <script src="{{ URL::to('assets/js/chart.morris.js') }}"></script> --}}
 
     @yield('script')
 

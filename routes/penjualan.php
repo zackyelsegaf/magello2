@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ModulUtama\PenjualanController;
 
+Route::get('test', function(){
+    return view('test.datapermintaan');
+});
+
 Route::prefix('penjualan')->controller(PenjualanController::class)->group(function () {
 
     Route::prefix('fetch')->group(function () {
