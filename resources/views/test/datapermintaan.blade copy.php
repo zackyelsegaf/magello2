@@ -29,52 +29,56 @@
             </div>
 
             {{-- Filter & Konten --}}
-            <div class="row">
-                <!-- Filter -->
-                <div id="filterBox" class="col-md-2" style="display: block;">
-                    <x-form.filter-form>
-                        <x-slot:submodul>Penawaran</x-slot:submodul>
-                    </x-form.filter-form>
-                </div>
+            <div x-data="{ showFilter: true }">
+                <div class="row">
+                    <template x-if="showFilter">
+                        <x-form.filter-form class="col-md-2">
+                            <x-slot:submodul>
+                                Penawaran
+                            </x-slot:submodul>
+                        </x-form.filter-form>
+                    </template>
 
-                <!-- Tabel -->
-                <div id="tableContainer" class="col-md-10" style="transition: width 0.3s;">
-                    <div class="table-responsive" style="width: 100%;">
-                        <table class="table table-striped table-bordered table-hover table-center mb-0"
-                            id="PermintaanList" style="width: 100%;">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th width="20"><input type="checkbox" id="select_all"></th>
-                                    <th>No</th>
-                                    <th hidden>ID</th>
-                                    <th>No. Permintaan</th>
-                                    <th>Tanggal Permintaan</th>
-                                    <th>Deskripsi</th>
-                                    <th>Pengguna</th>
-                                    <th>Catatan Pemeriksaan</th>
-                                    <th>Tindak Lanjut</th>
-                                    <th>Disetujui</th>
-                                    <th>Urgensi</th>
-                                </tr>
-                            </thead>
-                        </table>
+                    <div :class="showFilter ? 'col-md-9' : 'col-md-12'">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover table-center mb-0"
+                                id="PermintaanList">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th width="20"><input type="checkbox" id="select_all"></th>
+                                        <th>No</th>
+                                        <th hidden>ID</th>
+                                        <th>No. Permintaan</th>
+                                        <th>Tanggal Permintaan</th>
+                                        <th>Deskripsi</th>
+                                        {{-- <th>Status</th> --}}
+                                        <th>Pengguna</th>
+                                        {{-- <th>Cabang</th> --}}
+                                        {{-- <th>No. Persetujuan</th> --}}
+                                        <th>Catatan Pemeriksaan</th>
+                                        <th>Tindak Lanjut</th>
+                                        <th>Disetujui</th>
+                                        <th>Urgensi</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="page-header mt-4">
-                <div class="row">
-                    <div class="col">
-                        <a href="{{ route('pembelian/permintaan/add/new') }}" class="btn btn-primary">
-                            <i class="fas fa-plus mr-2"></i>Tambah
-                        </a>
-                        <button class="btn btn-secondary" onclick="toggleFilter()">
-                            <i class="fas fa-filter mr-1"></i>
-                            <span id="filterToggleText">Sembunyikan Filter</span>
-                        </button>
-                        <button id="deleteSelected" class="btn btn-danger ml-2">
-                            <i class="fas fa-trash mr-2"></i>Hapus
-                        </button>
+                <div class="page-header mt-4">
+                    <div class="row">
+                        <div class="col">
+                            <a href="{{ route('pembelian/permintaan/add/new') }}" class="btn btn-primary">
+                                <i class="fas fa-plus mr-2"></i>Tambah
+                            </a>
+                            <button class="btn btn-secondary" @click="showFilter = !showFilter">
+                                <i class="fas fa-filter mr-1"></i>
+                                <span x-text="showFilter ? 'Sembunyikan Filter' : 'Tampilkan Filter'"></span>
+                            </button>
+                            <button id="deleteSelected" class="btn btn-danger ml-2">
+                                <i class="fas fa-trash mr-2"></i>Hapus
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -98,53 +102,19 @@
         </div>
     </div>
     <x-slot:scripts>
-
         <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+        {{--
         <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const filterBox = document.getElementById("filterBox");
-                const tableContainer = document.getElementById("tableContainer");
-                const toggleText = document.getElementById("filterToggleText");
-                const filterStatus = localStorage.getItem("filterStatus");
-
-                if (filterStatus === "closed") {
-                    filterBox.style.display = "none";
-                    tableContainer.className = "col-md-12";
-                    toggleText.textContent = "Tampilkan Filter";
-                } else {
-                    filterBox.style.display = "block";
-                    tableContainer.className = "col-md-10";
-                    toggleText.textContent = "Sembunyikan Filter";
-                }
-            });
-
-            function toggleFilter() {
-                const filterBox = document.getElementById("filterBox");
-                const tableContainer = document.getElementById("tableContainer");
-                const toggleText = document.getElementById("filterToggleText");
-                const isVisible = filterBox.style.display === "block";
-
-                if (isVisible) {
-                    filterBox.style.display = "none";
-                    tableContainer.className = "col-md-12";
-                    toggleText.textContent = "Tampilkan Filter";
-                    localStorage.setItem("filterStatus", "closed");
-                } else {
-                    filterBox.style.display = "block";
-                    tableContainer.className = "col-md-10";
-                    toggleText.textContent = "Sembunyikan Filter";
-                    localStorage.setItem("filterStatus", "open");
-                }
-            }
-        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script> --}}
+    </x-slot:scripts>
+    @push('script')
         <script type="text/javascript">
             $(document).ready(function() {
                 var table = $('#PermintaanList').DataTable({
@@ -344,5 +314,5 @@
                 });
             });
         </script>
-    </x-slot:scripts>
+    @endpush
 </x-layout.main>

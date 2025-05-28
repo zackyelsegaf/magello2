@@ -1,5 +1,5 @@
 @props([
-    'label' => 'Pilih Opsi',
+    'label' => '',
     'name' => '',
     'placeholder' => 'Ketik atau pilih...',
     'options' => [],
@@ -8,7 +8,11 @@
 ])
 
 <div x-data="selectInputComponent({{ json_encode($options) }}, '{{ $url }}')" class="form-group position-relative">
-    <label for="{{ $name }}">{{ $label }}</label>
+    @if ($label)
+    <label class="font-weight-bold" for="{{ $name }}">{{ $label }}</label>
+    @else
+
+    @endif
 
     <input type="text" class="form-control form-control-sm" name="{{ $name }}" x-model="inputValue"
         x-on:focus="open = true" x-on:blur="closeWithDelay" x-on:input="fetchIfNeeded" placeholder="{{ $placeholder }}"

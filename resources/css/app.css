@@ -1,0 +1,25 @@
+.footer-fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    background-color: #ffffff;
+    padding: 10px 20px;
+    box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.1);
+    transition: margin-left 0.3s ease;
+}
+
+.mini-sidebar .footer-fixed-bottom {
+    margin-left: 60px; /* Lebar sidebar ketika collapsed */
+}
+
+.sidebar-open .footer-fixed-bottom {
+    margin-left: 240px; /* Lebar sidebar normal */
+}
+
+@media (max-width: 767.98px) {
+    .footer-fixed-bottom {
+        margin-left: 0 !important;
+    }
+}
