@@ -225,7 +225,10 @@ class PenjualanController extends Controller
             ->addColumn('disetujui', fn($row) => $row->disetujui ? true : false)
             ->make(true);
     }
-    public function createPenawaran() {}
+    public function createPenawaran() {
+        $this->menu = "penawaran";
+        return $this->BaseCreate();
+    }
     public function storePenawaran(Request $request) {}
     public function editPenawaran($id) {}
     public function updatePenawaran(Request $request, $id) {}
