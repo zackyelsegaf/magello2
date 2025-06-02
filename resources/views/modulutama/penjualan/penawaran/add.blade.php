@@ -75,13 +75,17 @@
 
             <div class="row">
                 <div id="tableContainer" class="col-md-12" style="transition: width 0.3s;">
-                    <div class="table-responsive" style="width: 100%;">
+                    <div style="width: 100%;">
                         <div class="tab-content profile-tab-cont">
                             <div class="profile-menu">
                                 <ul class="nav nav-tabs nav-tabs-solid">
                                     <li class="nav-item">
                                         <a class="nav-link active font-weight-bold" data-toggle="tab"
                                             href="#rincian">Rincian</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#informasi">Informasi
+                                            Lainnya</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#ricape">Rincian Catatan
@@ -217,15 +221,19 @@
                                     id="DataBarangAddSatuan">
                                     <thead class="thead-dark">
                                         <tr>
-                                            <th>No. Barang</th>
-                                            <th>Deskripsi Barang</th>
-                                            <th>Kts Permintaan</th>
-                                            <th>Satuan</th>
-                                            <th>Catatan</th>
-                                            <th>Tgl. Diminta</th>
-                                            <th>Kts Dipesan</th>
-                                            <th>Kts Diterima</th>
-                                            <th>Aksi</th>
+                                            <th style="width: 100px;">No. Barang</th>
+                                            <th style="width: 250px;">Deskripsi Barang</th>
+                                            <th style="width: 100px;">Kts</th>
+                                            <th style="width: 100px;">Satuan</th>
+                                            <th style="width: 125px;">Harga Satuan</th>
+                                            <th style="width: 100px;">Disk %</th>
+                                            <th style="width: 100px;">Pajak</th>
+                                            <th style="width: 100px;">Jumlah</th>
+                                            <th style="width: 100px;">Kts Dipesan</th>
+                                            <th style="width: 100px;">Kts Dikirim</th>
+                                            <th style="width: 100px;">Departemen</th>
+                                            <th style="width: 200px;">Proyek</th>
+                                            <th style="width: 100px;">&nbsp;</th>
                                         </tr>
                                     </thead>
                                     <tbody id="barangTableBody">
@@ -385,16 +393,327 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div id="informasi" class="tab-pane fade">
+                                {{-- <h5 class="card-title">Change Password</h5> --}}
+                                <div class="row">
+                                    <div class="col-lg-10">
+                                        <div class="row">
+                                            {{-- Penawaran Untuk --}}
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="quotetoData"><strong>Penawaran Untuk</strong></label>
+                                                    <textarea class="form-control" name="quotetoData" id="quotetoData" rows="4"
+                                                        placeholder="Isi tujuan penawaran">{{ old('quotetoData') }}</textarea>
+                                                </div>
+                                            </div>
 
+                                            {{-- Penjual --}}
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="penjual"><strong>Penjual</strong></label>
+                                                    <select class="form-control form-control-sm" id="penjual"
+                                                        name="penjual">
+                                                        <option value="">-- Pilih Penjual --</option>
+                                                        <option value="001"
+                                                            {{ old('penjual') == '001' ? 'selected' : '' }}>Penjual 1
+                                                        </option>
+                                                        <option value="002"
+                                                            {{ old('penjual') == '002' ? 'selected' : '' }}>Penjual 2
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
 
+                                            {{-- Nilai Tukar --}}
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="nilai_tukar"><strong>Nilai Tukar</strong></label>
+                                                    <input type="number" class="form-control form-control-sm"
+                                                        id="nilai_tukar" name="nilai_tukar"
+                                                        value="{{ old('nilai_tukar', 0) }}">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- Alamat --}}
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="Informasi_address"><strong>Alamat</strong></label>
+                                                    <textarea readonly class="form-control" name="address" id="Informasi_address" rows="4"
+                                                        placeholder="Alamat tujuan">{{ old('address') }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
+        <x-form.modul.penjualan.footer-action-add>
+        </x-form.modul.penjualan.footer-action-add>
         <x-slot:scripts>
+            <script>
+                $(document).ready(function() {
+                    $('#checkAll').click(function() {
+                        $('.check-barang').prop('checked', this.checked);
+                    });
 
+                    $('#tambahBarangTerpilih').click(function() {
+                        $('.check-barang:checked').each(function() {
+                            let id = $(this).data('id');
+                            let nama = $(this).data('nama');
+                            let satuan = $(this).data('satuan');
+
+                            // Cek jika row dengan ID sudah ada
+                            if ($(`#row-barang-${id}`).length === 0) {
+                                let newRow = `
+<tr id="row-barang-${id}" class="barang-row" style="font-size: 12px;">
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="no_barang[]" value="${id}" readonly></td>
+    <td><input style="width: 150px; height: 26px; font-size: 12px;" type="text" class="form-control deskripsi-barang-input" name="deskripsi_barang[]" value="${nama}"></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_permintaan[]" value=""></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="satuan[]" value="${satuan}"></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="harga_satuan[]" value=""></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="diskon[]" value=""></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="pajak[]" value=""></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="jumlah[]" value=""></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_dipesan[]" value=""></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_dikirim[]" value=""></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="departemen[]" value=""></td>
+    <td style="vertical-align: middle;">
+        <div style="height: 26px; font-size: 12px;">
+            <select class="form-control form-control-sm" name="pelanggan[]">
+                <option value="001">Simpan Transaksi</option>
+                <option value="002">Salin Transaksi</option>
+            </select>
+        </div>
+    </td>
+    <td>
+        <button type="button" class="btn btn-primary btn-sm remove-row" style="height: 28px; font-size: 12px; padding: 2px 8px;">
+            <i class="fas fa-trash-alt"></i> Hapus
+        </button>
+    </td>
+</tr>`;
+                                $('#barangTableBody').append(newRow);
+                                // Disable checkbox agar tidak dipilih ulang
+                                $(this).prop('disabled', true).prop('checked', false);
+                            } else {
+                                // Optional: uncheck jika sudah ada agar tidak membingungkan
+                                $(this).prop('checked', false);
+                            }
+                        });
+
+                        $('#modalBarang').modal('hide');
+                    });
+
+                    $(document).on('click', '.remove-row', function() {
+                        const row = $(this).closest('tr');
+                        const id = row.attr('id')?.replace('row-barang-', '');
+                        if (id) {
+                            // Re-enable checkbox ketika baris dihapus
+                            $(`.check-barang[data-id="${id}"]`).prop('disabled', false);
+                        }
+                        row.remove();
+                    });
+                });
+            </script>
+
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const checkbox = document.getElementById('tindak_lanjut_check');
+                    const kolomNilai = document.querySelectorAll('.kolom-nilai');
+
+                    function toggleKolomNilai() {
+                        const show = checkbox.checked;
+                        kolomNilai.forEach(kolom => {
+                            kolom.style.display = show ? '' : 'none';
+                        });
+                    }
+
+                    toggleKolomNilai();
+                    checkbox.addEventListener('change', toggleKolomNilai);
+                });
+            </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const checkbox = document.getElementById('urgent_check');
+                    const kolomNilai = document.querySelectorAll('.kolom-nilai');
+
+                    function toggleKolomNilai() {
+                        const show = checkbox.checked;
+                        kolomNilai.forEach(kolom => {
+                            kolom.style.display = show ? '' : 'none';
+                        });
+                    }
+
+                    toggleKolomNilai();
+                    checkbox.addEventListener('change', toggleKolomNilai);
+                });
+            </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const checkbox = document.getElementById('catatan_pemeriksaan_check');
+                    const kolomNilai = document.querySelectorAll('.kolom-nilai');
+
+                    function toggleKolomNilai() {
+                        const show = checkbox.checked;
+                        kolomNilai.forEach(kolom => {
+                            kolom.style.display = show ? '' : 'none';
+                        });
+                    }
+
+                    toggleKolomNilai();
+                    checkbox.addEventListener('change', toggleKolomNilai);
+                });
+            </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const namaBarangSelect = document.getElementById('namaBarangSelect');
+                    const deskripsiBarangInput = document.getElementById('deskripsiBarangInput');
+                    const kuantitasBarangInput = document.getElementById('kuantitasBarangInput');
+                    const satuanSelect = document.getElementById('satuanSelect');
+
+                    namaBarangSelect.addEventListener('change', function() {
+                        const selectedOption = this.options[this.selectedIndex];
+                        deskripsiBarangInput.value = selectedOption.getAttribute('data-nama') || '';
+                        kuantitasBarangInput.value = selectedOption.getAttribute('data-kts') || '';
+                        satuanSelect.value = selectedOption.getAttribute('data-satuan') || '';
+                    });
+                });
+            </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const noAkunSelect = document.getElementById('noAkunSelect');
+                    const namaAkunSelect = document.getElementById('namaAkunSelect');
+
+                    noAkunSelect.addEventListener('change', function() {
+                        const selectedNo = this.value;
+                        const nama = this.options[this.selectedIndex].getAttribute('data-nama');
+
+                        for (let i = 0; i < namaAkunSelect.options.length; i++) {
+                            if (namaAkunSelect.options[i].value === nama) {
+                                namaAkunSelect.selectedIndex = i;
+                                break;
+                            }
+                        }
+                    });
+
+                    namaAkunSelect.addEventListener('change', function() {
+                        const selectedNama = this.value;
+                        const no = this.options[this.selectedIndex].getAttribute('data-no');
+
+                        for (let i = 0; i < noAkunSelect.options.length; i++) {
+                            if (noAkunSelect.options[i].value === no) {
+                                noAkunSelect.selectedIndex = i;
+                                break;
+                            }
+                        }
+                    });
+                });
+            </script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const checkbox = document.getElementById("sub_barang_check");
+                    const tipeAkunForm = document.getElementById("tipe_barang_form");
+
+                    function toggleTipeAkunForm() {
+                        if (checkbox.checked) {
+                            tipeAkunForm.style.display = "block";
+                        } else {
+                            tipeAkunForm.style.display = "none";
+                        }
+                    }
+
+                    toggleTipeAkunForm();
+
+                    checkbox.addEventListener("change", toggleTipeAkunForm);
+                });
+            </script>
+            <script>
+                $(function() {
+                    $('#datetimepicker3').datetimepicker({
+                        format: 'LT'
+                    });
+                });
+            </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const input = document.getElementById('nilaiSaatIniInput');
+
+                    input.addEventListener('input', () => {
+                        let angka = input.value.replace(/\D/g, '');
+                        input.value = formatRupiah(angka);
+                    });
+
+                    input.closest('form').addEventListener('submit', () => {
+                        input.value = input.value.replace(/\D/g, '');
+                    });
+
+                    function formatRupiah(angka, prefix = '') {
+                        return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                    }
+                });
+            </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const input = document.getElementById('biaya_satuan_saldo_awal');
+
+                    input.addEventListener('input', () => {
+                        let angka = input.value.replace(/\D/g, '');
+                        input.value = formatRupiah(angka);
+                    });
+
+                    input.closest('form').addEventListener('submit', () => {
+                        input.value = input.value.replace(/\D/g, '');
+                    });
+
+                    function formatRupiah(angka, prefix = '') {
+                        return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                    }
+                });
+            </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const biaya_satuan_saldo_awal = document.getElementById('biaya_satuan_saldo_awal');
+                    const kuantitas_saldo_awal = document.getElementById('kuantitas_saldo_awal');
+                    const total_saldo = document.getElementById('total_saldo');
+
+                    function handleInputFormat(input) {
+                        input.addEventListener('input', () => {
+                            let angka = input.value.replace(/\D/g, '');
+                            input.value = formatRupiah(angka);
+                            hitungTotal();
+                        });
+                    }
+
+                    handleInputFormat(biaya_satuan_saldo_awal);
+                    handleInputFormat(kuantitas_saldo_awal);
+
+                    function hitungTotal() {
+                        let saldo = parseInt(biaya_satuan_saldo_awal.value.replace(/\D/g, '')) || 0;
+                        let tambahan = parseInt(kuantitas_saldo_awal.value.replace(/\D/g, '')) || 0;
+                        let total = saldo * tambahan;
+                        total_saldo.value = formatRupiah(String(total));
+                        document.getElementById('total_saldo_awal').value = total;
+                    }
+
+                    function formatRupiah(angka, prefix = '') {
+                        return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                    }
+
+                    const form = biaya_satuan_saldo_awal.closest('form');
+                    if (form) {
+                        form.addEventListener('submit', () => {
+                            biaya_satuan_saldo_awal.value = biaya_satuan_saldo_awal.value.replace(/\D/g, '');
+                            kuantitas_saldo_awal.value = kuantitas_saldo_awal.value.replace(/\D/g, '');
+                        });
+                    }
+                });
+            </script>
         </x-slot:scripts>
 </x-layout.main>
