@@ -217,27 +217,29 @@
                                         </tbody>
                                     </table>
                                     <button type="button" class="btn btn-success" id="tambahBaris">+ Tambah Baris</button>                                     --}}
-                                <table class="table table-striped table-bordered table-hover table-center mb-0"
-                                    id="DataBarangAddSatuan">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th style="width: 100px;">No. Barang</th>
-                                            <th style="width: 250px;">Deskripsi Barang</th>
-                                            <th style="width: 100px;">Kts</th>
-                                            <th style="width: 100px;">Satuan</th>
-                                            <th style="width: 125px;">Harga Satuan</th>
-                                            <th style="width: 100px;">Disk %</th>
-                                            <th style="width: 100px;">Pajak</th>
-                                            <th style="width: 100px;">Jumlah</th>
-                                            <th style="width: 100px;">Kts Dipesan</th>
-                                            <th style="width: 100px;">Kts Dikirim</th>
-                                            <th style="width: 100px;">Departemen</th>
-                                            <th style="width: 200px;">Proyek</th>
-                                            <th style="width: 100px;">&nbsp;</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="barangTableBody">
-                                        {{-- @php
+                                <div class="table-responsive"
+                                    style="max-height: calc(100vh - 250px); overflow-y: auto; margin-bottom: 100px;">
+                                    <table class="table table-striped table-bordered table-hover table-center mb-0"
+                                        id="DataBarangAddSatuan">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th style="width: 100px;">No. Barang</th>
+                                                <th style="width: 250px;">Deskripsi Barang</th>
+                                                <th style="width: 100px;">Kts</th>
+                                                <th style="width: 100px;">Satuan</th>
+                                                <th style="width: 125px;">Harga Satuan</th>
+                                                <th style="width: 100px;">Disk %</th>
+                                                <th style="width: 100px;">Pajak</th>
+                                                <th style="width: 100px;">Jumlah</th>
+                                                <th style="width: 100px;">Kts Dipesan</th>
+                                                <th style="width: 100px;">Kts Dikirim</th>
+                                                <th style="width: 100px;">Departemen</th>
+                                                <th style="width: 200px;">Proyek</th>
+                                                <th style="width: 100px;">&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="barangTableBody">
+                                            {{-- @php
                                                 $noBarangList = old('no_barang', ['']);
                                                 $deskripsiList = old('deskripsi_barang', ['']);
                                                 $ktsPermintaanList = old('kts_permintaan', ['']);
@@ -297,9 +299,9 @@
                                                 </td>
                                             </tr>
                                             @endforeach --}}
-                                    </tbody>
-                                </table>
-
+                                        </tbody>
+                                    </table>
+                                </div>
 
                             </div>
                             <div id="ricape" class="tab-pane fade">
@@ -486,10 +488,11 @@
     <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="departemen[]" value=""></td>
     <td style="vertical-align: middle;">
         <div style="height: 26px; font-size: 12px;">
-            <select class="form-control form-control-sm" name="pelanggan[]">
-                <option value="001">Simpan Transaksi</option>
-                <option value="002">Salin Transaksi</option>
-            </select>
+            <x-select2.search placeholder="Metode Kegiatan" name="pelanggan" label=""
+                                :options="[
+                                    '001' => 'Simpan Transaksi',
+                                    '002' => 'Salin Transaksi',
+                                ]" />
         </div>
     </td>
     <td>
