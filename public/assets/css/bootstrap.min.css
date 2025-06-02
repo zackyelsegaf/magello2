@@ -2434,7 +2434,7 @@ select.form-control:focus::-ms-value {
     padding: .25rem .5rem;
     font-size: .875rem;
     line-height: 1.5;
-    border-radius: .2rem
+    border-radius: .255rem
 }
 
 .form-control-lg {
@@ -4107,7 +4107,7 @@ input[type=submit].btn-block {
     color: #495057;
     text-align: center;
     white-space: nowrap;
-    background-color: #ffebe8;
+    background-color: #F2F9FF;
     border: 1px solid #ced4da;
     border-radius: 10px
 }
@@ -4136,7 +4136,8 @@ input[type=submit].btn-block {
 
 .input-group-sm>.custom-select,
 .input-group-sm>.form-control:not(textarea) {
-    height: calc(1.5em + .5rem + 2px)
+    height: calc(1.5em + .5rem + 2px);
+    /* border-radius: 10px; */
 }
 
 .input-group-sm>.custom-select,
@@ -4666,7 +4667,7 @@ input[type=submit].btn-block {
 
 .nav-link {
     display: block;
-    padding: .5rem 1rem
+    padding: .2rem .5rem
 }
 
 .nav-link:focus,
