@@ -5,14 +5,16 @@ namespace App\Http\Controllers\ModulUtama;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
+use App\Models\ModulUtama\Penjualan\ReturPenjualan;
 use App\Models\ModulUtama\Penjualan\FakturPenagihan;
 use App\Models\ModulUtama\Penjualan\FakturPenjualan;
-use Yajra\DataTables\Facades\DataTables;
+use App\Models\ModulUtama\Penjualan\PesananPenjualan;
 use App\Models\ModulUtama\Penjualan\PenawaranPenjualan;
 use App\Models\ModulUtama\Penjualan\PenerimaanPenjualan;
 use App\Models\ModulUtama\Penjualan\PengirimanPenjualan;
-use App\Models\ModulUtama\Penjualan\PesananPenjualan;
-use App\Models\ModulUtama\Penjualan\ReturPenjualan;
 
 class PenjualanController extends Controller
 {
@@ -225,11 +227,84 @@ class PenjualanController extends Controller
             ->addColumn('disetujui', fn($row) => $row->disetujui ? true : false)
             ->make(true);
     }
-    public function createPenawaran() {
+    public function createPenawaran()
+    {
         $this->menu = "penawaran";
         return $this->BaseCreate();
     }
-    public function storePenawaran(Request $request) {}
+    public function storePenawaran(Request $request)
+    {
+        $auth = Auth::id();
+
+        return response()->json([
+                'success' => false,
+                'message' => 'Gagal menyimpan data: '.$auth,
+            ], 500);
+        // DB::beginTransaction();
+
+
+
+        // try {
+        //     $validated = Validator::make($request->all(), [
+        //         'no_penawaran'        => 'required|string|unique:penawaran_penjualans,no_penawaran',
+        //         'tgl_penawaran'       => 'nullable|date',
+        //         'pelanggan_id'        => 'nullable|exists:pelanggan,id',
+        //         'no_pelanggan'        => 'nullable|string',
+        //         'nama_pelanggan'      => 'nullable|string',
+        //         'status'              => 'nullable|string|in:draft,diproses,disetujui',
+        //         'nilai_diskon'        => 'nullable|numeric',
+        //         'total_pajak'         => 'nullable|numeric',
+        //         'nilai_pajak_1'       => 'nullable|numeric',
+        //         'nilai_pajak_2'       => 'nullable|numeric',
+        //         'nilai_penawaran'     => 'nullable|numeric',
+        //         'deskripsi'           => 'nullable|string',
+        //         'no_persetujuan'      => 'nullable|string',
+        //         'catatan_pemeriksaan' => 'nullable|string',
+        //         'tindak_lanjut'       => 'nullable|string',
+        //         'disetujui'           => 'nullable|boolean',
+        //         'urgensi'             => 'nullable|in:rendah,sedang,tinggi',
+        //     ])->validate();
+
+        //     $penawaran = PenawaranPenjualan::create([
+        //         'no_penawaran'        => $validated['no_penawaran'],
+        //         'tgl_penawaran'       => $validated['tgl_penawaran'] ?? now(),
+        //         'pelanggan_id'        => $validated['pelanggan_id'] ?? null,
+        //         'no_pelanggan'        => $validated['no_pelanggan'] ?? null,
+        //         'nama_pelanggan'      => $validated['nama_pelanggan'] ?? null,
+        //         'status'              => $validated['status'] ?? 'draft',
+        //         'nilai_diskon'        => $validated['nilai_diskon'] ?? 0,
+        //         'total_pajak'         => $validated['total_pajak'] ?? 0,
+        //         'nilai_pajak_1'       => $validated['nilai_pajak_1'] ?? 0,
+        //         'nilai_pajak_2'       => $validated['nilai_pajak_2'] ?? 0,
+        //         'nilai_penawaran'     => $validated['nilai_penawaran'] ?? 0,
+        //         'deskripsi'           => $validated['deskripsi'] ?? null,
+        //         'no_persetujuan'      => $validated['no_persetujuan'] ?? null,
+        //         'catatan_pemeriksaan' => $validated['catatan_pemeriksaan'] ?? null,
+        //         'tindak_lanjut'       => $validated['tindak_lanjut'] ?? null,
+        //         'disetujui'           => $validated['disetujui'] ?? false,
+        //         'urgensi'             => $validated['urgensi'] ?? null,
+        //         'user_id'             => auth()->id(),
+        //         'cabang_id'           => auth()->user()->cabang_id ?? null,
+        //     ]);
+
+        //     // ... tambahkan penyimpanan detail barang di sini jika perlu
+
+        //     DB::commit();
+
+        //     return response()->json([
+        //         'success' => true,
+        //         'message' => 'Data penawaran berhasil disimpan.',
+        //         'data'    => $penawaran
+        //     ]);
+        // } catch (\Throwable $e) {
+        //     DB::rollBack();
+
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Gagal menyimpan data: ' . $e->getMessage(),
+        //     ], 500);
+        // }
+    }
     public function editPenawaran($id) {}
     public function updatePenawaran(Request $request, $id) {}
     public function destroyPenawaran($id) {}
@@ -251,7 +326,8 @@ class PenjualanController extends Controller
     // =====================
     // PENGIRIMAN PENJUALAN
     // =====================
-    public function indexPengiriman() {
+    public function indexPengiriman()
+    {
         $this->menu = 'pengiriman';
         return $this->dataUtama();
     }
@@ -264,7 +340,8 @@ class PenjualanController extends Controller
     // =====================
     // FAKTUR PENJUALAN
     // =====================
-    public function indexFakturPenjualan() {
+    public function indexFakturPenjualan()
+    {
         $this->menu = 'fakturpenjualan';
         return $this->dataUtama();
     }
@@ -277,7 +354,8 @@ class PenjualanController extends Controller
     // =====================
     // FAKTUR PENAGIHAN
     // =====================
-    public function indexFakturPenagihan() {
+    public function indexFakturPenagihan()
+    {
         $this->menu = 'fakturpenagihan';
         return $this->dataUtama();
     }
@@ -290,7 +368,8 @@ class PenjualanController extends Controller
     // =====================
     // PENERIMAAN PEMBAYARAN
     // =====================
-    public function indexPenerimaan() {
+    public function indexPenerimaan()
+    {
         $this->menu = 'penerimaan';
         return $this->dataUtama();
     }
@@ -303,7 +382,8 @@ class PenjualanController extends Controller
     // =====================
     // RETUR PENJUALAN
     // =====================
-    public function indexRetur() {
+    public function indexRetur()
+    {
         $this->menu = 'returpenjualan';
         return $this->dataUtama();
     }

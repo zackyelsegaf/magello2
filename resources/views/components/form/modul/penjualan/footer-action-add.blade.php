@@ -1,3 +1,13 @@
+@isset($action)
+    @php
+        $renderedAttributes = trim($action);
+    @endphp
+@else
+    @php
+        $renderedAttributes = 'type="submit"';
+    @endphp
+@endisset
+
 <div id="footerActionAddBar"
     style="
         position: fixed;
@@ -72,10 +82,12 @@
             <i class="fas fa-arrow-right mr-1"></i>
             <span>Selanjutnya</span>
         </button>
-        <button class="btn btn-success mr-2 mb-2">
-            <i class="fas fa-save mr-1"></i>
-            <span>Simpan</span>
-        </button>
+        <div class="action d-flex flex-wrap justify-content-start align-items-center">
+            <button {!! $renderedAttributes !!} class="btn btn-success mr-2 mb-2">
+                <i class="fas fa-save mr-1"></i>
+                <span>Simpan</span>
+            </button>
+        </div>
         <button class="btn btn-info mr-2 mb-2">
             <i class="fas fa-eye mr-1"></i>
             <span>Pratinjau</span>

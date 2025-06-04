@@ -11,11 +11,11 @@ import 'bootstrap'; // pastikan sudah install bootstrap
 import 'bootstrap-select/dist/js/bootstrap-select.min.js';
 import 'bootstrap-select/dist/css/bootstrap-select.min.css';
 
-import Alpine from 'alpinejs'
+// import Alpine from 'alpinejs'
  
-window.Alpine = Alpine
+// window.Alpine = Alpine
  
-Alpine.start()
+// Alpine.start()
 
 // Contoh inisialisasi otomatis
 document.addEventListener("DOMContentLoaded", function () {

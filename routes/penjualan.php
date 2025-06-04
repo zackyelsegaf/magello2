@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ModulUtama\PenjualanController;
+use App\Livewire\Counter;
 
 Route::get('test', function(){
     
@@ -19,6 +20,16 @@ Route::prefix('penjualan')->controller(PenjualanController::class)->group(functi
         Route::get('faktur-penagihan', 'fetchFakturPenagihan')->name('penjualan.fakturpenagihan.fetch');
         Route::get('penerimaan', 'fetchPenerimaan')->name('penjualan.penerimaan.fetch');
         Route::get('retur', 'fetchRetur')->name('penjualan.retur.fetch');
+    });
+
+    Route::prefix('store')->group(function () {
+        Route::get('penawaran', 'storePenawaran')->name('penjualan.penawaran.store');
+        Route::get('pesanan', 'storePesanan')->name('penjualan.pesanan.store');
+        Route::get('pengiriman', 'storePengiriman')->name('penjualan.pengiriman.store');
+        Route::get('faktur-penjualan', 'storeFakturPenjualan')->name('penjualan.fakturpenjualan.store');
+        Route::get('faktur-penagihan', 'storeFakturPenagihan')->name('penjualan.fakturpenagihan.store');
+        Route::get('penerimaan', 'storePenerimaan')->name('penjualan.penerimaan.store');
+        Route::get('retur', 'storeRetur')->name('penjualan.retur.store');
     });
     // Penawaran Penjualan
     Route::get('penawaran', 'indexPenawaran')->name('penjualan.penawaran.index');
@@ -75,4 +86,7 @@ Route::prefix('penjualan')->controller(PenjualanController::class)->group(functi
     Route::get('retur/{id}/edit', 'editRetur')->name('penjualan.retur.edit');
     Route::put('retur/{id}', 'updateRetur')->name('penjualan.retur.update');
     Route::delete('retur/{id}', 'destroyRetur')->name('penjualan.retur.destroy');
+
+    Route::get('test-livewire', Counter::class)->name('test-livewire');
 });
+

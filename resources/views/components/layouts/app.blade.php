@@ -177,10 +177,8 @@
     <script src="{{ URL::to('assets/js/moment.min.js') }}"></script>
     {{-- <script src="{{ URL::to('assets/plugins/morris/morris.min.js') }}"></script>
     <script src="{{ URL::to('assets/js/chart.morris.js') }}"></script> --}}
-
-    {{ $scripts }}
-
     @stack('scripts')
+    {{ $scripts }}
     @livewireScripts
 </body>
 
