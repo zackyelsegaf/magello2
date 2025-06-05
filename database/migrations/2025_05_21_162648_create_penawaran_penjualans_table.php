@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('penawaran_penjualans');
         Schema::create('penawaran_penjualans', function (Blueprint $table) {
             $table->id();
             $table->string('no_penawaran')->unique();
@@ -29,7 +30,7 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
 
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignId('cabang_id')->nullable()->constrained('cabangs')->nullOnDelete();
+            // $table->foreignId('cabang_id')->nullable()->constrained('cabangs')->nullOnDelete();
 
             $table->string('no_persetujuan')->nullable();
             $table->text('catatan_pemeriksaan')->nullable();

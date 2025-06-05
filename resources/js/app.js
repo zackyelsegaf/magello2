@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2';
+window.Swal = Swal;
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -6,26 +8,26 @@
 // import 'select2/dist/css/select2.min.css';
 // import 'select2';
 
-import 'bootstrap'; // pastikan sudah install bootstrap
+import { formatRupiah, parseRupiahToFloat, registerRupiahFormatter } from './utils/rupiah.js';
 
-import 'bootstrap-select/dist/js/bootstrap-select.min.js';
-import 'bootstrap-select/dist/css/bootstrap-select.min.css';
+window.formatRupiah = formatRupiah;
+window.parseRupiahToFloat = parseRupiahToFloat;
 
-// import Alpine from 'alpinejs'
+document.addEventListener("DOMContentLoaded", function () {
+    registerRupiahFormatter();
+
+    // Contoh lain jika kamu pakai input dinamis:
+});
+
+import Alpine from 'alpinejs'
  
-// window.Alpine = Alpine
+window.Alpine = Alpine
  
-// Alpine.start()
+Alpine.start()
 
 // Contoh inisialisasi otomatis
-document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll('.ts-select').forEach(function (el) {
-        new TomSelect(el, {
-            create: false,
-            placeholder: el.getAttribute('placeholder') || 'Pilih opsi...',
-        });
-    });
-});
+
+
 
 
 /**

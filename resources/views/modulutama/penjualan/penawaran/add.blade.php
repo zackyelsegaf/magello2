@@ -2,80 +2,77 @@
     <x-slot:title>
         Penawaran Penjualan
     </x-slot>
-    <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
-        <div class="content container-fluid">
-            <div class="page-header">
-                <div class="d-flex justify-content-between align-items-start w-100">
-                    {{-- Kolom kiri --}}
-                    <div class="d-flex flex-column">
-                        <h4 class="card-title mb-2">Data Penawaran Penjualan</h4>
-                        <x-select2.search placeholder="Nama Pelanggan..." name="pelanggan" label="Pelanggan"
-                            :options="[
-                                '001' => 'Ahmad Faiz',
-                                '002' => 'Rina Lestari',
-                                '003' => 'Bagus Pratama',
-                                '004' => 'Siti Aminah',
-                            ]" />
-                    </div>
+    <form id="formPenawaran">
+        <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
 
-                    {{-- Kolom kanan --}}
-                    <div class="d-flex flex-column">
-                        <div class="d-flex justify-content-end">
-                            <div class="form-check me-3">
-                                <input type="checkbox" class="form-check-input" name="status[]" value="diproses"
-                                    id="statusDiproses">
-                                <label class="form-check-label" for="statusDiproses">Diproses</label>
-                            </div>
-                            &nbsp;
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="status[]" value="menunggu"
-                                    id="statusMenunggu">
-                                <label class="form-check-label" for="statusMenunggu">Menunggu</label>
-                            </div>
-                            &nbsp;
-                            <x-select2.search placeholder="Metode Kegiatan" name="pelanggan" label=""
-                                :options="[
-                                    '001' => 'Simpan Transaksi',
-                                    '002' => 'Salin Transaksi',
-                                ]" />
-
+            <div class="content container-fluid">
+                <div class="page-header">
+                    <div class="d-flex justify-content-between align-items-start w-100">
+                        {{-- Kolom kiri --}}
+                        <div class="d-flex flex-column">
+                            <h4 class="card-title mb-2">Data Penawaran Penjualan</h4>
+                            <x-select2.search placeholder="Nama Pelanggan..." name="pelanggan_id" label="Pelanggan"
+                                :options=$pelanggans id="selectPelanggan" />
                         </div>
 
-                        <div class="d-flex justify-content-between gap-3">
-                            {{-- Input 1 --}}
-                            <div class="d-flex flex-column me-2" style="min-width: 0; flex: 1;">
-                                <label for="inputGmp1" class="form-label mb-1">No. GMP</label>
-                                <div class="input-group input-group-sm">
-                                    <input id="inputGmp1" type="text" class="form-control"
-                                        placeholder="Ketik sesuatu..." aria-label="No. GMP 1">
-                                    <button class="btn btn-outline-secondary btn-sm" type="button"
-                                        onclick="location.reload()">
-                                        <i class="fas fa-sync-alt"></i>
-                                    </button>
+                        {{-- Kolom kanan --}}
+                        <div class="d-flex flex-column">
+                            <div class="d-flex justify-content-end">
+                                <div class="form-check me-3">
+                                    <input type="checkbox" class="form-check-input" name="status[]" value="diproses"
+                                        id="statusDiproses">
+                                    <label class="form-check-label" for="statusDiproses">Diproses</label>
                                 </div>
+                                &nbsp;
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="status[]" value="menunggu"
+                                        id="statusMenunggu">
+                                    <label class="form-check-label" for="statusMenunggu">Menunggu</label>
+                                </div>
+                                &nbsp;
+                                {{-- <x-select2.search placeholder="Metode Kegiatan" name="pelanggan" label=""
+                                    :options="[
+                                        '001' => 'Simpan Transaksi',
+                                        '002' => 'Salin Transaksi',
+                                    ]" /> --}}
+
                             </div>
 
-                            &nbsp;
-                            {{-- Input 2 --}}
-                            <div class="d-flex flex-column" style="min-width: 0; flex: 1;">
-                                <label for="inputGmp2" class="form-label mb-1">No. GMP</label>
-                                <div class="input-group input-group-sm">
-                                    <input id="inputGmp2" type="text" class="form-control"
-                                        placeholder="Ketik sesuatu..." aria-label="No. GMP 2">
-                                    <button class="btn btn-outline-secondary btn-sm" type="button"
-                                        onclick="location.reload()">
-                                        <i class="fas fa-sync-alt"></i>
-                                    </button>
+                            <div class="d-flex justify-content-between gap-3">
+                                {{-- Input 1 --}}
+                                <div class="d-flex flex-column me-2" style="min-width: 0; flex: 1;">
+                                    <label for="inputGmp1" class="form-label mb-1">No. {{ $title }}</label>
+                                    <div class="input-group input-group-sm">
+                                        <input value="{{ $no }}" id="no_penawaran" name="no_penawaran"
+                                            type="text" class="form-control" placeholder="Ketik sesuatu..." readonly>
+                                        <button class="btn btn-outline-secondary btn-sm" type="button"
+                                            onclick="location.reload()">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                &nbsp;
+                                {{-- Input 2 --}}
+                                <div class="d-flex flex-column" style="min-width: 0; flex: 1;">
+                                    <label for="inputGmp2" class="form-label mb-1">No. </label>
+                                    <div class="input-group input-group-sm">
+                                        <input id="inputGmp2" type="text" class="form-control"
+                                            placeholder="Ketik sesuatu..." aria-label="No. GMP 2">
+                                        <button class="btn btn-outline-secondary btn-sm" type="button"
+                                            onclick="location.reload()">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div id="tableContainer" class="col-md-12" style="transition: width 0.3s;">
-                    <form id="formPenawaran">
+                <div class="row">
+                    <div id="tableContainer" class="col-md-12" style="transition: width 0.3s;">
+
                         <div style="width: 100%;">
                             <div class="tab-content profile-tab-cont">
                                 <div class="profile-menu">
@@ -100,9 +97,7 @@
                                         <strong><i class="fas fa-cube mr-3 ml-1"></i>Tambah</strong>
                                     </button> --}}
                                         <button type="button" class="btn btn-primary buttonedit mb-3"
-                                            data-toggle="modal" data-target="#modalBarang">
-                                            <strong><i class="fas fa-cube mr-2 ml-1"></i>Tambah</strong>
-                                        </button>
+                                            id="btnTambahBarang">Tambah</button>
                                     </div>
                                     <!-- Modal -->
                                     <div class="modal fade" id="modalBarang" tabindex="-1" role="dialog"
@@ -138,7 +133,8 @@
                                                                         <td style="padding: 4px; text-align: center;">
                                                                             <input type="checkbox"
                                                                                 class="check-barang"
-                                                                                data-id="{{ $item->no_barang }}"
+                                                                                data-id="{{ $item->id }}"
+                                                                                data-nobarang="{{ $item->no_barang }}"
                                                                                 data-nama="{{ $item->nama_barang }}"
                                                                                 data-satuan="{{ $item->satuan }}"
                                                                                 data-kuantitas="{{ $item->kuantitas_saldo_awal }}">
@@ -229,10 +225,10 @@
                                                     <th style="width: 250px;">Deskripsi Barang</th>
                                                     <th style="width: 100px;">Kts</th>
                                                     <th style="width: 100px;">Satuan</th>
-                                                    <th style="width: 125px;">Harga Satuan</th>
+                                                    <th style="width: 150px;">Harga Satuan</th>
                                                     <th style="width: 100px;">Disk %</th>
                                                     <th style="width: 100px;">Pajak</th>
-                                                    <th style="width: 100px;">Jumlah</th>
+                                                    <th style="width: 150px;">Jumlah</th>
                                                     <th style="width: 100px;">Kts Dipesan</th>
                                                     <th style="width: 100px;">Kts Dikirim</th>
                                                     <th style="width: 100px;">Departemen</th>
@@ -302,170 +298,269 @@
                                                 </td>
                                             </tr>
                                             @endforeach --}}
-                    </form>
-                    </tbody>
-                    </table>
-                </div>
 
-            </div>
-            <div id="ricape" class="tab-pane fade">
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div id="ricape" class="tab-pane fade">
 
 
-                {{-- <h5 class="card-title">Change Password</h5> --}}
-                <div class="row">
-                    <div class="col-lg-10">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <div class="dd"></div>
-                                    <div class="checkbox-wrapper-4">
-                                        <input type="hidden" name="tindak_lanjut_check" value="0">
-                                        <input class="inp-cbx" name="tindak_lanjut_check" id="tindak_lanjut_check"
-                                            type="checkbox" value="1"
-                                            {{ old('tindak_lanjut_check') ? 'checked' : '' }}>
-                                        <label class="cbx" for="tindak_lanjut_check">
-                                            <span><svg width="12px" height="10px">
-                                                    <use xlink:href="#check-4"></use>
-                                                </svg></span>
-                                            <span><strong>Tindak Lanjut</strong></span>
-                                        </label>
-                                        <svg class="inline-svg">
-                                            <symbol id="check-4" viewbox="0 0 12 10">
-                                                <polyline points="1.5 6 4.5 9 10.5 1">
-                                                </polyline>
-                                            </symbol>
-                                        </svg>
+                                    {{-- <h5 class="card-title">Change Password</h5> --}}
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div class="dd"></div>
+                                                        <div class="checkbox-wrapper-4">
+                                                            <input type="hidden" name="tindak_lanjut_check"
+                                                                value="0">
+                                                            <input class="inp-cbx" name="tindak_lanjut_check"
+                                                                id="tindak_lanjut_check" type="checkbox"
+                                                                value="1"
+                                                                {{ old('tindak_lanjut_check') ? 'checked' : '' }}>
+                                                            <label class="cbx" for="tindak_lanjut_check">
+                                                                <span><svg width="12px" height="10px">
+                                                                        <use xlink:href="#check-4"></use>
+                                                                    </svg></span>
+                                                                <span><strong>Tindak Lanjut</strong></span>
+                                                            </label>
+                                                            <svg class="inline-svg">
+                                                                <symbol id="check-4" viewbox="0 0 12 10">
+                                                                    <polyline points="1.5 6 4.5 9 10.5 1">
+                                                                    </polyline>
+                                                                </symbol>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div class="dd"></div>
+                                                        <div class="checkbox-wrapper-4">
+                                                            <input type="hidden" name="urgent_check" value="0">
+                                                            <input class="inp-cbx" name="urgent_check"
+                                                                id="urgent_check" type="checkbox" value="1"
+                                                                {{ old('urgent_check') ? 'checked' : '' }}>
+                                                            <label class="cbx" for="urgent_check">
+                                                                <span><svg width="12px" height="10px">
+                                                                        <use xlink:href="#check-4"></use>
+                                                                    </svg></span>
+                                                                <span><strong>Urgent</strong></span>
+                                                            </label>
+                                                            <svg class="inline-svg">
+                                                                <symbol id="check-4" viewbox="0 0 12 10">
+                                                                    <polyline points="1.5 6 4.5 9 10.5 1">
+                                                                    </polyline>
+                                                                </symbol>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <textarea style="width: 300px; height:100px;" class="form-control" name="deskripsi_1" placeholder="Deskripsi">{{ old('deskripsi_1') }}</textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="dd"></div>
+                                                        <div class="checkbox-wrapper-4">
+                                                            <input type="hidden" name="catatan_pemeriksaan_check"
+                                                                value="0">
+                                                            <input class="inp-cbx" name="catatan_pemeriksaan_check"
+                                                                id="catatan_pemeriksaan_check" type="checkbox"
+                                                                value="1"
+                                                                {{ old('catatan_pemeriksaan_check') ? 'checked' : '' }}>
+                                                            <label class="cbx" for="catatan_pemeriksaan_check">
+                                                                <span><svg width="12px" height="10px">
+                                                                        <use xlink:href="#check-4"></use>
+                                                                    </svg></span>
+                                                                <span><strong>Catatan Pemeriksaan</strong></span>
+                                                            </label>
+                                                            <svg class="inline-svg">
+                                                                <symbol id="check-4" viewbox="0 0 12 10">
+                                                                    <polyline points="1.5 6 4.5 9 10.5 1">
+                                                                    </polyline>
+                                                                </symbol>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <textarea style="width: 300px; height:100px;" class="form-control" name="deskripsi_2"
+                                                            value="{{ old('deskripsi_2') }}" placeholder="Deskripsi">{{ old('deskripsi_2') }}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <div class="dd"></div>
-                                    <div class="checkbox-wrapper-4">
-                                        <input type="hidden" name="urgent_check" value="0">
-                                        <input class="inp-cbx" name="urgent_check" id="urgent_check" type="checkbox"
-                                            value="1" {{ old('urgent_check') ? 'checked' : '' }}>
-                                        <label class="cbx" for="urgent_check">
-                                            <span><svg width="12px" height="10px">
-                                                    <use xlink:href="#check-4"></use>
-                                                </svg></span>
-                                            <span><strong>Urgent</strong></span>
-                                        </label>
-                                        <svg class="inline-svg">
-                                            <symbol id="check-4" viewbox="0 0 12 10">
-                                                <polyline points="1.5 6 4.5 9 10.5 1">
-                                                </polyline>
-                                            </symbol>
-                                        </svg>
+                                <div id="informasi" class="tab-pane fade">
+                                    {{-- <h5 class="card-title">Change Password</h5> --}}
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <div class="row">
+                                                {{-- Penawaran Untuk --}}
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="quotetoData"><strong>Penawaran
+                                                                Untuk</strong></label>
+                                                        <textarea class="form-control" name="quotetoData" id="quotetoData" rows="4"
+                                                            placeholder="Isi tujuan penawaran">{{ old('quotetoData') }}</textarea>
+                                                    </div>
+                                                </div>
+
+                                                {{-- Penjual --}}
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="penjual"><strong>Penjual</strong></label>
+                                                        <select class="form-control form-control-sm" id="penjual"
+                                                            name="penjual">
+                                                            <option value="">-- Pilih Penjual --</option>
+                                                            <option value="001"
+                                                                {{ old('penjual') == '001' ? 'selected' : '' }}>Penjual
+                                                                1
+                                                            </option>
+                                                            <option value="002"
+                                                                {{ old('penjual') == '002' ? 'selected' : '' }}>Penjual
+                                                                2
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                {{-- Nilai Tukar --}}
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="nilai_tukar"><strong>Nilai Tukar</strong></label>
+                                                        <input type="number" class="form-control form-control-sm"
+                                                            id="nilai_tukar" name="nilai_tukar"
+                                                            value="{{ old('nilai_tukar', 0) }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {{-- Alamat --}}
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="Informasi_address"><strong>Alamat</strong></label>
+                                                        <textarea readonly class="form-control" name="address" id="Informasi_address" rows="4"
+                                                            placeholder="Alamat tujuan">{{ old('address') }}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <textarea style="width: 300px; height:100px;" class="form-control" name="deskripsi_1" placeholder="Deskripsi">{{ old('deskripsi_1') }}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <div class="dd"></div>
-                                    <div class="checkbox-wrapper-4">
-                                        <input type="hidden" name="catatan_pemeriksaan_check" value="0">
-                                        <input class="inp-cbx" name="catatan_pemeriksaan_check"
-                                            id="catatan_pemeriksaan_check" type="checkbox" value="1"
-                                            {{ old('catatan_pemeriksaan_check') ? 'checked' : '' }}>
-                                        <label class="cbx" for="catatan_pemeriksaan_check">
-                                            <span><svg width="12px" height="10px">
-                                                    <use xlink:href="#check-4"></use>
-                                                </svg></span>
-                                            <span><strong>Catatan Pemeriksaan</strong></span>
-                                        </label>
-                                        <svg class="inline-svg">
-                                            <symbol id="check-4" viewbox="0 0 12 10">
-                                                <polyline points="1.5 6 4.5 9 10.5 1">
-                                                </polyline>
-                                            </symbol>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <textarea style="width: 300px; height:100px;" class="form-control" name="deskripsi_2"
-                                        value="{{ old('deskripsi_2') }}" placeholder="Deskripsi">{{ old('deskripsi_2') }}</textarea>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
+
             </div>
-            <div id="informasi" class="tab-pane fade">
-                {{-- <h5 class="card-title">Change Password</h5> --}}
-                <div class="row">
-                    <div class="col-lg-10">
-                        <div class="row">
-                            {{-- Penawaran Untuk --}}
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="quotetoData"><strong>Penawaran Untuk</strong></label>
-                                    <textarea class="form-control" name="quotetoData" id="quotetoData" rows="4"
-                                        placeholder="Isi tujuan penawaran">{{ old('quotetoData') }}</textarea>
-                                </div>
-                            </div>
 
-                            {{-- Penjual --}}
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="penjual"><strong>Penjual</strong></label>
-                                    <select class="form-control form-control-sm" id="penjual" name="penjual">
-                                        <option value="">-- Pilih Penjual --</option>
-                                        <option value="001" {{ old('penjual') == '001' ? 'selected' : '' }}>Penjual
-                                            1
-                                        </option>
-                                        <option value="002" {{ old('penjual') == '002' ? 'selected' : '' }}>Penjual
-                                            2
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            {{-- Nilai Tukar --}}
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="nilai_tukar"><strong>Nilai Tukar</strong></label>
-                                    <input type="number" class="form-control form-control-sm" id="nilai_tukar"
-                                        name="nilai_tukar" value="{{ old('nilai_tukar', 0) }}">
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Alamat --}}
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="Informasi_address"><strong>Alamat</strong></label>
-                                    <textarea readonly class="form-control" name="address" id="Informasi_address" rows="4"
-                                        placeholder="Alamat tujuan">{{ old('address') }}</textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+            <x-form.modul.penjualan.footer-action-add>
+                <x-slot:action>
+                    id="simpanTransaksi"
+                </x-slot:action>
+            </x-form.modul.penjualan.footer-action-add>
     </form>
-    </div>
-    </div>
-    </div>
-    <x-form.modul.penjualan.footer-action-add>
-        <x-slot:action>
-            id="simpanTransaksi"
-        </x-slot:action>
-    </x-form.modul.penjualan.footer-action-add>
     <x-slot:scripts>
+
         <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('btnTambahBarang').addEventListener('click', function() {
+                    // Ambil nilai input hidden yang menyimpan ID pelanggan
+                    const pelangganId = document.querySelector('input[name="pelanggan_id"]')?.value;
+
+                    if (!pelangganId) {
+                        // Bisa pakai alert() atau Swal
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Perhatian',
+                            text: 'Silahkan pilih pelanggan terlebih dahulu',
+                        });
+                        return;
+                    }
+
+                    // Jika pelanggan sudah dipilih, buka modal
+                    $('#modalBarang').modal('show');
+                });
+            });
             $('#simpanTransaksi').click(async function() {
                 const result = await saveTransaksi();
-                alert(result.message); // atau gunakan Swal, dll.
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: 'Data berhasil disimpan!',
+                }); // atau gunakan Swal, dll.
             });
+
+            document.getElementById('barangTableBody').addEventListener('input', function(e) {
+                const target = e.target;
+
+                if (
+                    target.name === 'kts_permintaan[]' ||
+                    target.name === 'harga_satuan[]' ||
+                    target.name === 'diskon[]' ||
+                    target.name === 'pajak[]'
+                ) {
+                    const row = target.closest('tr');
+
+                    const qtyInput = row.querySelector('input[name="kts_permintaan[]"]');
+                    const hargaInput = row.querySelector('input[name="harga_satuan[]"]');
+                    const jumlahInput = row.querySelector('input[name="jumlah[]"]');
+                    const diskonInput = row.querySelector('input[name="diskon[]"]');
+                    const pajakInput = row.querySelector('input[name="pajak[]"]');
+
+                    if (!qtyInput || !hargaInput || !jumlahInput) return;
+
+                    // Ambil dan parse input dengan perlindungan
+                    const qty = parseFloat((qtyInput.value || '0'))|| 0;
+                    const harga = parseRupiahToFloat(hargaInput.value || '0');
+                    const diskon = parseFloat((diskonInput?.value || '0').replace(',', '.')) || 0;
+                    const pajak = parseFloat((pajakInput?.value || '0').replace(',', '.')) || 0;
+
+                    // Hitung total dasar
+                    let total = qty * harga;
+
+                    // Kurangi diskon
+                    if (diskon > 0) {
+                        total -= (total * diskon) / 100;
+                    }
+
+                    // Tambahkan pajak
+                    if (pajak > 0) {
+                        total += (total * pajak) / 100;
+                    }
+
+                    // Tampilkan hasil akhir dalam format Rupiah
+                    jumlahInput.value = formatRupiah(total);
+
+                    // Update subtotal keseluruhan
+                    if (typeof updateSubtotal === 'function') {
+                        updateSubtotal();
+                    }
+                }
+            });
+
+
+            function updateSubtotal() {
+                let subtotal = 0;
+
+                document.querySelectorAll('input[name="jumlah[]"]').forEach(input => {
+                    subtotal += parseRupiahToFloat(input.value) || 0;
+                });
+
+                const subtotalInput = document.querySelector('input[name="subtotal"]');
+                if (subtotalInput) {
+                    subtotalInput.value = formatRupiah(subtotal.toFixed(2));
+                }
+            }
 
             async function saveTransaksi() {
                 const form = document.getElementById('formPenawaran');
@@ -508,6 +603,7 @@
                 $('#tambahBarangTerpilih').click(function() {
                     $('.check-barang:checked').each(function() {
                         let id = $(this).data('id');
+                        let nobarang = $(this).data('nobarang');
                         let nama = $(this).data('nama');
                         let satuan = $(this).data('satuan');
 
@@ -515,20 +611,22 @@
                         if ($(`#row-barang-${id}`).length === 0) {
                             let newRow = `
 <tr id="row-barang-${id}" class="barang-row" style="font-size: 12px;">
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="no_barang[]" value="${id}" readonly></td>
+    <td><input type="hidden" name="barang_id" value="${id}"><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="no_barang[]" value="${nobarang}" readonly></td>
     <td><input style="width: 150px; height: 26px; font-size: 12px;" type="text" class="form-control deskripsi-barang-input" name="deskripsi_barang[]" value="${nama}"></td>
     <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_permintaan[]" value=""></td>
     <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="satuan[]" value="${satuan}"></td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="harga_satuan[]" value=""></td>
+    <td>
+    <input type="text" name="harga_satuan[]" class="form-control input-rupiah" style="height:26px; font-size:12px;" />
+</td>
     <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="diskon[]" value=""></td>
     <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="pajak[]" value=""></td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="jumlah[]" value=""></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control input-rupiah" name="jumlah[]" value="" readonly></td>
     <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_dipesan[]" value=""></td>
     <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_dikirim[]" value=""></td>
     <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="departemen[]" value=""></td>
     <td style="vertical-align: middle;">
         <div style="height: 26px; font-size: 12px;">
-            <x-select2.search placeholder="Metode Kegiatan" name="pelanggan" label=""
+            <x-select2.search placeholder="Metode Kegiatan" name="proyek" label=""
                                 :options="[
                                     '001' => 'Simpan Transaksi',
                                     '002' => 'Salin Transaksi',
@@ -682,80 +780,6 @@
                 $('#datetimepicker3').datetimepicker({
                     format: 'LT'
                 });
-            });
-        </script>
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const input = document.getElementById('nilaiSaatIniInput');
-
-                input.addEventListener('input', () => {
-                    let angka = input.value.replace(/\D/g, '');
-                    input.value = formatRupiah(angka);
-                });
-
-                input.closest('form').addEventListener('submit', () => {
-                    input.value = input.value.replace(/\D/g, '');
-                });
-
-                function formatRupiah(angka, prefix = '') {
-                    return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                }
-            });
-        </script>
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const input = document.getElementById('biaya_satuan_saldo_awal');
-
-                input.addEventListener('input', () => {
-                    let angka = input.value.replace(/\D/g, '');
-                    input.value = formatRupiah(angka);
-                });
-
-                input.closest('form').addEventListener('submit', () => {
-                    input.value = input.value.replace(/\D/g, '');
-                });
-
-                function formatRupiah(angka, prefix = '') {
-                    return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                }
-            });
-        </script>
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const biaya_satuan_saldo_awal = document.getElementById('biaya_satuan_saldo_awal');
-                const kuantitas_saldo_awal = document.getElementById('kuantitas_saldo_awal');
-                const total_saldo = document.getElementById('total_saldo');
-
-                function handleInputFormat(input) {
-                    input.addEventListener('input', () => {
-                        let angka = input.value.replace(/\D/g, '');
-                        input.value = formatRupiah(angka);
-                        hitungTotal();
-                    });
-                }
-
-                handleInputFormat(biaya_satuan_saldo_awal);
-                handleInputFormat(kuantitas_saldo_awal);
-
-                function hitungTotal() {
-                    let saldo = parseInt(biaya_satuan_saldo_awal.value.replace(/\D/g, '')) || 0;
-                    let tambahan = parseInt(kuantitas_saldo_awal.value.replace(/\D/g, '')) || 0;
-                    let total = saldo * tambahan;
-                    total_saldo.value = formatRupiah(String(total));
-                    document.getElementById('total_saldo_awal').value = total;
-                }
-
-                function formatRupiah(angka, prefix = '') {
-                    return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                }
-
-                const form = biaya_satuan_saldo_awal.closest('form');
-                if (form) {
-                    form.addEventListener('submit', () => {
-                        biaya_satuan_saldo_awal.value = biaya_satuan_saldo_awal.value.replace(/\D/g, '');
-                        kuantitas_saldo_awal.value = kuantitas_saldo_awal.value.replace(/\D/g, '');
-                    });
-                }
             });
         </script>
     </x-slot:scripts>

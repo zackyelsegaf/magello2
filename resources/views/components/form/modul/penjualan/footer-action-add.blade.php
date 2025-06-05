@@ -1,6 +1,6 @@
 @isset($action)
     @php
-        $renderedAttributes = trim($action);
+        $renderedAttributes = trim($action).' type="buttton"';
     @endphp
 @else
     @php
@@ -83,7 +83,7 @@
             <span>Selanjutnya</span>
         </button>
         <div class="action d-flex flex-wrap justify-content-start align-items-center">
-            <button {!! $renderedAttributes !!} class="btn btn-success mr-2 mb-2">
+            <button type="button" {!! $renderedAttributes !!} class="btn btn-success mr-2 mb-2">
                 <i class="fas fa-save mr-1"></i>
                 <span>Simpan</span>
             </button>

@@ -5,7 +5,7 @@
     'options' => [],
     'selected' => '',
     'url' => null,
-    'size' => null // null berarti pakai default custom style
+    'size' => null, // null berarti pakai default custom style
 ])
 
 <div x-data="selectInputComponent({{ json_encode($options) }}, '{{ $url }}')" class="form-group position-relative">
@@ -13,27 +13,17 @@
         <label class="font-weight-bold" for="{{ $name }}">{{ $label }}</label>
     @endif
 
-    <input
-        type="text"
-        name="{{ $name }}"
-        placeholder="{{ $placeholder }}"
-        autocomplete="off"
-        x-model="inputValue"
-        x-on:focus="open = true"
-        x-on:blur="closeWithDelay"
-        x-on:input="fetchIfNeeded"
-        class="form-control {{ $size ? 'form-control-' . $size : '' }}"
-        style="{{ $size ? '' : 'height: 26px; font-size: 12px;' }}"
-    >
+    <input type="hidden" :name="'{{ $name }}'" x-model="selectedKey">
 
-    <ul class="list-group mt-1 position-absolute w-100 small"
-        x-show="open && Object.keys(filteredOptions).length > 0"
-        x-transition
-        style="z-index: 1000; max-height: 200px; overflow-y: auto;">
+    <input type="text" placeholder="{{ $placeholder }}" autocomplete="off"
+        x-model="inputValue" x-on:focus="open = true" x-on:blur="closeWithDelay" x-on:input="fetchIfNeeded"
+        class="form-control {{ $size ? 'form-control-' . $size : '' }}"
+        style="{{ $size ? '' : 'height: 26px; font-size: 12px;' }}">
+
+    <ul class="list-group mt-1 position-absolute w-100 small" x-show="open && Object.keys(filteredOptions).length > 0"
+        x-transition style="z-index: 1000; max-height: 200px; overflow-y: auto;">
         <template x-for="(label, key) in filteredOptions" :key="key">
-            <li class="list-group-item list-group-item-action py-1 px-2"
-                x-text="label"
-                @click="select(label)"
+            <li class="list-group-item list-group-item-action py-1 px-2" x-text="label" @click="select(label)"
                 style="cursor: pointer;"></li>
         </template>
     </ul>
@@ -45,6 +35,7 @@
             function selectInputComponent(initialOptions, fetchUrl = null) {
                 return {
                     inputValue: '',
+                    selectedKey: '',
                     open: false,
                     options: initialOptions ?? {},
                     fetched: false,
@@ -60,6 +51,7 @@
 
                     select(label) {
                         this.inputValue = label;
+                        this.selectedKey = Object.keys(this.options).find(key => this.options[key] === label);
                         this.open = false;
                     },
 
