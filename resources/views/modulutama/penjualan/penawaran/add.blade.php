@@ -19,15 +19,15 @@
                         <div class="d-flex flex-column">
                             <div class="d-flex justify-content-end">
                                 <div class="form-check me-3">
-                                    <input type="checkbox" class="form-check-input" name="status[]" value="diproses"
-                                        id="statusDiproses">
-                                    <label class="form-check-label" for="statusDiproses">Diproses</label>
+                                    <input type="checkbox" class="form-check-input" name="Pajak" value="Pajak"
+                                        id="Pajak">
+                                    <label class="form-check-label" for="Pajak">Pajak</label>
                                 </div>
                                 &nbsp;
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="status[]" value="menunggu"
-                                        id="statusMenunggu">
-                                    <label class="form-check-label" for="statusMenunggu">Menunggu</label>
+                                    <input type="checkbox" class="form-check-input" name="inPajak" value="inPajak"
+                                        id="inPajak">
+                                    <label class="form-check-label" for="inPajak">Termasuk Pajak</label>
                                 </div>
                                 &nbsp;
                                 {{-- <x-select2.search placeholder="Metode Kegiatan" name="pelanggan" label=""
@@ -415,19 +415,8 @@
                                                 {{-- Penjual --}}
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label for="penjual"><strong>Penjual</strong></label>
-                                                        <select class="form-control form-control-sm" id="penjual"
-                                                            name="penjual">
-                                                            <option value="">-- Pilih Penjual --</option>
-                                                            <option value="001"
-                                                                {{ old('penjual') == '001' ? 'selected' : '' }}>Penjual
-                                                                1
-                                                            </option>
-                                                            <option value="002"
-                                                                {{ old('penjual') == '002' ? 'selected' : '' }}>Penjual
-                                                                2
-                                                            </option>
-                                                        </select>
+                                                        <x-select2.search size="sm" placeholder="Penjual" name="penjual"
+                                                            label="Penjual" :options="$penjuals" />
                                                     </div>
                                                 </div>
 
@@ -472,6 +461,34 @@
     <x-slot:scripts>
 
         <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const pajakCheckbox = document.getElementById('Pajak');
+                const labelInPajak = document.getElementById('labelInPajak');
+                const inPajakCheckbox = document.getElementById('inPajak');
+                const pajakFields = document.getElementById('pajakFields');
+
+                function togglePajakFields() {
+                    if (pajakCheckbox.checked) {
+                        pajakFields.style.display = 'block';
+                    } else if (inPajakCheckbox.checked) {
+                        labelInPajak.style.display = 'block';
+                        pajakFields.style.display = 'none';
+                    } else {
+                        labelInPajak.style.display = 'none';
+                        pajakFields.style.display = 'none';
+                    }
+                }
+
+                // Pasang event listener
+                pajakCheckbox.addEventListener('change', togglePajakFields);
+                inPajakCheckbox.addEventListener('change', togglePajakFields);
+                document.getElementById('inPajak').addEventListener('change', hitungGrandTotal);
+                document.getElementById('pajak').addEventListener('change', hitungGrandTotal);
+
+                // Jalankan saat awal
+                togglePajakFields();
+            });
+
             document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('btnTambahBarang').addEventListener('click', function() {
                     // Ambil nilai input hidden yang menyimpan ID pelanggan
@@ -520,7 +537,7 @@
                     if (!qtyInput || !hargaInput || !jumlahInput) return;
 
                     // Ambil dan parse input dengan perlindungan
-                    const qty = parseFloat((qtyInput.value || '0'))|| 0;
+                    const qty = parseFloat((qtyInput.value || '0')) || 0;
                     const harga = parseRupiahToFloat(hargaInput.value || '0');
                     const diskon = parseFloat((diskonInput?.value || '0').replace(',', '.')) || 0;
                     const pajak = parseFloat((pajakInput?.value || '0').replace(',', '.')) || 0;
@@ -557,9 +574,62 @@
                 });
 
                 const subtotalInput = document.querySelector('input[name="subtotal"]');
+                document.querySelector('input[name="cashdiscpc"]').addEventListener('input', hitungGrandTotal);
                 if (subtotalInput) {
                     subtotalInput.value = formatRupiah(subtotal.toFixed(2));
+                    hitungGrandTotal();
                 }
+            }
+
+            function hitungGrandTotal() {
+                const subtotalInput = document.querySelector('input[name="subtotal"]');
+                const discPcInput = document.querySelector('input[name="cashdiscpc"]');
+                const discNominalInput = document.querySelector('input[name="cashdiscount"]');
+                const ppnInput = document.querySelector('input[name="ppn"]');
+                const pajak2Input = document.querySelector('input[name="pajak2"]');
+                const inPajakCheckbox = document.querySelector('input[name="inPajak"]');
+                const totalInput = document.querySelector('input[name="total"]');
+
+                const subtotal = parseRupiahToFloat(subtotalInput?.value) || 0;
+                console.log(subtotal);
+                const discPercent = parseFloat(discPcInput?.value) || 0;
+
+                // Hitung diskon nominal
+                const discNominal = subtotal * (discPercent / 100);
+                if (discNominalInput) {
+                    discNominalInput.value = discNominal.toFixed(2);
+                }
+
+                // Hitung nilai setelah diskon
+                const afterDisc = subtotal - discNominal;
+
+                // Hitung PPN 11%
+                const ppn = afterDisc * 0.11;
+                if (ppnInput) {
+                    ppnInput.value = ppn.toFixed(2);
+                }
+
+                // Hitung Pajak 2% (jika perlu sesuaikan rate)
+                const pajak2 = afterDisc * 0.02;
+                if (pajak2Input) {
+                    pajak2Input.value = pajak2.toFixed(2);
+                }
+
+                let grandTotal;
+
+                if (inPajakCheckbox.checked) {
+                    grandTotal = afterDisc;
+                } else {
+                    grandTotal = afterDisc + ppn + pajak2;
+                }
+
+                // Hitung total keseluruhan
+
+                if (totalInput) {
+                    totalInput.value = formatRupiah(grandTotal.toFixed(2));
+                }
+
+
             }
 
             async function saveTransaksi() {

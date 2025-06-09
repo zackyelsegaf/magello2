@@ -20,7 +20,18 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 import Alpine from 'alpinejs'
- 
+// import Hello from './components/Hello.svelte';
+
+// import { mount } from 'svelte';
+
+// // Mount komponen ke elemen HTML
+// mount(Hello, {
+// 	target: document.getElementById('svelte-app'),
+// 	props: {
+// 		// kirim props jika perlu, contoh:
+// 		name: "Dunia"
+// 	}
+// });
 window.Alpine = Alpine
  
 Alpine.start()

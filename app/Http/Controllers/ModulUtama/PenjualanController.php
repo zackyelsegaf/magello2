@@ -18,6 +18,7 @@ use App\Models\ModulUtama\Penjualan\PenawaranPenjualan;
 use App\Models\ModulUtama\Penjualan\PenerimaanPenjualan;
 use App\Models\ModulUtama\Penjualan\PengirimanPenjualan;
 use App\Models\ModulUtama\Penjualan\PenawaranPenjualanItem;
+use App\Models\Penjual;
 
 class PenjualanController extends Controller
 {
@@ -267,9 +268,18 @@ class PenjualanController extends Controller
     }
     public function createPenawaran()
     {
-        $this->menu = "penawaran";
-        $this->model = PenawaranPenjualan::class;
-        return $this->BaseCreate();
+        $data['nama_barang'] = DB::table('barang')->get();
+        $data['title'] = "Penawaran";
+        $data['no'] = PenawaranPenjualan::generateNo();
+        $data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
+            return [$item->id => $item->nama_pelanggan];
+        })->toArray();
+        $data['penjuals'] = Penjual::all()->mapWithKeys(function ($item) {
+            $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
+            return [$item->id => $nama];
+        })->toArray();
+
+        return view("modulutama.penjualan.penawaran.add", $data);
     }
     public function storePenawaran(Request $request)
     {

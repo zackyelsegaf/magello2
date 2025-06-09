@@ -1,6 +1,6 @@
 @isset($action)
     @php
-        $renderedAttributes = trim($action).' type="buttton"';
+        $renderedAttributes = trim($action) . ' type="buttton"';
     @endphp
 @else
     @php
@@ -51,20 +51,22 @@
                 </div>
             </div>
 
-            <div style="display: flex; align-items: center; margin-bottom: 4px;">
-                <label style="width: 90px; font-weight: bold;">PPN 11%</label>
-                <input type="text" name="ppn" value="0" readonly
-                    style="flex: 1; height: 26px; font-size: 12px;" class="form-control form-control-sm">
-            </div>
+            <div id="pajakFields" style="display: none;">
+                <div style="display: flex; align-items: center; margin-bottom: 4px;">
+                    <label style="width: 90px; font-weight: bold;">PPN 11%</label>
+                    <input type="text" name="ppn" value="0" readonly
+                        style="flex: 1; height: 26px; font-size: 12px;" class="form-control form-control-sm">
+                </div>
 
-            <div style="display: flex; align-items: center; margin-bottom: 4px;">
-                <label style="width: 90px; font-weight: bold;">Pajak 2</label>
-                <input type="text" name="pajak2" value="0" readonly
-                    style="flex: 1; height: 26px; font-size: 12px;" class="form-control form-control-sm">
+                <div style="display: flex; align-items: center; margin-bottom: 4px;">
+                    <label style="width: 90px; font-weight: bold;">Pajak 2</label>
+                    <input type="text" name="pajak2" value="0" readonly
+                        style="flex: 1; height: 26px; font-size: 12px;" class="form-control form-control-sm">
+                </div>
             </div>
 
             <div style="display: flex; align-items: center;">
-                <label style="width: 90px; font-weight: bold;">Jumlah</label>
+                <label style="width: 90px; font-weight: bold;">Jumlah <span id='labelInPajak' style="display: none;font-weight: bold">(Termasuk Pajak)</span></label>
                 <input type="text" name="total" value="0" readonly
                     style="flex: 1; height: 26px; font-size: 12px; font-weight: bold;"
                     class="form-control form-control-sm">
