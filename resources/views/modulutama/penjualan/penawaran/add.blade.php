@@ -55,14 +55,9 @@
                                 &nbsp;
                                 {{-- Input 2 --}}
                                 <div class="d-flex flex-column" style="min-width: 0; flex: 1;">
-                                    <label for="inputGmp2" class="form-label mb-1">No. </label>
+                                    <label for="inputGmp2" class="form-label mb-1">Tanggal {{ $title }}</label>
                                     <div class="input-group input-group-sm">
-                                        <input id="inputGmp2" type="text" class="form-control"
-                                            placeholder="Ketik sesuatu..." aria-label="No. GMP 2">
-                                        <button class="btn btn-outline-secondary btn-sm" type="button"
-                                            onclick="location.reload()">
-                                            <i class="fas fa-sync-alt"></i>
-                                        </button>
+                                        <input type="text" class="form-control datetimepicker @error('tgl_permintaan') is-invalid @enderror" name="tgl_permintaan"> 
                                     </div>
                                 </div>
                             </div>
@@ -415,8 +410,8 @@
                                                 {{-- Penjual --}}
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <x-select2.search size="sm" placeholder="Penjual" name="penjual"
-                                                            label="Penjual" :options="$penjuals" />
+                                                        <x-select2.search size="sm" placeholder="Penjual"
+                                                            name="penjual" label="Penjual" :options="$penjuals" />
                                                     </div>
                                                 </div>
 
@@ -510,11 +505,20 @@
             });
             $('#simpanTransaksi').click(async function() {
                 const result = await saveTransaksi();
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil',
-                    text: 'Data berhasil disimpan!',
-                }); // atau gunakan Swal, dll.
+
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: result.message || 'Data berhasil disimpan!',
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ada Kendala',
+                        text: result.message || 'Silahkan hubungi developer',
+                    });
+                }
             });
 
             document.getElementById('barangTableBody').addEventListener('input', function(e) {
@@ -645,15 +649,13 @@
                         body: formData
                     });
 
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
+                    const result = await response.json(); // parse response JSON
 
-                    const result = await response.json();
+                    // Cek nilai 'success' dari response JSON, bukan hanya HTTP status
                     return {
-                        success: true,
-                        message: 'Berhasil menyimpan transaksi.',
-                        data: result
+                        success: result.success,
+                        message: result.message,
+                        data: result.data || null
                     };
 
                 } catch (error) {

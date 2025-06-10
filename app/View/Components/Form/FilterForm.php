@@ -3,6 +3,8 @@
 namespace App\View\Components\form;
 
 use Closure;
+use App\Models\MataUang;
+use App\Models\Pelanggan;
 use Illuminate\View\Component;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
@@ -22,10 +24,13 @@ class FilterForm extends Component
      */
     public function render(): View|Closure|string
     {
-        $nama_barang = DB::table('barang')->get();
-        $tipe_barang = DB::table('tipe_barang')->get();
-        $tipe_persediaan = DB::table('tipe_persediaan')->get();
-        $kategori_barang = DB::table('kategori_barang')->get();
-        return view('components.form.filter-form', compact('nama_barang','tipe_barang', 'tipe_persediaan', 'kategori_barang'));
+        $data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
+            return [$item->id => $item->nama_pelanggan];
+        })->toArray();
+
+        $data['matauangs'] =  MataUang::all()->mapWithKeys(function ($item) {
+            return [$item->id => $item->nama];
+        })->toArray();
+        return view('components.form.filter-form', $data);
     }
 }

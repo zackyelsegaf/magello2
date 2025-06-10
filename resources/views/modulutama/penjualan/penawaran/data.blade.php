@@ -80,14 +80,29 @@
                         searching: false,
                         ajax: {
                             url: '{{ $routeFetch }}',
-                            // data: function(d) {
-                            //     d.nama_barang = $('input[name=nama_barang]').val(),
-                            //     d.no_barang = $('input[name=no_barang]').val(),
-                            //     d.kategori_barang = $('select[name=kategori_barang]').val(),
-                            //     d.tipe_barang = $('select[name=tipe_barang]').val(),
-                            //     d.tipe_persediaan = $('select[name=tipe_persediaan]').val(),
-                            //     d.dihentikan = $('input[name=dihentikan]:checked').val();
-                            // }
+                            data: function(d) {
+                                d.quoteno = $('#keyword').val();
+                                d.description = $('input[name="description"]').val();
+                                d.pelanggan_id = $('input[name="pelanggan_id"]').val();
+                                d.matauang_id = $('input[name="matauang_id"]').val();
+                                d.use_date = $('input[name="use_date"]').is(':checked') ? 1 : 0;
+                                d.date_from = $('input[name="date_from"]').val();
+                                d.date_to = $('input[name="date_to"]').val();
+
+                                d.status = [];
+                                $('input[name="status[]"]:checked').each(function() {
+                                    d.status.push($(this).val());
+                                });
+
+                                d.audit_notes = [];
+                                $('input[name="audit_notes[]"]:checked').each(function() {
+                                    d.audit_notes.push($(this).val());
+                                });
+
+                                // Jika kamu punya Easy Branch aktif, tinggal uncomment:
+                                // d.easy_branch = $('select[name="easy_branch"]').val();
+                            }
+
                         },
                         dom: "<'row'<'col-sm-12'B>>" +
                             "<'row'<'col-sm-12 mt-3'tr>>" +
@@ -136,7 +151,7 @@
                                 searchable: false
                             },
                             {
-                                data: 'no',
+                                data: 'DT_RowIndex',
                                 orderable: false,
                                 searchable: false
                             },
@@ -144,7 +159,6 @@
                                 data: 'id',
                                 visible: false
                             },
-
                             {
                                 data: 'no_penawaran'
                             },
@@ -180,9 +194,10 @@
                             },
                             {
                                 data: 'pengguna'
-                            },
+                            }, // sudah diisi di backend sebagai user.name
                             {
-                                data: 'cabang'
+                                data: 'user.department',
+                                defaultContent: '-' // jika belum ada
                             },
                             {
                                 data: 'no_persetujuan'
@@ -204,15 +219,21 @@
                             },
                             {
                                 data: 'urgensi',
-                                render: data => data
-                            },
+                                render: data => data ?? '-'
+                            }
                         ]
                     });
 
-                    $('form').on('submit', function(e) {
-                        e.preventDefault();
-                        table.draw();
+                    // Untuk perubahan lainnya
+                    $('#filterBox').on('change', 'input, select', function() {
+                        $('#PermintaanList').DataTable().draw();
                     });
+
+                    // $('form').on('submit', function(e) {
+                    //     e.preventDefault();
+                    //     table.draw();
+                    // });
+
 
                     $('#select_all').on('click', function() {
                         $('.permintaan_checkbox').prop('checked', this.checked);

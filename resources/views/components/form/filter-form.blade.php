@@ -9,20 +9,11 @@
         <x-form.input-field name="description" label="" placeholder="Tulis deskripsi..." class="mb-2" />
 
         {{-- Bagian: Pelanggan --}}
-        <x-select2.search placeholder="Nama Pelanggan..." name="pelanggan" label="Pelanggan" :options="[
-            '001' => 'Ahmad Faiz',
-            '002' => 'Rina Lestari',
-            '003' => 'Bagus Pratama',
-            '004' => 'Siti Aminah',
-        ]" />
+        <x-select2.search placeholder="Nama Pelanggan..." name="pelanggan_id" label="Pelanggan" :options="$pelanggans"
+            {{-- gunakan seperti ini --}} />
 
         {{-- Bagian: Mata Uang --}}
-        <x-select2.search placeholder="Mata Uang..." name="matauang" label="Mata Uang" :options="[
-            'IDR' => 'Rupiah',
-            'USD' => 'Dolar Amerika',
-            'EUR' => 'Euro',
-            'JPY' => 'Yen Jepang',
-        ]" />
+        <x-select2.search placeholder="Mata Uang..." name="matauang_id" label="Mata Uang" :options="$matauangs" />
 
         {{-- Bagian: Filter Tanggal --}}
         <div class="form-group mt-3 mb-2" x-data="{ useDate: false }" x-init="$watch('useDate', value => {

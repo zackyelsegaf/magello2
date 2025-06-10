@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\MataUang;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -53,7 +54,14 @@ class PenjualanController extends Controller
     public function indexPenawaran()
     {
         $this->menu = 'penawaran';
-        return $this->dataUtama();
+        $nama_barang = DB::table('barang')->get();
+        $tipe_barang = DB::table('tipe_barang')->get();
+        $tipe_persediaan = DB::table('tipe_persediaan')->get();
+        $kategori_barang = DB::table('kategori_barang')->get();
+        $routeFetch = route("penjualan.$this->menu.fetch");
+        $createRoute = route("penjualan.$this->menu.create");
+
+        return view("modulutama.penjualan.$this->menu.data", compact('createRoute', 'routeFetch', 'nama_barang', 'tipe_barang', 'tipe_persediaan', 'kategori_barang'));
     }
 
     protected $recordId;
@@ -66,20 +74,63 @@ class PenjualanController extends Controller
     public function fetchPenawaran(Request $request)
     {
         $model = PenawaranPenjualan::with(['user'])
-            ->when($request->filled('no_penawaran'), function ($q) use ($request) {
-                $q->where('no_penawaran', 'like', '%' . $request->no_penawaran . '%');
+            ->when($request->filled('quoteno'), function ($q) use ($request) {
+                $q->where('no_penawaran', 'like', '%' . $request->quoteno . '%');
             })
-            ->when($request->filled('tgl_penawaran'), function ($q) use ($request) {
-                $q->whereDate('tgl_penawaran', $request->tgl_penawaran);
+            ->when($request->filled('description'), function ($q) use ($request) {
+                $q->where('deskripsi', 'like', '%' . $request->description . '%');
             })
-            ->when($request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
-                $q->whereBetween('tgl_penawaran', [$request->tgl_mulai, $request->tgl_sampai]);
+            ->when($request->filled('pelanggan_id'), function ($q) use ($request) {
+                $q->where('pelanggan_id', $request->pelanggan_id);
             })
-            ->when($request->filled('tgl_mulai') && !$request->filled('tgl_sampai'), function ($q) use ($request) {
-                $q->whereDate('tgl_penawaran', '>=', $request->tgl_mulai);
+            ->when($request->filled('matauang_id'), function ($q) use ($request) {
+                $q->where('mata_uang', $request->matauang_id);
             })
-            ->when(!$request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
-                $q->whereDate('tgl_penawaran', '<=', $request->tgl_sampai);
+            ->when($request->boolean('use_date'), function ($q) use ($request) {
+                $q->when($request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                    $q->whereBetween('tgl_penawaran', [$request->tgl_mulai, $request->tgl_sampai]);
+                })
+                    ->when($request->filled('tgl_mulai') && !$request->filled('tgl_sampai'), function ($q) use ($request) {
+                        $q->whereDate('tgl_penawaran', '>=', $request->tgl_mulai);
+                    })
+                    ->when(!$request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                        $q->whereDate('tgl_penawaran', '<=', $request->tgl_sampai);
+                    });
+            })
+            ->when($request->filled('status'), function ($q) use ($request) {
+                $q->whereIn('status', $request->status);
+            })
+            ->when($request->filled('audit_notes'), function ($q) use ($request) {
+                foreach ($request->audit_notes as $note) {
+                    switch ($note) {
+                        case 'catatan_pemeriksaan':
+                            $q->whereNotNull('catatan_pemeriksaan');
+                            break;
+                        case 'belum_catatan_pemeriksaan':
+                            $q->whereNull('catatan_pemeriksaan');
+                            break;
+                        case 'disetujui':
+                            $q->where('disetujui', true);
+                            break;
+                        case 'belum_disetujui':
+                            $q->where(function ($sub) {
+                                $sub->whereNull('disetujui')->orWhere('disetujui', false);
+                            });
+                            break;
+                        case 'tindak_lanjut':
+                            $q->whereNotNull('tindak_lanjut');
+                            break;
+                        case 'belum_tindak_lanjut':
+                            $q->whereNull('tindak_lanjut');
+                            break;
+                        case 'urgent':
+                            $q->where('urgensi', 'urgent');
+                            break;
+                        case 'tidak_urgent':
+                            $q->where('urgensi', '!=', 'urgent');
+                            break;
+                    }
+                }
             });
 
         return datatables()->of($model)
@@ -299,7 +350,7 @@ class PenjualanController extends Controller
             $validated = Validator::make($request->all(), [
                 'no_penawaran'        => 'required|string|unique:penawaran_penjualans,no_penawaran',
                 'tgl_penawaran'       => 'nullable|date',
-                'pelanggan_id'        => 'nullable|exists:pelanggan,id',
+                'pelanggan_id'        => 'required|exists:pelanggan,id',
                 'no_pelanggan'        => 'nullable|string',
                 'nama_pelanggan'      => 'nullable|string',
                 'status'              => 'nullable|string|in:draft,diproses,disetujui',
