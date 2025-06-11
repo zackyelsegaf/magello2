@@ -218,18 +218,16 @@
                                             id="DataBarangAddSatuan">
                                             <thead class="thead-dark">
                                                 <tr>
-                                                    <th style="width: 100px;">No. Barang</th>
                                                     <th style="width: 250px;">Deskripsi Barang</th>
-                                                    <th style="width: 100px;">Kts</th>
+                                                    <th style="width: 100px;">Kuantitas</th>
                                                     <th style="width: 100px;">Satuan</th>
                                                     <th style="width: 150px;">Harga Satuan</th>
-                                                    <th style="width: 100px;">Disk %</th>
+                                                    <th style="width: 100px;">Diskon %</th>
                                                     <th style="width: 100px;">Pajak</th>
                                                     <th style="width: 150px;">Jumlah</th>
-                                                    <th style="width: 100px;">Kts Dipesan</th>
-                                                    <th style="width: 100px;">Kts Dikirim</th>
-                                                    <th style="width: 100px;">Departemen</th>
-                                                    <th style="width: 200px;">Proyek</th>
+                                                    <th style="width: 100px;">Kuantitas Dikirim</th>
+                                                    <th style="width: 150px;">Departemen</th>
+                                                    <th style="width: 150px;">Proyek</th>
                                                     <th style="width: 100px;">&nbsp;</th>
                                                 </tr>
                                             </thead>
@@ -515,14 +513,15 @@
                         text: result.message || 'Data berhasil disimpan!',
                     }).then(() => {
                         // Redirect setelah klik "OK"
-                        window.location.href = "{{ route('penjualan.penawaran.index') }}"; // Ganti dengan URL yang kamu inginkan
+                        window.location.href =
+                            "{{ route('penjualan.penawaran.index') }}"; // Ganti dengan URL yang kamu inginkan
                     });
                 } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Ada Kendala',
                         text: result.message || 'Silahkan hubungi developer',
-                    });
+                    })
                 }
             });
 
@@ -687,32 +686,40 @@
                         // Cek jika row dengan ID sudah ada
                         if ($(`#row-barang-${id}`).length === 0) {
                             let newRow = `
-<tr id="row-barang-${id}" class="barang-row" style="font-size: 12px;">
-    <td><input type="hidden" name="barang_id" value="${id}"><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="no_barang[]" value="${nobarang}" readonly></td>
-    <td><input style="width: 150px; height: 26px; font-size: 12px;" type="text" class="form-control deskripsi-barang-input" name="deskripsi_barang[]" value="${nama}"></td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_permintaan[]" value=""></td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="satuan[]" value="${satuan}"></td>
-    <td>
-    <input type="text" name="harga_satuan[]" class="form-control input-rupiah" style="height:26px; font-size:12px;" />
-</td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="diskon[]" value=""></td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="pajak[]" value=""></td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control input-rupiah" name="jumlah[]" value="" readonly></td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_dipesan[]" value=""></td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_dikirim[]" value=""></td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="departemen[]" value=""></td>
-    <td style="vertical-align: middle;">
-        <div style="height: 26px; font-size: 12px;">
-            <x-select2.search placeholder="Metode Kegiatan" name="proyek" label=""
-                                :options="[
-                                    '001' => 'Simpan Transaksi',
-                                    '002' => 'Salin Transaksi',
-                                ]" />
-        </div>
+<tr id="row-barang-${id}" class="barang-row" style="font-size: 12px; height: 26px;">
+    <td style="height: 26px;">
+        <input type="text" class="form-control" name="deskripsi_barang[]" value="${nama}" style="font-size:12px; height: 26px;">
     </td>
-    <td>
-        <button type="button" class="btn btn-primary btn-sm remove-row" style="height: 28px; font-size: 12px; padding: 2px 8px;">
-            <i class="fas fa-trash-alt"></i> Hapus
+    <td style="height: 26px;">
+        <input type="number" class="form-control" name="kts_permintaan[]" style="font-size:12px; height: 26px;">
+    </td>
+    <td style="height: 26px;">
+        <input type="text" class="form-control" name="satuan[]" value="${satuan}" style="font-size:12px; height: 26px;">
+    </td>
+    <td style="height: 26px;">
+        <input type="text" class="form-control input-rupiah" name="harga_satuan[]" style="font-size:12px; height: 26px;">
+    </td>
+    <td style="height: 26px;">
+        <input type="text" class="form-control" name="diskon_persen[]" style="font-size:12px; height: 26px;">
+    </td>
+    <td style="height: 26px;">
+        <input type="text" class="form-control" name="pajak[]" style="font-size:12px; height: 26px;">
+    </td>
+    <td style="height: 26px;">
+        <input type="text" class="form-control input-rupiah" name="jumlah[]" readonly style="font-size:12px; height: 26px;">
+    </td>
+    <td style="height: 26px;">
+        <input type="number" class="form-control" name="kuantitas_dikirim[]" style="font-size:12px; height: 26px;">
+    </td>
+    <td style="height: 26px;">
+        <input type="text" class="form-control" name="departemen[]" style="font-size:12px; height: 26px;">
+    </td>
+    <td style="height: 26px;">
+        <input type="text" class="form-control" name="proyek[]" style="font-size:12px; height: 26px;">
+    </td>
+    <td style="height: 26px;">
+        <button type="button" class="btn btn-danger btn-sm remove-row" style="font-size:12px; height: 26px;">
+            <i class="fas fa-trash-alt"></i>
         </button>
     </td>
 </tr>`;

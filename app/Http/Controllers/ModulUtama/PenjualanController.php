@@ -435,7 +435,20 @@ class PenjualanController extends Controller
         $this->menu = 'pesanan';
         return $this->dataUtama();
     }
-    public function createPesanan() {}
+    public function createPesanan() {
+        $data['nama_barang'] = DB::table('barang')->get();
+        $data['title'] = "Penawaran";
+        $data['no'] = PesananPenjualan::generateNo();
+        $data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
+            return [$item->id => $item->nama_pelanggan];
+        })->toArray();
+        $data['penjuals'] = Penjual::all()->mapWithKeys(function ($item) {
+            $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
+            return [$item->id => $nama];
+        })->toArray();
+
+        return view("modulutama.penjualan.pesanan.add", $data);
+    }
     public function storePesanan(Request $request) {}
     public function editPesanan($id) {}
     public function updatePesanan(Request $request, $id) {}
