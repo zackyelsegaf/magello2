@@ -393,49 +393,57 @@
                                     </div>
                                 </div>
                                 <div id="informasi" class="tab-pane fade">
-                                    {{-- <h5 class="card-title">Change Password</h5> --}}
-                                    <div class="row">
-                                        <div class="col-lg-10">
-                                            <div class="row">
-                                                {{-- Penawaran Untuk --}}
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="quotetoData"><strong>Penawaran
-                                                                Untuk</strong></label>
-                                                        <textarea class="form-control" name="quotetoData" id="quotetoData" rows="4"
-                                                            placeholder="Isi tujuan penawaran">{{ old('quotetoData') }}</textarea>
-                                                    </div>
-                                                </div>
+                                    <div class="d-flex gap-3" style="width: 100%;">
+                                        {{-- Kolom 1 --}}
+                                        <div class="flex-fill card p-3">
+                                            <div class="row d-flex content-between">
+                                                <h5>Kirim Ke</h5>
+                                            <textarea class="form-control" name="shipto1" rows="5"></textarea>
 
-                                                {{-- Penjual --}}
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <x-select2.search size="sm" placeholder="Penjual"
-                                                            name="penjual" label="Penjual" :options="$penjuals" />
-                                                    </div>
-                                                </div>
+                                            <label class="mt-3">Syarat Pembayaran</label>
+                                            <select name="syarat_pembayaran" class="form-control form-control-sm">
+                                                <option value="">-- Pilih --</option>
+                                                <option value="COD">Cash on Delivery</option>
+                                                <option value="Net30">Net 30</option>
+                                                <option value="Net60">Net 60</option>
+                                            </select>
 
-                                                {{-- Nilai Tukar --}}
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="nilai_tukar"><strong>Nilai Tukar</strong></label>
-                                                        <input type="number" class="form-control form-control-sm"
-                                                            id="nilai_tukar" name="nilai_tukar"
-                                                            value="{{ old('nilai_tukar', 0) }}">
-                                                    </div>
-                                                </div>
+                                            <label class="mt-3">Fiscal Rate</label>
+                                            <input type="text" name="fiscalrate"
+                                                class="form-control form-control-sm" value="0">
                                             </div>
+                                            
+                                        </div>
 
-                                            {{-- Alamat --}}
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="Informasi_address"><strong>Alamat</strong></label>
-                                                        <textarea readonly class="form-control" name="address" id="Informasi_address" rows="4"
-                                                            placeholder="Alamat tujuan">{{ old('address') }}</textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        {{-- Kolom 2 --}}
+                                        <div class="flex-fill card p-3">
+                                            
+                                        </div>
+
+                                        {{-- Kolom 3 --}}
+                                        <div class="flex-fill card p-3">
+                                            <label>Kirim Melalui</label>
+                                            <select name="pengiriman_via" class="form-control form-control-sm">
+                                                <option value="">-- Pilih --</option>
+                                                <option value="kurir">Kurir</option>
+                                                <option value="ekspedisi">Ekspedisi</option>
+                                                <option value="pickup">Pickup</option>
+                                            </select>
+
+                                            <label class="mt-3">FOB</label>
+                                            <select name="fob" class="form-control form-control-sm">
+                                                <option value="">-- Pilih --</option>
+                                                <option value="origin">FOB Origin</option>
+                                                <option value="destination">FOB Destination</option>
+                                            </select>
+
+                                            <label class="mt-3">Penjual</label>
+                                            <select name="salesperson_id" class="form-control form-control-sm">
+                                                <option value="">-- Pilih Penjual --</option>
+                                                @foreach ($penjuals as $id => $name)
+                                                    <option value="{{ $id }}">{{ $name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
