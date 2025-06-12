@@ -2,6 +2,7 @@
 
 use App\Models\PindahBarang;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\HomeController;
@@ -55,14 +56,11 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::group(['middleware'=>'auth'],function()
-{
-    Route::get('home',function()
-    {
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('home', function () {
         return view('home');
     });
-    Route::get('home',function()
-    {
+    Route::get('home', function () {
         return view('home');
     });
 });
@@ -139,13 +137,18 @@ Route::controller(RoomsController::class)->group(function () {
 // ----------------------- user management -------------------------//
 Route::controller(UserManagementController::class)->group(function () {
     Route::get('users/list/page', 'userList')->middleware('auth')->name('users/list/page');
-    Route::get('users/add/new', 'userAddNew')->middleware('auth')->name('users/add/new'); /** add new users */
-    Route::get('users/add/edit/{user_id}', 'userView'); /** add new users */
-    Route::post('users/update', 'userUpdate')->name('users/update'); /** update record */
+    Route::get('users/add/new', 'userAddNew')->middleware('auth')->name('users/add/new');
+    /** add new users */
+    Route::get('users/add/edit/{user_id}', 'userView');
+    /** add new users */
+    Route::post('users/update', 'userUpdate')->name('users/update');
+    /** update record */
     Route::get('users/edit/{id}', [UserManagementController::class, 'edit'])->name('usermanagement.edit');
     Route::post('users/update', [UserManagementController::class, 'update'])->name('usermanagement.update');
-    Route::get('users/delete/{id}', 'userDelete')->name('users/delete'); /** delere record */
-    Route::get('get-users-data', 'getUsersData')->name('get-users-data'); /** get all data users */
+    Route::get('users/delete/{id}', 'userDelete')->name('users/delete');
+    /** delere record */
+    Route::get('get-users-data', 'getUsersData')->name('get-users-data');
+    /** get all data users */
 });
 
 // ----------------------------- employee -----------------------------//
@@ -479,4 +482,5 @@ Route::prefix('pembelian')->controller(PembelianController::class)->group(functi
 });
 
 require 'penjualan.php';
-
+require 'laporan.php';
+require 'aktiva.php';
