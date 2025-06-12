@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 import Alpine from 'alpinejs'
+
+import './svelte/main';
+
 // import Hello from './components/Hello.svelte';
 
 // import { mount } from 'svelte';

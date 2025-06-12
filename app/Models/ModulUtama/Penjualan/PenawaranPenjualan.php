@@ -27,4 +27,5 @@ class PenawaranPenjualan extends BaseModel
     {
         return 'no_penawaran';
     }
+
 }

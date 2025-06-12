@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Barang;
 use App\Models\MataUang;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
@@ -35,6 +36,13 @@ class PenjualanController extends Controller
         $createRoute = route("penjualan.$this->menu.create");
 
         return view("modulutama.penjualan.$this->menu.data", compact('createRoute', 'routeFetch', 'nama_barang', 'tipe_barang', 'tipe_persediaan', 'kategori_barang'));
+    }
+
+    protected function Needed(){
+        $data['nama_barang'] = Barang::all();
+        $data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
+            return [$item->id => $item->nama_pelanggan];
+        })->toArray();
     }
 
     public function BaseCreate()
@@ -394,6 +402,7 @@ class PenjualanController extends Controller
                     'item_id'        => $itemId,
                     'kts_permintaan' => $request->kts_permintaan[$i] ?? 0,
                     'satuan'         => $request->satuan[$i] ?? '',
+                    // 'harga_satuan'   => (int) str_replace(['.', ','], '', $request->harga_satuan[$i] ?? 0),
                     'harga_satuan'   => $request->harga_satuan[$i] ?? 0,
                     'diskon'         => $request->diskon[$i] ?? 0,
                     'pajak'          => $request->pajak[$i] ?? 0,
@@ -405,7 +414,10 @@ class PenjualanController extends Controller
                 ];
             })->toArray();
 
+            // dd($items);
+
             $penawaran->items()->createMany($items);
+            
 
             DB::commit();
 
@@ -423,7 +435,24 @@ class PenjualanController extends Controller
             ], 500);
         }
     }
-    public function editPenawaran($id) {}
+    public function editPenawaran($id)
+    {
+        $data['dataPenawaran'] = PenawaranPenjualan::with('items')->findOrFail($id);
+
+        $data['nama_barang'] = Barang::all();
+        $data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
+            return [$item->id => $item->nama_pelanggan];
+        })->toArray();
+
+        $data['penjuals'] = Penjual::all()->mapWithKeys(function ($item) {
+            $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
+            return [$item->id => $nama];
+        })->toArray();
+
+        $data['title'] = "Penawaran";
+
+        return view('modulutama.penjualan.penawaran.edit', $data);
+    }
     public function updatePenawaran(Request $request, $id) {}
     public function destroyPenawaran($id) {}
 
@@ -435,9 +464,10 @@ class PenjualanController extends Controller
         $this->menu = 'pesanan';
         return $this->dataUtama();
     }
-    public function createPesanan() {
+    public function createPesanan()
+    {
         $data['nama_barang'] = DB::table('barang')->get();
-        $data['title'] = "Penawaran";
+        $data['title'] = "Pesanan";
         $data['no'] = PesananPenjualan::generateNo();
         $data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
             return [$item->id => $item->nama_pelanggan];

@@ -1,8 +1,8 @@
 <x-layout.main>
     <x-slot:title>
-        {{ $title }} Penjualan
+        Edit Penawaran Penjualan
     </x-slot>
-    <form id="form{{ $title }}">
+    <form id="formPenawaran">
         <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
 
             <div class="content container-fluid">
@@ -10,9 +10,9 @@
                     <div class="d-flex justify-content-between align-items-start w-100">
                         {{-- Kolom kiri --}}
                         <div class="d-flex flex-column">
-                            <h4 class="card-title mb-2">Data {{ $title }} Penjualan</h4>
+                            <h4 class="card-title mb-2">Edit Data Penawaran Penjualan</h4>
                             <x-select2.search placeholder="Nama Pelanggan..." name="pelanggan_id" label="Pelanggan"
-                                :options=$pelanggans id="selectPelanggan" />
+                                :options=$pelanggans selected="{{ $dataPenawaran->pelanggan_id }}" id="selectPelanggan" />
                         </div>
 
                         {{-- Kolom kanan --}}
@@ -25,7 +25,7 @@
                                 </div>
                                 &nbsp;
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="inPajak" value="inPajak"
+                                    <input type="checkbox" class="form-check-input" name="inPajak" value="1"
                                         id="inPajak">
                                     <label class="form-check-label" for="inPajak">Termasuk Pajak</label>
                                 </div>
@@ -43,8 +43,9 @@
                                 <div class="d-flex flex-column me-2" style="min-width: 0; flex: 1;">
                                     <label for="inputGmp1" class="form-label mb-1">No. {{ $title }}</label>
                                     <div class="input-group input-group-sm">
-                                        <input value="{{ $no }}" id="no_penawaran" name="no_penawaran"
-                                            type="text" class="form-control" placeholder="Ketik sesuatu..." readonly>
+                                        <input value="{{ $dataPenawaran->no_penawaran }}" id="no_penawaran"
+                                            name="no_penawaran" type="text" class="form-control"
+                                            placeholder="Ketik sesuatu..." readonly>
                                         <button class="btn btn-outline-secondary btn-sm" type="button"
                                             onclick="location.reload()">
                                             <i class="fas fa-sync-alt"></i>
@@ -218,20 +219,80 @@
                                             id="DataBarangAddSatuan">
                                             <thead class="thead-dark">
                                                 <tr>
+                                                    <th style="width: 100px;">No. Barang</th>
                                                     <th style="width: 250px;">Deskripsi Barang</th>
-                                                    <th style="width: 100px;">Kuantitas</th>
+                                                    <th style="width: 100px;">Kts</th>
                                                     <th style="width: 100px;">Satuan</th>
                                                     <th style="width: 150px;">Harga Satuan</th>
-                                                    <th style="width: 100px;">Diskon %</th>
+                                                    <th style="width: 100px;">Disk %</th>
                                                     <th style="width: 100px;">Pajak</th>
                                                     <th style="width: 150px;">Jumlah</th>
-                                                    <th style="width: 100px;">Kuantitas Dikirim</th>
-                                                    <th style="width: 150px;">Departemen</th>
-                                                    <th style="width: 150px;">Proyek</th>
+                                                    <th style="width: 100px;">Kts Dipesan</th>
+                                                    <th style="width: 100px;">Kts Dikirim</th>
+                                                    <th style="width: 100px;">Departemen</th>
+                                                    <th style="width: 200px;">Proyek</th>
                                                     <th style="width: 100px;">&nbsp;</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="barangTableBody">
+                                                {{-- @php
+                                                    dd($dataPenawaran->items)
+                                                @endphp --}}
+                                                @foreach ( $dataPenawaran->items as $key => $value)
+                                                <tr id="row-barang-{{ $key }}" class="barang-row"
+                                                    style="font-size: 12px;">
+                                                    <td><input type="hidden" name="barang_id" value="${id}"><input
+                                                            style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control" name="no_barang[]"
+                                                            value="{{ $value->barang->no_barang ?? ''}}" readonly></td>
+                                                    <td><input style="width: 150px; height: 26px; font-size: 12px;"
+                                                            type="text" class="form-control deskripsi-barang-input"
+                                                            name="deskripsi_barang[]" value="{{ $value->barang->nama_barang ?? ''}}"></td>
+                                                    <td><input style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control" name="kts_permintaan[]"
+                                                            value="{{ $value->kts_permintaan ?? ''}}"></td>
+                                                    <td><input style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control" name="satuan[]" value="{{ $value->barang->satuan ?? ''}}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="harga_satuan[]" value="{{ $value->harga_satuan ?? 0 }}"
+                                                            class="form-control input-rupiah"
+                                                            style="height:26px; font-size:12px;" />
+                                                    </td>
+                                                    <td><input style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control" name="diskon[]" value="{{ $value->diskon ?? 0 }}"></td>
+                                                    <td><input style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control" name="pajak[]" value="{{ $value->pajak ?? 0 }}"></td>
+                                                    <td><input style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control input-rupiah" name="jumlah[]"
+                                                            value="{{ $value->jumlah ?? 0 }}" readonly></td>
+                                                    <td><input style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control" name="kts_dipesan[]" value="{{ $value->kts_dipesan ?? 0 }}">
+                                                    </td>
+                                                    <td><input style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control" name="kts_dikirim[]" value="{{ $value->kts_dikirim ?? 0 }}">
+                                                    </td>
+                                                    <td><input style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control" name="departemen[]" value="{{ $value->harga_satuan ?? 0 }}">
+                                                    </td>
+                                                    <td style="vertical-align: middle;">
+                                                        <div style="height: 26px; font-size: 12px;">
+                                                            <x-select2.search placeholder="Metode Kegiatan"
+                                                                name="proyek" label="" :options="[
+                                                                    '001' => 'Simpan Transaksi',
+                                                                    '002' => 'Salin Transaksi',
+                                                                ]" />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button"
+                                                            class="btn btn-primary btn-sm remove-row"
+                                                            style="height: 28px; font-size: 12px; padding: 2px 8px;">
+                                                            <i class="fas fa-trash-alt"></i> Hapus
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
 
                                                 {{-- @php
                                                 $noBarangList = old('no_barang', ['']);
@@ -393,57 +454,49 @@
                                     </div>
                                 </div>
                                 <div id="informasi" class="tab-pane fade">
-                                    <div class="d-flex gap-3" style="width: 100%;">
-                                        {{-- Kolom 1 --}}
-                                        <div class="flex-fill card p-3">
-                                            <div class="row d-flex content-between">
-                                                <h5>Kirim Ke</h5>
-                                            <textarea class="form-control" name="shipto1" rows="5"></textarea>
+                                    {{-- <h5 class="card-title">Change Password</h5> --}}
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <div class="row">
+                                                {{-- Penawaran Untuk --}}
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="quotetoData"><strong>Penawaran
+                                                                Untuk</strong></label>
+                                                        <textarea class="form-control" name="quotetoData" id="quotetoData" rows="4"
+                                                            placeholder="Isi tujuan penawaran">{{ old('quotetoData') }}</textarea>
+                                                    </div>
+                                                </div>
 
-                                            <label class="mt-3">Syarat Pembayaran</label>
-                                            <select name="syarat_pembayaran" class="form-control form-control-sm">
-                                                <option value="">-- Pilih --</option>
-                                                <option value="COD">Cash on Delivery</option>
-                                                <option value="Net30">Net 30</option>
-                                                <option value="Net60">Net 60</option>
-                                            </select>
+                                                {{-- Penjual --}}
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <x-select2.search size="sm" placeholder="Penjual"
+                                                            name="penjual" label="Penjual" :options="$penjuals" />
+                                                    </div>
+                                                </div>
 
-                                            <label class="mt-3">Fiscal Rate</label>
-                                            <input type="text" name="fiscalrate"
-                                                class="form-control form-control-sm" value="0">
+                                                {{-- Nilai Tukar --}}
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="nilai_tukar"><strong>Nilai Tukar</strong></label>
+                                                        <input type="number" class="form-control form-control-sm"
+                                                            id="nilai_tukar" name="nilai_tukar"
+                                                            value="{{ old('nilai_tukar', 0) }}">
+                                                    </div>
+                                                </div>
                                             </div>
-                                            
-                                        </div>
 
-                                        {{-- Kolom 2 --}}
-                                        <div class="flex-fill card p-3">
-                                            
-                                        </div>
-
-                                        {{-- Kolom 3 --}}
-                                        <div class="flex-fill card p-3">
-                                            <label>Kirim Melalui</label>
-                                            <select name="pengiriman_via" class="form-control form-control-sm">
-                                                <option value="">-- Pilih --</option>
-                                                <option value="kurir">Kurir</option>
-                                                <option value="ekspedisi">Ekspedisi</option>
-                                                <option value="pickup">Pickup</option>
-                                            </select>
-
-                                            <label class="mt-3">FOB</label>
-                                            <select name="fob" class="form-control form-control-sm">
-                                                <option value="">-- Pilih --</option>
-                                                <option value="origin">FOB Origin</option>
-                                                <option value="destination">FOB Destination</option>
-                                            </select>
-
-                                            <label class="mt-3">Penjual</label>
-                                            <select name="salesperson_id" class="form-control form-control-sm">
-                                                <option value="">-- Pilih Penjual --</option>
-                                                @foreach ($penjuals as $id => $name)
-                                                    <option value="{{ $id }}">{{ $name }}</option>
-                                                @endforeach
-                                            </select>
+                                            {{-- Alamat --}}
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="Informasi_address"><strong>Alamat</strong></label>
+                                                        <textarea readonly class="form-control" name="address" id="Informasi_address" rows="4"
+                                                            placeholder="Alamat tujuan">{{ old('address') }}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -522,14 +575,14 @@
                     }).then(() => {
                         // Redirect setelah klik "OK"
                         window.location.href =
-                            "{{ route('penjualan.penawaran.index') }}"; // Ganti dengan URL yang kamu inginkan
+                        "{{ route('penjualan.penawaran.index') }}"; // Ganti dengan URL yang kamu inginkan
                     });
                 } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Ada Kendala',
                         text: result.message || 'Silahkan hubungi developer',
-                    })
+                    });
                 }
             });
 
@@ -694,40 +747,32 @@
                         // Cek jika row dengan ID sudah ada
                         if ($(`#row-barang-${id}`).length === 0) {
                             let newRow = `
-<tr id="row-barang-${id}" class="barang-row" style="font-size: 12px; height: 26px;">
-    <td style="height: 26px;">
-        <input type="text" class="form-control" name="deskripsi_barang[]" value="${nama}" style="font-size:12px; height: 26px;">
+<tr id="row-barang-${id}" class="barang-row" style="font-size: 12px;">
+    <td><input type="hidden" name="barang_id" value="${id}"><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="no_barang[]" value="${nobarang}" readonly></td>
+    <td><input style="width: 150px; height: 26px; font-size: 12px;" type="text" class="form-control deskripsi-barang-input" name="deskripsi_barang[]" value="${nama}"></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_permintaan[]" value=""></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="satuan[]" value="${satuan}"></td>
+    <td>
+    <input type="text" name="harga_satuan[]" class="form-control input-rupiah" style="height:26px; font-size:12px;" />
+</td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="diskon[]" value=""></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="pajak[]" value=""></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control input-rupiah" name="jumlah[]" value="" readonly></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_dipesan[]" value=""></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_dikirim[]" value=""></td>
+    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="departemen[]" value=""></td>
+    <td style="vertical-align: middle;">
+        <div style="height: 26px; font-size: 12px;">
+            <x-select2.search placeholder="Metode Kegiatan" name="proyek" label=""
+                                :options="[
+                                    '001' => 'Simpan Transaksi',
+                                    '002' => 'Salin Transaksi',
+                                ]" />
+        </div>
     </td>
-    <td style="height: 26px;">
-        <input type="number" class="form-control" name="kts_permintaan[]" style="font-size:12px; height: 26px;">
-    </td>
-    <td style="height: 26px;">
-        <input type="text" class="form-control" name="satuan[]" value="${satuan}" style="font-size:12px; height: 26px;">
-    </td>
-    <td style="height: 26px;">
-        <input type="text" class="form-control input-rupiah" name="harga_satuan[]" style="font-size:12px; height: 26px;">
-    </td>
-    <td style="height: 26px;">
-        <input type="text" class="form-control" name="diskon[]" style="font-size:12px; height: 26px;">
-    </td>
-    <td style="height: 26px;">
-        <input type="text" class="form-control" name="pajak[]" style="font-size:12px; height: 26px;">
-    </td>
-    <td style="height: 26px;">
-        <input type="text" class="form-control input-rupiah" name="jumlah[]" readonly style="font-size:12px; height: 26px;">
-    </td>
-    <td style="height: 26px;">
-        <input type="number" class="form-control" name="kuantitas_dikirim[]" style="font-size:12px; height: 26px;">
-    </td>
-    <td style="height: 26px;">
-        <input type="text" class="form-control" name="departemen[]" style="font-size:12px; height: 26px;">
-    </td>
-    <td style="height: 26px;">
-        <input type="text" class="form-control" name="proyek[]" style="font-size:12px; height: 26px;">
-    </td>
-    <td style="height: 26px;">
-        <button type="button" class="btn btn-danger btn-sm remove-row" style="font-size:12px; height: 26px;">
-            <i class="fas fa-trash-alt"></i>
+    <td>
+        <button type="button" class="btn btn-primary btn-sm remove-row" style="height: 28px; font-size: 12px; padding: 2px 8px;">
+            <i class="fas fa-trash-alt"></i> Hapus
         </button>
     </td>
 </tr>`;

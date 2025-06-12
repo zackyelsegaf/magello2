@@ -19,4 +19,8 @@ class PenawaranPenjualanItem extends Model
     {
         return $this->belongsTo(Barang::class, 'item_id');
     }
+    public function setHargaSatuanAttribute($value)
+    {
+        $this->attributes['harga_satuan'] = (int) str_replace(['.', ','], '', $value);
+    }
 }
