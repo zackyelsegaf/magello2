@@ -9,8 +9,8 @@
 </script>
 
 <!-- Gunakan komponen Button dari shadcn-svelte -->
-<Button on:click={greet}>
-    <div >Click Me</div>
+<Button>
+    <div on:click={greet}>Click Me</div>
 </Button>
 
 <h1>Hello {name}!</h1>
