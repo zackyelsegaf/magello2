@@ -15,7 +15,23 @@
                                 :options=$pelanggans selected="{{ $dataPenawaran->pelanggan_id }}"
                                 id="selectPelanggan" />
 
-                            <x-combo-auto-fill id="pelanggan" :data="$pelanggans" name="pelanggan_id" />
+                            <div class="form-group">
+                                <label for="alamat-input">Alamat</label>
+                                <input type="text" id="alamat-input" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="telp-input">Telepon</label>
+                                <input type="text" id="telp-input" class="form-control">
+                            </div>
+
+                            <!-- Autocomplete dari data lokal -->
+                            <x-combo-auto-fill id="pelanggan" placeholder="Pilih pelanggan..." :data="$pelanggans"
+                                name="pelanggan_id" :autofill="[
+                                    'alamat' => 'alamat-input',
+                                    'telepon' => 'telp-input',
+                                ]" />
+                                <pre>{{ json_encode($pelanggans, JSON_PRETTY_PRINT) }}</pre>
                         </div>
 
                         {{-- Kolom kanan --}}
