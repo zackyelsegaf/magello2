@@ -3,7 +3,10 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\ModulUtama\Aktiva\AkunAktiva;
 use Illuminate\Database\Seeder;
+use Database\Seeders\MetodePenyusutanSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,7 +21,14 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
-        
-        $this->call(RolePermissionSeeder::class);
+
+        // Panggil seeder lain
+        $this->call([
+            RolePermissionSeeder::class,
+            MetodePenyusutanSeeder::class, // Tambahkan ini
+            AkunAktivaSeeder::class, // Tambahkan ini
+            AkunAkumulasiPenyusutanSeeder::class, // Tambahkan ini
+            AkunBiayaPenyusutanSeeder::class, // Tambahkan ini
+        ]);
     }
 }

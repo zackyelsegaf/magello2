@@ -150,12 +150,9 @@
                         <li class="submenu"> <a href="#"></i> <span> Aktiva Tetap </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="submenu_class" style="display: none;">
-                                <li><a class="{{ set_active(['satuan/list/page']) }}"
-                                        href="{{ route('satuan/list/page') }}">Aktiva Tetap</a></li>
-                                <li><a class="{{ set_active(['gudang/list/page']) }}"
-                                        href="{{ route('gudang/list/page') }}">Tipe Aktiva Tetap Pajak</a></li>
-                                <li><a class="{{ set_active(['kategoribarang/list/page']) }}"
-                                        href="{{ route('kategoribarang/list/page') }}">Tipe Aktiva Tetap</a></li>
+                                <li><a href="{{ route('satuan/list/page') }}">Aktiva Tetap</a></li>
+                                <li><a href="{{ route('gudang/list/page') }}">Tipe Aktiva Tetap Pajak</a></li>
+                                <li><a href="{{ route('kategoribarang/list/page') }}">Tipe Aktiva Tetap</a></li>
                             </ul>
                         </li>
                         {{-- <li><a class="{{ set_active(['pegawai/list/page']) }}" href="{{ route('pegawai/list/page') }}">Pegawai</a></li> --}}
