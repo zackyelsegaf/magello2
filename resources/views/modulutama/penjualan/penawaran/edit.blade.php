@@ -17,7 +17,7 @@
 
                             <div class="form-group">
                                 <label for="alamat-input">Alamat</label>
-                                <input type="text" id="alamat-input" class="form-control">
+                                <input type="text" id="alamat-input" name="alamatinput" class="form-control">
                             </div>
 
                             <div class="form-group">
