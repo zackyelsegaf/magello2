@@ -38,7 +38,8 @@ class PenjualanController extends Controller
         return view("modulutama.penjualan.$this->menu.data", compact('createRoute', 'routeFetch', 'nama_barang', 'tipe_barang', 'tipe_persediaan', 'kategori_barang'));
     }
 
-    protected function Needed(){
+    protected function Needed()
+    {
         $data['nama_barang'] = Barang::all();
         $data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
             return [$item->id => $item->nama_pelanggan];
@@ -330,9 +331,13 @@ class PenjualanController extends Controller
         $data['nama_barang'] = DB::table('barang')->get();
         $data['title'] = "Penawaran";
         $data['no'] = PenawaranPenjualan::generateNo();
-        $data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
-            return [$item->id => $item->nama_pelanggan];
-        })->toArray();
+        // $data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
+        //     return [$item->id => $item->nama_pelanggan];
+        // })->toArray();
+        $data['pelanggans'] = Pelanggan::all()->map(fn($item) => [
+            'id' => $item->id,
+            'name' => $item->nama_pelanggan
+        ])->toArray();
         $data['penjuals'] = Penjual::all()->mapWithKeys(function ($item) {
             $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
             return [$item->id => $nama];
@@ -417,7 +422,7 @@ class PenjualanController extends Controller
             // dd($items);
 
             $penawaran->items()->createMany($items);
-            
+
 
             DB::commit();
 

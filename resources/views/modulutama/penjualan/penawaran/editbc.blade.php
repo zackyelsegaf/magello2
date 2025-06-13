@@ -1,6 +1,6 @@
 <x-layout.main>
     <x-slot:title>
-        Penawaran Penjualan
+        Edit Penawaran Penjualan
     </x-slot>
     <form id="formPenawaran">
         <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
@@ -10,13 +10,12 @@
                     <div class="d-flex justify-content-between align-items-start w-100">
                         {{-- Kolom kiri --}}
                         <div class="d-flex flex-column">
-                            <h4 class="card-title mb-2">Data Penawaran Penjualan</h4>
+                            <h4 class="card-title mb-2">Edit Data Penawaran Penjualan</h4>
                             <x-select2.search placeholder="Nama Pelanggan..." name="pelanggan_id" label="Pelanggan"
-                                :options=$pelanggans id="selectPelanggan" />
+                                :options=$pelanggans selected="{{ $dataPenawaran->pelanggan_id }}" id="selectPelanggan" />
                         </div>
 
                         {{-- Kolom kanan --}}
-                        <div id="svelte-app"></div>
                         <div class="d-flex flex-column">
                             <div class="d-flex justify-content-end">
                                 <div class="form-check me-3">
@@ -26,7 +25,7 @@
                                 </div>
                                 &nbsp;
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" name="inPajak" value="inPajak"
+                                    <input type="checkbox" class="form-check-input" name="inPajak" value="1"
                                         id="inPajak">
                                     <label class="form-check-label" for="inPajak">Termasuk Pajak</label>
                                 </div>
@@ -44,8 +43,9 @@
                                 <div class="d-flex flex-column me-2" style="min-width: 0; flex: 1;">
                                     <label for="inputGmp1" class="form-label mb-1">No. {{ $title }}</label>
                                     <div class="input-group input-group-sm">
-                                        <input value="{{ $no }}" id="no_penawaran" name="no_penawaran"
-                                            type="text" class="form-control" placeholder="Ketik sesuatu..." readonly>
+                                        <input value="{{ $dataPenawaran->no_penawaran }}" id="no_penawaran"
+                                            name="no_penawaran" type="text" class="form-control"
+                                            placeholder="Ketik sesuatu..." readonly>
                                         <button class="btn btn-outline-secondary btn-sm" type="button"
                                             onclick="location.reload()">
                                             <i class="fas fa-sync-alt"></i>
@@ -235,76 +235,63 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="barangTableBody">
-                                                @foreach ($dataPenawaran->items as $key => $value)
-                                                    <tr id="row-barang-{{ $key }}" class="barang-row"
-                                                        style="font-size: 12px;">
-                                                        <td><input type="hidden" name="barang_id"
-                                                                value="${id}"><input
-                                                                style="height: 26px; font-size: 12px;" type="text"
-                                                                class="form-control" name="no_barang[]"
-                                                                value="{{ $value->barang->no_barang ?? '' }}"
-                                                                readonly></td>
-                                                        <td><input style="width: 150px; height: 26px; font-size: 12px;"
-                                                                type="text"
-                                                                class="form-control deskripsi-barang-input"
-                                                                name="deskripsi_barang[]"
-                                                                value="{{ $value->barang->nama_barang ?? '' }}"></td>
-                                                        <td><input style="height: 26px; font-size: 12px;"
-                                                                type="text" class="form-control"
-                                                                name="kts_permintaan[]"
-                                                                value="{{ $value->kts_permintaan ?? 0 }}"></td>
-                                                        <td><input style="height: 26px; font-size: 12px;"
-                                                                type="text" class="form-control" name="satuan[]"
-                                                                value="{{ $value->barang->satuan ?? '' }}">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" name="harga_satuan[]"
-                                                                class="form-control input-rupiah"
-                                                                style="height:26px; font-size:12px;"
-                                                                value="{{ $value->harga_satuan ?? 0 }}" />
-                                                        </td>
-                                                        <td><input style="height: 26px; font-size: 12px;"
-                                                                type="text" class="form-control" name="diskon[]"
-                                                                value="{{ $value->diskon ?? 0 }}"></td>
-                                                        <td><input style="height: 26px; font-size: 12px;"
-                                                                type="text" class="form-control" name="pajak[]"
-                                                                value="{{ $value->pajak ?? 0 }}"></td>
-                                                        <td><input style="height: 26px; font-size: 12px;"
-                                                                type="text" class="form-control input-rupiah"
-                                                                name="jumlah[]" value="{{ $value->jumlah ?? 0 }}"
-                                                                readonly></td>
-                                                        <td><input style="height: 26px; font-size: 12px;"
-                                                                type="text" class="form-control"
-                                                                name="kts_dipesan[]"
-                                                                value="{{ $value->kts_dipesan ?? 0 }}">
-                                                        </td>
-                                                        <td><input style="height: 26px; font-size: 12px;"
-                                                                type="text" class="form-control"
-                                                                name="kts_dikirim[]"
-                                                                value="{{ $value->kts_dikirim ?? 0 }}">
-                                                        </td>
-                                                        <td><input style="height: 26px; font-size: 12px;"
-                                                                type="text" class="form-control"
-                                                                name="departemen[]"
-                                                                value="{{ $value->harga_satuan ?? 0 }}">
-                                                        </td>
-                                                        <td style="vertical-align: middle;">
-                                                            <div style="height: 26px; font-size: 12px;">
-                                                                <x-select2.search placeholder="Metode Kegiatan"
-                                                                    name="proyek" label="" :options="[
-                                                                        '001' => 'Simpan Transaksi',
-                                                                        '002' => 'Salin Transaksi',
-                                                                    ]" />
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <button type="button"
-                                                                class="btn btn-primary btn-sm remove-row"
-                                                                style="height: 28px; font-size: 12px; padding: 2px 8px;">
-                                                                <i class="fas fa-trash-alt"></i> Hapus
-                                                            </button>
-                                                        </td>
-                                                    </tr>
+                                                {{-- @php
+                                                    dd($dataPenawaran->items)
+                                                @endphp --}}
+                                                @foreach ( $dataPenawaran->items as $key => $value)
+                                                <tr id="row-barang-{{ $key }}" class="barang-row"
+                                                    style="font-size: 12px;">
+                                                    <td><input type="hidden" name="barang_id" value="${id}"><input
+                                                            style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control" name="no_barang[]"
+                                                            value="{{ $value->barang->no_barang ?? ''}}" readonly></td>
+                                                    <td><input style="width: 150px; height: 26px; font-size: 12px;"
+                                                            type="text" class="form-control deskripsi-barang-input"
+                                                            name="deskripsi_barang[]" value="{{ $value->barang->nama_barang ?? ''}}"></td>
+                                                    <td><input style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control" name="kts_permintaan[]"
+                                                            value="{{ $value->kts_permintaan ?? ''}}"></td>
+                                                    <td><input style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control" name="satuan[]" value="{{ $value->barang->satuan ?? ''}}">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="harga_satuan[]" value="{{ $value->harga_satuan ?? 0 }}"
+                                                            class="form-control input-rupiah"
+                                                            style="height:26px; font-size:12px;" />
+                                                    </td>
+                                                    <td><input style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control" name="diskon[]" value="{{ $value->diskon ?? 0 }}"></td>
+                                                    <td><input style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control" name="pajak[]" value="{{ $value->pajak ?? 0 }}"></td>
+                                                    <td><input style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control input-rupiah" name="jumlah[]"
+                                                            value="{{ $value->jumlah ?? 0 }}" readonly></td>
+                                                    <td><input style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control" name="kts_dipesan[]" value="{{ $value->kts_dipesan ?? 0 }}">
+                                                    </td>
+                                                    <td><input style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control" name="kts_dikirim[]" value="{{ $value->kts_dikirim ?? 0 }}">
+                                                    </td>
+                                                    <td><input style="height: 26px; font-size: 12px;" type="text"
+                                                            class="form-control" name="departemen[]" value="{{ $value->harga_satuan ?? 0 }}">
+                                                    </td>
+                                                    <td style="vertical-align: middle;">
+                                                        <div style="height: 26px; font-size: 12px;">
+                                                            <x-select2.search placeholder="Metode Kegiatan"
+                                                                name="proyek" label="" :options="[
+                                                                    '001' => 'Simpan Transaksi',
+                                                                    '002' => 'Salin Transaksi',
+                                                                ]" />
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button"
+                                                            class="btn btn-primary btn-sm remove-row"
+                                                            style="height: 28px; font-size: 12px; padding: 2px 8px;">
+                                                            <i class="fas fa-trash-alt"></i> Hapus
+                                                        </button>
+                                                    </td>
+                                                </tr>
                                                 @endforeach
 
                                                 {{-- @php
@@ -587,7 +574,8 @@
                         text: result.message || 'Data berhasil disimpan!',
                     }).then(() => {
                         // Redirect setelah klik "OK"
-                        window.location.href = "{{ route('penjualan.penawaran.index') }}"; // Ganti dengan URL yang kamu inginkan
+                        window.location.href =
+                        "{{ route('penjualan.penawaran.index') }}"; // Ganti dengan URL yang kamu inginkan
                     });
                 } else {
                     Swal.fire({
@@ -760,7 +748,7 @@
                         if ($(`#row-barang-${id}`).length === 0) {
                             let newRow = `
 <tr id="row-barang-${id}" class="barang-row" style="font-size: 12px;">
-    <td><input type="hidden" name="barang_id[]" value="${id}"><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="no_barang[]" value="${nobarang}" readonly></td>
+    <td><input type="hidden" name="barang_id" value="${id}"><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="no_barang[]" value="${nobarang}" readonly></td>
     <td><input style="width: 150px; height: 26px; font-size: 12px;" type="text" class="form-control deskripsi-barang-input" name="deskripsi_barang[]" value="${nama}"></td>
     <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_permintaan[]" value=""></td>
     <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="satuan[]" value="${satuan}"></td>

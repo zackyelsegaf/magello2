@@ -2,8 +2,11 @@
 
 namespace App\Models\ModulUtama\Penjualan;
 
-use App\Models\Base\BaseModel;
 use App\Models\User;
+use App\Models\Base\BaseModel;
+use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Models\ModulUtama\Penjualan\PenawaranPenjualanItem;
 
 class PenawaranPenjualan extends BaseModel
 {
@@ -28,4 +31,10 @@ class PenawaranPenjualan extends BaseModel
         return 'no_penawaran';
     }
 
+    protected function tglPenawaran(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Carbon::parse($value)->format('m/d/Y'),
+        );
+    }
 }
