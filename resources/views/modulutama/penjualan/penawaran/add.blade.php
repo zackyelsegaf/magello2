@@ -11,8 +11,11 @@
                         {{-- Kolom kiri --}}
                         <div class="d-flex flex-column">
                             <h4 class="card-title mb-2">Data Penawaran Penjualan</h4>
-                            <x-select2.search placeholder="Nama Pelanggan..." name="pelanggan_id" label="Pelanggan"
-                                :options=$pelanggans id="selectPelanggan" />
+                            <x-combo-auto-fill size="sm" id="pelanggan" placeholder="Pilih pelanggan..." :data="$pelanggans"
+                                name="pelanggan_id" :autofill="[
+                                    'alamat' => 'alamat-input',
+                                    'telepon' => 'telp-input',
+                                ]" />
                         </div>
 
                         {{-- Kolom kanan --}}
@@ -235,77 +238,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="barangTableBody">
-                                                @foreach ($dataPenawaran->items as $key => $value)
-                                                    <tr id="row-barang-{{ $key }}" class="barang-row"
-                                                        style="font-size: 12px;">
-                                                        <td><input type="hidden" name="barang_id"
-                                                                value="${id}"><input
-                                                                style="height: 26px; font-size: 12px;" type="text"
-                                                                class="form-control" name="no_barang[]"
-                                                                value="{{ $value->barang->no_barang ?? '' }}"
-                                                                readonly></td>
-                                                        <td><input style="width: 150px; height: 26px; font-size: 12px;"
-                                                                type="text"
-                                                                class="form-control deskripsi-barang-input"
-                                                                name="deskripsi_barang[]"
-                                                                value="{{ $value->barang->nama_barang ?? '' }}"></td>
-                                                        <td><input style="height: 26px; font-size: 12px;"
-                                                                type="text" class="form-control"
-                                                                name="kts_permintaan[]"
-                                                                value="{{ $value->kts_permintaan ?? 0 }}"></td>
-                                                        <td><input style="height: 26px; font-size: 12px;"
-                                                                type="text" class="form-control" name="satuan[]"
-                                                                value="{{ $value->barang->satuan ?? '' }}">
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" name="harga_satuan[]"
-                                                                class="form-control input-rupiah"
-                                                                style="height:26px; font-size:12px;"
-                                                                value="{{ $value->harga_satuan ?? 0 }}" />
-                                                        </td>
-                                                        <td><input style="height: 26px; font-size: 12px;"
-                                                                type="text" class="form-control" name="diskon[]"
-                                                                value="{{ $value->diskon ?? 0 }}"></td>
-                                                        <td><input style="height: 26px; font-size: 12px;"
-                                                                type="text" class="form-control" name="pajak[]"
-                                                                value="{{ $value->pajak ?? 0 }}"></td>
-                                                        <td><input style="height: 26px; font-size: 12px;"
-                                                                type="text" class="form-control input-rupiah"
-                                                                name="jumlah[]" value="{{ $value->jumlah ?? 0 }}"
-                                                                readonly></td>
-                                                        <td><input style="height: 26px; font-size: 12px;"
-                                                                type="text" class="form-control"
-                                                                name="kts_dipesan[]"
-                                                                value="{{ $value->kts_dipesan ?? 0 }}">
-                                                        </td>
-                                                        <td><input style="height: 26px; font-size: 12px;"
-                                                                type="text" class="form-control"
-                                                                name="kts_dikirim[]"
-                                                                value="{{ $value->kts_dikirim ?? 0 }}">
-                                                        </td>
-                                                        <td><input style="height: 26px; font-size: 12px;"
-                                                                type="text" class="form-control"
-                                                                name="departemen[]"
-                                                                value="{{ $value->harga_satuan ?? 0 }}">
-                                                        </td>
-                                                        <td style="vertical-align: middle;">
-                                                            <div style="height: 26px; font-size: 12px;">
-                                                                <x-select2.search placeholder="Metode Kegiatan"
-                                                                    name="proyek" label="" :options="[
-                                                                        '001' => 'Simpan Transaksi',
-                                                                        '002' => 'Salin Transaksi',
-                                                                    ]" />
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <button type="button"
-                                                                class="btn btn-primary btn-sm remove-row"
-                                                                style="height: 28px; font-size: 12px; padding: 2px 8px;">
-                                                                <i class="fas fa-trash-alt"></i> Hapus
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
+
 
                                                 {{-- @php
                                                 $noBarangList = old('no_barang', ['']);
@@ -505,7 +438,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="Informasi_address"><strong>Alamat</strong></label>
-                                                        <textarea readonly class="form-control" name="address" id="Informasi_address" rows="4"
+                                                        <textarea readonly class="form-control" name="address" id="alamat-input" rows="4"
                                                             placeholder="Alamat tujuan">{{ old('address') }}</textarea>
                                                     </div>
                                                 </div>
@@ -587,7 +520,8 @@
                         text: result.message || 'Data berhasil disimpan!',
                     }).then(() => {
                         // Redirect setelah klik "OK"
-                        window.location.href = "{{ route('penjualan.penawaran.index') }}"; // Ganti dengan URL yang kamu inginkan
+                        window.location.href =
+                        "{{ route('penjualan.penawaran.index') }}"; // Ganti dengan URL yang kamu inginkan
                     });
                 } else {
                     Swal.fire({

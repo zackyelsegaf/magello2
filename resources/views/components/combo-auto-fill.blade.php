@@ -4,6 +4,7 @@
     'url' => null,
     'data' => [],
     'name' => 'selected_id',
+    'size' => '',
     'autofill' => [] // contoh: ['alamat' => 'alamat-input', 'telepon' => 'telp-input']
 ])
 
@@ -11,7 +12,7 @@
     <div style="position: relative;">
         <input type="text"
                id="{{ $id }}"
-               class="form-control"
+               class="form-control {{ $size ? 'form-control-' . $size : '' }}"
                placeholder="{{ $placeholder }}"
                autocomplete="off"
                data-url="{{ $url }}"
