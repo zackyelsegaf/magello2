@@ -7,6 +7,7 @@ use App\Models\Base\BaseModel;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Models\ModulUtama\Penjualan\PenawaranPenjualanItem;
+use App\Models\Pelanggan;
 
 class PenawaranPenjualan extends BaseModel
 {
@@ -15,7 +16,10 @@ class PenawaranPenjualan extends BaseModel
     {
         return $this->hasMany(PenawaranPenjualanItem::class);
     }
-
+    public function pelanggan()
+    {
+        return $this->belongsTo(Pelanggan::class);
+    }
     public function user()
     {
         return $this->belongsTo(User::class);

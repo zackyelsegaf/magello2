@@ -12,7 +12,7 @@
                         <div class="d-flex flex-column">
                             <h4 class="card-title mb-2">Edit Data Penawaran Penjualan</h4>
                             <x-select2.search placeholder="Nama Pelanggan..." name="pelanggan_id" label="Pelanggan"
-                                :options=$pelanggans selected="{{ $dataPenawaran->pelanggan_id }}"
+                                :options=$pelanggans
                                 id="selectPelanggan" />
 
                             <div class="form-group">
@@ -30,7 +30,7 @@
                                 name="pelanggan_id" :autofill="[
                                     'alamat' => 'alamat-input',
                                     'telepon' => 'telp-input',
-                                ]" />
+                                ]" :select="$selectedPelanggan"/>
                                 <pre>{{ json_encode($pelanggans, JSON_PRETTY_PRINT) }}</pre>
                         </div>
 

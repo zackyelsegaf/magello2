@@ -351,19 +351,11 @@ class PenjualanController extends Controller
     {
         $auth = Auth::id();
 
-        // return response()->json([
-        //         'success' => false,
-        //         'message' => 'Gagal menyimpan data: '.$auth,
-        //     ], 500);
-
         DB::beginTransaction();
-
-
-        // dd($request->all());
 
         try {
             $validated = Validator::make($request->all(), [
-                'no_penawaran'        => 'required|string|unique:penawaran_penjualans,no_penawaran',
+                'no_penawaran'        => 'required|string',
                 'tgl_penawaran'       => 'nullable|date',
                 'pelanggan_id'        => 'required|exists:pelanggan,id',
                 'no_pelanggan'        => 'nullable|string',
@@ -382,34 +374,39 @@ class PenjualanController extends Controller
                 'urgensi'             => 'nullable|in:rendah,sedang,tinggi',
             ])->validate();
 
-            $penawaran = PenawaranPenjualan::create([
-                'no_penawaran'        => $validated['no_penawaran'],
-                'tgl_penawaran'       => $validated['tgl_penawaran'] ?? now(),
-                'pelanggan_id'        => $validated['pelanggan_id'] ?? null,
-                'no_pelanggan'        => $validated['no_pelanggan'] ?? null,
-                'nama_pelanggan'      => $validated['nama_pelanggan'] ?? null,
-                'status'              => $validated['status'] ?? 'draft',
-                'nilai_diskon'        => $validated['nilai_diskon'] ?? 0,
-                'total_pajak'         => $validated['total_pajak'] ?? 0,
-                'nilai_pajak_1'       => $validated['nilai_pajak_1'] ?? 0,
-                'nilai_pajak_2'       => $validated['nilai_pajak_2'] ?? 0,
-                'nilai_penawaran'     => $validated['nilai_penawaran'] ?? 0,
-                'deskripsi'           => $validated['deskripsi'] ?? null,
-                'no_persetujuan'      => $validated['no_persetujuan'] ?? null,
-                'catatan_pemeriksaan' => $validated['catatan_pemeriksaan'] ?? null,
-                'tindak_lanjut'       => $validated['tindak_lanjut'] ?? null,
-                'disetujui'           => $validated['disetujui'] ?? false,
-                'urgensi'             => $validated['urgensi'] ?? null,
-                'user_id'             => $auth,
-            ]);
+            // Update jika ada, create jika belum
+            $penawaran = PenawaranPenjualan::updateOrCreate(
+                ['no_penawaran' => $validated['no_penawaran']],
+                [
+                    'tgl_penawaran'       => $validated['tgl_penawaran'] ?? now(),
+                    'pelanggan_id'        => $validated['pelanggan_id'],
+                    'no_pelanggan'        => $validated['no_pelanggan'] ?? null,
+                    'nama_pelanggan'      => $validated['nama_pelanggan'] ?? null,
+                    'status'              => $validated['status'] ?? 'draft',
+                    'nilai_diskon'        => $validated['nilai_diskon'] ?? 0,
+                    'total_pajak'         => $validated['total_pajak'] ?? 0,
+                    'nilai_pajak_1'       => $validated['nilai_pajak_1'] ?? 0,
+                    'nilai_pajak_2'       => $validated['nilai_pajak_2'] ?? 0,
+                    'nilai_penawaran'     => $validated['nilai_penawaran'] ?? 0,
+                    'deskripsi'           => $validated['deskripsi'] ?? null,
+                    'no_persetujuan'      => $validated['no_persetujuan'] ?? null,
+                    'catatan_pemeriksaan' => $validated['catatan_pemeriksaan'] ?? null,
+                    'tindak_lanjut'       => $validated['tindak_lanjut'] ?? null,
+                    'disetujui'           => $validated['disetujui'] ?? false,
+                    'urgensi'             => $validated['urgensi'] ?? null,
+                    'user_id'             => $auth,
+                ]
+            );
 
-            // ... tambahkan penyimpanan detail barang di sini jika perlu
+            // Hapus item lama jika update
+            $penawaran->items()->delete();
+
+            // Simpan ulang item baru
             $items = collect($request->barang_id)->map(function ($itemId, $i) use ($request) {
                 return [
                     'item_id'        => $itemId,
                     'kts_permintaan' => $request->kts_permintaan[$i] ?? 0,
                     'satuan'         => $request->satuan[$i] ?? '',
-                    // 'harga_satuan'   => (int) str_replace(['.', ','], '', $request->harga_satuan[$i] ?? 0),
                     'harga_satuan'   => $request->harga_satuan[$i] ?? 0,
                     'diskon'         => $request->diskon[$i] ?? 0,
                     'pajak'          => $request->pajak[$i] ?? 0,
@@ -421,10 +418,7 @@ class PenjualanController extends Controller
                 ];
             })->toArray();
 
-            // dd($items);
-
             $penawaran->items()->createMany($items);
-
 
             DB::commit();
 
@@ -444,7 +438,7 @@ class PenjualanController extends Controller
     }
     public function editPenawaran($id)
     {
-        $data['dataPenawaran'] = PenawaranPenjualan::with('items')->findOrFail($id);
+        $data = PenawaranPenjualan::with('items')->findOrFail($id);
 
         $data['nama_barang'] = Barang::all();
         $data['pelanggans'] = Pelanggan::all()->map(fn($item) => [
@@ -458,6 +452,15 @@ class PenjualanController extends Controller
             $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
             return [$item->id => $nama];
         })->toArray();
+
+        $data['selectedPelanggan'] = [
+            'id' => $data->pelanggan_id,
+            'name' => $data->pelanggan->nama_pelanggan,
+            'alamat' => $data->pelanggan->alamat_1,
+            'telepon' => $data->pelanggan->no_telp
+        ];
+
+        $data['dataPenawaran'] = $data;
 
         $data['title'] = "Penawaran";
 
