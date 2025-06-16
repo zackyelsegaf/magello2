@@ -29,6 +29,10 @@ class DatabaseSeeder extends Seeder
             AkunAktivaSeeder::class, // Tambahkan ini
             AkunAkumulasiPenyusutanSeeder::class, // Tambahkan ini
             AkunBiayaPenyusutanSeeder::class, // Tambahkan ini
+            JenisHargaSeeder::class, // Tambahkan ini
+            MetodePenyesuaianSeeder::class, // Tambahkan ini
+            NilaiPembulatanSeeder::class,
+            SumberNilaiAsalSeeder::class, // Tambahkan ini
         ]);
     }
 }
