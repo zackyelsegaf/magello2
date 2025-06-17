@@ -11,11 +11,15 @@
                         {{-- Kolom kiri --}}
                         <div class="d-flex flex-column">
                             <h4 class="card-title mb-2">Edit Data Penawaran Penjualan</h4>
-                            <x-select2.search placeholder="Nama Pelanggan..." name="pelanggan_id" label="Pelanggan"
-                                :options=$pelanggans
-                                id="selectPelanggan" />
+                            {{-- <x-select2.search placeholder="Nama Pelanggan..." name="pelanggan_id" label="Pelanggan"
+                                :options=$pelanggans id="selectPelanggan" /> --}}
+                            <x-combo-auto-fill id="pelanggan" label="Pelanggan" placeholder="Pilih pelanggan..." :data="$pelanggans"
+                                name="pelanggan_id" :autofill="[
+                                    'alamat' => 'alamat-input',
+                                    'telepon' => 'telp-input',
+                                ]" :select="$selectedPelanggan" size="sm" />
 
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="alamat-input">Alamat</label>
                                 <input type="text" id="alamat-input" name="alamatinput" class="form-control">
                             </div>
@@ -31,7 +35,7 @@
                                     'alamat' => 'alamat-input',
                                     'telepon' => 'telp-input',
                                 ]" :select="$selectedPelanggan"/>
-                                <pre>{{ json_encode($pelanggans, JSON_PRETTY_PRINT) }}</pre>
+                                <pre>{{ json_encode($pelanggans, JSON_PRETTY_PRINT) }}</pre> --}}
                         </div>
 
                         {{-- Kolom kanan --}}

@@ -1,5 +1,6 @@
 @props([
     'id' => 'autocomplete-input',
+    'label' => '',
     'placeholder' => 'Type to search...',
     'url' => null,
     'data' => [],
@@ -11,21 +12,30 @@
 
 <div class="form-group position-relative" style="position: relative;">
     <div style="position: relative;">
+        @if ($label)
+            <label class="font-weight-bold" for="{{ $name }}">{{ $label }}</label>
+        @endif
         <input type="text" id="{{ $id }}" class="form-control {{ $size ? 'form-control-' . $size : '' }}"
             placeholder="{{ $placeholder }}" autocomplete="off" data-url="{{ $url }}"
-            data-local='@json($data)' data-hidden-id="{{ $id . '-hidden' }}" style="padding-right: 2rem;"
-            value="{{ old($name, $select['name'] ?? '') }}">
+            data-local='@json($data)' data-hidden-id="{{ $id . '-hidden' }}"
+            style="padding-right: 2rem;" value="{{ old($name, $select['name'] ?? '') }}">
 
         <!-- Tombol clear -->
         <span id="{{ $id . '-clear' }}"
-            style="position: absolute;
-                     right: 10px;
-                     top: 50%;
-                     transform: translateY(-50%);
-                     cursor: pointer;
-                     display: none;
-                     color: #999;
-                     font-size: 18px;">&times;</span>
+            style="
+        position: absolute;
+        right: 14px;
+        top: 0;
+        bottom: {{ $label ? '-12px' : '0' }};
+        margin: auto 0;
+        height: {{ $label ? '0.5em': '1.5em' }};
+        display: none;
+        cursor: pointer;
+        color: #999;
+        font-size: 18px;
+        z-index: 2;">
+            &times;
+        </span>
     </div>
 
     <!-- Hidden input untuk simpan ID -->
