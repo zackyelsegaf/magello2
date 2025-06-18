@@ -25,14 +25,14 @@ class DatabaseSeeder extends Seeder
         // Panggil seeder lain
         $this->call([
             RolePermissionSeeder::class,
-            MetodePenyusutanSeeder::class, // Tambahkan ini
-            AkunAktivaSeeder::class, // Tambahkan ini
-            AkunAkumulasiPenyusutanSeeder::class, // Tambahkan ini
-            AkunBiayaPenyusutanSeeder::class, // Tambahkan ini
-            JenisHargaSeeder::class, // Tambahkan ini
-            MetodePenyesuaianSeeder::class, // Tambahkan ini
+            MetodePenyusutanSeeder::class,
+            AkunAktivaSeeder::class,
+            AkunAkumulasiPenyusutanSeeder::class,
+            AkunBiayaPenyusutanSeeder::class,
+            JenisHargaSeeder::class,
+            MetodePenyesuaianSeeder::class,
             NilaiPembulatanSeeder::class,
-            SumberNilaiAsalSeeder::class, // Tambahkan ini
+            SumberNilaiAsalSeeder::class,
         ]);
     }
 }
