@@ -11,6 +11,7 @@
                         {{-- Kolom kiri --}}
                         <div class="d-flex flex-column">
                             <h4 class="card-title mb-2">Data {{ $title }} Penjualan</h4>
+                            <div id="svelte-app"></div>
                             <x-select2.search placeholder="Nama Pelanggan..." name="pelanggan_id" label="Pelanggan"
                                 :options=$pelanggans id="selectPelanggan" />
                         </div>
