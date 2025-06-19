@@ -6,7 +6,7 @@
         <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
 
             <div class="content container-fluid">
-                <div class="page-header">
+                <div class="page-header mt-5">
                     <div class="d-flex justify-content-between align-items-start w-100">
                         {{-- Kolom kiri --}}
                         <div class="d-flex flex-column">

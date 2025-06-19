@@ -1,24 +1,24 @@
 <x-layout.main>
     <x-slot:title>
-        Penawaran Penjualan
-        </x-slot>
-        <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
-            <div class="content container-fluid">
-                <div class="page-header">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <div class="mt-5">
-                                <h4 class="card-title float-left mt-2">Data Penawaran Penjualan</h4>
-                            </div>
+        {{ ucfirst($title) }} Penjualan
+    </x-slot>
+    <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
+        <div class="content container-fluid">
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <div class="mt-5">
+                            <h4 class="card-title float-left mt-2">Data {{ ucfirst($title) }} Penjualan</h4>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div id="filterBox" class="col-md-2" style="display: block;">
-                        <x-form.filter-form>
-                            <x-slot:submodul>Pesanan</x-slot:submodul>
-                        </x-form.filter-form>
-                    </div>
+            </div>
+            <div class="row">
+                <div id="filterBox" class="col-md-2" style="display: block;">
+                    <x-form.filter-form>
+                        <x-slot:submodul>{{ ucfirst($title) }}</x-slot:submodul>
+                    </x-form.filter-form>
+                </div>
                     <div id="tableContainer" class="col-md-10" style="transition: width 0.3s;">
                         <div class="table-responsive" style="width: 100%;">
                             <table class="table table-striped table-bordered table-hover table-center mb-0"
@@ -82,7 +82,7 @@
                             ordering: true,
                             searching: false,
                             ajax: {
-                                url: '{{ $routeFetch }}',
+                                url: '{{ $fetchRoute }}',
                                 data: function(d) {
                                     d.quoteno = $('#keyword').val();
                                     d.description = $('input[name="description"]').val();

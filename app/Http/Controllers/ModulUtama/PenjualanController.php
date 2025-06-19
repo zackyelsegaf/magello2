@@ -32,7 +32,7 @@ class PenjualanController extends Controller
         $tipe_barang = DB::table('tipe_barang')->get();
         $tipe_persediaan = DB::table('tipe_persediaan')->get();
         $kategori_barang = DB::table('kategori_barang')->get();
-        $routeFetch = route("penjualan.$this->menu.fetch");
+        $fetchRoute = route("penjualan.$this->menu.fetch");
         $createRoute = route("penjualan.$this->menu.create");
 
         return view("modulutama.penjualan.$this->menu.data", compact('createRoute', 'routeFetch', 'nama_barang', 'tipe_barang', 'tipe_persediaan', 'kategori_barang'));
@@ -62,15 +62,11 @@ class PenjualanController extends Controller
     // =====================
     public function indexPenawaran()
     {
-        $this->menu = 'penawaran';
-        $nama_barang = DB::table('barang')->get();
-        $tipe_barang = DB::table('tipe_barang')->get();
-        $tipe_persediaan = DB::table('tipe_persediaan')->get();
-        $kategori_barang = DB::table('kategori_barang')->get();
-        $routeFetch = route("penjualan.$this->menu.fetch");
-        $createRoute = route("penjualan.$this->menu.create");
+        $this->path = 'penawaran';
+        $this->model = PenawaranPenjualan::class;
+        $this->NeededIndex();
 
-        return view("modulutama.penjualan.$this->menu.data", compact('createRoute', 'routeFetch', 'nama_barang', 'tipe_barang', 'tipe_persediaan', 'kategori_barang'));
+        return view("modulutama.penjualan.$this->path.data", $this->data);
     }
 
     protected $recordId;
@@ -474,8 +470,11 @@ class PenjualanController extends Controller
     // =====================
     public function indexPesanan()
     {
-        $this->menu = 'pesanan';
-        return $this->dataUtama();
+        $this->path = 'pesanan';
+        $this->model = PesananPenjualan::class;
+        $this->NeededIndex();
+
+        return view("modulutama.penjualan.$this->path.data", $this->data);
     }
     public function createPesanan()
     {
@@ -500,12 +499,35 @@ class PenjualanController extends Controller
     // =====================
     // PENGIRIMAN PENJUALAN
     // =====================
+    
     public function indexPengiriman()
     {
-        $this->menu = 'pengiriman';
-        return $this->dataUtama();
+        $this->model = PengirimanPenjualan::class;
+        $this->path = 'pengiriman';
+        $this->NeededIndex();
+        return view("modulutama.penjualan.$this->path.data", $this->data);
     }
-    public function createPengiriman() {}
+    public function createPengiriman()
+    {
+        $data['nama_barang'] = DB::table('barang')->get();
+        $data['title'] = "Penawaran";
+        $data['no'] = PenawaranPenjualan::generateNo();
+        // $data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
+        //     return [$item->id => $item->nama_pelanggan];
+        // })->toArray();
+        $data['pelanggans'] = Pelanggan::all()->map(fn($item) => [
+            'id' => $item->id,
+            'name' => $item->nama_pelanggan,
+            'alamat' => $item->alamat_1,
+            'telepon' => $item->no_telp
+        ])->toArray();
+        $data['penjuals'] = Penjual::all()->mapWithKeys(function ($item) {
+            $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
+            return [$item->id => $nama];
+        })->toArray();
+
+        return view("modulutama.penjualan.penawaran.add", $data);
+    }
     public function storePengiriman(Request $request) {}
     public function editPengiriman($id) {}
     public function updatePengiriman(Request $request, $id) {}

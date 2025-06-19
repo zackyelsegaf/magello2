@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
+use App\Models\Penjual;
+use App\Models\Pelanggan;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
@@ -57,7 +60,28 @@ class Controller extends BaseController
         $this->getRoutePrefix();
         $data['model'] = $this->path;
         $data['title'] = $this->title;
-        return view('layout.index', $data);
+        return view("modulutama.penjualan.$this->path.data", $data);
+    }
+
+    protected $data = [];
+
+    protected function NeededIndex()
+    {
+        $this->data['no'] = $this->model::generateNo();
+        $this->data['pelanggans'] = Pelanggan::all()->map(fn($item) => [
+            'id' => $item->id,
+            'name' => $item->nama_pelanggan,
+            'alamat' => $item->alamat_1,
+            'telepon' => $item->no_telp
+        ])->toArray();
+        $this->data['penjuals'] = Penjual::all()->mapWithKeys(function ($item) {
+            $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
+            return [$item->id => $nama];
+        })->toArray();
+        $this->data['nama_barang'] = Barang::get();
+        $this->data['title'] = $this->path;
+        $this->data['createRoute'] = route("penjualan.$this->path.create");
+        $this->data['fetchRoute'] = route("penjualan.$this->path.fetch");
     }
 
 }

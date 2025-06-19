@@ -1,16 +1,16 @@
 <x-layout.main>
     <x-slot:title>
-        Penawaran Penjualan
+        {{ $title }} Penjualan
     </x-slot>
-    <form id="formPenawaran">
+    <form id="form">
         <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
 
             <div class="content container-fluid">
-                <div class="page-header">
+                <div class="page-header mt-5">
                     <div class="d-flex justify-content-between align-items-start w-100">
                         {{-- Kolom kiri --}}
                         <div class="d-flex flex-column">
-                            <h4 class="card-title mb-2">Data Penawaran Penjualan</h4>
+                            <h4 class="card-title mb-2">Data {{ $title }} Penjualan</h4>
                             <x-combo-auto-fill size="sm" id="pelanggan" placeholder="Pilih pelanggan..." :data="$pelanggans"
                                 name="pelanggan_id" :autofill="[
                                     'alamat' => 'alamat-input',
@@ -528,6 +528,10 @@
                         icon: 'error',
                         title: 'Ada Kendala',
                         text: result.message || 'Silahkan hubungi developer',
+                    }).then(() => {
+                        // Redirect setelah klik "OK"
+                        window.location.href =
+                        `{{ route("penjualan.$title.create") }}`; // Ganti dengan URL yang kamu inginkan
                     });
                 }
             });
@@ -648,7 +652,7 @@
             }
 
             async function saveTransaksi() {
-                const form = document.getElementById('formPenawaran');
+                const form = document.getElementById('form');
                 const formData = new FormData(form);
 
                 try {

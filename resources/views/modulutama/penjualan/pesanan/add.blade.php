@@ -6,7 +6,7 @@
         <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
 
             <div class="content container-fluid">
-                <div class="page-header">
+                <div class="page-header mt-5">
                     <div class="d-flex justify-content-between align-items-start w-100">
                         {{-- Kolom kiri --}}
                         <div class="d-flex flex-column">
@@ -97,66 +97,7 @@
                                             id="btnTambahBarang">Tambah</button>
                                     </div>
                                     <!-- Modal -->
-                                    <div class="modal fade" id="modalBarang" tabindex="-1" role="dialog"
-                                        aria-labelledby="modalBarangLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Pilih Barang</h5>
-                                                    <button type="button" class="close" data-dismiss="modal">
-                                                        <span>&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="table-responsive">
-                                                        <table
-                                                            class="table table-striped table-bordered table-hover table-center mb-0"
-                                                            id="tabelPilihBarang"
-                                                            style="margin: 0; border-collapse: collapse; width: 100%;">
-                                                            <thead class="thead-dark">
-                                                                <tr style="padding: 0; margin: 0;">
-                                                                    <th style="padding: 4px; text-align: center;">
-                                                                        <input type="checkbox" id="checkAll">
-                                                                    </th>
-                                                                    <th style="padding: 4px;">No. Barang</th>
-                                                                    <th style="padding: 4px;">Nama Barang</th>
-                                                                    <th style="padding: 4px;">Satuan</th>
-                                                                    <th style="padding: 4px;">Kuantitas</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @foreach ($nama_barang as $item)
-                                                                    <tr style="padding: 0; margin: 0;">
-                                                                        <td style="padding: 4px; text-align: center;">
-                                                                            <input type="checkbox"
-                                                                                class="check-barang"
-                                                                                data-id="{{ $item->id }}"
-                                                                                data-nobarang="{{ $item->no_barang }}"
-                                                                                data-nama="{{ $item->nama_barang }}"
-                                                                                data-satuan="{{ $item->satuan }}"
-                                                                                data-kuantitas="{{ $item->kuantitas_saldo_awal }}">
-                                                                        </td>
-                                                                        <td style="padding: 4px;">
-                                                                            {{ $item->no_barang }}</td>
-                                                                        <td style="padding: 4px;">
-                                                                            {{ $item->nama_barang }}</td>
-                                                                        <td style="padding: 4px;">
-                                                                            {{ $item->satuan }}</td>
-                                                                        <td style="padding: 4px;">
-                                                                            {{ $item->kuantitas_saldo_awal }}</td>
-                                                                    </tr>
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-success"
-                                                        id="tambahBarangTerpilih">Tambah ke Form</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <x-form.modal-barang :databarang=$nama_barang/>
 
 
                                     {{-- <table class="table table-striped table-bordered table-hover table-center mb-0" id="tabelPermintaan">
@@ -398,26 +339,26 @@
                                         <div class="flex-fill card p-3">
                                             <div class="row d-flex content-between">
                                                 <h5>Kirim Ke</h5>
-                                            <textarea class="form-control" name="shipto1" rows="5"></textarea>
+                                                <textarea class="form-control" name="shipto1" rows="5"></textarea>
 
-                                            <label class="mt-3">Syarat Pembayaran</label>
-                                            <select name="syarat_pembayaran" class="form-control form-control-sm">
-                                                <option value="">-- Pilih --</option>
-                                                <option value="COD">Cash on Delivery</option>
-                                                <option value="Net30">Net 30</option>
-                                                <option value="Net60">Net 60</option>
-                                            </select>
+                                                <label class="mt-3">Syarat Pembayaran</label>
+                                                <select name="syarat_pembayaran" class="form-control form-control-sm">
+                                                    <option value="">-- Pilih --</option>
+                                                    <option value="COD">Cash on Delivery</option>
+                                                    <option value="Net30">Net 30</option>
+                                                    <option value="Net60">Net 60</option>
+                                                </select>
 
-                                            <label class="mt-3">Fiscal Rate</label>
-                                            <input type="text" name="fiscalrate"
-                                                class="form-control form-control-sm" value="0">
+                                                <label class="mt-3">Fiscal Rate</label>
+                                                <input type="text" name="fiscalrate"
+                                                    class="form-control form-control-sm" value="0">
                                             </div>
-                                            
+
                                         </div>
 
                                         {{-- Kolom 2 --}}
                                         <div class="flex-fill card p-3">
-                                            
+
                                         </div>
 
                                         {{-- Kolom 3 --}}
