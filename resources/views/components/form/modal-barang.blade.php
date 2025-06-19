@@ -40,21 +40,28 @@
                     </div>
                     <div class="table-responsive">
 
-                        <table class="table table-striped table-bordered table-hover table-center mb-0"
-                            id="tabelPilihBarang" style="margin: 0; border-collapse: collapse; width: 100%;">
-                            <thead class="thead-dark">
-                                <tr style="padding: 0; margin: 0;">
-                                    <th style="padding: 4px; text-align: center;">
-                                        <input type="checkbox" id="checkAll">
+                        <table class="table table-sm table-striped table-bordered mb-0"
+                            style="width: 100%; table-layout: fixed;">
+                            <thead class="thead-dark" style="display: table; width: 100%; table-layout: fixed;">
+                                <tr>
+                                    <th style="width: 5%; text-align: center;"><input type="checkbox" id="checkAll">
                                     </th>
-                                    <th style="padding: 4px;">No. Barang</th>
-                                    <th style="padding: 4px;">Nama Barang</th>
-                                    <th style="padding: 4px;">Satuan</th>
-                                    <th style="padding: 4px;">Kuantitas</th>
+                                    <th style="width: 20%;">No. Barang</th>
+                                    <th style="width: 35%;">Nama Barang</th>
+                                    <th style="width: 15%;">Satuan</th>
+                                    <th style="width: 25%;">Kuantitas</th>
                                 </tr>
                             </thead>
-                            <tbody id="barang-body" style="display: block; max-height: 300px; overflow-y: auto; width: 100%;"></tbody>
                         </table>
+
+                        {{-- Table Body (scrollable) --}}
+                        <div style="max-height: 200px; overflow-y: auto;">
+                            <table class="table table-sm table-bordered mb-0" style="width: 100%; table-layout: fixed;">
+                                <tbody id="barang-body" style="display: table; width: 100%; table-layout: fixed;">
+                                    {{-- diisi via JS --}}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mt-3">
                         <!-- Limit Selector -->
