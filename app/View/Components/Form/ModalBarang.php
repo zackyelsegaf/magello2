@@ -21,6 +21,6 @@ class ModalBarang extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components..form.modal-barang');
+        return view('components.form.modal-barang');
     }
 }
