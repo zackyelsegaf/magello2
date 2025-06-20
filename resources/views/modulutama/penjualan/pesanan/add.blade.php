@@ -2,7 +2,7 @@
     <x-slot:title>
         {{ $title }} Penjualan
     </x-slot>
-    <form id="form{{ $title }}">
+    <form id="form">
         <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
 
             <div class="content container-fluid">
@@ -622,11 +622,11 @@
             }
 
             async function saveTransaksi() {
-                const form = document.getElementById('formPenawaran');
+                const form = document.getElementById('form');
                 const formData = new FormData(form);
 
                 try {
-                    const response = await fetch("{{ route('penjualan.penawaran.store') }}", {
+                    const response = await fetch("{{ $storeRoute }}", {
                         method: "POST",
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',

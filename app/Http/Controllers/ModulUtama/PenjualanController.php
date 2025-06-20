@@ -492,10 +492,13 @@ class PenjualanController extends Controller
         $data['syaratPembayaran'] = Syarat::all()->mapWithKeys(function ($item) {
             return [$item->id => $item->nama];
         })->toArray();
+        $data['storeRoute'] = route('penjualan.pesanan.store');
 
         return view("modulutama.penjualan.pesanan.add", $data);
     }
-    public function storePesanan(Request $request) {}
+    public function storePesanan(Request $request) {
+        return $request->all();
+    }
     public function editPesanan($id) {}
     public function updatePesanan(Request $request, $id) {}
     public function destroyPesanan($id) {}
