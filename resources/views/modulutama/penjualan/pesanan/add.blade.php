@@ -356,16 +356,19 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <x-form.select-basic placeholder="   " size="sm"
-                                                            id="syarat_pembayaran" name="syarat_pembayaran"
-                                                            :options="$syaratPembayaran" :isbold="true"
-                                                            label="Syarat Pembayaran" />
+                                                        <label class="font-bold" for="inputGmp2" class="form-label mb-1">Tanggal
+                                                            {{ $title }}</label>
+                                                        <div class="input-group input-group-sm">
+                                                            <input type="text"
+                                                                class="form-control datetimepicker @error('tgl_permintaan') is-invalid @enderror"
+                                                                name="tgl_permintaan">
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <x-select2.search size="sm" placeholder="Penjual"
-                                                            name="penjual" label="Penjual" :options="$penjuals" />
+                                                        <x-select2.search size="sm" placeholder="nilai tukar"
+                                                            name="nilai_tukar" label="Nilai Tukar" :options="$penjuals" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -373,9 +376,8 @@
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <x-form.select-basic placeholder="   " size="sm"
-                                                            id="ekspedisi" name="ekspedisi"
-                                                            :options="$syaratPembayaran" :isbold="true"
-                                                            label="Kirim Melalui" />
+                                                            id="syarat_pembayaran" name="syarat_pembayaran" :options="$syaratPembayaran"
+                                                            :isbold="true" label="Syarat Pembayaran" />
                                                     </div>
                                                 </div>
                                                 <div class="col">
@@ -386,9 +388,8 @@
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <x-form.select-basic placeholder="   " size="sm"
-                                                            id="ekspedisi" name="ekspedisi"
-                                                            :options="$syaratPembayaran" :isbold="true"
-                                                            label="Kirim Melalui" />
+                                                            id="ekspedisi" name="ekspedisi" :options="$syaratPembayaran"
+                                                            :isbold="true" label="Kirim Melalui" />
                                                     </div>
                                                 </div>
                                                 <div class="col">
@@ -402,9 +403,8 @@
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <x-form.select-basic placeholder="   " size="sm"
-                                                            id="ekspedisi" name="ekspedisi"
-                                                            :options="$syaratPembayaran" :isbold="true"
-                                                            label="Kirim Melalui" />
+                                                            id="fob" name="fob" :options="$syaratPembayaran"
+                                                            :isbold="true" label="FOB" />
                                                     </div>
                                                 </div>
                                                 <div class="col">

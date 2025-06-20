@@ -148,17 +148,31 @@
         });
     }
     $(document).on("click", "#toggle_btn", function () {
-        if ($("body").hasClass("mini-sidebar")) {
+        console.info('close')
+        const isMini = $("body").hasClass("mini-sidebar");
+
+        if (isMini) {
             $("body").removeClass("mini-sidebar");
             $(".subdrop + ul").slideDown();
         } else {
             $("body").addClass("mini-sidebar");
             $(".subdrop + ul").slideUp();
         }
+
         setTimeout(function () {
             mA.redraw();
             mL.redraw();
         }, 300);
+
+        // Trigger event dengan status
+        window.dispatchEvent(
+            new CustomEvent("sidebarToggled", {
+                detail: {
+                    isMini: !isMini, // karena baru akan diubah
+                },
+            })
+        );
+
         return false;
     });
     $(document).on("mouseover", function (e) {
