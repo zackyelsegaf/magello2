@@ -21,6 +21,7 @@ use App\Models\ModulUtama\Penjualan\PenerimaanPenjualan;
 use App\Models\ModulUtama\Penjualan\PengirimanPenjualan;
 use App\Models\ModulUtama\Penjualan\PenawaranPenjualanItem;
 use App\Models\Penjual;
+use App\Models\Syarat;
 
 class PenjualanController extends Controller
 {
@@ -487,6 +488,9 @@ class PenjualanController extends Controller
         $data['penjuals'] = Penjual::all()->mapWithKeys(function ($item) {
             $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
             return [$item->id => $nama];
+        })->toArray();
+        $data['syaratPembayaran'] = Syarat::all()->mapWithKeys(function ($item) {
+            return [$item->id => $item->nama];
         })->toArray();
 
         return view("modulutama.penjualan.pesanan.add", $data);

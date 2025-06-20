@@ -98,7 +98,7 @@
                                             id="btnTambahBarang">Tambah</button>
                                     </div>
                                     <!-- Modal -->
-                                    <x-form.modal-barang :databarang=$nama_barang/>
+                                    <x-form.modal-barang :databarang=$nama_barang />
 
 
                                     {{-- <table class="table table-striped table-bordered table-hover table-center mb-0" id="tabelPermintaan">
@@ -335,59 +335,90 @@
                                     </div>
                                 </div>
                                 <div id="informasi" class="tab-pane fade">
-                                    <div class="d-flex gap-3" style="width: 100%;">
-                                        {{-- Kolom 1 --}}
-                                        <div class="flex-fill card p-3">
-                                            <div class="row d-flex content-between">
-                                                <h5>Kirim Ke</h5>
-                                                <textarea class="form-control" name="shipto1" rows="5"></textarea>
-
-                                                <label class="mt-3">Syarat Pembayaran</label>
-                                                <select name="syarat_pembayaran" class="form-control form-control-sm">
-                                                    <option value="">-- Pilih --</option>
-                                                    <option value="COD">Cash on Delivery</option>
-                                                    <option value="Net30">Net 30</option>
-                                                    <option value="Net60">Net 60</option>
-                                                </select>
-
-                                                <label class="mt-3">Fiscal Rate</label>
-                                                <input type="text" name="fiscalrate"
-                                                    class="form-control form-control-sm" value="0">
+                                    <div class="row mt-0 mb-0">
+                                        <div class="col">
+                                            <div class="row mb-0 mt-0">
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <label for="Informasi_address"><strong>Alamat</strong></label>
+                                                        <textarea readonly class="form-control" name="address" id="alamat-input" rows="4"
+                                                            placeholder="Alamat tujuan">{{ old('address') }}</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <label for="Informasi_address"><strong>Alamat</strong></label>
+                                                        <textarea readonly class="form-control" name="address" id="alamat-input" rows="4"
+                                                            placeholder="Alamat tujuan">{{ old('address') }}</textarea>
+                                                    </div>
+                                                </div>
                                             </div>
-
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <x-form.select-basic placeholder="   " size="sm"
+                                                            id="syarat_pembayaran" name="syarat_pembayaran"
+                                                            :options="$syaratPembayaran" :isbold="true"
+                                                            label="Syarat Pembayaran" />
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <x-select2.search size="sm" placeholder="Penjual"
+                                                            name="penjual" label="Penjual" :options="$penjuals" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <x-form.select-basic placeholder="   " size="sm"
+                                                            id="ekspedisi" name="ekspedisi"
+                                                            :options="$syaratPembayaran" :isbold="true"
+                                                            label="Kirim Melalui" />
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    &nbsp;
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <x-form.select-basic placeholder="   " size="sm"
+                                                            id="ekspedisi" name="ekspedisi"
+                                                            :options="$syaratPembayaran" :isbold="true"
+                                                            label="Kirim Melalui" />
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <x-select2.search size="sm" placeholder="Penjual"
+                                                            name="penjual" label="Penjual" :options="$penjuals" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <x-form.select-basic placeholder="   " size="sm"
+                                                            id="ekspedisi" name="ekspedisi"
+                                                            :options="$syaratPembayaran" :isbold="true"
+                                                            label="Kirim Melalui" />
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    &nbsp;
+                                                </div>
+                                            </div>
                                         </div>
-
-                                        {{-- Kolom 2 --}}
-                                        <div class="flex-fill card p-3">
-
-                                        </div>
-
-                                        {{-- Kolom 3 --}}
-                                        <div class="flex-fill card p-3">
-                                            <label>Kirim Melalui</label>
-                                            <select name="pengiriman_via" class="form-control form-control-sm">
-                                                <option value="">-- Pilih --</option>
-                                                <option value="kurir">Kurir</option>
-                                                <option value="ekspedisi">Ekspedisi</option>
-                                                <option value="pickup">Pickup</option>
-                                            </select>
-
-                                            <label class="mt-3">FOB</label>
-                                            <select name="fob" class="form-control form-control-sm">
-                                                <option value="">-- Pilih --</option>
-                                                <option value="origin">FOB Origin</option>
-                                                <option value="destination">FOB Destination</option>
-                                            </select>
-
-                                            <label class="mt-3">Penjual</label>
-                                            <select name="salesperson_id" class="form-control form-control-sm">
-                                                <option value="">-- Pilih Penjual --</option>
-                                                @foreach ($penjuals as $id => $name)
-                                                    <option value="{{ $id }}">{{ $name }}</option>
-                                                @endforeach
-                                            </select>
+                                        <div class="col">
+                                            &nbsp;
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row mb-6">
+                                    &nbsp;
                                 </div>
                             </div>
                         </div>
