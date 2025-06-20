@@ -482,9 +482,12 @@ class PenjualanController extends Controller
         $data['nama_barang'] = DB::table('barang')->get();
         $data['title'] = "Pesanan";
         $data['no'] = PesananPenjualan::generateNo();
-        $data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
-            return [$item->id => $item->nama_pelanggan];
-        })->toArray();
+        $data['pelanggans'] = Pelanggan::all()->map(fn($item) => [
+            'id' => $item->id,
+            'name' => $item->nama_pelanggan,
+            'alamat' => $item->alamat_1,
+            'telepon' => $item->no_telp
+        ])->toArray();
         $data['penjuals'] = Penjual::all()->mapWithKeys(function ($item) {
             $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
             return [$item->id => $nama];

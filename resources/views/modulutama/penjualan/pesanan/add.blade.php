@@ -12,8 +12,11 @@
                         <div class="d-flex flex-column">
                             <h4 class="card-title mb-2">Data {{ $title }} Penjualan</h4>
                             <div id="svelte-app"></div>
-                            <x-select2.search placeholder="Nama Pelanggan..." name="pelanggan_id" label="Pelanggan"
-                                :options=$pelanggans id="selectPelanggan" />
+                            <x-combo-auto-fill size="sm" id="pelanggan" placeholder="Pilih pelanggan..."
+                                :data="$pelanggans" name="pelanggan_id" :autofill="[
+                                    'alamat' => 'alamat-input',
+                                    'telepon' => 'telp-input',
+                                ]" />
                         </div>
 
                         {{-- Kolom kanan --}}
@@ -339,11 +342,13 @@
                                         <div class="col">
                                             <div class="row mb-0 mt-0">
                                                 <div class="col">
+
                                                     <div class="form-group">
                                                         <label for="Informasi_address"><strong>Alamat</strong></label>
                                                         <textarea readonly class="form-control" name="address" id="alamat-input" rows="4"
                                                             placeholder="Alamat tujuan">{{ old('address') }}</textarea>
                                                     </div>
+
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
@@ -356,7 +361,8 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <label class="font-bold" for="inputGmp2" class="form-label mb-1">Tanggal
+                                                        <label class="font-bold" for="inputGmp2"
+                                                            class="form-label mb-1">Tanggal
                                                             {{ $title }}</label>
                                                         <div class="input-group input-group-sm">
                                                             <input type="text"
@@ -368,7 +374,8 @@
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <x-select2.search size="sm" placeholder="nilai tukar"
-                                                            name="nilai_tukar" label="Nilai Tukar" :options="$penjuals" />
+                                                            name="nilai_tukar" label="Nilai Tukar"
+                                                            :options="$penjuals" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -376,8 +383,9 @@
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <x-form.select-basic placeholder="   " size="sm"
-                                                            id="syarat_pembayaran" name="syarat_pembayaran" :options="$syaratPembayaran"
-                                                            :isbold="true" label="Syarat Pembayaran" />
+                                                            id="syarat_pembayaran" name="syarat_pembayaran"
+                                                            :options="$syaratPembayaran" :isbold="true"
+                                                            label="Syarat Pembayaran" />
                                                     </div>
                                                 </div>
                                                 <div class="col">
