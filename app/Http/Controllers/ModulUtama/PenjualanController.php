@@ -500,7 +500,7 @@ class PenjualanController extends Controller
         return view("modulutama.penjualan.pesanan.add", $data);
     }
     public function storePesanan(Request $request) {
-        return $request->all();
+        
     }
     public function editPesanan($id) {}
     public function updatePesanan(Request $request, $id) {}

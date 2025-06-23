@@ -87,6 +87,9 @@
                                                 Lainnya</a>
                                         </li>
                                         <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen</a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a class="nav-link" data-toggle="tab" href="#ricape">Rincian Catatan
                                                 Pemeriksaan</a>
                                         </li>
@@ -243,6 +246,14 @@
                                         </table>
                                     </div>
 
+                                </div>
+                                <div id="dokumen" class="tab-pane fade">
+                                    {{-- <h5 class="card-title">Change Password</h5> --}}
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <x-dynamic-link-input id="file-input-1" name="files" />
+                                        </div>
+                                    </div>
                                 </div>
                                 <div id="ricape" class="tab-pane fade">
 
@@ -425,6 +436,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row mb-6">
                                     &nbsp;
                                 </div>
