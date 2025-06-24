@@ -7,6 +7,7 @@ use App\Models\Penjual;
 use App\Models\Pelanggan;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -16,6 +17,13 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    protected $auth;
+
+    public function __construct()
+    {
+        $this->auth = Auth::id(); // Assign current user's ID at runtime
+    }
 
     protected $segment;
 
