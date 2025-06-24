@@ -37,4 +37,8 @@ class Departemen extends Model
         });
     }
 
+    public function journalEntries()
+    {
+        return $this->hasMany(JurnalEntri::class);
+    }
 }

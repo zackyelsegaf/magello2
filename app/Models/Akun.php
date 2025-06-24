@@ -29,4 +29,9 @@ class Akun extends Model
     {
         return $this->hasMany(AnggaranAkun::class, 'akun_id');
     }
+
+     public function journalEntries()
+    {
+        return $this->hasMany(JurnalEntri::class);
+    }
 }
