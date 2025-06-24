@@ -25,6 +25,17 @@ class DatabaseSeeder extends Seeder
         // Panggil seeder lain
         $this->call([
             RolePermissionSeeder::class,
+            TipeAkunSeeder::class,
+            TipeBarangSeeder::class,
+            TipeDepartemenSeeder::class,
+            TipePelangganSeeder::class,
+            TipePersediaanSeeder::class,
+            StatusPengajuanSeeder::class,
+            StatusKeluargaSeeder::class,
+            StatusPemasokSeeder::class,
+            ReligionSeeder::class,
+            SatuanSeeder::class,
+            RoomTypeSeeder::class,
             MetodePenyusutanSeeder::class,
             AkunAktivaSeeder::class,
             AkunAkumulasiPenyusutanSeeder::class,

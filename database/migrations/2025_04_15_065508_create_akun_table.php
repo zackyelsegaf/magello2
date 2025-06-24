@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('akun', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('tipe_id')->constrained('tipe_akun')->onDelete('cascade');
             $table->string('no_akun')->nullable();
             $table->string('nama_akun_indonesia')->nullable();
             $table->string('nama_akun_inggris')->nullable();

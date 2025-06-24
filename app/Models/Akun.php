@@ -24,13 +24,19 @@ class Akun extends Model
         'tanggal',
         'dihentikan',
     ];
+    
+    public function tipe()
+    {
+        return $this->belongsTo(TipeAkun::class, 'tipe_id');
+    }
+
 
     public function anggaranAkuns(): HasMany
     {
         return $this->hasMany(AnggaranAkun::class, 'akun_id');
     }
 
-     public function journalEntries()
+    public function journalEntries()
     {
         return $this->hasMany(JurnalEntri::class);
     }

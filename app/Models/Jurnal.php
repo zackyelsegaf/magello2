@@ -7,11 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Jurnal extends Model
 {
-    /** @use HasFactory<\Database\Factories\JurnalFactory> */
-    use HasFactory;
-
-    protected $table = 'jurnals';
-    protected $guarded = ['id'];
+    
 
     public function entries()
     {
