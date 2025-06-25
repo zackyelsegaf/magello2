@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('akun_biaya_penyusutans', function (Blueprint $table) {
             $table->id();
-            $table->string('nama')->nullable();  // Contoh: HPP Rumah, Potongan Pembelian
-            $table->string('slug')->unique();  // Contoh: hpp-rumah, potongan-pembelian
+            $table->foreignId('akun_id')->constrained('akun')->onDelete('cascade');
             $table->timestamps();
         });
     }

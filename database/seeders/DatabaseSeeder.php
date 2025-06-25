@@ -21,6 +21,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+        \App\Models\User::factory()->create([
+            'name' => 'Superadmin',
+            'email' => 'superadmin@gmail.com',
+        ]);
 
         // Panggil seeder lain
         $this->call([
@@ -34,16 +38,18 @@ class DatabaseSeeder extends Seeder
             StatusKeluargaSeeder::class,
             StatusPemasokSeeder::class,
             ReligionSeeder::class,
+            MataUangSeeder::class,
             SatuanSeeder::class,
             RoomTypeSeeder::class,
             MetodePenyusutanSeeder::class,
-            AkunAktivaSeeder::class,
-            AkunAkumulasiPenyusutanSeeder::class,
-            AkunBiayaPenyusutanSeeder::class,
+            // AkunAktivaSeeder::class,
+            // AkunAkumulasiPenyusutanSeeder::class,
             JenisHargaSeeder::class,
             MetodePenyesuaianSeeder::class,
             NilaiPembulatanSeeder::class,
             SumberNilaiAsalSeeder::class,
+            AkunSeeder::class,
+            AkunBiayaPenyusutanSeeder::class,
         ]);
     }
 }

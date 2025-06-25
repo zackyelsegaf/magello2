@@ -2,8 +2,9 @@
 
 namespace App\Models\ModulUtama\Aktiva;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Akun;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AkunBiayaPenyusutan extends Model
 {
@@ -12,4 +13,9 @@ class AkunBiayaPenyusutan extends Model
     protected $table = 'akun_biaya_penyusutans';
 
     protected $guarded = ['id'];
+
+    public function akun()
+    {
+        return $this->belongsTo(Akun::class);
+    }
 }

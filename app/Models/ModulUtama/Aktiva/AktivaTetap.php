@@ -36,12 +36,12 @@ class AktivaTetap extends Model
 
     public function akunAktiva()
     {
-        return $this->belongsTo(AkunAktiva::class, 'akun_aktiva_id');
+        return $this->belongsTo(Akun::class, 'akun_aktiva_id');
     }
 
     public function akunAkumulasiPenyusutan()
     {
-        return $this->belongsTo(AkunAkumulasiPenyusutan::class, 'akun_akumulasi_penyusutan_id');
+        return $this->belongsTo(Akun::class, 'akun_akumulasi_penyusutan_id');
     }
 
     public function akunBiayaPenyusutan()

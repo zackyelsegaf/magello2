@@ -23,4 +23,9 @@ class MataUang extends Model
             $q->where('nama', 'LIKE', '%' . $nama . '%');
         });
     }
+
+    public function akun()
+    {
+        return $this->hasMany(Akun::class, 'mata_uang_id');
+    }
 }
