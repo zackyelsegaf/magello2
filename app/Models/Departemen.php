@@ -37,4 +37,13 @@ class Departemen extends Model
         });
     }
 
+    public function journalEntries()
+    {
+        return $this->hasMany(JurnalEntri::class);
+    }
+
+    public function rincianAkun()
+    {
+        return $this->hasMany(PembiayaanRincianAkun::class);
+    }
 }

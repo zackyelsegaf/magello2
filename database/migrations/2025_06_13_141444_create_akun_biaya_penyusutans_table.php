@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Schema::create('kategori_barang', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string('nama')->nullable();
-        //     $table->timestamps();
-        // });
+        Schema::create('akun_biaya_penyusutans', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('akun_id')->constrained('akun')->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Schema::dropIfExists('kategori_barang');
+        Schema::dropIfExists('akun_biaya_penyusutans');
     }
 };

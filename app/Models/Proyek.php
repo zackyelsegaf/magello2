@@ -12,15 +12,15 @@ class Proyek extends Model
     protected $table = 'proyek';
 
     protected $fillable = [
-        'proyek_id'                ,
-        'nama_proyek'              ,
-        'nama_kontak'              ,
-        'tanggal_from'             ,
-        'tanggal_to'               ,
-        'persentase_komplet'       ,
-        'persentase_komplet_check' ,
-        'deskripsi'                ,
-        'dihentikan'               ,
+        'proyek_id',
+        'nama_proyek',
+        'nama_kontak',
+        'tanggal_from',
+        'tanggal_to',
+        'persentase_komplet',
+        'persentase_komplet_check',
+        'deskripsi',
+        'dihentikan',
     ];
 
     // /** generate id */
@@ -39,4 +39,14 @@ class Proyek extends Model
     //         }
     //     });
     // }
+
+    public function journalEntries()
+    {
+        return $this->hasMany(JurnalEntri::class);
+    }
+
+    public function rincianAkun()
+    {
+        return $this->hasMany(PembiayaanRincianAkun::class);
+    }
 }

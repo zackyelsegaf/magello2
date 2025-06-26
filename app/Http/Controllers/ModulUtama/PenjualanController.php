@@ -173,7 +173,6 @@ class PenjualanController extends Controller
 
         return DataTables::of($model)
             ->addIndexColumn()
-
             ->addColumn('pengguna', fn($row) => $row->user->name ?? '-')
             ->addColumn('cabang', fn($row) => $row->cabang->nama ?? '-')
             ->addColumn('catatan_pemeriksaan', fn($row) => $row->catatan_pemeriksaan ? true : false)

@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\MataUang;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class MataUangSeeder extends Seeder
 {
@@ -13,11 +14,9 @@ class MataUangSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [
-            ['kode' => 'IDR', 'nama' => 'Rupiah Indonesia'],
-            ['kode' => 'USD', 'nama' => 'Dolar Amerika'],
-        ];
-
-        DB::table('mata_uang')->insert($data);
+        MataUang::create([
+            'kode' => 'IDR',
+            'nama' => 'Rupiah Indonesia',
+        ]);
     }
 }

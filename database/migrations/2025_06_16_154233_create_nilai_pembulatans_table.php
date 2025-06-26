@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('akun', function (Blueprint $table) {
-            $table->string('tipe_akun')->nullable()->after('no_akun');
-            
+        Schema::create('nilai_pembulatans', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('nilai')->unique(); // Contoh: 10, 100, 1000, dst
+            $table->boolean('aktif')->default(true);
+            $table->timestamps();
         });
     }
 
@@ -22,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('akun', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('nilai_pembulatans');
     }
 };

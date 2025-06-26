@@ -18,15 +18,6 @@ class CreateRoomTypesTable extends Migration
             $table->string('room_name')->nullable();
             $table->timestamps();
         });
-
-        DB::table('room_types')->insert([
-            ['room_name' => 'Single'],
-            ['room_name' => 'Double'],
-            ['room_name' => 'Quad'],
-            ['room_name' => 'King'],
-            ['room_name' => 'Suite'],
-            ['room_name' => 'Villa'],
-        ]);
     }
 
     /**

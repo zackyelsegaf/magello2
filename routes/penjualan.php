@@ -87,6 +87,6 @@ Route::prefix('penjualan')->controller(PenjualanController::class)->group(functi
     Route::put('retur/{id}', 'updateRetur')->name('penjualan.retur.update');
     Route::delete('retur/{id}', 'destroyRetur')->name('penjualan.retur.destroy');
 
-    Route::get('test-livewire', Counter::class)->name('test-livewire');
+    // Route::get('test-livewire', Counter::class)->name('test-livewire');
 });
 

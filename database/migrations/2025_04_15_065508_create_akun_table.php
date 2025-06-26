@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('akun', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('tipe_id')->constrained('tipe_akun')->onDelete('cascade');
+            $table->foreignId('parent_id')->nullable()->constrained('akun')->onDelete('set null');
             $table->string('no_akun')->nullable();
             $table->string('nama_akun_indonesia')->nullable();
             $table->string('nama_akun_inggris')->nullable();
-            $table->string('mata_uang')->nullable();
-            $table->boolean('sub_akun_check')->nullable()->default(false);
-            $table->string('sub_akun')->nullable();
+            $table->foreignId('mata_uang_id')->nullable()->constrained('mata_uang')->onDelete('set null');
             $table->string('saldo_akun')->nullable();
             $table->string('tanggal')->nullable();
             $table->boolean('dihentikan')->nullable()->default(false);

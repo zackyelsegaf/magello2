@@ -2,7 +2,7 @@
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
-            <li class="{{ set_active(['home']) }}"> <a href="{{ route('home') }}"><span>Dashboard</span></a> </li>
+                <li class="{{ set_active(['home']) }}"> <a href="{{ route('home') }}"><span>Dashboard</span></a> </li>
                 <li class="list-divider"></li>
                 {{-- <li class="submenu"> <a href="#"><i class="fas fa-suitcase"></i> <span> Booking </span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
@@ -49,62 +49,110 @@
                         <li><a href="salary-veiw.html">Payslip </a></li>
                     </ul>
                 </li> --}}
-                <li class="submenu"> <a href="#"></i> <span> Master Data </span> <span class="menu-arrow"></span></a>
+                <li class="submenu"> <a href="#"></i> <span> Master Data </span> <span
+                            class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
-                        <li><a class="{{ set_active(['matauang/list/page']) }}" href="{{ route('matauang/list/page') }}">Mata Uang</a></li>
-                        <li><a class="{{ set_active(['statuspemasok/list/page']) }}" href="{{ route('statuspemasok/list/page') }}">Status Pelanggan & Pemasok</a></li>
-                        <li><a class="{{ set_active(['tipepelanggan/list/page']) }}" href="{{ route('tipepelanggan/list/page') }}">Tipe Pelanggan</a></li>
-                        <li><a class="{{ set_active(['pelanggan/list/page']) }}" href="{{ route('pelanggan/list/page') }}">Pelanggan</a></li>
-                        <li><a class="{{ set_active(['pegawai/list/page']) }}" href="{{ route('pegawai/list/page') }}">Pegawai</a></li>
-                        <li><a class="{{ set_active(['konsumen/list/page']) }}" href="{{ route('konsumen/list/page') }}">Konsumen</a></li>
-                        <li><a class="{{ set_active(['pemasok/list/page']) }}" href="{{ route('pemasok/list/page') }}">Pemasok</a></li>
-                        <li><a class="{{ set_active(['penjual/list/page']) }}" href="{{ route('penjual/list/page') }}">Penjual</a></li>
-                        <li><a class="{{ set_active(['departemen/list/page']) }}" href="{{ route('departemen/list/page') }}">Departemen</a></li>
-                        <li class="submenu"> <a href="#"></i> <span> Proyek </span> <span class="menu-arrow"></span></a>
+                        <li><a class="{{ set_active(['matauang/list/page']) }}"
+                                href="{{ route('matauang/list/page') }}">Mata Uang</a></li>
+                        <li><a class="{{ set_active(['statuspemasok/list/page']) }}"
+                                href="{{ route('statuspemasok/list/page') }}">Status Pelanggan & Pemasok</a></li>
+                        <li><a class="{{ set_active(['tipepelanggan/list/page']) }}"
+                                href="{{ route('tipepelanggan/list/page') }}">Tipe Pelanggan</a></li>
+                        <li><a class="{{ set_active(['pelanggan/list/page']) }}"
+                                href="{{ route('pelanggan/list/page') }}">Pelanggan</a></li>
+                        <li><a class="{{ set_active(['pegawai/list/page']) }}"
+                                href="{{ route('pegawai/list/page') }}">Pegawai</a></li>
+                        <li><a class="{{ set_active(['konsumen/list/page']) }}"
+                                href="{{ route('konsumen/list/page') }}">Konsumen</a></li>
+                        <li><a class="{{ set_active(['pemasok/list/page']) }}"
+                                href="{{ route('pemasok/list/page') }}">Pemasok</a></li>
+                        <li><a class="{{ set_active(['penjual/list/page']) }}"
+                                href="{{ route('penjual/list/page') }}">Penjual</a></li>
+                        <li><a class="{{ set_active(['departemen/list/page']) }}"
+                                href="{{ route('departemen/list/page') }}">Departemen</a></li>
+                        <li class="submenu"> <a href="#"></i> <span> Proyek </span> <span
+                                    class="menu-arrow"></span></a>
                             <ul class="submenu_class" style="display: none;">
-                                <li class="submenu"> <a href="#"></i> <span> Proyek Perumahan </span> <span class="menu-arrow"></span></a>
+                                <li class="submenu"> <a href="#"></i> <span> Proyek Perumahan </span> <span
+                                            class="menu-arrow"></span></a>
                                     <ul class="submenu_class" style="display: none;">
-                                        <li><a class="{{ set_active(['cluster/list/page']) }}" href="{{ route('cluster/list/page') }}">Cluster</a></li>
-                                        <li><a class="{{ set_active(['proyek/list/page']) }}" href="{{ route('proyek/list/page') }}">Unit</a></li>
-                                        <li><a class="{{ set_active(['proyek/list/page']) }}" href="{{ route('proyek/list/page') }}">Kapling</a></li>
-                                        <li><a class="{{ set_active(['proyek/list/page']) }}" href="{{ route('proyek/list/page') }}">Fasum</a></li>
-                                        <li><a class="{{ set_active(['proyek/list/page']) }}" href="{{ route('proyek/list/page') }}">Fasos</a></li>
+                                        <li><a class="{{ set_active(['cluster/list/page']) }}"
+                                                href="{{ route('cluster/list/page') }}">Cluster</a></li>
+                                        <li><a class="{{ set_active(['proyek/list/page']) }}"
+                                                href="{{ route('proyek/list/page') }}">Unit</a></li>
+                                        <li><a class="{{ set_active(['proyek/list/page']) }}"
+                                                href="{{ route('proyek/list/page') }}">Kapling</a></li>
+                                        <li><a class="{{ set_active(['proyek/list/page']) }}"
+                                                href="{{ route('proyek/list/page') }}">Fasum</a></li>
+                                        <li><a class="{{ set_active(['proyek/list/page']) }}"
+                                                href="{{ route('proyek/list/page') }}">Fasos</a></li>
                                     </ul>
                                 </li>
-                                <li><a class="{{ set_active(['proyek/list/page']) }}" href="{{ route('proyek/list/page') }}">Unit</a></li>
-                                <li><a class="{{ set_active(['proyekumum/list/page']) }}" href="{{ route('proyekumum/list/page') }}">Proyek UMUM</a></li>
+                                <li><a class="{{ set_active(['proyek/list/page']) }}"
+                                        href="{{ route('proyek/list/page') }}">Unit</a></li>
+                                <li><a class="{{ set_active(['proyekumum/list/page']) }}"
+                                        href="{{ route('proyekumum/list/page') }}">Proyek UMUM</a></li>
                             </ul>
                         </li>
-                        <li><a class="{{ set_active(['syarat/list/page']) }}" href="{{ route('syarat/list/page') }}">Syarat Pembayaran</a></li>
-                        <li><a class="{{ set_active(['pajak/list/page']) }}" href="{{ route('pajak/list/page') }}">Pajak</a></li>
+                        <li><a class="{{ set_active(['syarat/list/page']) }}"
+                                href="{{ route('syarat/list/page') }}">Syarat Pembayaran</a></li>
+                        <li><a class="{{ set_active(['pajak/list/page']) }}"
+                                href="{{ route('pajak/list/page') }}">Pajak</a></li>
                     </ul>
                 </li>
-                <li class="submenu"> <a href="#"></i> <span> Modul Utama </span> <span class="menu-arrow"></span></a>
+                <li class="submenu"> <a href="#"></i> <span> Modul Utama </span> <span
+                            class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
-                        <li class="submenu"> <a href="#"></i> <span> Pembelian </span> <span class="menu-arrow"></span></a>
+                        <li class="submenu"> <a href="#"></i> <span> Pembelian </span> <span
+                                    class="menu-arrow"></span></a>
                             <ul class="submenu_class" style="display: none;">
-                                <li><a class="{{ set_active(['pembelian/permintaan/list/page']) }}" href="{{ route('pembelian/permintaan/list/page') }}">Permintaan Pembelian</a></li>
+                                <li><a class="{{ set_active(['pembelian/permintaan/list/page']) }}"
+                                        href="{{ route('pembelian/permintaan/list/page') }}">Permintaan Pembelian</a>
+                                </li>
                             </ul>
                         </li>
-                        <li class="submenu"> <a href="#"></i> <span> Penjualan </span> <span class="menu-arrow"></span></a>
+                        <li class="submenu"> <a href="#"></i> <span> Penjualan </span> <span
+                                    class="menu-arrow"></span></a>
                             <ul class="submenu_class" style="display: none;">
-                                <li><a class="{{ set_active(['penjualan.penawaran.index'], 1) }}" href="{{ route('penjualan.penawaran.index') }}">Penawaran Penjualan</a></li>
-                                <li><a class="{{ set_active(['penjualan.pesanan.index'], 1) }}" href="{{ route('penjualan.pesanan.index') }}">Pesanan Penjualan</a></li>
-                                <li><a class="{{ set_active(['penjualan.pengiriman.index'], 1) }}" href="{{ route('penjualan.pengiriman.index') }}">Pengiriman Penjualan</a></li>
-                                <li><a class="{{ set_active(['penjualan.fakturpenjualan.index'], 1) }}" href="{{ route('penjualan.fakturpenjualan.index') }}">Faktur Penjualan</a></li>
-                                <li><a class="{{ set_active(['penjualan.fakturpenagihan.index'], 1) }}" href="{{ route('penjualan.fakturpenagihan.index') }}">Faktur Penagihan</a></li>
-                                <li><a class="{{ set_active(['penjualan.penerimaan.index'], 1) }}" href="{{ route('penjualan.penerimaan.index') }}">Penerimaan Penjualan</a></li>
-                                <li><a class="{{ set_active(['penjualan.retur.index'], 1) }}" href="{{ route('penjualan.retur.index') }}">Retur Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.penawaran.index'], 1) }}"
+                                        href="{{ route('penjualan.penawaran.index') }}">Penawaran Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.pesanan.index'], 1) }}"
+                                        href="{{ route('penjualan.pesanan.index') }}">Pesanan Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.pengiriman.index'], 1) }}"
+                                        href="{{ route('penjualan.pengiriman.index') }}">Pengiriman Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.fakturpenjualan.index'], 1) }}"
+                                        href="{{ route('penjualan.fakturpenjualan.index') }}">Faktur Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.fakturpenagihan.index'], 1) }}"
+                                        href="{{ route('penjualan.fakturpenagihan.index') }}">Faktur Penagihan</a></li>
+                                <li><a class="{{ set_active(['penjualan.penerimaan.index'], 1) }}"
+                                        href="{{ route('penjualan.penerimaan.index') }}">Penerimaan Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.retur.index'], 1) }}"
+                                        href="{{ route('penjualan.retur.index') }}">Retur Penjualan</a></li>
                             </ul>
                         </li>
-                        <li class="submenu"> <a href="#"></i> <span> Persediaan </span> <span class="menu-arrow"></span></a>
+                        <li class="submenu"> <a href="#"></i> <span> Persediaan </span> <span
+                                    class="menu-arrow"></span></a>
                             <ul class="submenu_class" style="display: none;">
-                                <li><a class="{{ set_active(['satuan/list/page']) }}" href="{{ route('satuan/list/page') }}">Satuan</a></li>
-                                <li><a class="{{ set_active(['gudang/list/page']) }}" href="{{ route('gudang/list/page') }}">Gudang</a></li>
-                                <li><a class="{{ set_active(['kategoribarang/list/page']) }}" href="{{ route('kategoribarang/list/page') }}">Kategori Barang</a></li>
-                                <li><a class="{{ set_active(['barang/list/page']) }}" href="{{ route('barang/list/page') }}">Barang</a></li>
-                                <li><a class="{{ set_active(['penyesuaian/list/page']) }}" href="{{ route('penyesuaian/list/page') }}">Penyesuaian Barang</a></li>
-                                <li><a class="{{ set_active(['pindahbarang/list/page']) }}" href="{{ route('pindahbarang/list/page') }}">Pindah Barang</a></li>
+                                <li><a class="{{ set_active(['satuan/list/page']) }}"
+                                        href="{{ route('satuan/list/page') }}">Satuan</a></li>
+                                <li><a class="{{ set_active(['gudang/list/page']) }}"
+                                        href="{{ route('gudang/list/page') }}">Gudang</a></li>
+                                <li><a class="{{ set_active(['kategoribarang/list/page']) }}"
+                                        href="{{ route('kategoribarang/list/page') }}">Kategori Barang</a></li>
+                                <li><a class="{{ set_active(['barang/list/page']) }}"
+                                        href="{{ route('barang/list/page') }}">Barang</a></li>
+                                <li><a class="{{ set_active(['penyesuaian/list/page']) }}"
+                                        href="{{ route('penyesuaian/list/page') }}">Penyesuaian Barang</a></li>
+                                <li><a class="{{ set_active(['pindahbarang/list/page']) }}"
+                                        href="{{ route('pindahbarang/list/page') }}">Pindah Barang</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu"> <a href="#"></i> <span> Aktiva Tetap </span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul class="submenu_class" style="display: none;">
+                                <li><a href="{{ route('satuan/list/page') }}">Aktiva Tetap</a></li>
+                                <li><a href="{{ route('gudang/list/page') }}">Tipe Aktiva Tetap Pajak</a></li>
+                                <li><a href="{{ route('kategoribarang/list/page') }}">Tipe Aktiva Tetap</a></li>
                             </ul>
                         </li>
                         {{-- <li><a class="{{ set_active(['pegawai/list/page']) }}" href="{{ route('pegawai/list/page') }}">Pegawai</a></li> --}}
@@ -120,9 +168,29 @@
                         <li><a class="{{ set_active(['pajak/list/page']) }}" href="{{ route('pajak/list/page') }}">Pajak</a></li> --}}
                     </ul>
                 </li>
-                <li class="submenu"> <a href="#"></i> <span> Buku Besar </span> <span class="menu-arrow"></span></a>
+                <li class="submenu"> <a href="#"></i> <span> Buku Besar </span> <span
+                            class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
-                        <li><a class="{{ set_active(['akun/list/page']) }}" href="{{ route('akun/list/page') }}">Daftar Akun</a></li>
+                        <li><a class="{{ set_active(['akun/list/page']) }}"
+                                href="{{ route('akun/list/page') }}">Daftar Akun</a></li>
+                        {{-- <li><a class="{{ set_active(['gudang/list/page']) }}" href="{{ route('gudang/list/page') }}">Gudang</a></li>
+                        <li><a class="{{ set_active(['kategoribarang/list/page']) }}" href="{{ route('kategoribarang/list/page') }}">Kategori Barang</a></li> --}}
+                        {{-- <li><a class="{{ set_active(['pegawai/list/page']) }}" href="{{ route('pegawai/list/page') }}">Pegawai</a></li> --}}
+                        {{-- <li><a class="{{ set_active(['matauang/list/page']) }}" href="{{ route('matauang/list/page') }}">Mata Uang</a></li>
+                        <li><a class="{{ set_active(['statuspemasok/list/page']) }}" href="{{ route('statuspemasok/list/page') }}">Status Pelanggan & Pemasok</a></li>
+                        <li><a class="{{ set_active(['tipepelanggan/list/page']) }}" href="{{ route('tipepelanggan/list/page') }}">Tipe Pelanggan</a></li>
+                        <li><a class="{{ set_active(['pelanggan/list/page']) }}" href="{{ route('pelanggan/list/page') }}">Pelanggan</a></li>
+                        <li><a class="{{ set_active(['pemasok/list/page']) }}" href="{{ route('pemasok/list/page') }}">Pemasok</a></li>
+                        <li><a class="{{ set_active(['penjual/list/page']) }}" href="{{ route('penjual/list/page') }}">Penjual</a></li>
+                        <li><a class="{{ set_active(['departemen/list/page']) }}" href="{{ route('departemen/list/page') }}">Departemen</a></li>
+                        <li><a class="{{ set_active(['proyek/list/page']) }}" href="{{ route('proyek/list/page') }}">Proyek</a></li>
+                        <li><a class="{{ set_active(['syarat/list/page']) }}" href="{{ route('syarat/list/page') }}">Syarat Pembayaran</a></li>
+                        <li><a class="{{ set_active(['pajak/list/page']) }}" href="{{ route('pajak/list/page') }}">Pajak</a></li> --}}
+                    </ul>
+                </li>
+                <li class="submenu"> <a href="#"></i> <span> Laporan </span> <span
+                            class="menu-arrow"></span></a>
+                    <ul class="submenu_class" style="display: none;">
                         {{-- <li><a class="{{ set_active(['gudang/list/page']) }}" href="{{ route('gudang/list/page') }}">Gudang</a></li>
                         <li><a class="{{ set_active(['kategoribarang/list/page']) }}" href="{{ route('kategoribarang/list/page') }}">Kategori Barang</a></li> --}}
                         {{-- <li><a class="{{ set_active(['pegawai/list/page']) }}" href="{{ route('pegawai/list/page') }}">Pegawai</a></li> --}}
@@ -140,12 +208,13 @@
                 </li>
                 <li class="submenu">
                     <a href="#">
-                        <span> Pengguna </span> 
+                        <span> Pengguna </span>
                         <span class="menu-arrow"></span>
                     </a>
                     <ul class="submenu_class" style="display: none;">
                         {{-- <li><a class="{{ set_active(['users/add/new']) }}" href="{{ route('users/add/new') }}">Add User</a></li> --}}
-                        <li><a class="{{ set_active(['users/list/page']) }}" href="{{ route('users/list/page') }}">Data Pengguna</a></li>
+                        <li><a class="{{ set_active(['users/list/page']) }}"
+                                href="{{ route('users/list/page') }}">Data Pengguna</a></li>
                         {{-- <li><a class="{{ request()->is('users/add/edit/*') ? 'active' : '' }}"> Edit User </a></li> --}}
                     </ul>
                 </li>
@@ -153,9 +222,9 @@
         </div>
         {{-- <div id="sidebar-menu" class="sidebar-menu">
             <ul> --}}
-            {{-- <li class="{{ set_active(['home_2']) }}"> <a href="{{ route('/home_2') }}"><span>Dashboard 2</span></a> </li> --}}
-                {{-- <li class="list-divider"></li> --}}
-                {{-- <li class="submenu"> <a href="#"><i class="fas fa-suitcase"></i> <span> Booking </span> <span class="menu-arrow"></span></a>
+        {{-- <li class="{{ set_active(['home_2']) }}"> <a href="{{ route('/home_2') }}"><span>Dashboard 2</span></a> </li> --}}
+        {{-- <li class="list-divider"></li> --}}
+        {{-- <li class="submenu"> <a href="#"><i class="fas fa-suitcase"></i> <span> Booking </span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li><a class="{{ set_active(['form/allbooking']) }}" href="{{ route('form/allbooking') }}"> All Booking </a></li>
                         <li><a class="{{ request()->is('form/booking/edit/*') ? 'active' : '' }}"> Edit Booking </a></li>
@@ -200,7 +269,7 @@
                         <li><a href="salary-veiw.html">Payslip </a></li>
                     </ul>
                 </li> --}}
-                {{-- <li class="submenu"> <a href="#"></i> <span> HRM </span> <span class="menu-arrow"></span></a>
+        {{-- <li class="submenu"> <a href="#"></i> <span> HRM </span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li><a class="{{ set_active(['matauang/list/page']) }}" href="{{ route('matauang/list/page') }}">Mata Uang</a></li>
                         <li><a class="{{ set_active(['statuspemasok/list/page']) }}" href="{{ route('statuspemasok/list/page') }}">Status Pelanggan & Pemasok</a></li>
@@ -214,7 +283,7 @@
                         <li><a class="{{ set_active(['pajak/list/page']) }}" href="{{ route('pajak/list/page') }}">Pajak</a></li>
                     </ul>
                 </li> --}}
-                {{-- <li class="submenu"> <a href="#"></i> <span> Marketing </span> <span class="menu-arrow"></span></a>
+        {{-- <li class="submenu"> <a href="#"></i> <span> Marketing </span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li class="submenu"> <a href="#"></i> <span> Perumahan </span> <span class="menu-arrow"></span></a>
                             <ul class="submenu_class" style="display: none;">
@@ -234,7 +303,7 @@
                         <li><a class="{{ set_active(['pajak/list/page']) }}" href="{{ route('pajak/list/page') }}">Pajak</a></li>
                     </ul>
                 </li> --}}
-            {{-- </ul>
+        {{-- </ul>
         </div> --}}
     </div>
 </div>
