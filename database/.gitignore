@@ -1,2 +1,2 @@
-# Abaikan semua file SQLite
-*.sqlite
+# Abaikan file SQLite
+database/*.sqlite
