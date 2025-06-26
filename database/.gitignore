@@ -1,1 +1,2 @@
-/.sqlite
+# Abaikan semua file SQLite
+*.sqlite
