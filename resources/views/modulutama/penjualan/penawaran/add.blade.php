@@ -1,21 +1,25 @@
 <x-layout.main>
     <x-slot:title>
-        Penawaran Penjualan
+        {{ ucfirst($title) }} Penjualan
     </x-slot>
     <form id="formPenawaran">
         <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
 
             <div class="content container-fluid">
-                <div class="page-header">
+                <div class="page-header mt-5">
                     <div class="d-flex justify-content-between align-items-start w-100">
                         {{-- Kolom kiri --}}
                         <div class="d-flex flex-column">
-                            <h4 class="card-title mb-2">Data Penawaran Penjualan</h4>
-                            <x-select2.search placeholder="Nama Pelanggan..." name="pelanggan_id" label="Pelanggan"
-                                :options=$pelanggans id="selectPelanggan" />
+                            <h4 class="card-title mb-2">Data {{ ucfirst($title) }} Penjualan</h4>
+                            <x-combo-auto-fill size="sm" id="pelanggan" placeholder="Pilih pelanggan..."
+                                :data="$pelanggans" name="pelanggan_id" :autofill="[
+                                    'alamat' => 'alamat-input',
+                                    'telepon' => 'telp-input',
+                                ]" />
                         </div>
 
                         {{-- Kolom kanan --}}
+                        <div id="svelte-app"></div>
                         <div class="d-flex flex-column">
                             <div class="d-flex justify-content-end">
                                 <div class="form-check me-3">
@@ -57,7 +61,9 @@
                                 <div class="d-flex flex-column" style="min-width: 0; flex: 1;">
                                     <label for="inputGmp2" class="form-label mb-1">Tanggal {{ $title }}</label>
                                     <div class="input-group input-group-sm">
-                                        <input type="text" class="form-control datetimepicker @error('tgl_permintaan') is-invalid @enderror" name="tgl_permintaan"> 
+                                        <input type="text"
+                                            class="form-control datetimepicker @error('tgl_permintaan') is-invalid @enderror"
+                                            name="tgl_permintaan">
                                     </div>
                                 </div>
                             </div>
@@ -232,6 +238,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="barangTableBody">
+
 
                                                 {{-- @php
                                                 $noBarangList = old('no_barang', ['']);
@@ -431,7 +438,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="Informasi_address"><strong>Alamat</strong></label>
-                                                        <textarea readonly class="form-control" name="address" id="Informasi_address" rows="4"
+                                                        <textarea readonly class="form-control" name="address" id="alamat-input" rows="4"
                                                             placeholder="Alamat tujuan">{{ old('address') }}</textarea>
                                                     </div>
                                                 </div>
@@ -511,6 +518,10 @@
                         icon: 'success',
                         title: 'Berhasil',
                         text: result.message || 'Data berhasil disimpan!',
+                    }).then(() => {
+                        // Redirect setelah klik "OK"
+                        window.location.href =
+                            "{{ route('penjualan.penawaran.index') }}"; // Ganti dengan URL yang kamu inginkan
                     });
                 } else {
                     Swal.fire({
@@ -683,7 +694,7 @@
                         if ($(`#row-barang-${id}`).length === 0) {
                             let newRow = `
 <tr id="row-barang-${id}" class="barang-row" style="font-size: 12px;">
-    <td><input type="hidden" name="barang_id" value="${id}"><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="no_barang[]" value="${nobarang}" readonly></td>
+    <td><input type="hidden" name="barang_id[]" value="${id}"><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="no_barang[]" value="${nobarang}" readonly></td>
     <td><input style="width: 150px; height: 26px; font-size: 12px;" type="text" class="form-control deskripsi-barang-input" name="deskripsi_barang[]" value="${nama}"></td>
     <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_permintaan[]" value=""></td>
     <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="satuan[]" value="${satuan}"></td>

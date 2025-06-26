@@ -1,2 +1,4 @@
-# Abaikan file SQLite
-database/*.sqlite
+
+.sqlite
+database.sqlite
+

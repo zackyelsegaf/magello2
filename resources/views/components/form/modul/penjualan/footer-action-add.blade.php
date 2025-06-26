@@ -12,9 +12,8 @@
     style="
         position: fixed;
         bottom: 0;
-        z-index: 1030;
         background: #fff;
-        width: 100%;
+        width: 87.5%;
         padding: 12px 24px;
         box-shadow: 0 -2px 6px rgba(0,0,0,0.08);
         display: flex;
@@ -108,3 +107,22 @@
         </button>
     </div>
 </div>
+
+<script>
+window.addEventListener("sidebarToggled", function (e) {
+    const isMini = e.detail.isMini;
+    const footerBar = document.getElementById("footerActionAddBar");
+    if (footerBar) {
+        footerBar.style.width = isMini ? "100%" : "87.5%";
+    }
+});
+
+// Sync awal jika perlu
+document.addEventListener("DOMContentLoaded", function () {
+    const isMini = document.body.classList.contains("mini-sidebar");
+    const footerBar = document.getElementById("footerActionAddBar");
+    if (footerBar) {
+        footerBar.style.width = isMini ? "100%" : "87.5%";
+    }
+});
+</script>

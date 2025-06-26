@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('no_penawaran')->unique();
             $table->date('tgl_penawaran')->nullable();
             $table->foreignId('pelanggan_id')->nullable()->constrained('pelanggan')->nullOnDelete();
+            $table->foreignId('penjual_id')->nullable()->constrained('penjual')->nullOnDelete();
             $table->string('no_pelanggan')->nullable();
             $table->string('nama_pelanggan')->nullable();
             $table->string('status')->default('draft');

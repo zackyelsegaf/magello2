@@ -147,7 +147,7 @@
                 ordering: true,
                 searching: false,
                 ajax: {
-                    url: '{{ $routeFetch }}',
+                    url: '{{ $fetchRoute }}',
                     // data: function(d) {
                     //     d.nama_barang = $('input[name=nama_barang]').val(),
                     //     d.no_barang = $('input[name=no_barang]').val(),

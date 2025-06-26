@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\ModulUtama;
 
+use App\Models\Barang;
+use App\Models\Syarat;
+use App\Models\Penjual;
+use App\Models\MataUang;
 use App\Models\Pelanggan;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\MataUang;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -18,8 +21,8 @@ use App\Models\ModulUtama\Penjualan\PesananPenjualan;
 use App\Models\ModulUtama\Penjualan\PenawaranPenjualan;
 use App\Models\ModulUtama\Penjualan\PenerimaanPenjualan;
 use App\Models\ModulUtama\Penjualan\PengirimanPenjualan;
+use App\Models\ModulUtama\Penjualan\PesananPenjualanItem;
 use App\Models\ModulUtama\Penjualan\PenawaranPenjualanItem;
-use App\Models\Penjual;
 
 class PenjualanController extends Controller
 {
@@ -31,10 +34,18 @@ class PenjualanController extends Controller
         $tipe_barang = DB::table('tipe_barang')->get();
         $tipe_persediaan = DB::table('tipe_persediaan')->get();
         $kategori_barang = DB::table('kategori_barang')->get();
-        $routeFetch = route("penjualan.$this->menu.fetch");
+        $fetchRoute = route("penjualan.$this->menu.fetch");
         $createRoute = route("penjualan.$this->menu.create");
 
         return view("modulutama.penjualan.$this->menu.data", compact('createRoute', 'routeFetch', 'nama_barang', 'tipe_barang', 'tipe_persediaan', 'kategori_barang'));
+    }
+
+    protected function Needed()
+    {
+        $data['nama_barang'] = Barang::all();
+        $data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
+            return [$item->id => $item->nama_pelanggan];
+        })->toArray();
     }
 
     public function BaseCreate()
@@ -53,15 +64,11 @@ class PenjualanController extends Controller
     // =====================
     public function indexPenawaran()
     {
-        $this->menu = 'penawaran';
-        $nama_barang = DB::table('barang')->get();
-        $tipe_barang = DB::table('tipe_barang')->get();
-        $tipe_persediaan = DB::table('tipe_persediaan')->get();
-        $kategori_barang = DB::table('kategori_barang')->get();
-        $routeFetch = route("penjualan.$this->menu.fetch");
-        $createRoute = route("penjualan.$this->menu.create");
+        $this->path = 'penawaran';
+        $this->model = PenawaranPenjualan::class;
+        $this->NeededIndex();
 
-        return view("modulutama.penjualan.$this->menu.data", compact('createRoute', 'routeFetch', 'nama_barang', 'tipe_barang', 'tipe_persediaan', 'kategori_barang'));
+        return view("modulutama.penjualan.$this->path.data", $this->data);
     }
 
     protected $recordId;
@@ -321,9 +328,15 @@ class PenjualanController extends Controller
         $data['nama_barang'] = DB::table('barang')->get();
         $data['title'] = "Penawaran";
         $data['no'] = PenawaranPenjualan::generateNo();
-        $data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
-            return [$item->id => $item->nama_pelanggan];
-        })->toArray();
+        // $data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
+        //     return [$item->id => $item->nama_pelanggan];
+        // })->toArray();
+        $data['pelanggans'] = Pelanggan::all()->map(fn($item) => [
+            'id' => $item->id,
+            'name' => $item->nama_pelanggan,
+            'alamat' => $item->alamat_1,
+            'telepon' => $item->no_telp
+        ])->toArray();
         $data['penjuals'] = Penjual::all()->mapWithKeys(function ($item) {
             $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
             return [$item->id => $nama];
@@ -333,21 +346,13 @@ class PenjualanController extends Controller
     }
     public function storePenawaran(Request $request)
     {
-        $auth = Auth::id();
-
-        // return response()->json([
-        //         'success' => false,
-        //         'message' => 'Gagal menyimpan data: '.$auth,
-        //     ], 500);
+        
 
         DB::beginTransaction();
 
-
-        // dd($request->all());
-
         try {
             $validated = Validator::make($request->all(), [
-                'no_penawaran'        => 'required|string|unique:penawaran_penjualans,no_penawaran',
+                'no_penawaran'        => 'required|string',
                 'tgl_penawaran'       => 'nullable|date',
                 'pelanggan_id'        => 'required|exists:pelanggan,id',
                 'no_pelanggan'        => 'nullable|string',
@@ -366,28 +371,34 @@ class PenjualanController extends Controller
                 'urgensi'             => 'nullable|in:rendah,sedang,tinggi',
             ])->validate();
 
-            $penawaran = PenawaranPenjualan::create([
-                'no_penawaran'        => $validated['no_penawaran'],
-                'tgl_penawaran'       => $validated['tgl_penawaran'] ?? now(),
-                'pelanggan_id'        => $validated['pelanggan_id'] ?? null,
-                'no_pelanggan'        => $validated['no_pelanggan'] ?? null,
-                'nama_pelanggan'      => $validated['nama_pelanggan'] ?? null,
-                'status'              => $validated['status'] ?? 'draft',
-                'nilai_diskon'        => $validated['nilai_diskon'] ?? 0,
-                'total_pajak'         => $validated['total_pajak'] ?? 0,
-                'nilai_pajak_1'       => $validated['nilai_pajak_1'] ?? 0,
-                'nilai_pajak_2'       => $validated['nilai_pajak_2'] ?? 0,
-                'nilai_penawaran'     => $validated['nilai_penawaran'] ?? 0,
-                'deskripsi'           => $validated['deskripsi'] ?? null,
-                'no_persetujuan'      => $validated['no_persetujuan'] ?? null,
-                'catatan_pemeriksaan' => $validated['catatan_pemeriksaan'] ?? null,
-                'tindak_lanjut'       => $validated['tindak_lanjut'] ?? null,
-                'disetujui'           => $validated['disetujui'] ?? false,
-                'urgensi'             => $validated['urgensi'] ?? null,
-                'user_id'             => $auth,
-            ]);
+            // Update jika ada, create jika belum
+            $penawaran = PenawaranPenjualan::updateOrCreate(
+                ['no_penawaran' => $validated['no_penawaran']],
+                [
+                    'tgl_penawaran'       => $validated['tgl_penawaran'] ?? now(),
+                    'pelanggan_id'        => $validated['pelanggan_id'],
+                    'no_pelanggan'        => $validated['no_pelanggan'] ?? null,
+                    'nama_pelanggan'      => $validated['nama_pelanggan'] ?? null,
+                    'status'              => $validated['status'] ?? 'draft',
+                    'nilai_diskon'        => $validated['nilai_diskon'] ?? 0,
+                    'total_pajak'         => $validated['total_pajak'] ?? 0,
+                    'nilai_pajak_1'       => $validated['nilai_pajak_1'] ?? 0,
+                    'nilai_pajak_2'       => $validated['nilai_pajak_2'] ?? 0,
+                    'nilai_penawaran'     => $validated['nilai_penawaran'] ?? 0,
+                    'deskripsi'           => $validated['deskripsi'] ?? null,
+                    'no_persetujuan'      => $validated['no_persetujuan'] ?? null,
+                    'catatan_pemeriksaan' => $validated['catatan_pemeriksaan'] ?? null,
+                    'tindak_lanjut'       => $validated['tindak_lanjut'] ?? null,
+                    'disetujui'           => $validated['disetujui'] ?? false,
+                    'urgensi'             => $validated['urgensi'] ?? null,
+                    'user_id'             => $this->auth,
+                ]
+            );
 
-            // ... tambahkan penyimpanan detail barang di sini jika perlu
+            // Hapus item lama jika update
+            $penawaran->items()->delete();
+
+            // Simpan ulang item baru
             $items = collect($request->barang_id)->map(function ($itemId, $i) use ($request) {
                 return [
                     'item_id'        => $itemId,
@@ -422,7 +433,36 @@ class PenjualanController extends Controller
             ], 500);
         }
     }
-    public function editPenawaran($id) {}
+    public function editPenawaran($id)
+    {
+        $data = PenawaranPenjualan::with('items')->findOrFail($id);
+
+        $data['nama_barang'] = Barang::all();
+        $data['pelanggans'] = Pelanggan::all()->map(fn($item) => [
+            'id' => $item->id,
+            'name' => $item->nama_pelanggan,
+            'alamat' => $item->alamat_1,
+            'telepon' => $item->no_telp
+        ])->toArray();
+
+        $data['penjuals'] = Penjual::all()->mapWithKeys(function ($item) {
+            $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
+            return [$item->id => $nama];
+        })->toArray();
+
+        $data['selectedPelanggan'] = [
+            'id' => $data->pelanggan_id,
+            'name' => $data->pelanggan->nama_pelanggan,
+            'alamat' => $data->pelanggan->alamat_1,
+            'telepon' => $data->pelanggan->no_telp
+        ];
+
+        $data['dataPenawaran'] = $data;
+
+        $data['title'] = "Penawaran";
+
+        return view('modulutama.penjualan.penawaran.edit', $data);
+    }
     public function updatePenawaran(Request $request, $id) {}
     public function destroyPenawaran($id) {}
 
@@ -431,11 +471,92 @@ class PenjualanController extends Controller
     // =====================
     public function indexPesanan()
     {
-        $this->menu = 'pesanan';
-        return $this->dataUtama();
+        $this->path = 'pesanan';
+        $this->model = PesananPenjualan::class;
+        $this->NeededIndex();
+
+        return view("modulutama.penjualan.$this->path.data", $this->data);
     }
-    public function createPesanan() {}
-    public function storePesanan(Request $request) {}
+    public function createPesanan()
+    {
+        $data['nama_barang'] = DB::table('barang')->get();
+        $data['title'] = "Pesanan";
+        $data['no'] = PesananPenjualan::generateNo();
+        $data['pelanggans'] = Pelanggan::all()->map(fn($item) => [
+            'id' => $item->id,
+            'name' => $item->nama_pelanggan,
+            'alamat' => $item->alamat_1,
+            'telepon' => $item->no_telp
+        ])->toArray();
+        $data['penjuals'] = Penjual::all()->mapWithKeys(function ($item) {
+            $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
+            return [$item->id => $nama];
+        })->toArray();
+        $data['syaratPembayaran'] = Syarat::all()->mapWithKeys(function ($item) {
+            return [$item->id => $item->nama];
+        })->toArray();
+        $data['storeRoute'] = route('penjualan.pesanan.store');
+
+        return view("modulutama.penjualan.pesanan.add", $data);
+    }
+    public function storePesanan(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            // Buat entri pesanan penjualan (header)
+            $pesanan = PesananPenjualan::create([
+                'no_pesanan'        => $request->no_penawaran,
+                'tgl_pesanan'       => now(),
+                'pelanggan_id'      => $request->pelanggan_id,
+                'status'            => 'draft',
+                'nilai_diskon'      => floatval(str_replace(',', '', $request->cashdiscount ?? 0)),
+                'total_pajak'       => floatval($request->ppn ?? 0) + floatval($request->pajak2 ?? 0),
+                'nilai_pajak_1'     => floatval($request->ppn ?? 0),
+                'nilai_pajak_2'     => floatval($request->pajak2 ?? 0),
+                'nilai_pesanan'     => floatval(str_replace(',', '', $request->total ?? 0)),
+                'deskripsi'         => $request->deskripsi_1,
+                'catatan_pemeriksaan' => $request->catatan_pemeriksaan_check == "1" ? $request->deskripsi_2 : null,
+                'tindak_lanjut'     => $request->tindak_lanjut_check == "1" ? $request->deskripsi_2 : null,
+                'disetujui'         => false,
+                'urgensi'           => $request->urgent_check == "1" ? 'tinggi' : 'rendah',
+                'user_id'           => $this->auth,
+                'cabang_id'         => $this->auth,
+                'no_persetujuan'    => null,
+            ]);
+
+            // Loop dan simpan item pesanan
+            foreach ($request->deskripsi_barang as $i => $deskripsi) {
+                // Cari item_id berdasarkan deskripsi (jika ada, sesuaikan sesuai logika Anda)
+                $barang = Barang::where('nama_barang', $deskripsi)->first();
+
+                PesananPenjualanItem::create([
+                    'pesanan_penjualan_id' => $pesanan->id,
+                    'item_id'              => $barang?->id ?? 1, // fallback item_id = 1 jika tidak ditemukan
+                    'deskripsi_barang'     => $deskripsi,
+                    'kuantitas'            => intval($request->kts_permintaan[$i] ?? 0),
+                    'satuan'               => $request->satuan[$i] ?? '',
+                    'harga_satuan'         => floatval(str_replace('.', '', $request->harga_satuan[$i] ?? 0)),
+                    'diskon_persen'        => floatval($request->diskon[$i] ?? 0),
+                    'pajak'                => floatval($request->pajak[$i] ?? 0),
+                    'jumlah'               => floatval(str_replace([',', '.'], ['', '.'], $request->jumlah[$i] ?? 0)),
+                    'kuantitas_dikirim'    => intval($request->kuantitas_dikirim[$i] ?? 0),
+                    'departemen'           => $request->departemen[$i] ?? null,
+                    'proyek'               => $request->proyek[$i] ?? null,
+                    'no_penawaran'         => $request->no_penawaran,
+                    'reserve_1'            => null,
+                    'reserve_2'            => null,
+                ]);
+            }
+
+            DB::commit();
+
+            return response()->json(['success' => true, 'message' => 'Pesanan penjualan berhasil disimpan.']);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => 'Gagal menyimpan pesanan.', 'error' => $e->getMessage()]);
+        }
+    }
     public function editPesanan($id) {}
     public function updatePesanan(Request $request, $id) {}
     public function destroyPesanan($id) {}
@@ -443,12 +564,35 @@ class PenjualanController extends Controller
     // =====================
     // PENGIRIMAN PENJUALAN
     // =====================
+
     public function indexPengiriman()
     {
-        $this->menu = 'pengiriman';
-        return $this->dataUtama();
+        $this->model = PengirimanPenjualan::class;
+        $this->path = 'pengiriman';
+        $this->NeededIndex();
+        return view("modulutama.penjualan.$this->path.data", $this->data);
     }
-    public function createPengiriman() {}
+    public function createPengiriman()
+    {
+        $data['nama_barang'] = DB::table('barang')->get();
+        $data['title'] = "Penawaran";
+        $data['no'] = PenawaranPenjualan::generateNo();
+        // $data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
+        //     return [$item->id => $item->nama_pelanggan];
+        // })->toArray();
+        $data['pelanggans'] = Pelanggan::all()->map(fn($item) => [
+            'id' => $item->id,
+            'name' => $item->nama_pelanggan,
+            'alamat' => $item->alamat_1,
+            'telepon' => $item->no_telp
+        ])->toArray();
+        $data['penjuals'] = Penjual::all()->mapWithKeys(function ($item) {
+            $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
+            return [$item->id => $nama];
+        })->toArray();
+
+        return view("modulutama.penjualan.penawaran.add", $data);
+    }
     public function storePengiriman(Request $request) {}
     public function editPengiriman($id) {}
     public function updatePengiriman(Request $request, $id) {}
