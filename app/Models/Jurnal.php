@@ -7,15 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Jurnal extends Model
 {
-    
+    protected $table = 'jurnals';
+    protected $guarded = ['id'];
 
     public function entries()
     {
         return $this->hasMany(JurnalEntri::class);
     }
 
-    public function documents()
+    // public function documents()
+    // {
+    //     return $this->hasMany(JurnalDocument::class);
+    // }
+
+    public function dokumen()
     {
-        return $this->hasMany(JurnalDocument::class);
+        return $this->morphMany(Dokumen::class, 'dokumenable');
     }
 }

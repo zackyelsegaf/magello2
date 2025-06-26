@@ -40,6 +40,8 @@ class DatabaseSeeder extends Seeder
             ReligionSeeder::class,
             MataUangSeeder::class,
             SatuanSeeder::class,
+            GudangSeeder::class,
+            KategoriBarangSeeder::class,
             RoomTypeSeeder::class,
             MetodePenyusutanSeeder::class,
             // AkunAktivaSeeder::class,

@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Schema::create('kategori_barang', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string('nama')->nullable();
-        //     $table->timestamps();
-        // });
+        Schema::create('dokumens', function (Blueprint $table) {
+            $table->id();
+            $table->string('file_name')->nullable();
+            $table->string('file_link');
+            $table->morphs('dokumenable'); // dokumenable_id, dokumenable_type
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Schema::dropIfExists('kategori_barang');
+        Schema::dropIfExists('dokumens');
     }
 };

@@ -41,4 +41,9 @@ class Departemen extends Model
     {
         return $this->hasMany(JurnalEntri::class);
     }
+
+    public function rincianAkun()
+    {
+        return $this->hasMany(PembiayaanRincianAkun::class);
+    }
 }

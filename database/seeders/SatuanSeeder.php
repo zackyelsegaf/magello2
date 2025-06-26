@@ -15,10 +15,9 @@ class SatuanSeeder extends Seeder
     public function run(): void
     {
         $satuans = [
-            'Pcs',
             'Batang',
             'Bungkus',
-            'Dus',
+            'Dos',
             'Dump',
             'Ikat',
             'Kaleng',
@@ -29,26 +28,11 @@ class SatuanSeeder extends Seeder
             'M2',
             'Meter',
             'Pail',
+            'Pcs',
             'Rol',
             'Set',
-            'Sak',
-            'Unit',
-            'Buah',
-            'Truk',
-            'Lnt',
-            'Fail',
-            'M3',
-            'Orang',
-            'Hari',
-            'Botol',
-            'Butir',
-            'Galon',
-            'Liter',
-            'Set M2',
-            'Rek',
-            'Ret'
+            'Zak',
         ];
-
         $now = Carbon::now();
 
         foreach ($satuans as $satuan) {
