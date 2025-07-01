@@ -10,43 +10,43 @@ class Pemasok extends Model
     use HasFactory;
 
     protected $table = 'pemasok';
-
-    protected $fillable = [
-        'pemasok_id',
-        'nama',
-        'status',
-        'kode_pos',
-        'provinsi',
-        'kota',
-        'negara',
-        'alamat_1',
-        'alamat_2',
-        'alamatpajak_1',
-        'alamatpajak_2',
-        'kontak',
-        'no_telp',
-        'no_fax',
-        'email',
-        'website',
-        'memo',
-        'fileupload_1',
-        'dihentikan',
-        'npwp',
-        'pajak_1',
-        'pajak_2',
-        'syarat',
-        'mata_uang',
-        'saldo_awal',
-        'tanggal',
-        'deskripsi',
-        'no_pkp',
-        // 'fileupload_2',
-        // 'fileupload_3',
-        // 'fileupload_4',
-        // 'fileupload_5',
-        // 'fileupload_6',
-        // 'fileupload_7',
-    ];
+    protected $guarded = ['id'];
+    // protected $fillable = [
+    //     'pemasok_id',
+    //     'nama',
+    //     'status',
+    //     'kode_pos',
+    //     'provinsi',
+    //     'kota',
+    //     'negara',
+    //     'alamat_1',
+    //     'alamat_2',
+    //     'alamatpajak_1',
+    //     'alamatpajak_2',
+    //     'kontak',
+    //     'no_telp',
+    //     'no_fax',
+    //     'email',
+    //     'website',
+    //     'memo',
+    //     'fileupload_1',
+    //     'dihentikan',
+    //     'npwp',
+    //     'pajak_1',
+    //     'pajak_2',
+    //     'syarat',
+    //     'mata_uang',
+    //     'saldo_awal',
+    //     'tanggal',
+    //     'deskripsi',
+    //     'no_pkp',
+    // 'fileupload_2',
+    // 'fileupload_3',
+    // 'fileupload_4',
+    // 'fileupload_5',
+    // 'fileupload_6',
+    // 'fileupload_7',
+    // ];
 
     // /** generate id */
     protected static function boot()
@@ -63,5 +63,30 @@ class Pemasok extends Model
                 $model->pemasok_id = 'TB-' . sprintf("%04d", $nextID);
             }
         });
+    }
+
+    public function dokumen()
+    {
+        return $this->morphMany(Dokumen::class, 'documentable');
+    }
+
+    public function pajak1()
+    {
+        return $this->belongsTo(Pajak::class, 'pajak_1_id');
+    }
+
+    public function pajak2()
+    {
+        return $this->belongsTo(Pajak::class, 'pajak_2_id');
+    }
+
+    public function syarat()
+    {
+        return $this->belongsTo(Syarat::class, 'syarat_id');
+    }
+
+    public function mataUang()
+    {
+        return $this->belongsTo(MataUang::class, 'mata_uang_id');
     }
 }

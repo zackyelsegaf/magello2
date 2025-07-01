@@ -233,7 +233,7 @@ class AkunSeeder extends Seeder
 
             ['11009', 'Akun Silang', 'Aktiva Lancar Lainnya', null, '0'],
             ['11070.1', 'PPN Masukan', 'Aktiva Lancar Lainnya', null],
-            ['11070.2', 'PPh 23 Pembelian', 'Aktiva Lancar Lainnya', null],
+            ['11070.2', 'PPH 23 Pembelian', 'Aktiva Lancar Lainnya', null],
 
             ['11100', 'Transaksi Aktiva Tetap', 'Aktiva Lancar Lainnya', null],
             ['11111', 'Perlengkapan', 'Aktiva Lancar Lainnya', null],

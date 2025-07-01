@@ -4,8 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\ModulUtama\Aktiva\AkunAktiva;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use App\Models\ModulUtama\Aktiva\AkunAktiva;
 use Database\Seeders\MetodePenyusutanSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,13 +16,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory(10)->create();
+        User::factory(10)->create();
 
-        \App\Models\User::factory()->create([
+        User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
-        \App\Models\User::factory()->create([
+        User::factory()->create([
             'name' => 'Superadmin',
             'email' => 'superadmin@gmail.com',
         ]);
@@ -44,13 +45,19 @@ class DatabaseSeeder extends Seeder
             KategoriBarangSeeder::class,
             RoomTypeSeeder::class,
             MetodePenyusutanSeeder::class,
+            ProyekSeeder::class,
+            SyaratSeeder::class,
             // AkunAktivaSeeder::class,
             // AkunAkumulasiPenyusutanSeeder::class,
             JenisHargaSeeder::class,
+            UnitBarangSeeder::class,
             MetodePenyesuaianSeeder::class,
             NilaiPembulatanSeeder::class,
             SumberNilaiAsalSeeder::class,
             AkunSeeder::class,
+            PajakSeeder::class,
+            PemasokSeeder::class,
+            PenjualSeeder::class,
             AkunBiayaPenyusutanSeeder::class,
         ]);
     }
