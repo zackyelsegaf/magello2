@@ -13,9 +13,8 @@ class CreateProvincesTable extends Migration
      */
     public function up()
     {
-        Schema::create(config('laravolt.indonesia.table_prefix').'provinces', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->char('code', 2)->unique();
+        Schema::create(config('laravolt.indonesia.table_prefix') . 'provinces', function (Blueprint $table) {
+            $table->char('code', 2)->primary();
             $table->string('name', 255);
             $table->text('meta')->nullable();
             $table->timestamps();
@@ -29,6 +28,6 @@ class CreateProvincesTable extends Migration
      */
     public function down()
     {
-        Schema::drop(config('laravolt.indonesia.table_prefix').'provinces');
+        Schema::drop(config('laravolt.indonesia.table_prefix') . 'provinces');
     }
 }

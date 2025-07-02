@@ -2,8 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Pajak;
+use App\Models\Syarat;
+use App\Models\Dokumen;
+use App\Models\MataUang;
+use Laravolt\Indonesia\Models\City;
 use Illuminate\Database\Eloquent\Model;
+use Laravolt\Indonesia\Models\Province;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pemasok extends Model
 {
@@ -88,5 +94,16 @@ class Pemasok extends Model
     public function mataUang()
     {
         return $this->belongsTo(MataUang::class, 'mata_uang_id');
+    }
+    
+    public function provinsi()
+    {
+        return $this->belongsTo(Province::class, 'provinsi_code', 'code');
+    }
+
+    // Relasi ke kota dari Laravolt
+    public function kota()
+    {
+        return $this->belongsTo(City::class, 'kota_code', 'code');
     }
 }

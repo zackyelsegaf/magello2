@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kota', function (Blueprint $table) {
-            $table->float('id');
-            $table->string('nama');
+        Schema::create('master_biaya_lahans', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama_biaya');
+            $table->foreignId('akun_perolehan_id')->constrained('akun')->onDelete('restrict');
+            $table->foreignId('akun_closing_id')->constrained('akun')->onDelete('restrict');
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kota');
+        Schema::dropIfExists('master_biaya_lahans');
     }
 };

@@ -24,9 +24,21 @@ return new class extends Migration
             $table->string('alamatpajak_1')->nullable();
             $table->string('alamatpajak_2')->nullable();
             $table->string('kode_pos')->nullable();
-            $table->string('provinsi')->nullable();
-            $table->string('kota')->nullable();
-            $table->string('negara')->nullable();
+
+            $table->char('provinsi_code', 2)->nullable()->index();
+            $table->char('kota_code', 4)->nullable()->index();
+
+            $table->foreign('provinsi_code')
+                ->references('code')
+                ->on(config('laravolt.indonesia.table_prefix') . 'provinces')
+                ->onUpdate('cascade')
+                ->onDelete('set null');
+
+            $table->foreign('kota_code')
+                ->references('code')
+                ->on(config('laravolt.indonesia.table_prefix') . 'cities')
+                ->onUpdate('cascade')
+                ->onDelete('set null');
 
             // Kontak
             $table->string('kontak')->nullable();

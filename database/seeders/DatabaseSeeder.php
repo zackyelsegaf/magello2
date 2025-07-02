@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
         // Panggil seeder lain
         $this->call([
             RolePermissionSeeder::class,
+            \Laravolt\Indonesia\Seeds\DatabaseSeeder::class,
             TipeAkunSeeder::class,
             TipeBarangSeeder::class,
             TipeDepartemenSeeder::class,
@@ -39,6 +40,7 @@ class DatabaseSeeder extends Seeder
             StatusKeluargaSeeder::class,
             StatusPemasokSeeder::class,
             ReligionSeeder::class,
+            GenderSeeder::class,
             MataUangSeeder::class,
             SatuanSeeder::class,
             GudangSeeder::class,
@@ -46,6 +48,7 @@ class DatabaseSeeder extends Seeder
             RoomTypeSeeder::class,
             MetodePenyusutanSeeder::class,
             ProyekSeeder::class,
+            ClusterSeeder::class,
             SyaratSeeder::class,
             // AkunAktivaSeeder::class,
             // AkunAkumulasiPenyusutanSeeder::class,
@@ -58,6 +61,9 @@ class DatabaseSeeder extends Seeder
             PajakSeeder::class,
             PemasokSeeder::class,
             PenjualSeeder::class,
+            PelangganSeeder::class,
+            MasterBiayaLahanSeeder::class,
+            UnitPropertieSeeder::class,
             AkunBiayaPenyusutanSeeder::class,
         ]);
     }

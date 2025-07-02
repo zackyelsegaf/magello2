@@ -2,8 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Pajak;
+use App\Models\Syarat;
+use App\Models\Dokumen;
+use App\Models\Penjual;
+use App\Models\MataUang;
+use App\Models\TipePelanggan;
+use Laravolt\Indonesia\Models\City;
 use Illuminate\Database\Eloquent\Model;
+use Laravolt\Indonesia\Models\Province;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pelanggan extends Model
 {
@@ -71,19 +79,73 @@ class Pelanggan extends Model
         parent::boot();
 
         self::creating(function ($model) {
-            $latestUser = self::orderBy('pelanggan_id', 'desc')->first();
-            $prefix = 'GMPSCR-';
-            $nextID = $latestUser ? intval(substr($latestUser->pelanggan_id, strlen($prefix))) : 1;
-            $model->pelanggan_id = $prefix . sprintf("%04d", $nextID);
-            while (self::where('pelanggan_id', $model->pelanggan_id)->exists()) {
-                $nextID++;
-                $model->pelanggan_id = $prefix . sprintf("%04d", $nextID);
-            }
+            $latest = self::orderBy('id', 'desc')->first();
+            $prefix = 'GMPCSR-';
+            $nextID = $latest ? $latest->id + 1 : 1;
+            $model->kode_pelanggan = $prefix . sprintf("%04d", $nextID);
         });
     }
 
     public function dokumen()
     {
         return $this->morphMany(Dokumen::class, 'dokumenable');
+    }
+
+    public function tipePelanggan()
+    {
+        return $this->belongsTo(TipePelanggan::class, 'tipe_pelanggan_id');
+    }
+
+    public function penjual()
+    {
+        return $this->belongsTo(Penjual::class);
+    }
+
+    /**
+     * Polymorphic relation to proyek (could be Proyek, Cluster, Kavling, etc.)
+     */
+    public function proyek()
+    {
+        return $this->morphTo();
+    }
+
+    public function pajak1()
+    {
+        return $this->belongsTo(Pajak::class, 'pajak_1_id');
+    }
+
+    public function pajak2()
+    {
+        return $this->belongsTo(Pajak::class, 'pajak_2_id');
+    }
+
+    public function syarat()
+    {
+        return $this->belongsTo(Syarat::class);
+    }
+
+    public function mataUang()
+    {
+        return $this->belongsTo(MataUang::class);
+    }
+
+    public function provinsi()
+    {
+        return $this->belongsTo(Province::class, 'provinsi_code', 'code');
+    }
+
+    public function kota()
+    {
+        return $this->belongsTo(City::class, 'kota_code', 'code');
+    }
+
+    public function religion()
+    {
+        return $this->belongsTo(Religion::class, 'religion_id');
+    }
+
+    public function gender()
+    {
+        return $this->belongsTo(Gender::class, 'gender_id');
     }
 }

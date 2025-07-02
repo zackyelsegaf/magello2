@@ -18,11 +18,12 @@ return new class extends Migration
             $table->string('kode_pelanggan')->unique();
             $table->string('nama')->nullable();
             $table->string('nik')->nullable();
-            $table->foreignId('tipe_pelanggan_id')->nullable()->constrained('pekerjaan')->nullOnDelete(); // relasi ke pekerjaan
+            $table->foreignId('tipe_pelanggan_id')->nullable()->constrained('tipe_pelanggan')->nullOnDelete(); // relasi ke tipe_pelanggan
 
             // Penjual dan proyek
             $table->foreignId('penjual_id')->nullable()->constrained('penjual')->nullOnDelete();
-            $table->foreignId('proyek_id')->nullable()->constrained('proyek')->nullOnDelete(); // nama cluster
+            // $table->foreignId('proyek_id')->nullable()->constrained('proyek')->nullOnDelete(); // nama cluster
+            $table->nullableMorphs('proyek');
 
             // Pajak dan syarat
             $table->string('npwp')->nullable();
@@ -46,9 +47,18 @@ return new class extends Migration
             $table->string('alamatpajak_1')->nullable();
             $table->string('alamatpajak_2')->nullable();
 
-            $table->foreignId('provinsi_id')->nullable()->constrained('provinsi')->nullOnDelete();
-            $table->foreignId('kota_id')->nullable()->constrained('kota')->nullOnDelete();
-            $table->foreignId('negara_id')->nullable()->constrained('negara')->nullOnDelete();
+            $table->char('provinsi_code', 2)->nullable()->index();
+            $table->char('kota_code', 4)->nullable()->index();
+
+            $table->foreign('provinsi_code')
+                ->references('code')
+                ->on(config('laravolt.indonesia.table_prefix') . 'provinces')
+                ->onUpdate('cascade')->onDelete('set null');
+
+            $table->foreign('kota_code')
+                ->references('code')
+                ->on(config('laravolt.indonesia.table_prefix') . 'cities')
+                ->onUpdate('cascade')->onDelete('set null');
             $table->string('kode_pos')->nullable();
 
             // Kontak
@@ -61,6 +71,17 @@ return new class extends Migration
             // Lainnya
             $table->boolean('dihentikan')->default(false);
             $table->string('status_pengajuan')->nullable(); // dari dropdown
+
+            // Info tambahan
+            $table->date('tanggal_lahir')->nullable();
+            $table->string('tempat_lahir')->nullable();
+
+            // ✅ Ganti string → foreignId
+            $table->foreignId('religion_id')->nullable()->constrained('religion')->nullOnDelete();
+            $table->foreignId('gender_id')->nullable()->constrained('gender')->nullOnDelete();
+
+            $table->string('nama_ayah')->nullable();
+            $table->string('nama_ibu')->nullable();
             $table->text('memo')->nullable();
 
             $table->timestamps();
