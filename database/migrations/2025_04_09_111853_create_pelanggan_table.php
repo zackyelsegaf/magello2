@@ -72,6 +72,10 @@ return new class extends Migration
             $table->boolean('dihentikan')->default(false);
             $table->string('status_pengajuan')->nullable(); // dari dropdown
 
+            // Booking Support
+            $table->boolean('is_booking')->default(false);
+            $table->foreignId('booking_id')->nullable()->constrained('bookings')->nullOnDelete();
+
             // Info tambahan
             $table->date('tanggal_lahir')->nullable();
             $table->string('tempat_lahir')->nullable();

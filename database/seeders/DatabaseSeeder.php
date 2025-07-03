@@ -63,8 +63,11 @@ class DatabaseSeeder extends Seeder
             PenjualSeeder::class,
             PelangganSeeder::class,
             MasterBiayaLahanSeeder::class,
+            DataLahanSeeder::class,
             UnitPropertieSeeder::class,
             AkunBiayaPenyusutanSeeder::class,
+            KategoriTiketKonsumenSeeder::class,
+            TipePembayaranSeeder::class,
         ]);
     }
 }

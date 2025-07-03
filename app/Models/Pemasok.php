@@ -95,7 +95,7 @@ class Pemasok extends Model
     {
         return $this->belongsTo(MataUang::class, 'mata_uang_id');
     }
-    
+
     public function provinsi()
     {
         return $this->belongsTo(Province::class, 'provinsi_code', 'code');
@@ -105,5 +105,10 @@ class Pemasok extends Model
     public function kota()
     {
         return $this->belongsTo(City::class, 'kota_code', 'code');
+    }
+
+    public function dataLahans()
+    {
+        return $this->hasMany(DataLahan::class);
     }
 }

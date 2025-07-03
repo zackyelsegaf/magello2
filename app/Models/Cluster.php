@@ -13,13 +13,18 @@ class Cluster extends Model
 
     protected $fillable = [
         'nama_cluster',
-        'no_hp'       ,
-        'luas_tanah'  ,
-        'total_unit'  ,
-        'provinsi'    ,
-        'kota'        ,
-        'kecamatan'   ,
-        'kelurahan'   ,
+        'no_hp',
+        'luas_tanah',
+        'total_unit',
+        'provinsi',
+        'kota',
+        'kecamatan',
+        'kelurahan',
         'alamat_cluster',
     ];
+
+    public function dataLahans()
+    {
+        return $this->hasMany(DataLahan::class);
+    }
 }
