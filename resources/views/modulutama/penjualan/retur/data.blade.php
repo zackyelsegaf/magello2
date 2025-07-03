@@ -16,36 +16,40 @@
             <div class="row">
                 <div id="filterBox" class="col-md-2" style="display: block;">
                     <x-form.filter-form>
-                        <x-slot:submodul>{{ ucfirst($title) }}</x-slot:submodul>
+                        <x-slot:submodul>{{ $title }}</x-slot:submodul>
                     </x-form.filter-form>
                 </div>
                 <div id="tableContainer" class="col-md-10" style="transition: width 0.3s;">
                     <div class="table-responsive" style="width: 100%;">
                         <table class="table table-striped table-bordered table-hover table-center mb-0"
                             id="PermintaanList">
-                            <thead class="thead-dark">
+                            <thead>
                                 <tr>
-                                    <th><input type="checkbox" id="select_all"></th>
-                                    <th>No</th>
-                                    <th hidden>ID</th>
-                                    <th>No. Pengiriman</th>
-                                    <th>Tanggal Pengiriman</th>
-                                    <th>No. PO</th>
+                                    <th></th>
+                                    <th class="text-center">No</th>
+                                    <th>No. Retur</th>
+                                    <th>Tgl Retur</th>
+                                    <th>No. Faktur</th>
                                     <th>Status</th>
                                     <th>No. Pelanggan</th>
                                     <th>Nama Pelanggan</th>
+                                    <th class="text-end">Nilai Faktur</th>
                                     <th>Deskripsi</th>
-                                    <th>Pengguna</th>
-                                    <th>Cabang</th>
-                                    <th>No. Persetujuan</th>
+                                    <th>Tercetak</th>
                                     <th>Catatan Pemeriksaan</th>
                                     <th>Tindak Lanjut</th>
                                     <th>Disetujui</th>
+                                    <th>No. Persetujuan</th>
+                                    <th>Sumber</th>
+                                    <th>Pengguna</th>
+                                    <th>Cabang</th>
+                                    <th>Catatan Pemeriksaan (2)</th>
+                                    <th>Tindak Lanjut (2)</th>
+                                    <th>Disetujui (2)</th>
                                     <th>Urgensi</th>
                                 </tr>
                             </thead>
                         </table>
-
                     </div>
                 </div>
 
@@ -76,29 +80,14 @@
                         searching: false,
                         ajax: {
                             url: '{{ $fetchRoute }}',
-                            data: function(d) {
-                                d.quoteno = $('#keyword').val();
-                                d.description = $('input[name="description"]').val();
-                                d.pelanggan_id = $('input[name="pelanggan_id"]').val();
-                                d.matauang_id = $('input[name="matauang_id"]').val();
-                                d.use_date = $('input[name="use_date"]').is(':checked') ? 1 : 0;
-                                d.date_from = $('input[name="date_from"]').val();
-                                d.date_to = $('input[name="date_to"]').val();
-
-                                d.status = [];
-                                $('input[name="status[]"]:checked').each(function() {
-                                    d.status.push($(this).val());
-                                });
-
-                                d.audit_notes = [];
-                                $('input[name="audit_notes[]"]:checked').each(function() {
-                                    d.audit_notes.push($(this).val());
-                                });
-
-                                // Jika kamu punya Easy Branch aktif, tinggal uncomment:
-                                // d.easy_branch = $('select[name="easy_branch"]').val();
-                            }
-
+                            // data: function(d) {
+                            //     d.nama_barang = $('input[name=nama_barang]').val(),
+                            //     d.no_barang = $('input[name=no_barang]').val(),
+                            //     d.kategori_barang = $('select[name=kategori_barang]').val(),
+                            //     d.tipe_barang = $('select[name=tipe_barang]').val(),
+                            //     d.tipe_persediaan = $('select[name=tipe_persediaan]').val(),
+                            //     d.dihentikan = $('input[name=dihentikan]:checked').val();
+                            // }
                         },
                         dom: "<'row'<'col-sm-12'B>>" +
                             "<'row'<'col-sm-12 mt-3'tr>>" +
@@ -152,87 +141,103 @@
                                 searchable: false
                             },
                             {
-                                data: 'id',
-                                visible: false
-                            },
-
-                            {
-                                data: 'no_pesanan'
+                                data: 'no_retur',
+                                name: 'no_retur'
                             },
                             {
-                                data: 'tgl_pesanan'
+                                data: 'tgl_retur',
+                                name: 'tgl_retur'
                             },
                             {
-                                data: 'no_pelanggan'
+                                data: 'no_faktur',
+                                name: 'no_faktur'
                             },
                             {
-                                data: 'nama_pelanggan'
+                                data: 'status',
+                                name: 'status'
                             },
                             {
-                                data: 'status'
+                                data: 'no_pelanggan',
+                                name: 'no_pelanggan'
                             },
                             {
-                                data: 'no_po'
-                            },
-
-                            {
-                                data: 'nilai_diskon'
+                                data: 'nama_pelanggan',
+                                name: 'nama_pelanggan'
                             },
                             {
-                                data: 'total_pajak'
+                                data: 'nilai_faktur',
+                                name: 'nilai_faktur',
+                                className: 'text-end'
                             },
                             {
-                                data: 'nilai_pajak_1'
+                                data: 'deskripsi',
+                                name: 'deskripsi'
                             },
                             {
-                                data: 'nilai_pajak_2'
+                                data: 'tercetak',
+                                name: 'tercetak',
+                                render: data => data ? '<input type="checkbox" checked disabled>' :
+                                    '<input type="checkbox" disabled>'
                             },
-                            {
-                                data: 'nilai_pesanan'
-                            },
-                            {
-                                data: 'uang_muka'
-                            },
-                            {
-                                data: 'uang_muka_terpakai'
-                            },
-                            {
-                                data: 'deskripsi'
-                            },
-
-                            {
-                                data: 'pengguna'
-                            },
-                            {
-                                data: 'cabang'
-                            },
-                            {
-                                data: 'no_persetujuan'
-                            },
-
                             {
                                 data: 'catatan_pemeriksaan',
-                                render: data => data ? '<input type="checkbox" checked>' :
-                                    '<input type="checkbox">'
+                                name: 'catatan_pemeriksaan',
+                                render: data => data ? '<input type="checkbox" checked disabled>' :
+                                    '<input type="checkbox" disabled>'
                             },
                             {
                                 data: 'tindak_lanjut',
-                                render: data => data ? '<input type="checkbox" checked>' :
-                                    '<input type="checkbox">'
+                                name: 'tindak_lanjut',
+                                render: data => data ? '<input type="checkbox" checked disabled>' :
+                                    '<input type="checkbox" disabled>'
                             },
                             {
                                 data: 'disetujui',
-                                render: data => data ? '<input type="checkbox" checked>' :
-                                    '<input type="checkbox">'
+                                name: 'disetujui',
+                                render: data => data ? '<input type="checkbox" checked disabled>' :
+                                    '<input type="checkbox" disabled>'
+                            },
+                            {
+                                data: 'no_persetujuan',
+                                name: 'no_persetujuan'
+                            },
+                            {
+                                data: 'sumber',
+                                name: 'sumber'
+                            },
+                            {
+                                data: 'pengguna',
+                                name: 'pengguna'
+                            },
+                            {
+                                data: 'cabang',
+                                name: 'cabang'
+                            },
+                            {
+                                data: 'catatan_pemeriksaan_2',
+                                name: 'catatan_pemeriksaan_2',
+                                render: data => data ? '<input type="checkbox" checked disabled>' :
+                                    '<input type="checkbox" disabled>'
+                            },
+                            {
+                                data: 'tindak_lanjut_2',
+                                name: 'tindak_lanjut_2',
+                                render: data => data ? '<input type="checkbox" checked disabled>' :
+                                    '<input type="checkbox" disabled>'
+                            },
+                            {
+                                data: 'disetujui_2',
+                                name: 'disetujui_2',
+                                render: data => data ? '<input type="checkbox" checked disabled>' :
+                                    '<input type="checkbox" disabled>'
                             },
                             {
                                 data: 'urgensi',
-                                render: data => data
+                                name: 'urgensi'
                             }
                         ]
                     });
 
-                    // Untuk perubahan lainnya
                     $('#filterBox').on('change', 'input, select', function() {
                         $('#PermintaanList').DataTable().draw();
                     });

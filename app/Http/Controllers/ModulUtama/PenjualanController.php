@@ -603,8 +603,9 @@ class PenjualanController extends Controller
     // =====================
     public function indexFakturPenjualan()
     {
-        $this->menu = 'fakturpenjualan';
-        return $this->dataUtama();
+        $this->path = 'fakturpenjualan';
+        $this->model = FakturPenjualan::class;
+        return $this->indexView();
     }
     public function createFakturPenjualan() {}
     public function storeFakturPenjualan(Request $request) {}
@@ -617,8 +618,9 @@ class PenjualanController extends Controller
     // =====================
     public function indexFakturPenagihan()
     {
-        $this->menu = 'fakturpenagihan';
-        return $this->dataUtama();
+        $this->path = 'fakturpenagihan';
+        $this->model = FakturPenagihan::class;
+        return $this->indexView();
     }
     public function createFakturPenagihan() {}
     public function storeFakturPenagihan(Request $request) {}
@@ -645,8 +647,10 @@ class PenjualanController extends Controller
     // =====================
     public function indexRetur()
     {
-        $this->menu = 'returpenjualan';
-        return $this->dataUtama();
+        $this->model = PengirimanPenjualan::class;
+        $this->path = 'retur';
+        $this->NeededIndex();
+        return view("modulutama.penjualan.$this->path.data", $this->data);
     }
     public function createRetur() {}
     public function storeRetur(Request $request) {}

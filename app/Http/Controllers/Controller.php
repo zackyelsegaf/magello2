@@ -66,14 +66,6 @@ class Controller extends BaseController
         // Format segment jadi judul (misalnya "terapis" → "Terapis", "paket-pengobatan" → "Paket Pengobatan")
         $this->title = ucwords(str_replace('-', ' ', $this->segment));
     }
-    public function index()
-    {
-        $this->getRoutePrefix();
-        $data['model'] = $this->path;
-        $data['title'] = $this->title;
-        return view("modulutama.penjualan.$this->path.data", $data);
-    }
-
     protected $data = [];
 
     protected function NeededIndex()
@@ -98,4 +90,8 @@ class Controller extends BaseController
         $this->data['fetchRoute'] = route("penjualan.$this->path.fetch");
     }
 
+    public function indexView(){
+        $this->NeededIndex();
+        return view("modulutama.penjualan.$this->path.data", $this->data);
+    }
 }
