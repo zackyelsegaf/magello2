@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('pelanggan_id')->nullable()->constrained('pelanggan')->onDelete('cascade');
-            $table->foreignId('tipe_pembayaran_id')->nullable()->constrained('tipe_pembayarans')->onDelete('restrict');
+            // $table->foreignId('tipe_pembayaran_id')->nullable()->constrained('tipe_pembayarans')->onDelete('restrict');
             $table->date('tanggal')->nullable();
             $table->decimal('nominal', 20, 2)->default(0);
             $table->text('catatan')->nullable();

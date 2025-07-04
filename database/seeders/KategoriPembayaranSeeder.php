@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Support\Str;
-use App\Models\TipePembayaran;
 use Illuminate\Database\Seeder;
+use App\Models\KategoriPembayaran;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class TipePembayaranSeeder extends Seeder
+class KategoriPembayaranSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,13 +15,13 @@ class TipePembayaranSeeder extends Seeder
     public function run(): void
     {
         $items = [
-            'Kredit/KPR',
-            'Tunai',
-            'Tunai Bertahap',
+            'Biaya',
+            'Diskon',
+            'Pajak',
         ];
 
         foreach ($items as $item) {
-            TipePembayaran::updateOrCreate(
+            KategoriPembayaran::updateOrCreate(
                 ['slug' => Str::slug($item)],
                 ['nama' => $item]
             );

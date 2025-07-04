@@ -68,6 +68,8 @@ class DatabaseSeeder extends Seeder
             AkunBiayaPenyusutanSeeder::class,
             KategoriTiketKonsumenSeeder::class,
             TipePembayaranSeeder::class,
+            KategoriPembayaranSeeder::class,
+            MasterPersyaratanKonsumenSeeder::class,
         ]);
     }
 }
