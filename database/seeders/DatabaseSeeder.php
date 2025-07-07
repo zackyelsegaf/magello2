@@ -70,6 +70,9 @@ class DatabaseSeeder extends Seeder
             TipePembayaranSeeder::class,
             KategoriPembayaranSeeder::class,
             MasterPersyaratanKonsumenSeeder::class,
+            MasterBiayaKonsumenSeeder::class,
+            PekerjaSeeder::class,
+            SiklusPembayaranSeeder::class,
         ]);
     }
 }
