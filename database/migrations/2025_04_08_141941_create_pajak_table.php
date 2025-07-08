@@ -13,12 +13,19 @@ return new class extends Migration
     {
         Schema::create('pajak', function (Blueprint $table) {
             $table->id();
-            $table->string('nama')->nullable();
-            $table->string('kode_pajak')->nullable();
-            $table->string('nilai_persentase')->nullable();
-            $table->string('akun_pajak_penjualan')->nullable();
-            $table->string('akun_pajak_pembelian')->nullable();
-            $table->string('deskripsi')->nullable();
+            $table->string('kode')->unique(); // Contoh: P, H
+            $table->string('nama'); // Contoh: PPN 11%
+            $table->decimal('nilai_persentase', 5, 2); // Contoh: 11.00, 2.00
+
+            // Relasi akun (optional jika ada tabel 'akun')
+            // $table->string('akun_pajak_penjualan')->nullable(); // Misal 210301
+            // $table->string('akun_pajak_pembelian')->nullable(); // Misal 110701
+
+            // Atau bisa pakai foreign key kalau tabel akun tersedia:
+            $table->foreignId('akun_pajak_penjualan_id')->nullable()->constrained('akun')->nullOnDelete();
+            $table->foreignId('akun_pajak_pembelian_id')->nullable()->constrained('akun')->nullOnDelete();
+
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
     }

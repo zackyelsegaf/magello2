@@ -13,7 +13,7 @@ class JurnalEntri extends Model
     protected $table = 'jurnal_entris';
     protected $guarded = ['id'];
 
-     public function journal()
+    public function journal()
     {
         return $this->belongsTo(Jurnal::class);
     }
@@ -31,5 +31,9 @@ class JurnalEntri extends Model
     public function project()
     {
         return $this->belongsTo(Proyek::class);
+    }
+    public function pelanggan()
+    {
+        return $this->belongsTo(Pelanggan::class);
     }
 }

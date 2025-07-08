@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('akun_id')->constrained('akun')->onDelete('restrict');
             $table->foreignId('department_id')->nullable()->constrained('department')->onDelete('set null');
             $table->foreignId('project_id')->nullable()->constrained('proyek')->onDelete('set null');
+            $table->foreignId('pelanggan_id')->nullable()->constrained('pelanggan')->onDelete('set null');
             $table->decimal('debit', 20, 2)->default(0);
             $table->decimal('credit', 20, 2)->default(0);
             $table->string('note')->nullable();

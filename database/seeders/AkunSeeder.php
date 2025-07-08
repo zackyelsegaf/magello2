@@ -201,6 +201,7 @@ class AkunSeeder extends Seeder
             '11006.10' => 'Persediaan Lain-lain',
             '11006.11' => 'Persediaan Barang Rusak',
             '11006.12' => 'Persediaan Barang Konsinyasi',
+            '11006.13' => 'Persediaan Tanah',
         ];
 
         foreach ($subPersediaan as $no => $nama) {
@@ -233,7 +234,7 @@ class AkunSeeder extends Seeder
 
             ['11009', 'Akun Silang', 'Aktiva Lancar Lainnya', null, '0'],
             ['11070.1', 'PPN Masukan', 'Aktiva Lancar Lainnya', null],
-            ['11070.2', 'PPh 23 Pembelian', 'Aktiva Lancar Lainnya', null],
+            ['11070.2', 'PPH 23 Pembelian', 'Aktiva Lancar Lainnya', null],
 
             ['11100', 'Transaksi Aktiva Tetap', 'Aktiva Lancar Lainnya', null],
             ['11111', 'Perlengkapan', 'Aktiva Lancar Lainnya', null],
@@ -360,6 +361,14 @@ class AkunSeeder extends Seeder
             ['51001.09', 'Gratis Biaya Notaris Akad KPR Bank', 'Harga Pokok Penjualan', '51001'],
             ['51001.10', 'Gratis Biaya Blokir Angsuran Akad KPR Bank', 'Harga Pokok Penjualan', '51001'],
             ['51001.11', 'Bonus Peralatan Rumah Tangga Akad KPR Bank', 'Harga Pokok Penjualan', '51001'],
+            ['51001.12', 'Biaya BPHTB', 'Harga Pokok Penjualan', '51001'],
+            ['51001.13', 'Biaya Pembuatan Air PDAM', 'Harga Pokok Penjualan', '51001'],
+            ['51001.14', 'Biaya Pembuatan Kwh Listrik', 'Harga Pokok Penjualan', '51001'],
+            ['51001.15', 'Beban Sertifikat/Pemecahan', 'Harga Pokok Penjualan', '51001'],
+            ['51001.16', 'Biaya Fee Orang Lapangan', 'Harga Pokok Penjualan', '51001'],
+            ['51001.17', 'Biaya Perijinan', 'Harga Pokok Penjualan', '51001'],
+            ['51001.18', 'Beban Pemakaian Tanah Kavling', 'Harga Pokok Penjualan', '51001'],
+            ['51001.19', 'Biaya Pembuatan IMB', 'Harga Pokok Penjualan', '51001'],
 
             ['51002', 'Biaya Buruh', 'Harga Pokok Penjualan', null],
             ['51002.01', 'Upah Tukang', 'Harga Pokok Penjualan', '51002'],

@@ -10,13 +10,17 @@ class Pajak extends Model
     use HasFactory;
 
     protected $table = 'pajak';
-
-    protected $fillable = [
-        'nama',
-        'kode_pajak',
-        'nilai_persentase',
-        'akun_pajak_penjualan',
-        'akun_pajak_pembelian',
-        'deskripsi',
-    ];
+    protected $guarded = ['id'];
+    // protected $fillable = [
+    //     'nama',
+    //     'kode_pajak',
+    //     'nilai_persentase',
+    //     'akun_pajak_penjualan',
+    //     'akun_pajak_pembelian',
+    //     'deskripsi',
+    // ];
+    public function akun()
+    {
+        return $this->belongsTo(Akun::class);
+    }
 }

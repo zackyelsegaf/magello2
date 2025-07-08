@@ -13,10 +13,15 @@ return new class extends Migration
     {
         Schema::create('syarat', function (Blueprint $table) {
             $table->id();
-            $table->string('batas_hutang');
+
+            $table->string('nama'); // Contoh: Net 30, C.O.D
+            $table->integer('batas_hutang')->default(0); // dalam hari
             $table->boolean('cash_on_delivery')->default(false);
-            $table->string('persentase_diskon');
-            $table->string('periode_diskon');
+
+            // Diskon pembayaran lebih awal
+            $table->decimal('persentase_diskon', 5, 2)->default(0.00); // ex: 2.50 %
+            $table->integer('periode_diskon')->default(0); // dalam hari
+
             $table->timestamps();
         });
     }
