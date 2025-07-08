@@ -20,16 +20,16 @@ return new class extends Migration
 
             // Akun Pembayaran Kustomer
             // Akun Pembayaran Kustomer
-            $table->foreignId('akun_pembayaran_kustomer_debit')->nullable()->constrained('akuns')->onDelete('cascade');
-            $table->foreignId('akun_pembayaran_kustomer_kredit')->nullable()->constrained('akuns')->onDelete('cascade');
+            $table->foreignId('akun_pembayaran_kustomer_debit')->nullable()->constrained('akun')->onDelete('cascade');
+            $table->foreignId('akun_pembayaran_kustomer_kredit')->nullable()->constrained('akun')->onDelete('cascade');
 
             // Akun Piutang
-            $table->foreignId('akun_piutang_debit')->nullable()->constrained('akuns')->onDelete('cascade');
-            $table->foreignId('akun_piutang_kredit')->nullable()->constrained('akuns')->onDelete('cascade');
+            $table->foreignId('akun_piutang_debit')->nullable()->constrained('akun')->onDelete('cascade');
+            $table->foreignId('akun_piutang_kredit')->nullable()->constrained('akun')->onDelete('cascade');
 
             // Akun Closing Unit
-            $table->foreignId('akun_closing_unit_debit')->nullable()->constrained('akuns')->onDelete('cascade');
-            $table->foreignId('akun_closing_unit_kredit')->nullable()->constrained('akuns')->onDelete('cascade');
+            $table->foreignId('akun_closing_unit_debit')->nullable()->constrained('akun')->onDelete('cascade');
+            $table->foreignId('akun_closing_unit_kredit')->nullable()->constrained('akun')->onDelete('cascade');
 
             $table->timestamps();
         });

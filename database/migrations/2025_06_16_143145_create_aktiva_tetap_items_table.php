@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('aktiva_tetap_items', function (Blueprint $table) {
             $table->id();
-             $table->foreignId('aktiva_tetap_id')->constrained('aktiva_tetap')->onDelete('cascade');
+             $table->foreignId('aktiva_tetap_id')->constrained('aktiva_tetaps')->onDelete('cascade');
             $table->foreignId('akun_id')->constrained('akun')->onDelete('restrict');
             $table->decimal('nilai', 15, 2);
             $table->boolean('rekonsiliasi')->default(false);

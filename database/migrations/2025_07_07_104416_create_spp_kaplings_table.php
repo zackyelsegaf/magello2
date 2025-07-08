@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('spp_kaplings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('spp_id')->constrained('surat_perintah_pembangunan')->onDelete('cascade');
+            $table->foreignId('spp_id')->constrained('surat_perintah_pembangunans')->onDelete('cascade');
             $table->foreignId('unit_property_id')->constrained('unit_properties')->onDelete('cascade');
             $table->timestamps();
         });

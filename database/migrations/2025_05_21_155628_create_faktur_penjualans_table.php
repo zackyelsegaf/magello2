@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('urgensi')->nullable();
             $table->timestamps();
 
-            $table->foreign('pelanggan_id')->references('id')->on('pelanggans')->onDelete('cascade');
+            $table->foreign('pelanggan_id')->references('id')->on('pelanggan')->onDelete('cascade');
         });
     }
 

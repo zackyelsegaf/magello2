@@ -31,8 +31,9 @@ return new class extends Migration
 
             $table->string('no_persetujuan')->nullable();
 
-            $table->foreignId('user_id')->constrained('users')->onDelete('set null')->nullable();
-            $table->foreignId('cabang_id')->constrained('cabangs')->onDelete('set null')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();;
+            // $table->foreignId('cabang_id')->constrained('cabangs')->onDelete('set null')->nullable();
+            $table->unsignedBigInteger('cabang_id')->nullable();
 
             $table->timestamps();
         });

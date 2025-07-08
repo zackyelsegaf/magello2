@@ -32,6 +32,7 @@ return new class extends Migration
 
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             // $table->foreignId('cabang_id')->nullable()->constrained('cabangs')->nullOnDelete();
+            $table->unsignedBigInteger('cabang_id')->nullable();
 
             $table->string('no_persetujuan')->nullable();
             $table->text('catatan_pemeriksaan')->nullable();

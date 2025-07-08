@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignId('pekerja_id')->constrained('pekerjas')->onDelete('restrict');
             $table->date('tanggal_mulai')->nullable();
             $table->integer('lama_pengerjaan')->nullable();
-            $table->foreignId('siklus_pembayaran_id')->nullable()->constrained('siklus_pembayaran')->nullOnDelete();
+            $table->foreignId('siklus_pembayaran_id')->nullable()->constrained('siklus_pembayarans')->nullOnDelete();
 
             $table->unsignedTinyInteger('tipe_pembayaran_subcon')->nullable(); // 1 = termin, 2 = full
             $table->foreignId('spp_id')->nullable()->constrained('surat_perintah_pembangunans')->nullOnDelete();

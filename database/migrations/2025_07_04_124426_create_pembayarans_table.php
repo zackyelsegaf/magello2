@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('tanggal')->nullable();
             $table->decimal('nominal', 20, 2)->default(0);
             $table->text('catatan')->nullable();
-            $table->foreignId('akun_id')->nullable()->constrained('akuns')->nullOnDelete(); // akun kas/bank
+            $table->foreignId('akun_id')->nullable()->constrained('akun')->nullOnDelete(); // akun kas/bank
             $table->unsignedTinyInteger('status')->nullable();
 
             $table->timestamps();

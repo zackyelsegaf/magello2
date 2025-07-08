@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('kode')->unique()->nullable(); // contoh: T2023070001
             $table->date('tanggal')->nullable();
-            $table->foreignId('pelanggan_id')->constrained('pelanggan')->onDelete('set null')->nullable();
+            $table->foreignId('pelanggan_id')->nullable()->constrained('pelanggan')->onDelete('set null');
             $table->string('unit')->nullable();
-            $table->foreignId('kategori_id')->constrained('kategori_tiket_konsumen')->onDelete('restrict');
+            $table->foreignId('kategori_id')->constrained('kategori_tiket_konsumens')->onDelete('restrict');
             $table->string('tujuan')->nullable(); // ex: PROJECT
             $table->text('deskripsi')->nullable();
 

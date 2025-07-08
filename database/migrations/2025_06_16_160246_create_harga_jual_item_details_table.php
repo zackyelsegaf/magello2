@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('harga_jual_item_id')->constrained('harga_jual_items')->onDelete('cascade');
-            $table->foreignId('jenis_harga_id')->constrained('jenis_harga')->onDelete('restrict');
+            $table->foreignId('jenis_harga_id')->constrained('jenis_hargas')->onDelete('restrict');
 
             $table->decimal('nilai', 15, 2)->default(0);
 
