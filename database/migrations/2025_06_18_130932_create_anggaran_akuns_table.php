@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('anggaran_akuns', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('akun_id')->constrained('akuns')->onDelete('cascade');
+            $table->foreignId('akun_id')->constrained('akun')->onDelete('cascade');
             $table->decimal('nilai_saldo_awal', 20, 2)->default(0);
             for ($i = 1; $i <= 12; $i++) {
                 $table->decimal("periode_$i", 20, 2)->default(0);

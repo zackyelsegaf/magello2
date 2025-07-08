@@ -19,11 +19,11 @@ return new class extends Migration
             $table->date('tgl_penyesuaian')->nullable();
             $table->text('deskripsi')->nullable();
 
-            $table->foreignId('jenis_harga_id')->constrained('jenis_harga')->onDelete('restrict');
-            $table->foreignId('metode_penyesuaian_id')->constrained('metode_penyesuaian')->onDelete('restrict');
-            $table->foreignId('nilai_pembulatan_id')->nullable()->constrained('nilai_pembulatan')->onDelete('set null');
-            $table->foreignId('sumber_nilai_asal_id')->constrained('sumber_nilai_asal')->onDelete('restrict');
-            $table->foreignId('unit_id')->nullable()->constrained('unit_barang')->onDelete('set null');
+            $table->foreignId('jenis_harga_id')->constrained('jenis_hargas')->onDelete('restrict');
+            $table->foreignId('metode_penyesuaian_id')->constrained('metode_penyesuaians')->onDelete('restrict');
+            $table->foreignId('nilai_pembulatan_id')->nullable()->constrained('nilai_pembulatans')->onDelete('set null');
+            $table->foreignId('sumber_nilai_asal_id')->constrained('sumber_nilai_asals')->onDelete('restrict');
+            $table->foreignId('unit_id')->nullable()->constrained('unit_barangs')->onDelete('set null');
 
             $table->decimal('nilai_masukan', 15, 2)->default(0);
 

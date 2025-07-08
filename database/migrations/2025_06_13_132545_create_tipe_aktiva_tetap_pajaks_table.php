@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->foreignId('metode_penyusutan_id')
-                ->constrained('metode_penyusutan')
+                ->constrained('metode_penyusutans')
                 ->onDelete('cascade')->nullable();
             $table->integer('umur_perkiraan')->default(0);
             $table->decimal('nilai_penyusutan', 15, 2)->default(0);

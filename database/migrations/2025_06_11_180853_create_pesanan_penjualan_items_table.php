@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pesanan_penjualan_id')->constrained('pesanan_penjualans')->onDelete('cascade');
             $table->foreignId('item_id')->constrained(
-                table: 'barang',
-                indexName: 'item_id'
+                table: 'barang'
             );
             $table->string('deskripsi_barang')->nullable();
             $table->integer('kuantitas')->default(0); // Kts

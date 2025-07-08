@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             // Relasi
             $table->foreignId('cluster_id')->constrained('cluster')->onDelete('cascade');
-            $table->foreignId('rap_rab_id')->nullable()->constrained('rap_rab')->nullOnDelete();
+            // $table->foreignId('rap_rab_id')->nullable()->constrained('rap_rab')->nullOnDelete();
+            $table->unsignedBigInteger('rap_rab_id')->nullable();
 
             // Penentu tipe
             $table->unsignedTinyInteger('tipe_model')->nullable();

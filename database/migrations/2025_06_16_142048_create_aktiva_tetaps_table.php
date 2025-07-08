@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('tgl_akuisisi');
             $table->date('tgl_penggunaan');
             $table->string('memo');
-            $table->foreignId('metode_penyusutan_id')->constrained('metode_penyusutan')->onDelete('restrict');
+            $table->foreignId('metode_penyusutan_id')->constrained('metode_penyusutans')->onDelete('restrict');
             $table->foreignId('akun_aktiva_id')->constrained('akun_aktivas')->onDelete('restrict'); // Akun Aktivasi
             $table->foreignId('akun_akumulasi_penyusutan_id')->constrained('akun_akumulasi_penyusutans')->onDelete('restrict');
             $table->foreignId('akun_biaya_penyusutan_id')->constrained('akun_biaya_penyusutans')->onDelete('restrict');
