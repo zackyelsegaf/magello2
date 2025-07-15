@@ -39,6 +39,77 @@ class PenyesuaianBarangController extends Controller
         return view('penyesuaian.tambahpenyesuaian', compact('nama_barang','tipe_barang', 'tipe_persediaan', 'kategori_barang', 'gudang', 'departemen', 'proyek', 'pemasok', 'satuan', 'mata_uang', 'kodeBaru', 'nama_akun'));
     }
 
+    // public function simpanPenyesuaian(Request $request)
+    // {
+    //     $rules = [
+    //         'tgl_penyesuaian' => 'nullable|string|max:255',
+    //         'akun_penyesuaian' => 'nullable|string|max:255',
+    //         'no_akun_penyesuaian' => 'nullable|string|max:255',
+    //         'deskripsi' => 'nullable|string|max:255',
+    //         'nilai_penyesuaian_check' => 'nullable|boolean',
+    //         'nilai_penyesuaian' => 'nullable|string|max:255',
+    //         'pengguna_penyesuaian' => 'nullable|string|max:255',
+    //         'total_nilai_penyesuaian' => 'nullable|string|max:255',
+    //     ];
+
+    //     $validated = $request->validate($rules);
+    //     $validated['total_nilai_penyesuaian'] = str_replace(['Rp', '.', ' '], '', $request->total_nilai_penyesuaian);
+    //     // $validated['total_saldo_awal'] = str_replace(['Rp', '.', ' '], '', $request->total_saldo_awal);
+    //     // $validated['kuantitas_saldo_sekarang'] = str_replace(['Rp', '.', ' '], '', $request->kuantitas_saldo_sekarang);
+    //     // $validated['harga_satuan_sekarang'] = str_replace(['Rp', '.', ' '], '', $request->harga_satuan_sekarang);
+    //     // $validated['biaya_pokok_sekarang'] = str_replace(['Rp', '.', ' '], '', $request->biaya_pokok_sekarang);
+
+    //     DB::beginTransaction();
+    //     try {
+    //         $penyesuaianBarang = new PenyesuaianBarang($validated);
+    //         $penyesuaianBarang->save();
+
+    //         $detail = new PenyesuaianBarangDetail();
+    //         $detail->penyesuaian_barang_id = $penyesuaianBarang->id;
+    //         $detail->no_barang = $request->no_barang;
+    //         $detail->deskripsi_barang = $request->deskripsi_barang;
+    //         $detail->kts_saat_ini = $request->kts_saat_ini;
+    //         $detail->kts_baru = $request->kts_baru;
+    //         $detail->nilai_saat_ini = $request->nilai_saat_ini;
+    //         $detail->nilai_baru = $request->nilai_baru;
+    //         $detail->departemen = $request->departemen;
+    //         $detail->proyek = $request->proyek;
+    //         $detail->gudang = $request->gudang;
+    //         $checkboxAktif = $request->nilai_penyesuaian_check == 1;
+    //         $kts_baru = (int) str_replace(['.', ',', ' '], '', $request->kts_baru);
+    //         $kts_saat_ini = (int) str_replace(['.', ',', ' '], '', $request->kts_saat_ini);
+
+    //         if ($checkboxAktif && $kts_baru <= $kts_saat_ini) {
+    //             sweetalert()->warning('Jika checkbox aktif, Kuantitas Baru harus lebih besar dari Saldo Sekarang.');
+    //             return back()->withInput();
+    //         }
+
+    //         if (!$checkboxAktif && $kts_baru >= $kts_saat_ini) {
+    //             sweetalert()->warning('Jika checkbox tidak aktif, Kuantitas Baru harus lebih kecil dari Saldo Sekarang.');
+    //             return back()->withInput();
+    //         }
+    //         $detail->save();
+
+    //         Barang::where('no_barang', $request->no_barang)
+    //                 ->update([
+    //                     'kuantitas_saldo_awal' => $kts_baru,
+    //                     'total_saldo_awal' => str_replace(['Rp', '.', ' '], '', $request->nilai_baru),
+    //                     'departemen' => $request->departemen,
+    //                     'proyek' => $request->proyek,
+    //                     'default_gudang' => $request->gudang,
+    //                 ]);
+
+    //         DB::commit();
+    //         sweetalert()->success('Create new Barang & Detail successfully :)');
+    //         return redirect()->route('penyesuaian/list/page');
+
+    //     } catch (\Exception $e) {
+    //         DB::rollback();
+    //         sweetalert()->error('Tambah Data Gagal: ' . $e->getMessage());
+    //         return redirect()->back()->withInput();
+    //     }
+    // }
+
     public function simpanPenyesuaian(Request $request)
     {
         $rules = [
@@ -53,31 +124,23 @@ class PenyesuaianBarangController extends Controller
         ];
 
         $validated = $request->validate($rules);
+
         $validated['total_nilai_penyesuaian'] = str_replace(['Rp', '.', ' '], '', $request->total_nilai_penyesuaian);
-        // $validated['total_saldo_awal'] = str_replace(['Rp', '.', ' '], '', $request->total_saldo_awal);
-        // $validated['kuantitas_saldo_sekarang'] = str_replace(['Rp', '.', ' '], '', $request->kuantitas_saldo_sekarang);
-        // $validated['harga_satuan_sekarang'] = str_replace(['Rp', '.', ' '], '', $request->harga_satuan_sekarang);
-        // $validated['biaya_pokok_sekarang'] = str_replace(['Rp', '.', ' '], '', $request->biaya_pokok_sekarang);
 
         DB::beginTransaction();
         try {
             $penyesuaianBarang = new PenyesuaianBarang($validated);
             $penyesuaianBarang->save();
 
-            $detail = new PenyesuaianBarangDetail();
-            $detail->penyesuaian_barang_id = $penyesuaianBarang->id;
-            $detail->no_barang = $request->no_barang;
-            $detail->deskripsi_barang = $request->deskripsi_barang;
-            $detail->kts_saat_ini = $request->kts_saat_ini;
-            $detail->kts_baru = $request->kts_baru;
-            $detail->nilai_saat_ini = $request->nilai_saat_ini;
-            $detail->nilai_baru = $request->nilai_baru;
-            $detail->departemen = $request->departemen;
-            $detail->proyek = $request->proyek;
-            $detail->gudang = $request->gudang;
-            $checkboxAktif = $request->nilai_penyesuaian_check == 1;
             $kts_baru = (int) str_replace(['.', ',', ' '], '', $request->kts_baru);
             $kts_saat_ini = (int) str_replace(['.', ',', ' '], '', $request->kts_saat_ini);
+            $nilai_baru = (int) str_replace(['Rp', '.', ',', ' '], '', $request->nilai_baru);
+            $nilai_saat_ini = (int) str_replace(['Rp', '.', ',', ' '], '', $request->nilai_saat_ini);
+
+            $selisih_kts = $kts_baru - $kts_saat_ini;
+            $selisih_nilai = $nilai_baru - $nilai_saat_ini;
+
+            $checkboxAktif = $request->nilai_penyesuaian_check == 1;
 
             if ($checkboxAktif && $kts_baru <= $kts_saat_ini) {
                 sweetalert()->warning('Jika checkbox aktif, Kuantitas Baru harus lebih besar dari Saldo Sekarang.');
@@ -88,19 +151,33 @@ class PenyesuaianBarangController extends Controller
                 sweetalert()->warning('Jika checkbox tidak aktif, Kuantitas Baru harus lebih kecil dari Saldo Sekarang.');
                 return back()->withInput();
             }
+
+            $detail = new PenyesuaianBarangDetail();
+            $detail->penyesuaian_barang_id = $penyesuaianBarang->id;
+            $detail->no_barang = $request->no_barang;
+            $detail->deskripsi_barang = $request->deskripsi_barang;
+            $detail->kts_saat_ini = $kts_saat_ini;
+            $detail->kts_baru = $kts_baru;
+            $detail->nilai_saat_ini = $nilai_saat_ini;
+            $detail->nilai_baru = $nilai_baru;
+            $detail->selisih_kts = $selisih_kts;
+            $detail->selisih_nilai = $selisih_nilai;
+            $detail->departemen = $request->departemen;
+            $detail->proyek = $request->proyek;
+            $detail->gudang = $request->gudang;
             $detail->save();
 
             Barang::where('no_barang', $request->no_barang)
-                    ->update([
-                        'kuantitas_saldo_awal' => $kts_baru,
-                        'total_saldo_awal' => str_replace(['Rp', '.', ' '], '', $request->nilai_baru),
-                        'departemen' => $request->departemen,
-                        'proyek' => $request->proyek,
-                        'default_gudang' => $request->gudang,
-                    ]);
+                ->update([
+                    'kuantitas_saldo_awal' => $kts_baru,
+                    'total_saldo_awal' => $nilai_baru,
+                    'departemen' => $request->departemen,
+                    'proyek' => $request->proyek,
+                    'default_gudang' => $request->gudang,
+                ]);
 
             DB::commit();
-            sweetalert()->success('Create new Barang & Detail successfully :)');
+            sweetalert()->success('Penyesuaian barang berhasil disimpan.');
             return redirect()->route('penyesuaian/list/page');
 
         } catch (\Exception $e) {

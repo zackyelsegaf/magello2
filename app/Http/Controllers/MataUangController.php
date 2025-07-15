@@ -126,7 +126,7 @@ class MataUangController extends Controller
             
         } catch(\Exception $e) {
             DB::rollback();
-            sweetalert()->error('Tambah Data Gagal'. $e->getMessage());
+            sweetalert()->error('Tambah Data Gagal');
             return redirect()->back();
         }
     }
