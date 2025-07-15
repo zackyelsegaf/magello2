@@ -17,15 +17,15 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Kode Cabang</label>
-                                    <input type="text" class="form-control @error('cabang_id') is-invalid @enderror" name="cabang_id" placeholder="Kode pajak pelanggan" value="{{ $cabang->cabang_id }}">
+                                    <input type="text" class="form-control form-control-sm  @error('cabang_id') is-invalid @enderror" name="cabang_id" placeholder="Kode pajak pelanggan" value="{{ $cabang->cabang_id }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Cabang</label>
-                                    <input type="text" class="form-control @error('nama_cabang') is-invalid @enderror" name="nama_cabang" placeholder="Nama Cabang" value="{{ $cabang->nama_cabang }}">
+                                    <input type="text" class="form-control form-control-sm  @error('nama_cabang') is-invalid @enderror" name="nama_cabang" placeholder="Nama Cabang" value="{{ $cabang->nama_cabang }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Kode Transaksi Cabang</label>
-                                    <input type="text" class="form-control @error('kode_transaksi') is-invalid @enderror" name="kode_transaksi" placeholder="Kode Transaksi" value="{{ $cabang->kode_transaksi }}">
+                                    <input type="text" class="form-control form-control-sm  @error('kode_transaksi') is-invalid @enderror" name="kode_transaksi" placeholder="Kode Transaksi" value="{{ $cabang->kode_transaksi }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="gudang" class="form-label fw-bold">Gudang</label>

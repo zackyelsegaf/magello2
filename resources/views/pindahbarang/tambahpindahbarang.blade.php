@@ -19,16 +19,16 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>No. Pindah</label>
-                                        <input type="text" class="form-control" name="no_pindah" value="{{ $kodeBaru }}">
+                                        <input type="text" class="form-control form-control-sm " name="no_pindah" value="{{ $kodeBaru }}">
                                     </div>  
                                     <div class="form-group" style="display: none">
                                         <label>Pengguna</label>
-                                        <input type="text" class="form-control" name="pengguna_pindah" value="{{ old('pengguna_pindah', Auth::user()->email) }}">
+                                        <input type="text" class="form-control form-control-sm " name="pengguna_pindah" value="{{ old('pengguna_pindah', Auth::user()->email) }}">
                                     </div>  
                                     <div class="form-group">
                                         <label>Tanggal Pindah</label>
                                         <div class="cal-icon">
-                                            <input type="text" class="form-control datetimepicker @error('tgl_pindah') is-invalid @enderror" name="tgl_pindah" value="{{ old('tgl_pindah') }}"> 
+                                            <input type="text" class="form-control form-control-sm  datetimepicker @error('tgl_pindah') is-invalid @enderror" name="tgl_pindah" value="{{ old('tgl_pindah') }}"> 
                                         </div>
                                     </div>
                                 </div>
@@ -55,7 +55,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label><strong>Dari Gudang</strong></label>
-                                                <select class="form-control"  name="dari_gudang">
+                                                <select class="form-control form-control-sm "  name="dari_gudang">
                                                     <option {{ old('dari_gudang') ? '' : 'selected' }} disabled></option>
                                                     @foreach ($gudang as $items )
                                                     <option value="{{ $items->nama_gudang }}">{{ $items->nama_gudang }}</option>
@@ -63,13 +63,13 @@
                                                 </select>
                                             </div> 
                                             <div class="form-group">
-                                                <textarea class="form-control @error('dari_alamat') is-invalid @enderror" name="dari_alamat" value="{{ old('dari_alamat') }}" placeholder="Dari Alamat">{{ old('dari_alamat') }}</textarea>
+                                                <textarea class="form-control form-control-sm  @error('dari_alamat') is-invalid @enderror" name="dari_alamat" value="{{ old('dari_alamat') }}" placeholder="Dari Alamat">{{ old('dari_alamat') }}</textarea>
                                             </div>                                       
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label><strong>Ke Gudang</strong></label>
-                                                <select class="form-control"  name="ke_gudang">
+                                                <select class="form-control form-control-sm "  name="ke_gudang">
                                                     <option {{ old('ke_gudang') ? '' : 'selected' }} disabled></option>
                                                     @foreach ($gudang as $items )
                                                     <option value="{{ $items->nama_gudang }}">{{ $items->nama_gudang }}</option>
@@ -77,7 +77,7 @@
                                                 </select>
                                             </div>  
                                             <div class="form-group">
-                                                <textarea class="form-control" name="ke_alamat" value="{{ old('ke_alamat') }}" placeholder="Ke Alamat">{{ old('ke_alamat') }}</textarea>
+                                                <textarea class="form-control form-control-sm " name="ke_alamat" value="{{ old('ke_alamat') }}" placeholder="Ke Alamat">{{ old('ke_alamat') }}</textarea>
                                             </div>                                         
                                         </div>
                                     </div>
@@ -85,7 +85,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label><strong>Deskripsi</strong></label>
-                                                <textarea class="form-control" name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi') }}</textarea>
+                                                <textarea class="form-control form-control-sm " name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi') }}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -119,7 +119,7 @@
                                         @foreach ($noBarangList as $i => $noBarang)
                                         <tr class="barang-row">
                                             <td>
-                                                <select style="width: 160px; cursor: pointer;" class="form-control no-barang-select" name="no_barang[]">
+                                                <select style="width: 160px; cursor: pointer;" class="form-control form-control-sm  no-barang-select" name="no_barang[]">
                                                     <option disabled {{ $noBarang ? '' : 'selected' }}></option>
                                                     @foreach ($nama_barang as $item)
                                                         <option 
@@ -134,13 +134,13 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <input style="width: 160px;" class="form-control deskripsi-barang-input" name="deskripsi_barang[]" value="{{ $deskripsiList[$i] ?? '' }}" readonly>
+                                                <input style="width: 160px;" class="form-control form-control-sm  deskripsi-barang-input" name="deskripsi_barang[]" value="{{ $deskripsiList[$i] ?? '' }}" readonly>
                                             </td>
                                             <td>
-                                                <input style="width: 160px; cursor: pointer;" class="form-control kts-barang-input" name="kts_barang[]" value="{{ $ktsList[$i] ?? '' }}">
+                                                <input style="width: 160px; cursor: pointer;" class="form-control form-control-sm  kts-barang-input" name="kts_barang[]" value="{{ $ktsList[$i] ?? '' }}">
                                             </td>
                                             <td>
-                                                <select style="width: 160px; cursor: pointer;" class="form-control" name="satuan[]">
+                                                <select style="width: 160px; cursor: pointer;" class="form-control form-control-sm " name="satuan[]">
                                                     <option disabled {{ old('satuan[]') ? '' : 'selected' }}></option>
                                                     @foreach ($satuan as $item)
                                                         <option value="{{ $item->nama }}" {{ $item->nama == ($satuanList[$i] ?? '') ? 'selected' : '' }}>
@@ -180,7 +180,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="fileupload_1">File 1</label>
-                                                    <input type="text" class="form-control" name="fileupload_1" placeholder="Link dokumen Anda" value="{{ old('fileupload_1') }}">
+                                                    <input type="text" class="form-control form-control-sm " name="fileupload_1" placeholder="Link dokumen Anda" value="{{ old('fileupload_1') }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -305,7 +305,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="fileupload_${fieldIndex}">File ${fieldIndex}</label>
-                            <input type="text" name="fileupload_${fieldIndex}" class="form-control" />
+                            <input type="text" name="fileupload_${fieldIndex}" class="form-control form-control-sm " />
                         </div>
                     </div>
                 </div>

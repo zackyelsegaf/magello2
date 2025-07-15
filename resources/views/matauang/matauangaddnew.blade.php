@@ -17,13 +17,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Nama Mata Uang</label>
-                                    <input type="text" class="form-control @error('nama') is-invalid @enderror"name="nama" value="{{ old('nama') }}">
+                                    <input type="text" class="form-control form-control-sm  @error('nama') is-invalid @enderror"name="nama" value="{{ old('nama') }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Nilai Tukar</label>
-                                    <input type="text" class="form-control @error('nilai_tukar') is-invalid @enderror"name="nilai_tukar" value="{{ old('nilai_tukar') }}">
+                                    <input type="text" class="form-control form-control-sm  @error('nilai_tukar') is-invalid @enderror"name="nilai_tukar" value="{{ old('nilai_tukar') }}">
                                 </div>
                             </div>
                         </div>

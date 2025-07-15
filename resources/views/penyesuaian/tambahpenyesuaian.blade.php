@@ -21,21 +21,21 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>No. Penyesuaian</label>
-                                                <input type="text" class="form-control" name="no_penyesuaian" value="{{ $kodeBaru }}">
+                                                <input type="text" class="form-control form-control-sm"  name="no_penyesuaian" value="{{ $kodeBaru }}">
                                             </div>  
                                             <div class="form-group" style="display: none">
                                                 <label>Pengguna</label>
-                                                <input type="text" class="form-control" name="pengguna_penyesuaian" value="{{ Auth::user()->email }}">
+                                                <input type="text" class="form-control form-control-sm"  name="pengguna_penyesuaian" value="{{ Auth::user()->email }}">
                                             </div>  
                                             <div class="form-group">
                                                 <label>Tanggal Penyesuaian</label>
                                                 <div class="cal-icon">
-                                                    <input type="text" class="form-control datetimepicker @error('tgl_penyesuaian') is-invalid @enderror" name="tgl_penyesuaian" value="{{ old('tgl_penyesuaian') }}"> 
+                                                    <input type="text" class="form-control form-control-sm datetimepicker @error('tgl_penyesuaian') is-invalid @enderror" name="tgl_penyesuaian" value="{{ old('tgl_penyesuaian') }}"> 
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label>No Akun Penyesuaian</label>
-                                                <select class="form-control" id="noAkunSelect" name="no_akun_penyesuaian">
+                                                <select class="form-control form-control-sm"  id="noAkunSelect" name="no_akun_penyesuaian">
                                                     <option disabled {{ old('no_akun_penyesuaian') ? '' : 'selected' }}>-- Pilih Akun --</option>
                                                     @foreach ($nama_akun as $items)
                                                         <option 
@@ -47,7 +47,7 @@
                                             </div>                                            
                                             <div class="form-group">
                                                 <label>Nama Akun Penyesuaian</label>
-                                                <select class="form-control" id="namaAkunSelect" name="akun_penyesuaian">
+                                                <select class="form-control form-control-sm"  id="namaAkunSelect" name="akun_penyesuaian">
                                                     <option disabled {{ old('akun_penyesuaian') ? '' : 'selected' }}>-- Pilih Nama Akun --</option>
                                                     @foreach ($nama_akun as $items)
                                                         <option value="{{ $items->nama_akun_indonesia }}" data-no="{{ $items->no_akun }}">
@@ -58,7 +58,7 @@
                                             </div>                                            
                                             <div class="form-group">
                                                 <label>Deskripsi</label>
-                                                <textarea class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi_1') }}</textarea>
+                                                <textarea class="form-control form-control-sm @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi_1') }}</textarea>
                                             </div>
                                             <div class="form-group">
                                                 <div class="dd"></div>
@@ -113,7 +113,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <select id="namaBarangSelect" style="width: 150px;" class="form-control @error('no_barang') is-invalid @enderror" name="no_barang">
+                                                    <select id="namaBarangSelect" style="width: 150px;" class="form-control form-control-sm @error('no_barang') is-invalid @enderror" name="no_barang">
                                                         <option {{ old('no_barang') ? '' : 'selected' }} disabled></option>
                                                         @foreach ($nama_barang as $items)
                                                             <option value="{{ $items->no_barang }}" 
@@ -129,22 +129,22 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input style="width: 150px;" id="deskripsiBarangInput" class="form-control" name="deskripsi_barang" value="{{ old('deskripsi_barang') }}" readonly>
+                                                    <input style="width: 150px;" id="deskripsiBarangInput" class="form-control form-control-sm"  name="deskripsi_barang" value="{{ old('deskripsi_barang') }}" readonly>
                                                 </td>                                            
                                                 <td>
-                                                    <input style="width: 150px;" id="ktsSaatIniInput" type="text" class="form-control" name="kts_saat_ini" value="{{ old('kts_saat_ini') }}" readonly>
+                                                    <input style="width: 150px;" id="ktsSaatIniInput" type="text" class="form-control form-control-sm"  name="kts_saat_ini" value="{{ old('kts_saat_ini') }}" readonly>
                                                 </td>
                                                 <td>
-                                                    <input style="width: 150px;" type="text" class="form-control" name="kts_baru" value="{{ old('kts_baru') }}">
+                                                    <input style="width: 150px;" type="text" class="form-control form-control-sm"  name="kts_baru" value="{{ old('kts_baru') }}">
                                                 </td>
                                                 <td class="kolom-nilai" style="display: none;">
-                                                    <input style="width: 150px;" id="nilaiSaatIniInput" type="text" class="form-control" name="nilai_saat_ini" value="{{ old('nilai_saat_ini') }}" readonly>
+                                                    <input style="width: 150px;" id="nilaiSaatIniInput" type="text" class="form-control form-control-sm"  name="nilai_saat_ini" value="{{ old('nilai_saat_ini') }}" readonly>
                                                 </td>
                                                 <td class="kolom-nilai" style="display: none;">
-                                                    <input style="width: 150px;" type="text" class="form-control" name="nilai_baru" value="{{ old('nilai_baru') }}">
+                                                    <input style="width: 150px;" type="text" class="form-control form-control-sm"  name="nilai_baru" value="{{ old('nilai_baru') }}">
                                                 </td>
                                                 <td>
-                                                    <select id="departemenSelect" style="width: 150px;" class="form-control @error('departemen') is-invalid @enderror" name="departemen">
+                                                    <select id="departemenSelect" style="width: 150px;" class="form-control form-control-sm @error('departemen') is-invalid @enderror" name="departemen">
                                                         <option {{ old('departemen') ? '' : 'selected' }} disabled></option>
                                                         @foreach ($departemen as $items)
                                                             <option value="{{ $items->nama_departemen }}">{{ $items->nama_departemen }}</option>
@@ -152,7 +152,7 @@
                                                     </select>                                            
                                                 </td>
                                                 <td>
-                                                    <select id="proyekSelect" style="width: 150px;" class="form-control @error('proyek') is-invalid @enderror" name="proyek">
+                                                    <select id="proyekSelect" style="width: 150px;" class="form-control form-control-sm @error('proyek') is-invalid @enderror" name="proyek">
                                                         <option {{ old('proyek') ? '' : 'selected' }} disabled></option>
                                                         @foreach ($proyek as $items)
                                                             <option value="{{ $items->nama_proyek }}">{{ $items->nama_proyek }}</option>
@@ -160,7 +160,7 @@
                                                     </select>                                            
                                                 </td>
                                                 <td>
-                                                    <select id="gudangSelect" style="width: 150px;" class="form-control @error('gudang') is-invalid @enderror" name="gudang">
+                                                    <select id="gudangSelect" style="width: 150px;" class="form-control form-control-sm @error('gudang') is-invalid @enderror" name="gudang">
                                                         <option {{ old('gudang') ? '' : 'selected' }} disabled></option>
                                                         @foreach ($gudang as $items)
                                                             <option value="{{ $items->nama_gudang }}">{{ $items->nama_gudang }}</option>
@@ -175,7 +175,7 @@
                                     <div class="row mt-2 float-right">
                                         <div class="form-group">
                                             <label>Total Penyesuaian</label>
-                                            <input type="text" class="form-control" id="displayTotalPenyesuaian" value="{{ old('total_nilai_penyesuaian') }}" readonly>
+                                            <input type="text" class="form-control form-control-sm"  id="displayTotalPenyesuaian" value="{{ old('total_nilai_penyesuaian') }}" readonly>
                                             <input type="hidden" name="total_nilai_penyesuaian">
                                         </div>                                        
                                     </div>
@@ -425,7 +425,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="fileupload_${fieldIndex}">File ${fieldIndex}</label>
-                            <input type="text" name="fileupload_${fieldIndex}" class="form-control" />
+                            <input type="text" name="fileupload_${fieldIndex}" class="form-control form-control-sm"  />
                         </div>
                     </div>
                 </div>

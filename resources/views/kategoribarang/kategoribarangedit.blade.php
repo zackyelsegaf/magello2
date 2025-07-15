@@ -17,7 +17,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Nama</label>
-                                    <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" value="{{ $kategoriBarang->nama }}">
+                                    <input type="text" class="form-control form-control-sm  @error('nama') is-invalid @enderror" id="nama" name="nama" value="{{ $kategoriBarang->nama }}">
                                 </div>
                             </div>
                         </div>

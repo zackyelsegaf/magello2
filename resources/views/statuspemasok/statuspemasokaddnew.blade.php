@@ -17,7 +17,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Status Pemasok</label>
-                                    <input type="text" class="form-control @error('nama') is-invalid @enderror"name="nama" value="{{ old('nama') }}">
+                                    <input type="text" class="form-control form-control-sm  @error('nama') is-invalid @enderror"name="nama" value="{{ old('nama') }}">
                                 </div>
                             </div>
                         </div>

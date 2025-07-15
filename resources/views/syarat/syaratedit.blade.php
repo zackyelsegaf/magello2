@@ -17,12 +17,12 @@
                             <div class="col-md-4"> 
                                 <div class="form-group">
                                     <label>Nama Syarat</label>
-                                    <input type="text" class="form-control @error('nama') is-invalid @enderror"name="nama" value="{{ $syarat->nama }}">
+                                    <input type="text" class="form-control form-control-sm  @error('nama') is-invalid @enderror"name="nama" value="{{ $syarat->nama }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Batas Hutang</label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control @error('batas_hutang') is-invalid @enderror" name="batas_hutang" value="{{ $syarat->batas_hutang }}">
+                                        <input type="number" class="form-control form-control-sm  @error('batas_hutang') is-invalid @enderror" name="batas_hutang" value="{{ $syarat->batas_hutang }}">
                                         <div class="input-group-append">
                                             <span class="input-group-text">Hari</span>
                                         </div>
@@ -41,7 +41,7 @@
                                     <h7 class="font-weight-bold">Jika dibayar pada batas periode diskon</h7>
                                     <label>Persentase</label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control @error('persentase_diskon') is-invalid @enderror" name="persentase_diskon" value="{{ $syarat->persentase_diskon }}">
+                                        <input type="number" class="form-control form-control-sm  @error('persentase_diskon') is-invalid @enderror" name="persentase_diskon" value="{{ $syarat->persentase_diskon }}">
                                         <div class="input-group-append">
                                             <span class="input-group-text">%</span>
                                         </div>
@@ -50,7 +50,7 @@
                                 <div class="form-group">
                                     <label>Periode Diskon</label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control @error('periode_diskon') is-invalid @enderror" name="periode_diskon" value="{{ $syarat->periode_diskon }}">
+                                        <input type="number" class="form-control form-control-sm  @error('periode_diskon') is-invalid @enderror" name="periode_diskon" value="{{ $syarat->periode_diskon }}">
                                         <div class="input-group-append">
                                             <span class="input-group-text">Hari</span>
                                         </div>

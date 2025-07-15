@@ -17,23 +17,23 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>No</label>
-                                    <input type="text" class="form-control" id="departemen_id" name="departemen_id" value="{{ $Departemen->departemen_id }}">
+                                    <input type="text" class="form-control form-control-sm " id="departemen_id" name="departemen_id" value="{{ $Departemen->departemen_id }}">
                                 </div> 
                                 <div class="form-group">
                                     <label>Nama Departemen</label>
-                                    <input type="text" class="form-control @error('nama_departemen') is-invalid @enderror"name="nama_departemen" value="{{ $Departemen->nama_departemen }}">
+                                    <input type="text" class="form-control form-control-sm  @error('nama_departemen') is-invalid @enderror"name="nama_departemen" value="{{ $Departemen->nama_departemen }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Kontak</label>
-                                    <input type="text" class="form-control @error('nama_kontak') is-invalid @enderror"name="nama_kontak" value="{{ $Departemen->nama_kontak }}">
+                                    <input type="text" class="form-control form-control-sm  @error('nama_kontak') is-invalid @enderror"name="nama_kontak" value="{{ $Departemen->nama_kontak }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Deskripsi</label>
-                                    <textarea class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ $Departemen->deskripsi }}</textarea>
+                                    <textarea class="form-control form-control-sm  @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ $Departemen->deskripsi }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Tipe</label>
-                                    <select class="form-control @error('tipe_departemen') is-invalid @enderror"  name="tipe_departemen">
+                                    <select class="form-control form-control-sm  @error('tipe_departemen') is-invalid @enderror"  name="tipe_departemen">
                                         <option selected disabled {{ old('tipe_departemen', $Departemen->tipe_departemen) ? '' : 'selected' }}> --Pilih Tipe-- </option>
                                         @foreach ($tipe_departemen as $items )
                                             <option value="{{ $items->nama }}" {{ old('tipe_departemen', $Departemen->tipe_departemen) == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>

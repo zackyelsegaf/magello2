@@ -17,16 +17,16 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Kode</label>
-                                    <input type="text" class="form-control @error('kode_pajak') is-invalid @enderror" name="kode_pajak" placeholder="Kode pajak pelanggan" value="{{ old('kode_pajak') }}">
+                                    <input type="text" class="form-control form-control-sm  @error('kode_pajak') is-invalid @enderror" name="kode_pajak" placeholder="Kode pajak pelanggan" value="{{ old('kode_pajak') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Nama</label>
-                                    <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" placeholder="Nama pajak" value="{{ old('nama') }}">
+                                    <input type="text" class="form-control form-control-sm  @error('nama') is-invalid @enderror" name="nama" placeholder="Nama pajak" value="{{ old('nama') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Nilai</label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control @error('nilai_persentase') is-invalid @enderror" name="nilai_persentase" placeholder="Persentase Pajak" value="{{ old('nilai_persentase', 1) }}">
+                                        <input type="number" class="form-control form-control-sm  @error('nilai_persentase') is-invalid @enderror" name="nilai_persentase" placeholder="Persentase Pajak" value="{{ old('nilai_persentase', 1) }}">
                                         <div class="input-group-append">
                                             <span class="input-group-text">%</span>
                                         </div>
@@ -34,15 +34,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Akun Pajak Penjualan</label>
-                                    <input type="text" class="form-control" name="akun_pajak_penjualan" placeholder="Akun pajak penjualan" value="{{ old('akun_pajak_penjualan') }}">
+                                    <input type="text" class="form-control form-control-sm " name="akun_pajak_penjualan" placeholder="Akun pajak penjualan" value="{{ old('akun_pajak_penjualan') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Akun Pajak Pembelian</label>
-                                    <input type="text" class="form-control" name="akun_pajak_pembelian" placeholder="Akun pajak pembelian" value="{{ old('akun_pajak_pembelian') }}">
+                                    <input type="text" class="form-control form-control-sm " name="akun_pajak_pembelian" placeholder="Akun pajak pembelian" value="{{ old('akun_pajak_pembelian') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Deskripsi</label>
-                                    <textarea class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi') }}</textarea>
+                                    <textarea class="form-control form-control-sm  @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi') }}</textarea>
                                 </div>
                             </div>
                         </div>

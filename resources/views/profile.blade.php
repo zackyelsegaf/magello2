@@ -15,7 +15,7 @@
                         <div class="row align-items-center">
                             <div class="col-auto profile-image">
                                 @if (Auth::user()->avatar)
-                                    <img class="rounded-circle" src="{{ asset('assets/img/' . Auth::user()->avatar) }}" alt="profile_image" style="width: 100px; height: 100px; object-fit: cover;">
+                                    <img class="rounded-circle" src="{{ asset('/../../public/assets/img/' . Auth::user()->avatar) }}" alt="profile_image" style="width: 100px; height: 100px; object-fit: cover;">
                                 @elseif (Auth::user()->avatar == 0)
                                     <img class="rounded-circle" src="{{ asset('assets/img/profile.png') }}" alt="profile_image" style="width: 100px; height: 100px; object-fit: cover;">
                                 @endif

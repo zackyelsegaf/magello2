@@ -17,12 +17,12 @@
                             <div class="col-md-4"> 
                                 <div class="form-group">
                                     <label>Nama Syarat</label>
-                                    <input type="text" class="form-control @error('nama') is-invalid @enderror"name="nama" value="{{ old('nama') }}">
+                                    <input type="text" class="form-control form-control-sm  @error('nama') is-invalid @enderror"name="nama" value="{{ old('nama') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Batas Hutang</label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control @error('batas_hutang') is-invalid @enderror" name="batas_hutang" value="{{ old('batas_hutang', 0)}}">
+                                        <input type="number" class="form-control form-control-sm  @error('batas_hutang') is-invalid @enderror" name="batas_hutang" value="{{ old('batas_hutang', 0)}}">
                                         <div class="input-group-append">
                                             <span class="input-group-text">Hari</span>
                                         </div>
@@ -40,7 +40,7 @@
                                     <h7 class="font-weight-bold">Jika dibayar pada batas periode diskon</h7>
                                     <label>Persentase</label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control @error('persentase_diskon') is-invalid @enderror" name="persentase_diskon" value="{{ old('persentase_diskon', 0) }}">
+                                        <input type="number" class="form-control form-control-sm  @error('persentase_diskon') is-invalid @enderror" name="persentase_diskon" value="{{ old('persentase_diskon', 0) }}">
                                         <div class="input-group-append">
                                             <span class="input-group-text">%</span>
                                         </div>
@@ -49,7 +49,7 @@
                                 <div class="form-group">
                                     <label>Periode Diskon</label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control @error('periode_diskon') is-invalid @enderror" name="periode_diskon" value="{{ old('periode_diskon', 0) }}">
+                                        <input type="number" class="form-control form-control-sm  @error('periode_diskon') is-invalid @enderror" name="periode_diskon" value="{{ old('periode_diskon', 0) }}">
                                         <div class="input-group-append">
                                             <span class="input-group-text">Hari</span>
                                         </div>

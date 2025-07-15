@@ -17,7 +17,7 @@
                             <div class="col-md-6">                
                                 <div class="form-group">
                                     <label>Tipe Akun</label>
-                                    <select class="form-control @error('tipe_akun') is-invalid @enderror" name="tipe_akun">
+                                    <select class="form-control form-control-sm  @error('tipe_akun') is-invalid @enderror" name="tipe_akun">
                                         <option selected disabled> --Pilih Tipe Akun-- </option>
                                         @foreach ($tipe_akun as $items )
                                             <option value="{{ $items->nama }}">{{ $items->nama }}</option>
@@ -26,19 +26,19 @@
                                 </div>                              
                                 <div class="form-group">
                                     <label>No. Akun</label>
-                                    <input type="text" class="form-control @error('no_akun') is-invalid @enderror" name="no_akun" value="{{ old('no_akun') }}">
+                                    <input type="text" class="form-control form-control-sm  @error('no_akun') is-invalid @enderror" name="no_akun" value="{{ old('no_akun') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Akun (Indonesia)</label>
-                                    <textarea class="form-control derror" name="nama_akun_indonesia" value="{{ old('nama_akun_indonesia') }}">{{ old('nama_akun_indonesia') }}</textarea>
+                                    <textarea class="form-control form-control-sm  derror" name="nama_akun_indonesia" value="{{ old('nama_akun_indonesia') }}">{{ old('nama_akun_indonesia') }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Akun (English)</label>
-                                    <textarea class="form-control" name="nama_akun_inggris" value="{{ old('nama_akun_inggris') }}">{{ old('nama_akun_inggris') }}</textarea>
+                                    <textarea class="form-control form-control-sm  form-control-sm"  name="nama_akun_inggris" value="{{ old('nama_akun_inggris') }}">{{ old('nama_akun_inggris') }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Mata Uang</label>
-                                    <select class="form-control @error('mata_uang') is-invalid @enderror" name="mata_uang">
+                                    <select class="form-control form-control-sm  @error('mata_uang') is-invalid @enderror" name="mata_uang">
                                         <option selected disabled> --Pilih Mata Uang-- </option>
                                         @foreach ($mata_uang as $items )
                                             <option value="{{ $items->nama }}">{{ $items->nama }}</option>
@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="form-group" id="tipe_akun_form" style="display: none;">
                                     {{-- <label>Subdari</label> --}}
-                                    <select class="form-control" name="sub_akun">
+                                    <select class="form-control form-control-sm  form-control-sm"  name="sub_akun">
                                         <option selected disabled> --Pilih Sub-- </option>
                                         @foreach ($nama_akun as $items )
                                             <option value="{{ $items->no_akun }}">{{ $items->no_akun .' '. $items->nama_akun_indonesia }}</option>
@@ -64,12 +64,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Saldo</label>
-                                    <input type="text" id="saldo_akun" class="form-control @error('saldo_akun') is-invalid @enderror" name="saldo_akun" value="{{ old('saldo_akun') }}">
+                                    <input type="text" id="saldo_akun" class="form-control form-control-sm  @error('saldo_akun') is-invalid @enderror" name="saldo_akun" value="{{ old('saldo_akun') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Tanggal</label>
                                     <div class="cal-icon">
-                                        <input type="text" class="form-control datetimepicker @error('tanggal') is-invalid @enderror" name="tanggal" value="{{ old('tanggal') }}"> 
+                                        <input type="text" class="form-control form-control-sm  datetimepicker @error('tanggal') is-invalid @enderror" name="tanggal" value="{{ old('tanggal') }}"> 
                                     </div>
                                 </div>
                                 <div class="form-group">
