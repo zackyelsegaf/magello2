@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-require __DIR__.'/penjualan.php';
+
+require __DIR__ . '/penjualan.php';
+
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Home2Controller;
 use App\Http\Controllers\Auth\LoginController;
@@ -37,8 +39,11 @@ use App\Http\Controllers\FakturPembelianController;
 use App\Http\Controllers\CabangController;
 use App\Http\Controllers\PembayaranPembelianController;
 use App\Http\Controllers\ReturPembelianController;
+use App\Http\Controllers\Aktiva\AktivaTetapController;
+use App\Http\Controllers\Aktiva\TipeAktivaTetapController;
+use App\Http\Controllers\Aktiva\TipeAktivaTetapPajakController;
 use App\Models\PindahBarang;
-
+use App\Models\TipeAktivaTetapPajak;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,14 +60,11 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::group(['middleware'=>'auth'],function()
-{
-    Route::get('home',function()
-    {
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('home', function () {
         return view('home');
     });
-    Route::get('home',function()
-    {
+    Route::get('home', function () {
         return view('home');
     });
 });
@@ -139,13 +141,18 @@ Route::controller(ResetPasswordController::class)->group(function () {
 // ----------------------- user management -------------------------//
 Route::controller(UserManagementController::class)->group(function () {
     Route::get('users/list/page', 'userList')->middleware('auth')->name('users/list/page');
-    Route::get('users/add/new', 'userAddNew')->middleware('auth')->name('users/add/new'); /** add new users */
-    Route::get('users/add/edit/{user_id}', 'userView'); /** add new users */
-    Route::post('users/update', 'userUpdate')->name('users/update'); /** update record */
+    Route::get('users/add/new', 'userAddNew')->middleware('auth')->name('users/add/new');
+    /** add new users */
+    Route::get('users/add/edit/{user_id}', 'userView');
+    /** add new users */
+    Route::post('users/update', 'userUpdate')->name('users/update');
+    /** update record */
     Route::get('users/edit/{id}', [UserManagementController::class, 'edit'])->name('usermanagement.edit');
     Route::post('users/update', [UserManagementController::class, 'update'])->name('usermanagement.update');
-    Route::get('users/delete/{id}', 'userDelete')->name('users/delete'); /** delere record */
-    Route::get('get-users-data', 'getUsersData')->name('get-users-data'); /** get all data users */
+    Route::get('users/delete/{id}', 'userDelete')->name('users/delete');
+    /** delere record */
+    Route::get('get-users-data', 'getUsersData')->name('get-users-data');
+    /** get all data users */
 });
 
 // ----------------------------- employee -----------------------------//
@@ -535,3 +542,37 @@ Route::get('get-retur23-data', [ReturPembelianController::class, 'tambahRetur'])
 Route::get('/get-detail-retur', [ReturPembelianController::class, 'getDetailRetur']);
 
 Route::get('/get-detail2-retur', [ReturPembelianController::class, 'getDetailRetur2']);
+
+
+// ----------------------------- Aktiva ----------------------------//
+
+Route::controller(AktivaTetapController::class)->group(function () {
+    Route::get('aktivatetap/list/page', 'AktivaTetapList')->middleware('auth')->name('aktivatetap/list/page');
+    Route::get('aktivatetap/add/new', 'AktivaTetapAddNew')->middleware('auth')->name('aktivatetap/add/new');
+    Route::post('form/aktivatetap/save', 'saveRecordAktivaTetap')->middleware('auth')->name('form/aktivatetap/save');
+    Route::get('/aktivatetap/edit/{id}', [AktivaTetapController::class, 'edit'])->name('aktivatetap/edit');
+    Route::post('/aktivatetap/update/{id}', [AktivaTetapController::class, 'update'])->name('aktivatetap/update');
+    Route::post('/aktivatetap/delete', [AktivaTetapController::class, 'delete'])->name('aktivatetap/delete');
+    Route::get('get-aktivatetap-data', [AktivaTetapController::class, 'getAktivaTetap'])->name('get-aktivatetap-data');
+});
+
+Route::controller(TipeAktivaTetapPajakController::class)->group(function () {
+    Route::get('tipeaktivatetappajak/list/page', 'TipeAktivaTetapPajakList')->middleware('auth')->name('tipeaktivatetappajak/list/page');
+    Route::get('tipeaktivatetappajak/add/new', 'TipeAktivaTetapPajakAddNew')->middleware('auth')->name('tipeaktivatetappajak/add/new');
+    Route::post('form/tipeaktivatetappajak/save', 'saveRecordTipeAktivaTetapPajak')->middleware('auth')->name('form/tipeaktivatetappajak/save');
+    Route::get('/tipeaktivatetappajak/edit/{id}', [TipeAktivaTetapPajakController::class, 'edit'])->name('tipeaktivatetappajak/edit');
+    Route::post('/tipeaktivatetappajak/update/{id}', [TipeAktivaTetapPajakController::class, 'update'])->name('tipeaktivatetappajak/update');
+    Route::post('/tipeaktivatetappajak/delete', [TipeAktivaTetapPajakController::class, 'delete'])->name('tipeaktivatetappajak/delete');
+    Route::get('get-tipeaktivatetappajak-data', [TipeAktivaTetapPajakController::class, 'getTipeAktivaTetapPajak'])->name('get-tipeaktivatetappajak-data');
+});
+
+Route::controller(TipeAktivaTetapController::class)->group(function () {
+    Route::get('tipeaktivatetap/list/page', 'TipeAktivaTetapList')->middleware('auth')->name('tipeaktivatetap/list/page');
+    Route::get('tipeaktivatetap/add/new', 'TipeAktivaTetapAddNew')->middleware('auth')->name('tipeaktivatetap/add/new');
+    Route::post('form/tipeaktivatetap/save', 'saveRecordTipeAktivaTetap')->middleware('auth')->name('form/tipeaktivatetap/save');
+    Route::get('/tipeaktivatetap/edit/{id}', [TipeAktivaTetapController::class, 'edit'])->name('tipeaktivatetap/edit');
+    Route::post('/tipeaktivatetap/update/{id}', [TipeAktivaTetapController::class, 'update'])->name('tipeaktivatetap/update');
+    Route::post('/tipeaktivatetap/delete', [TipeAktivaTetapController::class, 'delete'])->name('tipeaktivatetap/delete');
+    Route::get('get-tipeaktivatetap-data', [TipeAktivaTetapController::class, 'getTipeAktivaTetap'])->name('get-tipeaktivatetap-data');
+});
+
