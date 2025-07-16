@@ -39,6 +39,8 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\PermintaanPembelianController;
 use App\Http\Controllers\ModulUtama\PembelianController;
 use App\Http\Controllers\ModulUtama\PenjualanController;
+use App\Livewire\GudangForm;
+use App\Livewire\KategoriBarangForm;
 use App\Livewire\SatuanForm;
 
 /*
@@ -303,33 +305,28 @@ Route::controller(PegawaiController::class)->group(function () {
 //-------------------------------- SATUAN ---------------------------------//
 Route::get('satuan/add/new', SatuanForm::class)->middleware('auth')->name('satuan/add/new');
 Route::get('/satuan/edit/{id}', SatuanForm::class)->name('satuan/edit');
-
 Route::controller(SatuanController::class)->group(function () {
     Route::get('satuan/list/page', 'satuanList')->middleware('auth')->name('satuan/list/page');
-    Route::post('/satuan/delete', [SatuanController::class, 'delete'])->name('satuan/delete');
-    Route::get('get-satuan-data', [SatuanController::class, 'getSatuan'])->name('get-satuan-data');
+    Route::post('/satuan/delete', 'delete')->name('satuan/delete');
+    Route::get('get-satuan-data', 'getSatuan')->name('get-satuan-data');
 });
 
+//-------------------------------- GUDANG ---------------------------------//
+Route::get('gudang/add/new', GudangForm::class)->middleware('auth')->name('gudang/add/new');
+Route::get('/gudang/edit/{id}', GudangForm::class)->name('gudang/edit');
 Route::controller(GudangController::class)->group(function () {
     Route::get('gudang/list/page', 'gudangList')->middleware('auth')->name('gudang/list/page');
-    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
-    Route::get('gudang/add/new', 'GudangAddNew')->middleware('auth')->name('gudang/add/new');
-    Route::post('form/gudang/save', 'saveRecordGudang')->middleware('auth')->name('form/gudang/save');
-    Route::get('/gudang/edit/{id}', [GudangController::class, 'edit'])->name('gudang/edit');
-    Route::post('/gudang/update/{id}', [GudangController::class, 'update'])->name('gudang/update');
-    Route::post('/gudang/delete', [GudangController::class, 'delete'])->name('gudang/delete');
-    Route::get('get-gudang-data', [GudangController::class, 'getGudang'])->name('get-gudang-data');
+    Route::post('/gudang/delete', 'delete')->name('gudang/delete');
+    Route::get('get-gudang-data', 'getGudang')->name('get-gudang-data');
 });
 
+//-------------------------------- KATEGORI BARANG ---------------------------------//
+Route::get('kategoribarang/add/new', KategoriBarangForm::class)->middleware('auth')->name('kategoribarang/add/new');
+Route::get('/kategoribarang/edit/{id}', KategoriBarangForm::class)->name('kategoribarang/edit');
 Route::controller(KategoriBarangController::class)->group(function () {
     Route::get('kategoribarang/list/page', 'kategoriBarangList')->middleware('auth')->name('kategoribarang/list/page');
-    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
-    Route::get('kategoribarang/add/new', 'KategoriBarangAddNew')->middleware('auth')->name('kategoribarang/add/new');
-    Route::post('form/kategoribarang/save', 'saveRecordKategoriBarang')->middleware('auth')->name('form/kategoribarang/save');
-    Route::get('/kategoribarang/edit/{id}', [KategoriBarangController::class, 'edit'])->name('kategoribarang/edit');
-    Route::post('/kategoribarang/update/{id}', [KategoriBarangController::class, 'update'])->name('kategoribarang/update');
-    Route::post('/kategoribarang/delete', [KategoriBarangController::class, 'delete'])->name('kategoribarang/delete');
-    Route::get('get-kategoribarang-data', [KategoriBarangController::class, 'getKategoriBarang'])->name('get-kategoribarang-data');
+    Route::post('/kategoribarang/delete', 'delete')->name('kategoribarang/delete');
+    Route::get('get-kategoribarang-data', 'getKategoriBarang')->name('get-kategoribarang-data');
 });
 
 Route::controller(AkunController::class)->group(function () {

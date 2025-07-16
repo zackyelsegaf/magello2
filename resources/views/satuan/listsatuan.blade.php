@@ -17,7 +17,7 @@
                 <div class="card rounded-default p-3 bg-dark text-white">
                     <div class="form-group">
                         <label>Pencarian</label>
-                        <input type="text" name="nama" class="form-control" id="searchNama" placeholder="Nama Satuan">
+                        <input type="text" name="nama" class="form-control key-filter" placeholder="Nama Satuan">
                     </div> 
                 </div>
             </div>
@@ -139,9 +139,9 @@
                 ]
             });
 
-            $('#searchNama').keyup(function(){
-                table.search($(this).val()).draw() ;
-            })
+            $('.key-filter').on('keyup', function(e){
+                table.draw()
+            });
 
             $('#select_all').on('click', function() {
                 $('.satuan_checkbox').prop('checked', this.checked);

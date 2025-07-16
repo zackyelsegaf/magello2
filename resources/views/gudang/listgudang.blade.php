@@ -15,12 +15,10 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="card rounded-default p-3 bg-dark text-white">
-                    <form method="GET" action="{{ route('gudang/list/page') }}">
-                        <div class="form-group">
-                            <label>Pencarian</label>
-                            <input type="text" name="nama_gudang" class="form-control" onchange="this.form.submit()" placeholder="Nama Gudang" value="{{ request('nama_gudang') }}">
-                        </div> 
-                    </form>
+                    <div class="form-group">
+                        <label>Pencarian</label>
+                        <input type="text" name="nama_gudang" class="form-control key-filter" placeholder="Nama Gudang">
+                    </div> 
                 </div>
             </div>
 
@@ -140,45 +138,44 @@
                     {
                         data: 'nama_gudang',
                         name: 'nama_gudang',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'deskripsi',
                         name: 'deskripsi',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'penanggung_jawab',
                         name: 'penanggung_jawab',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'alamat_gudang_1',
                         name: 'alamat_gudang_1',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'alamat_gudang_2',
                         name: 'alamat_gudang_2',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'alamat_gudang_3',
                         name: 'alamat_gudang_3',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                 ]
             });
 
-            $('form').on('submit', function(e) {
-                e.preventDefault();
-                table.draw();
+            $('.key-filter').on('keyup', function(e){
+                table.draw()
             });
 
             $('#select_all').on('click', function() {
