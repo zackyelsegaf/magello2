@@ -333,7 +333,7 @@ class PenjualanController extends Controller
         // })->toArray();
         $data['pelanggans'] = Pelanggan::all()->map(fn($item) => [
             'id' => $item->id,
-            'name' => $item->nama_pelanggan,
+            'name' => $item->nama,
             'alamat' => $item->alamat_1,
             'telepon' => $item->no_telp
         ])->toArray();
@@ -484,7 +484,7 @@ class PenjualanController extends Controller
         $data['no'] = PesananPenjualan::generateNo();
         $data['pelanggans'] = Pelanggan::all()->map(fn($item) => [
             'id' => $item->id,
-            'name' => $item->nama_pelanggan,
+            'name' => $item->nama,
             'alamat' => $item->alamat_1,
             'telepon' => $item->no_telp
         ])->toArray();
