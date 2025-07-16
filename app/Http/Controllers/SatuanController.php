@@ -13,38 +13,6 @@ class SatuanController extends Controller
         return view('satuan.listsatuan');
     }
 
-    public function SatuanAddNew()
-    {
-        return view('satuan.satuanaddnew');
-    }
-
-    public function saveRecordSatuan(Request $request){
-        $request->validate([
-            'nama'          => 'required|string|max:255',
-        ]);
-
-        //debug
-        // DB::enableQueryLog();
-        // MataUang::create($request->all());
-        // dd(DB::getQueryLog());
-
-        DB::beginTransaction();
-        try {
-            $satuan = new Satuan();
-            $satuan->nama = $request->nama;
-            $satuan->save();
-            
-            DB::commit();
-            sweetalert()->success('Create new Tipe Pelanggan successfully :)');
-            return redirect()->route('satuan/list/page');    
-            
-        } catch(\Exception $e) {
-            DB::rollback();
-            sweetalert()->error('Tambah Data Gagal :)');
-            return redirect()->back();
-        }
-    }
-
     public function delete(Request $request)
     {
         try {
@@ -59,39 +27,6 @@ class SatuanController extends Controller
             \Log::error($e->getMessage());
             return redirect()->back();
         }
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-        ]);
-
-        DB::beginTransaction();
-        try {
-            $satuan = Satuan::findOrFail($id);
-            $satuan->nama = $request->nama;
-            $satuan->save();
-            
-            DB::commit();
-            sweetalert()->success('Updated record successfully :)');
-            return redirect()->route('satuan/list/page');    
-            
-        } catch(\Exception $e) {
-            DB::rollback();
-            sweetalert()->error('Update record fail :)');
-            \Log::error($e->getMessage());
-            return redirect()->back();
-        }
-    }
-
-    public function edit($id)
-    {
-        $satuan = Satuan::findOrFail($id);
-        if (!$satuan) {
-            return redirect()->back()->with('error', 'Data tidak ditemukan');
-        }
-        return view('satuan.satuanedit', compact('satuan'));
     }
 
     public function getSatuan(Request $request)
@@ -117,8 +52,11 @@ class SatuanController extends Controller
 
         $totalRecordsWithFilter = $satuan->count();
 
+        if($columnName != 'checkbox'){
+            $satuan = $satuan->orderBy($columnName, $columnSortOrder);
+        }
+
         $records = $satuan
-            ->orderBy($columnName, $columnSortOrder)
             ->skip($start)
             ->take($rowPerPage)
             ->get();

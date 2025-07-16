@@ -39,7 +39,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\PermintaanPembelianController;
 use App\Http\Controllers\ModulUtama\PembelianController;
 use App\Http\Controllers\ModulUtama\PenjualanController;
-
+use App\Livewire\SatuanForm;
 
 /*
 |--------------------------------------------------------------------------
@@ -300,13 +300,12 @@ Route::controller(PegawaiController::class)->group(function () {
     Route::get('get-pegawai-data', [PegawaiController::class, 'getPegawai'])->name('get-pegawai-data');
 });
 
+//-------------------------------- SATUAN ---------------------------------//
+Route::get('satuan/add/new', SatuanForm::class)->middleware('auth')->name('satuan/add/new');
+Route::get('/satuan/edit/{id}', SatuanForm::class)->name('satuan/edit');
+
 Route::controller(SatuanController::class)->group(function () {
     Route::get('satuan/list/page', 'satuanList')->middleware('auth')->name('satuan/list/page');
-    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
-    Route::get('satuan/add/new', 'SatuanAddNew')->middleware('auth')->name('satuan/add/new');
-    Route::post('form/satuan/save', 'saveRecordSatuan')->middleware('auth')->name('form/satuan/save');
-    Route::get('/satuan/edit/{id}', [SatuanController::class, 'edit'])->name('satuan/edit');
-    Route::post('/satuan/update/{id}', [SatuanController::class, 'update'])->name('satuan/update');
     Route::post('/satuan/delete', [SatuanController::class, 'delete'])->name('satuan/delete');
     Route::get('get-satuan-data', [SatuanController::class, 'getSatuan'])->name('get-satuan-data');
 });

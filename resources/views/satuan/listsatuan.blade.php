@@ -15,14 +15,10 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="card rounded-default p-3 bg-dark text-white">
-                    <form method="GET" action="{{ route('satuan/list/page') }}">
-                        <div class="form-group">
-                            <label>Pencarian</label>
-                            <input type="text" name="nama" class="form-control" onchange="this.form.submit()" placeholder="Nama Satuan" value="{{ request('nama') }}">
-                        </div> 
-                        <div class="form-group">
-                        </div>
-                    </form>
+                    <div class="form-group">
+                        <label>Pencarian</label>
+                        <input type="text" name="nama" class="form-control" id="searchNama" placeholder="Nama Satuan">
+                    </div> 
                 </div>
             </div>
 
@@ -137,16 +133,15 @@
                     {
                         data: 'nama',
                         name: 'nama',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                 ]
             });
 
-            $('form').on('submit', function(e) {
-                e.preventDefault();
-                table.draw();
-            });
+            $('#searchNama').keyup(function(){
+                table.search($(this).val()).draw() ;
+            })
 
             $('#select_all').on('click', function() {
                 $('.satuan_checkbox').prop('checked', this.checked);
