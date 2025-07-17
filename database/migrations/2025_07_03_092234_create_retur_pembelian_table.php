@@ -31,6 +31,11 @@ return new class extends Migration
             $table->boolean('pajak_check')->nullable()->default(false);
             $table->boolean('termasuk_pajak_check')->nullable()->default(false);
             $table->boolean('disetujui_check')->nullable()->default(false);
+            $table->boolean('tindak_lanjut_check')->nullable()->default(false);
+            $table->boolean('urgent_check')->nullable()->default(false);
+            $table->boolean('catatan_pemeriksaan_check')->nullable()->default(false);
+            $table->string('deskripsi_1')->nullable();
+            $table->string('deskripsi_2')->nullable();
             $table->string('deskripsi')->nullable();
             $table->string('no_faktur')->nullable();
             $table->string('nilai_tukar_pajak')->nullable();
