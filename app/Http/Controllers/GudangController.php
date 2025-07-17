@@ -53,7 +53,7 @@ class GudangController extends Controller
         $totalRecordsWithFilter = $gudang->count();
 
         if($columnName != 'checkbox'){
-            $gudang = $gudang->orderBy($columnName, $columnSortOrder);
+            $gudang->orderBy($columnName, $columnSortOrder);
         }
 
         $records = $gudang

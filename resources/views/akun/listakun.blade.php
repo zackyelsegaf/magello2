@@ -14,20 +14,19 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="card rounded-default p-3 bg-dark text-white">
-                    <form method="GET" action="{{ route('akun/list/page') }}">
                         <div class="form-group">
                             <label>Pencarian</label>
-                            <input type="text" name="no_akun" class="form-control" onchange="this.form.submit()" placeholder="Cari berdasarkan ID" value="{{ request('no_akun') }}">
+                            <input type="text" name="no_akun" class="form-control key-filter" placeholder="Cari berdasarkan ID">
                         </div> 
                         <div class="form-group">
-                            <input type="text" name="nama_akun" class="form-control" onchange="this.form.submit()" placeholder="Nama Akun" value="{{ request('nama_akun') }}">
+                            <input type="text" name="nama_akun" class="form-control key-filter" placeholder="Nama Akun">
                         </div>
                         <div class="form-group">
                             <label>Tipe Akun</label>
-                            <select class="form-control" name="tipe_akun" onchange="this.form.submit()">
-                                <option value="" selected></option>
+                            <select class="form-control click-filter" name="tipe_akun">
+                                <option value="" selected>Semua</option>
                                 @foreach ($tipe_akun as $items)
-                                    <option value="{{ $items->nama }}" {{ request('tipe_akun') == $items->nama ? 'selected' : '' }}>
+                                    <option value="{{ $items->id }}">
                                         {{ $items->nama }}
                                     </option>
                                 @endforeach
@@ -36,19 +35,18 @@
                         <div class="form-group">
                             <label>Dihentikan</label><br>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="" {{ request('dihentikan') === null ? 'checked' : '' }}>
+                                <input class="form-check-input click-filter" type="radio" name="dihentikan" value="" checked>
                                 <label class="form-check-label">Semua</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="1" {{ request('dihentikan') === '1' ? 'checked' : '' }}>
+                                <input class="form-check-input click-filter" type="radio" name="dihentikan" value="1">
                                 <label class="form-check-label">Ya</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="0" {{ request('dihentikan') === '0' ? 'checked' : '' }}>
+                                <input class="form-check-input click-filter" type="radio" name="dihentikan" value="0">
                                 <label class="form-check-label">Tidak</label>
                             </div>
                         </div>
-                    </form>
                 </div>
             </div>
 
@@ -177,39 +175,41 @@
                     {
                         data: 'no_akun',
                         name: 'no_akun',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'nama_akun_indonesia',
                         name: 'nama_akun_indonesia',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'tipe_akun',
                         name: 'tipe_akun',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'mata_uang',
                         name: 'mata_uang',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'saldo_akun',
                         name: 'saldo_akun',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                 ]
             });
 
-            $('form').on('submit', function(e) {
-                e.preventDefault();
-                table.draw();
+            $('.key-filter').on('keyup', function(e){
+                table.draw()
+            });
+            $('.click-filter').on('change', function(e){
+                table.draw()
             });
 
             $('#select_all').on('click', function() {

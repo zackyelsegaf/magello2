@@ -54,7 +54,7 @@ class KategoriBarangController extends Controller
         $totalRecordsWithFilter = $kategoriBarang->count();
 
         if($columnName != 'checkbox'){
-            $kategoriBarang = $kategoriBarang->orderBy($columnName, $columnSortOrder);
+            $kategoriBarang->orderBy($columnName, $columnSortOrder);
         }
 
         $records = $kategoriBarang

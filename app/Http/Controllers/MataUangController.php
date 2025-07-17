@@ -9,72 +9,9 @@ use Illuminate\Http\Request;
 
 class MataUangController extends Controller
 {
-    public function index(Request $request){
-        $mataUang = MataUang::filterByName($request->nama)->get();
-        return view('matauang.listmatauang', compact('mataUang'));
-    }
-
     public function matauangList()
     {
         return view('matauang.listmatauang');
-    }
-
-    public function getMataUangData()
-    {
-        $matauang = MataUang::select(['id', 'nama', 'nilai_tukar']);
-
-        return DataTables::of($matauang)
-            ->addColumn('checkbox', function ($item) {
-                return '<input type="checkbox" class="matauang_checkbox" value="' . $item->id . '">';
-            })
-            ->rawColumns(['checkbox']) // Agar HTML checkbox tidak di-escape
-            ->make(true);
-    }
-
-    /** Add Neew Mata Uang */
-    public function MataUangAddNew()
-    {
-        return view('matauang.matauangaddnew');
-    }
-
-    public function MataUangView($id)
-    {
-        $MataUangData = MataUang::where('id',$id)->first();
-        return view('matauang.matauangedit',compact('matauangData'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'nilai_tukar' => 'required|numeric',
-        ]);
-
-        DB::beginTransaction();
-        try {
-            $mataUang = MataUang::findOrFail($id);
-            $mataUang->nama        = $request->nama;
-            $mataUang->nilai_tukar = $request->nilai_tukar;
-            $mataUang->save();
-            
-            DB::commit();
-            sweetalert()->success('Ubah Data Berhasil');
-            return redirect()->route('matauang/list/page');    
-            
-        } catch(\Exception $e) {
-            DB::rollback();
-            sweetalert()->error('Ubah Data Gagal');
-            return redirect()->back();
-        }
-    }
-
-    public function edit($id)
-    {
-        $mataUang = MataUang::findOrFail($id);
-        if (!$mataUang) {
-            return redirect()->back()->with('error', 'Data tidak ditemukan');
-        }
-        return view('matauang.matauangedit', compact('mataUang'));
     }
 
     public function delete(Request $request)
@@ -99,36 +36,6 @@ class MataUangController extends Controller
         // } else {
         //     return response()->json(['error' => 'Tidak ada data yang dipilih!'], 400);
         // }
-    }
-    /** Save Record */
-    public function saveRecordMataUang(Request $request)
-    {
-        $request->validate([
-            'nama'          => 'required|string|max:255',
-            'nilai_tukar'   => 'required|numeric',
-        ]);
-
-        //debug
-        // DB::enableQueryLog();
-        // MataUang::create($request->all());
-        // dd(DB::getQueryLog());
-
-        DB::beginTransaction();
-        try {
-            $matauang = new MataUang;
-            $matauang->nama         = $request->nama;
-            $matauang->nilai_tukar  = $request->nilai_tukar;
-            $matauang->save();
-            
-            DB::commit();
-            sweetalert()->success('Tambah Data Berhasil');
-            return redirect()->route('matauang/list/page');    
-            
-        } catch(\Exception $e) {
-            DB::rollback();
-            sweetalert()->error('Tambah Data Gagal');
-            return redirect()->back();
-        }
     }
 
     /** Get Mata Uang Data */
@@ -158,8 +65,11 @@ class MataUangController extends Controller
 
         $totalRecordsWithFilter = $query->count();
 
+        if($columnName != 'checkbox'){
+            $query->orderBy($columnName, $columnSortOrder);
+        }
+
         $records = $query
-            ->orderBy($columnName, $columnSortOrder)
             ->skip($start)
             ->take($rowPerPage)
             ->get();

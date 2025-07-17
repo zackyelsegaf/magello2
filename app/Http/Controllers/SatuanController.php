@@ -53,7 +53,7 @@ class SatuanController extends Controller
         $totalRecordsWithFilter = $satuan->count();
 
         if($columnName != 'checkbox'){
-            $satuan = $satuan->orderBy($columnName, $columnSortOrder);
+            $satuan->orderBy($columnName, $columnSortOrder);
         }
 
         $records = $satuan

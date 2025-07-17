@@ -151,15 +151,29 @@ class AkunController extends Controller
         $akunTipeAkunFilter  = $request->get('tipe_akun');
         $akunDihentikanFilter  = $request->get('dihentikan');
 
+        // dd($start, $rowPerPage);
+
         $columnIndex     = $columnIndex_arr[0]['column']; // Column index
         $columnName      = $columnName_arr[$columnIndex]['data']; // Column name
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
 
-        $Akun =  DB::table('akun');
+        $Akun =  DB::table('akun')
+            ->select([
+                'akun.id', 
+                'no_akun', 
+                'nama_akun_indonesia', 
+                DB::raw('tipe_akun.nama as tipe_akun'), 
+                DB::raw('mata_uang.nama as mata_uang'), 
+                'saldo_akun'
+            ])
+            ->join('tipe_akun', 'tipe_akun.id', '=', 'akun.tipe_id', 'left')
+            ->join('mata_uang', 'mata_uang.id', '=', 'akun.mata_uang_id', 'left');
+
         $totalRecords = $Akun->count();
 
         if ($namaFilter) {
-            $Akun->where('nama_akun', 'like', '%' . $namaFilter . '%');
+            $Akun->where('nama_akun_indonesia', 'like', '%' . $namaFilter . '%');
+            $Akun->orWhere('nama_akun_inggris', 'like', '%' . $namaFilter . '%');
         }
 
         if ($akunIdFilter) {
@@ -167,7 +181,7 @@ class AkunController extends Controller
         }
 
         if ($akunTipeAkunFilter) {
-            $Akun->where('tipe_akun', 'like', '%' . $akunTipeAkunFilter . '%');
+            $Akun->where('tipe_id', $akunTipeAkunFilter);
         }
 
         if ($akunDihentikanFilter  !== null && $akunDihentikanFilter !== '') {
@@ -176,8 +190,11 @@ class AkunController extends Controller
 
         $totalRecordsWithFilter = $Akun->count();
 
+        if($columnName != 'checkbox'){
+            $Akun->orderBy($columnName, $columnSortOrder);
+        }
+
         $records = $Akun
-            ->orderBy('no_akun', 'asc')            
             ->skip($start)
             ->take($rowPerPage)
             ->get();
@@ -190,10 +207,10 @@ class AkunController extends Controller
                 "checkbox"              => $checkbox,
                 "no"                    => $start + $key + 1,
                 "id"                    => $record->id,
-                "no_akun"               => $record->sub_akun_check == 0 ? '<strong>' . $record->no_akun . '</strong>' : str_repeat('&nbsp;', 3) . $record->no_akun,
-                "nama_akun_indonesia"   => $record->sub_akun_check == 0 ? '<strong>' . $record->nama_akun_indonesia . '</strong>' : $record->nama_akun_indonesia,
-                "tipe_akun"             => $record->sub_akun_check == 0 ? '<strong>' . $record->tipe_akun . '</strong>' : $record->tipe_akun,
-                "mata_uang"             => $record->sub_akun_check == 0 ? '<strong>' . $record->mata_uang . '</strong>' : $record->mata_uang,
+                "no_akun"               => !isset($record->parent_id) ? '<strong>' . $record->no_akun . '</strong>' : str_repeat('&nbsp;', 3) . $record->no_akun,
+                "nama_akun_indonesia"   => !isset($record->parent_id) ? '<strong>' . $record->nama_akun_indonesia . '</strong>' : $record->nama_akun_indonesia,
+                "tipe_akun"             => !isset($record->parent_id) ? '<strong>' . $record->tipe_akun . '</strong>' : $record->tipe_akun,
+                "mata_uang"             => !isset($record->parent_id) ? '<strong>' . $record->mata_uang . '</strong>' : $record->mata_uang,
                 "saldo_akun"            => '<strong>' . "Rp " . number_format($record->saldo_akun, 0, ',', '.') . "</strong>",
             ];
         }
