@@ -12,14 +12,14 @@
                         <div class="d-flex flex-column">
                             <h4 class="card-title mb-2">Data {{ $title }} Penjualan</h4>
                             <div id="svelte-app"></div>
-                            <x-combo-auto-fill size="sm" id="pelanggan" placeholder="Pilih pelanggan..."
+                            <div id="autocomplete-component" data-pelanggan='@json($pelanggans)'
+                                data-selected='@json(['id' => 1, 'name' => 'John Doe', 'alamat' => 'Jl. Merdeka'])'></div>
+                            {{-- <x-combo-auto-fill size="sm" id="pelanggan" placeholder="Pilih pelanggan..."
                                 :data="$pelanggans" name="pelanggan_id" :autofill="[
                                     'alamat' => 'alamat-input',
                                     'telepon' => 'telp-input',
-                                ]" />
+                                ]" /> --}}
                         </div>
-
-                        {{-- Kolom kanan --}}
                         <div class="d-flex flex-column">
                             <div class="d-flex justify-content-end">
                                 <div class="form-check me-3">
@@ -34,12 +34,6 @@
                                     <label class="form-check-label" for="inPajak">Termasuk Pajak</label>
                                 </div>
                                 &nbsp;
-                                {{-- <x-select2.search placeholder="Metode Kegiatan" name="pelanggan" label=""
-                                    :options="[
-                                        '001' => 'Simpan Transaksi',
-                                        '002' => 'Salin Transaksi',
-                                    ]" /> --}}
-
                             </div>
 
                             <div class="d-flex justify-content-between gap-3">
@@ -97,69 +91,11 @@
                                 </div>
                                 <div id="rincian" class="tab-pane fade show active">
                                     <div class="row float-right mr-0">
-                                        {{-- <button type="button" class="btn btn-primary buttonedit mb-3" id="tambahBarangBtn">
-                                        <strong><i class="fas fa-cube mr-3 ml-1"></i>Tambah</strong>
-                                    </button> --}}
                                         <button type="button" class="btn btn-primary buttonedit mb-3"
                                             id="btnTambahBarang">Tambah</button>
                                     </div>
                                     <!-- Modal -->
                                     <x-form.modal-barang :databarang=$nama_barang />
-
-
-                                    {{-- <table class="table table-striped table-bordered table-hover table-center mb-0" id="tabelPermintaan">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th>No. Barang</th>
-                                                <th>Deskripsi Barang</th>
-                                                <th>Kts Permintaan</th>
-                                                <th>Satuan</th>
-                                                <th>Catatan</th>
-                                                <th>Tgl. Diminta</th>
-                                                <th>Kts Dipesan</th>
-                                                <th>Kts Diterima</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="permintaanBody">
-                                            <tr>
-                                                <td>
-                                                    <select style="width: 150px;" name="no_barang[]" class="form-control nama-barang">
-                                                        <option disabled selected></option>
-                                                        @foreach ($nama_barang as $items)
-                                                            <option value="{{ $items->no_barang }}" 
-                                                                data-nama="{{ $items->nama_barang }}"
-                                                                data-satuan="{{ $items->satuan }}">
-                                                                {{ $items->no_barang . ' - ' . $items->nama_barang }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td><input style="width: 150px;" name="deskripsi_barang[]" class="form-control deskripsi-barang" readonly></td>
-                                                <td><input style="width: 150px;" name="kts_permintaan[]" class="form-control" value="{{ old('kts_permintaan[]',0) }}"></td>
-                                                <td>
-                                                    <select style="width: 160px; cursor: pointer;" class="form-control satuan-permintaan" name="satuan[]">
-                                                        <option disabled {{ old('satuan[]') ? '' : 'selected' }}></option>
-                                                        @foreach ($satuan as $item)
-                                                            <option value="{{ $item->nama }}" {{ $item->nama }}>
-                                                                {{ $item->nama }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td><input style="width: 150px;" name="catatan[]" class="form-control"></td>
-                                                <td>
-                                                    <div class="cal-icon">
-                                                        <input style="width: 150px;" type="text" class="form-control datetimepicker @error('tgl_diminta[]') is-invalid @enderror" name="tgl_diminta[]" value="{{ old('tgl_diminta[]') }}"> 
-                                                    </div>
-                                                </td>
-                                                <td><input style="width: 150px;" name="kts_dipesan[]" class="form-control" readonly></td>
-                                                <td><input style="width: 150px;" name="kts_diterima[]" class="form-control" readonly></td>
-                                                <td><button type="button" class="btn btn-danger btn-sm removeRow">Hapus</button></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <button type="button" class="btn btn-success" id="tambahBaris">+ Tambah Baris</button>                                     --}}
                                     <div class="table-responsive"
                                         style="max-height: calc(100vh - 250px); overflow-y: auto; margin-bottom: 100px;">
                                         <table class="table table-striped table-bordered table-hover table-center mb-0"
@@ -180,75 +116,13 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="barangTableBody">
-
-                                                {{-- @php
-                                                $noBarangList = old('no_barang', ['']);
-                                                $deskripsiList = old('deskripsi_barang', ['']);
-                                                $ktsPermintaanList = old('kts_permintaan', ['']);
-                                                $satuanList = old('satuan', ['']);
-                                                $catatanPermintaanList = old('catatan', ['']);
-                                                $tanggalPermintaanList = old('tgl_diminta', ['']);
-                                                $ktsDipesanList = old('kts_dipesan', ['']);
-                                                $ktsDiterimaList = old('kts_diterima', ['']);
-                                            @endphp
-
-                                            @foreach ($noBarangList as $i => $noBarang)
-                                            <tr class="barang-row">
-                                                <td>
-                                                    <select id="namaBarangSelect" style="width: 150px;" class="form-control no-barang-select" name="no_barang[]">
-                                                        <option {{ $noBarang ? '' : 'selected' }} disabled></option>
-                                                        @foreach ($nama_barang as $items)
-                                                            <option value="{{ $items->no_barang }}" 
-                                                                data-nama="{{ $items->nama_barang }}"
-                                                                data-satuan="{{ $items->satuan }}"
-                                                                {{ $items->no_barang == $noBarang ? 'selected' : '' }}>
-                                                                {{ $items->no_barang  . " - " . $items->nama_barang }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input style="width: 150px;" class="form-control deskripsi-barang-input" name="deskripsi_barang[]" value="{{ $deskripsiList[$i] ?? '' }}">
-                                                </td>                                            
-                                                <td>
-                                                    <input style="width: 150px;" type="text" class="form-control" name="kts_permintaan[]" value="{{ $ktsPermintaanList[$i] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <select style="width: 150px; cursor: pointer;" class="form-control" name="satuan[]">
-                                                        <option disabled {{ old('satuan[]') ? '' : 'selected' }}></option>
-                                                        @foreach ($satuan as $item)
-                                                            <option value="{{ $item->nama }}" {{ $item->nama == ($satuanList[$i] ?? '') ? 'selected' : '' }}> 
-                                                                {{ $item->nama }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input style="width: 200px;" type="text" class="form-control" name="catatan[]" value="{{ $catatanPermintaanList[$i] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <input style="width: 150px;" type="date" class="form-control" name="tgl_diminta[]" value="{{ $tanggalPermintaanList[$i] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <input style="width: 150px;" type="text" class="form-control" name="kts_dipesan[]" value="{{ $ktsDipesanList[$i] ?? '' }}">
-                                                </td><td>
-                                                    <input style="width: 150px;" type="text" class="form-control" name="kts_diterima[]" value="{{ $ktsDiterimaList[$i] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <button type="button" style="width: 120px;" class="btn btn-primary buttonedit2 mr-2 remove-row">
-                                                        <strong><i class="fas fa-trash-alt mr-3"></i>Hapus</strong>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            @endforeach --}}
-
                                             </tbody>
                                         </table>
                                     </div>
 
                                 </div>
                                 <div id="dokumen" class="tab-pane fade">
-                                    {{-- <h5 class="card-title">Change Password</h5> --}}
+
                                     <div class="row">
                                         <div class="col-lg-10">
                                             <x-dynamic-link-input id="file-input-1" name="files" />
@@ -256,9 +130,6 @@
                                     </div>
                                 </div>
                                 <div id="ricape" class="tab-pane fade">
-
-
-                                    {{-- <h5 class="card-title">Change Password</h5> --}}
                                     <div class="row">
                                         <div class="col-lg-10">
                                             <div class="row">

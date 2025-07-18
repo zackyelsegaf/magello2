@@ -4,7 +4,7 @@
     export let name = "Svelte";
 
     function greet() {
-        alert('Welcome to Svelte!');
+        alert(name);
     }
 </script>
 
