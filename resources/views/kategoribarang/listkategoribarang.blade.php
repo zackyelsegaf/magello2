@@ -15,12 +15,10 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="card rounded-default p-3 bg-dark text-white">
-                    <form method="GET" action="{{ route('kategoribarang/list/page') }}">
-                        <div class="form-group">
-                            <label for="nama">Pencarian</label>
-                            <input type="text" name="nama" class="form-control" onchange="this.form.submit()" placeholder="Nama Kategori" value="{{ request('nama') }}">
-                        </div>
-                    </form>
+                    <div class="form-group">
+                        <label for="nama">Pencarian</label>
+                        <input type="text" name="nama" class="form-control key-filter" placeholder="Nama Kategori">
+                    </div>
                 </div>
             </div>
 
@@ -135,15 +133,14 @@
                     {
                         data: 'nama',
                         name: 'nama',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                 ]
             });
 
-            $('form').on('submit', function(e) {
-                e.preventDefault();
-                table.draw();
+            $('.key-filter').on('keyup', function(e){
+                table.draw()
             });
 
             $('#select_all').on('click', function() {

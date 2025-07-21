@@ -14,9 +14,18 @@ class MataUangSeeder extends Seeder
      */
     public function run(): void
     {
+        $mataUangExist = ['IDR'];
+
         MataUang::create([
             'kode' => 'IDR',
             'nama' => 'Rupiah Indonesia',
         ]);
+
+        MataUang::factory(10)->make()->each(function($matauang) use(&$mataUangExist){
+            if(!in_array($matauang->kode, $mataUangExist)){
+                $matauang->save();
+                $mataUangExist[] = $matauang->kode;
+            }
+        });
     }
 }

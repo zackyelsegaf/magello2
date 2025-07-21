@@ -15,38 +15,6 @@ class TipePelangganController extends Controller
         return view('tipepelanggan.listtipepelanggan');
     }
 
-    public function TipePelangganAddNew()
-    {
-        return view('tipepelanggan.tipepelangganaddnew');
-    }
-
-    public function saveRecordTipePelanggan(Request $request){
-        $request->validate([
-            'nama'          => 'required|string|max:255',
-        ]);
-
-        //debug
-        // DB::enableQueryLog();
-        // MataUang::create($request->all());
-        // dd(DB::getQueryLog());
-
-        DB::beginTransaction();
-        try {
-            $tipePelanggan = new TipePelanggan();
-            $tipePelanggan->nama         = $request->nama;
-            $tipePelanggan->save();
-            
-            DB::commit();
-            sweetalert()->success('Create new Tipe Pelanggan successfully :)');
-            return redirect()->route('tipepelanggan/list/page');    
-            
-        } catch(\Exception $e) {
-            DB::rollback();
-            sweetalert()->error('Tambah Data Gagal :)');
-            return redirect()->back();
-        }
-    }
-
     public function delete(Request $request)
     {
         try {
@@ -61,39 +29,6 @@ class TipePelangganController extends Controller
             \Log::error($e->getMessage());
             return redirect()->back();
         }
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-        ]);
-
-        DB::beginTransaction();
-        try {
-            $tipePelanggan = TipePelanggan::findOrFail($id);
-            $tipePelanggan->nama = $request->nama;
-            $tipePelanggan->save();
-            
-            DB::commit();
-            sweetalert()->success('Updated record successfully :)');
-            return redirect()->route('tipepelanggan/list/page');    
-            
-        } catch(\Exception $e) {
-            DB::rollback();
-            sweetalert()->error('Update record fail :)');
-            \Log::error($e->getMessage());
-            return redirect()->back();
-        }
-    }
-
-    public function edit($id)
-    {
-        $tipePelanggan = TipePelanggan::findOrFail($id);
-        if (!$tipePelanggan) {
-            return redirect()->back()->with('error', 'Data tidak ditemukan');
-        }
-        return view('tipepelanggan.tipepelangganedit', compact('tipePelanggan'));
     }
 
     public function getTipePelanggan(Request $request)
@@ -119,8 +54,11 @@ class TipePelangganController extends Controller
 
         $totalRecordsWithFilter = $tipe_pelanggan->count();
 
+        if($columnName != 'checkbox'){
+            $tipe_pelanggan->orderBy($columnName, $columnSortOrder);
+        }
+
         $records = $tipe_pelanggan
-            ->orderBy($columnName, $columnSortOrder)
             ->skip($start)
             ->take($rowPerPage)
             ->get();

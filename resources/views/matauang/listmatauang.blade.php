@@ -15,12 +15,10 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="card rounded-default p-3 bg-dark text-white">
-                    <form method="GET" action="{{ route('matauang/list/page') }}">
-                        <div class="form-group">
-                            <label for="nama">Pencarian</label>
-                            <input type="text" name="nama" class="form-control" onchange="this.form.submit()" placeholder="Nama Mata Uang" value="{{ request('nama') }}">
-                        </div>
-                    </form>
+                    <div class="form-group">
+                        <label for="nama">Pencarian</label>
+                        <input type="text" name="nama" class="form-control key-filter" placeholder="Nama Mata Uang">
+                    </div>
                 </div>
             </div>
 
@@ -144,9 +142,8 @@
                 ]
             });
 
-            $('form').on('submit', function(e) {
-                e.preventDefault(); // Mencegah reload halaman
-                table.draw();       // Reload data table dengan parameter baru
+            $('.key-filter').on('keyup', function(e){
+                table.draw()
             });
 
             $('#select_all').on('click', function() {

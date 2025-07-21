@@ -14,6 +14,7 @@ class MataUang extends Model
 
     protected $fillable = [
         'nama',
+        'kode',
         'nilai_tukar',
     ];
 
