@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\MataUang;
 use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
 class MataUangForm extends Component
@@ -44,6 +45,7 @@ class MataUangForm extends Component
         }
     }
 
+    #[Title('Mata Uang')]
     public function render() {
         return view('matauang.form');
     }

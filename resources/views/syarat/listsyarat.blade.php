@@ -18,7 +18,7 @@
                     <form method="GET" action="{{ route('syarat/list/page') }}">
                         <div class="form-group">
                             <label>Pencarian</label>
-                            <input type="text" name="nama" class="form-control" onchange="this.form.submit()" placeholder="Nama" value="{{ request('nama') }}">
+                            <input type="text" name="nama" class="form-control key-filter" placeholder="Nama">
                         </div> 
                     </form>
                 </div>
@@ -135,15 +135,14 @@
                     {
                         data: 'nama',
                         name: 'nama',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                 ]
             });
 
-            $('form').on('submit', function(e) {
-                e.preventDefault();
-                table.draw();
+            $('.key-filter').on('keyup', function(e){
+                table.draw()
             });
 
             $('#select_all').on('click', function() {

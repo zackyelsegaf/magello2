@@ -6,6 +6,7 @@ use App\Models\Akun;
 use App\Models\MataUang;
 use App\Models\TipeAkun;
 use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
 class AkunForm extends Component
@@ -67,6 +68,7 @@ class AkunForm extends Component
         }
     }
 
+    #[Title('Akun')]
     public function render() {
         $mata_uang = MataUang::all(['nama', 'id']);
         $tipe_akun = TipeAkun::all(['nama', 'id']);

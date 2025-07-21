@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\StatusPemasok;
 use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
 class StatusPemasokForm extends Component
@@ -39,6 +40,7 @@ class StatusPemasokForm extends Component
         }
     }
 
+    #[Title('Status Pemasok')]
     public function render() {
         return view('statuspemasok.form');
     }

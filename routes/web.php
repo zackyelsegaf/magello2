@@ -45,6 +45,7 @@ use App\Livewire\KategoriBarangForm;
 use App\Livewire\MataUangForm;
 use App\Livewire\SatuanForm;
 use App\Livewire\StatusPemasokForm;
+use App\Livewire\SyaratForm;
 use App\Livewire\TipePelangganForm;
 
 /*
@@ -195,12 +196,12 @@ Route::controller(PemasokController::class)->group(function () {
     // Route::get('cities', 'DependentDropdownController@cities')->name('cities');
 });
 
+Route::get('syarat/add/new', SyaratForm::class)->middleware('auth')->name('syarat/add/new');
+Route::get('/syarat/edit/{id}', SyaratForm::class)->name('syarat/edit');
 Route::controller(SyaratController::class)->group(function () {
     Route::get('syarat/list/page', 'syaratList')->middleware('auth')->name('syarat/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
-    Route::get('syarat/add/new', 'SyaratAddNew')->middleware('auth')->name('syarat/add/new');
     Route::post('form/syarat/save', 'saveRecordSyarat')->middleware('auth')->name('form/syarat/save');
-    Route::get('/syarat/edit/{id}', [SyaratController::class, 'edit'])->name('syarat/edit');
     Route::post('/syarat/update/{id}', [SyaratController::class, 'update'])->name('syarat/update');
     Route::post('/syarat/delete', [SyaratController::class, 'delete'])->name('syarat/delete');
     Route::get('get-syarat-data', [SyaratController::class, 'getSyarat'])->name('get-syarat-data');
