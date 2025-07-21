@@ -217,6 +217,7 @@ Route::controller(PajakController::class)->group(function () {
     Route::get('get-pajak-data', [PajakController::class, 'getPajak'])->name('get-pajak-data');
 });
 
+//-------------------------------- TIPE PELANGGAN ---------------------------------//
 Route::get('tipepelanggan/add/new', TipePelangganForm::class)->middleware('auth')->name('tipepelanggan/add/new');
 Route::get('/tipepelanggan/edit/{id}', TipePelangganForm::class)->name('tipepelanggan/edit');
 Route::controller(TipePelangganController::class)->group(function () {

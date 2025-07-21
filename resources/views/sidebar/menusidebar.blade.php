@@ -190,9 +190,13 @@
                 </li>
                 <li class="submenu"> <a href="#"></i> <span> Laporan </span> <span
                             class="menu-arrow"></span></a>
-                    <ul class="submenu_class" style="display: none;">
-                        {{-- <li><a class="{{ set_active(['gudang/list/page']) }}" href="{{ route('gudang/list/page') }}">Gudang</a></li>
-                        <li><a class="{{ set_active(['kategoribarang/list/page']) }}" href="{{ route('kategoribarang/list/page') }}">Kategori Barang</a></li> --}}
+                    <ul class="submenu_class">
+                        <li>
+                            <a class="{{ set_active(['laporan']) }}" href="{{ route('laporan') }}">
+                                Semua Laporan
+                            </a>
+                        </li>
+                        {{-- {{-- <li><a class="{{ set_active(['gudang/list/page']) }}" href="{{ route('gudang/list/page') }}">Gudang</a></li> --}}
                         {{-- <li><a class="{{ set_active(['pegawai/list/page']) }}" href="{{ route('pegawai/list/page') }}">Pegawai</a></li> --}}
                         {{-- <li><a class="{{ set_active(['matauang/list/page']) }}" href="{{ route('matauang/list/page') }}">Mata Uang</a></li>
                         <li><a class="{{ set_active(['statuspemasok/list/page']) }}" href="{{ route('statuspemasok/list/page') }}">Status Pelanggan & Pemasok</a></li>
