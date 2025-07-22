@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pajak;
+use App\Models\JasaPengiriman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use DataTables;
 
-class PajakController extends Controller
+class JasaPengirimanController extends Controller
 {
-
-    public function pajakList()
+    public function jasaPengirimanList()
     {
-        return view('pajak.listpajak');
+        return view('jasapengiriman.listjasapengiriman');
     }
 
     public function delete(Request $request)
     {
         try {
             $ids = $request->ids;
-            Pajak::whereIn('id', $ids)->delete();
+            JasaPengiriman::whereIn('id', $ids)->delete();
             sweetalert()->success('Data berhasil dihapus :)');
-            return redirect()->route('pajak/list/page');    
+            return redirect()->route('jasapengiriman/list/page');    
             
         } catch(\Exception $e) {
             DB::rollback();
@@ -31,7 +29,7 @@ class PajakController extends Controller
         }
     }
 
-    public function getPajak(Request $request)
+    public function getJasaPengiriman(Request $request)
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
@@ -40,46 +38,38 @@ class PajakController extends Controller
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
         $namaFilter      = $request->get('nama');
-        $pajakKodePajakFilter = $request->get('kode');
 
         $columnIndex     = $columnIndex_arr[0]['column']; // Column index
         $columnName      = $columnName_arr[$columnIndex]['data']; // Column name
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
 
-        $pajak =  DB::table('pajak');
-        $totalRecords = $pajak->count();
+        $jasa_pengiriman =  DB::table('jasa_pengiriman');
+        $totalRecords = $jasa_pengiriman->count();
 
         if ($namaFilter) {
-            $pajak->where('nama', 'like', '%' . $namaFilter . '%');
+            $jasa_pengiriman->where('nama', 'like', '%' . $namaFilter . '%');
         }
 
-        if ($pajakKodePajakFilter) {
-            $pajak->where('kode', 'like', '%' . $pajakKodePajakFilter . '%');
-        }
-
-        $totalRecordsWithFilter = $pajak->count();
+        $totalRecordsWithFilter = $jasa_pengiriman->count();
 
         if($columnName != 'checkbox'){
-            $pajak->orderBy($columnName, $columnSortOrder);
+            $jasa_pengiriman->orderBy($columnName, $columnSortOrder);
         }
 
-        $records = $pajak
+        $records = $jasa_pengiriman
             ->skip($start)
             ->take($rowPerPage)
             ->get();
         $data_arr = [];
 
         foreach ($records as $key => $record) {
-            $checkbox = '<input type="checkbox" class="pajak_checkbox" value="'.$record->id.'">';
+            $checkbox = '<input type="checkbox" class="jasa_checkbox" value="'.$record->id.'">';
 
             $data_arr[] = [
-                "checkbox"         => $checkbox,
-                "no"               => $start + $key + 1,
-                "id"               => $record->id,
-                "nama"             => $record->nama,
-                "kode"             => $record->kode,
-                "deskripsi"        => $record->deskripsi,
-                "nilai_persentase" => $record->nilai_persentase,
+                "checkbox"     => $checkbox,
+                "no"           => $start + $key + 1,
+                "id"           => $record->id,
+                "nama"         => $record->nama,
             ];
         }
         

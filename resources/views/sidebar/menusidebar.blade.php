@@ -98,6 +98,8 @@
                                 href="{{ route('syarat/list/page') }}">Syarat Pembayaran</a></li>
                         <li><a class="{{ set_active(['pajak/list/page']) }}"
                                 href="{{ route('pajak/list/page') }}">Pajak</a></li>
+                        <li><a class="{{ set_active(['jasapengiriman/list/page']) }}"
+                                href="{{ route('jasapengiriman/list/page') }}">Jasa Pengiriman</a></li>
                     </ul>
                 </li>
                 <li class="submenu"> <a href="#"></i> <span> Modul Utama </span> <span

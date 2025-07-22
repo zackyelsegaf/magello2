@@ -31,10 +31,10 @@ class SyaratForm extends Component
     public function save(){ 
         $data = $this->validate([
             'nama'              => 'required|string|max:255',
-            'batas_hutang'      => 'required|max:255',
+            'batas_hutang'      => 'required|numeric',
             'cash_on_delivery'  => 'required|boolean',
-            'persentase_diskon' => 'required|max:255',
-            'periode_diskon'    => 'required|max:255',
+            'persentase_diskon' => 'required|numeric',
+            'periode_diskon'    => 'required|numeric',
         ]);
 
         DB::beginTransaction();
