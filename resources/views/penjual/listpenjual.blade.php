@@ -15,27 +15,25 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="card rounded-default p-3 bg-dark text-white">
-                    <form method="GET" action="{{ route('penjual/list/page') }}">
-                        <div class="form-group">
-                            <label>Pencarian</label>
-                            <input type="text" name="nama_depan_penjual" class="form-control" onchange="this.form.submit()" placeholder="Nama Depan Penjual" value="{{ request('nama_depan_penjual') }}">
-                        </div> 
-                        <div class="form-group">
-                            <label>Dihentikan</label><br>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="" {{ request('dihentikan') === null ? 'checked' : '' }}>
-                                <label class="form-check-label">Semua</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="1" {{ request('dihentikan') === '1' ? 'checked' : '' }}>
-                                <label class="form-check-label">Ya</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="0" {{ request('dihentikan') === '0' ? 'checked' : '' }}>
-                                <label class="form-check-label">Tidak</label>
-                            </div>
+                    <div class="form-group">
+                        <label>Pencarian</label>
+                        <input type="text" name="nama_depan_penjual" class="form-control key-filter" placeholder="Nama Depan Penjual">
+                    </div> 
+                    <div class="form-group">
+                        <label>Dihentikan</label><br>
+                        <div class="form-check">
+                            <input class="form-check-input click-filter" type="radio" name="dihentikan" value="" checked>
+                            <label class="form-check-label">Semua</label>
                         </div>
-                    </form>
+                        <div class="form-check">
+                            <input class="form-check-input click-filter" type="radio" name="dihentikan" value="1">
+                            <label class="form-check-label">Ya</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input click-filter" type="radio" name="dihentikan" value="0">
+                            <label class="form-check-label">Tidak</label>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -49,7 +47,6 @@
                                         <th width="20"><input type="checkbox" id="select_all"></th>
                                         <th>No</th>
                                         <th hidden>ID</th>
-                                        {{-- <th>No. Pemasok</th> --}}
                                         <th>Nama Depan</th>
                                         <th>Nama Belakang</th>
                                         <th>Jabatan</th>
@@ -153,40 +150,34 @@
                         name: 'id',
                         visible: false
                     },
-                    // {
-                    //     data: 'pemasok_id',
-                    //     name: 'pemasok_id',
-                    //     orderable: false,
-                    //     searchable: false
-                    // },
                     {
                         data: 'nama_depan_penjual',
                         name: 'nama_depan_penjual',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'nama_belakang_penjual',
                         name: 'nama_belakang_penjual',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'jabatan',
                         name: 'jabatan',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'no_kantor_1_penjual',
                         name: 'no_kantor_1_penjual',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'dihentikan',
                         name: 'dihentikan',
-                        orderable: false,
+                        orderable: true,
                         searchable: false,
                         render: function(data, type, row) {
                             return data == 1
@@ -197,9 +188,11 @@
                 ]
             });
 
-            $('form').on('submit', function(e) {
-                e.preventDefault(); 
-                table.draw();      
+            $('.key-filter').on('keyup', function(e){
+                table.draw()
+            });
+            $('.click-filter').on('change', function(e){
+                table.draw()
             });
 
             $('#select_all').on('click', function() {
