@@ -287,10 +287,113 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div style="padding-bottom: 15px;" id="ricape" class="tab-pane fade">
+                </div>
+                <div class="tab-content profile-tab-cont">
+                    <div class="profile-menu">
+                        <ul class="nav nav-tabs nav-tabs-solid">
+                            <li class="nav-item"> 
+                                <a class="nav-link active font-weight-bold" data-toggle="tab" href="#rincianbarang">Rincian Barang</a> 
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" data-toggle="tab" href="#informasi">Informasi</a> 
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" data-toggle="tab" href="#ricape">Rincian Catatan Pemeriksaan</a> 
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="padding-bottom: 15px;" id="rincianbarang" class="tab-pane fade show active">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Change Password</h5>
+                                <div class="table-responsive">
+                                    <table class="datatable table table-striped table-bordered table-hover table-center mb-0" id="DataBarangAddSatuan">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                {{-- <th>Dari</th> --}}
+                                                <th>No. Barang</th>
+                                                <th>Deskripsi Barang</th>
+                                                <th>Kts</th>
+                                                <th>Satuan</th>
+                                                <th>Harga Satuan</th>
+                                                <th>Diskon %</th>
+                                                <th>Pajak</th>
+                                                <th>Jumlah</th>
+                                                <th>Reserve 1</th>
+                                                <th>Reserve 2</th>
+                                                <th>Reserve 3</th>
+                                                {{-- <th>No. Penerimaan</th> --}}
+                                                {{-- <th>No. Pesanan</th> --}}
+                                                {{-- <th>No. Permintaan</th> --}}
+                                                {{-- <th>Tutup</th> --}}
+                                            </tr>
+                                        </thead>
+                                        <tbody id="barangTableBody">
+                                            @php
+                                                $noBarangList = old('no_barang', ['']);
+                                                $deskripsiList = old('deskripsi_barang', ['']);
+                                                $ktsPermintaanList = old('kts_permintaan', ['']);
+                                                $satuanList = old('satuan', ['']);
+                                                $catatanPermintaanList = old('catatan', ['']);
+                                                $tanggalPermintaanList = old('tgl_diminta', ['']);
+                                                $ktsDipesanList = old('kts_dipesan', ['']);
+                                                $ktsDiterimaList = old('kts_diterima', ['']);
+                                            @endphp
+                                            @foreach ($returPembelian->detail as $index => $detail)
+                                                <tr class="barang-row">
+                                                    <td><input style="width: 150px;" type="text" name="no_barang[]" value="{{ $detail->no_barang }}" class="form-control form-control-sm form-control-sm" readonly></td>
+                                                    <td><input style="width: 150px;" type="text" name="deskripsi_barang[]" value="{{ $detail->deskripsi_barang }}" class="form-control form-control-sm form-control-sm"></td>
+                                                    <td><input style="width: 150px;" type="text" name="kts_barang[]" value="{{ $detail->kts_barang }}" class="form-control form-control-sm form-control-sm"></td>
+                                                    <td><input style="width: 150px;" type="text" name="satuan[]" value="{{ $detail->satuan }}" class="form-control form-control-sm form-control-sm"></td>
+                                                    <td><input style="width: 150px;" type="text" name="harga_satuan[]" value="{{ $detail->harga_satuan }}" class="form-control form-control-sm form-control-sm"></td>
+                                                    <td><input style="width: 150px;" type="text" name="diskon_barang[]" value="{{ $detail->diskon_barang }}" class="form-control form-control-sm form-control-sm"></td>
+                                                    <td><input style="width: 150px;" type="text" name="kode_pajak[]" value="{{ $detail->kode_pajak }}" class="form-control form-control-sm form-control-sm"></td>
+                                                    <td><input style="width: 150px;" type="text" name="jumlah_total_harga[]" value="{{ $detail->jumlah_total_harga }}" class="form-control form-control-sm form-control-sm"></td>
+                                                    <td><input style="width: 150px;" type="text" name="reserve_1[]" value="{{ $detail->reserve_1 }}" class="form-control form-control-sm form-control-sm"></td>
+                                                    <td><input style="width: 150px;" type="text" name="reserve_2[]" value="{{ $detail->reserve_2 }}" class="form-control form-control-sm form-control-sm"></td>
+                                                    <td><input style="width: 150px;" type="text" name="reserve_3[]" value="{{ $detail->reserve_3 }}" class="form-control form-control-sm form-control-sm"></td>
+                                                    {{-- <td>
+                                                    <div class="checkbox-wrapper-4">
+                                                        <input type="hidden" name="tutup_check_detail[{{ $index }}]" value="0">
+                                                        <input class="inp-cbx" name="tutup_check_detail[{{ $index }}]" id="tutup_check_detail_{{ $index }}" type="checkbox" value="1" 
+                                                            {{ old("tutup_check_detail.$index", $detail->tutup_check_detail) ? 'checked' : '' }}>
+                                                        <label class="cbx" for="tutup_check_detail_{{ $index }}">
+                                                            <span><svg width="12px" height="10px"><use xlink:href="#check-4"></use></svg></span>
+                                                        </label>
+                                                        <svg class="inline-svg">
+                                                            <symbol id="check-4" viewBox="0 0 12 10">
+                                                                <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                                                            </symbol>
+                                                        </svg>
+                                                    </div>
+                                                </td> --}}
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 15px;" id="informasi" class="tab-pane fade">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="col-md-10">
+                                    <div class="row">
+                                        <div class="col-md-6"> 
+                                            <div class="form-group">
+                                                <label><strong>Alamat Pemasok</strong></label>
+                                                <textarea id="alamatPemasokInput" class="form-control form-control-sm @error('alamat_pajak') is-invalid @enderror" name="alamat_pajak" placeholder="Alamat Pemasok">{{ $returPembelian->detail2->alamat_pajak }}</textarea>
+                                            </div>                                       
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 15px;" id="ricape" class="tab-pane fade">
+                        <div class="card">
+                            <div class="card-body">
+                                {{-- <h5 class="card-title">Change Password</h5> --}}
                                 <div class="row">
                                     <div class="col-lg-10">
                                         <div class="row">
@@ -356,109 +459,6 @@
                                                     <textarea style="width: 300px; height:100px;" class="form-control form-control-sm" name="deskripsi_2" placeholder="Deskripsi">{{ old('deskripsi_2', $returPembelian->deskripsi_2) }}</textarea>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
-                </div>
-                <div class="tab-content profile-tab-cont">
-                    <div class="profile-menu">
-                        <ul class="nav nav-tabs nav-tabs-solid">
-                            <li class="nav-item"> 
-                                <a class="nav-link active font-weight-bold" data-toggle="tab" href="#rincianbarang">Rincian Barang</a> 
-                            </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#informasi">Informasi</a> 
-                            </li>
-                            {{-- <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#ricape">Rincian Catatan Pemeriksaan</a> 
-                            </li> --}}
-                        </ul>
-                    </div>
-                    <div style="padding-bottom: 15px;" id="rincianbarang" class="tab-pane fade show active">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="datatable table table-striped table-bordered table-hover table-center mb-0" id="DataBarangAddSatuan">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                {{-- <th>Dari</th> --}}
-                                                <th>No. Barang</th>
-                                                <th>Deskripsi Barang</th>
-                                                <th>Kts</th>
-                                                <th>Satuan</th>
-                                                <th>Harga Satuan</th>
-                                                <th>Diskon %</th>
-                                                <th>Pajak</th>
-                                                <th>Jumlah</th>
-                                                <th>Reserve 1</th>
-                                                <th>Reserve 2</th>
-                                                <th>Reserve 3</th>
-                                                {{-- <th>No. Penerimaan</th> --}}
-                                                {{-- <th>No. Pesanan</th> --}}
-                                                {{-- <th>No. Permintaan</th> --}}
-                                                {{-- <th>Tutup</th> --}}
-                                            </tr>
-                                        </thead>
-                                        <tbody id="barangTableBody">
-                                            @php
-                                                $noBarangList = old('no_barang', ['']);
-                                                $deskripsiList = old('deskripsi_barang', ['']);
-                                                $ktsPermintaanList = old('kts_permintaan', ['']);
-                                                $satuanList = old('satuan', ['']);
-                                                $catatanPermintaanList = old('catatan', ['']);
-                                                $tanggalPermintaanList = old('tgl_diminta', ['']);
-                                                $ktsDipesanList = old('kts_dipesan', ['']);
-                                                $ktsDiterimaList = old('kts_diterima', ['']);
-                                            @endphp
-                                            @foreach ($returPembelian->detail as $index => $detail)
-                                                <tr class="barang-row">
-                                                    <td><input style="width: 150px;" type="text" name="no_barang[]" value="{{ $detail->no_barang }}" class="form-control form-control-sm form-control-sm" readonly></td>
-                                                    <td><input style="width: 150px;" type="text" name="deskripsi_barang[]" value="{{ $detail->deskripsi_barang }}" class="form-control form-control-sm form-control-sm"></td>
-                                                    <td><input style="width: 150px;" type="text" name="kts_faktur[]" value="{{ $detail->kts_retur }}" class="form-control form-control-sm form-control-sm"></td>
-                                                    <td><input style="width: 150px;" type="text" name="satuan[]" value="{{ $detail->satuan }}" class="form-control form-control-sm form-control-sm"></td>
-                                                    <td><input style="width: 150px;" type="text" name="harga_satuan[]" value="{{ $detail->harga_satuan }}" class="form-control form-control-sm form-control-sm"></td>
-                                                    <td><input style="width: 150px;" type="text" name="diskon_barang[]" value="{{ $detail->diskon_barang }}" class="form-control form-control-sm form-control-sm"></td>
-                                                    <td><input style="width: 150px;" type="text" name="kode_pajak[]" value="{{ $detail->kode_pajak }}" class="form-control form-control-sm form-control-sm"></td>
-                                                    <td><input style="width: 150px;" type="text" name="jumlah_total_harga[]" value="{{ $detail->jumlah_total_harga }}" class="form-control form-control-sm form-control-sm"></td>
-                                                    <td><input style="width: 150px;" type="text" name="reserve_1[]" value="{{ $detail->reserve_1 }}" class="form-control form-control-sm form-control-sm"></td>
-                                                    <td><input style="width: 150px;" type="text" name="reserve_2[]" value="{{ $detail->reserve_2 }}" class="form-control form-control-sm form-control-sm"></td>
-                                                    <td><input style="width: 150px;" type="text" name="reserve_3[]" value="{{ $detail->reserve_3 }}" class="form-control form-control-sm form-control-sm"></td>
-                                                    {{-- <td>
-                                                    <div class="checkbox-wrapper-4">
-                                                        <input type="hidden" name="tutup_check_detail[{{ $index }}]" value="0">
-                                                        <input class="inp-cbx" name="tutup_check_detail[{{ $index }}]" id="tutup_check_detail_{{ $index }}" type="checkbox" value="1" 
-                                                            {{ old("tutup_check_detail.$index", $detail->tutup_check_detail) ? 'checked' : '' }}>
-                                                        <label class="cbx" for="tutup_check_detail_{{ $index }}">
-                                                            <span><svg width="12px" height="10px"><use xlink:href="#check-4"></use></svg></span>
-                                                        </label>
-                                                        <svg class="inline-svg">
-                                                            <symbol id="check-4" viewBox="0 0 12 10">
-                                                                <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-                                                            </symbol>
-                                                        </svg>
-                                                    </div>
-                                                </td> --}}
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="padding-bottom: 15px;" id="informasi" class="tab-pane fade">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="col-md-10">
-                                    <div class="row">
-                                        <div class="col-md-6"> 
-                                            <div class="form-group">
-                                                <label><strong>Alamat Pemasok</strong></label>
-                                                <textarea id="alamatPemasokInput" class="form-control form-control-sm @error('alamat_pajak') is-invalid @enderror" name="alamat_pajak" placeholder="Alamat Pemasok">{{ $returPembelian->detail2->alamat_pajak }}</textarea>
-                                            </div>                                       
                                         </div>
                                     </div>
                                 </div>
@@ -613,7 +613,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const disetujuiCheck = document.getElementById("disetujui_check");
-            const statusInput = document.getElementById("status_faktur");
+            const statusInput = document.getElementById("status_retur");
             const statusBadge = document.getElementById("statusBadge");
             const checkboxTutup = document.querySelectorAll('input[id^="tutup_check_detail_"]');
 
@@ -682,7 +682,7 @@
                                 <td style="background-color: #27548A;"><h7 class="font-weight-bold text-white">Pesanan</h7></td>
                                 <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="no_barang[]" value="${item.no_barang}" readonly></td>
                                 <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="deskripsi_barang[]" value="${item.deskripsi_barang}"></td>
-                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="kts_faktur[]" value="${item.kts_pesanan || ''}"></td>
+                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="kts_barang[]" value="${item.kts_pesanan || ''}"></td>
                                 <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="satuan[]" value="${item.satuan}"></td>
                                 <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="harga_satuan[]" value="${item.harga_satuan || ''}"></td>
                                 <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="diskon_barang[]" value="${item.diskon_barang || ''}"></td>
@@ -718,7 +718,7 @@
                 hitungSemuaJumlahDanSubTotal();
             });
 
-            $(document).on('input', 'input[name="kts_pesanan[]"], input[name="kts_faktur[]"], input[name="harga_satuan[]"], input[name="diskon_barang[]"], input[name="diskon_left"], #estimasi_biaya, #aktif_ppn', function () {
+            $(document).on('input', 'input[name="kts_pesanan[]"], input[name="kts_barang[]"], input[name="harga_satuan[]"], input[name="diskon_barang[]"], input[name="diskon_left"], #estimasi_biaya, #aktif_ppn', function () {
                 hitungSemuaJumlahDanSubTotal();
             });
 
@@ -726,7 +726,7 @@
                 let subTotal = 0;
 
                 $('#barangTableBody tr').each(function () {
-                    let kts = parseFloat($(this).find('input[name="kts_pesanan[]"], input[name="kts_faktur[]"]').val()?.replace(/\./g, '').replace(/,/g, '.')) || 0;
+                    let kts = parseFloat($(this).find('input[name="kts_pesanan[]"], input[name="kts_barang[]"]').val()?.replace(/\./g, '').replace(/,/g, '.')) || 0;
                     let harga = parseFloat($(this).find('input[name="harga_satuan[]"]').val()?.replace(/\./g, '').replace(/,/g, '.')) || 0;
                     let diskon = parseFloat($(this).find('input[name="diskon_barang[]"]').val()?.replace('%', '').replace(',', '.')) || 0;
 

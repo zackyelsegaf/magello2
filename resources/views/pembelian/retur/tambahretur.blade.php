@@ -233,9 +233,9 @@
                             <li class="nav-item"> 
                                 <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen</a> 
                             </li>
-                            {{-- <li class="nav-item"> 
+                            <li class="nav-item"> 
                                 <a class="nav-link" data-toggle="tab" href="#ricape">Rincian Catatan Pemeriksaan</a> 
-                            </li> --}}
+                            </li>
                         </ul>
                     </div>
                     <div style="padding-bottom: 15px;" id="rincian" class="tab-pane fade show active">
@@ -355,10 +355,10 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div style="padding-bottom: 15px;" id="ricape" class="tab-pane fade">
+                    <div style="padding-bottom: 15px;" id="ricape" class="tab-pane fade">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Change Password</h5>
+                                {{-- <h5 class="card-title">Change Password</h5> --}}
                                 <div class="row">
                                     <div class="col-lg-10">
                                         <div class="row">
@@ -402,7 +402,7 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <textarea style="width: 300px; height:100px;" class="form-control form-control-sm" name="deskripsi_1" placeholder="Deskripsi">{{ old('deskripsi_1') }}</textarea>
+                                                    <textarea style="width: 300px; height:100px;" class="form-control form-control-sm" name="deskripsi_1" placeholder="Deskripsi" value="deskripsi_1">{{ old('deskripsi_1') }}</textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="dd"></div>
@@ -429,7 +429,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
                 <div class="tab-content profile-tab-cont">
                     <div class="profile-menu">

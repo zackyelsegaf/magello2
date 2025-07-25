@@ -1,9 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-require __DIR__ . '/penjualan.php';
-
+require __DIR__.'/penjualan.php';
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Home2Controller;
 use App\Http\Controllers\Auth\LoginController;
@@ -42,8 +40,10 @@ use App\Http\Controllers\ReturPembelianController;
 use App\Http\Controllers\Aktiva\AktivaTetapController;
 use App\Http\Controllers\Aktiva\TipeAktivaTetapController;
 use App\Http\Controllers\Aktiva\TipeAktivaTetapPajakController;
+use App\Http\Controllers\Aktiva\PenyusutanController;
 use App\Models\PindahBarang;
 use App\Models\TipeAktivaTetapPajak;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -60,11 +60,14 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('home', function () {
+Route::group(['middleware'=>'auth'],function()
+{
+    Route::get('home',function()
+    {
         return view('home');
     });
-    Route::get('home', function () {
+    Route::get('home',function()
+    {
         return view('home');
     });
 });
@@ -138,21 +141,16 @@ Route::controller(ResetPasswordController::class)->group(function () {
 //     Route::post('form/room/update', 'updateRecord')->middleware('auth')->name('form/room/update');
 // });
 
-// ----------------------- user management -------------------------//
+// ----------------------- User Management -------------------------//
 Route::controller(UserManagementController::class)->group(function () {
     Route::get('users/list/page', 'userList')->middleware('auth')->name('users/list/page');
-    Route::get('users/add/new', 'userAddNew')->middleware('auth')->name('users/add/new');
-    /** add new users */
-    Route::get('users/add/edit/{user_id}', 'userView');
-    /** add new users */
-    Route::post('users/update', 'userUpdate')->name('users/update');
-    /** update record */
+    Route::get('users/add/new', 'userAddNew')->middleware('auth')->name('users/add/new'); /** add new users */
+    Route::get('users/add/edit/{user_id}', 'userView'); /** add new users */
+    Route::post('users/update', 'userUpdate')->name('users/update'); /** update record */
     Route::get('users/edit/{id}', [UserManagementController::class, 'edit'])->name('usermanagement.edit');
     Route::post('users/update', [UserManagementController::class, 'update'])->name('usermanagement.update');
-    Route::get('users/delete/{id}', 'userDelete')->name('users/delete');
-    /** delere record */
-    Route::get('get-users-data', 'getUsersData')->name('get-users-data');
-    /** get all data users */
+    Route::get('users/delete/{id}', 'userDelete')->name('users/delete'); /** delere record */
+    Route::get('get-users-data', 'getUsersData')->name('get-users-data'); /** get all data users */
 });
 
 // ----------------------------- employee -----------------------------//
@@ -162,7 +160,7 @@ Route::controller(UserManagementController::class)->group(function () {
 //     Route::get('form/leaves/page', 'leavesPage')->middleware('auth')->name('form/leaves/page');
 // });
 
-// ----------------------------- matauang -----------------------------//
+// ----------------------------- Mata Uang -----------------------------//
 Route::controller(MataUangController::class)->group(function () {
     Route::get('matauang/list/page', 'matauangList')->middleware('auth')->name('matauang/list/page');
     Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -174,6 +172,8 @@ Route::controller(MataUangController::class)->group(function () {
     Route::get('get-matauang-data', [MataUangController::class, 'getMataUang'])->name('get-matauang-data');
 });
 
+
+// ----------------------------- Status Pemasok -----------------------------//
 Route::controller(StatusPemasokController::class)->group(function () {
     Route::get('statuspemasok/list/page', 'statusPemasokList')->middleware('auth')->name('statuspemasok/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -185,6 +185,8 @@ Route::controller(StatusPemasokController::class)->group(function () {
     Route::get('get-statuspemasok-data', [StatusPemasokController::class, 'getStatusPemasok'])->name('get-statuspemasok-data');
 });
 
+
+// ----------------------------- Pemasok -----------------------------//
 Route::controller(PemasokController::class)->group(function () {
     Route::get('pemasok/list/page', 'PemasokList')->middleware('auth')->name('pemasok/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -198,6 +200,8 @@ Route::controller(PemasokController::class)->group(function () {
     // Route::get('cities', 'DependentDropdownController@cities')->name('cities');
 });
 
+
+// ----------------------------- Syarat Pembayaran -----------------------------//
 Route::controller(SyaratController::class)->group(function () {
     Route::get('syarat/list/page', 'syaratList')->middleware('auth')->name('syarat/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -209,6 +213,8 @@ Route::controller(SyaratController::class)->group(function () {
     Route::get('get-syarat-data', [SyaratController::class, 'getSyarat'])->name('get-syarat-data');
 });
 
+
+// ----------------------------- Pajak -----------------------------//
 Route::controller(PajakController::class)->group(function () {
     Route::get('pajak/list/page', 'pajakList')->middleware('auth')->name('pajak/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -220,6 +226,8 @@ Route::controller(PajakController::class)->group(function () {
     Route::get('get-pajak-data', [PajakController::class, 'getPajak'])->name('get-pajak-data');
 });
 
+
+// ----------------------------- Tipe Pelanggan -----------------------------//
 Route::controller(TipePelangganController::class)->group(function () {
     Route::get('tipepelanggan/list/page', 'tipePelangganList')->middleware('auth')->name('tipepelanggan/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -231,6 +239,8 @@ Route::controller(TipePelangganController::class)->group(function () {
     Route::get('get-tipepelanggan-data', [TipePelangganController::class, 'getTipePelanggan'])->name('get-tipepelanggan-data');
 });
 
+
+// ----------------------------- Pelanggan -----------------------------//
 Route::controller(PelangganController::class)->group(function () {
     Route::get('pelanggan/list/page', 'PelangganList')->middleware('auth')->name('pelanggan/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -245,6 +255,7 @@ Route::controller(PelangganController::class)->group(function () {
     // Route::get('cities', 'DependentDropdownController@cities')->name('cities');
 });
 
+// ----------------------------- Tipe Pelanggan -----------------------------//
 Route::controller(TipePelangganController::class)->group(function () {
     Route::get('tipepelanggan/list/page', 'tipePelangganList')->middleware('auth')->name('tipepelanggan/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -256,6 +267,8 @@ Route::controller(TipePelangganController::class)->group(function () {
     Route::get('get-tipepelanggan-data', [TipePelangganController::class, 'getTipePelanggan'])->name('get-tipepelanggan-data');
 });
 
+
+// ----------------------------- Penjual -----------------------------//
 Route::controller(PenjualController::class)->group(function () {
     Route::get('penjual/list/page', 'penjualList')->middleware('auth')->name('penjual/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -267,6 +280,8 @@ Route::controller(PenjualController::class)->group(function () {
     Route::get('get-penjual-data', [PenjualController::class, 'getPenjual'])->name('get-penjual-data');
 });
 
+
+// ----------------------------- Departemen -----------------------------//
 Route::controller(DepartemenController::class)->group(function () {
     Route::get('departemen/list/page', 'DepartemenList')->middleware('auth')->name('departemen/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -280,6 +295,8 @@ Route::controller(DepartemenController::class)->group(function () {
     // Route::get('cities', 'DependentDropdownController@cities')->name('cities');
 });
 
+
+// ----------------------------- Proyek -----------------------------//
 Route::controller(ProyekController::class)->group(function () {
     Route::get('proyek/list/page', 'ProyekList')->middleware('auth')->name('proyek/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -293,6 +310,8 @@ Route::controller(ProyekController::class)->group(function () {
     // Route::get('cities', 'DependentDropdownController@cities')->name('cities');
 });
 
+
+// ----------------------------- Pegawai -----------------------------//
 Route::controller(PegawaiController::class)->group(function () {
     Route::get('pegawai/list/page', 'pegawaiList')->middleware('auth')->name('pegawai/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -304,6 +323,8 @@ Route::controller(PegawaiController::class)->group(function () {
     Route::get('get-pegawai-data', [PegawaiController::class, 'getPegawai'])->name('get-pegawai-data');
 });
 
+
+// ----------------------------- Satuan -----------------------------//
 Route::controller(SatuanController::class)->group(function () {
     Route::get('satuan/list/page', 'satuanList')->middleware('auth')->name('satuan/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -315,6 +336,8 @@ Route::controller(SatuanController::class)->group(function () {
     Route::get('get-satuan-data', [SatuanController::class, 'getSatuan'])->name('get-satuan-data');
 });
 
+
+// ----------------------------- Gudang -----------------------------//
 Route::controller(GudangController::class)->group(function () {
     Route::get('gudang/list/page', 'gudangList')->middleware('auth')->name('gudang/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -326,6 +349,8 @@ Route::controller(GudangController::class)->group(function () {
     Route::get('get-gudang-data', [GudangController::class, 'getGudang'])->name('get-gudang-data');
 });
 
+
+// ----------------------------- Kategori Barang -----------------------------//
 Route::controller(KategoriBarangController::class)->group(function () {
     Route::get('kategoribarang/list/page', 'kategoriBarangList')->middleware('auth')->name('kategoribarang/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -337,6 +362,8 @@ Route::controller(KategoriBarangController::class)->group(function () {
     Route::get('get-kategoribarang-data', [KategoriBarangController::class, 'getKategoriBarang'])->name('get-kategoribarang-data');
 });
 
+
+// ----------------------------- Akun -----------------------------//
 Route::controller(AkunController::class)->group(function () {
     Route::get('akun/list/page', 'akunList')->middleware('auth')->name('akun/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -348,6 +375,8 @@ Route::controller(AkunController::class)->group(function () {
     Route::get('get-akun-data', [AkunController::class, 'getAkun'])->name('get-akun-data');
 });
 
+
+// ----------------------------- Barang -----------------------------//
 Route::controller(BarangController::class)->group(function () {
     Route::get('barang/list/page', 'daftarBarang')->middleware('auth')->name('barang/list/page');
     Route::get('barang/add/new', 'tambahBarang')->middleware('auth')->name('barang/add/new');
@@ -358,16 +387,20 @@ Route::controller(BarangController::class)->group(function () {
     Route::get('get-barang-data', [BarangController::class, 'dataBarang'])->name('get-barang-data');
 });
 
-Route::controller(BarangController::class)->group(function () {
-    Route::get('barang/list/page', 'daftarBarang')->middleware('auth')->name('barang/list/page');
-    Route::get('barang/add/new', 'tambahBarang')->middleware('auth')->name('barang/add/new');
-    Route::post('form/barang/save', 'simpanBarang')->middleware('auth')->name('form/barang/save');
-    Route::get('/barang/edit/{id}', [BarangController::class, 'editBarang'])->name('barang/edit');
-    Route::post('/barang/update/{id}', [BarangController::class, 'updateBarang'])->name('barang/update');
-    Route::post('/barang/delete', [BarangController::class, 'hapusBarang'])->name('barang/delete');
-    Route::get('get-barang-data', [BarangController::class, 'dataBarang'])->name('get-barang-data');
-});
 
+// ----------------------------- Barang (duplicate) -----------------------------//
+// Route::controller(BarangController::class)->group(function () {
+//     Route::get('barang/list/page', 'daftarBarang')->middleware('auth')->name('barang/list/page');
+//     Route::get('barang/add/new', 'tambahBarang')->middleware('auth')->name('barang/add/new');
+//     Route::post('form/barang/save', 'simpanBarang')->middleware('auth')->name('form/barang/save');
+//     Route::get('/barang/edit/{id}', [BarangController::class, 'editBarang'])->name('barang/edit');
+//     Route::post('/barang/update/{id}', [BarangController::class, 'updateBarang'])->name('barang/update');
+//     Route::post('/barang/delete', [BarangController::class, 'hapusBarang'])->name('barang/delete');
+//     Route::get('get-barang-data', [BarangController::class, 'dataBarang'])->name('get-barang-data');
+// });
+
+
+// ----------------------------- Cluster -----------------------------//
 Route::controller(ClusterController::class)->group(function () {
     Route::get('cluster/list/page', 'daftarCluster')->middleware('auth')->name('cluster/list/page');
     Route::get('cluster/add/new', 'tambahCluster')->middleware('auth')->name('cluster/add/new');
@@ -378,6 +411,8 @@ Route::controller(ClusterController::class)->group(function () {
     Route::get('get-cluster-data', [ClusterController::class, 'dataCluster'])->name('get-cluster-data');
 });
 
+
+// ----------------------------- Konsumen -----------------------------//
 Route::controller(KonsumenController::class)->group(function () {
     Route::get('konsumen/list/page', 'daftarKonsumen')->middleware('auth')->name('konsumen/list/page');
     Route::get('konsumen/add/new', 'tambahKonsumen')->middleware('auth')->name('konsumen/add/new');
@@ -388,6 +423,8 @@ Route::controller(KonsumenController::class)->group(function () {
     Route::get('get-konsumen-data', [KonsumenController::class, 'dataKonsumen'])->name('get-konsumen-data');
 });
 
+
+// ----------------------------- Proyek Umum -----------------------------//
 Route::controller(ProyekUmumController::class)->group(function () {
     Route::get('proyekumum/list/page', 'daftarProyekUmum')->middleware('auth')->name('proyekumum/list/page');
     Route::get('proyekumum/add/new', 'tambahProyekUmum')->middleware('auth')->name('proyekumum/add/new');
@@ -398,6 +435,8 @@ Route::controller(ProyekUmumController::class)->group(function () {
     Route::get('get-proyekumum-data', [ProyekUmumController::class, 'dataProyekUmum'])->name('get-proyekumum-data');
 });
 
+
+// ----------------------------- Penyesuaian Barang -----------------------------//
 Route::controller(PenyesuaianBarangController::class)->group(function () {
     Route::get('penyesuaian/list/page', 'daftarPenyesuaian')->middleware('auth')->name('penyesuaian/list/page');
     Route::get('penyesuaian/add/new', 'tambahPenyesuaian')->middleware('auth')->name('penyesuaian/add/new');
@@ -411,6 +450,7 @@ Route::controller(PenyesuaianBarangController::class)->group(function () {
 });
 
 
+// ----------------------------- Pindah Barang -----------------------------//
 Route::controller(PindahBarangController::class)->group(function () {
     Route::get('pindahbarang/list/page', 'daftarPindahBarang')->middleware('auth')->name('pindahbarang/list/page');
     Route::get('pindahbarang/add/new', 'tambahPindahBarang')->middleware('auth')->name('pindahbarang/add/new');
@@ -423,6 +463,8 @@ Route::controller(PindahBarangController::class)->group(function () {
     Route::get('/barang/search', 'searchBarang')->middleware('auth')->name('barang/search');
 });
 
+
+// ----------------------------- Permintaan Pembelian -----------------------------//
 Route::controller(PermintaanPembelianController::class)->group(function () {
     Route::get('pembelian/permintaan/list/page', 'daftarPermintaan')->middleware('auth')->name('pembelian/permintaan/list/page');
     Route::get('pembelian/permintaan/add/new', 'tambahPermintaan')->middleware('auth')->name('pembelian/permintaan/add/new');
@@ -437,6 +479,8 @@ Route::controller(PermintaanPembelianController::class)->group(function () {
 
 Route::get('get-permintaan2-data', [PermintaanPembelianController::class, 'tambahPermintaan'])->name('get-permintaan2-data');
 
+
+// ----------------------------- Pesanan Pembelian -----------------------------//
 Route::controller(PesananPembelianController::class)->group(function () {
     Route::get('pembelian/pesanan/list/page', 'daftarPesanan')->middleware('auth')->name('pembelian/pesanan/list/page');
     Route::get('pembelian/pesanan/add/new/', 'tambahPesanan')->middleware('auth')->name('pembelian/pesanan/add/new');
@@ -456,6 +500,7 @@ Route::get('get-pesanan23-data', [PesananPembelianController::class, 'tambahPesa
 Route::get('/get-detail-permintaan', [PesananPembelianController::class, 'getDetailPermintaan']);
 
 
+// ----------------------------- Penerimaan Pembelian -----------------------------//
 Route::controller(PenerimaanPembelianController::class)->group(function () {
     Route::get('pembelian/penerimaan/list/page', 'daftarPenerimaan')->middleware('auth')->name('pembelian/penerimaan/list/page');
     Route::get('pembelian/penerimaan/add/new/', 'tambahPenerimaan')->middleware('auth')->name('pembelian/penerimaan/add/new');
@@ -474,6 +519,8 @@ Route::get('get-penerimaan23-data', [PenerimaanPembelianController::class, 'tamb
 
 Route::get('/get-detail-penerimaan', [PenerimaanPembelianController::class, 'getDetailPenerimaan']);
 
+
+// ----------------------------- Faktur Pembelian -----------------------------//
 Route::controller(FakturPembelianController::class)->group(function () {
     Route::get('pembelian/faktur/list/page', 'daftarFaktur')->middleware('auth')->name('pembelian/faktur/list/page');
     Route::get('pembelian/faktur/add/new/', 'tambahFaktur')->middleware('auth')->name('pembelian/faktur/add/new');
@@ -494,6 +541,8 @@ Route::get('/get-detail-faktur', [FakturPembelianController::class, 'getDetailFa
 
 Route::get('/get-detail2-faktur', [FakturPembelianController::class, 'getDetailPenerimaan2']);
 
+
+// ----------------------------- Cabang -----------------------------//
 Route::controller(CabangController::class)->group(function () {
     Route::get('cabang/list/page', 'cabangList')->middleware('auth')->name('cabang/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
@@ -505,6 +554,8 @@ Route::controller(CabangController::class)->group(function () {
     Route::get('get-cabang-data', [CabangController::class, 'getCabang'])->name('get-cabang-data');
 });
 
+
+// ----------------------------- Pembayaran Pembelian -----------------------------//
 Route::controller(PembayaranPembelianController::class)->group(function () {
     Route::get('pembelian/pembayaran/list/page', 'daftarPembayaran')->middleware('auth')->name('pembelian/pembayaran/list/page');
     Route::get('pembelian/pembayaran/add/new/', 'tambahPembayaran')->middleware('auth')->name('pembelian/pembayaran/add/new');
@@ -523,6 +574,8 @@ Route::get('get-pembayaran23-data', [PembayaranPembelianController::class, 'tamb
 
 Route::get('/get-detail-pembayaran', [PembayaranPembelianController::class, 'getDetailPembayaran']);
 
+
+// ----------------------------- Retur Pembelian -----------------------------//
 Route::controller(ReturPembelianController::class)->group(function () {
     Route::get('pembelian/retur/list/page', 'daftarRetur')->middleware('auth')->name('pembelian/retur/list/page');
     Route::get('pembelian/retur/add/new/', 'tambahRetur')->middleware('auth')->name('pembelian/retur/add/new');
@@ -544,8 +597,7 @@ Route::get('/get-detail-retur', [ReturPembelianController::class, 'getDetailRetu
 Route::get('/get-detail2-retur', [ReturPembelianController::class, 'getDetailRetur2']);
 
 
-// ----------------------------- Aktiva ----------------------------//
-
+// ----------------------------- Aktiva - (INTERNSHIP TEAM) ----------------------------//
 Route::controller(AktivaTetapController::class)->group(function () {
     Route::get('aktivatetap/list/page', 'AktivaTetapList')->middleware('auth')->name('aktivatetap/list/page');
     Route::get('aktivatetap/add/new', 'AktivaTetapAddNew')->middleware('auth')->name('aktivatetap/add/new');
@@ -576,3 +628,12 @@ Route::controller(TipeAktivaTetapController::class)->group(function () {
     Route::get('get-tipeaktivatetap-data', [TipeAktivaTetapController::class, 'getTipeAktivaTetap'])->name('get-tipeaktivatetap-data');
 });
 
+Route::controller(PenyusutanController::class)->group(function () {
+    Route::get('penyusutan/list/page', 'PenyusutanList')->middleware('auth')->name('penyusutan/list/page');
+    Route::get('penyusutan/add/new', 'PenyusutanAddNew')->middleware('auth')->name('penyusutan/add/new');
+    Route::post('form/penyusutan/save', 'saveRecordPenyusutan')->middleware('auth')->name('form/penyusutan/save');
+    Route::get('/penyusutan/edit/{id}', [PenyusutanController::class, 'edit'])->name('penyusutan/edit');
+    Route::post('/penyusutan/update/{id}', [PenyusutanController::class, 'update'])->name('penyusutan/update');
+    Route::post('/penyusutan/delete', [PenyusutanController::class, 'delete'])->name('penyusutan/delete');
+    Route::get('get-penyusutan-data', [PenyusutanController::class, 'getPenyusutan'])->name('get-penyusutan-data');
+});

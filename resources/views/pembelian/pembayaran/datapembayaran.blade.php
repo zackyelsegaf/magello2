@@ -183,10 +183,10 @@
                                         <th>Pengguna</th>
                                         {{-- <th>Cabang</th> --}}
                                         <th>No. Persetujuan</th>
-                                        {{-- <th>Catatan Pemeriksaan</th> --}}
-                                        {{-- <th>Tindak Lanjut</th> --}}
+                                        <th>Catatan Pemeriksaan</th>
+                                        <th>Tindak Lanjut</th>
                                         <th>Disetujui</th>
-                                        {{-- <th>Urgensi</th> --}}
+                                        <th>Urgensi</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -383,28 +383,28 @@
                         orderable: false,
                         searchable: false
                     },
-                    // {
-                    //     data: 'catatan_pemeriksaan_check',
-                    //     name: 'catatan_pemeriksaan_check',
-                    //     orderable: false,
-                    //     searchable: false,
-                    //     render: function(data, type, row) {
-                    //         return data == 1
-                    //             ? '<input type="checkbox" checked>'
-                    //             : '<input type="checkbox">';
-                    //     }
-                    // },
-                    // {
-                    //     data: 'tindak_lanjut_check',
-                    //     name: 'tindak_lanjut_check',
-                    //     orderable: false,
-                    //     searchable: false,
-                    //     render: function(data, type, row) {
-                    //         return data == 1
-                    //             ? '<input type="checkbox" checked>'
-                    //             : '<input type="checkbox">';
-                    //     }
-                    // },
+                    {
+                        data: 'catatan_pemeriksaan_check',
+                        name: 'catatan_pemeriksaan_check',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row) {
+                            return data == 1
+                                ? '<input type="checkbox" checked>'
+                                : '<input type="checkbox">';
+                        }
+                    },
+                    {
+                        data: 'tindak_lanjut_check',
+                        name: 'tindak_lanjut_check',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row) {
+                            return data == 1
+                                ? '<input type="checkbox" checked>'
+                                : '<input type="checkbox">';
+                        }
+                    },
                     {
                         data: 'disetujui_check',
                         name: 'disetujui_check',
@@ -416,17 +416,17 @@
                                 : '<input type="checkbox">';
                         }
                     },
-                    // {
-                    //     data: 'urgent_check',
-                    //     name: 'urgent_check',
-                    //     orderable: false,
-                    //     searchable: false,
-                    //     render: function(data, type, row) {
-                    //         return data == 1
-                    //             ? '<input type="checkbox" checked>'
-                    //             : '<input type="checkbox">';
-                    //     }
-                    // },
+                    {
+                        data: 'urgent_check',
+                        name: 'urgent_check',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row) {
+                            return data == 1
+                                ? '<input type="checkbox" checked>'
+                                : '<input type="checkbox">';
+                        }
+                    },
                 ]
             });
 

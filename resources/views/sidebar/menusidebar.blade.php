@@ -82,13 +82,6 @@
                 </li>
                 <li class="submenu"> <a href="#"></i><i class="fas fa-boxes mr-2"></i><span> Modul Utama </span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
-                        <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Aktiva </span> <span class="menu-arrow"></span></a>
-                            <ul class="submenu_class" style="display: none;">
-                                <li><a class="{{ set_active(['aktivatetap/list/page']) }}" href="{{ route('aktivatetap/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Aktiva Tetap</a></li>
-                                <li><a class="{{ set_active(['tipeaktivatetappajak/list/page']) }}" href="{{ route('tipeaktivatetappajak/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Tipe Aktiva Tetap Pajak</a></li>
-                                <li><a class="{{ set_active(['tipeaktivatetap/list/page']) }}" href="{{ route('tipeaktivatetap/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Tipe Aktiva Tetap</a></li>
-                            </ul>
-                        </li>
                         <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Pembelian </span> <span class="menu-arrow"></span></a>
                             <ul class="submenu_class" style="display: none;">
                                 <li><a class="{{ set_active(['pembelian/permintaan/list/page']) }}" href="{{ route('pembelian/permintaan/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Permintaan Pembelian</a></li>
@@ -96,7 +89,8 @@
                                 <li><a class="{{ set_active(['pembelian/penerimaan/list/page']) }}" href="{{ route('pembelian/penerimaan/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Penerimaan Pembelian</a></li>
                                 <li><a class="{{ set_active(['pembelian/faktur/list/page']) }}" href="{{ route('pembelian/faktur/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Faktur Pembelian</a></li>
                                 <li><a class="{{ set_active(['pembelian/pembayaran/list/page']) }}" href="{{ route('pembelian/pembayaran/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Pembayaran Pembelian</a></li>
-                                <li><a class="{{ set_active(['pembelian/retur/list/page']) }}" href="{{ route('pembelian/retur/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Retur Pembelian<span class="badge bg-light text-dark">Siap dicoba!</span></a></li>
+                                <li><a class="{{ set_active(['pembelian/retur/list/page']) }}" href="{{ route('pembelian/retur/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Retur Pembelian</a></li>
+                                {{-- <li><a class="{{ set_active(['pembelian/retur/list/page']) }}" href="{{ route('pembelian/retur/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Retur Pembelian<span class="badge bg-light text-dark">Siap dicoba!</span></a></li> --}}
                                 {{-- <li>
                                     @if(Auth::user() && Auth::user()->email === 'user.zacky@gmail.com')
                                         <a class="{{ set_active(['pembelian/retur/list/page']) }}" href="{{ route('pembelian/retur/list/page') }}">
@@ -129,6 +123,14 @@
                                 <li><a class="{{ set_active(['barang/list/page']) }}" href="{{ route('barang/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Barang</a></li>
                                 <li><a class="{{ set_active(['penyesuaian/list/page']) }}" href="{{ route('penyesuaian/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Penyesuaian Barang</a></li>
                                 <li><a class="{{ set_active(['pindahbarang/list/page']) }}" href="{{ route('pindahbarang/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Pindah Barang</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Aktiva <span class="badge bg-light text-dark">New!</span></span> <span class="menu-arrow"></span></a>
+                            <ul class="submenu_class" style="display: none;">
+                                <li><a class="{{ set_active(['penyusutan/list/page']) }}" href="{{ route('penyusutan/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Penyusutan</a></li>
+                                <li><a class="{{ set_active(['aktivatetap/list/page']) }}" href="{{ route('aktivatetap/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Aktiva Tetap</a></li>
+                                <li><a class="{{ set_active(['tipeaktivatetappajak/list/page']) }}" href="{{ route('tipeaktivatetappajak/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Tipe Aktiva Tetap Pajak</a></li>
+                                <li><a class="{{ set_active(['tipeaktivatetap/list/page']) }}" href="{{ route('tipeaktivatetap/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Tipe Aktiva Tetap</a></li>
                             </ul>
                         </li>
                         {{-- <li><a class="{{ set_active(['pegawai/list/page']) }}" href="{{ route('pegawai/list/page') }}">Pegawai</a></li> --}}

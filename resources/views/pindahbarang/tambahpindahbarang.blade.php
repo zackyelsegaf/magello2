@@ -23,7 +23,7 @@
                                     </div>  
                                     <div class="form-group" style="display: none">
                                         <label>Pengguna</label>
-                                        <input type="text" class="form-control form-control-sm " name="pengguna_pindah" value="{{ old('pengguna_pindah', Auth::user()->email) }}">
+                                        <input type="text" class="form-control form-control-sm " name="pengguna_pindah" value="{{ old('pengguna_pindah', Auth::user()->name) }}">
                                     </div>  
                                     <div class="form-group">
                                         <label>Tanggal Pindah</label>
@@ -55,10 +55,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label><strong>Dari Gudang</strong></label>
-                                                <select class="form-control form-control-sm "  name="dari_gudang">
+                                                <select id="gudangDariSelect" class="form-control form-control-sm " name="dari_gudang">
                                                     <option {{ old('dari_gudang') ? '' : 'selected' }} disabled></option>
                                                     @foreach ($gudang as $items )
-                                                    <option value="{{ $items->nama_gudang }}">{{ $items->nama_gudang }}</option>
+                                                    <option value="{{ $items->nama_gudang }}"
+                                                        data-gudang_dari="{{ $items->alamat_gudang_1 }}">
+                                                        {{ $items->nama_gudang }}
+                                                    </option>
                                                     @endforeach
                                                 </select>
                                             </div> 
@@ -69,10 +72,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label><strong>Ke Gudang</strong></label>
-                                                <select class="form-control form-control-sm "  name="ke_gudang">
+                                                <select id="gudangKeSelect" class="form-control form-control-sm "  name="ke_gudang">
                                                     <option {{ old('ke_gudang') ? '' : 'selected' }} disabled></option>
                                                     @foreach ($gudang as $items )
-                                                    <option value="{{ $items->nama_gudang }}">{{ $items->nama_gudang }}</option>
+                                                    <option value="{{ $items->nama_gudang }}"
+                                                        data-gudang_ke="{{ $items->alamat_gudang_1 }}">
+                                                        {{ $items->nama_gudang }}
+                                                    </option>
                                                     @endforeach
                                                 </select>
                                             </div>  
@@ -119,7 +125,7 @@
                                         @foreach ($noBarangList as $i => $noBarang)
                                         <tr class="barang-row">
                                             <td>
-                                                <select style="width: 160px; cursor: pointer;" class="form-control form-control-sm  no-barang-select" name="no_barang[]">
+                                                <select style="width: 150px; cursor: pointer;" class="form-control form-control-sm  no-barang-select" name="no_barang[]">
                                                     <option disabled {{ $noBarang ? '' : 'selected' }}></option>
                                                     @foreach ($nama_barang as $item)
                                                         <option 
@@ -134,13 +140,13 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <input style="width: 160px;" class="form-control form-control-sm  deskripsi-barang-input" name="deskripsi_barang[]" value="{{ $deskripsiList[$i] ?? '' }}" readonly>
+                                                <input style="width: 150px;" class="form-control form-control-sm  deskripsi-barang-input" name="deskripsi_barang[]" value="{{ $deskripsiList[$i] ?? '' }}" readonly>
                                             </td>
                                             <td>
-                                                <input style="width: 160px; cursor: pointer;" class="form-control form-control-sm  kts-barang-input" name="kts_barang[]" value="{{ $ktsList[$i] ?? '' }}">
+                                                <input style="width: 150px; cursor: pointer;" class="form-control form-control-sm  kts-barang-input" name="kts_barang[]" value="{{ $ktsList[$i] ?? '' }}">
                                             </td>
                                             <td>
-                                                <select style="width: 160px; cursor: pointer;" class="form-control form-control-sm " name="satuan[]">
+                                                <select style="width: 150px; cursor: pointer;" class="form-control form-control-sm " name="satuan[]">
                                                     <option disabled {{ old('satuan[]') ? '' : 'selected' }}></option>
                                                     @foreach ($satuan as $item)
                                                         <option value="{{ $item->nama }}" {{ $item->nama == ($satuanList[$i] ?? '') ? 'selected' : '' }}>
@@ -150,7 +156,7 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <button type="button" style="width: 120px;" class="btn btn-primary buttonedit2 mr-2 remove-row">
+                                                <button type="button" style="width: 150px;" class="btn btn-primary buttonedit2 mr-2 remove-row">
                                                     <strong><i class="fas fa-trash-alt mr-3"></i>Hapus</strong>
                                                 </button>
                                             </td>
@@ -238,6 +244,7 @@
             const deskripsiBarangInput = document.getElementById('deskripsiBarangInput');
             const kuantitasBarangInput = document.getElementById('kuantitasBarangInput');
             const satuanSelect = document.getElementById('satuanSelect');
+
         
         namaBarangSelect.addEventListener('change', function () {
             const selectedOption = this.options[this.selectedIndex];
@@ -246,7 +253,25 @@
             satuanSelect.value = selectedOption.getAttribute('data-satuan') || '';
         });
     });
-    </script>        
+    </script>    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const gudangDariSelect = document.getElementById('gudangDariSelect');
+            const gudangKeSelect = document.getElementById('gudangKeSelect');
+
+            gudangDariSelect.addEventListener('change', function () {
+                const selectedOption = this.options[this.selectedIndex];
+                const alamatDari = selectedOption.getAttribute('data-gudang_dari') || '';
+                document.querySelector('textarea[name="dari_alamat"]').value = alamatDari;
+            });
+
+            gudangKeSelect.addEventListener('change', function () {
+                const selectedOption = this.options[this.selectedIndex];
+                const alamatKe = selectedOption.getAttribute('data-gudang_ke') || '';
+                document.querySelector('textarea[name="ke_alamat"]').value = alamatKe;
+            });
+        });    
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const noAkunSelect = document.getElementById('noAkunSelect');

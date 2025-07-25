@@ -25,7 +25,7 @@
                                             </div>  
                                             <div class="form-group" style="display: none">
                                                 <label>Pengguna</label>
-                                                <input type="text" class="form-control form-control-sm"  name="pengguna_penyesuaian" value="{{ Auth::user()->email }}">
+                                                <input type="text" class="form-control form-control-sm"  name="pengguna_penyesuaian" value="{{ Auth::user()->name }}">
                                             </div>  
                                             <div class="form-group">
                                                 <label>Tanggal Penyesuaian</label>
