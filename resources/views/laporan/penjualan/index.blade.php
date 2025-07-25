@@ -2,7 +2,7 @@
 @section('menu_laporan')
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/faktur') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -16,7 +16,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/pengiriman') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -30,7 +30,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/retur') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -44,7 +44,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/penjualanbarangomset') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -58,7 +58,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/pelangganringkasan') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -72,7 +72,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/pelangganrincian') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -86,7 +86,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/pelangganbarang') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -100,7 +100,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/barangringkasan') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -114,7 +114,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/barangrincian') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -128,7 +128,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/barangomset') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -142,7 +142,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/barangkuantitas') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -156,7 +156,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/penjualanpelanggan') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -170,7 +170,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/penjualanbarang') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -184,7 +184,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/returrincian') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -198,7 +198,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/pesananpelanggan') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -212,7 +212,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/pesananbarang') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -226,7 +226,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/penawaranpelanggan') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -240,7 +240,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/penawaranbarang') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -254,7 +254,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/historipengiriman') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -268,7 +268,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/penjualan/historipesanan') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">

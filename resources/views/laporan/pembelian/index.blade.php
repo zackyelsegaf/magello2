@@ -2,7 +2,7 @@
 @section('menu_laporan')
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/pembelian/faktur') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -16,7 +16,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/pembelian/penerimaan') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -30,7 +30,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/pembelian/pemasokringkasan') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -44,7 +44,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/pembelian/pemasokrincian') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -58,7 +58,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/pembelian/retur') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -72,7 +72,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/pembelian/returrincian') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -87,7 +87,7 @@
         </div>
 
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/pembelian/pesananpemasok') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -101,7 +101,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/pembelian/pesananbarang') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -115,7 +115,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/pembelian/permintaanbarang') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -129,7 +129,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/pembelian/historipenerimaan') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -143,7 +143,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="#" class="text-dark">
+            <a href="{{ route('laporan/pembelian/historipesanan') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
