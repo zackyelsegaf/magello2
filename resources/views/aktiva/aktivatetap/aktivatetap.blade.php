@@ -112,7 +112,7 @@
                     <div class="page-header">
                         <div class="mb-15 row align-items-center">
                             <div class="col">
-                                <a href="{{Route('aktivatetap/add/new')  }}" class="btn btn-primary float-left veiwbutton"><i
+                                <a href="{{ route('aktivatetap/add/new')  }}" class="btn btn-primary float-left veiwbutton"><i
                                         class="fas fa-plus mr-2"></i>Tambah</a>
                                 <button id="deleteSelected" class="btn btn-primary float-left veiwbutton ml-3"><i
                                         class="fas fa-trash mr-2"></i>Hapus</button>
