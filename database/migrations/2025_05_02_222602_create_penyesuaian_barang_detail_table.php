@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('kts_saat_ini')->nullable();
             $table->string('kts_baru')->nullable();
             $table->string('nilai_saat_ini')->nullable();
+            $table->string('nilai_baru')->nullable();
             $table->string('selisih_kts')->nullable();
             $table->string('selisih_nilai')->nullable();
-            $table->string('nilai_baru')->nullable();
             $table->string('departemen')->nullable();
             $table->string('proyek')->nullable();
             $table->string('gudang')->nullable();

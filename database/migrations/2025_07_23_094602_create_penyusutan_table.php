@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tipe_aktiva_tetap_pajaks', function (Blueprint $table) {
+        Schema::create('penyusutan', function (Blueprint $table) {
             $table->id();
-            $table->string('tipe_aktiva_tetap_pajak')->nullable();
-            $table->string('metode_penyusutan')->nullable();
-            $table->string('umur_perkiraan')->nullable();
-            $table->string('nilai_penyusutan')->nullable();
+            $table->string('nama_penyusutan')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tipe_aktiva_tetap_pajaks');
+        Schema::dropIfExists('penyusutan');
     }
 };
