@@ -17,7 +17,7 @@
                             <div class="col-md-6">                
                                 <div class="form-group">
                                     <label>Tipe Akun</label>
-                                    <select class="form-control form-control-sm  @error('tipe_akun') is-invalid @enderror" name="tipe_akun">
+                                    <select id="tipe_akun" class="form-control form-control-sm  @error('tipe_akun') is-invalid @enderror" name="tipe_akun">
                                         <option selected disabled> --Pilih Tipe Akun-- </option>
                                         @foreach ($tipe_akun as $items )
                                             <option value="{{ $items->nama }}">{{ $items->nama }}</option>
@@ -27,6 +27,9 @@
                                 <div class="form-group">
                                     <label>No. Akun</label>
                                     <input type="text" class="form-control form-control-sm  @error('no_akun') is-invalid @enderror" name="no_akun" value="{{ old('no_akun') }}">
+                                    @error('no_akun')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Akun (Indonesia)</label>
@@ -36,7 +39,7 @@
                                     <label>Nama Akun (English)</label>
                                     <textarea class="form-control form-control-sm  form-control-sm"  name="nama_akun_inggris" value="{{ old('nama_akun_inggris') }}">{{ old('nama_akun_inggris') }}</textarea>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="mata_uang_group">
                                     <label>Mata Uang</label>
                                     <select class="form-control form-control-sm  @error('mata_uang') is-invalid @enderror" name="mata_uang">
                                         <option selected disabled> --Pilih Mata Uang-- </option>
@@ -58,15 +61,15 @@
                                     <select class="form-control form-control-sm  form-control-sm"  name="sub_akun">
                                         <option selected disabled> --Pilih Sub-- </option>
                                         @foreach ($nama_akun as $items )
-                                            <option value="{{ $items->no_akun }}">{{ $items->no_akun .' '. $items->nama_akun_indonesia }}</option>
+                                            <option value="{{ $items->no_akun }}">{{ $items->no_akun .' - '. $items->nama_akun_indonesia }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="saldo_group">
                                     <label>Saldo</label>
                                     <input type="text" id="saldo_akun" class="form-control form-control-sm  @error('saldo_akun') is-invalid @enderror" name="saldo_akun" value="{{ old('saldo_akun') }}">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="tanggal_group">
                                     <label>Tanggal</label>
                                     <div class="cal-icon">
                                         <input type="text" class="form-control form-control-sm  datetimepicker @error('tanggal') is-invalid @enderror" name="tanggal" value="{{ old('tanggal') }}"> 
@@ -114,6 +117,42 @@
             toggleTipeAkunForm();
     
             checkbox.addEventListener("change", toggleTipeAkunForm);
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tipeAkunSelect = document.getElementById('tipe_akun');
+            const mataUangGroup = document.getElementById('mata_uang_group');
+            const saldoGroup = document.getElementById('saldo_group');
+            const tanggalGroup = document.getElementById('tanggal_group');
+
+            function toggleFields() {
+                const selectedValue = tipeAkunSelect.value;
+
+                if (selectedValue === 'Aktiva Tetap' || selectedValue === 'Akumulasi Penyusutan') {
+                    mataUangGroup.style.display = 'none';
+                    saldoGroup.style.display = 'none';
+                    tanggalGroup.style.display = 'none';
+                } else if (selectedValue === 'Piutang Usaha' || selectedValue === 'Hutang Usaha') {
+                    mataUangGroup.style.display = '';
+                    saldoGroup.style.display = 'none';
+                    tanggalGroup.style.display = 'none';
+                } else if (selectedValue === 'Persediaan' || selectedValue === 'Aktiva Lancar Lainnya' || selectedValue === 'Hutang Lancar Lainnya' || selectedValue === 'Hutang Jangka Panjang' || selectedValue === 'Ekuitas' || selectedValue === 'Pendapatan' || selectedValue === 'Pendapatan Lainnya' || selectedValue === 'Beban' || selectedValue === 'Beban Lainnya' || selectedValue === 'Harga Pokok Penjualan') {
+                    mataUangGroup.style.display = 'none';
+                    saldoGroup.style.display = '';
+                    tanggalGroup.style.display = '';
+                } else {
+                    mataUangGroup.style.display = '';
+                    saldoGroup.style.display = '';
+                    tanggalGroup.style.display = '';
+                }
+            }
+
+            // Jalankan saat select berubah
+            tipeAkunSelect.addEventListener('change', toggleFields);
+
+            // Jalankan saat pertama kali halaman dimuat (jika ada old value)
+            toggleFields();
         });
     </script>
     <script>
