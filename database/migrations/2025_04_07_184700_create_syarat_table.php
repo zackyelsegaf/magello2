@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('syarat', function (Blueprint $table) {
             $table->id();
+            $table->string('nama'); 
             $table->string('batas_hutang');
             $table->boolean('cash_on_delivery')->default(false);
             $table->string('persentase_diskon');

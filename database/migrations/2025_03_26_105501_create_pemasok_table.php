@@ -28,6 +28,12 @@ return new class extends Migration
             $table->string('nilai_tukar')->nullable();
             $table->boolean('pajak_1_check')->nullable()->default(false);
             $table->boolean('pajak_2_check')->nullable()->default(false);
+            $table->string('kode_pos')->nullable();
+            $table->string('provinsi')->nullable();
+            $table->string('kota')->nullable();
+            $table->string('negara')->nullable();
+            $table->string('status')->nullable();
+            $table->boolean('dihentikan')->default(false);
             $table->string('fileupload_1')->nullable();
             $table->string('fileupload_2')->nullable();
             $table->string('fileupload_3')->nullable();
