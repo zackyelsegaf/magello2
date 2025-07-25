@@ -27,7 +27,7 @@
                             </div>
 
                             <div class="form-group mb-1">
-                                <label class="" for="">Filter Tanggal</label>
+                                <label class="" for="">Tanggal</label>
                                 <div class="form-check">
                                     <div class="form-group mb-1">
                                         <input class="form-check-input" type="checkbox" onchange="this.form.submit()"
@@ -38,7 +38,6 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Tanggal</label><br>
                                     <div class="form-check mb-1">
                                         <input class="form-check-input" type="radio" onchange="this.form.submit()"
                                             name="dihentikan" value=""
@@ -59,7 +58,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-1">
-                                <label>Dihentikan</label><br>
+                                <label>Dispose</label><br>
                                 <div class="form-check mb-1">
                                     <input class="form-check-input" type="radio" onchange="this.form.submit()"
                                         name="dihentikan" value=""
