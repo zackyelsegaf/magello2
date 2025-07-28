@@ -6,7 +6,7 @@
                 <div class="row align-items-center">
                     <div class="col">
                         <div class="mt-5">
-                            <h4 class="card-title float-left mt-2">Aktiva Tetap</h4>
+                            <h4 class="card-title float-left mt-2">Pembiayaan Pesanan</h4>
                         </div>
                     </div>
                 </div>

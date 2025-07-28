@@ -26,15 +26,24 @@
                                     onchange="this.form.submit()" placeholder="Deskripsi" value="">
                             </div>
                             <div class="form-group mb-3">
-                                <label>Kategori</label>
-                                <input type="text" name="no_barang" class="form-control form-control-sm"
-                                    onchange="this.form.submit()" placeholder="No Barang" value="">
+                                <label for="kategori">Kategori</label>
+                                <select name="kategori" id="kategori" class="form-control form-control-sm"
+                                    onchange="this.form.submit()">
+                                    <option value="" disabled selected>Pilih Kategori</option>
+                                </select>
                             </div>
+
                             <div class="form-group mb-1">
                                 <button type="button" class="btn bg-white text-dark w-100">Pilih Barang</button>
                             </div>
-                            <div class="form-group mb-1">
+                            <div class="form-group mb-3">
                                 <button type="button" class="btn bg-white text-dark w-100">Pilih Gudang</button>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="tampilkanSatuan" checked>
+                                <label class="form-check-label" for="tampilkanSatuan">
+                                    Tampilkan Satuan
+                                </label>
                             </div>
 
                         </form>
@@ -51,11 +60,12 @@
                                             <th width="20"><input type="checkbox" id="select_all"></th>
                                             <th>No</th>
                                             <th hidden>ID</th>
-                                            <th>No Penyesuaian</th>
-                                            <th>Tgl Penyesuaian</th>
-                                            <th>Tgl Efektif</th>
-                                            <th>Keterangan</th>
-                                            <th>Pengguna</th>
+                                            <th>Deskripsi Barang</th>
+                                            <th>GMP0001</th>
+                                            <th>GMP0002</th>
+                                            <th>GMP0003</th>
+                                            <th>GMP0004</th>
+                                            <th>GMP0005</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -63,14 +73,7 @@
                         </div>
                     </div>
                     <div class="page-header">
-                        <div class="mb-15 row align-items-center">
-                            <div class="col">
-                                <a href="{{ Route('hargajual/add/new') }}" class="btn btn-primary float-left veiwbutton"><i
-                                        class="fas fa-plus mr-2"></i>Tambah</a>
-                                <button id="deleteSelected" class="btn btn-primary float-left veiwbutton ml-3"><i
-                                        class="fas fa-trash mr-2"></i>Hapus</button>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>

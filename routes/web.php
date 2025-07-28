@@ -45,6 +45,7 @@ use App\Http\Controllers\Aktiva\TipeAktivaTetapPajakController;
 use App\Http\Controllers\Persediaan\HargaJualController;
 use App\Http\Controllers\Persediaan\BarangPerGudangController;
 use App\Http\Controllers\Persediaan\PembiayaanPesananController;
+use App\Http\Controllers\Persediaan\PencatatanNomorSerialController;
 use App\Models\PindahBarang;
 use App\Models\TipeAktivaTetapPajak;
 
@@ -52,290 +53,6 @@ use App\Models\TipeAktivaTetapPajak;
 |--------------------------------------------------------------------------
 | Web Routes
 |----------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ----
 |
 | Here is where you can register web routes for your application. These
@@ -875,12 +592,6 @@ Route::controller(HargaJualController::class)->group(function () {
 
 Route::controller(BarangPerGudangController::class)->group(function () {
     Route::get('barangpergudang/list/page', 'BarangPerGudangList')->middleware('auth')->name('barangpergudang/list/page');
-    Route::get('barangpergudang/add/new', 'BarangPerGudangAddNew')->middleware('auth')->name('barangpergudang/add/new');
-    Route::post('form/barangpergudang/save', 'saveRecordBarangPerGudang')->middleware('auth')->name('form/barangpergudang/save');
-    Route::get('/barangpergudang/edit/{id}', [BarangPerGudangController::class, 'edit'])->name('barangpergudang/edit');
-    Route::post('/barangpergudang/update/{id}', [BarangPerGudangController::class, 'update'])->name('barangpergudang/update');
-    Route::post('/barangpergudang/delete', [BarangPerGudangController::class, 'delete'])->name('barangpergudang/delete');
-    Route::get('get-barangpergudang-data', [BarangPerGudangController::class, 'getBarangPerGudang'])->name('get-barangpergudang-data');
 });
 
 Route::controller(PembiayaanPesananController::class)->group(function () {
@@ -891,4 +602,15 @@ Route::controller(PembiayaanPesananController::class)->group(function () {
     Route::post('/pembiayaanpesanan/update/{id}', [PembiayaanPesananController::class, 'update'])->name('pembiayaanpesanan/update');
     Route::post('/pembiayaanpesanan/delete', [PembiayaanPesananController::class, 'delete'])->name('pembiayaanpesanan/delete');
     Route::get('get-pembiayaanpesanan-data', [PembiayaanPesananController::class, 'getpembiayaanpesanan'])->name('get-pembiayaanpesanan-data');
+});
+
+
+Route::controller(PencatatanNomorSerialController::class)->group(function () {
+    Route::get('pencatatannomorserial/list/page', 'PencatatanNomorSerialList')->middleware('auth')->name('pencatatannomorserial/list/page');
+    Route::get('pencatatannomorserial/add/new', 'PencatatanNomorSerialAddNew')->middleware('auth')->name('pencatatannomorserial/add/new');
+    Route::post('form/pencatatannomorserial/save', 'saveRecordPencatatanNomorSerial')->middleware('auth')->name('form/pencatatannomorserial/save');
+    Route::get('/pencatatannomorserial/edit/{id}', [PencatatanNomorSerialController::class, 'edit'])->name('pencatatannomorserial/edit');
+    Route::post('/pencatatannomorserial/update/{id}', [PencatatanNomorSerialController::class, 'update'])->name('pencatatannomorserial/update');
+    Route::post('/pencatatannomorserial/delete', [PencatatanNomorSerialController::class, 'delete'])->name('pencatatannomorserial/delete');
+    Route::get('get-pencatatan-nomor-serial-data', [PencatatanNomorSerialController::class, 'getPencatatanNomorSerial'])->name('get-pencatatan-nomor-serial-data');
 });

@@ -11,10 +11,5 @@ class BarangPerGudangController extends Controller
     {
         return view('persediaan.barangpergudang.barangpergudang');
     }
-    function BarangPerGudangAddNew()
-    {
-        return view('persediaan.barangpergudang.barangpergudangadd');
-    }
-
     
 }

@@ -132,6 +132,7 @@
                                 <li><a class="{{ set_active(['hargajual/list/page']) }}" href="{{ route('hargajual/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Harga Jual</a></li>
                                 <li><a class="{{ set_active(['barangpergudang/list/page']) }}" href="{{ route('barangpergudang/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Barang per Gudang</a></li>
                                 <li><a class="{{ set_active(['pembiayaanpesanan/list/page']) }}" href="{{ route('pembiayaanpesanan/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Pembiayaan Pesanan</a></li>
+                                <li><a class="{{ set_active(['pencatatannomorserial/list/page']) }}" href="{{ route('pencatatannomorserial/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Pencatatan Nomor Serial</a></li>
                                 
                             </ul>
                         </li>
