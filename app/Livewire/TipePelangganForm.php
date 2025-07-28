@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\TipePelanggan;
 use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Title;
 use Livewire\Component;
 
 class TipePelangganForm extends Component
@@ -39,6 +40,7 @@ class TipePelangganForm extends Component
         }
     }
 
+    #[Title('Tipe Pelanggan')]
     public function render() {
         return view('tipepelanggan.form');
     }

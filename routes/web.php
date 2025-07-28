@@ -4,7 +4,6 @@ use App\Models\PindahBarang;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AkunController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Home2Controller;
 use App\Http\Controllers\PajakController;
@@ -36,13 +35,19 @@ use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\PenyesuaianBarangController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\JasaPengirimanController;
 use App\Http\Controllers\PermintaanPembelianController;
 use App\Http\Controllers\ModulUtama\PembelianController;
 use App\Http\Controllers\ModulUtama\PenjualanController;
-use App\Livewire\AkunForm;
+use App\Livewire\DepartemenForm;
 use App\Livewire\GudangForm;
+use App\Livewire\JasaPengirimanForm;
 use App\Livewire\KategoriBarangForm;
 use App\Livewire\MataUangForm;
+use App\Livewire\PajakForm;
+use App\Livewire\PelangganForm;
+use App\Livewire\PemasokForm;
+use App\Livewire\PenjualForm;
 use App\Livewire\SatuanForm;
 use App\Livewire\StatusPemasokForm;
 use App\Livewire\SyaratForm;
@@ -183,12 +188,12 @@ Route::controller(StatusPemasokController::class)->group(function () {
     Route::get('get-statuspemasok-data', 'getStatusPemasok')->name('get-statuspemasok-data');
 });
 
+Route::get('pemasok/add/new', PemasokForm::class)->middleware('auth')->name('pemasok/add/new');
+Route::get('/pemasok/edit/{id}/{pemasok_id}', PemasokForm::class)->name('pemasok/edit');
 Route::controller(PemasokController::class)->group(function () {
     Route::get('pemasok/list/page', 'PemasokList')->middleware('auth')->name('pemasok/list/page');
     // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
-    Route::get('pemasok/add/new', 'PemasokAddNew')->middleware('auth')->name('pemasok/add/new');
     Route::post('form/pemasok/save', 'saveRecordPemasok')->middleware('auth')->name('form/pemasok/save');
-    Route::get('/pemasok/edit/{id}/{pemasok_id}', [PemasokController::class, 'edit'])->name('pemasok/edit');
     Route::post('/pemasok/update/{pemasok_id}', [PemasokController::class, 'update'])->name('pemasok/update');
     Route::post('/pemasok/delete', [PemasokController::class, 'delete'])->name('pemasok/delete');
     Route::get('get-pemasok-data', [PemasokController::class, 'getPemasok'])->name('get-pemasok-data');
@@ -196,26 +201,31 @@ Route::controller(PemasokController::class)->group(function () {
     // Route::get('cities', 'DependentDropdownController@cities')->name('cities');
 });
 
+//-------------------------------- Syarat Pembayaran ---------------------------------//
 Route::get('syarat/add/new', SyaratForm::class)->middleware('auth')->name('syarat/add/new');
 Route::get('/syarat/edit/{id}', SyaratForm::class)->name('syarat/edit');
 Route::controller(SyaratController::class)->group(function () {
     Route::get('syarat/list/page', 'syaratList')->middleware('auth')->name('syarat/list/page');
-    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
-    Route::post('form/syarat/save', 'saveRecordSyarat')->middleware('auth')->name('form/syarat/save');
-    Route::post('/syarat/update/{id}', [SyaratController::class, 'update'])->name('syarat/update');
-    Route::post('/syarat/delete', [SyaratController::class, 'delete'])->name('syarat/delete');
-    Route::get('get-syarat-data', [SyaratController::class, 'getSyarat'])->name('get-syarat-data');
+    Route::post('/syarat/delete', 'delete')->name('syarat/delete');
+    Route::get('get-syarat-data', 'getSyarat')->name('get-syarat-data');
 });
 
+//-------------------------------- Pajak ---------------------------------//
+Route::get('pajak/add/new', PajakForm::class)->middleware('auth')->name('pajak/add/new');
+Route::get('/pajak/edit/{id}', PajakForm::class)->name('pajak/edit');
 Route::controller(PajakController::class)->group(function () {
     Route::get('pajak/list/page', 'pajakList')->middleware('auth')->name('pajak/list/page');
-    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
-    Route::get('pajak/add/new', 'PajakAddNew')->middleware('auth')->name('pajak/add/new');
-    Route::post('form/pajak/save', 'saveRecordPajak')->middleware('auth')->name('form/pajak/save');
-    Route::get('/pajak/edit/{id}', [PajakController::class, 'edit'])->name('pajak/edit');
-    Route::post('/pajak/update/{id}', [PajakController::class, 'update'])->name('pajak/update');
-    Route::post('/pajak/delete', [PajakController::class, 'delete'])->name('pajak/delete');
-    Route::get('get-pajak-data', [PajakController::class, 'getPajak'])->name('get-pajak-data');
+    Route::post('/pajak/delete', 'delete')->name('pajak/delete');
+    Route::get('get-pajak-data', 'getPajak')->name('get-pajak-data');
+});
+
+//-------------------------------- Jasa Pengiriman ---------------------------------//
+Route::get('jasapengiriman/add/new', JasaPengirimanForm::class)->middleware('auth')->name('jasapengiriman/add/new');
+Route::get('/jasapengiriman/edit/{id}', JasaPengirimanForm::class)->name('jasapengiriman/edit');
+Route::controller(JasaPengirimanController::class)->group(function () {
+    Route::get('jasapengiriman/list/page', 'jasaPengirimanList')->middleware('auth')->name('jasapengiriman/list/page');
+    Route::post('/jasapengiriman/delete', 'delete')->name('jasapengiriman/delete');
+    Route::get('get-jasapengiriman-data', 'getJasaPengiriman')->name('get-jasapengiriman-data');
 });
 
 //-------------------------------- TIPE PELANGGAN ---------------------------------//
@@ -227,42 +237,31 @@ Route::controller(TipePelangganController::class)->group(function () {
     Route::get('get-tipepelanggan-data', 'getTipePelanggan')->name('get-tipepelanggan-data');
 });
 
+//-------------------------------- PELANGGAN ---------------------------------//
+Route::get('pelanggan/add/new', PelangganForm::class)->middleware('auth')->name('pelanggan/add/new');
+Route::get('/pelanggan/edit/{id}/{pelanggan_id}', PelangganForm::class)->name('pelanggan/edit');
 Route::controller(PelangganController::class)->group(function () {
     Route::get('pelanggan/list/page', 'PelangganList')->middleware('auth')->name('pelanggan/list/page');
-    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
-    Route::get('pelanggan/add/new', 'PelangganAddNew')->middleware('auth')->name('pelanggan/add/new');
-    Route::post('form/pelanggan/save', 'saveRecordPelanggan')->middleware('auth')->name('form/pelanggan/save');
-    Route::get('/pelanggan/edit/{id}/{pelanggan_id}', [PelangganController::class, 'edit'])->name('pelanggan/edit');
-    Route::post('/pelanggan/update/{pelanggan_id}', [PelangganController::class, 'update'])->name('pelanggan/update');
-    Route::post('/pelanggan/delete', [PelangganController::class, 'delete'])->name('pelanggan/delete');
-    Route::get('get-pelanggan-data', [PelangganController::class, 'getPelanggan'])->name('get-pelanggan-data');
-    Route::get('/pelanggan/cari', [PelangganController::class, 'cari'])->name('/pelanggan/cari');
-    // Route::get('provinces', 'DependentDropdownController@provinces')->name('provinces');
-    // Route::get('cities', 'DependentDropdownController@cities')->name('cities');
+    Route::post('/pelanggan/delete', 'delete')->name('pelanggan/delete');
+    Route::get('get-pelanggan-data', 'getPelanggan')->name('get-pelanggan-data');
 });
 
+//-------------------------------- PENJUAL ---------------------------------//
+Route::get('penjual/add/new', PenjualForm::class)->middleware('auth')->name('penjual/add/new');
+Route::get('/penjual/edit/{id}', PenjualForm::class)->name('penjual/edit');
 Route::controller(PenjualController::class)->group(function () {
     Route::get('penjual/list/page', 'penjualList')->middleware('auth')->name('penjual/list/page');
-    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
-    Route::get('penjual/add/new', 'PenjualAddNew')->middleware('auth')->name('penjual/add/new');
-    Route::post('form/penjual/save', 'saveRecordPenjual')->middleware('auth')->name('form/penjual/save');
-    Route::get('/penjual/edit/{id}', [PenjualController::class, 'edit'])->name('penjual/edit');
-    Route::post('/penjual/update/{id}', [PenjualController::class, 'update'])->name('penjual/update');
-    Route::post('/penjual/delete', [PenjualController::class, 'delete'])->name('penjual/delete');
-    Route::get('get-penjual-data', [PenjualController::class, 'getPenjual'])->name('get-penjual-data');
+    Route::post('/penjual/delete', 'delete')->name('penjual/delete');
+    Route::get('get-penjual-data', 'getPenjual')->name('get-penjual-data');
 });
 
+//-------------------------------- DEPARTEMEN ---------------------------------//
+Route::get('departemen/add/new', DepartemenForm::class)->middleware('auth')->name('departemen/add/new');
+Route::get('/departemen/edit/{id}/{departemen_id}', DepartemenForm::class)->name('departemen/edit');
 Route::controller(DepartemenController::class)->group(function () {
     Route::get('departemen/list/page', 'DepartemenList')->middleware('auth')->name('departemen/list/page');
-    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
-    Route::get('departemen/add/new', 'DepartemenAddNew')->middleware('auth')->name('departemen/add/new');
-    Route::post('form/departemen/save', 'saveRecordDepartemen')->middleware('auth')->name('form/departemen/save');
-    Route::get('/departemen/edit/{id}/{departemen_id}', [DepartemenController::class, 'edit'])->name('departemen/edit');
-    Route::post('/departemen/update/{departemen_id}', [DepartemenController::class, 'update'])->name('departemen/update');
-    Route::post('/departemen/delete', [DepartemenController::class, 'delete'])->name('departemen/delete');
-    Route::get('get-departemen-data', [DepartemenController::class, 'getDepartemen'])->name('get-departemen-data');
-    // Route::get('provinces', 'DependentDropdownController@provinces')->name('provinces');
-    // Route::get('cities', 'DependentDropdownController@cities')->name('cities');
+    Route::post('/departemen/delete', 'delete')->name('departemen/delete');
+    Route::get('get-departemen-data', 'getDepartemen')->name('get-departemen-data');
 });
 
 Route::controller(ProyekController::class)->group(function () {
@@ -314,15 +313,6 @@ Route::controller(KategoriBarangController::class)->group(function () {
     Route::get('kategoribarang/list/page', 'kategoriBarangList')->middleware('auth')->name('kategoribarang/list/page');
     Route::post('/kategoribarang/delete', 'delete')->name('kategoribarang/delete');
     Route::get('get-kategoribarang-data', 'getKategoriBarang')->name('get-kategoribarang-data');
-});
-
-//-------------------------------- AKUN ---------------------------------//
-Route::get('akun/add/new', AkunForm::class)->middleware('auth')->name('akun/add/new');
-Route::get('/akun/edit/{id}', AkunForm::class)->name('akun/edit');
-Route::controller(AkunController::class)->group(function () {
-    Route::get('akun/list/page', 'akunList')->middleware('auth')->name('akun/list/page');
-    Route::post('/akun/delete', 'delete')->name('akun/delete');
-    Route::get('get-akun-data', 'getAkun')->name('get-akun-data');
 });
 
 Route::controller(BarangController::class)->group(function () {
@@ -465,3 +455,4 @@ Route::prefix('pembelian')->controller(PembelianController::class)->group(functi
 require 'penjualan.php';
 require 'laporan.php';
 require 'aktiva.php';
+require 'buku_besar.php';

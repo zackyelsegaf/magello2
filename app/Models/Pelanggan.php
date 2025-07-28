@@ -100,6 +100,10 @@ class Pelanggan extends Model
     {
         return $this->belongsTo(Penjual::class);
     }
+    public function status()
+    {
+        return $this->belongsTo(StatusPemasok::class, 'status_id');
+    }
 
     /**
      * Polymorphic relation to proyek (could be Proyek, Cluster, Kavling, etc.)

@@ -15,53 +15,50 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="card rounded-default p-3 bg-dark text-white">
-                    <form method="GET" action="{{ route('pelanggan/list/page') }}">
-                        <div class="form-group">
-                            <label>Pencarian</label>
-                            <input type="text" name="pelanggan_id" class="form-control" onchange="this.form.submit()" placeholder="Cari berdasarkan ID" value="{{ request('pelanggan_id') }}">
+                    <div class="form-group">
+                        <label>Pencarian</label>
+                        <input type="text" name="kode_pelanggan" class="form-control key-filter" placeholder="Cari berdasarkan ID">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="nama_pelanggan" class="form-control key-filter" placeholder="Nama Pelanggan">
+                    </div>     
+                    <div class="form-group">
+                        <label>Mata Uang</label>
+                        <select class="form-control click-filter" name="mata_uang_id">
+                            <option value="" selected>Mata Uang</option>
+                            @foreach ($mata_uang as $items)
+                                <option value="{{ $items->id }}">
+                                    {{ $items->nama }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipe Pelanggan</label>
+                        <select class="form-control click-filter" name="tipe_pelanggan_id">
+                            <option value="" selected> Tipe Pelanggan </option>
+                            @foreach ($tipe_pelanggan as $items)
+                                <option value="{{ $items->id }}">
+                                    {{ $items->nama }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>     
+                    <div class="form-group">
+                        <label>Dihentikan</label><br>
+                        <div class="form-check">
+                            <input class="form-check-input click-filter" type="radio" name="dihentikan" value="" checked>
+                            <label class="form-check-label">Semua</label>
                         </div>
-                        <div class="form-group">
-                            <input type="text" name="nama_pelanggan" class="form-control" onchange="this.form.submit()" placeholder="Nama Pelanggan" value="{{ request('nama_pelanggan') }}">
-                        </div>     
-                        <div class="form-group">
-                            <label>Mata Uang</label>
-                            <select class="form-control" name="mata_uang_pelanggan" onchange="this.form.submit()">
-                                <option value="" selected>Mata Uang</option>
-                                @foreach ($mata_uang as $items)
-                                    <option value="{{ $items->nama }}" {{ request('mata_uang_pelanggan') == $items->nama ? 'selected' : '' }}>
-                                        {{ $items->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
+                        <div class="form-check">
+                            <input class="form-check-input click-filter" type="radio" name="dihentikan" value="1">
+                            <label class="form-check-label">Ya</label>
                         </div>
-                        <div class="form-group">
-                            <label>Tipe Pelanggan</label>
-                            <select class="form-control" name="tipe_pelanggan" onchange="this.form.submit()">
-                                <option value="" selected> Tipe Pelanggan </option>
-                                @foreach ($tipe_pelanggan as $items)
-                                    <option value="{{ $items->nama }}" {{ request('tipe_pelanggan') == $items->nama ? 'selected' : '' }}>
-                                        {{ $items->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>     
-                        <div class="form-group">
-                            <label>Dihentikan</label><br>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="" {{ request('dihentikan') === null ? 'checked' : '' }}>
-                                <label class="form-check-label">Semua</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="1" {{ request('dihentikan') === '1' ? 'checked' : '' }}>
-                                <label class="form-check-label">Ya</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="0" {{ request('dihentikan') === '0' ? 'checked' : '' }}>
-                                <label class="form-check-label">Tidak</label>
-                            </div>
-                        </div>                                                                          
-                        {{-- <button type="submit" class="btn btn-block btn-primary"  style="border-radius: 10px; padding: 10px 0 10px 0">Cari</button> --}}
-                    </form>
+                        <div class="form-check">
+                            <input class="form-check-input click-filter" type="radio" name="dihentikan" value="0">
+                            <label class="form-check-label">Tidak</label>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -120,9 +117,9 @@
                     url: "{{ route('get-pelanggan-data') }}",
                     data: function(d) {
                         d.nama_pelanggan = $('input[name=nama_pelanggan]').val(),
-                        d.pelanggan_id = $('input[name=pelanggan_id]').val(),
-                        d.mata_uang_pelanggan = $('select[name=mata_uang_pelanggan]').val(),
-                        d.tipe_pelanggan = $('select[name=tipe_pelanggan]').val(),
+                        d.kode_pelanggan = $('input[name=kode_pelanggan]').val(),
+                        d.mata_uang_id = $('select[name=mata_uang_id]').val(),
+                        d.tipe_pelanggan_id = $('select[name=tipe_pelanggan_id]').val(),
                         d.dihentikan = $('input[name=dihentikan]:checked').val();
                     }
                 },
@@ -186,58 +183,58 @@
                         visible: false
                     },
                     {
-                        data: 'pelanggan_id',
-                        name: 'pelanggan_id',
+                        data: 'kode_pelanggan',
+                        name: 'kode_pelanggan',
                         orderable: true,
                         searchable: false
                     },
                     {
-                        data: 'nama_pelanggan',
-                        name: 'nama_pelanggan',
-                        orderable: false,
-                        searchable: false
+                        data: 'nama',
+                        name: 'nama',
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'alamat_1',
                         name: 'alamat_1',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'alamat_2',
                         name: 'alamat_2',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'kontak',
                         name: 'kontak',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'no_telp',
                         name: 'no_telp',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'mata_uang_pelanggan',
                         name: 'mata_uang_pelanggan',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'tipe_pelanggan',
                         name: 'tipe_pelanggan',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'dihentikan',
                         name: 'dihentikan',
-                        orderable: false,
-                        searchable: false,
+                        orderable: true,
+                        searchable: true,
                         render: function(data, type, row) {
                             return data == 1
                                 ? '<h3 class="badge badge-pill text-white badge-secondary">Ya</h3>'
@@ -247,9 +244,11 @@
                 ]
             });
 
-            $('form').on('submit', function(e) {
-                e.preventDefault();
-                table.draw();
+            $('.key-filter').on('keyup', function(e){
+                table.draw()
+            });
+            $('.click-filter').on('change', function(e){
+                table.draw()
             });
 
             $('#select_all').on('click', function() {

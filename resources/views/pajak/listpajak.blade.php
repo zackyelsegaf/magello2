@@ -15,15 +15,13 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="card rounded-default p-3 bg-dark text-white">
-                    <form method="GET" action="{{ route('pajak/list/page') }}">
-                        <div class="form-group">
-                            <label>Pencarian</label>
-                            <input type="text" name="kode_pajak" class="form-control" onchange="this.form.submit()" placeholder="Kode Pajak" value="{{ request('kode_pajak') }}">
-                        </div> 
-                        <div class="form-group">
-                            <input type="text" name="nama" class="form-control" onchange="this.form.submit()" placeholder="Nama Pajak" value="{{ request('nama') }}">
-                        </div>
-                    </form>
+                    <div class="form-group">
+                        <label>Pencarian</label>
+                        <input type="text" name="kode" class="form-control key-filter" placeholder="Kode Pajak">
+                    </div> 
+                    <div class="form-group">
+                        <input type="text" name="nama" class="form-control key-filter" placeholder="Nama Pajak">
+                    </div>
                 </div>
             </div>
 
@@ -77,7 +75,7 @@
                     url: "{{ route('get-pajak-data') }}",
                     data: function(d) {
                         d.nama = $('input[name=nama]').val(),
-                        d.kode_pajak = $('input[name=kode_pajak]').val();
+                        d.kode = $('input[name=kode]').val();
                     }
                 },
                 dom: "<'row'<'col-sm-12'B>>" +
@@ -142,33 +140,32 @@
                     {
                         data: 'nama',
                         name: 'nama',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
-                        data: 'kode_pajak',
-                        name: 'kode_pajak',
-                        orderable: false,
-                        searchable: false
+                        data: 'kode',
+                        name: 'kode',
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'deskripsi',
                         name: 'deskripsi',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'nilai_persentase',
                         name: 'nilai_persentase',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                 ]
             });
 
-            $('form').on('submit', function(e) {
-                e.preventDefault();
-                table.draw();
+            $('.key-filter').on('keyup', function(e){
+                table.draw()
             });
 
             $('#select_all').on('click', function() {

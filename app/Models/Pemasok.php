@@ -73,7 +73,7 @@ class Pemasok extends Model
 
     public function dokumen()
     {
-        return $this->morphMany(Dokumen::class, 'documentable');
+        return $this->morphMany(Dokumen::class, 'dokumenable');
     }
 
     public function pajak1()

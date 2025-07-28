@@ -6,7 +6,7 @@
             <div class="row align-items-center">
                 <div class="col">
                     <div class="mt-5">
-                        <h4 class="card-title float-left mt-2">Syarat Pembayaran</h4>
+                        <h4 class="card-title float-left mt-2">Jasa Pengiriman</h4>
                     </div>
                 </div>
             </div>
@@ -26,13 +26,13 @@
                 <div class="card card-table">
                     <div class="card-body booking_card">
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover table-center mb-0" id="syaratList">
+                            <table class="table table-striped table-bordered table-hover table-center mb-0" id="jasaList">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th width="20"><input type="checkbox" id="select_all"></th>
                                         <th>No</th>
                                         <th hidden>ID</th>
-                                        <th>Nama Syarat Pembayaran</th>
+                                        <th>Nama Jasa Pengiriman</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -42,7 +42,7 @@
                 <div class="page-header">
                     <div class="mb-15 row align-items-center">
                         <div class="col">
-                            <a href="{{ route('syarat/add/new') }}" class="btn btn-primary float-left veiwbutton"><i class="fas fa-plus mr-2"></i>Tambah</a>
+                            <a href="{{ route('jasapengiriman/add/new') }}" class="btn btn-primary float-left veiwbutton"><i class="fas fa-plus mr-2"></i>Tambah</a>
                             <button id="deleteSelected" class="btn btn-primary float-left veiwbutton ml-3"><i class="fas fa-trash mr-2"></i>Hapus</button>
                         </div>
                     </div>
@@ -60,13 +60,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            var table = $('#syaratList').DataTable({
+            var table = $('#jasaList').DataTable({
                 processing: true,
                 serverSide: true,
                 ordering: true,
                 searching: false,
                 ajax: {
-                    url: "{{ route('get-syarat-data') }}",
+                    url: "{{ route('get-jasapengiriman-data') }}",
                     data: function(d) {
                         d.nama = $('input[name=nama]').val();
                     }
@@ -79,7 +79,7 @@
                         extend: 'copyHtml5',
                         text: '<i class="fa fa-copy"></i> <span class="btn_text_align font-weight-bold">Copy</span>',
                         className: 'btn btn-primary veiwbutton',
-                        title: 'Daftar Syarat Pembayaran',
+                        title: 'Daftar Jasa Pengiriman',
                         exportOptions: {
                             columns: ':not(:first-child):not(:nth-child(2))'
                         }
@@ -89,7 +89,7 @@
                         text: '<i class="fa fa-file-excel"></i> <span class="btn_text_align font-weight-bold">Excel</span>',
                         className: 'btn btn-primary veiwbutton',
                         titleAttr: 'Export to Excel',
-                        title: 'Daftar Syarat Pembayaran',
+                        title: 'Daftar Jasa Pengiriman',
                         exportOptions: {
                             columns: ':not(:first-child):not(:nth-child(2))'
                         }
@@ -98,7 +98,7 @@
                         extend: 'pdfHtml5',
                         text: '<i class="fa fa-file-pdf"></i> <span class="btn_text_align font-weight-bold">PDF</span>',
                         className: 'btn btn-primary veiwbutton',
-                        title: 'Daftar Syarat Pembayaran',
+                        title: 'Daftar Jasa Pengiriman',
                         exportOptions: {
                             columns: ':not(:first-child):not(:nth-child(2))'
                         }
@@ -107,7 +107,7 @@
                         extend: 'print',
                         text: '<i class="fa fa-print"></i> <span class="btn_text_align font-weight-bold">Print</span>',
                         className: 'btn btn-primary veiwbutton',
-                        title: 'Daftar Syarat Pembayaran',
+                        title: 'Daftar Jasa Pengiriman',
                         exportOptions: {
                             columns: ':not(:first-child):not(:nth-child(2))'
                         }
@@ -144,22 +144,22 @@
             });
 
             $('#select_all').on('click', function() {
-                $('.syarat_checkbox').prop('checked', this.checked);
+                $('.jasa_checkbox').prop('checked', this.checked);
             });
 
-            $('#syaratList tbody').on('mouseenter', 'tr', function() {
+            $('#jasaList tbody').on('mouseenter', 'tr', function() {
                 $(this).css('cursor', 'pointer');
             });
 
             $('#deleteSelected').on('click', function() {
-                var selectedIds = $('.syarat_checkbox:checked').map(function() {
+                var selectedIds = $('.jasa_checkbox:checked').map(function() {
                     return $(this).val();
                 }).get();
 
                 if (selectedIds.length > 0) {
                     if (confirm('Apakah yakin ingin menghapus data yang dipilih?')) {
                         $.ajax({
-                            url: "{{ route('syarat/delete') }}",
+                            url: "{{ route('jasapengiriman/delete') }}",
                             type: "POST",
                             data: {
                                 ids: selectedIds,
@@ -175,7 +175,7 @@
                 }
             });
 
-            $('#syaratList tbody').on('click', 'tr', function(e) {
+            $('#jasaList tbody').on('click', 'tr', function(e) {
                 // Cek apakah yang diklik adalah checkbox atau elemen dalam checkbox
                 if ($(e.target).is('input[type="checkbox"], label')) {
                     return; // Jika iya, hentikan eksekusi supaya tidak redirect
@@ -183,7 +183,7 @@
 
                 var data = table.row(this).data();
                 if (data) {
-                    window.location.href = "/syarat/edit/" + data.id;
+                    window.location.href = "/jasapengiriman/edit/" + data.id;
                 }
             });
         });
