@@ -134,7 +134,7 @@ class UserManagementController extends Controller
             $checkbox = '<input type="checkbox" class="userlist_checkbox" value="'.$record->user_id.'">';
 
             if (!empty($record->avatar) && file_exists(public_path('assets/img/'.$record->avatar))) {
-                $avatarUrl = asset('assets/img/'.$record->avatar);
+                $avatarUrl = asset('../../public/assets/img/'.$record->avatar);
             } else {
                 $avatarUrl = asset('assets/img/profile.png');
             }

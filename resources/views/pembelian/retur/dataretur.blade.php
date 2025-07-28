@@ -177,9 +177,9 @@
                                         <th>Nama Pemasok</th>
                                         <th>Deskripsi</th>
                                         <th>Jumlah</th>
-                                        <th>Nilai Pajak 1</th>
-                                        <th>Nilai Pajak 2</th>
                                         <th>Status</th>
+                                        {{-- <th>Nilai Pajak 1</th> --}}
+                                        {{-- <th>Nilai Pajak 2</th> --}}
                                         <th hidden>Sumber</th>
                                         <th>Pengguna</th>
                                         {{-- <th>Cabang</th> --}}

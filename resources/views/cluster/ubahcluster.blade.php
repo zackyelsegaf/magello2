@@ -19,23 +19,23 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label>Nama Cluster</label>
-                                    <input type="text" class="form-control @error('nama_cluster') is-invalid @enderror" name="nama_cluster" value="{{ $Cluster->nama_cluster }}">
+                                    <input type="text" class="form-control form-control-sm  @error('nama_cluster') is-invalid @enderror" name="nama_cluster" value="{{ $Cluster->nama_cluster }}">
                                 </div>
                                 <div class="form-group">
                                     <label>No. HP</label>
-                                    <input type="text" class="form-control @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ $Cluster->no_hp }}">
+                                    <input type="text" class="form-control form-control-sm  @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ $Cluster->no_hp }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Luas Tanah M2</label>
-                                    <input type="text" class="form-control @error('luas_tanah') is-invalid @enderror" name="luas_tanah" value="{{ $Cluster->luas_tanah }}">
+                                    <input type="text" class="form-control form-control-sm  @error('luas_tanah') is-invalid @enderror" name="luas_tanah" value="{{ $Cluster->luas_tanah }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Total Unit</label>
-                                    <input type="text" class="form-control @error('total_unit') is-invalid @enderror" name="total_unit" value="{{ $Cluster->total_unit }}">
+                                    <input type="text" class="form-control form-control-sm  @error('total_unit') is-invalid @enderror" name="total_unit" value="{{ $Cluster->total_unit }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Provinsi</label>
-                                    <select class="form-control @error('provinsi') is-invalid @enderror" name="provinsi">
+                                    <select class="form-control form-control-sm  @error('provinsi') is-invalid @enderror" name="provinsi">
                                         <option selected disabled {{ old('provinsi', $Cluster->provinsi) ? '' : 'selected' }}> --Pilih Provinsi-- </option>
                                         @foreach ($provinsi as $items )
                                             <option value="{{ $items->nama }}" {{ old('provinsi', $Cluster->provinsi) == $items->nama ? 'selected' : '' }}>
@@ -46,7 +46,7 @@
                                 </div>  
                                 <div class="form-group">
                                     <label>Kota</label>
-                                    <select class="form-control @error('kota') is-invalid @enderror"  name="kota">
+                                    <select class="form-control form-control-sm  @error('kota') is-invalid @enderror"  name="kota">
                                         <option selected disabled {{ old('kota', $Cluster->kota) ? '' : 'selected' }}> --Pilih Kota-- </option>
                                         @foreach ($kota as $items )
                                             <option value="{{ $items->nama }}" {{ old('kota', $Cluster->kota) == $items->nama ? 'selected' : '' }}>
@@ -57,15 +57,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Kecamatan</label>
-                                    <input type="text" class="form-control @error('kecamatan') is-invalid @enderror" name="kecamatan" value="{{ $Cluster->kecamatan }}">
+                                    <input type="text" class="form-control form-control-sm  @error('kecamatan') is-invalid @enderror" name="kecamatan" value="{{ $Cluster->kecamatan }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Kelurahan</label>
-                                    <input type="text" class="form-control @error('kelurahan') is-invalid @enderror" name="kelurahan" value="{{ $Cluster->kelurahan }}">
+                                    <input type="text" class="form-control form-control-sm  @error('kelurahan') is-invalid @enderror" name="kelurahan" value="{{ $Cluster->kelurahan }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Alamat</label>
-                                    <textarea class="form-control @error('alamat_cluster') is-invalid @enderror" name="alamat_cluster" value="{{ old('alamat_cluster') }}">{{ old('alamat_cluster', $Cluster->alamat_cluster) }}</textarea>
+                                    <textarea class="form-control form-control-sm  @error('alamat_cluster') is-invalid @enderror" name="alamat_cluster" value="{{ old('alamat_cluster') }}">{{ old('alamat_cluster', $Cluster->alamat_cluster) }}</textarea>
                                 </div>
                             </div>
                         </div>

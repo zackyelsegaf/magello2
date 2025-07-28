@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ReturPembelian;
+use App\Models\Barang;
 use App\Models\ReturPembelianDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -161,38 +162,121 @@ class ReturPembelianController extends Controller
         return view('pembelian/retur.dataretur', compact('nama_barang','tipe_barang', 'tipe_persediaan','pengguna_retur', 'pemasok'));
     }
 
+    // public function simpanRetur(Request $request)
+    // {
+    //     $rules = [
+    //         'no_retur' => 'nullable|string|max:255',
+    //         'tgl_retur' => 'required|string|max:255',
+    //         'no_formulir' => 'nullable|string|max:255',
+    //         'no_pemasok' => 'nullable|string|max:255',
+    //         'pemasok_retur' => 'required|string|max:255', 
+    //         'departemen' => 'required|string|max:255',
+    //         'gudang' => 'required|string|max:255',
+    //         'proyek' => 'required|string|max:255',
+    //         'sub_total' => 'nullable|string|max:255',
+    //         'ppn_11_persen' => 'nullable|string|max:255',
+    //         'pajak_2' => 'nullable|string|max:255',
+    //         'jumlah' => 'nullable|string|max:255',
+    //         'status_retur' => 'nullable|string|max:255', 
+    //         'pengguna_retur' => 'nullable|string|max:255', 
+    //         'pajak_check' => 'nullable|boolean',
+    //         'termasuk_pajak_check' => 'nullable|boolean',
+    //         'disetujui_check' => 'nullable|boolean',
+    //         'deskripsi' => 'nullable|string|max:255',
+    //         'no_faktur' => 'nullable|string|max:255',
+    //         'nilai_tukar_pajak' => 'nullable|string|max:255',
+    //         'nilai_tukar' => 'nullable|string|max:255',
+    //         'fileupload_1' => 'nullable|string|max:255',
+    //         'fileupload_2' => 'nullable|string|max:255',
+    //         'fileupload_3' => 'nullable|string|max:255',
+    //         'fileupload_4' => 'nullable|string|max:255',
+    //         'fileupload_5' => 'nullable|string|max:255',
+    //         'fileupload_6' => 'nullable|string|max:255',
+    //         'fileupload_7' => 'nullable|string|max:255', 
+    //         'fileupload_8' => 'nullable|string|max:255',
+    //     ];
+
+    //     $validator = Validator::make($request->all(), $rules);
+
+    //     if ($validator->fails()) {
+    //         sweetalert()->error('Validasi Gagal, Beberapa Input Wajib Belum Terisi!');
+    //         return redirect()->back()->withErrors($validator)->withInput();
+    //     }
+
+    //     DB::beginTransaction();
+    //     try {
+
+    //         $retur = new ReturPembelian($validator->validated());
+    //         $retur->save();
+
+    //         $jumlahBarang = count($request->no_barang);
+    //         // dd($jumlahBarang);
+    //         for ($i = 0; $i < $jumlahBarang; $i++){
+                
+    //             $detail = new ReturPembelianDetail();
+    //             $detail->retur_pembelian_id = $retur->id;
+    //             $detail->alamat_pajak       = $request->alamat_pajak;
+    //             $detail->no_barang          = $request->no_barang[$i]  ?? null;
+    //             $detail->deskripsi_barang   = $request->deskripsi_barang[$i]  ?? null;
+    //             $detail->kts_barang         = $request->kts_barang[$i]  ?? null;
+    //             $detail->satuan             = $request->satuan[$i]  ?? null;
+    //             $detail->harga_satuan       = $request->harga_satuan[$i]  ?? null;
+    //             $detail->diskon_barang      = $request->diskon_barang[$i]  ?? null;
+    //             $detail->kode_pajak         = $request->kode_pajak[$i]  ?? null;
+    //             $detail->jumlah_total_harga = $request->jumlah_total_harga[$i]  ?? null;
+    //             $detail->reserve_1          = $request->reserve_1[$i]  ?? null;
+    //             $detail->reserve_2          = $request->reserve_2[$i]  ?? null;
+    //             $detail->reserve_3          = $request->reserve_3[$i]  ?? null;
+    //             $detail->save();
+    //         }
+
+    //         DB::commit();
+    //         sweetalert()->success('Create new Barang & Detail successfully :)');
+    //         return redirect()->route('pembelian/retur/list/page');
+
+    //     } catch (\Exception $e) {
+    //         DB::rollback();
+    //         sweetalert()->error('Tambah Data Gagal: ' . $e->getMessage());
+    //         return redirect()->back()->withInput();
+    //     }
+    // }
+
     public function simpanRetur(Request $request)
     {
         $rules = [
-            'no_retur' => 'nullable|string|max:255',
-            'tgl_retur' => 'required|string|max:255',
-            'no_formulir' => 'nullable|string|max:255',
-            'no_pemasok' => 'nullable|string|max:255',
-            'pemasok_retur' => 'required|string|max:255', 
-            'departemen' => 'required|string|max:255',
-            'gudang' => 'required|string|max:255',
-            'proyek' => 'required|string|max:255',
-            'sub_total' => 'nullable|string|max:255',
-            'ppn_11_persen' => 'nullable|string|max:255',
-            'pajak_2' => 'nullable|string|max:255',
-            'jumlah' => 'nullable|string|max:255',
-            'status_retur' => 'nullable|string|max:255', 
-            'pengguna_retur' => 'nullable|string|max:255', 
-            'pajak_check' => 'nullable|boolean',
-            'termasuk_pajak_check' => 'nullable|boolean',
-            'disetujui_check' => 'nullable|boolean',
-            'deskripsi' => 'nullable|string|max:255',
-            'no_faktur' => 'nullable|string|max:255',
-            'nilai_tukar_pajak' => 'nullable|string|max:255',
-            'nilai_tukar' => 'nullable|string|max:255',
-            'fileupload_1' => 'nullable|string|max:255',
-            'fileupload_2' => 'nullable|string|max:255',
-            'fileupload_3' => 'nullable|string|max:255',
-            'fileupload_4' => 'nullable|string|max:255',
-            'fileupload_5' => 'nullable|string|max:255',
-            'fileupload_6' => 'nullable|string|max:255',
-            'fileupload_7' => 'nullable|string|max:255', 
-            'fileupload_8' => 'nullable|string|max:255',
+            'tgl_retur'                 => 'required|string|max:255',
+            'no_formulir'               => 'nullable|string|max:255',
+            'no_pemasok'                => 'nullable|string|max:255',
+            'pemasok_retur'             => 'required|string|max:255',
+            'departemen'                => 'required|string|max:255',
+            'gudang'                    => 'required|string|max:255',
+            'proyek'                    => 'required|string|max:255',
+            'sub_total'                 => 'nullable|string|max:255',
+            'ppn_11_persen'             => 'nullable|string|max:255',
+            'pajak_2'                   => 'nullable|string|max:255',
+            'jumlah'                    => 'nullable|string|max:255',
+            'status_retur'              => 'nullable|string|max:255',
+            'pengguna_retur'            => 'nullable|string|max:255',
+            'pajak_check'               => 'nullable|boolean',
+            'termasuk_pajak_check'      => 'nullable|boolean',
+            'disetujui_check'           => 'nullable|boolean',
+            'deskripsi'                 => 'nullable|string|max:255',
+            'no_faktur'                 => 'nullable|string|max:255',
+            'nilai_tukar_pajak'         => 'nullable|string|max:255',
+            'nilai_tukar'               => 'nullable|string|max:255',
+            'tindak_lanjut_check'       => 'nullable|boolean',
+            'urgent_check'              => 'nullable|boolean',
+            'deskripsi_1'               => 'nullable|string|max:255',
+            'catatan_pemeriksaan_check' => 'nullable|boolean',
+            'deskripsi_2'               => 'nullable|string|max:255',
+            'fileupload_1'              => 'nullable|string|max:255',
+            'fileupload_2'              => 'nullable|string|max:255',
+            'fileupload_3'              => 'nullable|string|max:255',
+            'fileupload_4'              => 'nullable|string|max:255',
+            'fileupload_5'              => 'nullable|string|max:255',
+            'fileupload_6'              => 'nullable|string|max:255',
+            'fileupload_7'              => 'nullable|string|max:255',
+            'fileupload_8'              => 'nullable|string|max:255',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -209,9 +293,9 @@ class ReturPembelianController extends Controller
             $retur->save();
 
             $jumlahBarang = count($request->no_barang);
-            // dd($jumlahBarang);
-            for ($i = 0; $i < $jumlahBarang; $i++){
-                
+
+            for ($i = 0; $i < $jumlahBarang; $i++) {
+
                 $detail = new ReturPembelianDetail();
                 $detail->retur_pembelian_id = $retur->id;
                 $detail->alamat_pajak       = $request->alamat_pajak;
@@ -227,10 +311,20 @@ class ReturPembelianController extends Controller
                 $detail->reserve_2          = $request->reserve_2[$i]  ?? null;
                 $detail->reserve_3          = $request->reserve_3[$i]  ?? null;
                 $detail->save();
+
+                $barang = Barang::where('no_barang', $request->no_barang[$i])->first();
+                if ($barang) {
+                    $qtyRetur = (float) $request->kts_barang[$i] ?? 0;
+                    $totalRetur = (float) $request->jumlah_total_harga[$i] ?? 0;
+
+                    $barang->kuantitas_saldo_awal = max(0, $barang->kuantitas_saldo_awal - $qtyRetur);
+                    $barang->total_saldo_awal = max(0, $barang->total_saldo_awal - $totalRetur);
+                    $barang->save();
+                }
             }
 
             DB::commit();
-            sweetalert()->success('Create new Barang & Detail successfully :)');
+            sweetalert()->success('Retur Pembelian berhasil disimpan dan stok diperbarui :)');
             return redirect()->route('pembelian/retur/list/page');
 
         } catch (\Exception $e) {
@@ -272,35 +366,39 @@ class ReturPembelianController extends Controller
     public function updateRetur(Request $request, $id)
     {
         $rules = [
-            'no_retur' => 'nullable|string|max:255',
-            'tgl_retur' => 'required|string|max:255',
-            'no_formulir' => 'nullable|string|max:255',
-            'no_pemasok' => 'nullable|string|max:255',
-            'pemasok_retur' => 'required|string|max:255', 
-            'departemen' => 'required|string|max:255',
-            'gudang' => 'required|string|max:255',
-            'proyek' => 'required|string|max:255',
-            'sub_total' => 'nullable|string|max:255',
-            'ppn_11_persen' => 'nullable|string|max:255',
-            'pajak_2' => 'nullable|string|max:255',
-            'jumlah' => 'nullable|string|max:255',
-            'status_retur' => 'nullable|string|max:255', 
-            'pengguna_retur' => 'nullable|string|max:255', 
-            'pajak_check' => 'nullable|boolean',
-            'termasuk_pajak_check' => 'nullable|boolean',
-            'disetujui_check' => 'nullable|boolean',
-            'deskripsi' => 'nullable|string|max:255',
-            'no_faktur' => 'nullable|string|max:255',
-            'nilai_tukar_pajak' => 'nullable|string|max:255',
-            'nilai_tukar' => 'nullable|string|max:255',
-            'fileupload_1' => 'nullable|string|max:255',
-            'fileupload_2' => 'nullable|string|max:255',
-            'fileupload_3' => 'nullable|string|max:255',
-            'fileupload_4' => 'nullable|string|max:255',
-            'fileupload_5' => 'nullable|string|max:255',
-            'fileupload_6' => 'nullable|string|max:255',
-            'fileupload_7' => 'nullable|string|max:255', 
-            'fileupload_8' => 'nullable|string|max:255',
+            'tgl_retur'                 => 'required|string|max:255',
+            'no_formulir'               => 'nullable|string|max:255',
+            'no_pemasok'                => 'nullable|string|max:255',
+            'pemasok_retur'             => 'required|string|max:255', 
+            'departemen'                => 'required|string|max:255',
+            'gudang'                    => 'required|string|max:255',
+            'proyek'                    => 'required|string|max:255',
+            'sub_total'                 => 'nullable|string|max:255',
+            'ppn_11_persen'             => 'nullable|string|max:255',
+            'pajak_2'                   => 'nullable|string|max:255',
+            'jumlah'                    => 'nullable|string|max:255',
+            'status_retur'              => 'nullable|string|max:255', 
+            'pengguna_retur'            => 'nullable|string|max:255', 
+            'pajak_check'               => 'nullable|boolean',
+            'termasuk_pajak_check'      => 'nullable|boolean',
+            'disetujui_check'           => 'nullable|boolean',
+            'deskripsi'                 => 'nullable|string|max:255',
+            'no_faktur'                 => 'nullable|string|max:255',
+            'nilai_tukar_pajak'         => 'nullable|string|max:255',
+            'nilai_tukar'               => 'nullable|string|max:255',
+            'tindak_lanjut_check'       => 'nullable|boolean',
+            'urgent_check'              => 'nullable|boolean',
+            'deskripsi_1'               => 'nullable|string|max:255',
+            'catatan_pemeriksaan_check' => 'nullable|boolean',
+            'deskripsi_2'               => 'nullable|string|max:255',
+            'fileupload_1'              => 'nullable|string|max:255',
+            'fileupload_2'              => 'nullable|string|max:255',
+            'fileupload_3'              => 'nullable|string|max:255',
+            'fileupload_4'              => 'nullable|string|max:255',
+            'fileupload_5'              => 'nullable|string|max:255',
+            'fileupload_6'              => 'nullable|string|max:255',
+            'fileupload_7'              => 'nullable|string|max:255', 
+            'fileupload_8'              => 'nullable|string|max:255',
         ];
 
         $validated = $request->validate($rules);

@@ -120,32 +120,32 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>No. Retur</label>
-                                                <input type="text" class="form-control" name="no_retur" value="{{ $kodeBaru }}">
+                                                <input type="text" class="form-control form-control-sm" name="no_retur" value="{{ $kodeBaru }}">
                                             </div>
                                         </div>
                                         <div class="col-md-6" id="persetujuan-field" style="display: none;">
                                             <div class="form-group">
                                                 <label>No. Persetujuan</label>
-                                                <input type="text" class="form-control" name="no_persetujuan" value="{{ old('no_persetujuan') }}" readonly>
+                                                <input type="text" class="form-control form-control-sm" name="no_persetujuan" value="{{ old('no_persetujuan') }}" readonly>
                                             </div>
                                         </div>
                                         {{-- <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>No. Formulir</label>
-                                                <input type="text" class="form-control" name="no_formulir" value="{{ $kodeBaru }}" readonly>
+                                                <input type="text" class="form-control form-control-sm" name="no_formulir" value="{{ $kodeBaru }}" readonly>
                                             </div>
                                         </div> --}}
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group" style="display: none">
                                             <label>Pengguna</label>
-                                            <input type="text" class="form-control" name="pengguna_retur" value="{{ Auth::user()->name }}">
+                                            <input type="text" class="form-control form-control-sm" name="pengguna_retur" value="{{ Auth::user()->name }}">
                                         </div> 
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group" style="display: none">
                                             <label>Status</label>
-                                            <input type="text" class="form-control" name="status_retur" value="Menunggu">
+                                            <input type="text" class="form-control form-control-sm" name="status_retur" value="Menunggu">
                                         </div> 
                                     </div>
                                     <div class="row">
@@ -153,14 +153,14 @@
                                             <div class="form-group">
                                                 <label><strong class="text-danger h3 align-middle">*</strong>&nbsp;Tanggal Faktur</label>
                                                 <div class="cal-icon">
-                                                    <input type="text" class="form-control datetimepicker @error('tgl_retur') is-invalid @enderror" name="tgl_retur" value="{{ old('tgl_retur') }}"> 
+                                                    <input type="text" class="form-control form-control-sm datetimepicker @error('tgl_retur') is-invalid @enderror" name="tgl_retur" value="{{ old('tgl_retur') }}"> 
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label><strong class="text-danger h3 align-middle">*</strong>&nbsp;Pemasok</label>
-                                                <select id="namaBarangSelect" class="form-control @error('pemasok_retur') is-invalid @enderror" name="pemasok_retur">
+                                                <select id="namaBarangSelect" class="form-control form-control-sm @error('pemasok_retur') is-invalid @enderror" name="pemasok_retur">
                                                     <option {{ old('pemasok_retur') ? '' : 'selected' }} disabled> -- Pilih Pemasok</option>
                                                     @foreach ($pemasok as $items )
                                                         <option value="{{ $items->nama }}"
@@ -173,7 +173,7 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                <select id="noPemasokSelect" class="form-control"  name="no_pemasok" style="display: none">
+                                                <select id="noPemasokSelect" class="form-control form-control-sm"  name="no_pemasok" style="display: none">
                                                     <option {{ old('no_pemasok') ? '' : 'selected' }} disabled></option>
                                                     @foreach ($pemasok as $items )
                                                     <option value="{{ $items->pemasok_id }}">{{ $items->pemasok_id }}</option>
@@ -186,7 +186,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label><strong class="text-danger h3 align-middle">*</strong>&nbsp;Proyek</label>
-                                                <select class="form-control @error('proyek') is-invalid @enderror"  name="proyek">
+                                                <select class="form-control form-control-sm @error('proyek') is-invalid @enderror"  name="proyek">
                                                     <option {{ old('proyek') ? '' : 'selected' }} disabled></option>
                                                     @foreach ($proyek as $items )
                                                     <option value="{{ $items->nama_proyek }}">{{ $items->proyek_id . " - " . $items->nama_proyek }}</option>
@@ -197,7 +197,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label><strong class="text-danger h3 align-middle">*</strong>&nbsp;Gudang</label>
-                                                <select class="form-control @error('gudang') is-invalid @enderror" id="default_gudang" name="gudang">
+                                                <select class="form-control form-control-sm @error('gudang') is-invalid @enderror" id="default_gudang" name="gudang">
                                                     <option {{ old('gudang') ? '' : 'selected' }} disabled></option>
                                                     @foreach ($gudang as $items )
                                                     <option value="{{ $items->nama_gudang }}">{{ $items->nama_gudang }}</option>
@@ -210,7 +210,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label><strong class="text-danger h3 align-middle">*</strong>&nbsp;Departemen</label>
-                                                <select class="form-control @error('departemen') is-invalid @enderror"  name="departemen">
+                                                <select class="form-control form-control-sm @error('departemen') is-invalid @enderror"  name="departemen">
                                                     <option {{ old('departemen') ? '' : 'selected' }} disabled></option>
                                                     @foreach ($departemen as $items )
                                                     <option value="{{ $items->nama_departemen }}">{{ $items->nama_departemen }}</option>
@@ -233,9 +233,9 @@
                             <li class="nav-item"> 
                                 <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen</a> 
                             </li>
-                            {{-- <li class="nav-item"> 
+                            <li class="nav-item"> 
                                 <a class="nav-link" data-toggle="tab" href="#ricape">Rincian Catatan Pemeriksaan</a> 
-                            </li> --}}
+                            </li>
                         </ul>
                     </div>
                     <div style="padding-bottom: 15px;" id="rincian" class="tab-pane fade show active">
@@ -250,13 +250,13 @@
                                     <div class="col-md-4">
                                         <div class="form-group mb-1">
                                             <label><strong>Nilai Tukar</strong></label>
-                                            <input id="nilaiTukarInput" type="text" class="form-control form-control-sm" name="nilai_tukar" value="{{ old('nilai_tukar') }}">
+                                            <input id="nilaiTukarInput" type="text" class="form-control form-control-sm form-control-sm" name="nilai_tukar" value="{{ old('nilai_tukar') }}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group mb-1">
                                             <label><strong>Nilai Tukar Pajak</strong></label>
-                                            <input id="nilaiTukarPajak" type="text" class="form-control form-control-sm" name="nilai_tukar_pajak" value="{{ old('nilai_tukar_pajak') }}">
+                                            <input id="nilaiTukarPajak" type="text" class="form-control form-control-sm form-control-sm" name="nilai_tukar_pajak" value="{{ old('nilai_tukar_pajak') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -273,7 +273,7 @@
                                             <div id="filterBox" class="mb-3" style="display: none;">
                                                 <div class="card m-3 text-white">
                                                     <div class="form-group mb-1">
-                                                        <input type="text" name="no_faktur" id="no_faktur" class="form-control form-control-sm" placeholder="No Pesanan">
+                                                        <input type="text" name="no_faktur" id="no_faktur" class="form-control form-control-sm form-control-sm" placeholder="No Pesanan">
                                                     </div>
                                                 </div>
                                             </div>
@@ -346,7 +346,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="fileupload_1">File 1</label>
-                                                    <input type="text" class="form-control" name="fileupload_1" placeholder="Link dokumen Anda" value="{{ old('fileupload_1') }}">
+                                                    <input type="text" class="form-control form-control-sm" name="fileupload_1" placeholder="Link dokumen Anda" value="{{ old('fileupload_1') }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -355,10 +355,10 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div style="padding-bottom: 15px;" id="ricape" class="tab-pane fade">
+                    <div style="padding-bottom: 15px;" id="ricape" class="tab-pane fade">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Change Password</h5>
+                                {{-- <h5 class="card-title">Change Password</h5> --}}
                                 <div class="row">
                                     <div class="col-lg-10">
                                         <div class="row">
@@ -402,7 +402,7 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <textarea style="width: 300px; height:100px;" class="form-control" name="deskripsi_1" placeholder="Deskripsi">{{ old('deskripsi_1') }}</textarea>
+                                                    <textarea style="width: 300px; height:100px;" class="form-control form-control-sm" name="deskripsi_1" placeholder="Deskripsi" value="deskripsi_1">{{ old('deskripsi_1') }}</textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="dd"></div>
@@ -421,7 +421,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <textarea style="width: 300px; height:100px;" class="form-control" name="deskripsi_2" value="{{ old('deskripsi_2') }}" placeholder="Deskripsi">{{ old('deskripsi_2') }}</textarea>
+                                                    <textarea style="width: 300px; height:100px;" class="form-control form-control-sm" name="deskripsi_2" value="{{ old('deskripsi_2') }}" placeholder="Deskripsi">{{ old('deskripsi_2') }}</textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -429,7 +429,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
                 <div class="tab-content profile-tab-cont">
                     <div class="profile-menu">
@@ -479,17 +479,17 @@
                                                         {{-- <td style="background-color: {{ $isPesanan ? '#27548A' : '#333' }};">
                                                             <h7 class="font-weight-bold text-white">{{ $isPesanan ? 'Pesanan' : 'Barang' }}</h7>
                                                         </td> --}}
-                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="no_barang[]" value="{{ $no_barang }}" readonly></td>
-                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="deskripsi_barang[]" value="{{ old('deskripsi_barang')[$index] ?? '' }}"></td>
-                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="kts_barang[]" value="{{ old('kts_barang')[$index] ?? '' }}"></td>
-                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="satuan[]" value="{{ old('satuan')[$index] ?? '' }}"></td>
-                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="harga_satuan[]" value="{{ old('harga_satuan')[$index] ?? '' }}"></td>
-                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="diskon_barang[]" value="{{ old('diskon_barang')[$index] ?? '' }}"></td>
-                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="kode_pajak[]" value="{{ old('kode_pajak')[$index] ?? '' }}"></td>
-                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="jumlah_total_harga[]" value="{{ old('jumlah_total_harga')[$index] ?? '' }}"></td>
-                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="reserve_1[]" value="{{ old('reserve_1')[$index] ?? '' }}"></td>
-                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="reserve_2[]" value="{{ old('reserve_2')[$index] ?? '' }}"></td>
-                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="reserve_3[]" value="{{ old('reserve_3')[$index] ?? '' }}"></td>
+                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="no_barang[]" value="{{ $no_barang }}" readonly></td>
+                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="deskripsi_barang[]" value="{{ old('deskripsi_barang')[$index] ?? '' }}"></td>
+                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="kts_barang[]" value="{{ old('kts_barang')[$index] ?? '' }}"></td>
+                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="satuan[]" value="{{ old('satuan')[$index] ?? '' }}"></td>
+                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="harga_satuan[]" value="{{ old('harga_satuan')[$index] ?? '' }}"></td>
+                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="diskon_barang[]" value="{{ old('diskon_barang')[$index] ?? '' }}"></td>
+                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="kode_pajak[]" value="{{ old('kode_pajak')[$index] ?? '' }}"></td>
+                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="jumlah_total_harga[]" value="{{ old('jumlah_total_harga')[$index] ?? '' }}"></td>
+                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="reserve_1[]" value="{{ old('reserve_1')[$index] ?? '' }}"></td>
+                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="reserve_2[]" value="{{ old('reserve_2')[$index] ?? '' }}"></td>
+                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="reserve_3[]" value="{{ old('reserve_3')[$index] ?? '' }}"></td>
                                                         <td>
                                                             <button type="button" style="width: 120px;" class="btn btn-primary buttonedit2 mr-2 remove-row">
                                                                 <strong><i class="fas fa-trash-alt mr-3"></i>Hapus</strong>
@@ -512,7 +512,7 @@
                                         <div class="col-md-6"> 
                                             <div class="form-group">
                                                 <label><strong>Alamat Pemasok</strong></label>
-                                                <textarea id="alamatPemasokInput" class="form-control form-control-sm" name="alamat_pajak" placeholder="Alamat Pemasok">{{ old('alamat_pajak') }}</textarea>
+                                                <textarea id="alamatPemasokInput" class="form-control form-control-sm form-control-sm" name="alamat_pajak" placeholder="Alamat Pemasok">{{ old('alamat_pajak') }}</textarea>
                                             </div>                                     
                                         </div>
                                     </div>
@@ -538,7 +538,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>Deskripsi</label>
-                                                    <textarea class="form-control" name="deskripsi" value="{{ old('deskripsi') }}" placeholder="Deskripsi">{{ old('deskripsi') }}</textarea> 
+                                                    <textarea class="form-control form-control-sm" name="deskripsi" value="{{ old('deskripsi') }}" placeholder="Deskripsi">{{ old('deskripsi') }}</textarea> 
                                                 </div>
                                             </div>
                                         </div>
@@ -558,7 +558,7 @@
                                             </div>
                                             <div class="col-md-8 p-0">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control form-control-sm" name="sub_total" value="{{ old('sub_total') }}" readonly>
+                                                    <input type="text" class="form-control form-control-sm form-control-sm" name="sub_total" value="{{ old('sub_total') }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -570,13 +570,13 @@
                                             </div>
                                             <div class="col-md-8 p-0">
                                                 <div class="input-group input-group-sm mb-4" style="width: 120px;">
-                                                    <input type="number" class="form-control" name="diskon_left" value="{{ old('diskon_left') }}">
+                                                    <input type="number" class="form-control form-control-sm" name="diskon_left" value="{{ old('diskon_left') }}">
                                                     <div class="input-group-append">
                                                         <span class="input-group-text">%</span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control form-control-sm" name="total_diskon_right" value="{{ old('total_diskon_right') }}">
+                                                    <input type="text" class="form-control form-control-sm form-control-sm" name="total_diskon_right" value="{{ old('total_diskon_right') }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -588,7 +588,7 @@
                                             </div>
                                             <div class="col-md-8 p-0">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control form-control-sm" id="ppn_11_persen" name="ppn_11_persen" value="{{ old('ppn_11_persen') }}" readonly>
+                                                    <input type="text" class="form-control form-control-sm form-control-sm" id="ppn_11_persen" name="ppn_11_persen" value="{{ old('ppn_11_persen') }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -600,7 +600,7 @@
                                             </div>
                                             <div class="col-md-8 p-0">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control form-control-sm" name="pajak_2" value="{{ old('pajak_2') }}" readonly>
+                                                    <input type="text" class="form-control form-control-sm form-control-sm" name="pajak_2" value="{{ old('pajak_2') }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -612,7 +612,7 @@
                                             </div>
                                             <div class="col-md-8 p-0">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control form-control-sm" id="jumlah_biaya" name="jumlah_biaya" value="{{ old('jumlah_biaya') }}">
+                                                    <input type="text" class="form-control form-control-sm form-control-sm" id="jumlah_biaya" name="jumlah_biaya" value="{{ old('jumlah_biaya') }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -624,7 +624,7 @@
                                             </div>
                                             <div class="col-md-8 p-0">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control form-control-sm" id="jumlah" name="jumlah" value="{{ old('jumlah') }}" readonly>
+                                                    <input type="text" class="form-control form-control-sm form-control-sm" id="jumlah" name="jumlah" value="{{ old('jumlah') }}" readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -753,17 +753,17 @@
                         data.forEach(item => {
                             let newRow = `
                             <tr class="faktur-row">
-                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="no_barang[]" value="${item.no_barang}" readonly></td>
-                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="deskripsi_barang[]" value="${item.deskripsi_barang}"></td>
-                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="kts_barang[]" value="${item.kts_faktur || ''}"></td>
-                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="satuan[]" value="${item.satuan}"></td>
-                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="harga_satuan[]" value="${item.harga_satuan || ''}"></td>
-                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="diskon_barang[]" value="${item.diskon_barang || ''}"></td>
-                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="kode_pajak[]" value="${item.kode_pajak || ''}"></td>
-                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="jumlah_total_harga[]" value="${item.jumlah_total_harga || ''}"></td>
-                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="reserve_1[]" value="${item.reserve_1 || ''}"></td>
-                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="reserve_2[]" value="${item.reserve_2 || ''}"></td>
-                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="reserve_3[]" value="${item.reserve_3 || ''}"></td>
+                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="no_barang[]" value="${item.no_barang}" readonly></td>
+                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="deskripsi_barang[]" value="${item.deskripsi_barang}"></td>
+                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="kts_barang[]" value="${item.kts_faktur || ''}"></td>
+                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="satuan[]" value="${item.satuan}"></td>
+                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="harga_satuan[]" value="${item.harga_satuan || ''}"></td>
+                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="diskon_barang[]" value="${item.diskon_barang || ''}"></td>
+                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="kode_pajak[]" value="${item.kode_pajak || ''}"></td>
+                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="jumlah_total_harga[]" value="${item.jumlah_total_harga || ''}"></td>
+                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="reserve_1[]" value="${item.reserve_1 || ''}"></td>
+                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="reserve_2[]" value="${item.reserve_2 || ''}"></td>
+                                <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="reserve_3[]" value="${item.reserve_3 || ''}"></td>
                                 <td><button type="button" style="width: 120px;" class="btn btn-primary buttonedit2 mr-2 remove-row"><strong><i class="fas fa-trash-alt mr-3"></i>Hapus</strong></button></td>
                             </tr>`;
 
@@ -848,15 +848,15 @@
                             data.forEach(item => {
                                 let newRow = `
                                 <tr class="faktur-row">
-                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="no_faktur[]" value="${item.no_faktur}" readonly></td>
-                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="tgl_faktur[]" value="${item.tgl_faktur || ''}"></td>
-                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="jatuh_tempo[]" value="${item.tgl_faktur || ''}"></td>
-                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="pph_23[]" value=""></td>
-                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="diskon[]" value="${item.diskon_barang || ''}"></td>
-                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm jumlah-field" name="jumlah[]" value="${item.jumlah || ''}"></td>
-                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="terhutang[]" value=""></td>
-                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="jumlah_pembayaran[]" value=""></td>
-                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="deskripsi_rincian[]" value=""></td>
+                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="no_faktur[]" value="${item.no_faktur}" readonly></td>
+                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="tgl_faktur[]" value="${item.tgl_faktur || ''}"></td>
+                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="jatuh_tempo[]" value="${item.tgl_faktur || ''}"></td>
+                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="pph_23[]" value=""></td>
+                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="diskon[]" value="${item.diskon_barang || ''}"></td>
+                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm jumlah-field" name="jumlah[]" value="${item.jumlah || ''}"></td>
+                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="terhutang[]" value=""></td>
+                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="jumlah_pembayaran[]" value=""></td>
+                                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="deskripsi_rincian[]" value=""></td>
                                     <td>
                                         <div class="checkbox-wrapper-4">
                                             <input type="checkbox" class="inp-cbx bayar-check" name="bayar_check[]" value="0" id="bayar_check_${item.no_faktur}">
@@ -1363,7 +1363,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="fileupload_${fieldIndex}">File ${fieldIndex}</label>
-                            <input type="text" name="fileupload_${fieldIndex}" class="form-control" />
+                            <input type="text" name="fileupload_${fieldIndex}" class="form-control form-control-sm" />
                         </div>
                     </div>
                 </div>

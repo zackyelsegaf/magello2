@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PenerimaanPembelian;
+use App\Models\Barang;
 use App\Models\PenerimaanPembelianDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -277,11 +278,8 @@ class PenerimaanPembelianController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // dd($request->no_barang);
-
         DB::beginTransaction();
         try {
-
             $penerimaan = new PenerimaanPembelian($validator->validated());
             $penerimaan->save();
 
@@ -289,30 +287,40 @@ class PenerimaanPembelianController extends Controller
             $jumlahBarang = count($noBarang);
 
             for ($i = 0; $i < $jumlahBarang; $i++) {
+                $kts_penerimaan = (int) str_replace(['.', ',', ' '], '', $request->kts_penerimaan[$i] ?? 0);
+                $jumlah_total_harga = (int) str_replace(['Rp', '.', ',', ' '], '', $request->jumlah_total_harga[$i] ?? 0);
 
                 $detail = new PenerimaanPembelianDetail();
                 $detail->penerimaan_pembelian_id = $penerimaan->id;
                 $detail->alamat_pemasok       = $request->alamat_pemasok;
                 $detail->fob                  = $request->fob;
                 $detail->tgl_kirim            = $request->tgl_kirim;
-                $detail->no_barang            = $noBarang[$i]  ?? null;
-                $detail->deskripsi_barang     = $request->deskripsi_barang[$i]  ?? null;
-                $detail->kts_penerimaan       = $request->kts_penerimaan[$i]  ?? null;
-                $detail->satuan               = $request->satuan[$i]  ?? null;
-                $detail->kts_faktur           = $request->kts_faktur[$i]  ?? null;
-                $detail->harga_satuan         = $request->harga_satuan[$i]  ?? null;
-                $detail->diskon_barang        = $request->diskon_barang[$i]  ?? null;
-                $detail->kode_pajak           = $request->kode_pajak[$i]  ?? null;
-                $detail->jumlah_total_harga   = $request->jumlah_total_harga[$i]  ?? null;
-                $detail->no_pesanan           = $request->no_pesanan[$i]  ?? null;
-                $detail->no_permintaan        = $request->no_permintaan[$i]  ?? null;
-                $detail->serial_number        = $request->serial_number[$i]  ?? null;
+                $detail->no_barang            = $noBarang[$i] ?? null;
+                $detail->deskripsi_barang     = $request->deskripsi_barang[$i] ?? null;
+                $detail->kts_penerimaan       = $kts_penerimaan;
+                $detail->satuan               = $request->satuan[$i] ?? null;
+                $detail->kts_faktur           = $request->kts_faktur[$i] ?? null;
+                $detail->harga_satuan         = $request->harga_satuan[$i] ?? null;
+                $detail->diskon_barang        = $request->diskon_barang[$i] ?? null;
+                $detail->kode_pajak           = $request->kode_pajak[$i] ?? null;
+                $detail->jumlah_total_harga   = $jumlah_total_harga;
+                $detail->no_pesanan           = $request->no_pesanan[$i] ?? null;
+                $detail->no_permintaan        = $request->no_permintaan[$i] ?? null;
+                $detail->serial_number        = $request->serial_number[$i] ?? null;
                 $detail->save();
+
+                if ($noBarang[$i]) {
+                    $barang = Barang::where('no_barang', $noBarang[$i])->first();
+                    if ($barang) {
+                        $barang->kuantitas_saldo_awal += $kts_penerimaan;
+                        $barang->total_saldo_awal += $jumlah_total_harga;
+                        $barang->save();
+                    }
+                }
             }
 
-
             DB::commit();
-            sweetalert()->success('Create new Barang & Detail successfully :)');
+            sweetalert()->success('Penerimaan barang berhasil disimpan.');
             return redirect()->route('pembelian/penerimaan/list/page');
 
         } catch (\Exception $e) {
@@ -321,6 +329,7 @@ class PenerimaanPembelianController extends Controller
             return redirect()->back()->withInput();
         }
     }
+
 
     public function editPenerimaan($id)
     {

@@ -123,7 +123,7 @@
                         <span class="user-img">
                             @if (Auth::user()->avatar)
                                 <img class="rounded-circle"
-                                    src="{{ asset('assets/img/' . Auth::user()->avatar) }}"
+                                    src="{{ asset('../../public/assets/img/' . Auth::user()->avatar) }}"
                                     alt="profile_image" style="object-fit: cover; width: 31px; height: 31px;">
                             @elseif (Auth::user()->avatar == 0)
                                 <img class="rounded-circle" src="{{ asset('assets/img/profile.png') }}"
@@ -135,7 +135,7 @@
                         <div class="user-header">
                             @if (Auth::user()->avatar)
                                 <img class="avatar-img rounded-circle"
-                                    src="{{ asset('assets/img/' . Auth::user()->avatar) }}"
+                                    src="{{ asset('../../public/assets/img/' . Auth::user()->avatar) }}"
                                     alt="profile_image" style="object-fit: cover; width: 40px; height: 40px;">
                             @elseif (Auth::user()->avatar == 0)
                                 <img class="avatar-img rounded-circle"

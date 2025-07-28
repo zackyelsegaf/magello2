@@ -22,6 +22,11 @@ return new class extends Migration
             $table->boolean('cek_kosong_check')->nullable()->default(false);
             $table->boolean('disetujui_check')->nullable()->default(false);
             $table->boolean('pajak_check')->nullable()->default(false);
+            $table->boolean('tindak_lanjut_check')->nullable()->default(false);
+            $table->boolean('urgent_check')->nullable()->default(false);
+            $table->boolean('catatan_pemeriksaan_check')->nullable()->default(false);
+            $table->string('deskripsi_1')->nullable();
+            $table->string('deskripsi_2')->nullable();
             $table->string('status_pembayaran')->nullable();
             $table->string('pengguna_pembayaran')->nullable();
             $table->string('sub_total')->nullable();

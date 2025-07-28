@@ -11,56 +11,56 @@
             </div>
             <form action="{{ route('usermanagement.update'), $userEdit->id }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" class="form-control "name="user_id" value="{{ $userEdit->user_id }}" readonly>
+                <input type="hidden" class="form-control form-control-sm  "name="user_id" value="{{ $userEdit->user_id }}" readonly>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="row formtype">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Full Name</label>
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror"name="name" value="{{ $userEdit->name }}">
+                                    <input type="text" class="form-control form-control-sm  @error('name') is-invalid @enderror"name="name" value="{{ $userEdit->name }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" class="form-control @error('email') is-invalid @enderror"name="email" value="{{ $userEdit->email }}">
+                                    <input type="email" class="form-control form-control-sm  @error('email') is-invalid @enderror"name="email" value="{{ $userEdit->email }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Phone Number</label>
-                                    <input type="text" class="form-control @error('phone_number') is-invalid @enderror" name="phone_number" value="{{ $userEdit->phone_number }}">
+                                    <input type="text" class="form-control form-control-sm  @error('phone_number') is-invalid @enderror" name="phone_number" value="{{ $userEdit->phone_number }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Role Name</label>
-                                    <input type="text" class="form-control @error('role_name') is-invalid @enderror" name="role_name" value="{{ $userEdit->role_name }}" readonly>
+                                    <input type="text" class="form-control form-control-sm  @error('role_name') is-invalid @enderror" name="role_name" value="{{ $userEdit->role_name }}" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Position</label>
-                                    <input type="text" class="form-control @error('position') is-invalid @enderror" name="position" value="{{ $userEdit->position }}"> 
+                                    <input type="text" class="form-control form-control-sm  @error('position') is-invalid @enderror" name="position" value="{{ $userEdit->position }}"> 
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Department</label>
-                                    <input type="text" class="form-control @error('department') is-invalid @enderror" name="department" value="{{ $userEdit->department }}">
+                                    <input type="text" class="form-control form-control-sm  @error('department') is-invalid @enderror" name="department" value="{{ $userEdit->department }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input type="password" class="form-control @error('password') is-invalid @enderror" name="password">
+                                    <input type="password" class="form-control form-control-sm  @error('password') is-invalid @enderror" name="password">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Confirm Password</label>
-                                    <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation">
+                                    <input type="password" class="form-control form-control-sm  @error('password_confirmation') is-invalid @enderror" name="password_confirmation">
                                 </div>
                             </div>
                             <div class="col-md-4">

@@ -193,9 +193,9 @@
                             <li class="nav-item"> 
                                 <a class="nav-link" data-toggle="tab" href="#dokumen">Attachment Document</a> 
                             </li>
-                            {{-- <li class="nav-item"> 
+                            <li class="nav-item"> 
                                 <a class="nav-link" data-toggle="tab" href="#ricape">Rincian Catatan Pemeriksaan</a> 
-                            </li> --}}
+                            </li>
                         </ul>
                     </div>
                     <div style="padding-bottom: 15px;" id="rincian" class="tab-pane fade show active">
@@ -314,7 +314,7 @@
                                                     <div class="dd"></div>
                                                     <div class="checkbox-wrapper-4">
                                                         <input type="hidden" name="tindak_lanjut_check" value="0">
-                                                        <input class="inp-cbx" name="tindak_lanjut_check" id="tindak_lanjut_check" type="checkbox" value="1" {{ old('tindak_lanjut_check') ? 'checked' : '' }}>
+                                                        <input class="inp-cbx" name="tindak_lanjut_check" id="tindak_lanjut_check" type="checkbox" value="1" {{ old('tindak_lanjut_check', $pembayaranPembelian->tindak_lanjut_check) ? 'checked' : '' }}>
                                                         <label class="cbx" for="tindak_lanjut_check">
                                                             <span><svg width="12px" height="10px"><use xlink:href="#check-4"></use></svg></span>
                                                             <span><strong>Tindak Lanjut</strong></span>
@@ -332,7 +332,7 @@
                                                     <div class="dd"></div>
                                                     <div class="checkbox-wrapper-4">
                                                         <input type="hidden" name="urgent_check" value="0">
-                                                        <input class="inp-cbx" name="urgent_check" id="urgent_check" type="checkbox" value="1" {{ old('urgent_check') ? 'checked' : '' }}>
+                                                        <input class="inp-cbx" name="urgent_check" id="urgent_check" type="checkbox" value="1" {{ old('urgent_check', $pembayaranPembelian->urgent_check) ? 'checked' : '' }}>
                                                         <label class="cbx" for="urgent_check">
                                                             <span><svg width="12px" height="10px"><use xlink:href="#check-4"></use></svg></span>
                                                             <span><strong>Urgent</strong></span>
@@ -349,13 +349,13 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <textarea style="width: 300px; height:100px;" class="form-control form-control-sm" name="deskripsi_1" placeholder="Deskripsi">{{ old('deskripsi_1') }}</textarea>
+                                                    <textarea style="width: 300px; height:100px;" class="form-control" name="deskripsi_1" placeholder="Deskripsi">{{ old('deskripsi_1', $pembayaranPembelian->deskripsi_1) }}</textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="dd"></div>
                                                     <div class="checkbox-wrapper-4">
                                                         <input type="hidden" name="catatan_pemeriksaan_check" value="0">
-                                                        <input class="inp-cbx" name="catatan_pemeriksaan_check" id="catatan_pemeriksaan_check" type="checkbox" value="1" {{ old('catatan_pemeriksaan_check') ? 'checked' : '' }}>
+                                                        <input class="inp-cbx" name="catatan_pemeriksaan_check" id="catatan_pemeriksaan_check" type="checkbox" value="1" {{ old('catatan_pemeriksaan_check', $pembayaranPembelian->catatan_pemeriksaan_check) ? 'checked' : '' }}>
                                                         <label class="cbx" for="catatan_pemeriksaan_check">
                                                             <span><svg width="12px" height="10px"><use xlink:href="#check-4"></use></svg></span>
                                                             <span><strong>Catatan Pemeriksaan</strong></span>
@@ -368,7 +368,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <textarea style="width: 300px; height:100px;" class="form-control form-control-sm" name="deskripsi_2" value="{{ old('deskripsi_2') }}" placeholder="Deskripsi">{{ old('deskripsi_2') }}</textarea>
+                                                    <textarea style="width: 300px; height:100px;" class="form-control" name="deskripsi_2" placeholder="Deskripsi">{{ old('deskripsi_2', $pembayaranPembelian->deskripsi_2) }}
+                                                    </textarea>                                                                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -466,114 +467,6 @@
                                             <div class="form-group">
                                                 <textarea class="form-control form-control-sm" name="deskripsi" placeholder="Deskripsi">{{ old('deskripsi', $pembayaranPembelian->detail2->deskripsi) }}</textarea>
                                             </div>                                      
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="padding-bottom: 15px;" id="dokumen" class="tab-pane fade">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="page-header">
-                                    <div class="row float-right">
-                                        <button type="button" id="fileuploads_btn_update" class="btn btn-primary buttonedit float-right"><i class="fa fa-plus mr-2"></i>Tambah Field</button>
-                                    </div>
-                                </div>
-                                {{-- <h5 class="card-title">Change Password</h5> --}}
-                                <div class="row">
-                                    <div class="col-lg-12" id="fileuploads_loop">
-                                        @php
-                                            $i = 1;
-                                        @endphp
-                                        @while (!empty($pembayaranPembelian["fileupload_$i"]))
-                                            <div class="row formtype mb-2" id="fieldRow_{{ $i }}">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="fileupload_{{ $i }}">File {{ $i }}</label>
-                                                        <p><a class="link-opacity-10-hover" href="{{ $pembayaranPembelian["fileupload_$i"] }}">{{ $pembayaranPembelian["fileupload_$i"] }}</a></p>
-                                                    </div>
-                                                </div>
-                                                {{-- <div class="col-md-1 d-flex align-items-end">
-                                                    <button type="button" class="btn btn-danger btn-sm removeField" data-id="{{ $i }}">Hapus</button>
-                                                </div> --}}
-                                            </div>
-                                            @php $i++; @endphp
-                                        @endwhile
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="padding-bottom: 15px;" id="ricape" class="tab-pane fade">
-                        <div class="card">
-                            <div class="card-body">
-                                {{-- <h5 class="card-title">Change Password</h5> --}}
-                                <div class="row">
-                                    <div class="col-lg-10">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <div class="dd"></div>
-                                                    <div class="checkbox-wrapper-4">
-                                                        <input type="hidden" name="tindak_lanjut_check" value="0">
-                                                        <input class="inp-cbx" name="tindak_lanjut_check" id="tindak_lanjut_check" type="checkbox" value="1" {{ old('tindak_lanjut_check', $pembayaranPembelian->tindak_lanjut_check) ? 'checked' : '' }}>
-                                                        <label class="cbx" for="tindak_lanjut_check">
-                                                            <span><svg width="12px" height="10px"><use xlink:href="#check-4"></use></svg></span>
-                                                            <span><strong>Tindak Lanjut</strong></span>
-                                                        </label>
-                                                        <svg class="inline-svg">
-                                                            <symbol id="check-4" viewbox="0 0 12 10">
-                                                                <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-                                                            </symbol>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <div class="dd"></div>
-                                                    <div class="checkbox-wrapper-4">
-                                                        <input type="hidden" name="urgent_check" value="0">
-                                                        <input class="inp-cbx" name="urgent_check" id="urgent_check" type="checkbox" value="1" {{ old('urgent_check', $pembayaranPembelian->urgent_check) ? 'checked' : '' }}>
-                                                        <label class="cbx" for="urgent_check">
-                                                            <span><svg width="12px" height="10px"><use xlink:href="#check-4"></use></svg></span>
-                                                            <span><strong>Urgent</strong></span>
-                                                        </label>
-                                                        <svg class="inline-svg">
-                                                            <symbol id="check-4" viewbox="0 0 12 10">
-                                                                <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-                                                            </symbol>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> 
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <textarea style="width: 300px; height:100px;" class="form-control" name="deskripsi_1" placeholder="Deskripsi">{{ old('deskripsi_1', $pembayaranPembelian->deskripsi_1) }}</textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="dd"></div>
-                                                    <div class="checkbox-wrapper-4">
-                                                        <input type="hidden" name="catatan_pemeriksaan_check" value="0">
-                                                        <input class="inp-cbx" name="catatan_pemeriksaan_check" id="catatan_pemeriksaan_check" type="checkbox" value="1" {{ old('catatan_pemeriksaan_check', $pembayaranPembelian->catatan_pemeriksaan_check) ? 'checked' : '' }}>
-                                                        <label class="cbx" for="catatan_pemeriksaan_check">
-                                                            <span><svg width="12px" height="10px"><use xlink:href="#check-4"></use></svg></span>
-                                                            <span><strong>Catatan Pemeriksaan</strong></span>
-                                                        </label>
-                                                        <svg class="inline-svg">
-                                                            <symbol id="check-4" viewbox="0 0 12 10">
-                                                                <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-                                                            </symbol>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <textarea style="width: 300px; height:100px;" class="form-control" name="deskripsi_2" placeholder="Deskripsi">{{ old('deskripsi_2', $pembayaranPembelian->deskripsi_2) }}</textarea>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

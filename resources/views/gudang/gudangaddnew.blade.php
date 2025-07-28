@@ -17,27 +17,27 @@
                             <div class="col-md-6">                                              
                                 <div class="form-group">
                                     <label>Nama Gudang</label>
-                                    <input type="text" class="form-control @error('nama_gudang') is-invalid @enderror" name="nama_gudang" value="{{ old('nama_gudang') }}">
+                                    <input type="text" class="form-control form-control-sm  @error('nama_gudang') is-invalid @enderror" name="nama_gudang" value="{{ old('nama_gudang') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Alamat</label>
-                                    <textarea class="form-control derror" name="alamat_gudang_1" value="{{ old('alamat_gudang_1') }}">{{ old('alamat_gudang_1') }}</textarea>
+                                    <textarea class="form-control form-control-sm  derror" name="alamat_gudang_1" value="{{ old('alamat_gudang_1') }}">{{ old('alamat_gudang_1') }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Alamat 2</label>
-                                    <textarea class="form-control" name="alamat_gudang_2" value="{{ old('alamat_gudang_2') }}">{{ old('alamat_gudang_2') }}</textarea>
+                                    <textarea class="form-control form-control-sm " name="alamat_gudang_2" value="{{ old('alamat_gudang_2') }}">{{ old('alamat_gudang_2') }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Alamat 3</label>
-                                    <textarea class="form-control" name="alamat_gudang_3" value="{{ old('alamat_gudang_3') }}">{{ old('alamat_gudang_3') }}</textarea>
+                                    <textarea class="form-control form-control-sm " name="alamat_gudang_3" value="{{ old('alamat_gudang_3') }}">{{ old('alamat_gudang_3') }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Penanggung Jawab</label>
-                                    <input type="text" class="form-control" name="penanggung_jawab" value="{{ old('penanggung_jawab') }}">
+                                    <input type="text" class="form-control form-control-sm " name="penanggung_jawab" value="{{ old('penanggung_jawab') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Deskripsi</label>
-                                    <textarea class="form-control" name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi') }}</textarea>
+                                    <textarea class="form-control form-control-sm " name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi') }}</textarea>
                                 </div>
                             </div>
                         </div>

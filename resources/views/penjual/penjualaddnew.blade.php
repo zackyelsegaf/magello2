@@ -17,13 +17,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Nama Depan</label>
-                                    <input type="text" class="form-control @error('nama_depan_penjual') is-invalid @enderror"name="nama_depan_penjual" value="{{ old('nama_depan_penjual') }}">
+                                    <input type="text" class="form-control form-control-sm  @error('nama_depan_penjual') is-invalid @enderror"name="nama_depan_penjual" value="{{ old('nama_depan_penjual') }}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Nama Belakang</label>
-                                    <input type="text" class="form-control @error('nama_belakang_penjual') is-invalid @enderror"name="nama_belakang_penjual" value="{{ old('nama_belakang_penjual') }}">
+                                    <input type="text" class="form-control form-control-sm  @error('nama_belakang_penjual') is-invalid @enderror"name="nama_belakang_penjual" value="{{ old('nama_belakang_penjual') }}">
                                 </div>
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Jabatan</label>
-                                    <input type="text" class="form-control @error('jabatan') is-invalid @enderror"name="jabatan" value="{{ old('jabatan') }}">
+                                    <input type="text" class="form-control form-control-sm  @error('jabatan') is-invalid @enderror"name="jabatan" value="{{ old('jabatan') }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="dihentikan">Dihentikan</label>
@@ -71,14 +71,14 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>No. Kantor 1</label>
-                                                    <input type="text" class="form-control @error('no_kantor_1_penjual') is-invalid @enderror"name="no_kantor_1_penjual" value="{{ old('no_kantor_1_penjual') }}">
+                                                    <input type="text" class="form-control form-control-sm  @error('no_kantor_1_penjual') is-invalid @enderror"name="no_kantor_1_penjual" value="{{ old('no_kantor_1_penjual') }}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <div class="form-group">
                                                         <label>No. Kantor 2</label>
-                                                        <input type="text" class="form-control @error('no_kantor_2_penjual') is-invalid @enderror"name="no_kantor_2_penjual" value="{{ old('no_kantor_2_penjual') }}">
+                                                        <input type="text" class="form-control form-control-sm  @error('no_kantor_2_penjual') is-invalid @enderror"name="no_kantor_2_penjual" value="{{ old('no_kantor_2_penjual') }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -87,37 +87,37 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>No. Ekstensi 1</label>
-                                                    <input type="text" class="form-control @error('no_ekstensi_1_penjual') is-invalid @enderror"name="no_ekstensi_1_penjual" value="{{ old('no_ekstensi_1_penjual') }}">
+                                                    <input type="text" class="form-control form-control-sm  @error('no_ekstensi_1_penjual') is-invalid @enderror"name="no_ekstensi_1_penjual" value="{{ old('no_ekstensi_1_penjual') }}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <div class="form-group">
                                                         <label>No. Ekstensi 2</label>
-                                                        <input type="text" class="form-control @error('no_ekstensi_2_penjual') is-invalid @enderror"name="no_ekstensi_2_penjual" value="{{ old('no_ekstensi_2_penjual') }}">
+                                                        <input type="text" class="form-control form-control-sm  @error('no_ekstensi_2_penjual') is-invalid @enderror"name="no_ekstensi_2_penjual" value="{{ old('no_ekstensi_2_penjual') }}">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div> 
                                         <div class="form-group">
                                             <label>No. HP</label>
-                                            <input type="text" class="form-control @error('no_hp_penjual') is-invalid @enderror"name="no_hp_penjual" value="{{ old('no_hp_penjual') }}">
+                                            <input type="text" class="form-control form-control-sm  @error('no_hp_penjual') is-invalid @enderror"name="no_hp_penjual" value="{{ old('no_hp_penjual') }}">
                                         </div>
                                         <div class="form-group">
                                             <label>No. Telp Rumah</label>
-                                            <input type="text" class="form-control @error('no_telp_penjual') is-invalid @enderror"name="no_telp_penjual" value="{{ old('no_telp_penjual') }}">
+                                            <input type="text" class="form-control form-control-sm  @error('no_telp_penjual') is-invalid @enderror"name="no_telp_penjual" value="{{ old('no_telp_penjual') }}">
                                         </div>
                                         <div class="form-group">
                                             <label>No. Fax</label>
-                                            <input type="text" class="form-control @error('no_fax_penjual') is-invalid @enderror"name="no_fax_penjual" value="{{ old('no_fax_penjual') }}">
+                                            <input type="text" class="form-control form-control-sm  @error('no_fax_penjual') is-invalid @enderror"name="no_fax_penjual" value="{{ old('no_fax_penjual') }}">
                                         </div>
                                         <div class="form-group">
                                             <label>Pager</label>
-                                            <input type="text" class="form-control @error('pager_penjual') is-invalid @enderror"name="pager_penjual" value="{{ old('pager_penjual') }}">
+                                            <input type="text" class="form-control form-control-sm  @error('pager_penjual') is-invalid @enderror"name="pager_penjual" value="{{ old('pager_penjual') }}">
                                         </div>
                                         <div class="form-group">
                                             <label>Email</label>
-                                            <input type="text" class="form-control @error('email_penjual') is-invalid @enderror"name="email_penjual" value="{{ old('email_penjual') }}">
+                                            <input type="text" class="form-control form-control-sm  @error('email_penjual') is-invalid @enderror"name="email_penjual" value="{{ old('email_penjual') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -152,7 +152,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>File 1</label>
-                                                    <input type="text" class="form-control" name="fileupload_1" placeholder="Link dokumen Anda" value="{{ old('fileupload_1') }}">
+                                                    <input type="text" class="form-control form-control-sm " name="fileupload_1" placeholder="Link dokumen Anda" value="{{ old('fileupload_1') }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -170,7 +170,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     {{-- <label>Memo</label> --}}
-                                                    <textarea class="form-control @error('memo') is-invalid @enderror" name="memo" value="{{ old('memo') }}">{{ old('memo') }}</textarea>
+                                                    <textarea class="form-control form-control-sm  @error('memo') is-invalid @enderror" name="memo" value="{{ old('memo') }}">{{ old('memo') }}</textarea>
                                                 </div>
                                             </div>
                                         </div>

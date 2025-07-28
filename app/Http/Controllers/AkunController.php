@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Akun;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class AkunController extends Controller
 {
@@ -22,14 +23,17 @@ class AkunController extends Controller
         // $kodeBaru = $prefix . sprintf("%04d", $nextID);
         $mata_uang = DB::table('mata_uang')->get();
         $tipe_akun = DB::table('tipe_akun')->get();
-        $nama_akun = DB::table('akun')->get();
+        $nama_akun = DB::table('akun')
+                ->whereIn('sub_akun_check', ['0'])
+                ->orderBy('nama', 'asc')
+                ->get();
         return view('akun.akunaddnew', compact('tipe_akun', 'nama_akun', 'mata_uang'));
     }
 
     public function saveRecordAkun(Request $request){
         
-        $validate = $request->validate([
-            'no_akun'             => 'nullable|string|max:255',
+        $rules = [
+            'no_akun'             => 'required|string|max:255|unique:akun,no_akun',
             'tipe_akun'           => 'nullable|string|max:255',
             'nama_akun_indonesia' => 'nullable|string|max:255',
             'nama_akun_inggris'   => 'nullable|string|max:255',
@@ -39,7 +43,18 @@ class AkunController extends Controller
             'saldo_akun'          => 'nullable|string|max:255',
             'tanggal'             => 'nullable|string|max:255',
             'dihentikan'          => 'nullable|boolean',
-        ]);
+        ];
+
+        $message = [
+            'no_akun.unique' => 'No akun sudah ada di dalam sistem.',
+            'no_akun.required' => 'No akun wajib diisi.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi Gagal, Beberapa Input Wajib Belum Terisi!');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         //debug
         // DB::enableQueryLog();
@@ -53,7 +68,7 @@ class AkunController extends Controller
             // $file_name = rand() . '.' .$photo->getClientOriginalName();
             // $photo->move(public_path('/assets/img/'), $file_name);
 
-            $Akun = new Akun($validate);
+            $Akun = new Akun($validator->validated());
             $Akun->save();
 
             DB::commit();
@@ -69,17 +84,6 @@ class AkunController extends Controller
 
     public function edit($id)
     {
-        // $data = DB::table('status_pemasok')->get();
-        // $provinsi = DB::table('provinsi')->orderBy('nama', 'asc')->get();
-        // $kota = DB::table('kota')->orderBy('nama', 'asc')->get();
-        // $negara = DB::table('negara')->orderBy('nama', 'asc')->get();
-        // $mata_uang = DB::table('mata_uang')->orderBy('nama', 'asc')->get();
-        // $pajak = DB::table('pajak')->orderBy('nama', 'asc')->get();
-        // $syarat = DB::table('syarat')->orderBy('nama', 'asc')->get();
-        // $tipe_pelanggan = DB::table('tipe_pelanggan')->orderBy('nama', 'asc')->get();
-        // $level_harga = DB::table('level_harga')->orderBy('nama', 'asc')->get();
-        // $agama = DB::table('religion')->orderBy('nama', 'asc')->get();
-        // $gender = DB::table('gender')->orderBy('nama', 'asc')->get();
         $mata_uang = DB::table('mata_uang')->get();
         $tipe_akun = DB::table('tipe_akun')->get();
         $nama_akun = DB::table('akun')->get();

@@ -6959,6 +6959,12 @@ input:checked+.slider:before {
 #CabangList td,
 #PembayaranList th,
 #PembayaranList td,
+#PenyusutanList th,
+#PenyusutanList td,
+#TipeAktivaTetapPajakList th,
+#TipeAktivaTetapPajakList td,
+#TipeAktivaTetapList th,
+#TipeAktivaTetapList td,
 #KategoriBarangList th,
 #KategoriBarangList td {
     padding: 4px 8px !important;

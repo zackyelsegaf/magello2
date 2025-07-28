@@ -21,17 +21,17 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>No. Penyesuaian</label>
-                                                <input type="text" class="form-control" id="no_pindah" name="no_pindah" value="{{ $pindahBarang->no_pindah }}">
+                                                <input type="text" class="form-control form-control-sm " id="no_pindah" name="no_pindah" value="{{ $pindahBarang->no_pindah }}">
                                                 <input type="hidden" name="pindah_barang_id" value="{{ $pindahBarang->detail->id ?? '' }}">
                                             </div>  
                                             <div class="form-group" style="display: none">
                                                 <label>Pengguna</label>
-                                                <input type="text" class="form-control" name="pengguna_pindah" value="{{ $pindahBarang->detail->pengguna_pindah }}">
+                                                <input type="text" class="form-control form-control-sm " name="pengguna_pindah" value="{{ $pindahBarang->detail->pengguna_pindah }}">
                                             </div>  
                                             <div class="form-group">
                                                 <label>Tanggal Penyesuaian</label>
                                                 <div class="cal-icon">
-                                                    <input type="text" class="form-control datetimepicker @error('tgl_pindah') is-invalid @enderror" name="tgl_pindah" value="{{ $pindahBarang->tgl_pindah }}"> 
+                                                    <input type="text" class="form-control form-control-sm  datetimepicker @error('tgl_pindah') is-invalid @enderror" name="tgl_pindah" value="{{ $pindahBarang->tgl_pindah }}"> 
                                                 </div>
                                             </div>
                                         </div>
@@ -60,7 +60,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label><strong>Dari Gudang</strong></label>
-                                                 <select class="form-control"  name="dari_gudang">
+                                                 <select class="form-control form-control-sm "  name="dari_gudang">
                                                     <option {{ old('dari_gudang', $pindahBarang->dari_gudang) ? '' : 'selected' }} disabled></option>
                                                     @foreach ($gudang as $items )
                                                     <option value="{{ $items->nama_gudang }}" {{ old('dari_gudang', $pindahBarang->dari_gudang) == $items->nama_gudang ? 'selected' : '' }}>{{ $items->nama_gudang }}</option>
@@ -68,13 +68,13 @@
                                                 </select>
                                             </div> 
                                             <div class="form-group">
-                                                <textarea class="form-control @error('dari_alamat') is-invalid @enderror" name="dari_alamat" value="{{ old('dari_alamat') }}">{{ old('dari_alamat', $pindahBarang->dari_alamat) }}</textarea>
+                                                <textarea class="form-control form-control-sm  @error('dari_alamat') is-invalid @enderror" name="dari_alamat" value="{{ old('dari_alamat') }}">{{ old('dari_alamat', $pindahBarang->dari_alamat) }}</textarea>
                                             </div>                                       
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label><strong>Ke Gudang</strong></label>
-                                                <select class="form-control"  name="ke_gudang">
+                                                <select class="form-control form-control-sm "  name="ke_gudang">
                                                     <option {{ old('ke_gudang', $pindahBarang->ke_gudang) ? '' : 'selected' }} disabled></option>
                                                     @foreach ($gudang as $items )
                                                     <option value="{{ $items->nama_gudang }}" {{ old('ke_gudang', $pindahBarang->ke_gudang) == $items->nama_gudang ? 'selected' : '' }}>{{ $items->nama_gudang }}</option>
@@ -82,7 +82,7 @@
                                                 </select>
                                             </div>  
                                             <div class="form-group">
-                                                <textarea class="form-control" name="ke_alamat" value="{{ old('ke_alamat') }}" placeholder="Ke Alamat">{{ old('ke_alamat', $pindahBarang->ke_alamat) }}</textarea>
+                                                <textarea class="form-control form-control-sm " name="ke_alamat" value="{{ old('ke_alamat') }}" placeholder="Ke Alamat">{{ old('ke_alamat', $pindahBarang->ke_alamat) }}</textarea>
                                             </div>                                         
                                         </div>
                                     </div>
@@ -90,7 +90,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label><strong>Deskripsi</strong></label>
-                                                <textarea class="form-control" name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi' , $pindahBarang->deskripsi) }}</textarea>
+                                                <textarea class="form-control form-control-sm " name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi' , $pindahBarang->deskripsi) }}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -114,7 +114,7 @@
                                         <tbody id="barangTableBody">
                                             <tr class="barang-row">
                                                 <td>
-                                                    <select style="width: 160px; cursor: pointer;" class="form-control no-barang-select" name="no_barang[]">
+                                                    <select style="width: 160px; cursor: pointer;" class="form-control form-control-sm  no-barang-select" name="no_barang[]">
                                                         <option disabled {{ old('no_barang', $pindahBarang->detail->no_barang) ? '' : 'selected' }}></option>
                                                         @foreach ($nama_barang as $items)
                                                             <option value="{{ $items->no_barang }}" 
@@ -128,13 +128,13 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input style="width: 160px;" class="form-control deskripsi-barang-input" name="deskripsi_barang[]" value="{{ $pindahBarang->detail->deskripsi_barang }}" readonly>
+                                                    <input style="width: 160px;" class="form-control form-control-sm  deskripsi-barang-input" name="deskripsi_barang[]" value="{{ $pindahBarang->detail->deskripsi_barang }}" readonly>
                                                 </td>
                                                 <td>
-                                                    <input style="width: 160px; cursor: pointer;" class="form-control kts-barang-input" name="kts_barang[]" value="{{ $pindahBarang->detail->kts_barang }}">
+                                                    <input style="width: 160px; cursor: pointer;" class="form-control form-control-sm  kts-barang-input" name="kts_barang[]" value="{{ $pindahBarang->detail->kts_barang }}">
                                                 </td>
                                                 <td>
-                                                    <select style="width: 160px; cursor: pointer;" class="form-control" name="satuan[]">
+                                                    <select style="width: 160px; cursor: pointer;" class="form-control form-control-sm " name="satuan[]">
                                                         <option disabled {{ old('satuan', $pindahBarang->detail->satuan) ? '' : 'selected' }}></option>
                                                         @foreach ($satuan as $items)
                                                             <option value="{{ $items->nama }}" {{ old('satuan', $pindahBarang->detail->satuan) == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>

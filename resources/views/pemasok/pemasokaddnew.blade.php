@@ -32,15 +32,15 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>No</label>
-                                                    <input type="text" class="form-control" name="pemasok_id" value="{{ $kodeBaru }}">
+                                                    <input type="text" class="form-control form-control-sm " name="pemasok_id" value="{{ $kodeBaru }}">
                                                 </div>                                                
                                                 <div class="form-group">
                                                     <label>Nama Pemasok</label>
-                                                    <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" value="{{ old('nama') }}">
+                                                    <input type="text" class="form-control form-control-sm  @error('nama') is-invalid @enderror" name="nama" value="{{ old('nama') }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Status</label>
-                                                    <select class="form-control"  name="status">
+                                                    <select class="form-control form-control-sm "  name="status">
                                                         <option selected disabled> --Pilih Status-- </option>
                                                         @foreach ($data as $items )
                                                         <option value="{{ $items->nama }}">{{ $items->nama }}</option>
@@ -72,7 +72,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>File 1</label>
-                                                    <input type="text" class="form-control" name="fileupload_1" placeholder="Link dokumen Anda" value="{{ old('fileupload_1') }}">
+                                                    <input type="text" class="form-control form-control-sm " name="fileupload_1" placeholder="Link dokumen Anda" value="{{ old('fileupload_1') }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -106,23 +106,23 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Alamat 1</label>
-                                                    <input type="text" class="form-control @error('alamat_1') is-invalid @enderror" name="alamat_1" value="{{ old('alamat_1') }}">
+                                                    <input type="text" class="form-control form-control-sm  @error('alamat_1') is-invalid @enderror" name="alamat_1" value="{{ old('alamat_1') }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Alamat 2</label>
-                                                    <input type="text" class="form-control" name="alamat_2" value="{{ old('alamat_2') }}">
+                                                    <input type="text" class="form-control form-control-sm " name="alamat_2" value="{{ old('alamat_2') }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Alamat Pajak 1</label>
-                                                    <input type="text" class="form-control" name="alamatpajak_1" value="{{ old('alamatpajak_1') }}">
+                                                    <input type="text" class="form-control form-control-sm " name="alamatpajak_1" value="{{ old('alamatpajak_1') }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Alamat Pajak 2</label>
-                                                    <input type="text" class="form-control" name="alamatpajak_2" value="{{ old('alamatpajak_2') }}">
+                                                    <input type="text" class="form-control form-control-sm " name="alamatpajak_2" value="{{ old('alamatpajak_2') }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Provinsi</label>
-                                                    <select class="form-control @error('provinsi') is-invalid @enderror"  name="provinsi">
+                                                    <select class="form-control form-control-sm  @error('provinsi') is-invalid @enderror"  name="provinsi">
                                                         <option selected disabled> --Pilih Provinsi-- </option>
                                                         @foreach ($provinsi as $items )
                                                             <option value="{{ $items->nama }}">{{ $items->nama }}</option>
@@ -131,7 +131,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Kota</label>
-                                                    <select class="form-control @error('kota') is-invalid @enderror"  name="kota">
+                                                    <select class="form-control form-control-sm  @error('kota') is-invalid @enderror"  name="kota">
                                                         <option selected disabled> --Pilih Kota-- </option>
                                                         @foreach ($kota as $items )
                                                             <option value="{{ $items->nama }}">{{ $items->nama }}</option>
@@ -140,7 +140,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Negara</label>
-                                                    <select class="form-control @error('negara') is-invalid @enderror"  name="negara">
+                                                    <select class="form-control form-control-sm  @error('negara') is-invalid @enderror"  name="negara">
                                                         <option selected disabled> --Pilih Negara-- </option>
                                                         @foreach ($negara as $items )
                                                             <option value="{{ $items->nama }}">{{ $items->nama }}</option>
@@ -149,26 +149,26 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Kode Pos</label>
-                                                    <input type="text" class="form-control @error('kode_pos') is-invalid @enderror" name="kode_pos" value="{{ old('kode_pos') }}">
+                                                    <input type="text" class="form-control form-control-sm  @error('kode_pos') is-invalid @enderror" name="kode_pos" value="{{ old('kode_pos') }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Kontak</label>
-                                                    <input type="text" class="form-control" name="kontak" value="{{ old('kontak') }}">
+                                                    <input type="text" class="form-control form-control-sm " name="kontak" value="{{ old('kontak') }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>No. Telp</label>
-                                                    <input type="text" class="form-control @error('no_telp') is-invalid @enderror" name="no_telp" value="{{ old('no_telp') }}">
+                                                    <input type="text" class="form-control form-control-sm  @error('no_telp') is-invalid @enderror" name="no_telp" value="{{ old('no_telp') }}">
                                                 </div><div class="form-group">
                                                     <label>No. FAX</label>
-                                                    <input type="text" class="form-control"  name="no_fax" value="{{ old('no_fax') }}">
+                                                    <input type="text" class="form-control form-control-sm "  name="no_fax" value="{{ old('no_fax') }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Email</label>
-                                                    <input type="text" class="form-control" name="email" value="{{ old('email') }}">
+                                                    <input type="text" class="form-control form-control-sm " name="email" value="{{ old('email') }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Website</label>
-                                                    <input type="text" class="form-control" name="website" value="{{ old('website') }}">
+                                                    <input type="text" class="form-control form-control-sm " name="website" value="{{ old('website') }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -187,11 +187,11 @@
                                             <div class="col-md-8">                                               
                                                 <div class="form-group">
                                                     <label>NPWP</label>
-                                                    <input type="text" class="form-control @error('npwp') is-invalid @enderror" name="npwp" value="{{ old('npwp') }}">
+                                                    <input type="text" class="form-control form-control-sm  @error('npwp') is-invalid @enderror" name="npwp" value="{{ old('npwp') }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Pajak 1</label>
-                                                    <select class="form-control @error('pajak_1') is-invalid @enderror" name="pajak_1" id="pajak_1">
+                                                    <select class="form-control form-control-sm  @error('pajak_1') is-invalid @enderror" name="pajak_1" id="pajak_1">
                                                         <option selected disabled> --Pilih Pajak 1-- </option>
                                                         @foreach ($pajak as $items)
                                                             <option value="{{ $items->nama }}">{{ $items->nama }}</option>
@@ -201,7 +201,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Pajak 2</label>
-                                                    <select class="form-control @error('pajak_2') is-invalid @enderror" name="pajak_2" id="pajak_2">
+                                                    <select class="form-control form-control-sm  @error('pajak_2') is-invalid @enderror" name="pajak_2" id="pajak_2">
                                                         <option selected disabled> --Pilih Pajak 2-- </option>
                                                         @foreach ($pajak as $items )
                                                             <option value="{{ $items->nama }}">{{ $items->nama }}</option>
@@ -211,7 +211,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Syarat</label>
-                                                    <select class="form-control @error('syarat') is-invalid @enderror"  name="syarat">
+                                                    <select class="form-control form-control-sm  @error('syarat') is-invalid @enderror"  name="syarat">
                                                         <option selected disabled> --Pilih Syarat-- </option>
                                                         @foreach ($syarat as $items )
                                                             <option value="{{ $items->nama }}">{{ $items->nama }}</option>
@@ -220,7 +220,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Mata Uang</label>
-                                                    <select id="namaBarangSelect" class="form-control @error('mata_uang') is-invalid @enderror" name="mata_uang">
+                                                    <select id="namaBarangSelect" class="form-control form-control-sm  @error('mata_uang') is-invalid @enderror" name="mata_uang">
                                                         <option {{ old('mata_uang') ? '' : 'selected' }} disabled> --Pilih Mata Uang-- </option>
                                                         @foreach ($mata_uang as $items )
                                                             <option value="{{ $items->nama }}"
@@ -229,31 +229,31 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
-                                                    <input id="nilaiTukarInput" type="text" class="form-control" name="nilai_tukar" value="{{ old('nilai_tukar') }}" style="display: none;">
+                                                    <input id="nilaiTukarInput" type="text" class="form-control form-control-sm " name="nilai_tukar" value="{{ old('nilai_tukar') }}" style="display: none;">
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label>Saldo Awal</label>
-                                                            <input type="text" id="saldo_awal" class="form-control @error('saldo_awal') is-invalid @enderror" name="saldo_awal" value="{{ old('saldo_awal') }}">
+                                                            <input type="text" id="saldo_awal" class="form-control form-control-sm  @error('saldo_awal') is-invalid @enderror" name="saldo_awal" value="{{ old('saldo_awal') }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label>Tanggal</label>
                                                             <div class="cal-icon">
-                                                                <input type="text" class="form-control datetimepicker @error('tanggal') is-invalid @enderror" name="tanggal" value="{{ old('tanggal') }}"> 
+                                                                <input type="text" class="form-control form-control-sm  datetimepicker @error('tanggal') is-invalid @enderror" name="tanggal" value="{{ old('tanggal') }}"> 
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div> 
                                                 <div class="form-group">
                                                     <label>Deskripsi</label>
-                                                    <textarea class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi') }}</textarea>
+                                                    <textarea class="form-control form-control-sm  @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi') }}</textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>No. PKP</label>
-                                                    <input type="text" class="form-control @error('no_pkp') is-invalid @enderror" name="no_pkp" value="{{ old('no_pkp') }}">
+                                                    <input type="text" class="form-control form-control-sm  @error('no_pkp') is-invalid @enderror" name="no_pkp" value="{{ old('no_pkp') }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -271,7 +271,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     {{-- <label>Memo</label> --}}
-                                                    <textarea class="form-control @error('memo') is-invalid @enderror" name="memo" value="{{ old('memo') }}">{{ old('memo') }}</textarea>
+                                                    <textarea class="form-control form-control-sm  @error('memo') is-invalid @enderror" name="memo" value="{{ old('memo') }}">{{ old('memo') }}</textarea>
                                                 </div>
                                             </div>
                                         </div>

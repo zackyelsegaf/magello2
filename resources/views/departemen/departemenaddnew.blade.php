@@ -17,23 +17,23 @@
                             <div class="col-md-4"> 
                                 <div class="form-group">
                                     <label>No</label>
-                                    <input type="text" class="form-control" name="departemen_id" value="{{ $kodeBaru }}">
+                                    <input type="text" class="form-control form-control-sm " name="departemen_id" value="{{ $kodeBaru }}">
                                 </div> 
                                 <div class="form-group">
                                     <label>Nama Departemen</label>
-                                    <input type="text" class="form-control @error('nama_departemen') is-invalid @enderror"name="nama_departemen" value="{{ old('nama_departemen') }}">
+                                    <input type="text" class="form-control form-control-sm  @error('nama_departemen') is-invalid @enderror"name="nama_departemen" value="{{ old('nama_departemen') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Kontak</label>
-                                    <input type="text" class="form-control @error('nama_kontak') is-invalid @enderror"name="nama_kontak" value="{{ old('nama_kontak') }}">
+                                    <input type="text" class="form-control form-control-sm  @error('nama_kontak') is-invalid @enderror"name="nama_kontak" value="{{ old('nama_kontak') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Deskripsi</label>
-                                    <textarea class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi') }}</textarea>
+                                    <textarea class="form-control form-control-sm  @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi') }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Tipe</label>
-                                    <select class="form-control"  name="tipe_departemen">
+                                    <select class="form-control form-control-sm "  name="tipe_departemen">
                                         <option selected disabled> --Pilih Tipe-- </option>
                                         @foreach ($tipe_departemen as $items )
                                         <option value="{{ $items->nama }}">{{ $items->nama }}</option>

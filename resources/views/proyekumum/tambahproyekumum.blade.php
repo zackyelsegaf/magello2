@@ -32,15 +32,15 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>No. Proyek</label>
-                                                    <input type="text" class="form-control @error('proyek_umum_id') is-invalid @enderror" name="proyek_umum_id" value="{{ old('proyek_umum_id') }}">
+                                                    <input type="text" class="form-control form-control-sm  @error('proyek_umum_id') is-invalid @enderror" name="proyek_umum_id" value="{{ old('proyek_umum_id') }}">
                                                 </div>                                                
                                                 <div class="form-group">
                                                     <label>Nama Proyek</label>
-                                                    <input type="text" class="form-control @error('nama_proyek') is-invalid @enderror" name="nama_proyek" value="{{ old('nama_proyek') }}">
+                                                    <input type="text" class="form-control form-control-sm  @error('nama_proyek') is-invalid @enderror" name="nama_proyek" value="{{ old('nama_proyek') }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Nama Kontak</label>
-                                                    <input type="text" class="form-control" name="nama_kontak" value="{{ old('nama_kontak') }}">
+                                                    <input type="text" class="form-control form-control-sm " name="nama_kontak" value="{{ old('nama_kontak') }}">
                                                 </div>
                                                 <h7 class="font-weight-bold">Tanggal Projek</h7>
                                                 <div class="row">
@@ -48,7 +48,7 @@
                                                         <div class="form-group">
                                                             <label>Mulai</label>
                                                             <div class="cal-icon">
-                                                                <input type="text" class="form-control datetimepicker" name="tanggal_from" value="{{ old('tanggal_from') }}"> 
+                                                                <input type="text" class="form-control form-control-sm  datetimepicker" name="tanggal_from" value="{{ old('tanggal_from') }}"> 
                                                             </div>
                                                         </div>
                                                     </div>
@@ -56,7 +56,7 @@
                                                         <div class="form-group">
                                                             <label>Selesai</label>
                                                             <div class="cal-icon">
-                                                                <input type="text" class="form-control datetimepicker" name="tanggal_to" value="{{ old('tanggal_to') }}"> 
+                                                                <input type="text" class="form-control form-control-sm  datetimepicker" name="tanggal_to" value="{{ old('tanggal_to') }}"> 
                                                             </div>
                                                         </div>
                                                     </div>
@@ -66,7 +66,7 @@
                                                         <div class="form-group">
                                                             <label>Komplet</label>
                                                             <div class="input-group">
-                                                                <input type="number" class="form-control" name="persentase_komplet" value="{{ old('persentase_komplet') }}">
+                                                                <input type="number" class="form-control form-control-sm " name="persentase_komplet" value="{{ old('persentase_komplet') }}">
                                                                 <div class="input-group-append">
                                                                     <span class="input-group-text">%</span>
                                                                 </div>
@@ -94,7 +94,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Deskripsi</label>
-                                                    <textarea class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi') }}</textarea>
+                                                    <textarea class="form-control form-control-sm  @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi') }}</textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="dihentikan">Dihentikan</label>
@@ -121,7 +121,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>File 1</label>
-                                                    <input type="text" class="form-control" name="fileupload_1" placeholder="Link dokumen Anda" value="{{ old('fileupload_1') }}">
+                                                    <input type="text" class="form-control form-control-sm " name="fileupload_1" placeholder="Link dokumen Anda" value="{{ old('fileupload_1') }}">
                                                 </div>
                                             </div>
                                         </div>
