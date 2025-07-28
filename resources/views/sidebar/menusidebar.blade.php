@@ -123,6 +123,10 @@
                                 <li><a class="{{ set_active(['barang/list/page']) }}" href="{{ route('barang/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Barang</a></li>
                                 <li><a class="{{ set_active(['penyesuaian/list/page']) }}" href="{{ route('penyesuaian/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Penyesuaian Barang</a></li>
                                 <li><a class="{{ set_active(['pindahbarang/list/page']) }}" href="{{ route('pindahbarang/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Pindah Barang</a></li>
+                                <li><a class="{{ set_active(['hargajual/list/page']) }}" href="{{ route('hargajual/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Harga Jual</a></li>
+                                <li><a class="{{ set_active(['barangpergudang/list/page']) }}" href="{{ route('barangpergudang/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Barang per Gudang</a></li>
+                                <li><a class="{{ set_active(['pembiayaanpesanan/list/page']) }}" href="{{ route('pembiayaanpesanan/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Pembiayaan Pesanan</a></li>
+                                
                             </ul>
                         </li>
                         <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Aktiva <span class="badge bg-light text-dark">New!</span></span> <span class="menu-arrow"></span></a>
