@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\BukuBesar;
 
 use App\Models\Akun;
 use App\Models\MataUang;
@@ -73,6 +73,6 @@ class AkunForm extends Component
         $mata_uang = MataUang::all(['nama', 'id']);
         $tipe_akun = TipeAkun::all(['nama', 'id']);
         $nama_akun = Akun::all(['nama_akun_indonesia', 'id']);
-        return view('akun.form', compact('mata_uang', 'nama_akun', 'tipe_akun'));
+        return view('bukubesar.akun.form', compact('mata_uang', 'nama_akun', 'tipe_akun'));
     }
 }

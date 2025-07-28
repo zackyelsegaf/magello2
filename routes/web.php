@@ -4,7 +4,6 @@ use App\Models\PindahBarang;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AkunController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Home2Controller;
 use App\Http\Controllers\PajakController;
@@ -40,7 +39,6 @@ use App\Http\Controllers\JasaPengirimanController;
 use App\Http\Controllers\PermintaanPembelianController;
 use App\Http\Controllers\ModulUtama\PembelianController;
 use App\Http\Controllers\ModulUtama\PenjualanController;
-use App\Livewire\AkunForm;
 use App\Livewire\DepartemenForm;
 use App\Livewire\GudangForm;
 use App\Livewire\JasaPengirimanForm;
@@ -317,15 +315,6 @@ Route::controller(KategoriBarangController::class)->group(function () {
     Route::get('get-kategoribarang-data', 'getKategoriBarang')->name('get-kategoribarang-data');
 });
 
-//-------------------------------- AKUN ---------------------------------//
-Route::get('akun/add/new', AkunForm::class)->middleware('auth')->name('akun/add/new');
-Route::get('/akun/edit/{id}', AkunForm::class)->name('akun/edit');
-Route::controller(AkunController::class)->group(function () {
-    Route::get('akun/list/page', 'akunList')->middleware('auth')->name('akun/list/page');
-    Route::post('/akun/delete', 'delete')->name('akun/delete');
-    Route::get('get-akun-data', 'getAkun')->name('get-akun-data');
-});
-
 Route::controller(BarangController::class)->group(function () {
     Route::get('barang/list/page', 'daftarBarang')->middleware('auth')->name('barang/list/page');
     Route::get('barang/add/new', 'tambahBarang')->middleware('auth')->name('barang/add/new');
@@ -466,3 +455,4 @@ Route::prefix('pembelian')->controller(PembelianController::class)->group(functi
 require 'penjualan.php';
 require 'laporan.php';
 require 'aktiva.php';
+require 'buku_besar.php';

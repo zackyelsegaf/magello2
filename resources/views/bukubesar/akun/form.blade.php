@@ -97,7 +97,7 @@
         </form>
     </div>
 </div>
-@push('scripts') 
+@push('scripts')
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const checkbox = document.getElementById("sub_akun_check");

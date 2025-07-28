@@ -175,6 +175,8 @@
                     <ul class="submenu_class" style="display: none;">
                         <li><a class="{{ set_active(['akun/list/page']) }}"
                                 href="{{ route('akun/list/page') }}">Daftar Akun</a></li>
+                        <li><a class="{{ set_active(['jurnal/list/page']) }}"
+                                href="{{ route('jurnal/list/page') }}">Jurnal Umum</a></li>
                         {{-- <li><a class="{{ set_active(['gudang/list/page']) }}" href="{{ route('gudang/list/page') }}">Gudang</a></li>
                         <li><a class="{{ set_active(['kategoribarang/list/page']) }}" href="{{ route('kategoribarang/list/page') }}">Kategori Barang</a></li> --}}
                         {{-- <li><a class="{{ set_active(['pegawai/list/page']) }}" href="{{ route('pegawai/list/page') }}">Pegawai</a></li> --}}

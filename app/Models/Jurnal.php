@@ -7,12 +7,29 @@ use Illuminate\Database\Eloquent\Model;
 
 class Jurnal extends Model
 {
-    protected $table = 'jurnals';
-    protected $guarded = ['id'];
+    use HasFactory;
+
+    protected $table = 'jurnal';
+    protected $fillable = [
+        'no_jurnal',
+        'tanggal',
+        'no_cek',
+        'sumber',
+        'mata_uang_asing',
+        'urgent',
+        'tindak_lanjut',
+        'catatan_pemeriksaan',
+        'deskripsi',
+        'user_id',
+        'cabang',
+        'nilai',
+        'no_persetujuan',
+        'disetujui',
+    ];
 
     public function entries()
     {
-        return $this->hasMany(JurnalEntri::class);
+        return $this->hasMany(DetailJurnal::class);
     }
 
     // public function documents()
