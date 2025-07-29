@@ -173,15 +173,15 @@
                 <li class="submenu"> <a href="#"></i> <span> Buku Besar </span> <span
                             class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
-                        <li><a class="{{ set_active(['akun/list/page']) }}"
+                        <li><a @class(['active' => request()->is('akun/*')])
                                 href="{{ route('akun/list/page') }}">Daftar Akun</a></li>
-                        <li><a class="{{ set_active(['jurnal/list/page']) }}"
+                        <li><a @class(['active' => request()->is('jurnal/*')])
                                 href="{{ route('jurnal/list/page') }}">Jurnal Umum</a></li>
-                        <li><a class="{{ set_active(['anggaranakun/list/page']) }}"
+                        <li><a @class(['active' => request()->is('anggaranakun/*')])
                                 href="{{ route('anggaranakun/list/page') }}">Anggaran Akun</a></li>
-                        <li><a class="{{ set_active(['pembayaranlainnya/list/page']) }}"
+                        <li><a @class(['active' => request()->is('pembayaranlainnya/*')])
                                 href="{{ route('pembayaranlainnya/list/page') }}">Pembayaran Lainnya</a></li>
-                        <li><a class="{{ set_active(['penerimaanlainnya/list/page']) }}"
+                        <li><a @class(['active' => request()->is('penerimaanlainnya/*')])
                                 href="{{ route('penerimaanlainnya/list/page') }}">Penerimaan Lainnya</a></li>
                         {{-- <li><a class="{{ set_active(['gudang/list/page']) }}" href="{{ route('gudang/list/page') }}">Gudang</a></li>
                         <li><a class="{{ set_active(['kategoribarang/list/page']) }}" href="{{ route('kategoribarang/list/page') }}">Kategori Barang</a></li> --}}
@@ -202,7 +202,7 @@
                             class="menu-arrow"></span></a>
                     <ul class="submenu_class">
                         <li>
-                            <a class="{{ set_active(['laporan']) }}" href="{{ route('laporan') }}">
+                            <a @class(['active' => request()->is('laporan/*')]) href="{{ route('laporan') }}">
                                 Semua Laporan
                             </a>
                         </li>

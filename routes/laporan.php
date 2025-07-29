@@ -9,33 +9,35 @@ Route::get('laporan/', function(){
 })->name('laporan');
 
 //tampilan filter between date
-$showFilter = function(){
-    return view('laporan.filters');
-};
+function showFilter($title){
+    return function() use($title){
+        return view('laporan.filters', compact('title'));
+    };
+}
 
 //laporan penjualan
-Route::prefix('laporan/penjualan')->group(function() use($showFilter){
-    Route::name('laporan/penjualan/')->group(function() use($showFilter){
-        Route::get('faktur', $showFilter)->name('faktur');
-        Route::get('pengiriman', $showFilter)->name('pengiriman');
-        Route::get('retur', $showFilter)->name('retur');
-        Route::get('penjualanbarangomset', $showFilter)->name('penjualanbarangomset');
-        Route::get('pelangganringkasan', $showFilter)->name('pelangganringkasan');
-        Route::get('pelangganrincian', $showFilter)->name('pelangganrincian');
-        Route::get('pelangganbarang', $showFilter)->name('pelangganbarang');
-        Route::get('barangringkasan', $showFilter)->name('barangringkasan');
-        Route::get('barangrincian', $showFilter)->name('barangrincian');
-        Route::get('barangomset', $showFilter)->name('barangomset');
-        Route::get('barangkuantitas', $showFilter)->name('barangkuantitas');
-        Route::get('penjualanpelanggan', $showFilter)->name('penjualanpelanggan');
-        Route::get('penjualanbarang', $showFilter)->name('penjualanbarang');
-        Route::get('returrincian', $showFilter)->name('returrincian');
-        Route::get('pesananpelanggan', $showFilter)->name('pesananpelanggan');
-        Route::get('pesananbarang', $showFilter)->name('pesananbarang');
-        Route::get('penawaranpelanggan', $showFilter)->name('penawaranpelanggan');
-        Route::get('penawaranbarang', $showFilter)->name('penawaranbarang');
-        Route::get('historipengiriman', $showFilter)->name('historipengiriman');
-        Route::get('historipesanan', $showFilter)->name('historipesanan');
+Route::prefix('laporan/penjualan')->group(function(){
+    Route::name('laporan/penjualan/')->group(function(){
+        Route::get('faktur', showFilter('Daftar Faktur Penjualan'))->name('faktur');
+        Route::get('pengiriman', showFilter('Daftar Pengiriman Pesanan'))->name('pengiriman');
+        Route::get('retur', showFilter('Daftar Retur Penjualan'))->name('retur');
+        Route::get('penjualanbarangomset', showFilter('Penjualan Per Barang - Omset'))->name('penjualanbarangomset');
+        Route::get('pelangganringkasan', showFilter('Penjualan Per Pelanggan - Ringkasan'))->name('pelangganringkasan');
+        Route::get('pelangganrincian', showFilter('Penjualan Per Pelanggan - Rincian'))->name('pelangganrincian');
+        Route::get('pelangganbarang', showFilter('Penjualan Pelanggan Per Barang'))->name('pelangganbarang');
+        Route::get('barangringkasan', showFilter('Penjualan Per Barang - Ringkasan'))->name('barangringkasan');
+        Route::get('barangrincian', showFilter('Penjualan Per Barang - Rincian'))->name('barangrincian');
+        Route::get('barangomset', showFilter('Penjualan Per Barang - Omset'))->name('barangomset');
+        Route::get('barangkuantitas', showFilter('Penjualan Per Barang - Kuantitas'))->name('barangkuantitas');
+        Route::get('penjualanpelanggan', showFilter('Retur Penjualan Per Pelaggan'))->name('penjualanpelanggan');
+        Route::get('penjualanbarang', showFilter('Retur Penjualan Per Barang'))->name('penjualanbarang');
+        Route::get('returrincian', showFilter('Rincian Daftar Retur Penjualan'))->name('returrincian');
+        Route::get('pesananpelanggan', showFilter('Pesanan Penjualan Per Pelanggan'))->name('pesananpelanggan');
+        Route::get('pesananbarang', showFilter('Penjualan Penjualan Per Barang'))->name('pesananbarang');
+        Route::get('penawaranpelanggan', showFilter('Penawaran Penjualan Per Pelanggan'))->name('penawaranpelanggan');
+        Route::get('penawaranbarang', showFilter('Penawaran Penjualan Per Barang'))->name('penawaranbarang');
+        Route::get('historipengiriman', showFilter('Histori Pengiriman Pesanan'))->name('historipengiriman');
+        Route::get('historipesanan', showFilter('Histori Pesanan Penjualan'))->name('historipesanan');
     });
 
     Route::controller(LaporanPenjualan::class)->group(function(){
@@ -64,19 +66,19 @@ Route::prefix('laporan/penjualan')->group(function() use($showFilter){
 });
 
 //laporan pembelian
-Route::prefix('laporan/pembelian')->group(function() use($showFilter){
-    Route::name('laporan/pembelian/')->group(function() use($showFilter){
-        Route::get('/faktur', $showFilter)->name('faktur');
-        Route::get('/penerimaan', $showFilter)->name('penerimaan');
-        Route::get('/pemasokringkasan', $showFilter)->name('pemasokringkasan');
-        Route::get('/pemasokrincian', $showFilter)->name('pemasokrincian');
-        Route::get('/retur', $showFilter)->name('retur');
-        Route::get('/returrincian', $showFilter)->name('returrincian');
-        Route::get('/pesananpemasok', $showFilter)->name('pesananpemasok');
-        Route::get('/pesananbarang', $showFilter)->name('pesananbarang');
-        Route::get('/permintaanbarang', $showFilter)->name('permintaanbarang');
-        Route::get('/historipenerimaan', $showFilter)->name('historipenerimaan');
-        Route::get('/historipesanan', $showFilter)->name('historipesanan');
+Route::prefix('laporan/pembelian')->group(function(){
+    Route::name('laporan/pembelian/')->group(function(){
+        Route::get('/faktur', showFilter('Daftar Faktur Pembelian'))->name('faktur');
+        Route::get('/penerimaan', showFilter('Daftar Penerimaan Pembelian'))->name('penerimaan');
+        Route::get('/pemasokringkasan', showFilter('Pembelian Per Pemasok - Ringkasan'))->name('pemasokringkasan');
+        Route::get('/pemasokrincian', showFilter('Pembelian Per Pemasok - Rincian'))->name('pemasokrincian');
+        Route::get('/retur', showFilter('Daftar Retur Pembelian'))->name('retur');
+        Route::get('/returrincian', showFilter('Rincian Daftar Retur Pembelian'))->name('returrincian');
+        Route::get('/pesananpemasok', showFilter('Pesanan Pembelian Per Pemasok'))->name('pesananpemasok');
+        Route::get('/pesananbarang', showFilter('Pesanan Pembelian Per Barang'))->name('pesananbarang');
+        Route::get('/permintaanbarang', showFilter('Permintaan Pembelian Per Barang'))->name('permintaanbarang');
+        Route::get('/historipenerimaan', showFilter('Histori Penerimaan Barang'))->name('historipenerimaan');
+        Route::get('/historipesanan', showFilter('Histori Pesanan Pembelian'))->name('historipesanan');
     });
 
     Route::controller(LaporanPembelian::class)->group(function(){
