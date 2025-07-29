@@ -177,6 +177,12 @@
                                 href="{{ route('akun/list/page') }}">Daftar Akun</a></li>
                         <li><a class="{{ set_active(['jurnal/list/page']) }}"
                                 href="{{ route('jurnal/list/page') }}">Jurnal Umum</a></li>
+                        <li><a class="{{ set_active(['anggaranakun/list/page']) }}"
+                                href="{{ route('anggaranakun/list/page') }}">Anggaran Akun</a></li>
+                        <li><a class="{{ set_active(['pembayaranlainnya/list/page']) }}"
+                                href="{{ route('pembayaranlainnya/list/page') }}">Pembayaran Lainnya</a></li>
+                        <li><a class="{{ set_active(['penerimaanlainnya/list/page']) }}"
+                                href="{{ route('penerimaanlainnya/list/page') }}">Penerimaan Lainnya</a></li>
                         {{-- <li><a class="{{ set_active(['gudang/list/page']) }}" href="{{ route('gudang/list/page') }}">Gudang</a></li>
                         <li><a class="{{ set_active(['kategoribarang/list/page']) }}" href="{{ route('kategoribarang/list/page') }}">Kategori Barang</a></li> --}}
                         {{-- <li><a class="{{ set_active(['pegawai/list/page']) }}" href="{{ route('pegawai/list/page') }}">Pegawai</a></li> --}}
