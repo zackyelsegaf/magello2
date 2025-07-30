@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dokumen;
 use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +22,11 @@ class PelangganController extends Controller
     {
         try {
             $ids = $request->ids;
-            Pelanggan::whereIn('id', $ids)->delete();
+            foreach ($ids as $id) {
+                $pelanggan = Pelanggan::find($id);
+                Dokumen::destroy($pelanggan->dokumen);
+                $pelanggan->delete();
+            }
             sweetalert()->success('Data berhasil dihapus :)');
             return redirect()->route('pelanggan/list/page');    
 

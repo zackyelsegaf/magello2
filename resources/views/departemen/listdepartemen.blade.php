@@ -25,7 +25,7 @@
                     <div class="form-group">
                         <label>Dihentikan</label><br>
                         <div class="form-check">
-                            <input class="form-check-input click-filter" type="radio" id="alldihentikan" name="dihentikan">
+                            <input class="form-check-input click-filter" type="radio" id="alldihentikan" name="dihentikan" checked>
                             <label for="alldihentikan" class="form-check-label">Semua</label>
                         </div>
                         <div class="form-check">

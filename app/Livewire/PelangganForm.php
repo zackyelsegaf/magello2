@@ -132,10 +132,11 @@ class PelangganForm extends Component
             'memo'              => 'nullable|string|max:255',
         ]);
 
-        $data['saldo_awal'] = str_replace(['Rp', '.', ' '], '', $data['saldo_awal']);
-
         DB::beginTransaction();
         try {
+            //prevent wrong values from javascript
+            $data['saldo_awal'] = $data['saldo_awal'] == null ? 0 : preg_replace("/\D/", '', $data['saldo_awal']);
+
             $pelanggan = Pelanggan::updateOrCreate(['id' => $this->pelangganId], $data);
             //dokumen
             if(!isset($this->pelangganId)){
@@ -182,6 +183,16 @@ class PelangganForm extends Component
         }else{
             sweetalert()->error('Dokumen maksimal 7 field!');
         }
+    }
+    public function hapusDokumen($index){
+        array_splice($this->dokumens, $index , 1);
+
+        if(isset($this->dokumenIds[$index])){
+            $dokumenId = $this->dokumenIds[$index];
+            Dokumen::destroy($dokumenId);
+            array_splice($this->dokumenIds, $index , 1);
+        }
+        $this->activeTab = 'dokumen';
     }
 
     #[Title('Pelanggan')]

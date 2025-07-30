@@ -86,7 +86,12 @@
                                             @foreach ($dokumens as $i => $dok)
                                                 <div class="form-group">
                                                     <label>File {{ $i+1 }}</label>
-                                                    <input type="text" class="form-control" wire:model="dokumens.{{$i}}" placeholder="Link dokumen Anda">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" wire:model="dokumens.{{$i}}" placeholder="Link dokumen Anda">
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-danger" type="button" wire:click='hapusDokumen({{ $i }})'>Hapus</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             @endforeach
                                         </div>

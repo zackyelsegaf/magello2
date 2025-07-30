@@ -30,7 +30,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="{{ route('laporan/penjualan/retur') }}" class="text-dark">
+            <a href="{{ route('laporan/penjualan/penjualanbarangomset') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">
@@ -44,7 +44,7 @@
             </a>
         </div>
         <div class="col">
-            <a href="{{ route('laporan/penjualan/penjualanbarangomset') }}" class="text-dark">
+            <a href="{{ route('laporan/penjualan/retur') }}" class="text-dark">
                 <div class="card rounded-default shadow bg-white">
                     <div class="card-body p-3">
                         <div class="d-flex align-items-center">

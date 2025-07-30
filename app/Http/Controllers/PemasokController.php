@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pemasok;
 use App\Http\Controllers\DependentDropdownController;
+use App\Models\Dokumen;
 use Illuminate\Support\Facades\DB;
 
 class PemasokController extends Controller
@@ -19,7 +20,11 @@ class PemasokController extends Controller
     {
         try {
             $ids = $request->ids;
-            Pemasok::whereIn('id', $ids)->delete();
+            foreach ($ids as $id) {
+                $pemasok = Pemasok::find($id);
+                Dokumen::destroy($pemasok->dokumen);
+                $pemasok->delete();
+            }
             sweetalert()->success('Data berhasil dihapus :)');
             return redirect()->route('pemasok/list/page');    
             

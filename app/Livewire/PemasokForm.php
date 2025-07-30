@@ -105,16 +105,17 @@ class PemasokForm extends Component
             'no_pkp'            => 'nullable|max:255',
             'syarat_id'         => 'nullable',
             'mata_uang_id'      => 'nullable',
-            'saldo_awal'        => 'nullable|string|max:255',
+            'saldo_awal'        => 'nullable',
             'tanggal_saldo_awal' => 'nullable|string|max:255',
             'deskripsi'         => 'nullable|string',
             'memo'              => 'nullable|string',
         ]);
 
-        $data['saldo_awal'] = str_replace(['Rp', '.', ' '], '', $data['saldo_awal']);
-
         DB::beginTransaction();
         try {
+            //prevent wrong values from javascript
+            $data['saldo_awal'] = $data['saldo_awal'] == null ? 0 : preg_replace("/\D/", '', $data['saldo_awal']);
+
             $pemasok = Pemasok::updateOrCreate(['id' => $this->pemasokId], $data);
             //dokumen
             if(!isset($this->pemasokId)){
@@ -161,6 +162,16 @@ class PemasokForm extends Component
         }else{
             sweetalert()->error('Dokumen maksimal 7 field!');
         }
+    }
+    public function hapusDokumen($index){
+        array_splice($this->dokumens, $index , 1);
+
+        if(isset($this->dokumenIds[$index])){
+            $dokumenId = $this->dokumenIds[$index];
+            Dokumen::destroy($dokumenId);
+            array_splice($this->dokumenIds, $index , 1);
+        }
+        $this->activeTab = 'dokumen';
     }
 
     #[Title('Pemasok')]

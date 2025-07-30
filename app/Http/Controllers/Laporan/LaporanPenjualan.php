@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class LaporanPenjualan extends Controller
 {
     public function index(){
-        return view('laporan.penjualan.index');
+        return view('laporan.penjualan.index', ['title' => 'Menu Laporan Penjualan']);
     }
 
     //Daftar Faktur Penjualan
