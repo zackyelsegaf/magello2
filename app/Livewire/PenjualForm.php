@@ -121,6 +121,16 @@ class PenjualForm extends Component
             sweetalert()->error('Dokumen maksimal 7 field!');
         }
     }
+    public function hapusDokumen($index){
+        array_splice($this->dokumens, $index , 1);
+
+        if(isset($this->dokumenIds[$index])){
+            $dokumenId = $this->dokumenIds[$index];
+            Dokumen::destroy($dokumenId);
+            array_splice($this->dokumenIds, $index , 1);
+        }
+        $this->activeTab = 'dokumen';
+    }
 
     #[Title('Penjual')]
     public function render() {

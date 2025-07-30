@@ -272,7 +272,7 @@
 
                 var data = table.row(this).data();
                     if (data) {
-                        window.location.href = "/pemasok/edit/" + data.id + "/" + data.pemasok_id;
+                        window.location.href = "/pemasok/edit/" + data.id;
                     }
             });
         });

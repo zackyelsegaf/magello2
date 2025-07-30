@@ -52,23 +52,23 @@
                 <li class="submenu"> <a href="#"></i> <span> Master Data </span> <span
                             class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
-                        <li><a class="{{ set_active(['matauang/list/page']) }}"
+                        <li><a @class(['active' => request()->is('matauang/*')])
                                 href="{{ route('matauang/list/page') }}">Mata Uang</a></li>
-                        <li><a class="{{ set_active(['statuspemasok/list/page']) }}"
+                        <li><a @class(['active' => request()->is('statuspemasok/*')])
                                 href="{{ route('statuspemasok/list/page') }}">Status Pelanggan & Pemasok</a></li>
-                        <li><a class="{{ set_active(['tipepelanggan/list/page']) }}"
+                        <li><a @class(['active' => request()->is('tipepelanggan/*')])
                                 href="{{ route('tipepelanggan/list/page') }}">Tipe Pelanggan</a></li>
-                        <li><a class="{{ set_active(['pelanggan/list/page']) }}"
+                        <li><a @class(['active' => request()->is('pelanggan/*')])
                                 href="{{ route('pelanggan/list/page') }}">Pelanggan</a></li>
                         <li><a class="{{ set_active(['pegawai/list/page']) }}"
                                 href="{{ route('pegawai/list/page') }}">Pegawai</a></li>
                         <li><a class="{{ set_active(['konsumen/list/page']) }}"
                                 href="{{ route('konsumen/list/page') }}">Konsumen</a></li>
-                        <li><a class="{{ set_active(['pemasok/list/page']) }}"
+                        <li><a @class(['active' => request()->is('pemasok/*')])
                                 href="{{ route('pemasok/list/page') }}">Pemasok</a></li>
-                        <li><a class="{{ set_active(['penjual/list/page']) }}"
+                        <li><a @class(['active' => request()->is('penjual/*')])
                                 href="{{ route('penjual/list/page') }}">Penjual</a></li>
-                        <li><a class="{{ set_active(['departemen/list/page']) }}"
+                        <li><a @class(['active' => request()->is('departemen/*')])
                                 href="{{ route('departemen/list/page') }}">Departemen</a></li>
                         <li class="submenu"> <a href="#"></i> <span> Proyek </span> <span
                                     class="menu-arrow"></span></a>
@@ -94,11 +94,11 @@
                                         href="{{ route('proyekumum/list/page') }}">Proyek UMUM</a></li>
                             </ul>
                         </li>
-                        <li><a class="{{ set_active(['syarat/list/page']) }}"
+                        <li><a @class(['active' => request()->is('syarat/*')])
                                 href="{{ route('syarat/list/page') }}">Syarat Pembayaran</a></li>
-                        <li><a class="{{ set_active(['pajak/list/page']) }}"
+                        <li><a @class(['active' => request()->is('pajak/*')])
                                 href="{{ route('pajak/list/page') }}">Pajak</a></li>
-                        <li><a class="{{ set_active(['jasapengiriman/list/page']) }}"
+                        <li><a @class(['active' => request()->is('jasapengiriman/*')])
                                 href="{{ route('jasapengiriman/list/page') }}">Jasa Pengiriman</a></li>
                     </ul>
                 </li>
@@ -135,11 +135,11 @@
                         <li class="submenu"> <a href="#"></i> <span> Persediaan </span> <span
                                     class="menu-arrow"></span></a>
                             <ul class="submenu_class" style="display: none;">
-                                <li><a class="{{ set_active(['satuan/list/page']) }}"
+                                <li><a @class(['active' => request()->is('satuan/*')])
                                         href="{{ route('satuan/list/page') }}">Satuan</a></li>
-                                <li><a class="{{ set_active(['gudang/list/page']) }}"
+                                <li><a @class(['active' => request()->is('gudang/*')])
                                         href="{{ route('gudang/list/page') }}">Gudang</a></li>
-                                <li><a class="{{ set_active(['kategoribarang/list/page']) }}"
+                                <li><a @class(['active' => request()->is('kategoribarang/*')])
                                         href="{{ route('kategoribarang/list/page') }}">Kategori Barang</a></li>
                                 <li><a class="{{ set_active(['barang/list/page']) }}"
                                         href="{{ route('barang/list/page') }}">Barang</a></li>
@@ -202,7 +202,7 @@
                             class="menu-arrow"></span></a>
                     <ul class="submenu_class">
                         <li>
-                            <a @class(['active' => request()->is('laporan/*')]) href="{{ route('laporan') }}">
+                            <a @class(['active' => request()->is('laporan*')]) href="{{ route('laporan') }}">
                                 Semua Laporan
                             </a>
                         </li>

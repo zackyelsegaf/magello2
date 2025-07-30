@@ -189,12 +189,9 @@ Route::controller(StatusPemasokController::class)->group(function () {
 });
 
 Route::get('pemasok/add/new', PemasokForm::class)->middleware('auth')->name('pemasok/add/new');
-Route::get('/pemasok/edit/{id}/{pemasok_id}', PemasokForm::class)->name('pemasok/edit');
+Route::get('/pemasok/edit/{id}', PemasokForm::class)->name('pemasok/edit');
 Route::controller(PemasokController::class)->group(function () {
     Route::get('pemasok/list/page', 'PemasokList')->middleware('auth')->name('pemasok/list/page');
-    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
-    Route::post('form/pemasok/save', 'saveRecordPemasok')->middleware('auth')->name('form/pemasok/save');
-    Route::post('/pemasok/update/{pemasok_id}', [PemasokController::class, 'update'])->name('pemasok/update');
     Route::post('/pemasok/delete', [PemasokController::class, 'delete'])->name('pemasok/delete');
     Route::get('get-pemasok-data', [PemasokController::class, 'getPemasok'])->name('get-pemasok-data');
     // Route::get('provinces', 'DependentDropdownController@provinces')->name('provinces');

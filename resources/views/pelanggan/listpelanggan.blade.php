@@ -291,7 +291,7 @@
 
                 var data = table.row(this).data();
                     if (data) {
-                        window.location.href = "/pelanggan/edit/" + data.id + "/" + data.pelanggan_id;
+                        window.location.href = "/pelanggan/edit/" + data.id;
                     }
             });
         });

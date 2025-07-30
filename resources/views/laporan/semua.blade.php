@@ -16,10 +16,10 @@
             <div class="col-md-3">
                 <div class="card rounded-default p-3 bg-dark text-white sidebar-menu">
                     <ul>
-                        <li @class(['active' => request()->is('laporan/penjualan/*')])><a href="{{ route('laporan/penjualan') }}">
+                        <li @class(['active' => request()->is('laporan/penjualan*')])><a href="{{ route('laporan/penjualan') }}">
                             <i class="fa fa-book mr-2"></i> Laporan Pejualan</a>
                         </li>
-                        <li @class(['active' => request()->is('laporan/pembelian/*')])><a href="{{ route('laporan/pembelian') }}">
+                        <li @class(['active' => request()->is('laporan/pembelian*')])><a href="{{ route('laporan/pembelian') }}">
                             <i class="fa fa-book mr-2"></i> Laporan Pembelian</a>
                         </li>
                     </ul>
