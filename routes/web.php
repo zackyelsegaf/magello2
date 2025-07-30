@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 require __DIR__.'/penjualan.php';
+require __DIR__.'/laporan.php';
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Home2Controller;
 use App\Http\Controllers\Auth\LoginController;
