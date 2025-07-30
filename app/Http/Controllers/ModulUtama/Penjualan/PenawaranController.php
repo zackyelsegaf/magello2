@@ -3,16 +3,55 @@
 namespace App\Http\Controllers\ModulUtama\Penjualan;
 
 use App\Http\Controllers\Controller;
+use App\Models\ModulUtama\Penjualan\PenawaranPenjualan as Model;
 use Illuminate\Http\Request;
 
 class PenawaranController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * 
      */
+    protected string $modelClass = Model::class;
     public function index()
     {
         //
+    }
+
+    public function fetch(Request $request)
+    {
+        $model = $this->modelClass;
+
+        $query = $model::query();
+
+        // Contoh filter dinamis (jika perlu):
+        if ($request->has('status') && $request->status !== null) {
+            $query->where('status', $request->status);
+        }
+
+        // DataTables response
+        return datatables()->of($query)
+            ->addIndexColumn() // untuk No urutan
+            ->addColumn('checkbox', function ($row) {
+                return '<input type="checkbox" class="permintaan_checkbox" value="' . $row->id . '">';
+            })
+            ->addColumn('pengguna', function ($row) {
+                return optional($row->user)->name ?? '-';
+            })
+            ->addColumn('cabang', function ($row) {
+                return optional($row->cabang)->nama ?? '-';
+            })
+            ->addColumn('catatan_pemeriksaan', function ($row) {
+                return $row->catatan_pemeriksaan ? true : false;
+            })
+            ->addColumn('tindak_lanjut', function ($row) {
+                return $row->tindak_lanjut ? true : false;
+            })
+            ->addColumn('disetujui', function ($row) {
+                return $row->disetujui ? true : false;
+            })
+            ->rawColumns(['checkbox']) // jika pakai HTML (checkbox)
+            ->make(true);
     }
 
     /**
