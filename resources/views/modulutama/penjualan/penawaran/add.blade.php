@@ -17,9 +17,6 @@
                                     'telepon' => 'telp-input',
                                 ]" />
                         </div>
-
-                        {{-- Kolom kanan --}}
-                        <div id="svelte-app"></div>
                         <div class="d-flex flex-column">
                             <div class="d-flex justify-content-end">
                                 <div class="form-check me-3">
