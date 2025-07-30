@@ -12,15 +12,10 @@ class PenawaranController extends Controller
      * Display a listing of the resource.
      * 
      */
-    protected string $modelClass = Model::class;
-    public function index()
-    {
-        //
-    }
-
+    protected $model = Model::class;
     public function fetch(Request $request)
     {
-        $model = $this->modelClass;
+        $model = $this->model;
 
         $query = $model::query();
 

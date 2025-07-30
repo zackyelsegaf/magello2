@@ -17,79 +17,84 @@ Route::get('test', function(){
     return view('test.datapermintaan');
 });
 
-Route::prefix('penjualan')->group(function () {
+Route::prefix('modulutama')->group(function () {
 
-    Route::prefix('penawaran')->controller(PenawaranController::class)->group(function () {
-        Route::get('/', 'index')->name('penjualan.penawaran.index');
-        Route::get('/create', 'create')->name('penjualan.penawaran.create');
-        Route::post('/', 'store')->name('penjualan.penawaran.store');
-        Route::get('/{id}/edit', 'edit')->name('penjualan.penawaran.edit');
-        Route::put('/{id}', 'update')->name('penjualan.penawaran.update');
-        Route::delete('/{id}', 'destroy')->name('penjualan.penawaran.destroy');
-        Route::get('/fetch', 'fetch')->name('penjualan.penawaran.fetch');
-    });
+    Route::prefix('penjualan')->group(function () {
 
-    Route::prefix('pesanan')->controller(PesananController::class)->group(function () {
-        Route::get('/', 'index')->name('penjualan.pesanan.index');
-        Route::get('/create', 'create')->name('penjualan.pesanan.create');
-        Route::post('/', 'store')->name('penjualan.pesanan.store');
-        Route::get('/{id}/edit', 'edit')->name('penjualan.pesanan.edit');
-        Route::put('/{id}', 'update')->name('penjualan.pesanan.update');
-        Route::delete('/{id}', 'destroy')->name('penjualan.pesanan.destroy');
-        Route::get('/fetch', 'fetch')->name('penjualan.pesanan.fetch');
-    });
+        Route::prefix('penawaran')->controller(PenawaranController::class)->group(function () {
+            Route::get('/', 'index')->name('penjualan.penawaran.index');
+            Route::get('/create', 'create')->name('penjualan.penawaran.create');
+            Route::post('/', 'store')->name('penjualan.penawaran.store');
+            Route::get('/{id}/edit', 'edit')->name('penjualan.penawaran.edit');
+            Route::put('/{id}', 'update')->name('penjualan.penawaran.update');
+            Route::delete('/{id}', 'destroy')->name('penjualan.penawaran.destroy');
+            Route::get('/fetch', 'fetch')->name('penjualan.penawaran.fetch');
+        });
 
-    Route::prefix('pengiriman')->controller(PengirimanController::class)->group(function () {
-        Route::get('/', 'index')->name('penjualan.pengiriman.index');
-        Route::get('/create', 'create')->name('penjualan.pengiriman.create');
-        Route::post('/', 'store')->name('penjualan.pengiriman.store');
-        Route::get('/{id}/edit', 'edit')->name('penjualan.pengiriman.edit');
-        Route::put('/{id}', 'update')->name('penjualan.pengiriman.update');
-        Route::delete('/{id}', 'destroy')->name('penjualan.pengiriman.destroy');
-        Route::get('/fetch', 'fetch')->name('penjualan.pengiriman.fetch');
-    });
+        Route::prefix('pesanan')->controller(PesananController::class)->group(function () {
+            Route::get('/', 'index')->name('penjualan.pesanan.index');
+            Route::get('/create', 'create')->name('penjualan.pesanan.create');
+            Route::post('/', 'store')->name('penjualan.pesanan.store');
+            Route::get('/{id}/edit', 'edit')->name('penjualan.pesanan.edit');
+            Route::put('/{id}', 'update')->name('penjualan.pesanan.update');
+            Route::delete('/{id}', 'destroy')->name('penjualan.pesanan.destroy');
+            Route::get('/fetch', 'fetch')->name('penjualan.pesanan.fetch');
+        });
 
-    Route::prefix('faktur-penjualan')->controller(FakturController::class)->group(function () {
-        Route::get('/', 'index')->name('penjualan.fakturpenjualan.index');
-        Route::get('/create', 'create')->name('penjualan.fakturpenjualan.create');
-        Route::post('/', 'store')->name('penjualan.fakturpenjualan.store');
-        Route::get('/{id}/edit', 'edit')->name('penjualan.fakturpenjualan.edit');
-        Route::put('/{id}', 'update')->name('penjualan.fakturpenjualan.update');
-        Route::delete('/{id}', 'destroy')->name('penjualan.fakturpenjualan.destroy');
-        Route::get('/fetch', 'fetch')->name('penjualan.fakturpenjualan.fetch');
-    });
+        Route::prefix('pengiriman')->controller(PengirimanController::class)->group(function () {
+            Route::get('/', 'index')->name('penjualan.pengiriman.index');
+            Route::get('/create', 'create')->name('penjualan.pengiriman.create');
+            Route::post('/', 'store')->name('penjualan.pengiriman.store');
+            Route::get('/{id}/edit', 'edit')->name('penjualan.pengiriman.edit');
+            Route::put('/{id}', 'update')->name('penjualan.pengiriman.update');
+            Route::delete('/{id}', 'destroy')->name('penjualan.pengiriman.destroy');
+            Route::get('/fetch', 'fetch')->name('penjualan.pengiriman.fetch');
+        });
 
-    Route::prefix('faktur-penagihan')->controller(FakturPenagihanController::class)->group(function () {
-        Route::get('/', 'index')->name('penjualan.fakturpenagihan.index');
-        Route::get('/create', 'create')->name('penjualan.fakturpenagihan.create');
-        Route::post('/', 'store')->name('penjualan.fakturpenagihan.store');
-        Route::get('/{id}/edit', 'edit')->name('penjualan.fakturpenagihan.edit');
-        Route::put('/{id}', 'update')->name('penjualan.fakturpenagihan.update');
-        Route::delete('/{id}', 'destroy')->name('penjualan.fakturpenagihan.destroy');
-        Route::get('/fetch', 'fetch')->name('penjualan.fakturpenagihan.fetch');
-    });
+        Route::prefix('faktur-penjualan')->controller(FakturController::class)->group(function () {
+            Route::get('/', 'index')->name('penjualan.fakturpenjualan.index');
+            Route::get('/create', 'create')->name('penjualan.fakturpenjualan.create');
+            Route::post('/', 'store')->name('penjualan.fakturpenjualan.store');
+            Route::get('/{id}/edit', 'edit')->name('penjualan.fakturpenjualan.edit');
+            Route::put('/{id}', 'update')->name('penjualan.fakturpenjualan.update');
+            Route::delete('/{id}', 'destroy')->name('penjualan.fakturpenjualan.destroy');
+            Route::get('/fetch', 'fetch')->name('penjualan.fakturpenjualan.fetch');
+        });
 
-    Route::prefix('penerimaan')->controller(PenerimaanController::class)->group(function () {
-        Route::get('/', 'index')->name('penjualan.penerimaan.index');
-        Route::get('/create', 'create')->name('penjualan.penerimaan.create');
-        Route::post('/', 'store')->name('penjualan.penerimaan.store');
-        Route::get('/{id}/edit', 'edit')->name('penjualan.penerimaan.edit');
-        Route::put('/{id}', 'update')->name('penjualan.penerimaan.update');
-        Route::delete('/{id}', 'destroy')->name('penjualan.penerimaan.destroy');
-        Route::get('/fetch', 'fetch')->name('penjualan.penerimaan.fetch');
-    });
+        Route::prefix('faktur-penagihan')->controller(FakturPenagihanController::class)->group(function () {
+            Route::get('/', 'index')->name('penjualan.fakturpenagihan.index');
+            Route::get('/create', 'create')->name('penjualan.fakturpenagihan.create');
+            Route::post('/', 'store')->name('penjualan.fakturpenagihan.store');
+            Route::get('/{id}/edit', 'edit')->name('penjualan.fakturpenagihan.edit');
+            Route::put('/{id}', 'update')->name('penjualan.fakturpenagihan.update');
+            Route::delete('/{id}', 'destroy')->name('penjualan.fakturpenagihan.destroy');
+            Route::get('/fetch', 'fetch')->name('penjualan.fakturpenagihan.fetch');
+        });
 
-    Route::prefix('retur')->controller(ReturController::class)->group(function () {
-        Route::get('/', 'index')->name('penjualan.retur.index');
-        Route::get('/create', 'create')->name('penjualan.retur.create');
-        Route::post('/', 'store')->name('penjualan.retur.store');
-        Route::get('/{id}/edit', 'edit')->name('penjualan.retur.edit');
-        Route::put('/{id}', 'update')->name('penjualan.retur.update');
-        Route::delete('/{id}', 'destroy')->name('penjualan.retur.destroy');
-        Route::get('/fetch', 'fetch')->name('penjualan.retur.fetch');
+        Route::prefix('penerimaan')->controller(PenerimaanController::class)->group(function () {
+            Route::get('/', 'index')->name('penjualan.penerimaan.index');
+            Route::get('/create', 'create')->name('penjualan.penerimaan.create');
+            Route::post('/', 'store')->name('penjualan.penerimaan.store');
+            Route::get('/{id}/edit', 'edit')->name('penjualan.penerimaan.edit');
+            Route::put('/{id}', 'update')->name('penjualan.penerimaan.update');
+            Route::delete('/{id}', 'destroy')->name('penjualan.penerimaan.destroy');
+            Route::get('/fetch', 'fetch')->name('penjualan.penerimaan.fetch');
+        });
+
+        Route::prefix('retur')->controller(ReturController::class)->group(function () {
+            Route::get('/', 'index')->name('penjualan.retur.index');
+            Route::get('/create', 'create')->name('penjualan.retur.create');
+            Route::post('/', 'store')->name('penjualan.retur.store');
+            Route::get('/{id}/edit', 'edit')->name('penjualan.retur.edit');
+            Route::put('/{id}', 'update')->name('penjualan.retur.update');
+            Route::delete('/{id}', 'destroy')->name('penjualan.retur.destroy');
+            Route::get('/fetch', 'fetch')->name('penjualan.retur.fetch');
+        });
+
     });
 
 });
+
 // Route::prefix('penjualan')->controller(PenjualanController::class)->group(function () {
 
 //     Route::prefix('fetch')->group(function () {

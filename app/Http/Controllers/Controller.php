@@ -26,7 +26,8 @@ class Controller extends BaseController
 
     public function __construct()
     {
-        $this->auth = Auth::id(); // Assign current user's ID at runtime
+        $this->getRoutePrefix();
+        $this->auth = Auth::id();
     }
 
     protected $segment;
@@ -58,14 +59,10 @@ class Controller extends BaseController
             $this->path = Str::kebab($modelName);
         }
 
-        // Simpan nama model dalam lowercase
-        $this->model = $this->path;
-
         // Ambil segment kedua dari URL (misalnya: /admin/terapis -> "terapis")
-        $this->segment = Request::segment(2);
+        $this->segment = Request::segment(3);
 
         // Format segment jadi judul (misalnya "terapis" → "Terapis", "paket-pengobatan" → "Paket Pengobatan")
-        $this->title = ucwords(str_replace('-', ' ', $this->segment));
     }
     protected $data = [];
 
@@ -86,25 +83,24 @@ class Controller extends BaseController
         $this->data['tipe_barang'] = TipeBarang::get();
         $this->data['kategori_barang'] = KategoriBarang::get();
         $this->data['tipe_persediaan'] = TipePersediaan::get();
-        $this->data['title'] = $this->path;
-        $this->data['createRoute'] = route("penjualan.$this->path.create");
-        $this->data['fetchRoute'] = route("penjualan.$this->path.fetch");
+        $this->data['title'] = $this->route;
+        $this->data['snake'] = $this->path;
+        $this->data['segment'] = $this->segment;
+        // $this->data['createRoute'] = $this->routeCreate();
+        // $this->data['fetchRoute'] = $this->routefetch();
     }
 
-    public function indexView()
+    public function index()
     {
         $this->NeededIndex();
-        return view("modulutama.penjualan.$this->path.data", $this->data);
+        return dd("modulutama.penjualan.$this->path.data", $this->data);
     }
 
     protected function RefCreate()
     {
         $this->data['nama_barang'] = DB::table('barang')->get();
         $this->data['title'] = "Penawaran";
-        $this->data['no'] = PengirimanPenjualan::generateNo();
-        // $this->data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
-        //     return [$item->id => $item->nama_pelanggan];
-        // })->toArray();
+        $this->data['no'] = $this->model::generateNo();
         $this->data['pelanggans'] = Pelanggan::all()->map(fn($item) => [
             'id' => $item->id,
             'name' => $item->nama,
@@ -115,5 +111,15 @@ class Controller extends BaseController
             $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
             return [$item->id => $nama];
         })->toArray();
+    }
+
+    protected function routeCreate(){
+        return route("penjualan.$this->model.create");
+    }
+    protected function routeEdit(){
+        
+    }
+    protected function routefetch(){
+        
     }
 }
