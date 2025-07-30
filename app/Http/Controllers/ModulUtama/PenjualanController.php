@@ -633,8 +633,10 @@ class PenjualanController extends Controller
     // =====================
     public function indexPenerimaan()
     {
-        $this->menu = 'penerimaan';
-        return $this->dataUtama();
+        $this->model = PenerimaanPenjualan::class;
+        $this->path = 'retur';
+        $this->NeededIndex();
+        return view("modulutama.penjualan.$this->path.data", $this->data);
     }
     public function createPenerimaan() {}
     public function storePenerimaan(Request $request) {}

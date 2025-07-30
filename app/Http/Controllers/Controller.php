@@ -8,6 +8,7 @@ use App\Models\Pelanggan;
 use App\Models\TipeBarang;
 use Illuminate\Support\Str;
 use App\Models\KategoriBarang;
+use App\Models\ModulUtama\Penjualan\PengirimanPenjualan;
 use App\Models\TipePersediaan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -90,8 +91,29 @@ class Controller extends BaseController
         $this->data['fetchRoute'] = route("penjualan.$this->path.fetch");
     }
 
-    public function indexView(){
+    public function indexView()
+    {
         $this->NeededIndex();
         return view("modulutama.penjualan.$this->path.data", $this->data);
+    }
+
+    protected function RefCreate()
+    {
+        $this->data['nama_barang'] = DB::table('barang')->get();
+        $this->data['title'] = "Penawaran";
+        $this->data['no'] = PengirimanPenjualan::generateNo();
+        // $this->data['pelanggans'] = Pelanggan::all()->mapWithKeys(function ($item) {
+        //     return [$item->id => $item->nama_pelanggan];
+        // })->toArray();
+        $this->data['pelanggans'] = Pelanggan::all()->map(fn($item) => [
+            'id' => $item->id,
+            'name' => $item->nama,
+            'alamat' => $item->alamat_1,
+            'telepon' => $item->no_telp
+        ])->toArray();
+        $this->data['penjuals'] = Penjual::all()->mapWithKeys(function ($item) {
+            $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
+            return [$item->id => $nama];
+        })->toArray();
     }
 }

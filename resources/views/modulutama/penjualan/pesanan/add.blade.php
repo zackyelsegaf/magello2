@@ -11,14 +11,14 @@
                         {{-- Kolom kiri --}}
                         <div class="d-flex flex-column">
                             <h4 class="card-title mb-2">Data {{ $title }} Penjualan</h4>
-                            <div id="svelte-app"></div>
-                            <div id="autocomplete-component" data-pelanggan='@json($pelanggans)'
-                                data-selected='@json(['id' => 1, 'name' => 'John Doe', 'alamat' => 'Jl. Merdeka'])'></div>
-                            {{-- <x-combo-auto-fill size="sm" id="pelanggan" placeholder="Pilih pelanggan..."
+                            {{-- <div id="svelte-app"></div> --}}
+                            {{-- <div id="autocomplete-component" data-pelanggan='@json($pelanggans)'
+                                data-selected='@json(['id' => 1, 'name' => 'John Doe', 'alamat' => 'Jl. Merdeka'])'></div> --}}
+                            <x-combo-auto-fill size="sm" id="pelanggan" placeholder="Pilih pelanggan..."
                                 :data="$pelanggans" name="pelanggan_id" :autofill="[
                                     'alamat' => 'alamat-input',
                                     'telepon' => 'telp-input',
-                                ]" /> --}}
+                                ]" />
                         </div>
                         <div class="d-flex flex-column">
                             <div class="d-flex justify-content-end">

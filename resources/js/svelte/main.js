@@ -1,25 +1,29 @@
-import Example from './components/Hello.svelte';
-import { mount } from 'svelte';
-
+import Example from "./components/Hello.svelte";
+import { mount } from "svelte";
+import AutoCompleteInput from "./components/AutoCompleteInput.svelte";
 
 // Mount ke elemen HTML yang ada di Blade
 // Mount komponen ke elemen HTML
+
+const svelteApp = document.getElementById("svelte-app");
+
+if (svelteApp)
 mount(Example, {
-	target: document.getElementById('svelte-app'),
-	props: {
-		// kirim props jika perlu, contoh:
-		name: "cek"
-	}
+    target: svelteApp,
+    props: {
+        // kirim props jika perlu, contoh:
+        name: "cek",
+    },
 });
 
-import AutoCompleteInput from './components/AutoCompleteInput.svelte';
+const el = document.getElementById("autocomplete-component");
 
-const el = document.getElementById('autocomplete-component');
-
-mount(Example, {
-	target: el,
-	props: {
-		// kirim props jika perlu, contoh:
-		name: "cek"
-	}
-});
+if (el) {
+    mount(AutoCompleteInput, {
+        target: el,
+        props: {
+            // kirim props jika perlu, contoh:
+            name: "cek",
+        },
+    });
+}

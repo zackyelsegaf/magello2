@@ -155,12 +155,17 @@
                                 data: 'id',
                                 visible: false
                             },
-
                             {
-                                data: 'no_pesanan'
+                                data: 'no_pengiriman'
                             },
                             {
-                                data: 'tgl_pesanan'
+                                data: 'tgl_pengiriman'
+                            },
+                            {
+                                data: 'no_po'
+                            },
+                            {
+                                data: 'status'
                             },
                             {
                                 data: 'no_pelanggan'
@@ -169,65 +174,34 @@
                                 data: 'nama_pelanggan'
                             },
                             {
-                                data: 'status'
-                            },
-                            {
-                                data: 'no_po'
-                            },
-
-                            {
-                                data: 'nilai_diskon'
-                            },
-                            {
-                                data: 'total_pajak'
-                            },
-                            {
-                                data: 'nilai_pajak_1'
-                            },
-                            {
-                                data: 'nilai_pajak_2'
-                            },
-                            {
-                                data: 'nilai_pesanan'
-                            },
-                            {
-                                data: 'uang_muka'
-                            },
-                            {
-                                data: 'uang_muka_terpakai'
-                            },
-                            {
                                 data: 'deskripsi'
                             },
-
                             {
                                 data: 'pengguna'
-                            },
+                            }, // asumsi: diolah dari relasi `user_id`
                             {
                                 data: 'cabang'
-                            },
+                            }, // asumsi: diolah dari relasi `cabang_id`
                             {
                                 data: 'no_persetujuan'
                             },
-
                             {
                                 data: 'catatan_pemeriksaan',
-                                render: data => data ? '<input type="checkbox" checked>' :
-                                    '<input type="checkbox">'
+                                render: data => data ? '<input type="checkbox" checked disabled>' :
+                                    '<input type="checkbox" disabled>'
                             },
                             {
                                 data: 'tindak_lanjut',
-                                render: data => data ? '<input type="checkbox" checked>' :
-                                    '<input type="checkbox">'
+                                render: data => data ? '<input type="checkbox" checked disabled>' :
+                                    '<input type="checkbox" disabled>'
                             },
                             {
                                 data: 'disetujui',
-                                render: data => data ? '<input type="checkbox" checked>' :
-                                    '<input type="checkbox">'
+                                render: data => data ? '<input type="checkbox" checked disabled>' :
+                                    '<input type="checkbox" disabled>'
                             },
                             {
-                                data: 'urgensi',
-                                render: data => data
+                                data: 'urgensi'
                             }
                         ]
                     });

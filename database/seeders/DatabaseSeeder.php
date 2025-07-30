@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'superadmin@gmail.com',
         ]);
 
+        \App\Models\Barang::factory()->count(50)->create();
+
         // Panggil seeder lain
         $this->call([
             RolePermissionSeeder::class,
