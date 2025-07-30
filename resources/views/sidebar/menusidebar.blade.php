@@ -154,6 +154,10 @@
                 <li class="submenu"> <a href="#"></i><i class="fas fa-book ml-0 mr-2"></i><span> Buku Besar </span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li><a class="{{ set_active(['akun/list/page']) }}" href="{{ route('akun/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Daftar Akun</a></li>
+                        <li><a @class(['active' => request()->is('jurnal/*')]) href="{{ route('jurnal/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Jurnal Umum</a></li>
+                        <li><a @class(['active' => request()->is('anggaranakun/*')]) href="{{ route('anggaranakun/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Anggaran Akun</a></li>
+                        <li><a @class(['active' => request()->is('pembayaranlainnya/*')]) href="{{ route('pembayaranlainnya/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Pembayaran Lainnya</a></li>
+                        <li><a @class(['active' => request()->is('penerimaanlainnya/*')]) href="{{ route('penerimaanlainnya/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Penerimaan Lainnya</a></li>
                         {{-- <li><a class="{{ set_active(['gudang/list/page']) }}" href="{{ route('gudang/list/page') }}">Gudang</a></li>
                         <li><a class="{{ set_active(['kategoribarang/list/page']) }}" href="{{ route('kategoribarang/list/page') }}">Kategori Barang</a></li> --}}
                         {{-- <li><a class="{{ set_active(['pegawai/list/page']) }}" href="{{ route('pegawai/list/page') }}">Pegawai</a></li> --}}

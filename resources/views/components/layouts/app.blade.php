@@ -178,7 +178,6 @@
     {{-- <script src="{{ URL::to('assets/plugins/morris/morris.min.js') }}"></script>
     <script src="{{ URL::to('assets/js/chart.morris.js') }}"></script> --}}
     @stack('scripts')
-    {{ $scripts }}
     @livewireScripts
 </body>
 
