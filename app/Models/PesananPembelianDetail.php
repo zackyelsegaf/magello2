@@ -39,6 +39,6 @@ class PesananPembelianDetail extends Model
 
     public function rincian()
     {
-        return $this->belongsTo(PesananPembelian::class);
+        return $this->belongsTo(PesananPembelian::class, 'pesanan_pembelian_id');
     }
 }

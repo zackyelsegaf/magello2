@@ -67,4 +67,8 @@ class Pemasok extends Model
             }
         });
     }
+
+    public function pesanan(){
+        return $this->hasMany(PesananPembelian::class, 'no_pemasok', 'pemasok_id');
+    }
 }

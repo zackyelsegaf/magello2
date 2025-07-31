@@ -1,6 +1,6 @@
 @extends('laporan.semua')
 @section('menu_laporan')
-    <form method="post">
+    <form method="post" target="_blank">
         @csrf
         <div class="tab-content profile-tab-cont">
             <div class="profile-menu">
@@ -19,7 +19,10 @@
                                     <label for="" class="h6">From</label>
                                 </div>
                                 <div class="col-md-10">
-                                    <input type="date" name="" id="" class="form-control">
+                                    <input type="date" name="from" id="" class="form-control @error('from') is-invalid @enderror" value="{{ old('from') }}">
+                                    @foreach ($errors->get('from') as $err)
+                                        <div class="invalid-feedback">{{ $err }}</div>
+                                    @endforeach
                                 </div>
                             </div> 
                         </div>
@@ -29,7 +32,10 @@
                                     <label for="" class="h6">To</label>
                                 </div>
                                 <div class="col-md-10">
-                                    <input type="date" name="" id="" class="form-control">
+                                    <input type="date" name="to" id="" class="form-control @error('to') is-invalid @enderror" value="{{ old('to') }}">
+                                    @foreach ($errors->get('to') as $err)
+                                        <div class="invalid-feedback">{{ $err }}</div>
+                                    @endforeach
                                 </div>
                             </div> 
                         </div>

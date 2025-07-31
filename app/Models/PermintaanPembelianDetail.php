@@ -27,6 +27,6 @@ class PermintaanPembelianDetail extends Model
 
     public function rincian()
     {
-        return $this->belongsTo(PermintaanPembelian::class);
+        return $this->belongsTo(PermintaanPembelian::class, 'permintaan_pembelian_id');
     }
 }

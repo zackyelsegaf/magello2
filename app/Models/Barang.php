@@ -54,4 +54,11 @@ class Barang extends Model
         'harga_beli',
         'merk_barang',
     ];
+
+    public function detailPermintaan(){
+        return $this->hasMany(PermintaanPembelianDetail::class, 'no_barang', 'no_barang');
+    }
+    public function detailPesanan(){
+        return $this->hasMany(PesananPembelianDetail::class, 'no_barang', 'no_barang');
+    }
 }
