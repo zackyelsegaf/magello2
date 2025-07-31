@@ -5,7 +5,7 @@ namespace App\Http\Controllers\ModulUtama\Penjualan;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class FakturController extends Controller
+class PenerimaanPenjualanController extends Controller
 {
     /**
      * Display a listing of the resource.

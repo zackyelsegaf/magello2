@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ModulUtama\Penjualan;
 
 use App\Http\Controllers\Controller;
+use App\Models\ModulUtama\Penjualan\FakturPenagihan;
 use Illuminate\Http\Request;
 
 class FakturPenagihanController extends Controller
@@ -12,7 +13,7 @@ class FakturPenagihanController extends Controller
      */
     public function index()
     {
-        //
+        return 'FakturPenagihan';
     }
 
     /**

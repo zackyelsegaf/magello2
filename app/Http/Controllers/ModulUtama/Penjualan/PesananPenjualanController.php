@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\ModulUtama\Penjualan;
 
-use App\Http\Controllers\Controller;
-use App\Models\ModulUtama\Penjualan\PenawaranPenjualan as Model;
+use App\Models\Syarat;
+use App\Models\Penjual;
+use App\Models\Pelanggan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\ModulUtama\Penjualan\PesananPenjualan;
+use App\Models\ModulUtama\Penjualan\PesananPenjualan as Model;
+use App\Http\Controllers\ModulUtama\Penjualan\BasePenjualanController;
 
-class PenawaranController extends Controller
+class PesananPenjualanController extends BasePenjualanController
 {
     /**
      * Display a listing of the resource.
-     * 
      */
     protected $model = Model::class;
     public function fetch(Request $request)
@@ -54,7 +58,25 @@ class PenawaranController extends Controller
      */
     public function create()
     {
-        //
+        $data['nama_barang'] = DB::table('barang')->get();
+        $data['title'] = "Pesanan";
+        $data['no'] = PesananPenjualan::generateNo();
+        $data['pelanggans'] = Pelanggan::all()->map(fn($item) => [
+            'id' => $item->id,
+            'name' => $item->nama,
+            'alamat' => $item->alamat_1,
+            'telepon' => $item->no_telp
+        ])->toArray();
+        $data['penjuals'] = Penjual::all()->mapWithKeys(function ($item) {
+            $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
+            return [$item->id => $nama];
+        })->toArray();
+        $data['syaratPembayaran'] = Syarat::all()->mapWithKeys(function ($item) {
+            return [$item->id => $item->nama];
+        })->toArray();
+        $data['storeRoute'] = route('penjualan.pesanan_penjualan.store');
+        $data['routeIndex'] = $this->routeIndex();
+        return view("modulutama.penjualan.pesanan-penjualan.add", $data);
     }
 
     /**

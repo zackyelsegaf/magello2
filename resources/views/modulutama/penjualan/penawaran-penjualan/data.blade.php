@@ -271,7 +271,7 @@
                         if ($(e.target).is('input[type="checkbox"], label')) return;
                         const data = $('#PermintaanList').DataTable().row(this).data();
                         if (data) {
-                            const url = "{{ route('penjualan.penawaran.edit', ['id' => '__ID__']) }}".replace(
+                            const url = "{{ route('penjualan.penawaran_penjualan.edit', ['id' => '__ID__']) }}".replace(
                                 '__ID__', data.id);
                             window.location.href = url;
                         }
