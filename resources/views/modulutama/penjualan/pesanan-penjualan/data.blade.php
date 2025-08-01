@@ -1,6 +1,6 @@
 <x-layout.main>
     <x-slot:title>
-        {{ ucfirst($title) }} Penjualan
+        {{ ucfirst($title) }}
     </x-slot>
     <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
         <div class="content container-fluid">
@@ -8,7 +8,7 @@
                 <div class="row align-items-center">
                     <div class="col">
                         <div class="mt-5">
-                            <h4 class="card-title float-left mt-2">Data {{ ucfirst($title) }} Penjualan</h4>
+                            <h4 class="card-title float-left mt-2">Data {{ ucfirst($title) }}</h4>
                         </div>
                     </div>
                 </div>

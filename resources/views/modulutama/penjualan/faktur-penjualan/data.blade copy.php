@@ -23,22 +23,17 @@
                     <div class="table-responsive" style="width: 100%;">
                         <table class="table table-striped table-bordered table-hover table-center mb-0"
                             id="PermintaanList">
-                            <thead class="thead-dark">
+                            <thead>
                                 <tr>
-                                    <th><input type="checkbox" id="select_all"></th>
                                     <th>No</th>
-                                    <th hidden>ID</th>
-                                    <th>No. Penawaran</th>
-                                    <th>Tanggal Penawaran</th>
+                                    <th>No. Faktur</th>
+                                    <th>Tgl Faktur</th>
+                                    <th>Deskripsi</th>
+                                    <th>Status</th>
+                                    <th>Nilai Faktur</th>
                                     <th>No. Pelanggan</th>
                                     <th>Nama Pelanggan</th>
-                                    <th>Status</th>
-                                    <th>Nilai Diskon</th>
-                                    <th>Total Pajak</th>
-                                    <th>Nilai Pajak 1</th>
-                                    <th>Nilai Pajak 2</th>
-                                    <th>Nilai Penawaran</th>
-                                    <th>Deskripsi</th>
+                                    <th>Uang Muka</th>
                                     <th>Pengguna</th>
                                     <th>Cabang</th>
                                     <th>No. Persetujuan</th>
@@ -49,7 +44,6 @@
                                 </tr>
                             </thead>
                         </table>
-
                     </div>
                 </div>
 
@@ -71,7 +65,7 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-            <script>
+            <script type="text/javascript">
                 $(document).ready(function() {
                     var table = $('#PermintaanList').DataTable({
                         processing: true,
@@ -80,29 +74,14 @@
                         searching: false,
                         ajax: {
                             url: '{{ $fetchRoute }}',
-                            data: function(d) {
-                                d.quoteno = $('#keyword').val();
-                                d.description = $('input[name="description"]').val();
-                                d.pelanggan_id = $('input[name="pelanggan_id"]').val();
-                                d.matauang_id = $('input[name="matauang_id"]').val();
-                                d.use_date = $('input[name="use_date"]').is(':checked') ? 1 : 0;
-                                d.date_from = $('input[name="date_from"]').val();
-                                d.date_to = $('input[name="date_to"]').val();
-
-                                d.status = [];
-                                $('input[name="status[]"]:checked').each(function() {
-                                    d.status.push($(this).val());
-                                });
-
-                                d.audit_notes = [];
-                                $('input[name="audit_notes[]"]:checked').each(function() {
-                                    d.audit_notes.push($(this).val());
-                                });
-
-                                // Jika kamu punya Easy Branch aktif, tinggal uncomment:
-                                // d.easy_branch = $('select[name="easy_branch"]').val();
-                            }
-
+                            // data: function(d) {
+                            //     d.nama_barang = $('input[name=nama_barang]').val(),
+                            //     d.no_barang = $('input[name=no_barang]').val(),
+                            //     d.kategori_barang = $('select[name=kategori_barang]').val(),
+                            //     d.tipe_barang = $('select[name=tipe_barang]').val(),
+                            //     d.tipe_persediaan = $('select[name=tipe_persediaan]').val(),
+                            //     d.dihentikan = $('input[name=dihentikan]:checked').val();
+                            // }
                         },
                         dom: "<'row'<'col-sm-12'B>>" +
                             "<'row'<'col-sm-12 mt-3'tr>>" +
@@ -146,24 +125,24 @@
                             },
                         ],
                         columns: [{
-                                data: 'checkbox',
-                                orderable: false,
-                                searchable: false
-                            },
-                            {
                                 data: 'DT_RowIndex',
                                 orderable: false,
                                 searchable: false
                             },
                             {
-                                data: 'id',
-                                visible: false
+                                data: 'no_faktur'
                             },
                             {
-                                data: 'no_penawaran'
+                                data: 'tgl_faktur'
                             },
                             {
-                                data: 'tgl_penawaran'
+                                data: 'deskripsi'
+                            },
+                            {
+                                data: 'status'
+                            },
+                            {
+                                data: 'nilai_faktur'
                             },
                             {
                                 data: 'no_pelanggan'
@@ -172,32 +151,13 @@
                                 data: 'nama_pelanggan'
                             },
                             {
-                                data: 'status'
-                            },
-                            {
-                                data: 'nilai_diskon'
-                            },
-                            {
-                                data: 'total_pajak'
-                            },
-                            {
-                                data: 'nilai_pajak_1'
-                            },
-                            {
-                                data: 'nilai_pajak_2'
-                            },
-                            {
-                                data: 'nilai_penawaran'
-                            },
-                            {
-                                data: 'deskripsi'
+                                data: 'uang_muka'
                             },
                             {
                                 data: 'pengguna'
-                            }, // sudah diisi di backend sebagai user.name
+                            },
                             {
-                                data: 'user.department',
-                                defaultContent: '-' // jika belum ada
+                                data: 'cabang'
                             },
                             {
                                 data: 'no_persetujuan'
@@ -218,13 +178,11 @@
                                     '<input type="checkbox">'
                             },
                             {
-                                data: 'urgensi',
-                                render: data => data ?? '-'
+                                data: 'urgensi'
                             }
                         ]
                     });
 
-                    // Untuk perubahan lainnya
                     $('#filterBox').on('change', 'input, select', function() {
                         $('#PermintaanList').DataTable().draw();
                     });
@@ -271,7 +229,7 @@
                         if ($(e.target).is('input[type="checkbox"], label')) return;
                         const data = $('#PermintaanList').DataTable().row(this).data();
                         if (data) {
-                            const url = "{{ route('penjualan.penawaran_penjualan.edit', ['id' => '__ID__']) }}".replace(
+                            const url = "{{ route('penjualan.penawaran.edit', ['id' => '__ID__']) }}".replace(
                                 '__ID__', data.id);
                             window.location.href = url;
                         }

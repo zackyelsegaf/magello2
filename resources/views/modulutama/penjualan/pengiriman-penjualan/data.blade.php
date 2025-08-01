@@ -1,6 +1,6 @@
 <x-layout.main>
     <x-slot:title>
-        {{ ucfirst($title) }} Penjualan
+        {{ ucfirst($title) }}
     </x-slot>
     <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
         <div class="content container-fluid">
@@ -8,7 +8,7 @@
                 <div class="row align-items-center">
                     <div class="col">
                         <div class="mt-5">
-                            <h4 class="card-title float-left mt-2">Data {{ ucfirst($title) }} Penjualan</h4>
+                            <h4 class="card-title float-left mt-2">Data {{ ucfirst($title) }}</h4>
                         </div>
                     </div>
                 </div>
@@ -16,7 +16,7 @@
             <div class="row">
                 <div id="filterBox" class="col-md-2" style="display: block;">
                     <x-form.filter-form>
-                        <x-slot:submodul>{{ ucfirst($title) }}</x-slot:submodul>
+                        <x-slot:submodul>{{ $title }}</x-slot:submodul>
                     </x-form.filter-form>
                 </div>
                 <div id="tableContainer" class="col-md-10" style="transition: width 0.3s;">
@@ -253,7 +253,7 @@
                         if ($(e.target).is('input[type="checkbox"], label')) return;
                         const data = $('#PermintaanList').DataTable().row(this).data();
                         if (data) {
-                            const url = "{{ route('penjualan.penawaran.edit', ['id' => '__ID__']) }}".replace(
+                            const url = "{{ route('penjualan.pengiriman_penjualan.edit', ['id' => '__ID__']) }}".replace(
                                 '__ID__', data.id);
                             window.location.href = url;
                         }

@@ -1,6 +1,6 @@
 <x-layout.main>
     <x-slot:title>
-        {{ ucfirst($title) }} Penjualan
+        {{ ucfirst($title) }}
     </x-slot>
     <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
         <div class="content container-fluid">
@@ -8,7 +8,7 @@
                 <div class="row align-items-center">
                     <div class="col">
                         <div class="mt-5">
-                            <h4 class="card-title float-left mt-2">Data {{ ucfirst($title) }} Penjualan</h4>
+                            <h4 class="card-title float-left mt-2">Data {{ ucfirst($title) }}</h4>
                         </div>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                     <div class="table-responsive" style="width: 100%;">
                         <table class="table table-striped table-bordered table-hover table-center mb-0"
                             id="PermintaanList">
-                            <thead>
+                            <thead class="thead-dark">
                                 <tr>
                                     <th>No</th>
                                     <th>No. Faktur</th>
@@ -44,6 +44,7 @@
                                 </tr>
                             </thead>
                         </table>
+
                     </div>
                 </div>
 
@@ -183,15 +184,10 @@
                         ]
                     });
 
-                    $('#filterBox').on('change', 'input, select', function() {
-                        $('#PermintaanList').DataTable().draw();
+                    $('form').on('submit', function(e) {
+                        e.preventDefault();
+                        table.draw();
                     });
-
-                    // $('form').on('submit', function(e) {
-                    //     e.preventDefault();
-                    //     table.draw();
-                    // });
-
 
                     $('#select_all').on('click', function() {
                         $('.permintaan_checkbox').prop('checked', this.checked);
@@ -229,7 +225,7 @@
                         if ($(e.target).is('input[type="checkbox"], label')) return;
                         const data = $('#PermintaanList').DataTable().row(this).data();
                         if (data) {
-                            const url = "{{ route('penjualan.penawaran.edit', ['id' => '__ID__']) }}".replace(
+                            const url = "{{ route('penjualan.faktur_penagihan.edit', ['id' => '__ID__']) }}".replace(
                                 '__ID__', data.id);
                             window.location.href = url;
                         }

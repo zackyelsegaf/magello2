@@ -1,6 +1,6 @@
 <x-layout.main>
     <x-slot:title>
-        {{ $title }} Penjualan
+        {{ $title }}
     </x-slot>
     <form id="form">
         <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
@@ -10,7 +10,7 @@
                     <div class="d-flex justify-content-between align-items-start w-100">
                         {{-- Kolom kiri --}}
                         <div class="d-flex flex-column">
-                            <h4 class="card-title mb-2">Data {{ $title }} Penjualan</h4>
+                            <h4 class="card-title mb-2">Data {{ $title }}</h4>
                             {{-- <div id="svelte-app"></div> --}}
                             {{-- <div id="autocomplete-component" data-pelanggan='@json($pelanggans)'
                                 data-selected='@json(['id' => 1, 'name' => 'John Doe', 'alamat' => 'Jl. Merdeka'])'></div> --}}
