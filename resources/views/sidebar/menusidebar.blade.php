@@ -80,6 +80,31 @@
                         <li><a class="{{ set_active(['pajak/list/page']) }}" href="{{ route('pajak/list/page') }}"><i class="fas fa-money-check-alt mr-3"></i>Pajak</a></li>
                     </ul>
                 </li>
+
+                <li class="submenu"> <a href="#"></i><i class="fas fa-database mr-2"></i><span> Marketing </span> <span class="menu-arrow"></span></a>
+                    <ul class="submenu_class" style="display: none;">
+                        <li><a class="{{ set_active(['prospek/list/page']) }}" href="{{ route('prospek/list/page') }}"><i class="fas fa-money-check-alt mr-3"></i>Prospek</a></li>
+                        <li><a class="{{ set_active(['konsumenmarketing/list/page']) }}" href="{{ route('konsumenmarketing/list/page') }}"><i class="fas fa-warehouse ml-0 mr-3"></i>Konsumen</a></li>
+                        <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Perumahan </span> <span class="menu-arrow"></span></a>
+                            <ul class="submenu_class" style="display: none;">
+                                <li><a class="{{ set_active(['siteplane/page'], 1) }}" href="{{ route('siteplane/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Site Plan</a></li>
+                                <li><a class="{{ set_active(['klusterperumahan/list/page'], 1) }}" href="{{ route('klusterperumahan/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Kluster/Perumahan</a></li>
+                                <li><a class="{{ set_active(['kavling/list/page'], 1) }}" href="{{ route('kavling/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Kavling</a></li>
+                                <li><a class="{{ set_active(['fasum/list/page'], 1) }}" href="{{ route('fasum/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Fasum</a></li>
+                                <li><a class="{{ set_active(['fasos/list/page'], 1) }}" href="{{ route('fasos/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Fasos</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Tiket Kostumer </span> <span class="menu-arrow"></span></a>
+                            <ul class="submenu_class" style="display: none;">
+                                <li><a class="{{ set_active(['kategoritiketkostumer/list/page'], 1) }}" href="{{ route('kategoritiketkostumer/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Kategori Tiket Kostumer</a></li>
+                                <li><a class="{{ set_active(['tiketkostumer/list/page'], 1) }}" href="{{ route('tiketkostumer/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Tiket Kostumer</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="{{ set_active(['databooking/list/page']) }}" href="{{ route('databooking/list/page') }}"><i class="fas fa-users ml-0 mr-3"></i>Data Booking</a></li>
+                        <li><a class="{{ set_active(['suratperintahpembangunan/list/page']) }}" href="{{ route('suratperintahpembangunan/list/page') }}"><i class="fas fa-warehouse ml-0 mr-3"></i>Surat Perintah Pembangunan</a></li>
+                    </ul>
+                </li>
+
                 <li class="submenu"> <a href="#"></i><i class="fas fa-boxes mr-2"></i><span> Modul Utama </span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Pembelian </span> <span class="menu-arrow"></span></a>
@@ -127,7 +152,7 @@
                                 <li><a class="{{ set_active(['barangpergudang/list/page']) }}" href="{{ route('barangpergudang/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Barang per Gudang</a></li>
                                 <li><a class="{{ set_active(['pembiayaanpesanan/list/page']) }}" href="{{ route('pembiayaanpesanan/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Pembiayaan Pesanan</a></li>
                                 <li><a class="{{ set_active(['pencatatannomorserial/list/page']) }}" href="{{ route('pencatatannomorserial/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Pencatatan Nomor Serial</a></li>
-                                
+
                             </ul>
                         </li>
                         <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Aktiva <span class="badge bg-light text-dark">New!</span></span> <span class="menu-arrow"></span></a>
@@ -197,7 +222,7 @@
                 </li>
                 <li class="submenu">
                     <a href="#">
-                        <i class="fas fa-user mr-2"></i><span>Pengguna </span> 
+                        <i class="fas fa-user mr-2"></i><span>Pengguna </span>
                         <span class="menu-arrow"></span>
                     </a>
                     <ul class="submenu_class" style="display: none;">
