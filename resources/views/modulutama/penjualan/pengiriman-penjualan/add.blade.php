@@ -106,14 +106,12 @@
                                                     <th style="width: 250px;">Deskripsi Barang</th>
                                                     <th style="width: 100px;">Kts</th>
                                                     <th style="width: 100px;">Satuan</th>
-                                                    <th style="width: 150px;">Harga Satuan</th>
                                                     <th style="width: 100px;">Disk %</th>
-                                                    <th style="width: 100px;">Pajak</th>
-                                                    <th style="width: 150px;">Jumlah</th>
-                                                    <th style="width: 100px;">Kts Dipesan</th>
-                                                    <th style="width: 100px;">Kts Dikirim</th>
                                                     <th style="width: 100px;">Departemen</th>
                                                     <th style="width: 200px;">Proyek</th>
+                                                    <th style="width: 200px;">No Pesanan</th>
+                                                    <th style="width: 200px;">No Penawaran</th>
+                                                    <th style="width: 200px;">Gudang</th>
                                                     <th style="width: 100px;">&nbsp;</th>
                                                 </tr>
                                             </thead>
