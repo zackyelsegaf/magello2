@@ -17,13 +17,25 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Nama Mata Uang</label>
-                                    <input type="text" class="form-control form-control-sm  @error('nama') is-invalid @enderror"name="nama" value="{{ old('nama') }}">
+                                    <input type="text"
+                                        class="form-control form-control-sm  @error('nama') is-invalid @enderror"name="nama"
+                                        oninput="formatInput(this)" value="{{ old('nama') }}">
+                                    <input type="hidden" id="clean_nilai_tukar" name="clean_nilai_tukar"
+                                        value="{{ old('nilai_tukar') }}">
+
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Nilai Tukar</label>
-                                    <input type="text" class="form-control form-control-sm  @error('nilai_tukar') is-invalid @enderror"name="nilai_tukar" value="{{ old('nilai_tukar') }}">
+                                    <div class="input-group">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Rp</span>
+                                        </div>
+                                        <input type="text"
+                                        class="form-control form-control-sm  @error('nilai_tukar') is-invalid @enderror"name="nilai_tukar" placeholder="contoh: 100.000.000"
+                                         value="{{ old('nilai_tukar') }}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -33,8 +45,11 @@
                     <div class="mb-15 row align-items-center">
                         <div class="col">
                             <div class="">
-                                <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-check mr-2"></i>Simpan</button>
-                                <a href="{{ route('matauang/list/page') }}" class="btn btn-primary float-left veiwbutton ml-3"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                                <button type="submit" class="btn btn-primary buttonedit"><i
+                                        class="fa fa-check mr-2"></i>Simpan</button>
+                                <a href="{{ route('matauang/list/page') }}"
+                                    class="btn btn-primary float-left veiwbutton ml-3"><i
+                                        class="fas fa-chevron-left mr-2"></i>Batal</a>
                             </div>
                         </div>
                     </div>
@@ -42,8 +57,7 @@
             </form>
         </div>
     </div>
-    @section('script')
-    
-    @endsection
-    
+@section('script')
+@endsection
+
 @endsection

@@ -41,14 +41,14 @@ class PelangganController extends Controller
     public function saveRecordPelanggan(Request $request)
     {
         $rules = [
-            'nama_pelanggan'             => 'nullable|string|max:255',
-            'nik_pelanggan'              => 'nullable|string|max:255',
-            'tanggal_lahir'              => 'nullable|string|max:255',
-            'tempat_lahir'               => 'nullable|string|max:255',
-            'agama'                      => 'nullable|string|max:255',
-            'jenis_kelamin'              => 'nullable|string|max:255',
-            'nama_ayah'                  => 'nullable|string|max:255',
-            'nama_ibu'                   => 'nullable|string|max:255',
+            'nama_pelanggan'             => 'string|max:255',
+            'nik_pelanggan'              => 'string|max:255',
+            'tanggal_lahir'              => 'string|max:255',
+            'tempat_lahir'               => 'string|max:255',
+            'agama'                      => 'string|max:255',
+            'jenis_kelamin'              => 'string|max:255',
+            'nama_ayah'                  => 'string|max:255',
+            'nama_ibu'                   => 'string|max:255',
             'npwp_pelanggan'             => 'nullable|string|max:255',
             'nppkp_pelanggan'            => 'nullable|string|max:255',
             'pajak_1_pelanggan'          => 'nullable|string|max:255',
@@ -64,9 +64,9 @@ class PelangganController extends Controller
             'saldo_awal_pelanggan'       => 'nullable|string|max:255',
             'tanggal_pelanggan'          => 'nullable|string|max:255',
             'deskripsi'                  => 'nullable|string|max:255',
-            'status'                     => 'nullable|string|max:255',
+            'status'                     => 'string|max:255',
             'dihentikan'                 => 'nullable|boolean',
-            'alamat_1'                   => 'nullable|string|max:255',
+            'alamat_1'                   => 'string|max:255',
             'alamat_2'                   => 'nullable|string|max:255',
             'alamatpajak_1'              => 'nullable|string|max:255',
             'alamatpajak_2'              => 'nullable|string|max:255',
@@ -75,7 +75,7 @@ class PelangganController extends Controller
             'provinsi'                   => 'nullable|string|max:255',
             'kode_pos'                   => 'nullable|string|max:255',
             'kontak'                     => 'nullable|string|max:255',
-            'no_telp'                    => 'nullable|string|max:255',
+            'no_telp'                    => 'string|max:255',
             'no_fax'                     => 'nullable|string|max:255',
             'email'                      => 'nullable|string|max:255',
             'website'                    => 'nullable|string|max:255',
@@ -182,11 +182,11 @@ class PelangganController extends Controller
         try {
             $pelanggan                 = Pelanggan::findOrFail($id);
             $pelanggan->update($validate);
-            
+
             DB::commit();
             sweetalert()->success('Updated record successfully :)');
-            return redirect()->route('pelanggan/list/page');    
-            
+            return redirect()->route('pelanggan/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Update record fail :)');
@@ -201,7 +201,7 @@ class PelangganController extends Controller
             $ids = $request->ids;
             Pelanggan::whereIn('id', $ids)->delete();
             sweetalert()->success('Data berhasil dihapus :)');
-            return redirect()->route('pelanggan/list/page');    
+            return redirect()->route('pelanggan/list/page');
 
         } catch(\Exception $e) {
             DB::rollback();

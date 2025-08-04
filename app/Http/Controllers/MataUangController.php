@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 
 class MataUangController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $mataUang = MataUang::filterByName($request->nama)->get();
         return view('matauang.listmatauang', compact('mataUang'));
     }
@@ -39,12 +40,19 @@ class MataUangController extends Controller
 
     public function MataUangView($id)
     {
-        $MataUangData = MataUang::where('id',$id)->first();
-        return view('matauang.matauangedit',compact('matauangData'));
+        $MataUangData = MataUang::where('id', $id)->first();
+        return view('matauang.matauangedit', compact('matauangData'));
     }
 
     public function update(Request $request, $id)
     {
+        $raw = $request->input('nilai_tukar');
+        $cleaned = str_replace(['.', ','], ['', '.'], $raw);
+
+        $request->merge([
+            'nilai_tukar' => $cleaned
+        ]);
+
         $request->validate([
             'nama' => 'required|string|max:255',
             'nilai_tukar' => 'required|numeric',
@@ -56,12 +64,11 @@ class MataUangController extends Controller
             $mataUang->nama        = $request->nama;
             $mataUang->nilai_tukar = $request->nilai_tukar;
             $mataUang->save();
-            
+
             DB::commit();
             sweetalert()->success('Ubah Data Berhasil');
-            return redirect()->route('matauang/list/page');    
-            
-        } catch(\Exception $e) {
+            return redirect()->route('matauang/list/page');
+        } catch (\Exception $e) {
             DB::rollback();
             sweetalert()->error('Ubah Data Gagal');
             return redirect()->back();
@@ -83,9 +90,8 @@ class MataUangController extends Controller
             $ids = $request->ids; // Ambil ID dari checkbox
             MataUang::whereIn('id', $ids)->delete();
             sweetalert()->success('Data berhasil Dihapus');
-            return redirect()->route('matauang/list/page');    
-            
-        } catch(\Exception $e) {
+            return redirect()->route('matauang/list/page');
+        } catch (\Exception $e) {
             DB::rollback();
             sweetalert()->error('Hapus Data Gagal');
             \Log::error($e->getMessage());
@@ -103,6 +109,12 @@ class MataUangController extends Controller
     /** Save Record */
     public function saveRecordMataUang(Request $request)
     {
+        $raw = $request->input('nilai_tukar');
+        $cleaned = str_replace(['.', ','], ['', '.'], $raw);
+
+        $request->merge([
+            'nilai_tukar' => $cleaned
+        ]);
         $request->validate([
             'nama'          => 'required|string|max:255',
             'nilai_tukar'   => 'required|numeric',
@@ -116,15 +128,14 @@ class MataUangController extends Controller
         DB::beginTransaction();
         try {
             $matauang = new MataUang;
-            $matauang->nama         = $request->nama;
+            $matauang->nama   = $request->nama;
             $matauang->nilai_tukar  = $request->nilai_tukar;
             $matauang->save();
-            
+
             DB::commit();
             sweetalert()->success('Tambah Data Berhasil');
-            return redirect()->route('matauang/list/page');    
-            
-        } catch(\Exception $e) {
+            return redirect()->route('matauang/list/page');
+        } catch (\Exception $e) {
             DB::rollback();
             sweetalert()->error('Tambah Data Gagal');
             return redirect()->back();
@@ -152,7 +163,7 @@ class MataUangController extends Controller
         if ($namaFilter) {
             $query->where(function ($q) use ($namaFilter) {
                 $q->where('nama', 'like', '%' . $namaFilter . '%')
-                ->orWhere('nilai_tukar', 'like', '%' . $namaFilter . '%');
+                    ->orWhere('nilai_tukar', 'like', '%' . $namaFilter . '%');
             });
         }
 
@@ -167,7 +178,7 @@ class MataUangController extends Controller
         $data_arr = [];
 
         foreach ($records as $key => $record) {
-            $checkbox = '<input type="checkbox" class="matauang_checkbox" value="'.$record->id.'">';
+            $checkbox = '<input type="checkbox" class="matauang_checkbox" value="' . $record->id . '">';
 
             $data_arr[] = [
                 "checkbox"     => $checkbox,
@@ -185,5 +196,4 @@ class MataUangController extends Controller
             "data"            => $data_arr
         ])->header('Content-Type', 'application/json');
     }
-
 }
