@@ -14,6 +14,7 @@
                             <x-combo-auto-fill size="sm" id="pelanggan" placeholder="Pilih pelanggan..."
                                 :data="$pelanggans" name="pelanggan_id" :autofill="[
                                     'alamat' => 'alamat-input',
+                                    'alamat' => 'tagihanke',
                                     'telepon' => 'telp-input',
                                 ]" />
                         </div>
@@ -45,7 +46,7 @@
                                 <div class="d-flex flex-column me-2" style="min-width: 0; flex: 1;">
                                     <label for="inputGmp1" class="form-label mb-1">No. {{ $title }}</label>
                                     <div class="input-group input-group-sm">
-                                        <input value="{{ $no }}" id="no_penawaran" name="no_penawaran"
+                                        <input value="{{ $no }}" id="no_pengiriman" name="no_pengiriman"
                                             type="text" class="form-control" placeholder="Ketik sesuatu..." readonly>
                                         <button class="btn btn-outline-secondary btn-sm" type="button"
                                             onclick="location.reload()">
@@ -60,8 +61,8 @@
                                     <label for="inputGmp2" class="form-label mb-1">Tanggal {{ $title }}</label>
                                     <div class="input-group input-group-sm">
                                         <input type="text"
-                                            class="form-control datetimepicker @error('tgl_permintaan') is-invalid @enderror"
-                                            name="tgl_permintaan">
+                                            class="form-control datetimepicker @error('tanggal') is-invalid @enderror"
+                                            name="tanggal">
                                     </div>
                                 </div>
                             </div>
@@ -83,6 +84,9 @@
                                         <li class="nav-item">
                                             <a class="nav-link" data-toggle="tab" href="#informasi">Informasi
                                                 Lainnya</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" data-toggle="tab" href="#ricape">Rincian Catatan
@@ -111,7 +115,7 @@
                                                     <th style="width: 100px;">Departemen</th>
                                                     <th style="width: 200px;">Proyek</th>
                                                     <th style="width: 200px;">No Pesanan</th>
-                                                    <th style="width: 200px;">No Penawaran</th>
+                                                    <th style="width: 200px;">No pengiriman</th>
                                                     <th style="width: 200px;">Gudang</th>
                                                     <th style="width: 100px;">&nbsp;</th>
                                                 </tr>
@@ -121,6 +125,14 @@
                                         </table>
                                     </div>
 
+                                </div>
+                                <div id="dokumen" class="tab-pane fade">
+
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <x-dynamic-link-input id="file-input-1" name="files" />
+                                        </div>
+                                    </div>
                                 </div>
                                 <div id="ricape" class="tab-pane fade">
 
@@ -220,18 +232,29 @@
                                     <div class="row">
                                         <div class="col-lg-10">
                                             <div class="row">
-                                                {{-- Penawaran Untuk --}}
-                                                <div class="col-md-4">
+                                                {{-- pengiriman Untuk --}}
+                                                <div class="col-md-8">
                                                     <div class="form-group">
-                                                        <label for="quotetoData"><strong>Penawaran
-                                                                Untuk</strong></label>
-                                                        <textarea class="form-control" name="quotetoData" id="quotetoData" rows="4"
-                                                            placeholder="Isi tujuan penawaran">{{ old('quotetoData') }}</textarea>
+                                                        <label for="quotetoData"><strong>Tagihan Ke</strong></label>
+                                                        <textarea class="form-control" name="tagihanke" id="tagihanke" rows="4" placeholder="Isi tujuan pengiriman">{{ old('tagihanke') }}</textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="Informasi_address"><strong>Kirim
+                                                                Ke</strong></label>
+                                                        <textarea readonly class="form-control" name="alamat-input" id="alamat-input" rows="4"
+                                                            placeholder="Alamat tujuan">{{ old('address') }}</textarea>
                                                     </div>
                                                 </div>
 
                                                 {{-- Penjual --}}
-                                                <div class="col-md-4">
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <x-form.select-basic placeholder="   " size="sm"
+                                                            id="fob" name="fob" :options="$syaratPembayaran"
+                                                            :isbold="true" label="FOB" />
+                                                    </div>
+                                                </div>
+                                                <div class="col">
                                                     <div class="form-group">
                                                         <x-select2.search size="sm" placeholder="Penjual"
                                                             name="penjual" label="Penjual" :options="$penjuals" />
@@ -239,24 +262,20 @@
                                                 </div>
 
                                                 {{-- Nilai Tukar --}}
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="nilai_tukar"><strong>Nilai Tukar</strong></label>
-                                                        <input type="number" class="form-control form-control-sm"
-                                                            id="nilai_tukar" name="nilai_tukar"
-                                                            value="{{ old('nilai_tukar', 0) }}">
-                                                    </div>
-                                                </div>
+
                                             </div>
 
                                             {{-- Alamat --}}
                                             <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col">
                                                     <div class="form-group">
-                                                        <label for="Informasi_address"><strong>Alamat</strong></label>
-                                                        <textarea readonly class="form-control" name="address" id="alamat-input" rows="4"
-                                                            placeholder="Alamat tujuan">{{ old('address') }}</textarea>
+                                                        <x-form.select-basic placeholder="   " size="sm"
+                                                            id="jasapengiriman" name="jasapengiriman" :options="$jasaPengiriman"
+                                                            :isbold="true" label="Kirim Melalui" />
                                                     </div>
+                                                </div>
+                                                <div class="col">
+                                                    &nbsp;
                                                 </div>
                                             </div>
                                         </div>
@@ -267,7 +286,6 @@
 
                     </div>
                 </div>
-
             </div>
 
             <x-form.modul.penjualan.footer-action-add>
@@ -279,7 +297,7 @@
     <x-slot:scripts>
         <script text="javascript">
             window.__APP_DATA__ = {
-                name: 'coba',
+                name: 'hello world',
             };
         </script>
         <script>

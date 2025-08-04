@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\ModulUtama\Penjualan;
 
 use App\Models\Barang;
+use App\Models\JasaPengiriman;
+use App\Models\Syarat;
 use App\Models\Penjual;
 use App\Models\Pelanggan;
 use App\Models\TipeBarang;
@@ -79,6 +81,7 @@ class BasePenjualanController extends Controller
             $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
             return [$item->id => $nama];
         })->toArray();
+        
         $this->data['nama_barang'] = Barang::get();
         $this->data['tipe_barang'] = TipeBarang::get();
         $this->data['kategori_barang'] = KategoriBarang::get();
@@ -144,6 +147,12 @@ class BasePenjualanController extends Controller
         $this->data['penjuals'] = Penjual::all()->mapWithKeys(function ($item) {
             $nama = $item->nama_depan_penjual . " " . $item->nama_belakang_penjual;
             return [$item->id => $nama];
+        })->toArray();
+        $this->data['syaratPembayaran'] = Syarat::all()->mapWithKeys(function ($item) {
+            return [$item->id => $item->nama];
+        })->toArray();
+        $this->data['jasaPengiriman'] = JasaPengiriman::all()->mapWithKeys(function ($item) {
+            return [$item->id => $item->nama . ' - ' . $item->jasa_pengiriman];
         })->toArray();
     }
 

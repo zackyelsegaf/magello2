@@ -15,7 +15,7 @@ class PengirimanPenjualan extends BaseModel
 
     public function items()
     {
-        return $this->hasMany(PenawaranPenjualanItem::class);
+        return $this->hasMany(DetailPengiriman::class);
     }
     public function pelanggan()
     {
