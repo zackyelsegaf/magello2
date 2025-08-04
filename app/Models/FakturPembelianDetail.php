@@ -60,6 +60,9 @@ class FakturPembelianDetail extends Model
 
     public function rincian()
     {
-        return $this->belongsTo(FakturPembelian::class);
+        return $this->belongsTo(FakturPembelian::class, 'faktur_pembelian_id');
+    }
+    public function barang(){
+        return $this->belongsTo(Barang::class, 'no_barang', 'no_barang');
     }
 }
