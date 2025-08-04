@@ -19,10 +19,10 @@
                                     <label>Nama Mata Uang</label>
                                     <input type="text"
                                         class="form-control form-control-sm  @error('nama') is-invalid @enderror"name="nama"
-                                        oninput="formatInput(this)" value="{{ old('nama') }}">
-                                    <input type="hidden" id="clean_nilai_tukar" name="clean_nilai_tukar"
-                                        value="{{ old('nilai_tukar') }}">
-
+                                        value="{{ old('nama') }}">
+                                    @error('nama')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -33,8 +33,11 @@
                                             <span class="input-group-text">Rp</span>
                                         </div>
                                         <input type="text"
-                                        class="form-control form-control-sm  @error('nilai_tukar') is-invalid @enderror"name="nilai_tukar" placeholder="contoh: 100.000.000"
-                                         value="{{ old('nilai_tukar') }}">
+                                            class="form-control form-control-sm  @error('nilai_tukar') is-invalid @enderror"name="nilai_tukar"
+                                            placeholder="contoh: 100.000.000" value="{{ old('nilai_tukar') }}">
+                                        @error('nilai_tukar')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -58,6 +61,16 @@
         </div>
     </div>
 @section('script')
+    @if ($errors->any())
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Form Tidak Lengkap',
+                text: 'Terjadi kesalahan pada form yang Anda isi. Silakan periksa kembali.',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
 @endsection
-
 @endsection

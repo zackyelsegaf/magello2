@@ -20,6 +20,9 @@
                                     <input type="text"
                                         class="form-control form-control-sm  @error('nama') is-invalid @enderror"
                                         id="nama" name="nama" value="{{ $mataUang->nama }}">
+                                    @error('nama')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -37,6 +40,9 @@
                                             class="form-control form-control-sm @error('nilai_tukar') is-invalid @enderror"
                                             name="nilai_tukar" placeholder="contoh: 100.000.000"
                                             value="{{ is_numeric($nilai) ? number_format($nilai, 0, ',', '.') : $nilai }}">
+                                        @error('nilai_tukar')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
 
                                     </div>
                                 </div>
@@ -48,4 +54,17 @@
             </form>
         </div>
     </div>
+    @section('script')
+    @if ($errors->any())
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Form Tidak Lengkap',
+                text: 'Terjadi kesalahan pada form yang Anda isi. Silakan periksa kembali.',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
+@endsection
 @endsection

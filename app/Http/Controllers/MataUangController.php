@@ -6,6 +6,7 @@ use App\Models\MataUang;
 use Illuminate\Support\Facades\DB;
 use DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MataUangController extends Controller
 {
@@ -47,7 +48,7 @@ class MataUangController extends Controller
     public function update(Request $request, $id)
     {
         $raw = $request->input('nilai_tukar');
-        $cleaned = str_replace(['.', ','], ['', '.'], $raw);
+        $cleaned = str_replace(['.'], [''], $raw);
 
         $request->merge([
             'nilai_tukar' => $cleaned
@@ -110,7 +111,7 @@ class MataUangController extends Controller
     public function saveRecordMataUang(Request $request)
     {
         $raw = $request->input('nilai_tukar');
-        $cleaned = str_replace(['.', ','], ['', '.'], $raw);
+        $cleaned = str_replace(['.'], ['', '.'], $raw);
 
         $request->merge([
             'nilai_tukar' => $cleaned
@@ -119,7 +120,7 @@ class MataUangController extends Controller
             'nama'          => 'required|string|max:255',
             'nilai_tukar'   => 'required|numeric',
         ]);
-
+        
         //debug
         // DB::enableQueryLog();
         // MataUang::create($request->all());
