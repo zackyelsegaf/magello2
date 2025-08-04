@@ -1,6 +1,6 @@
 <x-layout.main>
     <x-slot:title>
-        Penawaran Penjualan
+        {{ ucfirst($title) }}
     </x-slot>
     <form id="formPenawaran">
         <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
@@ -10,16 +10,13 @@
                     <div class="d-flex justify-content-between align-items-start w-100">
                         {{-- Kolom kiri --}}
                         <div class="d-flex flex-column">
-                            <h4 class="card-title mb-2">Data Penawaran Penjualan</h4>
-                            <x-combo-auto-fill size="sm" id="pelanggan" placeholder="Pilih pelanggan..." :data="$pelanggans"
-                                name="pelanggan_id" :autofill="[
+                            <h4 class="card-title mb-2">Data {{ ucfirst($title) }}</h4>
+                            <x-combo-auto-fill size="sm" id="pelanggan" placeholder="Pilih pelanggan..."
+                                :data="$pelanggans" name="pelanggan_id" :autofill="[
                                     'alamat' => 'alamat-input',
                                     'telepon' => 'telp-input',
                                 ]" />
                         </div>
-
-                        {{-- Kolom kanan --}}
-                        <div id="svelte-app"></div>
                         <div class="d-flex flex-column">
                             <div class="d-flex justify-content-end">
                                 <div class="form-check me-3">
@@ -83,6 +80,9 @@
                                                 href="#rincian">Rincian</a>
                                         </li>
                                         <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen</a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a class="nav-link" data-toggle="tab" href="#informasi">Informasi
                                                 Lainnya</a>
                                         </li>
@@ -94,217 +94,50 @@
                                 </div>
                                 <div id="rincian" class="tab-pane fade show active">
                                     <div class="row float-right mr-0">
-                                        {{-- <button type="button" class="btn btn-primary buttonedit mb-3" id="tambahBarangBtn">
-                                        <strong><i class="fas fa-cube mr-3 ml-1"></i>Tambah</strong>
-                                    </button> --}}
                                         <button type="button" class="btn btn-primary buttonedit mb-3"
                                             id="btnTambahBarang">Tambah</button>
                                     </div>
                                     <!-- Modal -->
-                                    <div class="modal fade" id="modalBarang" tabindex="-1" role="dialog"
-                                        aria-labelledby="modalBarangLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Pilih Barang</h5>
-                                                    <button type="button" class="close" data-dismiss="modal">
-                                                        <span>&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="table-responsive">
-                                                        <table
-                                                            class="table table-striped table-bordered table-hover table-center mb-0"
-                                                            id="tabelPilihBarang"
-                                                            style="margin: 0; border-collapse: collapse; width: 100%;">
-                                                            <thead class="thead-dark">
-                                                                <tr style="padding: 0; margin: 0;">
-                                                                    <th style="padding: 4px; text-align: center;">
-                                                                        <input type="checkbox" id="checkAll">
-                                                                    </th>
-                                                                    <th style="padding: 4px;">No. Barang</th>
-                                                                    <th style="padding: 4px;">Nama Barang</th>
-                                                                    <th style="padding: 4px;">Satuan</th>
-                                                                    <th style="padding: 4px;">Kuantitas</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @foreach ($nama_barang as $item)
-                                                                    <tr style="padding: 0; margin: 0;">
-                                                                        <td style="padding: 4px; text-align: center;">
-                                                                            <input type="checkbox"
-                                                                                class="check-barang"
-                                                                                data-id="{{ $item->id }}"
-                                                                                data-nobarang="{{ $item->no_barang }}"
-                                                                                data-nama="{{ $item->nama_barang }}"
-                                                                                data-satuan="{{ $item->satuan }}"
-                                                                                data-kuantitas="{{ $item->kuantitas_saldo_awal }}">
-                                                                        </td>
-                                                                        <td style="padding: 4px;">
-                                                                            {{ $item->no_barang }}</td>
-                                                                        <td style="padding: 4px;">
-                                                                            {{ $item->nama_barang }}</td>
-                                                                        <td style="padding: 4px;">
-                                                                            {{ $item->satuan }}</td>
-                                                                        <td style="padding: 4px;">
-                                                                            {{ $item->kuantitas_saldo_awal }}</td>
-                                                                    </tr>
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-success"
-                                                        id="tambahBarangTerpilih">Tambah ke Form</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    {{-- <table class="table table-striped table-bordered table-hover table-center mb-0" id="tabelPermintaan">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th>No. Barang</th>
-                                                <th>Deskripsi Barang</th>
-                                                <th>Kts Permintaan</th>
-                                                <th>Satuan</th>
-                                                <th>Catatan</th>
-                                                <th>Tgl. Diminta</th>
-                                                <th>Kts Dipesan</th>
-                                                <th>Kts Diterima</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="permintaanBody">
-                                            <tr>
-                                                <td>
-                                                    <select style="width: 150px;" name="no_barang[]" class="form-control nama-barang">
-                                                        <option disabled selected></option>
-                                                        @foreach ($nama_barang as $items)
-                                                            <option value="{{ $items->no_barang }}" 
-                                                                data-nama="{{ $items->nama_barang }}"
-                                                                data-satuan="{{ $items->satuan }}">
-                                                                {{ $items->no_barang . ' - ' . $items->nama_barang }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td><input style="width: 150px;" name="deskripsi_barang[]" class="form-control deskripsi-barang" readonly></td>
-                                                <td><input style="width: 150px;" name="kts_permintaan[]" class="form-control" value="{{ old('kts_permintaan[]',0) }}"></td>
-                                                <td>
-                                                    <select style="width: 160px; cursor: pointer;" class="form-control satuan-permintaan" name="satuan[]">
-                                                        <option disabled {{ old('satuan[]') ? '' : 'selected' }}></option>
-                                                        @foreach ($satuan as $item)
-                                                            <option value="{{ $item->nama }}" {{ $item->nama }}>
-                                                                {{ $item->nama }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td><input style="width: 150px;" name="catatan[]" class="form-control"></td>
-                                                <td>
-                                                    <div class="cal-icon">
-                                                        <input style="width: 150px;" type="text" class="form-control datetimepicker @error('tgl_diminta[]') is-invalid @enderror" name="tgl_diminta[]" value="{{ old('tgl_diminta[]') }}"> 
-                                                    </div>
-                                                </td>
-                                                <td><input style="width: 150px;" name="kts_dipesan[]" class="form-control" readonly></td>
-                                                <td><input style="width: 150px;" name="kts_diterima[]" class="form-control" readonly></td>
-                                                <td><button type="button" class="btn btn-danger btn-sm removeRow">Hapus</button></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <button type="button" class="btn btn-success" id="tambahBaris">+ Tambah Baris</button>                                     --}}
+                                    {{-- <x-form.modal-barang :databarang=$nama_barang /> --}}
+                                    <div id="modalbarang-svelte"></div>
                                     <div class="table-responsive"
                                         style="max-height: calc(100vh - 250px); overflow-y: auto; margin-bottom: 100px;">
                                         <table class="table table-striped table-bordered table-hover table-center mb-0"
                                             id="DataBarangAddSatuan">
                                             <thead class="thead-dark">
                                                 <tr>
-                                                    <th style="width: 100px;">No. Barang</th>
-                                                    <th style="width: 250px;">Deskripsi Barang</th>
-                                                    <th style="width: 100px;">Kts</th>
-                                                    <th style="width: 100px;">Satuan</th>
-                                                    <th style="width: 150px;">Harga Satuan</th>
-                                                    <th style="width: 100px;">Disk %</th>
-                                                    <th style="width: 100px;">Pajak</th>
-                                                    <th style="width: 150px;">Jumlah</th>
-                                                    <th style="width: 100px;">Kts Dipesan</th>
-                                                    <th style="width: 100px;">Kts Dikirim</th>
-                                                    <th style="width: 100px;">Departemen</th>
-                                                    <th style="width: 200px;">Proyek</th>
-                                                    <th style="width: 100px;">&nbsp;</th>
+                                                    <th style="width: 80px;">No. Barang</th>
+                                                    <th style="width: 200px;">Deskripsi Barang</th>
+                                                    <th style="width: 80px;">Kts</th>
+                                                    <th style="width: 70px;">Satuan</th>
+                                                    <th style="width: 100px;">Harga Satuan</th>
+                                                    <th style="width: 50px;">Disk %</th>
+                                                    <th style="width: 50px;">Pajak</th>
+                                                    <th style="width: 100px;">Jumlah</th>
+                                                    <th style="width: 200px;">Gudang</th>
+                                                    <th style="width: 150px;">Proyek</th>
+                                                    <th style="width: 150px;">Departemen</th>
+                                                    <th style="width: 100px;">Reserve 1</th>
+                                                    <th style="width: 100px;">Reserve 2</th>
+                                                    <th style="width: 100px;">No. Pengiriman</th>
+                                                    <th style="width: 100px;">No. Pesanan</th>
+                                                    <th style="width: 100px;">No. Penawaran</th>
+                                                    <th>&nbsp;</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="barangTableBody">
-
-
-                                                {{-- @php
-                                                $noBarangList = old('no_barang', ['']);
-                                                $deskripsiList = old('deskripsi_barang', ['']);
-                                                $ktsPermintaanList = old('kts_permintaan', ['']);
-                                                $satuanList = old('satuan', ['']);
-                                                $catatanPermintaanList = old('catatan', ['']);
-                                                $tanggalPermintaanList = old('tgl_diminta', ['']);
-                                                $ktsDipesanList = old('kts_dipesan', ['']);
-                                                $ktsDiterimaList = old('kts_diterima', ['']);
-                                            @endphp
-
-                                            @foreach ($noBarangList as $i => $noBarang)
-                                            <tr class="barang-row">
-                                                <td>
-                                                    <select id="namaBarangSelect" style="width: 150px;" class="form-control no-barang-select" name="no_barang[]">
-                                                        <option {{ $noBarang ? '' : 'selected' }} disabled></option>
-                                                        @foreach ($nama_barang as $items)
-                                                            <option value="{{ $items->no_barang }}" 
-                                                                data-nama="{{ $items->nama_barang }}"
-                                                                data-satuan="{{ $items->satuan }}"
-                                                                {{ $items->no_barang == $noBarang ? 'selected' : '' }}>
-                                                                {{ $items->no_barang  . " - " . $items->nama_barang }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input style="width: 150px;" class="form-control deskripsi-barang-input" name="deskripsi_barang[]" value="{{ $deskripsiList[$i] ?? '' }}">
-                                                </td>                                            
-                                                <td>
-                                                    <input style="width: 150px;" type="text" class="form-control" name="kts_permintaan[]" value="{{ $ktsPermintaanList[$i] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <select style="width: 150px; cursor: pointer;" class="form-control" name="satuan[]">
-                                                        <option disabled {{ old('satuan[]') ? '' : 'selected' }}></option>
-                                                        @foreach ($satuan as $item)
-                                                            <option value="{{ $item->nama }}" {{ $item->nama == ($satuanList[$i] ?? '') ? 'selected' : '' }}> 
-                                                                {{ $item->nama }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input style="width: 200px;" type="text" class="form-control" name="catatan[]" value="{{ $catatanPermintaanList[$i] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <input style="width: 150px;" type="date" class="form-control" name="tgl_diminta[]" value="{{ $tanggalPermintaanList[$i] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <input style="width: 150px;" type="text" class="form-control" name="kts_dipesan[]" value="{{ $ktsDipesanList[$i] ?? '' }}">
-                                                </td><td>
-                                                    <input style="width: 150px;" type="text" class="form-control" name="kts_diterima[]" value="{{ $ktsDiterimaList[$i] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <button type="button" style="width: 120px;" class="btn btn-primary buttonedit2 mr-2 remove-row">
-                                                        <strong><i class="fas fa-trash-alt mr-3"></i>Hapus</strong>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            @endforeach --}}
-
                                             </tbody>
                                         </table>
                                     </div>
 
+                                </div>
+                                <div id="dokumen" class="tab-pane fade">
+
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <x-dynamic-link-input id="file-input-1" name="files" />
+                                        </div>
+                                    </div>
                                 </div>
                                 <div id="ricape" class="tab-pane fade">
 
@@ -521,7 +354,7 @@
                     }).then(() => {
                         // Redirect setelah klik "OK"
                         window.location.href =
-                        "{{ route('penjualan.penawaran.index') }}"; // Ganti dengan URL yang kamu inginkan
+                            "{{ $indexRoute }}"; // Ganti dengan URL yang kamu inginkan
                     });
                 } else {
                     Swal.fire({
@@ -652,7 +485,7 @@
                 const formData = new FormData(form);
 
                 try {
-                    const response = await fetch("{{ route('penjualan.penawaran.store') }}", {
+                    const response = await fetch("{{ $storeRoute }}", {
                         method: "POST",
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -694,31 +527,58 @@
                         if ($(`#row-barang-${id}`).length === 0) {
                             let newRow = `
 <tr id="row-barang-${id}" class="barang-row" style="font-size: 12px;">
-    <td><input type="hidden" name="barang_id[]" value="${id}"><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="no_barang[]" value="${nobarang}" readonly></td>
-    <td><input style="width: 150px; height: 26px; font-size: 12px;" type="text" class="form-control deskripsi-barang-input" name="deskripsi_barang[]" value="${nama}"></td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_permintaan[]" value=""></td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="satuan[]" value="${satuan}"></td>
     <td>
-    <input type="text" name="harga_satuan[]" class="form-control input-rupiah" style="height:26px; font-size:12px;" />
-</td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="diskon[]" value=""></td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="pajak[]" value=""></td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control input-rupiah" name="jumlah[]" value="" readonly></td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_dipesan[]" value=""></td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_dikirim[]" value=""></td>
-    <td><input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="departemen[]" value=""></td>
-    <td style="vertical-align: middle;">
-        <div style="height: 26px; font-size: 12px;">
-            <x-select2.search placeholder="Metode Kegiatan" name="proyek" label=""
-                                :options="[
-                                    '001' => 'Simpan Transaksi',
-                                    '002' => 'Salin Transaksi',
-                                ]" />
-        </div>
+        <input type="hidden" name="barang_id[]" value="${id}">
+        <input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="no_barang[]" value="${nobarang}" readonly>
     </td>
     <td>
-        <button type="button" class="btn btn-primary btn-sm remove-row" style="height: 28px; font-size: 12px; padding: 2px 8px;">
-            <i class="fas fa-trash-alt"></i> Hapus
+        <input style="width: 100%; height: 26px; font-size: 12px;" type="text" class="form-control deskripsi-barang-input" name="deskripsi_barang[]" value="${nama}">
+    </td>
+    <td>
+        <input style="height: 26px; font-size: 12px;" type="number" class="form-control" name="kts_permintaan[]" value="">
+    </td>
+    <td>
+        <input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="satuan[]" value="${satuan}">
+    </td>
+    <td>
+        <input type="text" name="harga_satuan[]" class="form-control input-rupiah" style="height:26px; font-size:12px;" />
+    </td>
+    <td>
+        <input style="height: 26px; font-size: 12px;" type="number" class="form-control" name="diskon[]" value="">
+    </td>
+    <td>
+        <input style="height: 26px; font-size: 12px;" type="number" class="form-control" name="pajak[]" value="">
+    </td>
+    <td>
+        <input style="height: 26px; font-size: 12px;" type="text" class="form-control input-rupiah" name="jumlah[]" value="" readonly>
+    </td>
+    <td>
+        <input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="gudang[]" value="">
+    </td>
+    <td>
+        <input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="proyek[]" value="">
+    </td>
+    <td>
+        <input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="departemen[]" value="">
+    </td>
+    <td>
+        <input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="reserve_1[]" value="">
+    </td>
+    <td>
+        <input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="reserve_2[]" value="">
+    </td>
+    <td>
+        <input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="no_pengiriman[]" value="">
+    </td>
+    <td>
+        <input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="no_po[]" value="">
+    </td>
+    <td>
+        <input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="no_penawaran[]" value="">
+    </td>
+    <td style="vertical-align: middle;">
+        <button type="button" class="btn btn-danger btn-sm remove-row" style="height: 28px; font-size: 12px; padding: 2px 8px;">
+            <i class="fas fa-trash-alt"></i>
         </button>
     </td>
 </tr>`;
