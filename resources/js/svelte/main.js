@@ -6,13 +6,14 @@ import AutoCompleteInput from "./components/AutoCompleteInput.svelte";
 // Mount komponen ke elemen HTML
 
 const svelteApp = document.getElementById("svelte-app");
+const data = window.__APP_DATA__ || {};
 
 if (svelteApp)
 mount(Example, {
     target: svelteApp,
     props: {
         // kirim props jika perlu, contoh:
-        name: "cek",
+        name: data.name,
     },
 });
 

@@ -12,9 +12,7 @@
 <Button>
     <div on:click={greet}>Click Me</div>
 </Button>
-
-<h1>Hello {name}!</h1>
-
+<input type="text" name="field1" value="{name}" />
 <style>
     h1 {
         font-size: 2em;

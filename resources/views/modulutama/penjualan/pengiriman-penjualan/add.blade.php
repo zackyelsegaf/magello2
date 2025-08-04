@@ -2,7 +2,7 @@
     <x-slot:title>
         {{ ucfirst($title) }}
     </x-slot>
-    <form id="formPenawaran">
+    <form id="formPengiriman">
         <div class="page-wrapper position-relative" style="padding-bottom: 80px;"> {{-- padding bawah agar konten tidak tertutup footer --}}
 
             <div class="content container-fluid">
@@ -17,6 +17,7 @@
                                     'telepon' => 'telp-input',
                                 ]" />
                         </div>
+                        <div id="svelte-app"></div>
                         <div class="d-flex flex-column">
                             <div class="d-flex justify-content-end">
                                 <div class="form-check me-3">
@@ -276,7 +277,11 @@
             </x-form.modul.penjualan.footer-action-add>
     </form>
     <x-slot:scripts>
-
+        <script text="javascript">
+            window.__APP_DATA__ = {
+                name: 'coba',
+            };
+        </script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const pajakCheckbox = document.getElementById('Pajak');
@@ -463,7 +468,7 @@
             }
 
             async function saveTransaksi() {
-                const form = document.getElementById('formPenawaran');
+                const form = document.getElementById('formPengiriman');
                 const formData = new FormData(form);
 
                 try {

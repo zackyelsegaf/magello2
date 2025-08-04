@@ -120,7 +120,7 @@ class PenawaranPenjualanController extends BasePenjualanController
                     'harga_satuan'   => $request->harga_satuan[$i] ?? 0,
                     'diskon'         => $request->diskon[$i] ?? 0,
                     'pajak'          => $request->pajak[$i] ?? 0,
-                    'jumlah'         => $request->jumlah[$i] ?? 0,
+                    'jumlah'         => (int)str_replace('.', '', $request->jumlah[$i]) ?? 0,
                     'kts_dipesan'    => $request->kts_dipesan[$i] ?? 0,
                     'kts_dikirim'    => $request->kts_dikirim[$i] ?? 0,
                     'departemen'     => $request->departemen[$i] ?? '',
