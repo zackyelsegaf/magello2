@@ -75,6 +75,7 @@ class DatabaseSeeder extends Seeder
             MasterBiayaKonsumenSeeder::class,
             PekerjaSeeder::class,
             SiklusPembayaranSeeder::class,
+            BarangSeeder::class,
         ]);
     }
 }

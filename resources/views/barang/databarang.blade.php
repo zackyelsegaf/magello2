@@ -13,38 +13,36 @@
         </div>
 
         <div class="row">
-            <div id="filterBox" class="col-md-4" style="{{ request('filter') == '1' ? '' : 'display: none;' }}">
+            <div id="filterBox" class="col-md-3">
                 <div class="card rounded-default p-3 bg-dark text-white">
-                    <form method="GET" action="{{ route('barang/list/page') }}">
-                        <input type="hidden" name="filter" value="1">
                         <div class="form-group">
                             <label>Pencarian</label>
-                            <input type="text" name="no_barang" class="form-control" onchange="this.form.submit()" placeholder="Cari berdasarkan ID" value="{{ request('no_barang') }}">
+                            <input type="text" name="no_barang" class="form-control key-filter" placeholder="Cari berdasarkan ID">
                         </div>
                         <div class="form-group">
-                            <input type="text" name="nama_barang" class="form-control" onchange="this.form.submit()" placeholder="Nama Barang" value="{{ request('nama_barang') }}">
+                            <input type="text" name="nama_barang" class="form-control key-filter" placeholder="Nama Barang">
                         </div>   
                         <div class="form-group">
                             <label>Dihentikan</label><br>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="" {{ request('dihentikan') === null ? 'checked' : '' }}>
+                                <input class="form-check-input click-filter" type="radio" name="dihentikan" value="" checked>
                                 <label class="form-check-label">Semua</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="1" {{ request('dihentikan') === '1' ? 'checked' : '' }}>
+                                <input class="form-check-input click-filter" type="radio" name="dihentikan" value="1">
                                 <label class="form-check-label">Ya</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="0" {{ request('dihentikan') === '0' ? 'checked' : '' }}>
+                                <input class="form-check-input click-filter" type="radio" name="dihentikan" value="0">
                                 <label class="form-check-label">Tidak</label>
                             </div>
                         </div>    
                         <div class="form-group">
                             <label>Tipe Barang</label>
-                            <select class="form-control" name="tipe_barang" onchange="this.form.submit()">
-                                <option value="" selected></option>
+                            <select class="form-control click-filter" name="tipe_barang">
+                                <option value="" selected> Tipe Barang </option>
                                 @foreach ($tipe_barang as $items)
-                                    <option value="{{ $items->nama }}" {{ request('tipe_barang') == $items->nama ? 'selected' : '' }}>
+                                    <option value="{{ $items->nama }}">
                                         {{ $items->nama }}
                                     </option>
                                 @endforeach
@@ -52,10 +50,10 @@
                         </div>
                         <div class="form-group">
                             <label>Kategori Barang</label>
-                            <select class="form-control" name="kategori_barang" onchange="this.form.submit()">
-                                <option value="" selected> Tipe Pelanggan </option>
+                            <select class="form-control click-filter" name="kategori_barang">
+                                <option value="" selected> Kategori Barang </option>
                                 @foreach ($kategori_barang as $items)
-                                    <option value="{{ $items->nama }}" {{ request('kategori_barang') == $items->nama ? 'selected' : '' }}>
+                                    <option value="{{ $items->nama }}">
                                         {{ $items->nama }}
                                     </option>
                                 @endforeach
@@ -63,10 +61,10 @@
                         </div>     
                         <div class="form-group">
                             <label>Tipe Persediaan</label>
-                            <select class="form-control" name="tipe_persediaan" onchange="this.form.submit()">
-                                <option value="" selected> Tipe Pelanggan </option>
+                            <select class="form-control click-filter" name="tipe_persediaan">
+                                <option value="" selected> Tipe Persediaan </option>
                                 @foreach ($tipe_persediaan as $items)
-                                    <option value="{{ $items->nama }}" {{ request('tipe_persediaan') == $items->nama ? 'selected' : '' }}>
+                                    <option value="{{ $items->nama }}">
                                         {{ $items->nama }}
                                     </option>
                                 @endforeach
@@ -75,7 +73,7 @@
                     </form>
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-9" id="tableView">
                 <div class="card card-table">
                     <div class="card-body booking_card">
                         <div class="table-responsive">
@@ -105,7 +103,7 @@
                     <div class="mb-15 row">
                         <div class="col">
                             <a href="{{ route('barang/add/new') }}" class="btn btn-primary float-left veiwbutton"><i class="fas fa-plus mr-2"></i>Tambah</a>
-                            <button class="btn btn-primary float-left veiwbutton ml-3" onclick="toggleFilter()"><i class="fas fa-filter mr-2"></i>Filter</button>
+                            <button class="btn btn-primary float-left veiwbutton ml-3 filterButton"><i class="fas fa-filter mr-2"></i>Filter</button>
                             <button id="deleteSelected" class="btn btn-primary float-left veiwbutton ml-3"><i class="fas fa-trash mr-2"></i>Hapus</button>
                         </div>
                     </div>
@@ -149,7 +147,9 @@
                         d.dihentikan = $('input[name=dihentikan]:checked').val();
                     }
                 },
-                dom: 'Bfrtip', 
+                dom: "<'row'<'col-sm-12'B>>" +
+                    "<'row'<'col-sm-12 mt-3'tr>>" + 
+                    "<'row'<'col-sm-12 col-md-6 mt-2'l><'col-sm-12 col-md-6'p>>", 
                 buttons: [
                     {
                         extend: 'copyHtml5',
@@ -269,9 +269,11 @@
                 ]
             });
 
-            $('form').on('submit', function(e) {
-                e.preventDefault();
-                table.draw();
+            $('.key-filter').on('keyup', function(e){
+                table.draw()
+            });
+            $('.click-filter').on('change', function(e){
+                table.draw()
             });
 
             $('#select_all').on('click', function() {
@@ -317,9 +319,26 @@
                         window.location.href = "/barang/edit/" + data.id;
                     }
             });
+
+            $('.filterButton').click(function(e){
+                const filterBox = document.getElementById("filterBox");
+                const tableView = document.getElementById("tableView");
+                const isVisible = filterBox.style.display === "block";
+        
+                if (isVisible) {
+                    filterBox.style.display = "none";
+                    tableView.className = "col-12";
+                    localStorage.setItem("filterStatus", "closed");
+                } else {
+                    filterBox.style.display = "block";
+                    tableView.className = "col-md-9";
+                    localStorage.setItem("filterStatus", "open");
+                }
+
+                table.columns.adjust();
+            })
         });
-    </script>
-    <script>
+        
         document.addEventListener("DOMContentLoaded", function () {
             const filterBox = document.getElementById("filterBox");
             const filterStatus = localStorage.getItem("filterStatus");
@@ -330,19 +349,6 @@
                 filterBox.style.display = "none";
             }
         });
-    
-        function toggleFilter() {
-            const filterBox = document.getElementById("filterBox");
-            const isVisible = filterBox.style.display === "block";
-    
-            if (isVisible) {
-                filterBox.style.display = "none";
-                localStorage.setItem("filterStatus", "closed");
-            } else {
-                filterBox.style.display = "block";
-                localStorage.setItem("filterStatus", "open");
-            }
-        }
     </script>    
 @endsection
 @endsection
