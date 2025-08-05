@@ -23,11 +23,11 @@ class ProyekController extends Controller
     }
 
     public function saveRecordProyek(Request $request){
-        
+
         $validate = $request->validate([
-            'proyek_id'                => 'nullable|string|max:255',
-            'nama_proyek'              => 'nullable|string|max:255',
-            'nama_kontak'              => 'nullable|string|max:255',
+            'proyek_id'                => 'required|string|max:255',
+            'nama_proyek'              => 'required|string|max:255',
+            'nama_kontak'              => 'required|string|max:255',
             'tanggal_from'             => 'nullable|string|max:255',
             'tanggal_to'               => 'nullable|string|max:255',
             'persentase_komplet'       => 'nullable|string|max:255',
@@ -53,8 +53,8 @@ class ProyekController extends Controller
 
             DB::commit();
             sweetalert()->success('Create new Proyek successfully :)');
-            return redirect()->route('proyek/list/page');    
-            
+            return redirect()->route('proyek/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Tambah Data Gagal: ' . $e->getMessage());
@@ -85,9 +85,9 @@ class ProyekController extends Controller
     public function update(Request $request, $id)
     {
         $validate = $request->validate([
-            'proyek_id'                => 'nullable|string|max:255',
-            'nama_proyek'              => 'nullable|string|max:255',
-            'nama_kontak'              => 'nullable|string|max:255',
+            'proyek_id'                => 'required|string|max:255',
+            'nama_proyek'              => 'required|string|max:255',
+            'nama_kontak'              => 'required|string|max:255',
             'tanggal_from'             => 'nullable|string|max:255',
             'tanggal_to'               => 'nullable|string|max:255',
             'persentase_komplet'       => 'nullable|string|max:255',
@@ -106,11 +106,11 @@ class ProyekController extends Controller
         try {
             $proyek = Proyek::findOrFail($id);
             $proyek->update($validate);
-            
+
             DB::commit();
             sweetalert()->success('Updated record successfully :)');
-            return redirect()->route('proyek/list/page');    
-            
+            return redirect()->route('proyek/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Update record fail :)');
@@ -125,8 +125,8 @@ class ProyekController extends Controller
             $ids = $request->ids;
             Proyek::whereIn('id', $ids)->delete();
             sweetalert()->success('Data berhasil dihapus :)');
-            return redirect()->route('proyek/list/page');    
-            
+            return redirect()->route('proyek/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Data gagal dihapus :)');
@@ -190,12 +190,12 @@ class ProyekController extends Controller
                 'dihentikan'            => $record->dihentikan,
             ];
         }
-        
+
         return response()->json([
             "draw"                 => intval($draw),
             "recordsTotal"         => $totalRecords,
             "recordsFiltered"      => $totalRecordsWithFilter,
             "data"                 => $data_arr
-        ])->header('Content-Type', 'application/json');        
+        ])->header('Content-Type', 'application/json');
     }
 }

@@ -5,7 +5,7 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title mt-5">Edit Cabang</h3> 
+                        <h3 class="page-title mt-5">Edit Cabang</h3>
                     </div>
                 </div>
             </div>
@@ -29,27 +29,29 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="gudang" class="form-label fw-bold">Gudang</label>
-                                    <select class="form-select select2-tag" id="gudang" name="gudang[]" multiple>
+                                    <select class="form-select select2-tag @error('gudang') is-invalid @enderror" id="gudang" name="gudang[]" multiple>
                                         <option></option>
                                         @foreach ($gudang as $items )
-                                            <option value="{{ $items->nama_gudang }}" 
+                                            <option value="{{ $items->nama_gudang }}"
                                                 {{ in_array($items->nama_gudang, old('gudang', $cabang->gudang ?? [])) ? 'selected' : '' }}>
                                                 {{ $items->nama_gudang }}
                                             </option>
                                         @endforeach
                                     </select>
+                                    @error('gudang')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="Pengguna" class="form-label fw-bold">Pengguna</label>
-                                    <select class="form-select select2-tag" id="pengguna" name="pengguna[]" multiple>
+                                    <label for="pengguna" class="form-label fw-bold">Pengguna</label>
+                                    <select class="form-select select2-tag @error('pengguna') is-invalid @enderror" id="pengguna" name="pengguna[]" multiple>
                                         <option></option>
                                         @foreach ($users as $items )
-                                            <option value="{{ $items->name }}" 
+                                            <option value="{{ $items->name }}"
                                                 {{ in_array($items->name, old('pengguna', $cabang->pengguna ?? [])) ? 'selected' : '' }}>
                                                 {{ $items->name }}
                                             </option>
                                         @endforeach
                                     </select>
+                                    @error('pengguna')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                                 </div>
                             </div>
                         </div>
@@ -72,5 +74,17 @@
             });
         });
     </script>
+    @if ($errors->any())
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Form Tidak Lengkap',
+                text: 'Mohon lengkapi semua field yang diperlukan.',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
     @endsection
 @endsection
+

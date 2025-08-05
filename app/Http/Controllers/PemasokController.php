@@ -36,8 +36,8 @@ class PemasokController extends Controller
             $ids = $request->ids;
             Pemasok::whereIn('id', $ids)->delete();
             sweetalert()->success('Data berhasil dihapus :)');
-            return redirect()->route('pemasok/list/page');    
-            
+            return redirect()->route('pemasok/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Data gagal dihapus :)');
@@ -47,26 +47,26 @@ class PemasokController extends Controller
     }
 
     public function saveRecordPemasok(Request $request){
-        
+
         $validated = $request->validate([
-            'nama'          => 'nullable|string|max:255',
-            'status'        => 'nullable|string|max:255',
-            'kode_pos'      => 'nullable|string|max:255',
-            'provinsi'      => 'nullable|string|max:255',
-            'kota'          => 'nullable|string|max:255',
-            'negara'        => 'nullable|string|max:255',
-            'alamat_1'      => 'nullable|string|max:255',
+            'nama'          => 'required|string|max:255',
+            'status'        => 'required|string|max:255',
+            'kode_pos'      => 'required|string|max:255',
+            'provinsi'      => 'required|string|max:255',
+            'kota'          => 'required|string|max:255',
+            'negara'        => 'required|string|max:255',
+            'alamat_1'      => 'required|string|max:255',
             'alamat_2'      => 'nullable|string|max:255',
-            'alamatpajak_1' => 'nullable|string|max:255',
+            'alamatpajak_1' => 'required|string|max:255',
             'alamatpajak_2' => 'nullable|string|max:255',
-            'kontak'        => 'nullable|string|max:255',
-            'no_telp'       => 'nullable|string|max:255',
+            'kontak'        => 'required|string|max:255',
+            'no_telp'       => 'required|string|max:255',
             'no_fax'        => 'nullable|string|max:255',
-            'email'         => 'nullable|string|max:255',
+            'email'         => 'required|string|max:255',
             'website'       => 'nullable|string|max:255',
             'memo'          => 'nullable|string|max:255',
             'fileupload_1'  => 'nullable|string|max:255',
-            'dihentikan'    => 'nullable|boolean',
+            'dihentikan'    => 'required|boolean',
             'pajak_1_check' => 'nullable|boolean',
             'pajak_2_check' => 'nullable|boolean',
             'npwp'          => 'nullable|string|max:255',
@@ -106,8 +106,8 @@ class PemasokController extends Controller
 
             DB::commit();
             sweetalert()->success('Create new Pemasok successfully :)');
-            return redirect()->route('pemasok/list/page');    
-            
+            return redirect()->route('pemasok/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Tambah Data Gagal: ' . $e->getMessage());
@@ -156,13 +156,13 @@ class PemasokController extends Controller
     //         'memo'          => $request->memo,
     //         'fileupload_1'  => $request->fileupload_1,
     //         ];
-            
+
     //         Pemasok::where('pemasok_id',$request->pemasok_id)->update($update);
 
     //         DB::commit();
     //         sweetalert()->success('Updated record successfully :)');
-    //         return redirect()->route('pemasok/list/page');    
-            
+    //         return redirect()->route('pemasok/list/page');
+
     //     } catch(\Exception $e) {
     //         DB::rollback();
     //         sweetalert()->error('Update record fail :)');
@@ -174,24 +174,24 @@ class PemasokController extends Controller
     public function update(Request $request, $id)
     {
         $validate = $request->validate([
-            'nama'          => 'nullable|string|max:255',
-            'status'        => 'nullable|string|max:255',
-            'kode_pos'      => 'nullable|string|max:255',
-            'provinsi'      => 'nullable|string|max:255',
-            'kota'          => 'nullable|string|max:255',
-            'negara'        => 'nullable|string|max:255',
-            'alamat_1'      => 'nullable|string|max:255',
+            'nama'          => 'required|string|max:255',
+            'status'        => 'required|string|max:255',
+            'kode_pos'      => 'required|string|max:255',
+            'provinsi'      => 'required|string|max:255',
+            'kota'          => 'required|string|max:255',
+            'negara'        => 'required|string|max:255',
+            'alamat_1'      => 'required|string|max:255',
             'alamat_2'      => 'nullable|string|max:255',
-            'alamatpajak_1' => 'nullable|string|max:255',
+            'alamatpajak_1' => 'required|string|max:255',
             'alamatpajak_2' => 'nullable|string|max:255',
-            'kontak'        => 'nullable|string|max:255',
-            'no_telp'       => 'nullable|string|max:255',
+            'kontak'        => 'required|string|max:255',
+            'no_telp'       => 'required|string|max:255',
             'no_fax'        => 'nullable|string|max:255',
-            'email'         => 'nullable|string|max:255',
+            'email'         => 'required|string|max:255',
             'website'       => 'nullable|string|max:255',
             'memo'          => 'nullable|string|max:255',
             'fileupload_1'  => 'nullable|string|max:255',
-            'dihentikan'    => 'nullable|boolean',
+            'dihentikan'    => 'required|boolean',
             'pajak_1_check' => 'nullable|boolean',
             'pajak_2_check' => 'nullable|boolean',
             'npwp'          => 'nullable|string|max:255',
@@ -210,11 +210,11 @@ class PemasokController extends Controller
         try {
             $pemasok                 = Pemasok::findOrFail($id);
             $pemasok->update($validate);
-            
+
             DB::commit();
             sweetalert()->success('Updated record successfully :)');
-            return redirect()->route('pemasok/list/page');    
-            
+            return redirect()->route('pemasok/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Update record fail :)');
@@ -286,12 +286,12 @@ class PemasokController extends Controller
                 'dihentikan'   => $record->dihentikan,
             ];
         }
-        
+
         return response()->json([
             "draw"                 => intval($draw),
             "recordsTotal"         => $totalRecords,
             "recordsFiltered"      => $totalRecordsWithFilter,
             "data"                 => $data_arr
-        ])->header('Content-Type', 'application/json');        
+        ])->header('Content-Type', 'application/json');
     }
 }

@@ -18,12 +18,14 @@
                                 <div class="form-group">
                                     <label>Nama Depan</label>
                                     <input type="text" class="form-control form-control-sm  @error('nama_depan_penjual') is-invalid @enderror"name="nama_depan_penjual" value="{{ old('nama_depan_penjual') }}">
+                                     @error('nama_depan_penjual')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Nama Belakang</label>
                                     <input type="text" class="form-control form-control-sm  @error('nama_belakang_penjual') is-invalid @enderror"name="nama_belakang_penjual" value="{{ old('nama_belakang_penjual') }}">
+                                     @error('nama_belakang_penjual')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                             </div>
                         </div>
@@ -34,12 +36,14 @@
                                 <div class="form-group">
                                     <label>Jabatan</label>
                                     <input type="text" class="form-control form-control-sm  @error('jabatan') is-invalid @enderror"name="jabatan" value="{{ old('jabatan') }}">
+                                     @error('jabatan')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="dihentikan">Dihentikan</label>
                                     <label class="switch">
                                         <input type="hidden" name="dihentikan" value="0">
                                         <input type="checkbox" name="dihentikan" id="dihentikan" value="1" {{ old('dihentikan') ? 'checked' : '' }}>
+                                         @error('dihentikan')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
@@ -50,14 +54,14 @@
                 <div class="tab-content profile-tab-cont">
                     <div class="profile-menu">
                         <ul class="nav nav-tabs nav-tabs-solid">
-                            <li class="nav-item"> 
-                                <a class="nav-link active" data-toggle="tab" href="#detail">Detail</a> 
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#detail">Detail</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen</a> 
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#memo">Memo</a> 
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#memo">Memo</a>
                             </li>
                         </ul>
                     </div>
@@ -72,6 +76,7 @@
                                                 <div class="form-group">
                                                     <label>No. Kantor 1</label>
                                                     <input type="text" class="form-control form-control-sm  @error('no_kantor_1_penjual') is-invalid @enderror"name="no_kantor_1_penjual" value="{{ old('no_kantor_1_penjual') }}">
+                                                     @error('no_kantor_1_penjual')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -79,15 +84,17 @@
                                                     <div class="form-group">
                                                         <label>No. Kantor 2</label>
                                                         <input type="text" class="form-control form-control-sm  @error('no_kantor_2_penjual') is-invalid @enderror"name="no_kantor_2_penjual" value="{{ old('no_kantor_2_penjual') }}">
+                                                         @error('no_kantor_2_penjual')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> 
+                                        </div>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>No. Ekstensi 1</label>
                                                     <input type="text" class="form-control form-control-sm  @error('no_ekstensi_1_penjual') is-invalid @enderror"name="no_ekstensi_1_penjual" value="{{ old('no_ekstensi_1_penjual') }}">
+                                                     @error('no_ekstensi_1_penjual')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -95,29 +102,35 @@
                                                     <div class="form-group">
                                                         <label>No. Ekstensi 2</label>
                                                         <input type="text" class="form-control form-control-sm  @error('no_ekstensi_2_penjual') is-invalid @enderror"name="no_ekstensi_2_penjual" value="{{ old('no_ekstensi_2_penjual') }}">
+                                                         @error('no_ekstensi_2_penjual')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> 
+                                        </div>
                                         <div class="form-group">
                                             <label>No. HP</label>
                                             <input type="text" class="form-control form-control-sm  @error('no_hp_penjual') is-invalid @enderror"name="no_hp_penjual" value="{{ old('no_hp_penjual') }}">
+                                             @error('no_hp_penjual')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
                                         <div class="form-group">
                                             <label>No. Telp Rumah</label>
                                             <input type="text" class="form-control form-control-sm  @error('no_telp_penjual') is-invalid @enderror"name="no_telp_penjual" value="{{ old('no_telp_penjual') }}">
+                                             @error('no_telp_penjual')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
                                         <div class="form-group">
                                             <label>No. Fax</label>
                                             <input type="text" class="form-control form-control-sm  @error('no_fax_penjual') is-invalid @enderror"name="no_fax_penjual" value="{{ old('no_fax_penjual') }}">
+                                             @error('no_fax_penjual')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
                                         <div class="form-group">
                                             <label>Pager</label>
                                             <input type="text" class="form-control form-control-sm  @error('pager_penjual') is-invalid @enderror"name="pager_penjual" value="{{ old('pager_penjual') }}">
+                                             @error('pager_penjual')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
                                         <div class="form-group">
                                             <label>Email</label>
                                             <input type="text" class="form-control form-control-sm  @error('email_penjual') is-invalid @enderror"name="email_penjual" value="{{ old('email_penjual') }}">
+                                             @error('email_penjual')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                         </div>
                                     </div>
                                 </div>
@@ -153,6 +166,7 @@
                                                 <div class="form-group">
                                                     <label>File 1</label>
                                                     <input type="text" class="form-control form-control-sm " name="fileupload_1" placeholder="Link dokumen Anda" value="{{ old('fileupload_1') }}">
+                                                     @error('fileupload_1')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                             </div>
                                         </div>
@@ -171,6 +185,7 @@
                                                 <div class="form-group">
                                                     {{-- <label>Memo</label> --}}
                                                     <textarea class="form-control form-control-sm  @error('memo') is-invalid @enderror" name="memo" value="{{ old('memo') }}">{{ old('memo') }}</textarea>
+                                                     @error('memo')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                             </div>
                                         </div>
@@ -194,6 +209,17 @@
         </div>
     </div>
     @section('script')
+        @if ($errors->any())
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan',
+                text: 'Silakan periksa kembali form yang Anda isi.',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
     <script>
         $(function() {
             $('#datetimepicker3').datetimepicker({

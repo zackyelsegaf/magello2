@@ -60,8 +60,8 @@
         <script>
             Swal.fire({
                 icon: 'error',
-                title: 'Form Tidak Lengkap',
-                text: 'Terjadi kesalahan pada form yang Anda isi. Silakan periksa kembali.',
+                title: 'Terjadi Kesalahan',
+                text: 'Silakan periksa kembali form yang Anda isi.',
                 confirmButtonText: 'OK'
             });
         </script>

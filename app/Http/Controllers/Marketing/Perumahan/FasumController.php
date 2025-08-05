@@ -17,3 +17,4 @@ class FasumController extends Controller
         return view('marketing.perumahan.fasum.fasumaddnew');
     }
 }
+
