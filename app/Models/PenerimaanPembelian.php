@@ -56,6 +56,10 @@ class PenerimaanPembelian extends Model
 
     }
 
+    public function faktur() {
+        return $this->hasMany(FakturPembelianDetail::class, 'no_penerimaan', 'no_penerimaan');
+    }
+
     // /** generate id */
     protected static function boot()
     {

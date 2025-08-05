@@ -5,7 +5,7 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title mt-5">Edit Proyek</h3> 
+                        <h3 class="page-title mt-5">Edit Proyek</h3>
                     </div>
                 </div>
             </div>
@@ -14,11 +14,11 @@
                 <div class="tab-content profile-tab-cont">
                     <div class="profile-menu">
                         <ul class="nav nav-tabs nav-tabs-solid">
-                            <li class="nav-item"> 
-                                <a class="nav-link active" data-toggle="tab" href="#general">General</a> 
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#general">General</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#">Anggaran</a> 
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#">Anggaran</a>
                             </li>
                         </ul>
                     </div>
@@ -33,7 +33,7 @@
                                                 <div class="form-group">
                                                     <label>No. Proyek</label>
                                                     <input type="text" class="form-control form-control-sm  @error('proyek_id') is-invalid @enderror" name="proyek_id" value="{{ $Proyek->proyek_id }}">
-                                                </div>                                                
+                                                </div>
                                                 <div class="form-group">
                                                     <label>Nama Proyek</label>
                                                     <input type="text" class="form-control form-control-sm  @error('nama_proyek') is-invalid @enderror" name="nama_proyek" value="{{ $Proyek->nama_proyek }}">
@@ -48,7 +48,7 @@
                                                         <div class="form-group">
                                                             <label>Mulai</label>
                                                             <div class="cal-icon">
-                                                                <input type="text" class="form-control form-control-sm  datetimepicker" name="tanggal_from" value="{{ $Proyek->tanggal_from }}"> 
+                                                                <input type="text" class="form-control form-control-sm  datetimepicker" name="tanggal_from" value="{{ $Proyek->tanggal_from }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -56,11 +56,11 @@
                                                         <div class="form-group">
                                                             <label>Selesai</label>
                                                             <div class="cal-icon">
-                                                                <input type="text" class="form-control form-control-sm  datetimepicker" name="tanggal_to" value="{{ $Proyek->tanggal_to }}"> 
+                                                                <input type="text" class="form-control form-control-sm  datetimepicker" name="tanggal_to" value="{{ $Proyek->tanggal_to }}">
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div> 
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -105,7 +105,7 @@
                                                         <span class="slider round"></span>
                                                     </label>
                                                     <span class="ml-2" id="dihentikan-status">{{ old('dihentikan', $Proyek->dihentikan) ? 'Aktif' : 'Tidak Aktif' }}</span>
-                                                </div>    
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -138,6 +138,17 @@
         </div>
     </div>
     @section('script')
+        @if ($errors->any())
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan',
+                text: 'Silakan periksa kembali form yang Anda isi.',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const checkbox = document.getElementById('dihentikan');
@@ -146,12 +157,12 @@
             function updateStatusText() {
                 statusText.textContent = checkbox.checked ? 'Ya' : 'Tidak';
             }
-    
+
             updateStatusText();
-    
+
             checkbox.addEventListener('change', updateStatusText);
         });
-    </script>    
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const checkbox = document.getElementById('persentase_komplet_check');
@@ -160,12 +171,12 @@
             function updateStatusText() {
                 statusText.textContent = checkbox.checked ? 'Ya' : 'Tidak';
             }
-    
+
             updateStatusText();
-    
+
             checkbox.addEventListener('change', updateStatusText);
         });
-    </script>  
+    </script>
     <script>
         $(function() {
             $('#datetimepicker3').datetimepicker({

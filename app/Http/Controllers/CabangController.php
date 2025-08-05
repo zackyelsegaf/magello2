@@ -19,15 +19,15 @@ class CabangController extends Controller
         $users = DB::table('users')->get();
         return view('cabang.cabangaddnew', compact('gudang', 'users'));
     }
-    
+
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'cabang_id'      => 'nullable|string|max:255',
-            'nama_cabang'    => 'nullable|string|max:255',
-            'kode_transaksi' => 'nullable|string|max:255',
-            'gudang'         => 'nullable|array',
-            'pengguna'       => 'nullable|array',
+            'cabang_id'      => 'required|string|max:255',
+            'nama_cabang'    => 'required|string|max:255',
+            'kode_transaksi' => 'required|string|max:255',
+            'gudang'         => 'required|array',
+            'pengguna'       => 'required|array',
         ]);
 
         DB::beginTransaction();
@@ -47,9 +47,8 @@ class CabangController extends Controller
 
             DB::commit();
             sweetalert()->success('Updated record successfully :)');
-            return redirect()->route('cabang/list/page');    
-
-        } catch(\Exception $e) {
+            return redirect()->route('cabang/list/page');
+        } catch (\Exception $e) {
             DB::rollback();
             sweetalert()->error('Update record failed :)');
             \Log::error($e->getMessage());
@@ -72,15 +71,15 @@ class CabangController extends Controller
     }
 
 
-    public function saveRecordCabang(Request $request){
+    public function saveRecordCabang(Request $request)
+    {
         $validated = $request->validate([
-            'cabang_id'      => 'nullable|string|max:255',
-            'nama_cabang'    => 'nullable|string|max:255',
-            'kode_transaksi' => 'nullable|string|max:255',
-            'gudang'         => 'nullable|array',
-            'pengguna'       => 'nullable|array',
+            'cabang_id'      => 'required|string|max:255',
+            'nama_cabang'    => 'required|string|max:255',
+            'kode_transaksi' => 'required|string|max:255',
+            'gudang'         => 'required|array',
+            'pengguna'       => 'required|array',
         ]);
-
         //debug
         // DB::enableQueryLog();
         // MataUang::create($request->all());
@@ -96,12 +95,11 @@ class CabangController extends Controller
                 'pengguna'       => json_encode($request->pengguna), // Simpan sebagai JSON string
             ]);
             $cabang->save();
-            
+
             DB::commit();
             sweetalert()->success('Create new Cabang successfully :)');
-            return redirect()->route('cabang/list/page');    
-            
-        } catch(\Exception $e) {
+            return redirect()->route('cabang/list/page');
+        } catch (\Exception $e) {
             DB::rollback();
             sweetalert()->error('Tambah Data Gagal :)');
             return redirect()->back();
@@ -114,9 +112,8 @@ class CabangController extends Controller
             $ids = $request->ids;
             Cabang::whereIn('id', $ids)->delete();
             sweetalert()->success('Data berhasil dihapus :)');
-            return redirect()->route('cabang/list/page');    
-            
-        } catch(\Exception $e) {
+            return redirect()->route('cabang/list/page');
+        } catch (\Exception $e) {
             DB::rollback();
             sweetalert()->error('Data gagal dihapus :)');
             \Log::error($e->getMessage());
@@ -155,7 +152,7 @@ class CabangController extends Controller
         $data_arr = [];
 
         foreach ($records as $key => $record) {
-            $checkbox = '<input type="checkbox" class="cabang_checkbox" value="'.$record->id.'">';
+            $checkbox = '<input type="checkbox" class="cabang_checkbox" value="' . $record->id . '">';
 
             $data_arr[] = [
                 "checkbox"         => $checkbox,
@@ -166,12 +163,12 @@ class CabangController extends Controller
                 "kode_transaksi"   => $record->kode_transaksi,
             ];
         }
-        
+
         return response()->json([
             "draw"                 => intval($draw),
             "recordsTotal"         => $totalRecords,
             "recordsFiltered"      => $totalRecordsWithFilter,
             "data"                 => $data_arr
-        ])->header('Content-Type', 'application/json');        
+        ])->header('Content-Type', 'application/json');
     }
 }

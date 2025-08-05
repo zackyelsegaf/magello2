@@ -25,12 +25,12 @@ class DepartemenController extends Controller
     }
 
     public function saveRecordDepartemen(Request $request){
-        
+
         $validated = $request->validate([
-            'nama_departemen' => 'nullable|string|max:255',
-            'nama_kontak'     => 'nullable|string|max:255',
-            'tipe_departemen' => 'nullable|string|max:255',
-            'dihentikan'      => 'nullable|boolean',
+            'nama_departemen' => 'required|string|max:255',
+            'nama_kontak'     => 'required|string|max:255',
+            'tipe_departemen' => 'required|string|max:255',
+            'dihentikan'      => 'required|boolean',
             'deskripsi'       => 'nullable|string|max:255',
         ]);
 
@@ -51,8 +51,8 @@ class DepartemenController extends Controller
 
             DB::commit();
             sweetalert()->success('Create new Departemen successfully :)');
-            return redirect()->route('departemen/list/page');    
-            
+            return redirect()->route('departemen/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Tambah Data Gagal: ' . $e->getMessage());
@@ -84,10 +84,10 @@ class DepartemenController extends Controller
     public function update(Request $request, $id)
     {
         $validate = $request->validate([
-            'nama_departemen' => 'nullable|string|max:255',
-            'nama_kontak'     => 'nullable|string|max:255',
-            'tipe_departemen' => 'nullable|string|max:255',
-            'dihentikan'      => 'nullable|boolean',
+            'nama_departemen' => 'required|string|max:255',
+            'nama_kontak'     => 'required|string|max:255',
+            'tipe_departemen' => 'required|string|max:255',
+            'dihentikan'      => 'required|boolean',
             'deskripsi'       => 'nullable|string|max:255',
         ]);
 
@@ -95,11 +95,11 @@ class DepartemenController extends Controller
         try {
             $departemen = Departemen::findOrFail($id);
             $departemen->update($validate);
-            
+
             DB::commit();
             sweetalert()->success('Updated record successfully :)');
-            return redirect()->route('departemen/list/page');    
-            
+            return redirect()->route('departemen/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Update record fail :)');
@@ -114,8 +114,8 @@ class DepartemenController extends Controller
             $ids = $request->ids;
             Departemen::whereIn('id', $ids)->delete();
             sweetalert()->success('Data berhasil dihapus :)');
-            return redirect()->route('departemen/list/page');    
-            
+            return redirect()->route('departemen/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Data gagal dihapus :)');
@@ -162,7 +162,7 @@ class DepartemenController extends Controller
             ->skip($start)
             ->take($rowPerPage)
             ->get();
-            
+
         $data_arr = [];
 
         foreach ($records as $key => $record) {
@@ -180,12 +180,12 @@ class DepartemenController extends Controller
                 'dihentikan'      => $record->dihentikan,
             ];
         }
-        
+
         return response()->json([
             "draw"                 => intval($draw),
             "recordsTotal"         => $totalRecords,
             "recordsFiltered"      => $totalRecordsWithFilter,
             "data"                 => $data_arr
-        ])->header('Content-Type', 'application/json');        
+        ])->header('Content-Type', 'application/json');
     }
 }

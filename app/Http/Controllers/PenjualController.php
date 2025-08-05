@@ -35,21 +35,21 @@ class PenjualController extends Controller
     }
 
     public function saveRecordPenjual(Request $request){
-        
+
         $validate = $request->validate([
-            'nama_depan_penjual'    => 'nullable|string|max:255',
+            'nama_depan_penjual'    => 'required|string|max:255',
             'nama_belakang_penjual' => 'nullable|string|max:255',
-            'jabatan'               => 'nullable|string|max:255',
-            'dihentikan'            => 'nullable|boolean',
-            'no_kantor_1_penjual'   => 'nullable|string|max:255',
+            'jabatan'               => 'required|string|max:255',
+            'dihentikan'            => 'required|boolean',
+            'no_kantor_1_penjual'   => 'required|string|max:255',
             'no_kantor_2_penjual'   => 'nullable|string|max:255',
-            'no_ekstensi_1_penjual' => 'nullable|string|max:255',
+            'no_ekstensi_1_penjual' => 'required|string|max:255',
             'no_ekstensi_2_penjual' => 'nullable|string|max:255',
-            'no_hp_penjual'         => 'nullable|string|max:255',
+            'no_hp_penjual'         => 'required|string|max:255',
             'no_telp_penjual'       => 'nullable|string|max:255',
             'no_fax_penjual'        => 'nullable|string|max:255',
             'pager_penjual'         => 'nullable|string|max:255',
-            'email_penjual'         => 'nullable|string|max:255',
+            'email_penjual'         => 'required|string|max:255',
             'memo'                  => 'nullable|string|max:255',
             'fileupload_1'          => 'nullable|string|max:255',
             // 'fileupload_2'               => 'nullable|string|max:255',
@@ -77,8 +77,8 @@ class PenjualController extends Controller
 
             DB::commit();
             sweetalert()->success('Create new Penjual successfully :)');
-            return redirect()->route('penjual/list/page');    
-            
+            return redirect()->route('penjual/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Tambah Data Gagal: ' . $e->getMessage());
@@ -109,19 +109,19 @@ class PenjualController extends Controller
     public function update(Request $request, $id)
     {
         $validate = $request->validate([
-            'nama_depan_penjual'    => 'nullable|string|max:255',
+            'nama_depan_penjual'    => 'required|string|max:255',
             'nama_belakang_penjual' => 'nullable|string|max:255',
-            'jabatan'               => 'nullable|string|max:255',
-            'dihentikan'            => 'nullable|boolean',
-            'no_kantor_1_penjual'   => 'nullable|string|max:255',
+            'jabatan'               => 'required|string|max:255',
+            'dihentikan'            => 'required|boolean',
+            'no_kantor_1_penjual'   => 'required|string|max:255',
             'no_kantor_2_penjual'   => 'nullable|string|max:255',
-            'no_ekstensi_1_penjual' => 'nullable|string|max:255',
+            'no_ekstensi_1_penjual' => 'required|string|max:255',
             'no_ekstensi_2_penjual' => 'nullable|string|max:255',
-            'no_hp_penjual'         => 'nullable|string|max:255',
+            'no_hp_penjual'         => 'required|string|max:255',
             'no_telp_penjual'       => 'nullable|string|max:255',
             'no_fax_penjual'        => 'nullable|string|max:255',
             'pager_penjual'         => 'nullable|string|max:255',
-            'email_penjual'         => 'nullable|string|max:255',
+            'email_penjual'         => 'required|string|max:255',
             'memo'                  => 'nullable|string|max:255',
             'fileupload_1'          => 'nullable|string|max:255',
             // 'fileupload_2'               => 'nullable|string|max:255',
@@ -136,11 +136,11 @@ class PenjualController extends Controller
         try {
             $penjual = Penjual::findOrFail($id);
             $penjual->update($validate);
-            
+
             DB::commit();
             sweetalert()->success('Updated record successfully :)');
-            return redirect()->route('penjual/list/page');    
-            
+            return redirect()->route('penjual/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Update record fail :)');
@@ -155,8 +155,8 @@ class PenjualController extends Controller
             $ids = $request->ids;
             Penjual::whereIn('id', $ids)->delete();
             sweetalert()->success('Data berhasil dihapus :)');
-            return redirect()->route('penjual/list/page');    
-            
+            return redirect()->route('penjual/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Data gagal dihapus :)');
@@ -175,7 +175,7 @@ class PenjualController extends Controller
         $order_arr       = $request->get('order');
         $namaFilter         = $request->get('nama_depan_penjual');
         $penjualDihentikanFilter  = $request->get('dihentikan');
-        
+
         $columnIndex     = $columnIndex_arr[0]['column']; // Column index
         $columnName      = $columnName_arr[$columnIndex]['data']; // Column name
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
@@ -198,7 +198,7 @@ class PenjualController extends Controller
             ->skip($start)
             ->take($rowPerPage)
             ->get();
-        
+
         $data_arr = [];
 
         foreach ($records as $key => $record) {
@@ -216,12 +216,12 @@ class PenjualController extends Controller
                 'dihentikan'            => $record->dihentikan,
             ];
         }
-        
+
         return response()->json([
             "draw"                 => intval($draw),
             "recordsTotal"         => $totalRecords,
             "recordsFiltered"      => $totalRecordsWithFilter,
             "data"                 => $data_arr
-        ])->header('Content-Type', 'application/json');        
+        ])->header('Content-Type', 'application/json');
     }
 }

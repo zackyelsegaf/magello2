@@ -14,11 +14,11 @@
                 <div class="tab-content profile-tab-cont">
                     <div class="profile-menu">
                         <ul class="nav nav-tabs nav-tabs-solid">
-                            <li class="nav-item"> 
-                                <a class="nav-link active" data-toggle="tab" href="#general">General</a> 
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#general">General</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#">Anggaran</a> 
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#">Anggaran</a>
                             </li>
                         </ul>
                     </div>
@@ -33,14 +33,17 @@
                                                 <div class="form-group">
                                                     <label>No. Proyek</label>
                                                     <input type="text" class="form-control form-control-sm  @error('proyek_id') is-invalid @enderror" name="proyek_id" value="{{ old('proyek_id') }}">
-                                                </div>                                                
+                                                      @error('proyek_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                </div>
                                                 <div class="form-group">
                                                     <label>Nama Proyek</label>
                                                     <input type="text" class="form-control form-control-sm  @error('nama_proyek') is-invalid @enderror" name="nama_proyek" value="{{ old('nama_proyek') }}">
+                                                      @error('nama_proyek')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Nama Kontak</label>
-                                                    <input type="text" class="form-control form-control-sm " name="nama_kontak" value="{{ old('nama_kontak') }}">
+                                                    <input type="text" class="form-control form-control-sm @error('nama_proyek') is-invalid @enderror" name="nama_kontak" value="{{ old('nama_kontak') }}">
+                                                      @error('nama_kontak')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <h7 class="font-weight-bold">Tanggal Projek</h7>
                                                 <div class="row">
@@ -48,7 +51,7 @@
                                                         <div class="form-group">
                                                             <label>Mulai</label>
                                                             <div class="cal-icon">
-                                                                <input type="text" class="form-control form-control-sm  datetimepicker" name="tanggal_from" value="{{ old('tanggal_from') }}"> 
+                                                                <input type="text" class="form-control form-control-sm  datetimepicker" name="tanggal_from" value="{{ old('tanggal_from') }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -56,11 +59,11 @@
                                                         <div class="form-group">
                                                             <label>Selesai</label>
                                                             <div class="cal-icon">
-                                                                <input type="text" class="form-control form-control-sm  datetimepicker" name="tanggal_to" value="{{ old('tanggal_to') }}"> 
+                                                                <input type="text" class="form-control form-control-sm  datetimepicker" name="tanggal_to" value="{{ old('tanggal_to') }}">
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div> 
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -144,7 +147,18 @@
             </form>
         </div>
     </div>
-    @section('script')        
+    @section('script')
+        @if ($errors->any())
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan',
+                text: 'Silakan periksa kembali form yang Anda isi.',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
     <script>
         $(function() {
             $('#datetimepicker3').datetimepicker({

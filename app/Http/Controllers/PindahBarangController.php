@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PindahBarang;
 use App\Models\Barang;
+use App\Models\StokBarang;
 use App\Models\PindahBarangDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -58,7 +59,7 @@ class PindahBarangController extends Controller
             'fileupload_8'       => 'nullable|string|max:255',
             'no_barang.*'        => 'nullable|string|max:255',
             'deskripsi_barang.*' => 'nullable|string|max:255',
-            'kts_barang.*'       => 'nullable|string|max:255',
+            'kts_barang.*'       => 'required|numeric|min:0.01',
             'satuan.*'           => 'nullable|string|max:255',
         ];
 
@@ -66,12 +67,11 @@ class PindahBarangController extends Controller
 
         DB::beginTransaction();
         try {
+            $pindahBarang = new PindahBarang($validated);
+            $pindahBarang->save();
 
             $jumlahBarang = count($request->no_barang);
             for ($i = 0; $i < $jumlahBarang; $i++) {
-                $pindahBarang = new PindahBarang($validated);
-                $pindahBarang->save();
-
                 $detail = new PindahBarangDetail();
                 $detail->pindah_barang_id = $pindahBarang->id;
                 $detail->no_barang        = $request->no_barang[$i];
@@ -80,17 +80,34 @@ class PindahBarangController extends Controller
                 $detail->satuan           = $request->satuan[$i];
                 $detail->pengguna_pindah  = auth()->user()->email;
                 $detail->save();
-            }
 
-            
-            foreach ($request->no_barang as $i => $noBarang) {
-                Barang::where('no_barang', $noBarang)
-                    ->update([
-                        'default_gudang' => $request->ke_gudang,
-                        'satuan' => $request->satuan[$i] ?? null,
+                // ✅ Cari barang_id berdasarkan no_barang
+                $barang = Barang::find($request->no_barang[$i]);
+
+                if ($barang) {
+                    $jumlahPindah = (float) $request->kts_barang[$i];
+
+                    // 🔽 Kurangi dari gudang asal
+                    $stokAsal = StokBarang::where('barang_id', $barang->id)
+                        ->where('gudang_id', $validated['dari_gudang'])
+                        ->first();
+
+                    if ($stokAsal && $stokAsal->jumlah >= $jumlahPindah) {
+                        $stokAsal->jumlah -= $jumlahPindah;
+                        $stokAsal->save();
+                    } else {
+                        throw new \Exception("Stok tidak mencukupi di gudang asal untuk barang: {$barang->nama_barang}");
+                    }
+
+                    // 🔼 Tambah ke gudang tujuan
+                    $stokTujuan = StokBarang::firstOrNew([
+                        'barang_id' => $barang->id,
+                        'gudang_id' => $validated['ke_gudang'],
                     ]);
+                    $stokTujuan->jumlah = ($stokTujuan->jumlah ?? 0) + $jumlahPindah;
+                    $stokTujuan->save();
+                }
             }
-
 
             DB::commit();
             sweetalert()->success('Pindah barang berhasil disimpan :)');

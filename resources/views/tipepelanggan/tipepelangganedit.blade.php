@@ -5,7 +5,7 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title mt-5">Edit Tipe Pelanggan</h3> 
+                        <h3 class="page-title mt-5">Edit Tipe Pelanggan</h3>
                     </div>
                 </div>
             </div>
@@ -18,6 +18,7 @@
                                 <div class="form-group">
                                     <label>Nama</label>
                                     <input type="text" class="form-control form-control-sm  @error('nama') is-invalid @enderror" id="nama" name="nama" value="{{ $tipePelanggan->nama }}">
+                                    @error('nama')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                             </div>
                         </div>
@@ -27,4 +28,17 @@
             </form>
         </div>
     </div>
+    @section('script')
+    @if ($errors->any())
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan',
+                text: 'Silakan periksa kembali form yang Anda isi.',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
+@endsection
 @endsection
