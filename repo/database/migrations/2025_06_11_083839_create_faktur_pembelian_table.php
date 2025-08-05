@@ -1,0 +1,62 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('faktur_pembelian', function (Blueprint $table) {
+            $table->id();
+            $table->string('no_faktur')->nullable();
+            $table->string('no_persetujuan')->nullable();
+            $table->string('no_pemasok')->nullable();
+            $table->string('no_formulir')->nullable();
+            $table->string('pemasok_faktur')->nullable();
+            $table->string('tgl_faktur')->nullable();
+            $table->string('deskripsi_faktur')->nullable();
+            $table->string('proyek')->nullable();
+            $table->string('gudang')->nullable();
+            $table->string('departemen')->nullable();
+            $table->boolean('tindak_lanjut_check')->nullable()->default(false);
+            $table->boolean('urgent_check')->nullable()->default(false);
+            $table->boolean('catatan_pemeriksaan_check')->nullable()->default(false);
+            $table->boolean('pajak_check')->nullable()->default(false);
+            $table->boolean('termasuk_pajak_check')->nullable()->default(false);
+            $table->boolean('disetujui_check')->nullable()->default(false);
+            $table->string('deskripsi_1')->nullable();
+            $table->string('deskripsi_2')->nullable();
+            $table->string('status_faktur')->nullable();
+            $table->string('pengguna_faktur')->nullable();
+            $table->string('sub_total')->nullable();
+            $table->string('diskon_left')->nullable();
+            $table->string('total_diskon_right')->nullable();
+            $table->string('ppn_11_persen')->nullable();
+            $table->string('pajak_2')->nullable();
+            $table->string('jumlah_biaya')->nullable();
+            $table->string('jumlah')->nullable();
+            $table->string('fileupload_1')->nullable();
+            $table->string('fileupload_2')->nullable();
+            $table->string('fileupload_3')->nullable();
+            $table->string('fileupload_4')->nullable();
+            $table->string('fileupload_5')->nullable();
+            $table->string('fileupload_6')->nullable();
+            $table->string('fileupload_7')->nullable();
+            $table->string('fileupload_8')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('faktur_pembelian');
+    }
+};
