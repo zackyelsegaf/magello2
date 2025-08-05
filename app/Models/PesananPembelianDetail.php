@@ -41,4 +41,7 @@ class PesananPembelianDetail extends Model
     {
         return $this->belongsTo(PesananPembelian::class, 'pesanan_pembelian_id');
     }
+    public function barang(){
+        return $this->belongsTo(Barang::class, 'no_barang', 'no_barang');
+    }
 }

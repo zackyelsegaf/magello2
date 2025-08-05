@@ -63,6 +63,10 @@ class PesananPembelian extends Model
 
     }
 
+    public function faktur() {
+        return $this->hasMany(FakturPembelianDetail::class, 'no_pesanan', 'no_pesanan');
+    }
+
     // /** generate id */
     protected static function boot()
     {

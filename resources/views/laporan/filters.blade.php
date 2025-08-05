@@ -48,7 +48,7 @@
                 <div class="col">
                     <div class="">
                         <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-check mr-2"></i>Simpan</button>
-                        <a href="{{ route('laporan/pembelian') }}" class="btn btn-primary float-left veiwbutton ml-3"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                        <a href="{{ url()->previous() }}" class="btn btn-primary float-left veiwbutton ml-3"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
                     </div>
                 </div>
             </div>
