@@ -98,8 +98,8 @@
                                             id="btnTambahBarang">Tambah</button>
                                     </div>
                                     <!-- Modal -->
-                                    {{-- <x-form.modal-barang :databarang=$nama_barang /> --}}
-                                    <div id="modalbarang-svelte"></div>
+                                    <x-form.modal-barang :databarang=$nama_barang />
+                                    {{-- <div id="modalbarang-svelte"></div> --}}
                                     <div class="table-responsive"
                                         style="max-height: calc(100vh - 250px); overflow-y: auto; margin-bottom: 100px;">
                                         <table class="table table-striped table-bordered table-hover table-center mb-0"
@@ -512,10 +512,6 @@
             }
 
             $(document).ready(function() {
-                $('#checkAll').click(function() {
-                    $('.check-barang').prop('checked', this.checked);
-                });
-
                 $('#tambahBarangTerpilih').click(function() {
                     $('.check-barang:checked').each(function() {
                         let id = $(this).data('id');
@@ -724,6 +720,11 @@
                     format: 'LT'
                 });
             });
+        </script>
+        <script text="javascript">
+            window.__APP_DATA__ = {
+                dataBarang: @json($nama_barang),
+            };
         </script>
     </x-slot:scripts>
 </x-layout.main>

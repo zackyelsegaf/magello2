@@ -1,226 +1,149 @@
 <script>
-    export let databarang = [];
+	export let databarang = [];
 
-    let search_filter = "0";
-    let filterNoBarang = "";
-    let filterNamaBarang = "";
-    let rowsPerPage = 10;
-    let currentPage = 1;
+	let showModal = false;
+	let rowsPerPage = 10;
+	let currentPage = 1;
+	let filteredData = [...databarang];
 
-    let selectedItems = new Set();
-    let filteredData = [];
+	let filterNoBarang = '';
+	let filterNamaBarang = '';
 
-    $: filteredData = databarang.filter((item) => {
-        return (
-            item.no_barang
-                .toLowerCase()
-                .includes(filterNoBarang.toLowerCase()) &&
-            item.nama_barang
-                .toLowerCase()
-                .includes(filterNamaBarang.toLowerCase())
-        );
-    });
+	function applyFilter() {
+		filteredData = databarang.filter(item => {
+			return item.no_barang.toLowerCase().includes(filterNoBarang.toLowerCase()) &&
+				item.nama_barang.toLowerCase().includes(filterNamaBarang.toLowerCase());
+		});
+		currentPage = 1;
+	}
 
-    $: paginatedData = filteredData.slice(
-        (currentPage - 1) * rowsPerPage,
-        currentPage * rowsPerPage,
-    );
-    $: totalPages = Math.ceil(filteredData.length / rowsPerPage);
+	function renderTable(data) {
+		const start = (currentPage - 1) * rowsPerPage;
+		return data.slice(start, start + rowsPerPage);
+	}
 
-    function changePage(page) {
-        currentPage = page;
-    }
+	function getPaginationPages(totalPages, currentPage, maxVisible = 5) {
+		let pages = [];
 
-    function toggleAll(e) {
-        if (e.target.checked) {
-            filteredData.forEach((item) => selectedItems.add(item.id));
-        } else {
-            selectedItems.clear();
-        }
-    }
+		if (totalPages <= maxVisible + 4) {
+			for (let i = 1; i <= totalPages; i++) pages.push(i);
+			return pages;
+		}
 
-    function toggleItem(id) {
-        if (selectedItems.has(id)) {
-            selectedItems.delete(id);
-        } else {
-            selectedItems.add(id);
-        }
-    }
+		pages.push(1);
+		if (currentPage > 3) pages.push('...');
 
-    function tambahBarangTerpilih() {
-        const selected = databarang.filter((d) => selectedItems.has(d.id));
-        console.log("Barang terpilih:", selected);
-        // Emit event ke parent jika diperlukan
-        // createEventDispatcher bisa digunakan
-    }
+		let start = Math.max(2, currentPage - 1);
+		let end = Math.min(totalPages - 1, currentPage + 1);
+
+		for (let i = start; i <= end; i++) pages.push(i);
+
+		if (currentPage < totalPages - 2) pages.push('...');
+
+		pages.push(totalPages);
+
+		return pages;
+	}
 </script>
 
+<!-- Trigger Button -->
+<button class="btn btn-primary mb-3" on:click={() => showModal = true}>
+	Pilih Barang
+</button>
+
 <!-- Modal -->
-<div
-    class="modal fade show d-block"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="modalBarangLabel"
->
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Pilih Barang</h5>
-                <button
-                    type="button"
-                    class="close"
-                    on:click={() =>
-                        document.body.classList.remove("modal-open")}
-                >
-                    <span>&times;</span>
-                </button>
-            </div>
+{#if showModal}
+	<div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Pilih Barang</h5>
+					<button type="button" class="close" on:click={() => showModal = false}>
+						<span>&times;</span>
+					</button>
+				</div>
 
-            <div class="modal-body">
-                <!-- Filter Radio -->
-                <div class="form-inline mb-3">
-                    <label class="form-check form-check-inline">
-                        <input
-                            class="form-check-input"
-                            type="radio"
-                            bind:group={search_filter}
-                            value="0"
-                        />
-                        <span class="form-check-label">Semua</span>
-                    </label>
-                    <label class="form-check form-check-inline">
-                        <input
-                            class="form-check-input"
-                            type="radio"
-                            bind:group={search_filter}
-                            value="1"
-                        />
-                        <span class="form-check-label">Kategori Barang</span>
-                    </label>
-                    <label class="form-check form-check-inline">
-                        <input
-                            class="form-check-input"
-                            type="radio"
-                            bind:group={search_filter}
-                            value="2"
-                        />
-                        <span class="form-check-label">Tipe Persediaan</span>
-                    </label>
-                </div>
+				<div class="modal-body">
+					<!-- Filter -->
+					<div class="form-inline mb-3">
+						<input bind:value={filterNoBarang} type="text" class="form-control form-control-sm mr-2" placeholder="Cari No Barang">
+						<input bind:value={filterNamaBarang} type="text" class="form-control form-control-sm mr-2" placeholder="Cari Nama Barang">
+						<button type="button" class="btn btn-sm btn-primary" on:click={applyFilter}>Filter</button>
+					</div>
 
-                <!-- Filter Input -->
-                <div class="form-inline mb-3">
-                    <input
-                        type="text"
-                        class="form-control form-control-sm mr-2"
-                        placeholder="Cari No Barang"
-                        bind:value={filterNoBarang}
-                    />
-                    <input
-                        type="text"
-                        class="form-control form-control-sm mr-2"
-                        placeholder="Cari Nama Barang"
-                        bind:value={filterNamaBarang}
-                    />
-                    <button
-                        class="btn btn-sm btn-primary"
-                        on:click={() => {
-                            currentPage = 1;
-                        }}>Filter</button
-                    >
-                </div>
+					<!-- Table -->
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered table-hover table-center mb-0">
+							<thead class="thead-dark">
+								<tr>
+									<th class="text-center" style="width: 10%;">
+										<input type="checkbox" id="checkAll">
+									</th>
+									<th style="padding: 4px;">No. Barang</th>
+									<th style="padding: 4px;">Nama Barang</th>
+									<th style="padding: 4px;">Satuan</th>
+									<th style="padding: 4px;">Kuantitas</th>
+								</tr>
+							</thead>
+							<tbody>
+								{#each renderTable(filteredData) as item}
+									<tr>
+										<td class="text-center">
+											<input
+												type="checkbox"
+												class="check-barang"
+												data-id={item.id}
+												data-nobarang={item.no_barang}
+												data-nama={item.nama_barang}
+												data-satuan={item.satuan}
+												data-kuantitas={item.kuantitas_saldo_awal}
+											/>
+										</td>
+										<td>{item.no_barang}</td>
+										<td>{item.nama_barang}</td>
+										<td>{item.satuan}</td>
+										<td>{item.kuantitas_saldo_awal}</td>
+									</tr>
+								{/each}
+							</tbody>
+						</table>
+					</div>
 
-                <!-- Table -->
-                <div class="table-responsive">
-                    <table
-                        class="table table-striped table-bordered table-hover table-center mb-0"
-                    >
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center" style="width: 10%">
-                                    <input
-                                        type="checkbox"
-                                        on:change={toggleAll}
-                                    />
-                                </th>
-                                <th style="padding: 4px;">No. Barang</th>
-                                <th style="padding: 4px;">Nama Barang</th>
-                                <th style="padding: 4px;">Satuan</th>
-                                <th style="padding: 4px;">Kuantitas</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {#each paginatedData as item}
-                                <tr>
-                                    <td class="text-center">
-                                        <input
-                                            type="checkbox"
-                                            checked={selectedItems.has(item.id)}
-                                            on:change={() =>
-                                                toggleItem(item.id)}
-                                        />
-                                    </td>
-                                    <td>{item.no_barang}</td>
-                                    <td>{item.nama_barang}</td>
-                                    <td>{item.satuan}</td>
-                                    <td>{item.kuantitas_saldo_awal}</td>
-                                </tr>
-                            {/each}
-                        </tbody>
-                    </table>
-                </div>
+					<!-- Pagination -->
+					<div class="d-flex justify-content-between align-items-center mt-3">
+						<div class="form-inline">
+							<label for="limitSelect" class="mr-2">Tampilkan</label>
+							<select id="limitSelect" class="form-control form-control-sm" bind:value={rowsPerPage} on:change={() => currentPage = 1}>
+								<option value="10">10</option>
+								<option value="25">25</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							<span class="ml-2">data per halaman</span>
+						</div>
 
-                <!-- Pagination & Limit -->
-                <div
-                    class="d-flex justify-content-between align-items-center mt-3"
-                >
-                    <div class="form-inline">
-                        <label class="mr-2">Tampilkan</label>
-                        <select
-                            bind:value={rowsPerPage}
-                            class="form-control form-control-sm"
-                            on:change={() => (currentPage = 1)}
-                        >
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                        <span class="ml-2">data per halaman</span>
-                    </div>
+						<nav>
+							<ul class="pagination pagination-sm mb-0">
+								{#each getPaginationPages(Math.ceil(filteredData.length / rowsPerPage), currentPage) as page}
+									{#if page === '...'}
+										<li class="page-item disabled"><span class="page-link">...</span></li>
+									{:else}
+										<li class="page-item {page === currentPage ? 'active' : ''}">
+											<a href="#" class="page-link" on:click|preventDefault={() => currentPage = page}>{page}</a>
+										</li>
+									{/if}
+								{/each}
+							</ul>
+						</nav>
+					</div>
+				</div>
 
-                    <nav>
-                        <ul class="pagination pagination-sm mb-0">
-                            {#each Array(totalPages) as _, i}
-                                <li
-                                    class="page-item {i + 1 === currentPage
-                                        ? 'active'
-                                        : ''}"
-                                >
-                                    <a
-                                        class="page-link"
-                                        href="#"
-                                        on:click|preventDefault={() =>
-                                            changePage(i + 1)}>{i + 1}</a
-                                    >
-                                </li>
-                            {/each}
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn btn-success" on:click={tambahBarangTerpilih}
-                    >Tambah ke Form</button
-                >
-            </div>
-        </div>
-    </div>
-</div>
-
-<style>
-    .modal {
-        background-color: rgb(255, 255, 255);
-    }
-</style>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" on:click={() => showModal = false}>
+						Tambah ke Form
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{/if}

@@ -1,39 +1,39 @@
-import Example from "./components/Hello.svelte";
 import { mount } from "svelte";
+import Example from "./components/Hello.svelte";
 import AutoCompleteInput from "./components/AutoCompleteInput.svelte";
 import PilihBarang from "./components/PilihBarang.svelte";
 
-// Mount ke elemen HTML yang ada di Blade
-// Mount komponen ke elemen HTML
-
+// Ambil elemen dari DOM
 const svelteApp = document.getElementById("svelte-app");
 const el = document.getElementById("autocomplete-component");
-const modalBarang = document.getElementById('modalbarang-svelte');
+const modalBarang = document.getElementById("modalbarang-svelte");
 const data = window.__APP_DATA__ || {};
 
-if (svelteApp)
-mount(Example, {
-    target: svelteApp,
-    props: {
-        // kirim props jika perlu, contoh:
-        name: data.name,
-    },
-});
-
-
-
-if (el) {
-    mount(AutoCompleteInput, {
-        target: el,
+// Mount Example
+if (svelteApp) {
+    mount(Example, {
+        target: svelteApp,
         props: {
-            // kirim props jika perlu, contoh:
-            name: "cek",
+            name: data.name,
+        },
+    });
+}
+
+// Mount AutoCompleteInput
+if (modalBarang) {
+    mount(PilihBarang, {
+        target: modalBarang,
+        props: {
+            databarang: data.dataBarang,
         },
     });
 }
 
 if (el) {
-    mount(PilihBarang, {
-        target: modalBarang
+    mount(AutoCompleteInput, {
+        target: el,
+        props: {
+            name: "cek",
+        },
     });
 }

@@ -84,6 +84,7 @@
 
 <script>
     const allData = @json($databarang);
+    let checkedItems = new Set();
     let rowsPerPage = 10;
     let currentPage = 1;
     let filteredData = [...allData];
@@ -96,24 +97,51 @@
         const paginatedItems = data.slice(start, start + rowsPerPage);
 
         paginatedItems.forEach(item => {
+            const isChecked = checkedItems.has(item.id) ? 'checked' : '';
             const row = `
-                <tr>
-                    <td class="text-center">
-                        <input type="checkbox"
-                            class="check-barang"
-                            data-id="${item.id}"
-                            data-nobarang="${item.no_barang}"
-                            data-nama="${item.nama_barang}"
-                            data-satuan="${item.satuan}"
-                            data-kuantitas="${item.kuantitas_saldo_awal}">
-                    </td>
-                    <td>${item.no_barang}</td>
-                    <td>${item.nama_barang}</td>
-                    <td>${item.satuan}</td>
-                    <td>${item.kuantitas_saldo_awal}</td>
-                </tr>
-            `;
+            <tr>
+                <td class="text-center">
+                    <input type="checkbox"
+                        class="check-barang"
+                        data-id="${item.id}"
+                        data-nobarang="${item.no_barang}"
+                        data-nama="${item.nama_barang}"
+                        data-satuan="${item.satuan}"
+                        data-kuantitas="${item.kuantitas_saldo_awal}"
+                        ${isChecked}>
+                </td>
+                <td>${item.no_barang}</td>
+                <td>${item.nama_barang}</td>
+                <td>${item.satuan}</td>
+                <td>${item.kuantitas_saldo_awal}</td>
+            </tr>
+        `;
             tbody.insertAdjacentHTML('beforeend', row);
+        });
+
+        // Setelah render, pasang ulang event listener
+        document.querySelectorAll('.check-barang').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const id = parseInt(this.dataset.id);
+                if (this.checked) {
+                    checkedItems.add(id);
+                } else {
+                    checkedItems.delete(id);
+                }
+            });
+        });
+        
+        document.getElementById('checkAll').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.check-barang');
+            checkboxes.forEach(cb => {
+                cb.checked = this.checked;
+                const id = parseInt(cb.dataset.id);
+                if (this.checked) {
+                    checkedItems.add(id);
+                } else {
+                    checkedItems.delete(id);
+                }
+            });
         });
     }
 
@@ -122,17 +150,53 @@
         const pagination = document.getElementById('pagination-bar');
         pagination.innerHTML = '';
 
-        for (let i = 1; i <= totalPages; i++) {
+        function createPageItem(page) {
             const li = document.createElement('li');
-            li.className = 'page-item' + (i === currentPage ? ' active' : '');
-            li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+            li.className = 'page-item' + (page === currentPage ? ' active' : '');
+            li.innerHTML = `<a class="page-link" href="#">${page}</a>`;
             li.addEventListener('click', function(e) {
                 e.preventDefault();
-                currentPage = i;
+                currentPage = page;
                 renderTable(filteredData);
                 renderPagination(filteredData);
             });
-            pagination.appendChild(li);
+            return li;
+        }
+
+        function createEllipsis() {
+            const li = document.createElement('li');
+            li.className = 'page-item disabled';
+            li.innerHTML = `<span class="page-link">...</span>`;
+            return li;
+        }
+
+        const maxPagesToShow = 5;
+        const startPage = Math.max(currentPage - 2, 2);
+        const endPage = Math.min(currentPage + 2, totalPages - 1);
+
+        if (totalPages <= 1) return;
+
+        // Always show first page
+        pagination.appendChild(createPageItem(1));
+
+        // Ellipsis before middle range
+        if (startPage > 2) {
+            pagination.appendChild(createEllipsis());
+        }
+
+        // Middle range
+        for (let i = startPage; i <= endPage; i++) {
+            pagination.appendChild(createPageItem(i));
+        }
+
+        // Ellipsis after middle range
+        if (endPage < totalPages - 1) {
+            pagination.appendChild(createEllipsis());
+        }
+
+        // Always show last page
+        if (totalPages > 1) {
+            pagination.appendChild(createPageItem(totalPages));
         }
     }
 
