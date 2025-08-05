@@ -18,32 +18,37 @@
                                 <div class="form-group">
                                     <label>Kode Cabang</label>
                                     <input type="text" class="form-control form-control-sm  @error('cabang_id') is-invalid @enderror" name="cabang_id" placeholder="Kode pajak pelanggan" value="{{ old('cabang_id') }}">
+                                    @error('cabang_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Cabang</label>
                                     <input type="text" class="form-control form-control-sm  @error('nama_cabang') is-invalid @enderror" name="nama_cabang" placeholder="Nama Cabang" value="{{ old('nama_cabang') }}">
+                                    @error('nama_cabang')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Kode Transaksi Cabang</label>
                                     <input type="text" class="form-control form-control-sm  @error('kode_transaksi') is-invalid @enderror" name="kode_transaksi" placeholder="Kode Transaksi" value="{{ old('kode_transaksi') }}">
+                                    @error('kode_transaksi')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="gudang" class="form-label fw-bold">Gudang</label>
-                                    <select class="form-select select2-tag" id="gudang" name="gudang[]" multiple>
+                                    <select class="form-select select2-tag @error('gudang') is-invalid @enderror" id="gudang" name="gudang[]" multiple>
                                         <option></option>
                                         @foreach ($gudang as $items )
                                         <option value="{{ $items->nama_gudang }}">{{ $items->nama_gudang }}</option>
                                         @endforeach
                                     </select>
+                                    @error('gudang')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="Pengguna" class="form-label fw-bold">Pengguna</label>
-                                    <select class="form-select select2-tag" id="pengguna" name="pengguna[]" multiple>
+                                    <select class="form-select select2-tag @error('pengguna') is-invalid @enderror" id="pengguna" name="pengguna[]" multiple>
                                         <option></option>
                                         @foreach ($users as $items )
                                         <option value="{{ $items->name }}">{{ $items->name }}</option>
                                         @endforeach
                                     </select>
+                                    @error('pengguna')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                                 </div>
                             </div>
                         </div>
@@ -75,5 +80,16 @@
             });
         });
     </script>
+    @if ($errors->any())
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan',
+                text: 'Silakan periksa kembali form yang Anda isi.',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
     @endsection
 @endsection

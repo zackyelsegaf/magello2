@@ -18,10 +18,12 @@
                                 <div class="form-group">
                                     <label>Kode</label>
                                     <input type="text" class="form-control form-control-sm  @error('kode_pajak') is-invalid @enderror" name="kode_pajak" placeholder="Kode pajak pelanggan" value="{{ old('kode_pajak') }}">
+                                      @error('kode_pajak')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Nama</label>
                                     <input type="text" class="form-control form-control-sm  @error('nama') is-invalid @enderror" name="nama" placeholder="Nama pajak" value="{{ old('nama') }}">
+                                      @error('nama')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Nilai</label>
@@ -30,19 +32,22 @@
                                         <div class="input-group-append">
                                             <span class="input-group-text">%</span>
                                         </div>
-                                    </div>                                
+                                    </div>
                                 </div>
+                                @error('nilai_persentase')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 <div class="form-group">
                                     <label>Akun Pajak Penjualan</label>
-                                    <input type="text" class="form-control form-control-sm " name="akun_pajak_penjualan" placeholder="Akun pajak penjualan" value="{{ old('akun_pajak_penjualan') }}">
+                                    <input type="text" class="form-control form-control-sm @error('akun_pajak_penjualan') is-invalid @enderror" name="akun_pajak_penjualan" placeholder="Akun pajak penjualan" value="{{ old('akun_pajak_penjualan') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Akun Pajak Pembelian</label>
-                                    <input type="text" class="form-control form-control-sm " name="akun_pajak_pembelian" placeholder="Akun pajak pembelian" value="{{ old('akun_pajak_pembelian') }}">
+                                    <input type="text" class="form-control form-control-sm @error('akun_pajak_pembelian') is-invalid @enderror" name="akun_pajak_pembelian" placeholder="Akun pajak pembelian" value="{{ old('akun_pajak_pembelian') }}">
+                                      @error('akun_pajak_pembelian')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Deskripsi</label>
                                     <textarea class="form-control form-control-sm  @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi') }}</textarea>
+                                    @error('deskripsi')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                             </div>
                         </div>
@@ -62,5 +67,16 @@
         </div>
     </div>
     @section('script')
+        @if ($errors->any())
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan',
+                text: 'Silakan periksa kembali form yang Anda isi.',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
     @endsection
 @endsection

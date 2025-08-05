@@ -11,7 +11,7 @@ class KonsumenController extends Controller
     public function daftarKonsumen()
     {
         return view('konsumen.datakonsumen');
-        
+
     }
 
     public function tambahKonsumen()
@@ -26,21 +26,21 @@ class KonsumenController extends Controller
     }
 
     public function simpanKonsumen(Request $request){
-        
+
         $validate = $request->validate([
-            'nama_konsumen'    => 'nullable|string|max:255',
-            'nik_konsumen'     => 'nullable|string|max:255',
-            'no_hp'            => 'nullable|string|max:255',
+            'nama_konsumen'    => 'required|string|max:255',
+            'nik_konsumen'     => 'required|string|max:255',
+            'no_hp'            => 'required|string|max:255',
             'status_pengajuan' => 'nullable|string|max:255',
-            'jenis_kelamin'    => 'nullable|string|max:255',
+            'jenis_kelamin'    => 'required|string|max:255',
             'cluster'          => 'nullable|string|max:255',
-            'provinsi'         => 'nullable|string|max:255',
-            'kota'             => 'nullable|string|max:255',
-            'kecamatan'        => 'nullable|string|max:255',
-            'kelurahan'        => 'nullable|string|max:255',
-            'alamat_konsumen'  => 'nullable|string|max:255',
-            'pekerjaan'        => 'nullable|string|max:255',
-            'marketing'        => 'nullable|string|max:255',
+            'provinsi'         => 'required|string|max:255',
+            'kota'             => 'required|string|max:255',
+            'kecamatan'        => 'required|string|max:255',
+            'kelurahan'        => 'required|string|max:255',
+            'alamat_konsumen'  => 'required|string|max:255',
+            'pekerjaan'        => 'required|string|max:255',
+            'marketing'        => 'required|string|max:255',
             'nik_pasangan'     => 'nullable|string|max:255',
             'nama_pasangan'    => 'nullable|string|max:255',
             'no_hp_pasangan'   => 'nullable|string|max:255',
@@ -63,8 +63,8 @@ class KonsumenController extends Controller
 
             DB::commit();
             sweetalert()->success('Create new cluster successfully :)');
-            return redirect()->route('konsumen/list/page');    
-            
+            return redirect()->route('konsumen/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Tambah Data Gagal: ' . $e->getMessage());
@@ -90,19 +90,19 @@ class KonsumenController extends Controller
     public function updateKonsumen(Request $request, $id)
     {
         $validate = $request->validate([
-            'nama_konsumen'    => 'nullable|string|max:255',
-            'nik_konsumen'     => 'nullable|string|max:255',
-            'no_hp'            => 'nullable|string|max:255',
+            'nama_konsumen'    => 'required|string|max:255',
+            'nik_konsumen'     => 'required|string|max:255',
+            'no_hp'            => 'required|string|max:255',
             'status_pengajuan' => 'nullable|string|max:255',
-            'jenis_kelamin'    => 'nullable|string|max:255',
+            'jenis_kelamin'    => 'required|string|max:255',
             'cluster'          => 'nullable|string|max:255',
-            'provinsi'         => 'nullable|string|max:255',
-            'kota'             => 'nullable|string|max:255',
-            'kecamatan'        => 'nullable|string|max:255',
-            'kelurahan'        => 'nullable|string|max:255',
-            'alamat_konsumen'  => 'nullable|string|max:255',
-            'pekerjaan'        => 'nullable|string|max:255',
-            'marketing'        => 'nullable|string|max:255',
+            'provinsi'         => 'required|string|max:255',
+            'kota'             => 'required|string|max:255',
+            'kecamatan'        => 'required|string|max:255',
+            'kelurahan'        => 'required|string|max:255',
+            'alamat_konsumen'  => 'required|string|max:255',
+            'pekerjaan'        => 'required|string|max:255',
+            'marketing'        => 'required|string|max:255',
             'nik_pasangan'     => 'nullable|string|max:255',
             'nama_pasangan'    => 'nullable|string|max:255',
             'no_hp_pasangan'   => 'nullable|string|max:255',
@@ -112,11 +112,11 @@ class KonsumenController extends Controller
         try {
             $konsumen = Konsumen::findOrFail($id);
             $konsumen->update($validate);
-            
+
             DB::commit();
             sweetalert()->success('Updated record successfully :)');
-            return redirect()->route('konsumen/list/page');    
-            
+            return redirect()->route('konsumen/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Updated record failed :)');
@@ -131,8 +131,8 @@ class KonsumenController extends Controller
             $ids = $request->ids;
             Konsumen::whereIn('id', $ids)->delete();
             sweetalert()->success('Data berhasil dihapus :)');
-            return redirect()->route('konsumen/list/page');    
-            
+            return redirect()->route('konsumen/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Data gagal dihapus :)');
@@ -169,7 +169,7 @@ class KonsumenController extends Controller
             ->skip($start)
             ->take($rowPerPage)
             ->get();
-            
+
         $data_arr = [];
 
         foreach ($records as $key => $record) {
@@ -187,12 +187,12 @@ class KonsumenController extends Controller
                 'kota'          => $record->kota,
             ];
         }
-        
+
         return response()->json([
             "draw"                 => intval($draw),
             "recordsTotal"         => $totalRecords,
             "recordsFiltered"      => $totalRecordsWithFilter,
             "data"                 => $data_arr
-        ])->header('Content-Type', 'application/json');        
+        ])->header('Content-Type', 'application/json');
     }
 }

@@ -19,15 +19,15 @@ class PajakController extends Controller
     {
         return view('pajak.pajakaddnew');
     }
-    
+
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'nama'                 => 'nullable|string|max:255',
-            'kode_pajak'           => 'nullable|string|max:255',
+            'nama'                 => 'required|string|max:255',
+            'kode_pajak'           => 'required|string|max:255',
             'nilai_persentase'     => 'nullable|string|max:255',
-            'akun_pajak_penjualan' => 'nullable|string|max:255',
-            'akun_pajak_pembelian' => 'nullable|string|max:255',
+            'akun_pajak_penjualan' => 'required|string|max:255',
+            'akun_pajak_pembelian' => 'required|string|max:255',
             'deskripsi'            => 'nullable|string|max:255',
         ]);
 
@@ -35,11 +35,11 @@ class PajakController extends Controller
         try {
             $pajak = Pajak::findOrFail($id);
             $pajak->update($validated);
-            
+
             DB::commit();
             sweetalert()->success('Updated record successfully :)');
-            return redirect()->route('pajak/list/page');    
-            
+            return redirect()->route('pajak/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Update record fail :)');
@@ -59,11 +59,11 @@ class PajakController extends Controller
 
     public function saveRecordPajak(Request $request){
         $validated = $request->validate([
-            'nama'                 => 'nullable|string|max:255',
-            'kode_pajak'           => 'nullable|string|max:255',
+            'nama'                 => 'required|string|max:255',
+            'kode_pajak'           => 'required|string|max:255',
             'nilai_persentase'     => 'nullable|string|max:255',
-            'akun_pajak_penjualan' => 'nullable|string|max:255',
-            'akun_pajak_pembelian' => 'nullable|string|max:255',
+            'akun_pajak_penjualan' => 'required|string|max:255',
+            'akun_pajak_pembelian' => 'required|string|max:255',
             'deskripsi'            => 'nullable|string|max:255',
         ]);
 
@@ -76,11 +76,11 @@ class PajakController extends Controller
         try {
             $pajak = new Pajak($validated);
             $pajak->save();
-            
+
             DB::commit();
             sweetalert()->success('Create new Pajak successfully :)');
-            return redirect()->route('pajak/list/page');    
-            
+            return redirect()->route('pajak/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Tambah Data Gagal :)');
@@ -94,8 +94,8 @@ class PajakController extends Controller
             $ids = $request->ids;
             Pajak::whereIn('id', $ids)->delete();
             sweetalert()->success('Data berhasil dihapus :)');
-            return redirect()->route('pajak/list/page');    
-            
+            return redirect()->route('pajak/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Data gagal dihapus :)');
@@ -152,12 +152,12 @@ class PajakController extends Controller
                 "nilai_persentase" => $record->nilai_persentase,
             ];
         }
-        
+
         return response()->json([
             "draw"                 => intval($draw),
             "recordsTotal"         => $totalRecords,
             "recordsFiltered"      => $totalRecordsWithFilter,
             "data"                 => $data_arr
-        ])->header('Content-Type', 'application/json');        
+        ])->header('Content-Type', 'application/json');
     }
 }

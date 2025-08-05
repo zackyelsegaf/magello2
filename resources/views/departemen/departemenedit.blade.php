@@ -5,7 +5,7 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title mt-5">Edit Departemen</h3> 
+                        <h3 class="page-title mt-5">Edit Departemen</h3>
                     </div>
                 </div>
             </div>
@@ -18,18 +18,22 @@
                                 <div class="form-group">
                                     <label>No</label>
                                     <input type="text" class="form-control form-control-sm " id="departemen_id" name="departemen_id" value="{{ $Departemen->departemen_id }}">
-                                </div> 
+                                     @error('departemen_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                </div>
                                 <div class="form-group">
                                     <label>Nama Departemen</label>
                                     <input type="text" class="form-control form-control-sm  @error('nama_departemen') is-invalid @enderror"name="nama_departemen" value="{{ $Departemen->nama_departemen }}">
+                                     @error('nama_departemen')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Kontak</label>
                                     <input type="text" class="form-control form-control-sm  @error('nama_kontak') is-invalid @enderror"name="nama_kontak" value="{{ $Departemen->nama_kontak }}">
+                                     @error('nama_kontak')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Deskripsi</label>
                                     <textarea class="form-control form-control-sm  @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ $Departemen->deskripsi }}</textarea>
+                                     @error('deskripsi')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Tipe</label>
@@ -39,6 +43,7 @@
                                             <option value="{{ $items->nama }}" {{ old('tipe_departemen', $Departemen->tipe_departemen) == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
                                         @endforeach
                                     </select>
+                                     @error('tipe_departemen')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="dihentikan">Dihentikan</label>
@@ -48,7 +53,9 @@
                                         <span class="slider round"></span>
                                     </label>
                                     <span class="ml-2" id="dihentikan-status">{{ old('dihentikan', $Departemen->dihentikan) ? 'Aktif' : 'Tidak Aktif' }}</span>
-                                </div>    
+                                         @error('dihentikan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -58,6 +65,17 @@
         </div>
     </div>
     @section('script')
+        @if ($errors->any())
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan',
+                text: 'Silakan periksa kembali form yang Anda isi.',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const checkbox = document.getElementById('dihentikan');
@@ -66,12 +84,12 @@
             function updateStatusText() {
                 statusText.textContent = checkbox.checked ? 'Ya' : 'Tidak';
             }
-    
+
             updateStatusText();
-    
+
             checkbox.addEventListener('change', updateStatusText);
         });
-    </script>    
+    </script>
     <script>
         $(function() {
             $('#datetimepicker3').datetimepicker({
@@ -82,20 +100,21 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('saldo_awal');
-    
+
             input.addEventListener('input', () => {
                 let angka = input.value.replace(/\D/g, '');
                 input.value = formatRupiah(angka, 'Rp ');
             });
-    
+
             input.closest('form').addEventListener('submit', () => {
                 input.value = input.value.replace(/\D/g, '');
             });
-    
+
             function formatRupiah(angka, prefix = '') {
                 return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
         });
     </script>
     @endsection
+
 @endsection

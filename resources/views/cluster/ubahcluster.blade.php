@@ -20,18 +20,22 @@
                                 <div class="form-group">
                                     <label>Nama Cluster</label>
                                     <input type="text" class="form-control form-control-sm  @error('nama_cluster') is-invalid @enderror" name="nama_cluster" value="{{ $Cluster->nama_cluster }}">
+                                    @error('nama_cluster')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label>No. HP</label>
                                     <input type="text" class="form-control form-control-sm  @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ $Cluster->no_hp }}">
+                                    @error('no_hp')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Luas Tanah M2</label>
                                     <input type="text" class="form-control form-control-sm  @error('luas_tanah') is-invalid @enderror" name="luas_tanah" value="{{ $Cluster->luas_tanah }}">
+                                    @error('luas_tanah')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Total Unit</label>
                                     <input type="text" class="form-control form-control-sm  @error('total_unit') is-invalid @enderror" name="total_unit" value="{{ $Cluster->total_unit }}">
+                                    @error('total_unit')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Provinsi</label>
@@ -43,7 +47,8 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                </div>  
+                                    @error('provinsi')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                </div>
                                 <div class="form-group">
                                     <label>Kota</label>
                                     <select class="form-control form-control-sm  @error('kota') is-invalid @enderror"  name="kota">
@@ -54,18 +59,22 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                    @error('kota')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Kecamatan</label>
                                     <input type="text" class="form-control form-control-sm  @error('kecamatan') is-invalid @enderror" name="kecamatan" value="{{ $Cluster->kecamatan }}">
+                                    @error('kecamatan')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Kelurahan</label>
                                     <input type="text" class="form-control form-control-sm  @error('kelurahan') is-invalid @enderror" name="kelurahan" value="{{ $Cluster->kelurahan }}">
+                                    @error('kelurahan')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Alamat</label>
                                     <textarea class="form-control form-control-sm  @error('alamat_cluster') is-invalid @enderror" name="alamat_cluster" value="{{ old('alamat_cluster') }}">{{ old('alamat_cluster', $Cluster->alamat_cluster) }}</textarea>
+                                    @error('alamat_cluster')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                             </div>
                         </div>
@@ -76,5 +85,16 @@
         </div>
     </div>
     @section('script')
+        @if ($errors->any())
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan',
+                text: 'Silakan periksa kembali form yang Anda isi.',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
     @endsection
 @endsection

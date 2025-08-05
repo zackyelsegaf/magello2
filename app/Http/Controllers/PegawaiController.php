@@ -35,35 +35,35 @@ class PegawaiController extends Controller
     }
 
     public function saveRecordPegawai(Request $request){
-        
+
         $request->validate([
-            'nik_pegawai' => 'nullable|string|max:255',
-            'nama_pegawai' => 'nullable|string|max:255',
-            'tempat_lahir_pegawai' => 'nullable|string|max:255',
-            'tanggal_lahir_pegawai' => 'nullable|string|max:255',
-            'jenis_kelamin_pegawai' => 'nullable|string|max:255',
-            'agama_pegawai' => 'nullable|string|max:255',
-            'status_pernikahan_pegawai' => 'nullable|string|max:255',
+            'nik_pegawai' => 'required|string|max:255',
+            'nama_pegawai' => 'required|string|max:255',
+            'tempat_lahir_pegawai' => 'required|string|max:255',
+            'tanggal_lahir_pegawai' => 'required|string|max:255',
+            'jenis_kelamin_pegawai' => 'required|string|max:255',
+            'agama_pegawai' => 'required|string|max:255',
+            'status_pernikahan_pegawai' => 'required|string|max:255',
             'golongan_darah_pegawai' => 'nullable|string|max:255',
-            'email_pegawai' => 'nullable|string|max:255',
-            'no_telp_pegawai' => 'nullable|string|max:255',
-            'provinsi' => 'nullable|string|max:255',
-            'kota' => 'nullable|string|max:255',
-            'kecamatan' => 'nullable|string|max:255',
-            'kelurahan' => 'nullable|string|max:255',
-            'rt_pegawai' => 'nullable|string|max:255',
-            'rw_pegawai' => 'nullable|string|max:255',
-            'alamat_pegawai' => 'nullable|string|max:255',
+            'email_pegawai' => 'required|string|max:255',
+            'no_telp_pegawai' => 'required|string|max:255',
+            'provinsi' => 'required|string|max:255',
+            'kota' => 'required|string|max:255',
+            'kecamatan' => 'required|string|max:255',
+            'kelurahan' => 'required|string|max:255',
+            'rt_pegawai' => 'required|string|max:255',
+            'rw_pegawai' => 'required|string|max:255',
+            'alamat_pegawai' => 'required|string|max:255',
             'nama_bank_pegawai' => 'nullable|string|max:255',
             'nomor_rekening_pegawai' => 'nullable|string|max:255',
             'atas_nama_pegawai' => 'nullable|string|max:255',
             'jenis_identitas_pegawai' => 'nullable|string|max:255',
             'nomor_identitas_pegawai' => 'nullable|string|max:255',
-            'nama_ayah_pegawai' => 'nullable|string|max:255',
-            'nama_ibu_pegawai' => 'nullable|string|max:255',
-            'nama_kontak_darurat_pegawai' => 'nullable|string|max:255',
-            'no_telp_darurat_pegawai' => 'nullable|string|max:255',
-            'hubungan_pegawai' => 'nullable|string|max:255',
+            'nama_ayah_pegawai' => 'required|string|max:255',
+            'nama_ibu_pegawai' => 'required|string|max:255',
+            'nama_kontak_darurat_pegawai' => 'required|string|max:255',
+            'no_telp_darurat_pegawai' => 'required|string|max:255',
+            'hubungan_pegawai' => 'required|string|max:255',
             'status_pekerjaan_pegawai' => 'nullable|string|max:255',
             'foto_pegawai' => 'nullable|file',
             'tanggal_masuk_pegawai' => 'nullable|string|max:255',
@@ -86,7 +86,7 @@ class PegawaiController extends Controller
             $photo= $request->foto_pegawai;
             $file_name = rand() . '.' .$photo->getClientOriginalName();
             $photo->move(public_path('/assets/upload/'), $file_name);
-           
+
             $pegawai                              = new Pegawai;
             $pegawai->nik_pegawai                 = $request->nik_pegawai;
             $pegawai->nama_pegawai                = $request->nama_pegawai;
@@ -128,8 +128,8 @@ class PegawaiController extends Controller
 
             DB::commit();
             sweetalert()->success('Create new Penjual successfully :)');
-            return redirect()->route('pegawai/list/page');    
-            
+            return redirect()->route('pegawai/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Tambah Data Gagal: ' . $e->getMessage());
@@ -173,7 +173,7 @@ class PegawaiController extends Controller
             'agama_pegawai' => 'nullable|string|max:255',
             'status_pernikahan_pegawai' => 'nullable|string|max:255',
             'golongan_darah_pegawai' => 'nullable|string|max:255',
-            'email_pegawai' => 'nullable|string|max:255',
+            'email_pegawai' => 'required|string|max:255',
             'no_telp_pegawai' => 'nullable|string|max:255',
             'provinsi' => 'nullable|string|max:255',
             'kota' => 'nullable|string|max:255',
@@ -191,7 +191,7 @@ class PegawaiController extends Controller
             'nama_ibu_pegawai' => 'nullable|string|max:255',
             'nama_kontak_darurat_pegawai' => 'nullable|string|max:255',
             'no_telp_darurat_pegawai' => 'nullable|string|max:255',
-            'hubungan_pegawai' => 'nullable|string|max:255',
+            'hubungan_pegawai' => 'required|string|max:255',
             'status_pekerjaan_pegawai' => 'nullable|string|max:255',
             'foto_pegawai' => 'nullable|file',
             'tanggal_masuk_pegawai' => 'nullable|string|max:255',
@@ -248,11 +248,11 @@ class PegawaiController extends Controller
             $pegawai->facebook                    = $request->email;
             $pegawai->linkedin                    = $request->linkedin;
             $pegawai->save();
-            
+
             DB::commit();
             sweetalert()->success('Updated record successfully :)');
-            return redirect()->route('pegawai/list/page');    
-            
+            return redirect()->route('pegawai/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Tambah Data Gagal: ' . $e->getMessage());
@@ -266,8 +266,8 @@ class PegawaiController extends Controller
             $ids = $request->ids;
             Pegawai::whereIn('id', $ids)->delete();
             sweetalert()->success('Data berhasil dihapus :)');
-            return redirect()->route('pegawai/list/page');    
-            
+            return redirect()->route('pegawai/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Data gagal dihapus :)');
@@ -328,12 +328,12 @@ class PegawaiController extends Controller
                 'nomor_rekening_pegawai' => $record->nomor_rekening_pegawai,
             ];
         }
-        
+
         return response()->json([
             "draw"                 => intval($draw),
             "recordsTotal"         => $totalRecords,
             "recordsFiltered"      => $totalRecordsWithFilter,
             "data"                 => $data_arr
-        ])->header('Content-Type', 'application/json');        
+        ])->header('Content-Type', 'application/json');
     }
 }
