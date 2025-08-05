@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\StokBarang;
 use App\Models\PenyesuaianBarang;
 use App\Models\PenyesuaianBarangDetail;
 use Illuminate\Http\Request;
@@ -50,7 +51,7 @@ class BarangController extends Controller
             'sub_barang' => 'nullable|string|max:255',
             'deskripsi_1' => 'nullable|string|max:255',
             'deskripsi_2' => 'nullable|string|max:255',
-            'default_gudang' => 'nullable|string|max:255',
+            'default_gudang' => 'nullable|exists:gudang,id',
             'departemen' => 'nullable|string|max:255',
             'proyek' => 'nullable|string|max:255',
             'dihentikan' => 'nullable|boolean',
@@ -58,7 +59,7 @@ class BarangController extends Controller
             'kode_pajak' => 'nullable|string|max:255',
             'pemasok' => 'nullable|string|max:255',
             'minimum_kuantitas_pesan_ulang' => 'nullable|string|max:255',
-            'kuantitas_saldo_awal' => 'nullable|string|max:255',
+            'kuantitas_saldo_awal' => 'nullable|numeric',
             'biaya_satuan_saldo_awal' => 'nullable|string|max:255',
             'total_saldo_awal' => 'nullable|string|max:255',
             'kuantitas_saldo_sekarang' => 'nullable|string|max:255',
@@ -97,6 +98,12 @@ class BarangController extends Controller
         try {
             $barang = new Barang($validated);
             $barang->save();
+
+            $stokBarang = new StokBarang();
+            $stokBarang->barang_id = $barang->id;
+            $stokBarang->gudang_id = $validated['default_gudang'];
+            $stokBarang->jumlah = $validated['kuantitas_saldo_awal'] ?? 0;
+            $stokBarang->save();
         
             $penyesuaian = new PenyesuaianBarang();
             $penyesuaian->tgl_penyesuaian = date('d/m/Y');

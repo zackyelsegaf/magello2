@@ -58,8 +58,7 @@
                                                 <select id="gudangDariSelect" class="form-control form-control-sm " name="dari_gudang">
                                                     <option {{ old('dari_gudang') ? '' : 'selected' }} disabled></option>
                                                     @foreach ($gudang as $items )
-                                                    <option value="{{ $items->nama_gudang }}"
-                                                        data-gudang_dari="{{ $items->alamat_gudang_1 }}">
+                                                    <option value="{{ $items->id }}" data-nama="{{ $items->nama_gudang }}" data-gudang_dari="{{ $items->alamat_gudang_1 }}">
                                                         {{ $items->nama_gudang }}
                                                     </option>
                                                     @endforeach
@@ -75,8 +74,7 @@
                                                 <select id="gudangKeSelect" class="form-control form-control-sm "  name="ke_gudang">
                                                     <option {{ old('ke_gudang') ? '' : 'selected' }} disabled></option>
                                                     @foreach ($gudang as $items )
-                                                    <option value="{{ $items->nama_gudang }}"
-                                                        data-gudang_ke="{{ $items->alamat_gudang_1 }}">
+                                                    <option value="{{ $items->id }}" data-nama="{{ $items->nama_gudang }}" data-alamat="{{ $items->alamat_gudang_1 }}">
                                                         {{ $items->nama_gudang }}
                                                     </option>
                                                     @endforeach
@@ -129,11 +127,12 @@
                                                     <option disabled {{ $noBarang ? '' : 'selected' }}></option>
                                                     @foreach ($nama_barang as $item)
                                                         <option 
-                                                            value="{{ $item->no_barang }}"
+                                                            value="{{ $item->id }}"  {{-- pakai ID, bukan no_barang --}}
+                                                            data-no="{{ $item->no_barang }}"
                                                             data-nama="{{ $item->nama_barang }}"
                                                             data-kts="{{ $item->kuantitas_saldo_awal }}"
                                                             data-satuan="{{ $item->satuan }}"
-                                                            {{ $item->no_barang == $noBarang ? 'selected' : '' }}>
+                                                            {{ $item->id == $noBarang ? 'selected' : '' }}>
                                                             {{ $item->no_barang . " - " . $item->nama_barang }}
                                                         </option>
                                                     @endforeach
@@ -256,22 +255,23 @@
     </script>    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const gudangDariSelect = document.getElementById('gudangDariSelect');
-            const gudangKeSelect = document.getElementById('gudangKeSelect');
+            const dariSelect = document.getElementById('gudangDariSelect');
+            const keSelect = document.getElementById('gudangKeSelect');
+            const dariAlamat = document.querySelector('textarea[name="dari_alamat"]');
+            const keAlamat = document.querySelector('textarea[name="ke_alamat"]');
 
-            gudangDariSelect.addEventListener('change', function () {
-                const selectedOption = this.options[this.selectedIndex];
-                const alamatDari = selectedOption.getAttribute('data-gudang_dari') || '';
-                document.querySelector('textarea[name="dari_alamat"]').value = alamatDari;
+            dariSelect.addEventListener('change', function () {
+                const selected = this.options[this.selectedIndex];
+                dariAlamat.value = selected.getAttribute('data-alamat');
             });
 
-            gudangKeSelect.addEventListener('change', function () {
-                const selectedOption = this.options[this.selectedIndex];
-                const alamatKe = selectedOption.getAttribute('data-gudang_ke') || '';
-                document.querySelector('textarea[name="ke_alamat"]').value = alamatKe;
+            keSelect.addEventListener('change', function () {
+                const selected = this.options[this.selectedIndex];
+                keAlamat.value = selected.getAttribute('data-alamat');
             });
-        });    
-    </script>
+        });
+        </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const noAkunSelect = document.getElementById('noAkunSelect');

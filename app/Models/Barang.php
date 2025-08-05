@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\StokBarang;
 // use App\Models\RelationPerumahanBarang;
 
 class Barang extends Model
@@ -60,5 +61,10 @@ class Barang extends Model
     }
     public function detailPesanan(){
         return $this->hasMany(PesananPembelianDetail::class, 'no_barang', 'no_barang');
+    }
+
+    public function stok()
+    {
+        return $this->hasMany(StokBarang::class, 'barang_id');
     }
 }

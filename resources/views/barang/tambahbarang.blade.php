@@ -96,7 +96,7 @@
                                                     <select class="form-control form-control-sm  @error('default_gudang') is-invalid @enderror"  name="default_gudang">
                                                         <option selected disabled></option>
                                                         @foreach ($gudang as $items )
-                                                        <option value="{{ $items->nama_gudang }}">{{ $items->nama_gudang }}</option>
+                                                        <option value="{{ $items->id }}">{{ $items->nama_gudang }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>

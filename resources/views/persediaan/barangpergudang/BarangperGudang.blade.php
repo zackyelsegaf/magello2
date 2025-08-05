@@ -15,22 +15,13 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="card rounded-default p-3 filterBox text-white">
-                        <form method="GET" action="">
+                        <form method="GET" action="{{ route('barangpergudang/list/page') }}">
                             <div class="form-group mb-1">
                                 <label>Pencarian</label>
-                                <input type="text" name="no_barang" class="form-control form-control-sm"
-                                    onchange="this.form.submit()" placeholder="No Barang" value="">
+                                <input type="text" name="no_barang" class="form-control form-control-sm" onchange="this.form.submit()" placeholder="No Barang" value="{{ request('no_barang') }}">
                             </div>
                             <div class="form-group mb-1">
-                                <input type="text" name="deskripsi" class="form-control form-control-sm"
-                                    onchange="this.form.submit()" placeholder="Deskripsi" value="">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="kategori">Kategori</label>
-                                <select name="kategori" id="kategori" class="form-control form-control-sm"
-                                    onchange="this.form.submit()">
-                                    <option value="" disabled selected>Pilih Kategori</option>
-                                </select>
+                                <input type="text" name="nama_barang" class="form-control form-control-sm" onchange="this.form.submit()" placeholder="Nama Barang" value="{{ request('nama_barang') }}">
                             </div>
 
                             <div class="form-group mb-1">
@@ -53,30 +44,152 @@
                     <div class="card card-table">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover table-center mb-0"
-                                    id="DepartemenList">
+                                <table class="datatable table table-striped table-bordered table-hover table-center mb-0" id="DepartemenList">
                                     <thead class="thead-dark">
                                         <tr>
-                                            <th width="20"><input type="checkbox" id="select_all"></th>
-                                            <th>No</th>
-                                            <th hidden>ID</th>
+                                            <th>No Barang</th>
                                             <th>Deskripsi Barang</th>
-                                            <th>GMP0001</th>
-                                            <th>GMP0002</th>
-                                            <th>GMP0003</th>
-                                            <th>GMP0004</th>
-                                            <th>GMP0005</th>
+                                            @foreach ($gudangs as $gudang)
+                                                <th>{{ $gudang->nama_gudang }}</th>
+                                            @endforeach
                                         </tr>
                                     </thead>
+                                    <tbody>
+                                        @foreach ($barangs as $barang)
+                                            <tr>
+                                                <td>{{ $barang->no_barang }}</td>
+                                                <td>{{ $barang->nama_barang }}</td>
+                                                @foreach ($gudangs as $gudang)
+                                                    <td>
+                                                        {{ $stok[$barang->id][$gudang->id] ?? 0 }}
+                                                    </td>
+                                                @endforeach
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                     <div class="page-header">
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
+@section('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var table = $('#DepartemenList').DataTable({
+                processing: true,
+                serverSide: true,
+                ordering: true,
+                searching: true,
+                paging: true,
+                lengthChange: true,
+                ajax: {
+                    url: "{{ route('get-barang-per-gudang') }}",
+                    data: function(d) {
+                        d.no_barang = $('input[name=no_barang]').val(),
+                        d.nama_barang = $('input[name=nama_barang]').val();
+                    }
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'copyHtml5',
+                        text: '<i class="fa fa-copy"></i> <span class="btn_text_align font-weight-bold">Copy</span>',
+                        className: 'btn btn-primary veiwbutton',
+                        title: 'Daftar Barang',
+                        exportOptions: {
+                            columns: ':not(:first-child):not(:nth-child(2))'
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="fa fa-file-excel"></i> <span class="btn_text_align font-weight-bold">Excel</span>',
+                        className: 'btn btn-primary veiwbutton',
+                        titleAttr: 'Export to Excel',
+                        title: 'Daftar Barang',
+                        exportOptions: {
+                            columns: ':not(:first-child):not(:nth-child(2))'
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fa fa-file-pdf"></i> <span class="btn_text_align font-weight-bold">PDF</span>',
+                        className: 'btn btn-primary veiwbutton',
+                        title: 'Daftar Barang',
+                        exportOptions: {
+                            columns: ':not(:first-child):not(:nth-child(2))'
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fa fa-print"></i> <span class="btn_text_align font-weight-bold">Print</span>',
+                        className: 'btn btn-primary veiwbutton',
+                        title: 'Daftar Barang',
+                        exportOptions: {
+                            columns: ':not(:first-child):not(:nth-child(2))'
+                        }
+                    }
+                ],
+                columns: [{ 
+                        data: 'no_barang', 
+                        name: 'no_barang',
+                        orderable: false,
+                        searchable: false,
+                    },
+                    {   data: 'nama_barang',
+                        name: 'nama_barang',
+                        orderable: false,
+                        searchable: false, 
+                    },
+                    @foreach ($gudangs as $gudang)
+                    { data: '{{ $gudang->nama_gudang }}', 
+                        name: '{{ $gudang->nama_gudang }}', 
+                        searchable: false, 
+                        orderable: false 
+                    },
+                    @endforeach
+                ]
+            });
+
+            $('form#filterForm').on('submit', function(e) {
+                e.preventDefault();
+                table.draw();
+            });
+
+            $('#DepartemenList tbody').on('mouseenter', 'tr', function() {
+                $(this).css('cursor', 'pointer');
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const filterBox = document.getElementById("filterBox");
+            const filterStatus = localStorage.getItem("filterStatus");
+    
+            if (filterStatus === "open") {
+                filterBox.style.display = "block";
+            } else {
+                filterBox.style.display = "none";
+            }
+        });
+    
+        function toggleFilter() {
+            const filterBox = document.getElementById("filterBox");
+            const isVisible = filterBox.style.display === "block";
+    
+            if (isVisible) {
+                filterBox.style.display = "none";
+                localStorage.setItem("filterStatus", "closed");
+            } else {
+                filterBox.style.display = "block";
+                localStorage.setItem("filterStatus", "open");
+            }
+        }
+    </script>
+
+@endsection
 @endsection

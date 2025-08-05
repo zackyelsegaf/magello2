@@ -95,7 +95,9 @@
                                                     <select class="form-control form-control-sm  @error('default_gudang') is-invalid @enderror"  name="default_gudang">
                                                         <option selected disabled {{ old('default_gudang', $Barang->default_gudang) ? '' : 'selected' }}> --Pilih Tipe-- </option>
                                                         @foreach ($gudang as $items )
-                                                            <option value="{{ $items->nama_gudang }}" {{ old('default_gudang', $Barang->default_gudang) == $items->nama_gudang ? 'selected' : '' }}>{{ $items->nama_gudang }}</option>
+                                                            <option value="{{ $items->id }}" {{ old('default_gudang', $Barang->default_gudang) == $items->id ? 'selected' : '' }}>
+                                                                {{ $items->nama_gudang }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>

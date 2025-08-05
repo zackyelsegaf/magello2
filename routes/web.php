@@ -668,6 +668,7 @@ Route::controller(PenyusutanController::class)->group(function () {
 
 Route::controller(BarangPerGudangController::class)->group(function () {
     Route::get('barangpergudang/list/page', 'BarangPerGudangList')->middleware('auth')->name('barangpergudang/list/page');
+    Route::get('/barang-per-gudang/list', [BarangPerGudangController::class, 'getBarangPerGudangData'])->name('get-barang-per-gudang');
 });
 
 Route::controller(PembiayaanPesananController::class)->group(function () {
