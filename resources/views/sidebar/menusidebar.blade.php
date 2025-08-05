@@ -131,13 +131,13 @@
                         </li>
                         <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Penjualan </span> <span class="menu-arrow"></span></a>
                             <ul class="submenu_class" style="display: none;">
-                                <li><a class="{{ set_active(['penjualan.penawaran.index'], 1) }}" href="{{ route('penjualan.penawaran.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Penawaran Penjualan</a></li>
-                                <li><a class="{{ set_active(['penjualan.pesanan.index'], 1) }}" href="{{ route('penjualan.pesanan.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Pesanan Penjualan</a></li>
-                                <li><a class="{{ set_active(['penjualan.pengiriman.index'], 1) }}" href="{{ route('penjualan.pengiriman.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Pengiriman Penjualan</a></li>
-                                <li><a class="{{ set_active(['penjualan.fakturpenjualan.index'], 1) }}" href="{{ route('penjualan.fakturpenjualan.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Faktur Penjualan</a></li>
-                                <li><a class="{{ set_active(['penjualan.fakturpenagihan.index'], 1) }}" href="{{ route('penjualan.fakturpenagihan.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Faktur Penagihan</a></li>
-                                <li><a class="{{ set_active(['penjualan.penerimaan.index'], 1) }}" href="{{ route('penjualan.penerimaan.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Penerimaan Penjualan</a></li>
-                                <li><a class="{{ set_active(['penjualan.retur.index'], 1) }}" href="{{ route('penjualan.retur.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Retur Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.penawaran.index'], 1) }}" href="{{ route('penjualan.penawaran_penjualan.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Penawaran Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.pesanan_penjualan.index'], 1) }}" href="{{ route('penjualan.pesanan_penjualan.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Pesanan Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.pengiriman_penjualan.index'], 1) }}" href="{{ route('penjualan.pengiriman_penjualan.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Pengiriman Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.faktur_penjualan.index'], 1) }}" href="{{ route('penjualan.faktur_penjualan.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Faktur Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.faktur_penagihan.index'], 1) }}" href="{{ route('penjualan.faktur_penagihan.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Faktur Penagihan</a></li>
+                                <li><a class="{{ set_active(['penjualan.penerimaan_penjualan.index'], 1) }}" href="{{ route('penjualan.penerimaan_penjualan.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Penerimaan Penjualan</a></li>
+                                <li><a class="{{ set_active(['penjualan.retur_penjualan.index'], 1) }}" href="{{ route('penjualan.retur_penjualan.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Retur Penjualan</a></li>
                             </ul>
                         </li>
                         <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Persediaan </span> <span class="menu-arrow"></span></a>
