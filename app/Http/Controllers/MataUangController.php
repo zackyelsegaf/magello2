@@ -95,4 +95,5 @@ class MataUangController extends Controller
             "data"            => $data_arr
         ])->header('Content-Type', 'application/json');
     }
+
 }
