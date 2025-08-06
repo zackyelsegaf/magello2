@@ -22,12 +22,8 @@ return new class extends Migration
             $table->string('tgl_diminta')->nullable();
             $table->string('kts_dipesan')->nullable();
             $table->string('kts_diterima')->nullable();
-            $table->string('harga_satuan')->nullable();
-            $table->string('jumlah_total_harga')->nullable();
             $table->boolean('tutup_check_all')->nullable()->default(false);
             $table->boolean('tutup_check_items')->nullable()->default(false);
-            $table->boolean('detail_check')->nullable()->default(false);
-            $table->boolean('tutup_check_detail')->nullable()->default(false);
             $table->timestamps();
         });
     }
