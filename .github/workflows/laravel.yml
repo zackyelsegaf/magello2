@@ -27,3 +27,4 @@ jobs:
           set ftp:ssl-allow no;
           mirror -R --delete --verbose ./ $FTP_DIR;
           bye" -u "$FTP_USER","$FTP_PASS" "$FTP_HOST"
+          EOF
