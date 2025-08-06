@@ -118,8 +118,11 @@ class StatusPemasokController extends Controller
 
         $totalRecordsWithFilter = $status_pemasok->count();
 
+        if($columnName != 'checkbox'){
+            $status_pemasok->orderBy($columnName, $columnSortOrder);
+        }
+
         $records = $status_pemasok
-            ->orderBy($columnName, $columnSortOrder)
             ->skip($start)
             ->take($rowPerPage)
             ->get();
