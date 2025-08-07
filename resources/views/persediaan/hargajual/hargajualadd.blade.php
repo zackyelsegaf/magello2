@@ -1,0 +1,164 @@
+@extends('layouts.master')
+@section('content')
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="page-title mt-5">Tambah Harga Jual</h3>
+                    </div>
+                </div>
+            </div>
+
+            <form>
+                <!-- Section 1: Form Header -->
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="no_penyesuaian" class="form-label fw-bold">No. Penyesuaian</label>
+                        <input type="number" id="no_penyesuaian" class="form-control" value="1000">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="tgl_efektif" class="form-label">Tgl Efektif</label>
+                        <input type="date" id="tgl_efektif" class="form-control" value="2025-07-22">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="tgl_penyesuaian" class="form-label fw-bold">Tanggal Penyesuaian</label>
+                        <input type="date" id="tgl_penyesuaian" class="form-control" value="2025-07-22">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label for="deskripsi" class="form-label">Deskripsi</label>
+                        <textarea id="deskripsi" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- Section 2: Penyesuaian Harga Controls -->
+                <h5 class="mb-3">Penyesuaian Harga</h5>
+
+                <!-- Row 1: Main Controls -->
+                <div class="row mb-3 align-items-end">
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
+                        <button type="button" class="btn btn-primary w-100">Pilih Barang</button>
+                    </div>
+                    
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
+                        <label class="form-label">Semua Harga Jual</label>
+                        <select class="form-control @error('mata_uang_pelanggan') is-invalid @enderror" name="mata_uang_pelanggan">
+                            <option selected disabled>--Pilih Semua Harga Jual--</option>
+                        </select>
+                    </div>
+
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
+                        <label class="form-label">Penjumlahan Nilai</label>
+                        <select class="form-control @error('mata_uang_pelanggan') is-invalid @enderror" name="mata_uang_pelanggan">
+                            <option>--Pilih Semua Penjumlahan Nilai--</option>
+                        </select>
+                    </div>
+
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
+                        <label class="form-label">Nilai Sekarang</label>
+                        <select class="form-control @error('mata_uang_pelanggan') is-invalid @enderror" name="mata_uang_pelanggan">
+                            <option>--Pilih Semua Nilai Sekarang--</option>
+                        </select>
+                    </div>
+
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
+                        <label class="form-label">Nilai Masukan</label>
+                        <input type="number" class="form-control" value="0">
+                    </div>
+
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-2">
+                        <button type="button" class="btn btn-primary text-white w-100">Proses Penyesuaian</button>
+                    </div>
+                </div>
+
+                <!-- Row 2: Additional Controls -->
+                <div class="row mb-3 justify-start align-items-center">
+                    <div class="col-lg-2 col-md-8 mb-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="show_last">
+                            <label class="form-check-label" for="show_last">Show Last Cost & Price</label>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
+                        <label class="form-label">Unit</label>
+                        <select class="btn btn-warning text-start w-100">
+                            <option>Unit 5</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Section 3: Table -->
+                <div class="table-responsive mb-4">
+                    <table class="table table-striped table-bordered table-hover mb-0" style="min-width: 1200px;">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>No Barang</th>
+                                <th>Deskripsi Barang</th>
+                                <th>Satuan</th>
+                                <th>Biaya Aktual</th>
+                                <th>Harga 1</th>
+                                <th>Harga 2</th>
+                                <th>Harga 3</th>
+                                <th>Harga 4</th>
+                                <th>Harga 5</th>
+                                <th>Minimal Harga Jual</th>
+                                <th>Maksimal Harga Jual</th>
+                                <th>Minimal Harga Pembelian</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Section 4: Filter Controls -->
+                <div class="row align-items-end mb-3">
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
+                        <label class="form-label">No Barang</label>
+                        <input type="text" class="form-control" placeholder="No Barang">
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
+                        <label class="form-label">Deskripsi Barang</label>
+                        <input type="text" class="form-control" placeholder="Deskripsi Barang">
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
+                        <label class="form-label">Mata Uang</label>
+                        <select class="form-control @error('mata_uang_pelanggan') is-invalid @enderror" name="mata_uang_pelanggan">
+                            <option selected disabled>--Pilih Mata Uang--</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
+                        <div class="d-flex">
+                            <button type="button" class="btn btn-primary flex-fill">Filter</button>
+                            <button type="button" class="btn btn-secondary flex-fill">Reset</button>
+                        </div>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+@endsection
