@@ -234,7 +234,7 @@
                                         <div class="col-md-6"> 
                                             <div class="form-group">
                                                 <label><strong>Alamat Pemasok</strong></label>
-                                                <textarea id="alamatPemasokInput" class="form-control" name="alamat_pemasok" placeholder="Alamat Pemasok">{{ old('alamat_pemasok', $penerimaanPembelian->detail2->alamat_pemasok) }}</textarea>
+                                                <textarea id="alamatPemasokInput" class="form-control" name="alamat_pemasok" placeholder="Alamat Pemasok">{{ old('alamat_pemasok', $penerimaanPembelian->detail2->alamat_pemasok  ?? null) }}</textarea>
                                             </div>                                       
                                         </div>
                                     </div>
@@ -243,7 +243,7 @@
                                             <div class="form-group">
                                                 <label><strong>Tgl. Kirim</strong></label>
                                                 <div class="cal-icon">
-                                                    <input type="text" class="form-control datetimepicker" name="tgl_kirim" value="{{ $penerimaanPembelian->detail2->tgl_kirim }}">
+                                                    <input type="text" class="form-control datetimepicker" name="tgl_kirim" value="{{ $penerimaanPembelian->detail2->tgl_kirim  ?? null}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -251,9 +251,9 @@
                                             <div class="form-group mb-1">
                                                 <label><strong>FOB</strong></label>
                                                 <select name="fob" class="form-control">
-                                                    <option {{ old('fob', $penerimaanPembelian->detail2->fob) ? '' : 'selected' }} disabled>-- Pilih FOB --</option>
-                                                    <option value="Shipping Point" {{ old('fob', $penerimaanPembelian->detail2->fob) == 'Shipping Point' ? 'selected' : '' }}>Shipping Point</option>
-                                                    <option value="Destination" {{ old('fob', $penerimaanPembelian->detail2->fob) == 'Destination' ? 'selected' : '' }}>Destination</option>
+                                                    <option {{ old('fob', $penerimaanPembelian->detail2->fob  ?? null) ? '' : 'selected' }} disabled>-- Pilih FOB --</option>
+                                                    <option value="Shipping Point" {{ old('fob', $penerimaanPembelian->detail2->fob  ?? null) == 'Shipping Point' ? 'selected' : '' }}>Shipping Point</option>
+                                                    <option value="Destination" {{ old('fob', $penerimaanPembelian->detail2->fob  ?? null) == 'Destination' ? 'selected' : '' }}>Destination</option>
                                                 </select>
                                             </div>
                                         </div>

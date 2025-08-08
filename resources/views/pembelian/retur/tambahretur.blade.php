@@ -481,7 +481,11 @@
                                                         </td> --}}
                                                         <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="no_barang[]" value="{{ $no_barang }}" readonly></td>
                                                         <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="deskripsi_barang[]" value="{{ old('deskripsi_barang')[$index] ?? '' }}"></td>
-                                                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="kts_barang[]" value="{{ old('kts_barang')[$index] ?? '' }}"></td>
+                                                        <td><input style="width: 150px;" type="text" name="kts_barang[]" value="{{ old('kts_barang')[$index] ?? '' }}" class="form-control form-control-sm @error("kts_barang.$index") is-invalid @enderror">
+                                                            @error("kts_barang.$index")
+                                                                <p class="Invalid-feedback ">{{ $message }}</p>
+                                                            @enderror
+                                                        </td>
                                                         <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="satuan[]" value="{{ old('satuan')[$index] ?? '' }}"></td>
                                                         <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="harga_satuan[]" value="{{ old('harga_satuan')[$index] ?? '' }}"></td>
                                                         <td><input style="width: 150px;" type="text" class="form-control form-control-sm form-control-sm" name="diskon_barang[]" value="{{ old('diskon_barang')[$index] ?? '' }}"></td>

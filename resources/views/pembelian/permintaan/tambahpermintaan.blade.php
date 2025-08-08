@@ -254,7 +254,11 @@
                                                     <tr class="barang-row">
                                                         <td><input style="width: 150px;" type="text" name="no_barang[]" value="{{ $no_barang }}" class="form-control form-control-sm" readonly></td>
                                                         <td><input style="width: 150px;" type="text" name="deskripsi_barang[]" value="{{ old('deskripsi_barang')[$index] ?? '' }}" class="form-control form-control-sm"></td>
-                                                        <td><input style="width: 150px;" type="text" name="kts_permintaan[]" value="{{ old('kts_permintaan')[$index] ?? '' }}" class="form-control form-control-sm"></td>
+                                                        <td><input style="width: 150px;" type="text" name="kts_permintaan[]" value="{{ old('kts_permintaan')[$index] ?? '' }}" class="form-control form-control-sm @error("kts_permintaan.$index") is-invalid @enderror">
+                                                            @error("kts_permintaan.$index")
+                                                                <p class="Invalid-feedback ">{{ $message }}</p>
+                                                            @enderror
+                                                        </td>
                                                         <td><input style="width: 150px;" type="text" name="satuan[]" value="{{ old('satuan')[$index] ?? '' }}" class="form-control form-control-sm"></td>
                                                         <td><input style="width: 150px;" type="text" name="harga_satuan[]" value="{{ old('harga_satuan')[$index] ?? '' }}" class="form-control form-control-sm"></td>
                                                         <td><input style="width: 150px;" type="text" name="jumlah_total_harga[]" value="{{ old('jumlah_total_harga')[$index] ?? '' }}" class="form-control form-control-sm"></td>

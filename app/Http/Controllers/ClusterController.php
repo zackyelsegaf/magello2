@@ -11,7 +11,7 @@ class ClusterController extends Controller
     public function daftarCluster()
     {
         return view('cluster.datacluster');
-        
+
     }
 
     public function tambahCluster()
@@ -22,17 +22,17 @@ class ClusterController extends Controller
     }
 
     public function simpanCluster(Request $request){
-        
+
         $validate = $request->validate([
-            'nama_cluster'   => 'nullable|string|max:255',
-            'no_hp'          => 'nullable|string|max:255',
-            'luas_tanah'     => 'nullable|string|max:255',
-            'total_unit'     => 'nullable|string|max:255',
-            'provinsi'       => 'nullable|string|max:255',
-            'kota'           => 'nullable|string|max:255',
-            'kecamatan'      => 'nullable|string|max:255',
-            'kelurahan'      => 'nullable|string|max:255',
-            'alamat_cluster' => 'nullable|string|max:255',
+            'nama_cluster'   => 'required|string|max:255',
+            'no_hp'          => 'required|string|max:255',
+            'luas_tanah'     => 'required|string|max:255',
+            'total_unit'     => 'required|string|max:255',
+            'provinsi'       => 'required|string|max:255',
+            'kota'           => 'required|string|max:255',
+            'kecamatan'      => 'required|string|max:255',
+            'kelurahan'      => 'required|string|max:255',
+            'alamat_cluster' => 'required|string|max:255',
         ]);
 
         //debug
@@ -52,8 +52,8 @@ class ClusterController extends Controller
 
             DB::commit();
             sweetalert()->success('Create new cluster successfully :)');
-            return redirect()->route('cluster/list/page');    
-            
+            return redirect()->route('cluster/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Tambah Data Gagal: ' . $e->getMessage());
@@ -75,26 +75,26 @@ class ClusterController extends Controller
     public function updateCluster(Request $request, $id)
     {
         $validate = $request->validate([
-            'nama_cluster'   => 'nullable|string|max:255',
-            'no_hp'          => 'nullable|string|max:255',
-            'luas_tanah'     => 'nullable|string|max:255',
-            'total_unit'     => 'nullable|string|max:255',
-            'provinsi'       => 'nullable|string|max:255',
-            'kota'           => 'nullable|string|max:255',
-            'kecamatan'      => 'nullable|string|max:255',
-            'kelurahan'      => 'nullable|string|max:255',
-            'alamat_cluster' => 'nullable|string|max:255',
+            'nama_cluster'   => 'required|string|max:255',
+            'no_hp'          => 'required|string|max:255',
+            'luas_tanah'     => 'required|string|max:255',
+            'total_unit'     => 'required|string|max:255',
+            'provinsi'       => 'required|string|max:255',
+            'kota'           => 'required|string|max:255',
+            'kecamatan'      => 'required|string|max:255',
+            'kelurahan'      => 'required|string|max:255',
+            'alamat_cluster' => 'required|string|max:255',
         ]);
 
         DB::beginTransaction();
         try {
             $cluster = Cluster::findOrFail($id);
             $cluster->update($validate);
-            
+
             DB::commit();
             sweetalert()->success('Updated record successfully :)');
-            return redirect()->route('cluster/list/page');    
-            
+            return redirect()->route('cluster/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Update record fail :)');
@@ -109,8 +109,8 @@ class ClusterController extends Controller
             $ids = $request->ids;
             Cluster::whereIn('id', $ids)->delete();
             sweetalert()->success('Data berhasil dihapus :)');
-            return redirect()->route('cluster/list/page');    
-            
+            return redirect()->route('cluster/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Data gagal dihapus :)');
@@ -163,12 +163,12 @@ class ClusterController extends Controller
                 'total_unit'   => $record->total_unit,
             ];
         }
-        
+
         return response()->json([
             "draw"                 => intval($draw),
             "recordsTotal"         => $totalRecords,
             "recordsFiltered"      => $totalRecordsWithFilter,
             "data"                 => $data_arr
-        ])->header('Content-Type', 'application/json');        
+        ])->header('Content-Type', 'application/json');
     }
 }

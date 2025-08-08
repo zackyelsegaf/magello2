@@ -277,9 +277,16 @@ class ReturPembelianController extends Controller
             'fileupload_6'              => 'nullable|string|max:255',
             'fileupload_7'              => 'nullable|string|max:255',
             'fileupload_8'              => 'nullable|string|max:255',
+            'kts_barang.*'              => 'required|numeric|min:1',
         ];
 
-        $validator = Validator::make($request->all(), $rules);
+        $message = [
+            'kts_barang.*.required' => 'Kuantitas wajib diisi untuk setiap barang',
+            'kts_barang.*.numeric'  => 'Kuantitas harus berupa angka',
+            'kts_barang.*.min'      => 'Kuantitas minimal 1',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
 
         if ($validator->fails()) {
             sweetalert()->error('Validasi Gagal, Beberapa Input Wajib Belum Terisi!');

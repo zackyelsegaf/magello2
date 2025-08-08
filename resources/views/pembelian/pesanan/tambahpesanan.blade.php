@@ -295,7 +295,7 @@
                                             </div>                                            
                                             <div class="modal-body">
                                                 <div class="table-responsive">
-                                                    <table class="table table-striped table-bordered table-hover table-center mb-0" id="tabelPilihBarang" style="margin: 0; border-collapse: collapse; width: 100%;">
+                                                    <table class="datatable table table-striped table-bordered table-hover table-center mb-0" id="tabelPilihBarang" style="margin: 0; border-collapse: collapse; width: 100%;">
                                                         <thead class="thead-dark">
                                                             <tr style="padding: 0; margin: 0;">
                                                                 <th style="padding: 7px; text-align: center;"><input type="checkbox" id="checkAll"></th>
@@ -356,7 +356,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <div class="table-responsive">
-                                                    <table class="table table-striped table-bordered table-hover table-center mb-0" id="tabelPilihPermintaanBarang" style="margin: 0; border-collapse: collapse; width: 100%;">
+                                                    <table class="datatable table table-striped table-bordered table-hover table-center mb-0" id="tabelPilihPermintaanBarang" style="margin: 0; border-collapse: collapse; width: 100%;">
                                                         <thead class="thead-dark">
                                                             <tr style="padding: 0; margin: 0;">
                                                                 <th style="padding: 7px; text-align: center;"><input type="checkbox" id="checkAllPermintaan"></th>
@@ -433,7 +433,11 @@
                                                         </td>
                                                         <td><input style="width: 150px;" type="text" name="no_barang[]" value="{{ $no_barang }}" class="form-control form-control-sm" readonly></td>
                                                         <td><input style="width: 150px;" type="text" name="deskripsi_barang[]" value="{{ old('deskripsi_barang')[$index] ?? '' }}" class="form-control form-control-sm"></td>
-                                                        <td><input style="width: 150px;" type="text" name="kts_pesanan[]" value="{{ old('kts_pesanan')[$index] ?? '' }}" class="form-control form-control-sm"></td>
+                                                        <td><input style="width: 150px;" type="text" name="kts_pesanan[]" value="{{ old('kts_pesanan')[$index] ?? '' }}" class="form-control form-control-sm @error("kts_pesanan.$index") is-invalid @enderror">
+                                                            @error("kts_pesanan.$index")
+                                                                <p class="Invalid-feedback ">{{ $message }}</p>
+                                                            @enderror
+                                                        </td>
                                                         <td><input style="width: 150px;" type="text" name="satuan[]" value="{{ old('satuan')[$index] ?? '' }}" class="form-control form-control-sm"></td>
                                                         <td><input style="width: 150px;" type="text" name="harga_satuan[]" value="{{ old('harga_satuan')[$index] ?? '' }}" class="form-control form-control-sm"></td>
                                                         <td><input style="width: 150px;" type="text" name="diskon_barang[]" value="{{ old('diskon_barang')[$index] ?? '' }}" class="form-control form-control-sm"></td>

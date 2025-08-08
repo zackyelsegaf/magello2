@@ -178,7 +178,7 @@ class PesananPembelianController extends Controller
             'fileupload_8' => 'nullable|string|max:255',
             'no_barang.*'               => 'nullable|string|max:255',
             'deskripsi_barang.*'        => 'nullable|string|max:255',
-            'kts_permintaan.*'          => 'required|string|max:255',
+            'kts_pesanan.*'             => 'required|numeric|min:1',
             'satuan.*'                  => 'nullable|string|max:255',
             'catatan.*'                 => 'nullable|string|max:255',
             'tgl_diminta.*'             => 'nullable|string|max:255',
@@ -186,7 +186,13 @@ class PesananPembelianController extends Controller
             'kts_diterima.*'            => 'nullable|string|max:255',
         ];
 
-        $validator = Validator::make($request->all(), $rules);
+        $message = [
+            'kts_pesanan.*.required' => 'Kuantitas wajib diisi untuk setiap barang',
+            'kts_pesanan.*.numeric'  => 'Kuantitas harus berupa angka',
+            'kts_pesanan.*.min'      => 'Kuantitas minimal 1',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
 
         if ($validator->fails()) {
             sweetalert()->error('Validasi Gagal, Beberapa Input Wajib Belum Terisi!');

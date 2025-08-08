@@ -5,7 +5,7 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title mt-5">Edit Proyek</h3> 
+                        <h3 class="page-title mt-5">Edit Proyek</h3>
                     </div>
                 </div>
             </div>
@@ -14,11 +14,11 @@
                 <div class="tab-content profile-tab-cont">
                     <div class="profile-menu">
                         <ul class="nav nav-tabs nav-tabs-solid">
-                            <li class="nav-item"> 
-                                <a class="nav-link active" data-toggle="tab" href="#general">General</a> 
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#general">General</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#">Anggaran</a> 
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#">Anggaran</a>
                             </li>
                         </ul>
                     </div>
@@ -32,15 +32,15 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>No. Proyek</label>
-                                                    <input type="text" class="form-control @error('proyek_id') is-invalid @enderror" name="proyek_id" value="{{ $Proyek->proyek_id }}">
-                                                </div>                                                
+                                                    <input type="text" class="form-control form-control-sm  @error('proyek_id') is-invalid @enderror" name="proyek_id" value="{{ $Proyek->proyek_id }}">
+                                                </div>
                                                 <div class="form-group">
                                                     <label>Nama Proyek</label>
-                                                    <input type="text" class="form-control @error('nama_proyek') is-invalid @enderror" name="nama_proyek" value="{{ $Proyek->nama_proyek }}">
+                                                    <input type="text" class="form-control form-control-sm  @error('nama_proyek') is-invalid @enderror" name="nama_proyek" value="{{ $Proyek->nama_proyek }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Nama Kontak</label>
-                                                    <input type="text" class="form-control" value="{{ $Proyek->nama_kontak }}">
+                                                    <input type="text" class="form-control form-control-sm " value="{{ $Proyek->nama_kontak }}">
                                                 </div>
                                                 <h7 class="font-weight-bold">Tanggal Projek</h7>
                                                 <div class="row">
@@ -48,7 +48,7 @@
                                                         <div class="form-group">
                                                             <label>Mulai</label>
                                                             <div class="cal-icon">
-                                                                <input type="text" class="form-control datetimepicker" name="tanggal_from" value="{{ $Proyek->tanggal_from }}"> 
+                                                                <input type="text" class="form-control form-control-sm  datetimepicker" name="tanggal_from" value="{{ $Proyek->tanggal_from }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -56,17 +56,17 @@
                                                         <div class="form-group">
                                                             <label>Selesai</label>
                                                             <div class="cal-icon">
-                                                                <input type="text" class="form-control datetimepicker" name="tanggal_to" value="{{ $Proyek->tanggal_to }}"> 
+                                                                <input type="text" class="form-control form-control-sm  datetimepicker" name="tanggal_to" value="{{ $Proyek->tanggal_to }}">
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div> 
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label>Komplet</label>
                                                             <div class="input-group">
-                                                                <input type="number" class="form-control" name="persentase_komplet" value="{{ $Proyek->persentase_komplet }}">
+                                                                <input type="number" class="form-control form-control-sm " name="persentase_komplet" value="{{ $Proyek->persentase_komplet }}">
                                                                 <div class="input-group-append">
                                                                     <span class="input-group-text">%</span>
                                                                 </div>
@@ -95,7 +95,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Deskripsi</label>
-                                                    <textarea class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ $Proyek->deskripsi }}</textarea>
+                                                    <textarea class="form-control form-control-sm  @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ $Proyek->deskripsi }}</textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="dihentikan">Dihentikan</label>
@@ -105,7 +105,7 @@
                                                         <span class="slider round"></span>
                                                     </label>
                                                     <span class="ml-2" id="dihentikan-status">{{ old('dihentikan', $Proyek->dihentikan) ? 'Aktif' : 'Tidak Aktif' }}</span>
-                                                </div>    
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -123,7 +123,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>File 1</label>
-                                                    <input type="text" class="form-control" name="fileupload_1" placeholder="Link dokumen Anda" value="{{ old('fileupload_1') }}">
+                                                    <input type="text" class="form-control form-control-sm " name="fileupload_1" placeholder="Link dokumen Anda" value="{{ old('fileupload_1') }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -138,6 +138,17 @@
         </div>
     </div>
     @section('script')
+        @if ($errors->any())
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan',
+                text: 'Silakan periksa kembali form yang Anda isi.',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    @endif
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const checkbox = document.getElementById('dihentikan');
@@ -146,12 +157,12 @@
             function updateStatusText() {
                 statusText.textContent = checkbox.checked ? 'Ya' : 'Tidak';
             }
-    
+
             updateStatusText();
-    
+
             checkbox.addEventListener('change', updateStatusText);
         });
-    </script>    
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const checkbox = document.getElementById('persentase_komplet_check');
@@ -160,12 +171,12 @@
             function updateStatusText() {
                 statusText.textContent = checkbox.checked ? 'Ya' : 'Tidak';
             }
-    
+
             updateStatusText();
-    
+
             checkbox.addEventListener('change', updateStatusText);
         });
-    </script>  
+    </script>
     <script>
         $(function() {
             $('#datetimepicker3').datetimepicker({

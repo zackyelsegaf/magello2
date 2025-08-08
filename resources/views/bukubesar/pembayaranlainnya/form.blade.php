@@ -6,7 +6,7 @@
                     <div class="col-sm-6">
                         <h3 class="page-title mb-3">{{ isset($pembayaranId) ? 'Edit' : 'Tambah' }} Pembayaran Lainnya</h3>
                     </div>
-                    <div class="col-sm-6 text-end">
+                    <div class="col-sm-6 text-right">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input mt-2" wire:model="mata_uang_asing" value="1" id="mataUangAsing" @checked($mata_uang_asing)>
                             <label class="form-check-label mr-4" for="mataUangAsing">Mata Uang Asing</label>

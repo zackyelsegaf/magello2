@@ -14,57 +14,59 @@
 
         <div class="row">
             <div class="col-md-3">
-                <div class="card rounded-default p-3 bg-dark text-white">
-                    <div class="form-group">
-                        <label>Pencarian</label>
-                        <input type="text" name="kode_pelanggan" class="form-control key-filter" placeholder="Cari berdasarkan ID">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="nama_pelanggan" class="form-control key-filter" placeholder="Nama Pelanggan">
-                    </div>     
-                    <div class="form-group">
-                        <label>Mata Uang</label>
-                        <select class="form-control click-filter" name="mata_uang_id">
-                            <option value="" selected>Mata Uang</option>
-                            @foreach ($mata_uang as $items)
-                                <option value="{{ $items->id }}">
-                                    {{ $items->nama }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Tipe Pelanggan</label>
-                        <select class="form-control click-filter" name="tipe_pelanggan_id">
-                            <option value="" selected> Tipe Pelanggan </option>
-                            @foreach ($tipe_pelanggan as $items)
-                                <option value="{{ $items->id }}">
-                                    {{ $items->nama }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>     
-                    <div class="form-group">
-                        <label>Dihentikan</label><br>
-                        <div class="form-check">
-                            <input class="form-check-input click-filter" type="radio" name="dihentikan" value="" checked>
-                            <label class="form-check-label">Semua</label>
+                <div class="card rounded-default p-3 filterBox text-white">
+                    <form method="GET" action="{{ route('pelanggan/list/page') }}">
+                        <div class="form-group mb-1">
+                            <label>Pencarian</label>
+                            <input type="text" name="pelanggan_id" class="form-control form-control-sm" onchange="this.form.submit()" placeholder="Cari berdasarkan ID" value="{{ request('pelanggan_id') }}">
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input click-filter" type="radio" name="dihentikan" value="1">
-                            <label class="form-check-label">Ya</label>
+                        <div class="form-group mb-1">
+                            <input type="text" name="nama_pelanggan" class="form-control form-control-sm" onchange="this.form.submit()" placeholder="Nama Pelanggan" value="{{ request('nama_pelanggan') }}">
+                        </div>     
+                        <div class="form-group mb-1">
+                            <label>Mata Uang</label>
+                            <select class="form-control form-control-sm" name="mata_uang_pelanggan" onchange="this.form.submit()">
+                                <option value="" selected>Mata Uang</option>
+                                @foreach ($mata_uang as $items)
+                                    <option value="{{ $items->nama }}" {{ request('mata_uang_pelanggan') == $items->nama ? 'selected' : '' }}>
+                                        {{ $items->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input click-filter" type="radio" name="dihentikan" value="0">
-                            <label class="form-check-label">Tidak</label>
-                        </div>
-                    </div>
+                        <div class="form-group mb-1">
+                            <label>Tipe Pelanggan</label>
+                            <select class="form-control form-control-sm" name="tipe_pelanggan" onchange="this.form.submit()">
+                                <option value="" selected> Tipe Pelanggan </option>
+                                @foreach ($tipe_pelanggan as $items)
+                                    <option value="{{ $items->nama }}" {{ request('tipe_pelanggan') == $items->nama ? 'selected' : '' }}>
+                                        {{ $items->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>     
+                        <div class="form-group mb-1">
+                            <label>Dihentikan</label><br>
+                            <div class="form-check mb-1">
+                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="" {{ request('dihentikan') === null ? 'checked' : '' }}>
+                                <label class="form-check-label">Semua</label>
+                            </div>
+                            <div class="form-check mb-1">
+                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="1" {{ request('dihentikan') === '1' ? 'checked' : '' }}>
+                                <label class="form-check-label">Ya</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="0" {{ request('dihentikan') === '0' ? 'checked' : '' }}>
+                                <label class="form-check-label">Tidak</label>
+                            </div>
+                        </div>                                                                          
+                        {{-- <button type="submit" class="btn btn-block btn-primary"  style="border-radius: 10px; padding: 10px 0 10px 0">Cari</button> --}}
+                    </form>
                 </div>
             </div>
-
             <div class="col-md-9">
                 <div class="card card-table">
-                    <div class="card-body booking_card">
+                    <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover table-center mb-0" id="PelangganList">
                                 <thead class="thead-dark">
@@ -117,9 +119,9 @@
                     url: "{{ route('get-pelanggan-data') }}",
                     data: function(d) {
                         d.nama_pelanggan = $('input[name=nama_pelanggan]').val(),
-                        d.kode_pelanggan = $('input[name=kode_pelanggan]').val(),
-                        d.mata_uang_id = $('select[name=mata_uang_id]').val(),
-                        d.tipe_pelanggan_id = $('select[name=tipe_pelanggan_id]').val(),
+                        d.pelanggan_id = $('input[name=pelanggan_id]').val(),
+                        d.mata_uang_pelanggan = $('select[name=mata_uang_pelanggan]').val(),
+                        d.tipe_pelanggan = $('select[name=tipe_pelanggan]').val(),
                         d.dihentikan = $('input[name=dihentikan]:checked').val();
                     }
                 },
@@ -183,58 +185,58 @@
                         visible: false
                     },
                     {
-                        data: 'kode_pelanggan',
-                        name: 'kode_pelanggan',
+                        data: 'pelanggan_id',
+                        name: 'pelanggan_id',
                         orderable: true,
                         searchable: false
                     },
                     {
-                        data: 'nama',
-                        name: 'nama',
-                        orderable: true,
-                        searchable: true
+                        data: 'nama_pelanggan',
+                        name: 'nama_pelanggan',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'alamat_1',
                         name: 'alamat_1',
-                        orderable: true,
-                        searchable: true
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'alamat_2',
                         name: 'alamat_2',
-                        orderable: true,
-                        searchable: true
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'kontak',
                         name: 'kontak',
-                        orderable: true,
-                        searchable: true
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'no_telp',
                         name: 'no_telp',
-                        orderable: true,
-                        searchable: true
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'mata_uang_pelanggan',
                         name: 'mata_uang_pelanggan',
-                        orderable: true,
-                        searchable: true
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'tipe_pelanggan',
                         name: 'tipe_pelanggan',
-                        orderable: true,
-                        searchable: true
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'dihentikan',
                         name: 'dihentikan',
-                        orderable: true,
-                        searchable: true,
+                        orderable: false,
+                        searchable: false,
                         render: function(data, type, row) {
                             return data == 1
                                 ? '<h3 class="badge badge-pill text-white badge-secondary">Ya</h3>'
@@ -244,11 +246,9 @@
                 ]
             });
 
-            $('.key-filter').on('keyup', function(e){
-                table.draw()
-            });
-            $('.click-filter').on('change', function(e){
-                table.draw()
+            $('form').on('submit', function(e) {
+                e.preventDefault();
+                table.draw();
             });
 
             $('#select_all').on('click', function() {
@@ -291,7 +291,7 @@
 
                 var data = table.row(this).data();
                     if (data) {
-                        window.location.href = "/pelanggan/edit/" + data.id;
+                        window.location.href = "/pelanggan/edit/" + data.id + "/" + data.pelanggan_id;
                     }
             });
         });

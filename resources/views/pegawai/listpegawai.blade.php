@@ -14,19 +14,19 @@
 
         <div class="row">
             <div class="col-md-3">
-                <div class="card rounded-default p-3 bg-dark text-white">
+                <div class="card rounded-default p-3 filterBox text-white">
                     <form method="GET" action="{{ route('pegawai/list/page') }}">
-                        <div class="form-group">
+                        <div class="form-group mb-1">
                             <label for="nama">Pencarian</label>
-                            <input type="text" name="nama" class="form-control" placeholder="Nama Pemasok" value="{{ request('nama') }}">
+                            <input type="text" name="nama" class="form-control form-control-sm" placeholder="Nama Pemasok" value="{{ request('nama') }}">
                         </div>
-                        <button type="submit" class="btn btn-block btn-primary"  style="border-radius: 10px; padding: 10px 0 10px 0">Cari</button>
+                        {{-- <button type="submit" class="btn btn-block btn-primary"  style="border-radius: 10px; padding: 10px 0 10px 0">Cari</button> --}}
                     </form>
                 </div>
             </div>
             <div class="col-md-9">
                 <div class="card card-table">
-                    <div class="card-body booking_card">
+                    <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover table-center mb-0" id="PegawaiList">
                                 <thead class="thead-dark">

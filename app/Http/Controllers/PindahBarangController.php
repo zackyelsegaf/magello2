@@ -81,13 +81,11 @@ class PindahBarangController extends Controller
                 $detail->pengguna_pindah  = auth()->user()->email;
                 $detail->save();
 
-                // ✅ Cari barang_id berdasarkan no_barang
                 $barang = Barang::find($request->no_barang[$i]);
 
                 if ($barang) {
                     $jumlahPindah = (float) $request->kts_barang[$i];
 
-                    // 🔽 Kurangi dari gudang asal
                     $stokAsal = StokBarang::where('barang_id', $barang->id)
                         ->where('gudang_id', $validated['dari_gudang'])
                         ->first();
@@ -99,7 +97,6 @@ class PindahBarangController extends Controller
                         throw new \Exception("Stok tidak mencukupi di gudang asal untuk barang: {$barang->nama_barang}");
                     }
 
-                    // 🔼 Tambah ke gudang tujuan
                     $stokTujuan = StokBarang::firstOrNew([
                         'barang_id' => $barang->id,
                         'gudang_id' => $validated['ke_gudang'],

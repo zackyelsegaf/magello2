@@ -14,62 +14,64 @@
         <div class="row">
             <div id="filterBox" class="col-md-3" style="{{ request('filter') == '1' ? '' : 'display: none;' }}">
                 <div class="card rounded-default p-3 filterBox text-white">
-                    <input type="hidden" name="filter" value="1">
-                    <div class="form-group mb-1">
-                        <label>Pencarian</label>
-                        <input type="text" name="no_barang" class="form-control form-control-sm key-filter" placeholder="Cari berdasarkan ID">
-                    </div>
-                    <div class="form-group mb-1">
-                        <input type="text" name="nama_barang" class="form-control form-control-sm key-filter" placeholder="Nama Barang">
-                    </div>   
-                    <div class="form-group mb-1">
-                        <label>Dihentikan</label><br>
-                        <div class="form-check mb-1">
-                            <input class="form-check-input click-filter" type="radio" name="dihentikan" value="" checked>
-                            <label class="form-check-label">Semua</label>
+                    <form method="GET" action="{{ route('barang/list/page') }}">
+                        <input type="hidden" name="filter" value="1">
+                        <div class="form-group mb-1">
+                            <label>Pencarian</label>
+                            <input type="text" name="no_barang" class="form-control form-control-sm" onchange="this.form.submit()" placeholder="Cari berdasarkan ID" value="{{ request('no_barang') }}">
                         </div>
-                        <div class="form-check mb-1">
-                            <input class="form-check-input click-filter" type="radio" name="dihentikan" value="1">
-                            <label class="form-check-label">Ya</label>
+                        <div class="form-group mb-1">
+                            <input type="text" name="nama_barang" class="form-control form-control-sm" onchange="this.form.submit()" placeholder="Nama Barang" value="{{ request('nama_barang') }}">
+                        </div>   
+                        <div class="form-group mb-1">
+                            <label>Dihentikan</label><br>
+                            <div class="form-check mb-1">
+                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="" {{ request('dihentikan') === null ? 'checked' : '' }}>
+                                <label class="form-check-label">Semua</label>
+                            </div>
+                            <div class="form-check mb-1">
+                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="1" {{ request('dihentikan') === '1' ? 'checked' : '' }}>
+                                <label class="form-check-label">Ya</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="0" {{ request('dihentikan') === '0' ? 'checked' : '' }}>
+                                <label class="form-check-label">Tidak</label>
+                            </div>
+                        </div>    
+                        <div class="form-group mb-1">
+                            <label>Tipe Barang</label>
+                            <select class="form-control form-control-sm" name="tipe_barang" onchange="this.form.submit()">
+                                <option value="" selected></option>
+                                @foreach ($tipe_barang as $items)
+                                    <option value="{{ $items->nama }}" {{ request('tipe_barang') == $items->nama ? 'selected' : '' }}>
+                                        {{ $items->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input click-filter" type="radio" name="dihentikan" value="0">
-                            <label class="form-check-label">Tidak</label>
-                        </div>
-                    </div>    
-                    <div class="form-group mb-1">
-                        <label>Tipe Barang</label>
-                        <select class="form-control form-control-sm click-filter" name="tipe_barang">
-                            <option value="" selected>Tipe Barang</option>
-                            @foreach ($tipe_barang as $items)
-                                <option value="{{ $items->nama }}">
-                                    {{ $items->nama }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group mb-1">
-                        <label>Kategori Barang</label>
-                        <select class="form-control form-control-sm click-filter" name="kategori_barang">
-                            <option value="" selected> Kategori Barang </option>
-                            @foreach ($kategori_barang as $items)
-                                <option value="{{ $items->nama }}">
-                                    {{ $items->nama }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>     
-                    <div class="form-group mb-1">
-                        <label>Tipe Persediaan</label>
-                        <select class="form-control form-control-sm click-filter" name="tipe_persediaan">
-                            <option value="" selected> Tipe Persediaan </option>
-                            @foreach ($tipe_persediaan as $items)
-                                <option value="{{ $items->nama }}">
-                                    {{ $items->nama }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                        <div class="form-group mb-1">
+                            <label>Kategori Barang</label>
+                            <select class="form-control form-control-sm" name="kategori_barang" onchange="this.form.submit()">
+                                <option value="" selected> Tipe Pelanggan </option>
+                                @foreach ($kategori_barang as $items)
+                                    <option value="{{ $items->nama }}" {{ request('kategori_barang') == $items->nama ? 'selected' : '' }}>
+                                        {{ $items->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>     
+                        <div class="form-group mb-1">
+                            <label>Tipe Persediaan</label>
+                            <select class="form-control form-control-sm" name="tipe_persediaan" onchange="this.form.submit()">
+                                <option value="" selected> Tipe Pelanggan </option>
+                                @foreach ($tipe_persediaan as $items)
+                                    <option value="{{ $items->nama }}" {{ request('tipe_persediaan') == $items->nama ? 'selected' : '' }}>
+                                        {{ $items->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>   
+                    </form>
                 </div>
             </div>
             <div class="col-md-9">
@@ -266,11 +268,9 @@
                 ]
             });
 
-            $('.key-filter').on('keyup', function(e){
-                table.draw()
-            });
-            $('.click-filter').on('change', function(e){
-                table.draw()
+            $('form').on('submit', function(e) {
+                e.preventDefault();
+                table.draw();
             });
 
             $('#select_all').on('click', function() {

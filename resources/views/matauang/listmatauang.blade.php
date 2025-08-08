@@ -14,17 +14,18 @@
 
         <div class="row">
             <div class="col-md-3">
-                <div class="card rounded-default p-3 bg-dark text-white">
-                    <div class="form-group">
-                        <label for="nama">Pencarian</label>
-                        <input type="text" name="nama" class="form-control key-filter" placeholder="Nama Mata Uang">
-                    </div>
+                <div class="card rounded-default p-3 filterBox text-white">
+                    <form method="GET" action="{{ route('matauang/list/page') }}">
+                        <div class="form-group mb-1">
+                            <label for="nama">Pencarian</label>
+                            <input type="text" name="nama" class="form-control form-control-sm" onchange="this.form.submit()" placeholder="Nama Mata Uang" value="{{ request('nama') }}">
+                        </div>
+                    </form>
                 </div>
             </div>
-
             <div class="col-md-9">
                 <div class="card card-table">
-                    <div class="card-body booking_card">
+                    <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover table-center mb-0" id="MataUangList">
                                 <thead class="thead-dark">
@@ -142,8 +143,9 @@
                 ]
             });
 
-            $('.key-filter').on('keyup', function(e){
-                table.draw()
+            $('form').on('submit', function(e) {
+                e.preventDefault(); // Mencegah reload halaman
+                table.draw();       // Reload data table dengan parameter baru
             });
 
             $('#select_all').on('click', function() {
@@ -179,9 +181,9 @@
             });
 
             $('#MataUangList tbody').on('click', 'tr', function(e) {
-                // Cek apakah yang diklik adalah checkbox atau elemen dalam checkbox
+               
                 if ($(e.target).is('input[type="checkbox"], label')) {
-                    return; // Jika iya, hentikan eksekusi supaya tidak redirect
+                    return;
                 }
 
                 var data = table.row(this).data();

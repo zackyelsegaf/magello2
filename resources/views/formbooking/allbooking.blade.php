@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card card-table">
-                        <div class="card-body booking_card">
+                        <div class="card-body">
                             <div class="table-responsive">
                                 <table class="datatable table table-stripped table table-hover table-center mb-0">
                                     <thead>

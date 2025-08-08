@@ -27,8 +27,6 @@ use App\Http\Controllers\GudangController;
 use App\Http\Controllers\KategoriBarangController;
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\BarangController;
-use App\Http\Controllers\ClusterController;
-use App\Http\Controllers\KonsumenController;
 use App\Http\Controllers\ProyekUmumController;
 use App\Http\Controllers\PenyesuaianBarangController;
 use App\Http\Controllers\PermintaanPembelianController;
@@ -43,7 +41,6 @@ use App\Http\Controllers\Aktiva\AktivaTetapController;
 use App\Http\Controllers\Aktiva\TipeAktivaTetapController;
 use App\Http\Controllers\Aktiva\TipeAktivaTetapPajakController;
 use App\Http\Controllers\Aktiva\PenyusutanController;
-use App\Http\Controllers\JasaPengirimanController;
 use App\Http\Controllers\Marketing\DataBookingController;
 use App\Http\Controllers\Marketing\KonsumenMarketingController;
 use App\Http\Controllers\Marketing\Perumahan\FasosController;
@@ -59,20 +56,9 @@ use App\Http\Controllers\Persediaan\HargaJualController;
 use App\Http\Controllers\Persediaan\BarangPerGudangController;
 use App\Http\Controllers\Persediaan\PembiayaanPesananController;
 use App\Http\Controllers\Persediaan\PencatatanNomorSerialController;
-use App\Livewire\BarangForm;
-use App\Livewire\DepartemenForm;
-use App\Livewire\GudangForm;
-use App\Livewire\JasaPengirimanForm;
-use App\Livewire\KategoriBarangForm;
-use App\Livewire\MataUangForm;
-use App\Livewire\PajakForm;
-use App\Livewire\PelangganForm;
-use App\Livewire\PemasokForm;
-use App\Livewire\PenjualForm;
-use App\Livewire\SatuanForm;
-use App\Livewire\StatusPemasokForm;
-use App\Livewire\SyaratForm;
-use App\Livewire\TipePelangganForm;
+use App\Livewire\KlusterPerumahanForm;
+use App\Livewire\KonsumenForm;
+use App\Livewire\ProspekForm;
 use App\Models\PindahBarang;
 use App\Models\Room;
 use App\Models\TipeAktivaTetapPajak;
@@ -194,93 +180,138 @@ Route::controller(UserManagementController::class)->group(function () {
 // });
 
 // ----------------------------- Mata Uang -----------------------------//
-Route::get('matauang/add/new', MataUangForm::class)->middleware('auth')->name('matauang/add/new');
-Route::get('/matauang/edit/{id}', MataUangForm::class)->name('matauang.edit');
 Route::controller(MataUangController::class)->group(function () {
-    Route::get('matauang/list/page', 'mataUangList')->middleware('auth')->name('matauang/list/page');
-    Route::post('/matauang/delete', 'delete')->name('matauang.delete');
-    Route::get('get-matauang-data', 'getMataUang')->name('get-matauang-data');
+    Route::get('matauang/list/page', 'matauangList')->middleware('auth')->name('matauang/list/page');
+    Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
+    Route::get('matauang/add/new', 'MataUangAddNew')->middleware('auth')->name('matauang/add/new');
+    Route::post('form/matauang/save', 'saveRecordMataUang')->middleware('auth')->name('form/matauang/save');
+    Route::get('/matauang/edit/{id}', [MataUangController::class, 'edit'])->name('matauang.edit');
+    Route::post('/matauang/update/{id}', [MataUangController::class, 'update'])->name('matauang.update');
+    Route::post('/matauang/delete', [MataUangController::class, 'delete'])->name('matauang.delete');
+    Route::get('get-matauang-data', [MataUangController::class, 'getMataUang'])->name('get-matauang-data');
 });
 
-//-------------------------------- Status Pemasok ---------------------------------//
-Route::get('statuspemasok/add/new', StatusPemasokForm::class)->middleware('auth')->name('statuspemasok/add/new');
-Route::get('/statuspemasok/edit/{id}', StatusPemasokForm::class)->name('statuspemasok/edit');
+
+// ----------------------------- Status Pemasok -----------------------------//
 Route::controller(StatusPemasokController::class)->group(function () {
     Route::get('statuspemasok/list/page', 'statusPemasokList')->middleware('auth')->name('statuspemasok/list/page');
-    Route::post('/statuspemasok/delete', 'delete')->name('statuspemasok/delete');
-    Route::get('get-statuspemasok-data', 'getStatusPemasok')->name('get-statuspemasok-data');
+    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
+    Route::get('statuspemasok/add/new', 'StatusPemasokAddNew')->middleware('auth')->name('statuspemasok/add/new');
+    Route::post('form/statuspemasok/save', 'saveRecordStatusPemasok')->middleware('auth')->name('form/statuspemasok/save');
+    Route::get('/statuspemasok/edit/{id}', [StatusPemasokController::class, 'edit'])->name('statuspemasok/edit');
+    Route::post('/statuspemasok/update/{id}', [StatusPemasokController::class, 'update'])->name('statuspemasok/update');
+    Route::post('/statuspemasok/delete', [StatusPemasokController::class, 'delete'])->name('statuspemasok/delete');
+    Route::get('get-statuspemasok-data', [StatusPemasokController::class, 'getStatusPemasok'])->name('get-statuspemasok-data');
 });
 
-//-------------------------------- Pemasok ---------------------------------//
-Route::get('pemasok/add/new', PemasokForm::class)->middleware('auth')->name('pemasok/add/new');
-Route::get('/pemasok/edit/{id}', PemasokForm::class)->name('pemasok/edit');
+
+// ----------------------------- Pemasok -----------------------------//
 Route::controller(PemasokController::class)->group(function () {
     Route::get('pemasok/list/page', 'PemasokList')->middleware('auth')->name('pemasok/list/page');
-    Route::post('/pemasok/delete', 'delete')->name('pemasok/delete');
-    Route::get('get-pemasok-data', 'getPemasok')->name('get-pemasok-data');
+    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
+    Route::get('pemasok/add/new', 'PemasokAddNew')->middleware('auth')->name('pemasok/add/new');
+    Route::post('form/pemasok/save', 'saveRecordPemasok')->middleware('auth')->name('form/pemasok/save');
+    Route::get('/pemasok/edit/{id}/{pemasok_id}', [PemasokController::class, 'edit'])->name('pemasok/edit');
+    Route::post('/pemasok/update/{pemasok_id}', [PemasokController::class, 'update'])->name('pemasok/update');
+    Route::post('/pemasok/delete', [PemasokController::class, 'delete'])->name('pemasok/delete');
+    Route::get('get-pemasok-data', [PemasokController::class, 'getPemasok'])->name('get-pemasok-data');
+    // Route::get('provinces', 'DependentDropdownController@provinces')->name('provinces');
+    // Route::get('cities', 'DependentDropdownController@cities')->name('cities');
 });
 
-//-------------------------------- Syarat Pembayaran ---------------------------------//
-Route::get('syarat/add/new', SyaratForm::class)->middleware('auth')->name('syarat/add/new');
-Route::get('/syarat/edit/{id}', SyaratForm::class)->name('syarat/edit');
+
+// ----------------------------- Syarat Pembayaran -----------------------------//
 Route::controller(SyaratController::class)->group(function () {
     Route::get('syarat/list/page', 'syaratList')->middleware('auth')->name('syarat/list/page');
-    Route::post('/syarat/delete', 'delete')->name('syarat/delete');
-    Route::get('get-syarat-data', 'getSyarat')->name('get-syarat-data');
+    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
+    Route::get('syarat/add/new', 'SyaratAddNew')->middleware('auth')->name('syarat/add/new');
+    Route::post('form/syarat/save', 'saveRecordSyarat')->middleware('auth')->name('form/syarat/save');
+    Route::get('/syarat/edit/{id}', [SyaratController::class, 'edit'])->name('syarat/edit');
+    Route::post('/syarat/update/{id}', [SyaratController::class, 'update'])->name('syarat/update');
+    Route::post('/syarat/delete', [SyaratController::class, 'delete'])->name('syarat/delete');
+    Route::get('get-syarat-data', [SyaratController::class, 'getSyarat'])->name('get-syarat-data');
 });
 
-//-------------------------------- Pajak ---------------------------------//
-Route::get('pajak/add/new', PajakForm::class)->middleware('auth')->name('pajak/add/new');
-Route::get('/pajak/edit/{id}', PajakForm::class)->name('pajak/edit');
+
+// ----------------------------- Pajak -----------------------------//
 Route::controller(PajakController::class)->group(function () {
     Route::get('pajak/list/page', 'pajakList')->middleware('auth')->name('pajak/list/page');
-    Route::post('/pajak/delete', 'delete')->name('pajak/delete');
-    Route::get('get-pajak-data', 'getPajak')->name('get-pajak-data');
+    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
+    Route::get('pajak/add/new', 'PajakAddNew')->middleware('auth')->name('pajak/add/new');
+    Route::post('form/pajak/save', 'saveRecordPajak')->middleware('auth')->name('form/pajak/save');
+    Route::get('/pajak/edit/{id}', [PajakController::class, 'edit'])->name('pajak/edit');
+    Route::post('/pajak/update/{id}', [PajakController::class, 'update'])->name('pajak/update');
+    Route::post('/pajak/delete', [PajakController::class, 'delete'])->name('pajak/delete');
+    Route::get('get-pajak-data', [PajakController::class, 'getPajak'])->name('get-pajak-data');
 });
 
-//-------------------------------- Jasa Pengiriman ---------------------------------//
-Route::get('jasapengiriman/add/new', JasaPengirimanForm::class)->middleware('auth')->name('jasapengiriman/add/new');
-Route::get('/jasapengiriman/edit/{id}', JasaPengirimanForm::class)->name('jasapengiriman/edit');
-Route::controller(JasaPengirimanController::class)->group(function () {
-    Route::get('jasapengiriman/list/page', 'jasaPengirimanList')->middleware('auth')->name('jasapengiriman/list/page');
-    Route::post('/jasapengiriman/delete', 'delete')->name('jasapengiriman/delete');
-    Route::get('get-jasapengiriman-data', 'getJasaPengiriman')->name('get-jasapengiriman-data');
-});
 
-//-------------------------------- TIPE PELANGGAN ---------------------------------//
-Route::get('tipepelanggan/add/new', TipePelangganForm::class)->middleware('auth')->name('tipepelanggan/add/new');
-Route::get('/tipepelanggan/edit/{id}', TipePelangganForm::class)->name('tipepelanggan/edit');
+// ----------------------------- Tipe Pelanggan -----------------------------//
 Route::controller(TipePelangganController::class)->group(function () {
     Route::get('tipepelanggan/list/page', 'tipePelangganList')->middleware('auth')->name('tipepelanggan/list/page');
-    Route::post('/tipepelanggan/delete', 'delete')->name('tipepelanggan/delete');
-    Route::get('get-tipepelanggan-data', 'getTipePelanggan')->name('get-tipepelanggan-data');
+    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
+    Route::get('tipepelanggan/add/new', 'TipePelangganAddNew')->middleware('auth')->name('tipepelanggan/add/new');
+    Route::post('form/tipepelanggan/save', 'saveRecordTipePelanggan')->middleware('auth')->name('form/tipepelanggan/save');
+    Route::get('/tipepelanggan/edit/{id}', [TipePelangganController::class, 'edit'])->name('tipepelanggan/edit');
+    Route::post('/tipepelanggan/update/{id}', [TipePelangganController::class, 'update'])->name('tipepelanggan/update');
+    Route::post('/tipepelanggan/delete', [TipePelangganController::class, 'delete'])->name('tipepelanggan/delete');
+    Route::get('get-tipepelanggan-data', [TipePelangganController::class, 'getTipePelanggan'])->name('get-tipepelanggan-data');
 });
 
-//-------------------------------- PELANGGAN ---------------------------------//
-Route::get('pelanggan/add/new', PelangganForm::class)->middleware('auth')->name('pelanggan/add/new');
-Route::get('/pelanggan/edit/{id}', PelangganForm::class)->name('pelanggan/edit');
+
+// ----------------------------- Pelanggan -----------------------------//
 Route::controller(PelangganController::class)->group(function () {
     Route::get('pelanggan/list/page', 'PelangganList')->middleware('auth')->name('pelanggan/list/page');
-    Route::post('/pelanggan/delete', 'delete')->name('pelanggan/delete');
-    Route::get('get-pelanggan-data', 'getPelanggan')->name('get-pelanggan-data');
+    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
+    Route::get('pelanggan/add/new', 'PelangganAddNew')->middleware('auth')->name('pelanggan/add/new');
+    Route::post('form/pelanggan/save', 'saveRecordPelanggan')->middleware('auth')->name('form/pelanggan/save');
+    Route::get('/pelanggan/edit/{id}/{pelanggan_id}', [PelangganController::class, 'edit'])->name('pelanggan/edit');
+    Route::post('/pelanggan/update/{pelanggan_id}', [PelangganController::class, 'update'])->name('pelanggan/update');
+    Route::post('/pelanggan/delete', [PelangganController::class, 'delete'])->name('pelanggan/delete');
+    Route::get('get-pelanggan-data', [PelangganController::class, 'getPelanggan'])->name('get-pelanggan-data');
+    Route::get('/pelanggan/cari', [PelangganController::class, 'cari'])->name('/pelanggan/cari');
+    // Route::get('provinces', 'DependentDropdownController@provinces')->name('provinces');
+    // Route::get('cities', 'DependentDropdownController@cities')->name('cities');
 });
 
-//-------------------------------- PENJUAL ---------------------------------//
-Route::get('penjual/add/new', PenjualForm::class)->middleware('auth')->name('penjual/add/new');
-Route::get('/penjual/edit/{id}', PenjualForm::class)->name('penjual/edit');
+// ----------------------------- Tipe Pelanggan -----------------------------//
+Route::controller(TipePelangganController::class)->group(function () {
+    Route::get('tipepelanggan/list/page', 'tipePelangganList')->middleware('auth')->name('tipepelanggan/list/page');
+    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
+    Route::get('tipepelanggan/add/new', 'TipePelangganAddNew')->middleware('auth')->name('tipepelanggan/add/new');
+    Route::post('form/tipepelanggan/save', 'saveRecordTipePelanggan')->middleware('auth')->name('form/tipepelanggan/save');
+    Route::get('/tipepelanggan/edit/{id}', [TipePelangganController::class, 'edit'])->name('tipepelanggan/edit');
+    Route::post('/tipepelanggan/update/{id}', [TipePelangganController::class, 'update'])->name('tipepelanggan/update');
+    Route::post('/tipepelanggan/delete', [TipePelangganController::class, 'delete'])->name('tipepelanggan/delete');
+    Route::get('get-tipepelanggan-data', [TipePelangganController::class, 'getTipePelanggan'])->name('get-tipepelanggan-data');
+});
+
+
+// ----------------------------- Penjual -----------------------------//
 Route::controller(PenjualController::class)->group(function () {
     Route::get('penjual/list/page', 'penjualList')->middleware('auth')->name('penjual/list/page');
-    Route::post('/penjual/delete', 'delete')->name('penjual/delete');
-    Route::get('get-penjual-data', 'getPenjual')->name('get-penjual-data');
+    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
+    Route::get('penjual/add/new', 'PenjualAddNew')->middleware('auth')->name('penjual/add/new');
+    Route::post('form/penjual/save', 'saveRecordPenjual')->middleware('auth')->name('form/penjual/save');
+    Route::get('/penjual/edit/{id}', [PenjualController::class, 'edit'])->name('penjual/edit');
+    Route::post('/penjual/update/{id}', [PenjualController::class, 'update'])->name('penjual/update');
+    Route::post('/penjual/delete', [PenjualController::class, 'delete'])->name('penjual/delete');
+    Route::get('get-penjual-data', [PenjualController::class, 'getPenjual'])->name('get-penjual-data');
 });
 
-//-------------------------------- DEPARTEMEN ---------------------------------//
-Route::get('departemen/add/new', DepartemenForm::class)->middleware('auth')->name('departemen/add/new');
-Route::get('/departemen/edit/{id}/{departemen_id}', DepartemenForm::class)->name('departemen/edit');
+
+// ----------------------------- Departemen -----------------------------//
 Route::controller(DepartemenController::class)->group(function () {
     Route::get('departemen/list/page', 'DepartemenList')->middleware('auth')->name('departemen/list/page');
-    Route::post('/departemen/delete', 'delete')->name('departemen/delete');
-    Route::get('get-departemen-data', 'getDepartemen')->name('get-departemen-data');
+    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
+    Route::get('departemen/add/new', 'DepartemenAddNew')->middleware('auth')->name('departemen/add/new');
+    Route::post('form/departemen/save', 'saveRecordDepartemen')->middleware('auth')->name('form/departemen/save');
+    Route::get('/departemen/edit/{id}/{departemen_id}', [DepartemenController::class, 'edit'])->name('departemen/edit');
+    Route::post('/departemen/update/{departemen_id}', [DepartemenController::class, 'update'])->name('departemen/update');
+    Route::post('/departemen/delete', [DepartemenController::class, 'delete'])->name('departemen/delete');
+    Route::get('get-departemen-data', [DepartemenController::class, 'getDepartemen'])->name('get-departemen-data');
+    // Route::get('provinces', 'DependentDropdownController@provinces')->name('provinces');
+    // Route::get('cities', 'DependentDropdownController@cities')->name('cities');
 });
 
 
@@ -312,42 +343,69 @@ Route::controller(PegawaiController::class)->group(function () {
 });
 
 
-//-------------------------------- SATUAN ---------------------------------//
-Route::get('satuan/add/new', SatuanForm::class)->middleware('auth')->name('satuan/add/new');
-Route::get('/satuan/edit/{id}', SatuanForm::class)->name('satuan/edit');
+// ----------------------------- Satuan -----------------------------//
 Route::controller(SatuanController::class)->group(function () {
     Route::get('satuan/list/page', 'satuanList')->middleware('auth')->name('satuan/list/page');
-    Route::post('/satuan/delete', 'delete')->name('satuan/delete');
-    Route::get('get-satuan-data', 'getSatuan')->name('get-satuan-data');
+    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
+    Route::get('satuan/add/new', 'SatuanAddNew')->middleware('auth')->name('satuan/add/new');
+    Route::post('form/satuan/save', 'saveRecordSatuan')->middleware('auth')->name('form/satuan/save');
+    Route::get('/satuan/edit/{id}', [SatuanController::class, 'edit'])->name('satuan/edit');
+    Route::post('/satuan/update/{id}', [SatuanController::class, 'update'])->name('satuan/update');
+    Route::post('/satuan/delete', [SatuanController::class, 'delete'])->name('satuan/delete');
+    Route::get('get-satuan-data', [SatuanController::class, 'getSatuan'])->name('get-satuan-data');
 });
 
-//-------------------------------- GUDANG ---------------------------------//
-Route::get('gudang/add/new', GudangForm::class)->middleware('auth')->name('gudang/add/new');
-Route::get('/gudang/edit/{id}', GudangForm::class)->name('gudang/edit');
+
+// ----------------------------- Gudang -----------------------------//
 Route::controller(GudangController::class)->group(function () {
     Route::get('gudang/list/page', 'gudangList')->middleware('auth')->name('gudang/list/page');
-    Route::post('/gudang/delete', 'delete')->name('gudang/delete');
-    Route::get('get-gudang-data', 'getGudang')->name('get-gudang-data');
+    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
+    Route::get('gudang/add/new', 'GudangAddNew')->middleware('auth')->name('gudang/add/new');
+    Route::post('form/gudang/save', 'saveRecordGudang')->middleware('auth')->name('form/gudang/save');
+    Route::get('/gudang/edit/{id}', [GudangController::class, 'edit'])->name('gudang/edit');
+    Route::post('/gudang/update/{id}', [GudangController::class, 'update'])->name('gudang/update');
+    Route::post('/gudang/delete', [GudangController::class, 'delete'])->name('gudang/delete');
+    Route::get('get-gudang-data', [GudangController::class, 'getGudang'])->name('get-gudang-data');
 });
 
-//-------------------------------- KATEGORI BARANG ---------------------------------//
-Route::get('kategoribarang/add/new', KategoriBarangForm::class)->middleware('auth')->name('kategoribarang/add/new');
-Route::get('/kategoribarang/edit/{id}', KategoriBarangForm::class)->name('kategoribarang/edit');
+
+// ----------------------------- Kategori Barang -----------------------------//
 Route::controller(KategoriBarangController::class)->group(function () {
     Route::get('kategoribarang/list/page', 'kategoriBarangList')->middleware('auth')->name('kategoribarang/list/page');
-    Route::post('/kategoribarang/delete', 'delete')->name('kategoribarang/delete');
-    Route::get('get-kategoribarang-data', 'getKategoriBarang')->name('get-kategoribarang-data');
+    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
+    Route::get('kategoribarang/add/new', 'KategoriBarangAddNew')->middleware('auth')->name('kategoribarang/add/new');
+    Route::post('form/kategoribarang/save', 'saveRecordKategoriBarang')->middleware('auth')->name('form/kategoribarang/save');
+    Route::get('/kategoribarang/edit/{id}', [KategoriBarangController::class, 'edit'])->name('kategoribarang/edit');
+    Route::post('/kategoribarang/update/{id}', [KategoriBarangController::class, 'update'])->name('kategoribarang/update');
+    Route::post('/kategoribarang/delete', [KategoriBarangController::class, 'delete'])->name('kategoribarang/delete');
+    Route::get('get-kategoribarang-data', [KategoriBarangController::class, 'getKategoriBarang'])->name('get-kategoribarang-data');
 });
 
-Route::get('barang/add/new', BarangForm::class)->middleware('auth')->name('barang/add/new');
-Route::get('/barang/edit/{id}', BarangForm::class)->name('barang/edit');
+
+// ----------------------------- Akun -----------------------------//
+Route::controller(AkunController::class)->group(function () {
+    Route::get('akun/list/page', 'akunList')->middleware('auth')->name('akun/list/page');
+    // Route::get('matauang/list/page', 'index')->middleware('auth')->name('matauang/list/page');
+    Route::get('akun/add/new', 'AkunAddNew')->middleware('auth')->name('akun/add/new');
+    Route::post('form/akun/save', 'saveRecordAkun')->middleware('auth')->name('form/akun/save');
+    Route::get('/akun/edit/{id}', [AkunController::class, 'edit'])->name('akun/edit');
+    Route::post('/akun/update/{id}', [AkunController::class, 'update'])->name('akun/update');
+    Route::post('/akun/delete', [AkunController::class, 'delete'])->name('akun/delete');
+    Route::get('get-akun-data', [AkunController::class, 'getAkun'])->name('get-akun-data');
+});
+
+
+// ----------------------------- Barang -----------------------------//
 Route::controller(BarangController::class)->group(function () {
     Route::get('barang/list/page', 'daftarBarang')->middleware('auth')->name('barang/list/page');
+    Route::get('barang/add/new', 'tambahBarang')->middleware('auth')->name('barang/add/new');
     Route::post('form/barang/save', 'simpanBarang')->middleware('auth')->name('form/barang/save');
+    Route::get('/barang/edit/{id}', [BarangController::class, 'editBarang'])->name('barang/edit');
     Route::post('/barang/update/{id}', [BarangController::class, 'updateBarang'])->name('barang/update');
-    Route::post('/barang/delete', [BarangController::class, 'hapusBarang'])->name('barang/delete');
+    Route::post('/barang/delete', [BarangController::class, 'deleteBarang'])->name('barang/delete');
     Route::get('get-barang-data', [BarangController::class, 'dataBarang'])->name('get-barang-data');
 });
+
 
 // ----------------------------- Barang (duplicate) -----------------------------//
 // Route::controller(BarangController::class)->group(function () {
@@ -361,28 +419,28 @@ Route::controller(BarangController::class)->group(function () {
 // });
 
 
-// ----------------------------- Cluster -----------------------------//
-Route::controller(ClusterController::class)->group(function () {
-    Route::get('cluster/list/page', 'daftarCluster')->middleware('auth')->name('cluster/list/page');
-    Route::get('cluster/add/new', 'tambahCluster')->middleware('auth')->name('cluster/add/new');
-    Route::post('form/cluster/save', 'simpanCluster')->middleware('auth')->name('form/cluster/save');
-    Route::get('/cluster/edit/{id}', [ClusterController::class, 'editCluster'])->name('cluster/edit');
-    Route::post('/cluster/update/{id}', [ClusterController::class, 'updateCluster'])->name('cluster/update');
-    Route::post('/cluster/delete', [ClusterController::class, 'hapusCluster'])->name('cluster/delete');
-    Route::get('get-cluster-data', [ClusterController::class, 'dataCluster'])->name('get-cluster-data');
-});
+// ----------------------------- Cluster (deprecated) -----------------------------//
+// Route::controller(ClusterController::class)->group(function () {
+//     Route::get('cluster/list/page', 'daftarCluster')->middleware('auth')->name('cluster/list/page');
+//     Route::get('cluster/add/new', 'tambahCluster')->middleware('auth')->name('cluster/add/new');
+//     Route::post('form/cluster/save', 'simpanCluster')->middleware('auth')->name('form/cluster/save');
+//     Route::get('/cluster/edit/{id}', [ClusterController::class, 'editCluster'])->name('cluster/edit');
+//     Route::post('/cluster/update/{id}', [ClusterController::class, 'updateCluster'])->name('cluster/update');
+//     Route::post('/cluster/delete', [ClusterController::class, 'hapusCluster'])->name('cluster/delete');
+//     Route::get('get-cluster-data', [ClusterController::class, 'dataCluster'])->name('get-cluster-data');
+// });
 
 
-// ----------------------------- Konsumen -----------------------------//
-Route::controller(KonsumenController::class)->group(function () {
-    Route::get('konsumen/list/page', 'daftarKonsumen')->middleware('auth')->name('konsumen/list/page');
-    Route::get('konsumen/add/new', 'tambahKonsumen')->middleware('auth')->name('konsumen/add/new');
-    Route::post('form/konsumen/save', 'simpanKonsumen')->middleware('auth')->name('form/konsumen/save');
-    Route::get('/konsumen/edit/{id}', [KonsumenController::class, 'editKonsumen'])->name('konsumen/edit');
-    Route::post('/konsumen/update/{id}', [KonsumenController::class, 'updateKonsumen'])->name('konsumen/update');
-    Route::post('/konsumen/delete', [KonsumenController::class, 'hapusKonsumen'])->name('konsumen/delete');
-    Route::get('get-konsumen-data', [KonsumenController::class, 'dataKonsumen'])->name('get-konsumen-data');
-});
+// ----------------------------- Konsumen (deprecated) -----------------------------//
+// Route::controller(KonsumenController::class)->group(function () {
+//     Route::get('konsumen/list/page', 'daftarKonsumen')->middleware('auth')->name('konsumen/list/page');
+//     Route::get('konsumen/add/new', 'tambahKonsumen')->middleware('auth')->name('konsumen/add/new');
+//     Route::post('form/konsumen/save', 'simpanKonsumen')->middleware('auth')->name('form/konsumen/save');
+//     Route::get('/konsumen/edit/{id}', [KonsumenController::class, 'editKonsumen'])->name('konsumen/edit');
+//     Route::post('/konsumen/update/{id}', [KonsumenController::class, 'updateKonsumen'])->name('konsumen/update');
+//     Route::post('/konsumen/delete', [KonsumenController::class, 'hapusKonsumen'])->name('konsumen/delete');
+//     Route::get('get-konsumen-data', [KonsumenController::class, 'dataKonsumen'])->name('get-konsumen-data');
+// });
 
 
 // ----------------------------- Proyek Umum -----------------------------//
@@ -567,6 +625,8 @@ Route::controller(AktivaTetapController::class)->group(function () {
     Route::post('/aktivatetap/update/{id}', [AktivaTetapController::class, 'update'])->name('aktivatetap/update');
     Route::post('/aktivatetap/delete', [AktivaTetapController::class, 'delete'])->name('aktivatetap/delete');
     Route::get('get-aktivatetap-data', [AktivaTetapController::class, 'getAktivaTetap'])->name('get-aktivatetap-data');
+    Route::get('get-akuns-data', [AktivaTetapController::class, 'tambahAktivaTetap'])->name('get-akuns-data');
+    Route::get('/get-detail-akun', [AktivaTetapController::class, 'getDetailAktivaTetap']);
 });
 
 Route::controller(TipeAktivaTetapPajakController::class)->group(function () {
@@ -637,24 +697,20 @@ Route::controller(PencatatanNomorSerialController::class)->group(function () {
 
 // ----------------------------- Marketing - (INTERNSHIP TEAM) ----------------------------//
 
+Route::get('prospek/add/new', ProspekForm::class)->middleware('auth')->name('prospek/add/new');
+Route::get('/prospek/edit/{id}', ProspekForm::class)->name('prospek/edit');
 Route::controller(ProspekController::class)->group(function () {
     Route::get('prospek/list/page', 'ProspekList')->middleware('auth')->name('prospek/list/page');
-    Route::get('prospek/add/new', 'ProspekAddNew')->middleware('auth')->name('prospek/add/new');
-    Route::post('form/prospek/save', 'saveRecordProspek')->middleware('auth')->name('form/prospek/save');
-    Route::get('/prospek/edit/{id}', [ProspekController::class, 'edit'])->name('prospek/edit');
-    Route::post('/prospek/update/{id}', [ProspekController::class, 'update'])->name('prospek/update');
-    Route::post('/prospek/delete', [ProspekController::class, 'delete'])->name('prospek/delete');
-    Route::get('get-prospek-data', [ProspekController::class, 'getProspek'])->name('get-prospek-data');
+    Route::post('/prospek/delete', 'delete')->name('prospek/delete');
+    Route::get('get-prospek-data', 'getProspek')->name('get-prospek-data');
 });
 
+Route::get('konsumenmarketing/add/new', KonsumenForm::class)->middleware('auth')->name('konsumenmarketing/add/new');
+Route::get('/konsumenmarketing/edit/{id}', KonsumenForm::class)->name('konsumenmarketing/edit');
 Route::controller(KonsumenMarketingController::class)->group(function () {
     Route::get('konsumenmarketing/list/page', 'KonsumenMarketingList')->middleware('auth')->name('konsumenmarketing/list/page');
-    Route::get('konsumenmarketing/add/new', 'KonsumenMarketingAddNew')->middleware('auth')->name('konsumenmarketing/add/new');
-    Route::post('form/konsumenmarketing/save', 'saveRecordKonsumenMarketing')->middleware('auth')->name('form/konsumenmarketing/save');
-    Route::get('/konsumenmarketing/edit/{id}', [KonsumenMarketingController::class, 'edit'])->name('konsumenmarketing/edit');
-    Route::post('/konsumenmarketing/update/{id}', [KonsumenMarketingController::class, 'update'])->name('konsumenmarketing/update');
     Route::post('/konsumenmarketing/delete', [KonsumenMarketingController::class, 'delete'])->name('konsumenmarketing/delete');
-    Route::get('get-konsumen-marketing-data', [KonsumenMarketingController::class, 'getKonsumenMarketing'])->name('get-konsumen-marketing-data');
+    Route::get('get-konsumen-data', [KonsumenMarketingController::class, 'getKonsumen'])->name('get-konsumen-data');
 });
 
 // ----------------------------- Marketing sub-perumahan - (INTERNSHIP TEAM) ----------------------------//
@@ -662,14 +718,12 @@ Route::controller(SitePlanController::class)->group(function () {
     Route::get('siteplane/page', 'SitePlanView')->middleware('auth')->name('siteplane/page');
 });
 
+Route::get('klusterperumahan/add/new', KlusterPerumahanForm::class)->middleware('auth')->name('klusterperumahan/add/new');
+Route::get('/klusterperumahan/edit/{id}', KlusterPerumahanForm::class)->name('klusterperumahan/edit');
 Route::controller(KlusterPerumahanController::class)->group(function () {
     Route::get('klusterperumahan/list/page', 'KlusterPerumahanList')->middleware('auth')->name('klusterperumahan/list/page');
-    Route::get('klusterperumahan/add/new', 'KlusterPerumahanAddNew')->middleware('auth')->name('klusterperumahan/add/new');
-    Route::post('form/klusterperumahan/save', 'saveRecordKlusterPerumahan')->middleware('auth')->name('form/klusterperumahan/save');
-    Route::get('/klusterperumahan/edit/{id}', [KlusterPerumahanController::class, 'edit'])->name('klusterperumahan/edit');
-    Route::post('/klusterperumahan/update/{id}', [KlusterPerumahanController::class, 'update'])->name('klusterperumahan/update');
-    Route::post('/klusterperumahan/delete', [KlusterPerumahanController::class, 'delete'])->name('klusterperumahan/delete');
-    Route::get('get-konsumen-marketing-data', [KlusterPerumahanController::class, 'getKlusterPerumahan'])->name('get-konsumen-marketing-data');
+    Route::post('/klusterperumahan/delete', 'delete')->name('klusterperumahan/delete');
+    Route::get('get-cluster-data', 'dataCluster')->name('get-cluster-data');
 });
 
 Route::controller(KavlingController::class)->group(function () {

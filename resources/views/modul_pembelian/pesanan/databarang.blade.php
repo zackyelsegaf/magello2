@@ -13,8 +13,8 @@
         </div>
 
         <div class="row">
-            <div id="filterBox" class="col-md-4" style="{{ request('filter') == '1' ? '' : 'display: none;' }}">
-                <div class="card rounded-default p-3 bg-dark text-white">
+            <div id="filterBox" class="col-md-3" style="{{ request('filter') == '1' ? '' : 'display: none;' }}">
+                <div class="card rounded-default p-3 filterBox text-white">
                     <form method="GET" action="{{ route('barang/list/page') }}">
                         <input type="hidden" name="filter" value="1">
                         <div class="form-group">
@@ -77,7 +77,7 @@
             </div>
             <div class="col-md-8">
                 <div class="card card-table">
-                    <div class="card-body booking_card">
+                    <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover table-center mb-0" id="BarangList">
                                 <thead class="thead-dark">

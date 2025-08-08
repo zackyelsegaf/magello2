@@ -48,36 +48,35 @@
                                         <div class="card-body">
                                             <h5 class="card-title d-flex justify-content-between">
                                                 <span>Data Pribadi</span>
-                                                <a class="edit-link" data-toggle="modal" href="#edit_personal_details"><i
-                                                        class="fa fa-edit mr-1"></i>Edit</a>
+                                                {{-- <a class="edit-link" data-toggle="modal" href="#edit_personal_details"><i class="fa fa-edit mr-1"></i>Edit</a> --}}
                                             </h5>
                                             <div class="row mt-5">
                                                 <p class="col-sm-3 text-sm-right mb-0 mb-sm-3">Nama</p>
                                                 <p class="col-sm-9">{{ Auth::user()->name }}</p>
                                             </div>
-                                            <div class="row">
+                                            {{-- <div class="row">
                                                 <p class="col-sm-3 text-sm-right mb-0 mb-sm-3">Date of Birth</p>
                                                 <p class="col-sm-9">{{ Auth::user()->join_date }}</p>
-                                            </div>
+                                            </div> --}}
                                             <div class="row">
-                                                <p class="col-sm-3 text-sm-right mb-0 mb-sm-3">Email ID </p>
+                                                <p class="col-sm-3 text-sm-right mb-0 mb-sm-3">Email</p>
                                                 <p class="col-sm-9"><a href="/cdn-cgi/l/email-protection"
                                                         class="__cf_email__"
-                                                        data-cfemail="caaeabbca3aeaba6bcabb8afb08aafb2aba7baa6afe4a9a5a7">[{{ Auth::user()->email }}]</a>
+                                                        data-cfemail="caaeabbca3aeaba6bcabb8afb08aafb2aba7baa6afe4a9a5a7">{{ Auth::user()->email }}</a>
                                                 </p>
                                             </div>
                                             <div class="row">
-                                                <p class="col-sm-3 text-sm-right mb-0 mb-sm-3">Mobile</p>
+                                                <p class="col-sm-3 text-sm-right mb-0 mb-sm-3">No. Telepon</p>
                                                 <p class="col-sm-9">{{ Auth::user()->phone_number }}</p>
                                             </div>
-                                            <div class="row">
+                                            {{-- <div class="row">
                                                 <p class="col-sm-3 text-sm-right mb-0">Address</p>
                                                 <p class="col-sm-9 mb-0">4663 Agriculture Lane,
                                                     <br> Miami,
                                                     <br> Florida - 33165,
                                                     <br> United States.
                                                 </p>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                     <div class="modal fade" id="edit_personal_details" aria-hidden="true" role="dialog">

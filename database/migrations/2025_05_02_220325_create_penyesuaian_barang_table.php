@@ -15,11 +15,20 @@ return new class extends Migration
             $table->id();
             $table->string('no_penyesuaian')->nullable();
             $table->string('tgl_penyesuaian')->nullable();
+            $table->string('no_akun_penyesuaian')->nullable();
             $table->string('akun_penyesuaian')->nullable();
             $table->string('deskripsi')->nullable();
             $table->boolean('nilai_penyesuaian_check')->nullable()->default(false);
-            // $table->string('nilai_saat_ini')->nullable();
-            // $table->string('nilai_baru')->nullable();
+            $table->boolean('catatan_pemeriksaan_check')->nullable()->default(false);
+            $table->boolean('tindak_lanjut_check')->nullable()->default(false);
+            $table->boolean('disetujui_check')->nullable()->default(false);
+            $table->boolean('urgensi_check')->nullable()->default(false);
+            $table->string('nilai_penyesuaian')->nullable();
+            $table->string('total_nilai_penyesuaian')->nullable();
+            $table->string('pengguna_penyesuaian')->nullable();
+            $table->string('no_persetujuan')->nullable();
+            $table->string('nilai_saat_ini')->nullable();
+            $table->string('nilai_baru')->nullable();
             $table->timestamps();
         });
     }
