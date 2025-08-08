@@ -652,11 +652,11 @@ Route::controller(TipeAktivaTetapController::class)->group(function () {
 Route::controller(HargaJualController::class)->group(function () {
     Route::get('hargajual/list/page', 'HargaJualList')->middleware('auth')->name('hargajual/list/page');
     Route::get('hargajual/add/new', 'HargaJualAddNew')->middleware('auth')->name('hargajual/add/new');
-    Route::post('form/tipeaktivatetap/save', 'saveRecordTipeAktivaTetap')->middleware('auth')->name('form/tipeaktivatetap/save');
-    Route::get('/tipeaktivatetap/edit/{id}', [TipeAktivaTetapController::class, 'edit'])->name('tipeaktivatetap/edit');
-    Route::post('/tipeaktivatetap/update/{id}', [TipeAktivaTetapController::class, 'update'])->name('tipeaktivatetap/update');
-    Route::post('/tipeaktivatetap/delete', [TipeAktivaTetapController::class, 'delete'])->name('tipeaktivatetap/delete');
-    Route::get('get-tipeaktivatetap-data', [TipeAktivaTetapController::class, 'getTipeAktivaTetap'])->name('get-tipeaktivatetap-data');
+    // Route::post('form/tipeaktivatetap/save', 'saveRecordHargajual')->middleware('auth')->name('form/tipeaktivatetap/save');
+    // Route::get('/tipeaktivatetap/edit/{id}', [HargaJualController::class, 'edit'])->name('tipeaktivatetap/edit');
+    // Route::post('/tipeaktivatetap/update/{id}', [HargaJualController::class, 'update'])->name('tipeaktivatetap/update');
+    // Route::post('/tipeaktivatetap/delete', [HargaJualController::class, 'delete'])->name('tipeaktivatetap/delete');
+    // Route::get('get-tipeaktivatetap-data', [HargaJualController::class, 'getTipeAktivaTetap'])->name('get-tipeaktivatetap-data');
 });
 
 Route::controller(PenyusutanController::class)->group(function () {

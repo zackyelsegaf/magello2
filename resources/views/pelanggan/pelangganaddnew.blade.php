@@ -44,9 +44,9 @@
                                                 <div class="form-group">
                                                     <label>Status</label>
                                                     <select class="form-control form-control-sm "  name="status">
-                                                        <option selected disabled> --Pilih Status-- </option>
+                                                        <option {{ old('status') ? '' : 'selected' }} disabled> --Pilih Status-- </option>
                                                         @foreach ($data as $items )
-                                                        <option value="{{ $items->nama }}">{{ $items->nama }}</option>
+                                                        <option value="{{ $items->nama }}" {{ old('status') == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -62,9 +62,9 @@
                                                         <div class="form-group">
                                                             <label>Kota Kelahiran</label>
                                                             <select class="form-control form-control-sm  @error('tempat_lahir') is-invalid @enderror"  name="tempat_lahir">
-                                                                <option selected disabled> --Pilih Kota-- </option>
+                                                                <option {{ old('tempat_lahir') ? '' : 'selected' }} disabled> --Pilih Kota-- </option>
                                                                 @foreach ($kota as $items )
-                                                                    <option value="{{ $items->nama }}">{{ $items->nama }}</option>
+                                                                    <option value="{{ $items->nama }}" {{ old('tempat_lahir') == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                                 @endforeach
                                                             </select>
                                                             @error('tempat_lahir')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -95,22 +95,22 @@
                                                 <div class="form-group">
                                                     <label>Agama</label>
                                                     <select class="form-control form-control-sm  @error('agama') is-invalid @enderror"  name="agama">
-                                                        <option selected disabled> --Pilih Agama-- </option>
+                                                        <option {{ old('agama') ? '' : 'selected' }} disabled> --Pilih Agama-- </option>
                                                         @foreach ($agama as $items )
-                                                            <option value="{{ $items->nama }}">{{ $items->nama }}</option>
+                                                            <option value="{{ $items->nama }}" {{ old('agama') == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('agama')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Jenis Kelamin</label>
-                                                    <select class="form-control form-control-sm  @error('gender') is-invalid @enderror"  name="gender">
-                                                        <option selected disabled> --Pilih Gender-- </option>
+                                                    <select class="form-control form-control-sm  @error('jenis_kelamin') is-invalid @enderror"  name="jenis_kelamin">
+                                                        <option {{ old('jenis_kelamin') ? '' : 'selected' }} disabled> --Pilih Gender-- </option>
                                                         @foreach ($gender as $items )
-                                                            <option value="{{ $items->nama }}">{{ $items->nama }}</option>
+                                                            <option value="{{ $items->nama }}" {{ old('jenis_kelamin') == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
-                                                    @error('gender')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    @error('jenis_kelamin')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Nama Ayah</label>
@@ -214,9 +214,9 @@
                                                 <div class="form-group">
                                                     <label>Provinsi</label>
                                                     <select class="form-control form-control-sm  @error('provinsi') is-invalid @enderror"  name="provinsi">
-                                                        <option selected disabled> --Pilih Provinsi-- </option>
+                                                        <option {{ old('provinsi') ? '' : 'selected' }} disabled> --Pilih Provinsi-- </option>
                                                         @foreach ($provinsi as $items )
-                                                            <option value="{{ $items->nama }}">{{ $items->nama }}</option>
+                                                            <option value="{{ $items->nama }}" {{ old('provinsi') == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('provinsi')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -224,9 +224,9 @@
                                                 <div class="form-group">
                                                     <label>Kota</label>
                                                     <select class="form-control form-control-sm  @error('kota') is-invalid @enderror"  name="kota">
-                                                        <option selected disabled> --Pilih Kota-- </option>
+                                                        <option {{ old('kota') ? '' : 'selected' }} disabled> --Pilih Kota-- </option>
                                                         @foreach ($kota as $items )
-                                                            <option value="{{ $items->nama }}">{{ $items->nama }}</option>
+                                                            <option value="{{ $items->nama }}" {{ old('kota') == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('kota')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -234,9 +234,9 @@
                                                 <div class="form-group">
                                                     <label>Negara</label>
                                                     <select class="form-control form-control-sm  @error('negara') is-invalid @enderror"  name="negara">
-                                                        <option selected disabled> --Pilih Negara-- </option>
+                                                        <option {{ old('negara') ? '' : 'selected' }} disabled> --Pilih Negara-- </option>
                                                         @foreach ($negara as $items )
-                                                            <option value="{{ $items->nama }}">{{ $items->nama }}</option>
+                                                            <option value="{{ $items->nama }}" {{ old('negara') == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('negara')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -298,9 +298,9 @@
                                                 <div class="form-group">
                                                     <label>Pajak 1</label>
                                                     <select class="form-control form-control-sm  @error('pajak_1_pelanggan') is-invalid @enderror"  name="pajak_1_pelanggan">
-                                                        <option selected disabled> --Pilih Pajak 1-- </option>
+                                                        <option {{ old('pajak_1_pelanggan') ? '' : 'selected' }} disabled> --Pilih Pajak 1-- </option>
                                                         @foreach ($pajak as $items )
-                                                            <option value="{{ $items->nama }}">{{ $items->nama }}</option>
+                                                            <option value="{{ $items->nama }}" {{ old('pajak_1_pelanggan') == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('pajak_1_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -308,9 +308,9 @@
                                                 <div class="form-group">
                                                     <label>Pajak 2</label>
                                                     <select class="form-control form-control-sm  @error('pajak_2_pelanggan') is-invalid @enderror"  name="pajak_2_pelanggan">
-                                                        <option selected disabled> --Pilih Pajak 2-- </option>
+                                                        <option {{ old('pajak_2_pelanggan') ? '' : 'selected' }} disabled> --Pilih Pajak 2-- </option>
                                                         @foreach ($pajak as $items )
-                                                            <option value="{{ $items->nama }}">{{ $items->nama }}</option>
+                                                            <option value="{{ $items->nama }}" {{ old('pajak_2_pelanggan') == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('pajak_2_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -328,9 +328,9 @@
                                                 <div class="form-group">
                                                     <label>Tipe Pelanggan</label>
                                                     <select class="form-control form-control-sm  @error('tipe_pelanggan') is-invalid @enderror"  name="tipe_pelanggan">
-                                                        <option selected disabled> --Pilih Tipe Pelanggan-- </option>
+                                                        <option {{ old('tipe_pelanggan') ? '' : 'selected' }} disabled> --Pilih Tipe Pelanggan-- </option>
                                                         @foreach ($tipe_pelanggan as $items )
-                                                            <option value="{{ $items->nama }}">{{ $items->nama }}</option>
+                                                            <option value="{{ $items->nama }}" {{ old('tipe_pelanggan') == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('tipe_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -338,9 +338,9 @@
                                                 <div class="form-group">
                                                     <label>Level Harga</label>
                                                     <select class="form-control form-control-sm  @error('level_harga_pelanggan') is-invalid @enderror"  name="level_harga_pelanggan">
-                                                        <option selected disabled> --Pilih Level Harga-- </option>
+                                                        <option {{ old('level_harga_pelanggan') ? '' : 'selected' }} disabled> --Pilih Level Harga-- </option>
                                                         @foreach ($level_harga as $items )
-                                                            <option value="{{ $items->nama }}">{{ $items->nama }}</option>
+                                                            <option value="{{ $items->nama }}" {{ old('level_harga_pelanggan') == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('level_harga_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -373,9 +373,9 @@
                                                 <div class="form-group">
                                                     <label>Syarat</label>
                                                     <select class="form-control form-control-sm  @error('syarat_pelanggan') is-invalid @enderror"  name="syarat_pelanggan">
-                                                        <option selected disabled> --Pilih Syarat-- </option>
+                                                        <option {{ old('syarat_pelanggan') ? '' : 'selected' }} disabled> --Pilih Syarat-- </option>
                                                         @foreach ($syarat as $items )
-                                                            <option value="{{ $items->nama }}">{{ $items->nama }}</option>
+                                                            <option value="{{ $items->nama }}" {{ old('syarat_pelanggan') == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('syarat_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -398,9 +398,9 @@
                                                 <div class="form-group">
                                                     <label>Mata Uang</label>
                                                     <select class="form-control form-control-sm  @error('mata_uang_pelanggan') is-invalid @enderror" name="mata_uang_pelanggan">
-                                                        <option selected disabled> --Pilih Mata Uang-- </option>
+                                                        <option {{ old('mata_uang_pelanggan') ? '' : 'selected' }} disabled> --Pilih Mata Uang-- </option>
                                                         @foreach ($mata_uang as $items )
-                                                            <option value="{{ $items->nama }}">{{ $items->nama }}</option>
+                                                            <option value="{{ $items->nama }}" {{ old('mata_uang_pelanggan') == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('mata_uang_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror

@@ -302,9 +302,8 @@
             });
 
             $('#AktivaTetapList tbody').on('click', 'tr', function(e) {
-                // Cek apakah yang diklik adalah checkbox atau elemen dalam checkbox
                 if ($(e.target).is('input[type="checkbox"], label')) {
-                    return; // Jika iya, hentikan eksekusi supaya tidak redirect
+                    return;
                 }
 
                 var data = table.row(this).data();

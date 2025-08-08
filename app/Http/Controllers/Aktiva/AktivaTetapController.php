@@ -344,9 +344,19 @@ class AktivaTetapController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function delete(Request $request)
     {
-        return redirect()->route('aktiva.aktiva_tetap.index')->with('success', 'Aktiva Tetap deleted successfully.');
-        // --- IGNORE ---
+        try {
+            $ids = $request->ids;
+            AktivaTetap::whereIn('id', $ids)->delete();
+            sweetalert()->success('Data berhasil dihapus :)');
+            return redirect()->route('aktivatetap/list/page');    
+            
+        } catch(\Exception $e) {
+            DB::rollback();
+            sweetalert()->error('Data gagal dihapus :)');
+            \Log::error($e->getMessage());
+            return redirect()->back();
+        }
     }
 }

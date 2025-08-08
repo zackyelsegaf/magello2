@@ -14,13 +14,13 @@ class Pelanggan extends Model
     protected $fillable = [
         'pelanggan_id',
         'nama_pelanggan'            ,
+        'nik_pelanggan'             ,
         'tanggal_lahir'             ,
         'tempat_lahir'              ,
         'agama'                     ,
-        'gender'                    ,
+        'jenis_kelamin'             , 
         'nama_ayah'                 ,
         'nama_ibu'                  ,
-        'nik_pelanggan'             ,
         'npwp_pelanggan'            ,
         'nppkp_pelanggan'           ,
         'pajak_1_pelanggan'         ,
@@ -60,7 +60,6 @@ class Pelanggan extends Model
         'fileupload_6'              ,
         'fileupload_7'              ,
         'fileupload_7'              ,
-
     ];
 
 

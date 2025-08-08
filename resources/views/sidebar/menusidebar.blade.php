@@ -81,10 +81,11 @@
                     </ul>
                 </li>
 
-                <li class="submenu"> <a href="#"></i><i class="fas fa-database mr-2"></i><span> Marketing </span> <span class="menu-arrow"></span></a>
+                <li class="submenu"> <a href="#"></i><i class="fas fa-database mr-2"></i><span> Marketing  <span class="badge bg-light text-dark">New!</span></span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li><a class="{{ set_active(['prospek/list/page']) }}" href="{{ route('prospek/list/page') }}"><i class="fas fa-money-check-alt mr-3"></i>Prospek</a></li>
                         <li><a class="{{ set_active(['konsumenmarketing/list/page']) }}" href="{{ route('konsumenmarketing/list/page') }}"><i class="fas fa-warehouse ml-0 mr-3"></i>Konsumen</a></li>
+                        @if(Auth::user() && Auth::user()->email === 'user.zacky@gmail.com')
                         <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Perumahan </span> <span class="menu-arrow"></span></a>
                             <ul class="submenu_class" style="display: none;">
                                 <li><a class="{{ set_active(['siteplane/page'], 1) }}" href="{{ route('siteplane/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Site Plan</a></li>
@@ -94,6 +95,26 @@
                                 <li><a class="{{ set_active(['fasos/list/page'], 1) }}" href="{{ route('fasos/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Fasos</a></li>
                             </ul>
                         </li>
+                        @else
+                        <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Perumahan <span class="badge bg-warning text-dark">Progress</span></span> <span class="menu-arrow"></span></a>
+                            <ul class="submenu_class" style="display: none;">
+                                <li><a class="disabled" href="javascript:void(0)" style="pointer-events: none; cursor: default; background-color:gray;"><i class="fas fa-box-open ml-0 mr-3"></i>Site Plan - (<strong>DALAM PRODUKSI</strong>)</a></li>
+                                <li><a class="disabled" href="javascript:void(0)" style="pointer-events: none; cursor: default; background-color:gray;"><i class="fas fa-box-open ml-0 mr-3"></i>Kluster/Perumahan - (<strong>DALAM PRODUKSI</strong>)</a></li>
+                                <li><a class="disabled" href="javascript:void(0)" style="pointer-events: none; cursor: default; background-color:gray;"><i class="fas fa-box-open ml-0 mr-3"></i>Kavling - (<strong>DALAM PRODUKSI</strong>)</a></li>
+                                <li><a class="disabled" href="javascript:void(0)" style="pointer-events: none; cursor: default; background-color:gray;"></i>Fasum - (<strong>DALAM PRODUKSI</strong>)</a></li>
+                                <li><a class="disabled" href="javascript:void(0)" style="pointer-events: none; cursor: default; background-color:gray;"></i>Fasos - (<strong>DALAM PRODUKSI</strong>)</a></li>
+                            </ul>
+                        </li>
+                        @endif
+                        {{-- <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Perumahan </span> <span class="menu-arrow"></span></a>
+                            <ul class="submenu_class" style="display: none;">
+                                <li><a class="{{ set_active(['siteplane/page'], 1) }}" href="{{ route('siteplane/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Site Plan</a></li>
+                                <li><a class="{{ set_active(['klusterperumahan/list/page'], 1) }}" href="{{ route('klusterperumahan/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Kluster/Perumahan</a></li>
+                                <li><a class="{{ set_active(['kavling/list/page'], 1) }}" href="{{ route('kavling/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Kavling</a></li>
+                                <li><a class="{{ set_active(['fasum/list/page'], 1) }}" href="{{ route('fasum/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Fasum</a></li>
+                                <li><a class="{{ set_active(['fasos/list/page'], 1) }}" href="{{ route('fasos/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Fasos</a></li>
+                            </ul>
+                        </li> --}}
                         <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Tiket Kostumer </span> <span class="menu-arrow"></span></a>
                             <ul class="submenu_class" style="display: none;">
                                 <li><a class="{{ set_active(['kategoritiketkostumer/list/page'], 1) }}" href="{{ route('kategoritiketkostumer/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Kategori Tiket Kostumer</a></li>
@@ -105,7 +126,7 @@
                     </ul>
                 </li>
 
-                <li class="submenu"> <a href="#"></i><i class="fas fa-boxes mr-2"></i><span> Modul Utama </span> <span class="menu-arrow"></span></a>
+                <li class="submenu"> <a href="#"></i><i class="fas fa-boxes mr-2"></i><span> Modul Utama  <span class="badge bg-light text-dark">New Update!</span></span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Pembelian </span> <span class="menu-arrow"></span></a>
                             <ul class="submenu_class" style="display: none;">
@@ -140,7 +161,7 @@
                                 <li><a class="{{ set_active(['penjualan.retur.index'], 1) }}" href="{{ route('penjualan.retur.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Retur Penjualan</a></li>
                             </ul>
                         </li>
-                        <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Persediaan </span> <span class="menu-arrow"></span></a>
+                        <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Persediaan  <span class="badge bg-light text-dark">New Update!</span></span> <span class="menu-arrow"></span></a>
                             <ul class="submenu_class" style="display: none;">
                                 <li><a class="{{ set_active(['satuan/list/page']) }}" href="{{ route('satuan/list/page') }}"><i class="fas fa-database ml-0 mr-3"></i>Satuan</a></li>
                                 <li><a class="{{ set_active(['gudang/list/page']) }}" href="{{ route('gudang/list/page') }}"><i class="fas fa-database ml-0 mr-3"></i>Gudang</a></li>
@@ -176,7 +197,7 @@
                         <li><a class="{{ set_active(['pajak/list/page']) }}" href="{{ route('pajak/list/page') }}">Pajak</a></li> --}}
                     </ul>
                 </li>
-                <li class="submenu"> <a href="#"></i><i class="fas fa-book ml-0 mr-2"></i><span> Buku Besar </span> <span class="menu-arrow"></span></a>
+                <li class="submenu"> <a href="#"></i><i class="fas fa-book ml-0 mr-2"></i><span> Buku Besar  <span class="badge bg-light text-dark">New Update!</span></span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li><a class="{{ set_active(['akun/list/page']) }}" href="{{ route('akun/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Daftar Akun</a></li>
                         <li><a @class(['active' => request()->is('jurnal/*')]) href="{{ route('jurnal/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Jurnal Umum</a></li>
@@ -198,7 +219,7 @@
                         <li><a class="{{ set_active(['pajak/list/page']) }}" href="{{ route('pajak/list/page') }}">Pajak</a></li> --}}
                     </ul>
                 </li>
-                <li class="submenu"> <a href="#"></i><i class="fas fa-clipboard ml-0 mr-2"></i><span>Laporan</span><span class="menu-arrow"></span></a>
+                <li class="submenu"> <a href="#"></i><i class="fas fa-clipboard ml-0 mr-2"></i><span>Laporan  <span class="badge bg-light text-dark">New!</span></span><span class="menu-arrow"></span></a>
                     <ul class="submenu_class">
                         <li>
                             <a @class(['active' => request()->is('laporan*')]) href="{{ route('laporan') }}">
