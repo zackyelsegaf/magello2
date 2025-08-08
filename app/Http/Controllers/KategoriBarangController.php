@@ -14,6 +14,38 @@ class KategoriBarangController extends Controller
         return view('kategoribarang.listkategoribarang');
     }
 
+    public function KategoriBarangAddNew()
+    {
+        return view('kategoribarang.kategoribarangaddnew');
+    }
+
+    public function saveRecordKategoriBarang(Request $request){
+        $request->validate([
+            'nama'          => 'required|string|max:255',
+        ]);
+
+        //debug
+        // DB::enableQueryLog();
+        // MataUang::create($request->all());
+        // dd(DB::getQueryLog());
+
+        DB::beginTransaction();
+        try {
+            $kategoriBarang = new KategoriBarang();
+            $kategoriBarang->nama = $request->nama;
+            $kategoriBarang->save();
+            
+            DB::commit();
+            sweetalert()->success('Create new Tipe Pelanggan successfully :)');
+            return redirect()->route('kategoribarang/list/page');    
+            
+        } catch(\Exception $e) {
+            DB::rollback();
+            sweetalert()->error('Tambah Data Gagal :)');
+            return redirect()->back();
+        }
+    }
+
     public function delete(Request $request)
     {
         try {
@@ -28,6 +60,39 @@ class KategoriBarangController extends Controller
             \Log::error($e->getMessage());
             return redirect()->back();
         }
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $kategoriBarang = KategoriBarang::findOrFail($id);
+            $kategoriBarang->nama = $request->nama;
+            $kategoriBarang->save();
+            
+            DB::commit();
+            sweetalert()->success('Updated record successfully :)');
+            return redirect()->route('kategoribarang/list/page');    
+            
+        } catch(\Exception $e) {
+            DB::rollback();
+            sweetalert()->error('Update record fail :)');
+            \Log::error($e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function edit($id)
+    {
+        $kategoriBarang = KategoriBarang::findOrFail($id);
+        if (!$kategoriBarang) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan');
+        }
+        return view('kategoribarang.kategoribarangedit', compact('kategoriBarang'));
     }
 
     public function getKategoriBarang(Request $request)
@@ -53,11 +118,8 @@ class KategoriBarangController extends Controller
 
         $totalRecordsWithFilter = $kategoriBarang->count();
 
-        if($columnName != 'checkbox'){
-            $kategoriBarang->orderBy($columnName, $columnSortOrder);
-        }
-
         $records = $kategoriBarang
+            ->orderBy($columnName, $columnSortOrder)
             ->skip($start)
             ->take($rowPerPage)
             ->get();

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('permintaan_pembelian', function (Blueprint $table) {
-            $table->string('departemen')->nullable();
+            $table->string('departemen')->nullable()->change();
         });
     }
 

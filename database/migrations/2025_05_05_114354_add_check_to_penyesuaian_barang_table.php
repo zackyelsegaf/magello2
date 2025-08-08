@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('penyesuaian_barang', function (Blueprint $table) {
-            $table->boolean('catatan_pemeriksaan_check')->nullable()->default(false);
-            $table->boolean('tindak_lanjut_check')->nullable()->default(false);
-            $table->boolean('disetujui_check')->nullable()->default(false);
-            $table->boolean('urgensi_check')->nullable()->default(false);
-            $table->string('nilai_penyesuaian')->nullable();
-            $table->string('total_nilai_penyesuaian')->nullable();
-            $table->string('pengguna_penyesuaian')->nullable();
-            $table->string('no_persetujuan')->nullable();
+            $table->boolean('catatan_pemeriksaan_check')->nullable()->default(false)->change();
+            $table->boolean('tindak_lanjut_check')->nullable()->default(false)->change();
+            $table->boolean('disetujui_check')->nullable()->default(false)->change();
+            $table->boolean('urgensi_check')->nullable()->default(false)->change();
+            $table->string('nilai_penyesuaian')->nullable()->change();
+            $table->string('total_nilai_penyesuaian')->nullable()->change();
+            $table->string('pengguna_penyesuaian')->nullable()->change();
+            $table->string('no_persetujuan')->nullable()->change();
         });
     }
 

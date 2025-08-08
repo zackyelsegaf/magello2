@@ -130,7 +130,7 @@
                             </ul>
                         </li>
                         <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Penjualan </span> <span class="menu-arrow"></span></a>
-                            <ul class="submenu_class" style="display: none;">
+                            <ul class="submenu_class" style="{{ request()->is('penjualan.*') ? 'display: block;' : 'display: none;' }}">
                                 <li><a class="{{ set_active(['penjualan.penawaran.index'], 1) }}" href="{{ route('penjualan.penawaran_penjualan.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Penawaran Penjualan</a></li>
                                 <li><a class="{{ set_active(['penjualan.pesanan_penjualan.index'], 1) }}" href="{{ route('penjualan.pesanan_penjualan.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Pesanan Penjualan</a></li>
                                 <li><a class="{{ set_active(['penjualan.pengiriman_penjualan.index'], 1) }}" href="{{ route('penjualan.pengiriman_penjualan.index') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Pengiriman Penjualan</a></li>

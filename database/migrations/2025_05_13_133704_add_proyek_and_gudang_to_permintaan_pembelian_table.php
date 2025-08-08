@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('permintaan_pembelian', function (Blueprint $table) {
-            $table->string('proyek')->nullable();
-            $table->string('gudang')->nullable();
+            $table->string('proyek')->nullable()->change();
+            $table->string('gudang')->nullable()->change();
         });
     }
 
