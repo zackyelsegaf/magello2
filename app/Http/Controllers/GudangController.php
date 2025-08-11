@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Gudang;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class GudangController extends Controller
 {
@@ -24,14 +25,25 @@ class GudangController extends Controller
 
     public function saveRecordGudang(Request $request){
         
-        $validate = $request->validate([
-            'nama_gudang'              => 'nullable|string|max:255',
+         $rules = [
+            'nama_gudang'              => 'required|string|max:255',
             'alamat_gudang_1'              => 'nullable|string|max:255',
             'alamat_gudang_2'             => 'nullable|string|max:255',
             'alamat_gudang_3'               => 'nullable|string|max:255',
             'penanggung_jawab'       => 'nullable|string|max:255',
             'deskripsi'                => 'nullable|string|max:255',
-        ]);
+        ];
+
+        $message = [
+            'nama_gudang.required' => 'Nama gudang wajib diisi.',
+            'nama_gudang.unique' => 'Gudang sudah ada.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi Gagal, Beberapa Input Wajib Belum Terisi!');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         //debug
         // DB::enableQueryLog();
@@ -41,11 +53,7 @@ class GudangController extends Controller
         DB::beginTransaction();
         try {
 
-            // $photo= $request->fileupload_1;
-            // $file_name = rand() . '.' .$photo->getClientOriginalName();
-            // $photo->move(public_path('/assets/img/'), $file_name);
-
-            $gudang = new Gudang($validate);
+            $gudang = new Gudang($validator->validated());
             $gudang->save();
 
             DB::commit();

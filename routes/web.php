@@ -402,7 +402,7 @@ Route::controller(BarangController::class)->group(function () {
     Route::post('form/barang/save', 'simpanBarang')->middleware('auth')->name('form/barang/save');
     Route::get('/barang/edit/{id}', [BarangController::class, 'editBarang'])->name('barang/edit');
     Route::post('/barang/update/{id}', [BarangController::class, 'updateBarang'])->name('barang/update');
-    Route::post('/barang/delete', [BarangController::class, 'deleteBarang'])->name('barang/delete');
+    Route::post('/barang/delete', [BarangController::class, 'hapusBarang'])->name('barang/delete');
     Route::get('get-barang-data', [BarangController::class, 'dataBarang'])->name('get-barang-data');
 });
 

@@ -18,6 +18,9 @@
                                 <div class="form-group">
                                     <label>Nama Satuan</label>
                                     <input type="text" class="form-control form-control-sm  @error('nama') is-invalid @enderror"name="nama" value="{{ old('nama') }}">
+                                    @error('nama')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>

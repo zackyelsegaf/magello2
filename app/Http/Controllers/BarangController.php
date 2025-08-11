@@ -7,6 +7,7 @@ use App\Models\StokBarang;
 use App\Models\PenyesuaianBarang;
 use App\Models\PenyesuaianBarangDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
 class BarangController extends Controller
@@ -31,27 +32,33 @@ class BarangController extends Controller
         $proyek = DB::table('proyek')->get();
         $pemasok = DB::table('pemasok')->get();
         $satuan = DB::table('satuan')->get();
+        $akun = DB::table('akun')->get();
         $mata_uang = DB::table('mata_uang')->orderBy('nama', 'asc')->get();
         // $prefix = 'GMPSCR-';
         // $latest = Barang::orderBy('no_barang', 'desc')->first();
         // $nextID = $latest ? intval(substr($latest->no_barang, strlen($prefix))) + 1 : 1;
         // $kodeBaru = $prefix . sprintf("%04d", $nextID);
-        return view('barang.tambahbarang', compact('nama_barang','tipe_barang', 'tipe_persediaan', 'kategori_barang', 'gudang', 'departemen', 'proyek', 'pemasok', 'satuan', 'mata_uang'));
+        return view('barang.tambahbarang', compact('nama_barang','tipe_barang', 'tipe_persediaan', 'kategori_barang', 'gudang', 'departemen', 'proyek', 'pemasok', 'satuan', 'mata_uang', 'akun'));
     }
 
     public function simpanBarang(Request $request)
     {
+        $request->merge([
+            'sub_barang_check' => $request->boolean('sub_barang_check'),
+            'dihentikan'       => $request->boolean('dihentikan'),
+        ]);
+
         $rules = [
-            'no_barang' => 'nullable|string|max:255',
-            'nama_barang' => 'nullable|string|max:255',
-            'tipe_barang' => 'nullable|string|max:255',
-            'tipe_persediaan' => 'nullable|string|max:255',
-            'kategori_barang' => 'nullable|string|max:255',
+            'no_barang' => 'required|string|max:255|unique:barang,no_barang', // <-- sesuaikan nama tabel/kolommu
+            'nama_barang' => 'required|string|max:255',
+            'tipe_barang' => 'required|string|max:255',
+            'tipe_persediaan' => 'required|string|max:255',
+            'kategori_barang' => 'required|string|max:255',
             'sub_barang_check' => 'nullable|boolean',
             'sub_barang' => 'nullable|string|max:255',
             'deskripsi_1' => 'nullable|string|max:255',
             'deskripsi_2' => 'nullable|string|max:255',
-            'default_gudang' => 'nullable|exists:gudang,id',
+            'default_gudang' => 'nullable|exists:gudang,id', // pastikan tabel & kolom benar
             'departemen' => 'nullable|string|max:255',
             'proyek' => 'nullable|string|max:255',
             'dihentikan' => 'nullable|boolean',
@@ -88,48 +95,65 @@ class BarangController extends Controller
             $rules["fileupload_{$i}"] = 'nullable|string|max:255';
         }
 
-        $validated = $request->validate($rules);
-        $validated['biaya_satuan_saldo_awal'] = str_replace(['Rp', '.', ' '], '', $validated['biaya_satuan_saldo_awal']);
-        $validated['total_saldo_awal'] = str_replace(['Rp', '.', ' '], '', $validated['total_saldo_awal']);
-        $validated['kuantitas_saldo_sekarang'] = str_replace(['Rp', '.', ' '], '', $validated['kuantitas_saldo_sekarang']);
-        $validated['harga_satuan_sekarang'] = str_replace(['Rp', '.', ' '], '', $validated['harga_satuan_sekarang']);
-        $validated['biaya_pokok_sekarang'] = str_replace(['Rp', '.', ' '], '', $validated['biaya_pokok_sekarang']);
+        $message = [
+            'no_barang.unique' => 'No barang sudah ada di dalam sistem.',
+            'no_barang.required' => 'No barang wajib diisi.',
+            'nama_barang.required' => 'Nama barang wajib diisi.',
+            'tipe_barang.required' => 'Tipe barang wajib diisi.',
+            'tipe_persediaan.required' => 'Tipe persediaan wajib diisi.',
+            'kategori_barang.required' => 'Kategori barang wajib diisi.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi Gagal, Beberapa Input Wajib Belum Terisi!');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $data = $validator->validated();
+
+        $data['biaya_satuan_saldo_awal']  = str_replace(['Rp', '.', ' '], '', $data['biaya_satuan_saldo_awal'] ?? 0);
+        $data['total_saldo_awal']         = str_replace(['Rp', '.', ' '], '', $data['total_saldo_awal'] ?? 0);
+        $data['kuantitas_saldo_sekarang'] = str_replace(['Rp', '.', ' '], '', $data['kuantitas_saldo_sekarang'] ?? 0);
+        $data['harga_satuan_sekarang']    = str_replace(['Rp', '.', ' '], '', $data['harga_satuan_sekarang'] ?? 0);
+        $data['biaya_pokok_sekarang']     = str_replace(['Rp', '.', ' '], '', $data['biaya_pokok_sekarang'] ?? 0);
 
         DB::beginTransaction();
         try {
-            $barang = new Barang($validated);
+            $barang = new Barang($data);
             $barang->save();
 
             $stokBarang = new StokBarang();
             $stokBarang->barang_id = $barang->id;
-            $stokBarang->gudang_id = $validated['default_gudang'];
-            $stokBarang->jumlah = $validated['kuantitas_saldo_awal'] ?? 0;
+            $stokBarang->gudang_id = $data['default_gudang'] ?? null;
+            $stokBarang->jumlah    = $data['kuantitas_saldo_awal'] ?? 0;
             $stokBarang->save();
-        
+
             $penyesuaian = new PenyesuaianBarang();
-            $penyesuaian->tgl_penyesuaian = date('d/m/Y');
-            $penyesuaian->akun_penyesuaian = 'Default Akun';
-            $penyesuaian->nilai_penyesuaian = $validated['nilai_penyesuaian'];
-            $penyesuaian->pengguna_penyesuaian = auth()->user()->email;
-            $penyesuaian->total_nilai_penyesuaian = $validated['total_saldo_awal'];
+            $penyesuaian->tgl_penyesuaian        = date('d/m/Y');
+            $penyesuaian->akun_penyesuaian       = 'Default Akun';
+            $penyesuaian->nilai_penyesuaian      = $data['nilai_penyesuaian'] ?? 0;
+            $penyesuaian->pengguna_penyesuaian   = auth()->user()->email;
+            $penyesuaian->total_nilai_penyesuaian = $data['total_saldo_awal'] ?? 0;
             $penyesuaian->save();
-        
+
             $barangPenyesuaian = new PenyesuaianBarangDetail();
             $barangPenyesuaian->penyesuaian_barang_id = $penyesuaian->id;
-            $barangPenyesuaian->no_barang = $validated['no_barang'];
-            $barangPenyesuaian->deskripsi_barang = $validated['nama_barang'];
-            $barangPenyesuaian->departemen = $validated['departemen'];
-            $barangPenyesuaian->proyek = $validated['proyek'];
-            $barangPenyesuaian->gudang = $validated['default_gudang'];
-            $barangPenyesuaian->kts_saat_ini = $validated['kuantitas_saldo_awal'];
-            $barangPenyesuaian->nilai_saat_ini = $validated['biaya_satuan_saldo_awal'];
+            $barangPenyesuaian->no_barang             = $data['no_barang'];
+            $barangPenyesuaian->deskripsi_barang      = $data['nama_barang'];
+            $barangPenyesuaian->departemen            = $data['departemen'] ?? null;
+            $barangPenyesuaian->proyek                = $data['proyek'] ?? null;
+            $barangPenyesuaian->gudang                = $data['default_gudang'] ?? null;
+            $barangPenyesuaian->kts_saat_ini          = $data['kuantitas_saldo_awal'] ?? 0;
+            $barangPenyesuaian->nilai_saat_ini        = $data['biaya_satuan_saldo_awal'] ?? 0;
             $barangPenyesuaian->save();
-        
+
             DB::commit();
             sweetalert()->success('Create new Barang + Penyesuaian berhasil :)');
             return redirect()->route('barang/list/page');
-        
-        }catch (\Exception $e) {
+
+        } catch (\Exception $e) {
             DB::rollback();
             sweetalert()->error('Tambah Data Gagal: ' . $e->getMessage());
             return redirect()->back();

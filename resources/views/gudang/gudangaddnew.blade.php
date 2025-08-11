@@ -18,10 +18,13 @@
                                 <div class="form-group">
                                     <label>Nama Gudang</label>
                                     <input type="text" class="form-control form-control-sm  @error('nama_gudang') is-invalid @enderror" name="nama_gudang" value="{{ old('nama_gudang') }}">
+                                    @error('nama_gudang')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Alamat</label>
-                                    <textarea class="form-control form-control-sm  derror" name="alamat_gudang_1" value="{{ old('alamat_gudang_1') }}">{{ old('alamat_gudang_1') }}</textarea>
+                                    <textarea class="form-control form-control-sm" name="alamat_gudang_1" value="{{ old('alamat_gudang_1') }}">{{ old('alamat_gudang_1') }}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Alamat 2</label>

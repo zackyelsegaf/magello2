@@ -32,39 +32,54 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Tipe Barang</label>
-                                                    <select class="form-control form-control-sm  @error('tipe_barang') is-invalid @enderror" name="tipe_barang">
+                                                    <select class="form-control form-control-sm @error('tipe_barang') is-invalid @enderror" name="tipe_barang">
                                                         <option selected disabled></option>
                                                         @foreach ($tipe_barang as $items )
                                                         <option value="{{ $items->nama }}">{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
+                                                    @error('tipe_barang')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Tipe Persediaan</label>
-                                                    <select class="form-control form-control-sm  @error('tipe_persediaan') is-invalid @enderror"  name="tipe_persediaan">
+                                                    <select class="form-control form-control-sm @error('tipe_persediaan') is-invalid @enderror"  name="tipe_persediaan">
                                                         <option selected disabled></option>
                                                         @foreach ($tipe_persediaan as $items )
                                                         <option value="{{ $items->nama }}">{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
+                                                    @error('tipe_persediaan')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Kategori Barang</label>
-                                                    <select class="form-control form-control-sm  @error('kategori_barang') is-invalid @enderror"  name="kategori_barang">
+                                                    <select class="form-control form-control-sm @error('kategori_barang') is-invalid @enderror"  name="kategori_barang">
                                                         <option selected disabled></option>
                                                         @foreach ($kategori_barang as $items )
                                                         <option value="{{ $items->nama }}">{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
+                                                    @error('kategori_barang')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>No. Barang</label>
                                                     <input type="hidden" name="nilai_penyesuaian" value="Barang Baru Masuk">
                                                     <input type="text" class="form-control form-control-sm  @error('no_barang') is-invalid @enderror" name="no_barang" value="{{ old('no_barang') }}">
+                                                    @error('no_barang')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
                                                 </div>                                                
                                                 <div class="form-group">
                                                     <label>Nama Barang</label>
                                                     <input type="text" class="form-control form-control-sm  @error('nama_barang') is-invalid @enderror" name="nama_barang" value="{{ old('nama_barang') }}">
+                                                    @error('nama_barang')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="sub_barang_check">Sub Barang Dari</label>
@@ -172,6 +187,9 @@
                             </li>
                             <li class="nav-item"> 
                                 <a class="nav-link" data-toggle="tab" href="#satuan">Satuan</a> 
+                            </li>
+                            <li class="nav-item"> 
+                                <a class="nav-link" data-toggle="tab" href="#akun">Akun</a> 
                             </li>
                             <li class="nav-item"> 
                                 <a class="nav-link" data-toggle="tab" href="#bebandanharga">Beban dan Harga</a> 
@@ -329,6 +347,163 @@
                             </div>
                         </div>
                     </div>                    
+                    <div id="akun" class="tab-pane fade">
+                        <div class="container mt-4">
+                            <!-- Umur Perkiraan -->
+                            <div class="mb-3 row">
+                                <label class="col-sm-4">Akun Persediaan</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control form-control-sm @error('akun_aktiva') is-invalid @enderror"  name="akun_aktiva">
+                                    <option {{ old('akun_aktiva') ? '' : 'selected' }} disabled></option>
+                                    @foreach ($akun as $items )
+                                    <option value="{{ $items->no_akun }}">{{ $items->no_akun }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control form-control-sm @error('akun_aktiva') is-invalid @enderror"  name="akun_aktiva">
+                                    <option {{ old('akun_aktiva') ? '' : 'selected' }} disabled></option>
+                                    @foreach ($akun as $items )
+                                    <option value="{{ $items->nama_akun_indonesia }}">{{ $items->nama_akun_indonesia }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-4">Akun Penjualan</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control form-control-sm @error('akun_aktiva') is-invalid @enderror"  name="akun_aktiva">
+                                    <option {{ old('akun_aktiva') ? '' : 'selected' }} disabled></option>
+                                    @foreach ($akun as $items )
+                                    <option value="{{ $items->no_akun }}">{{ $items->no_akun }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control form-control-sm @error('akun_aktiva') is-invalid @enderror"  name="akun_aktiva">
+                                    <option {{ old('akun_aktiva') ? '' : 'selected' }} disabled></option>
+                                    @foreach ($akun as $items )
+                                    <option value="{{ $items->nama_akun_indonesia }}">{{ $items->nama_akun_indonesia }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-4">Akun Diskon Penjualan</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control form-control-sm @error('akun_aktiva') is-invalid @enderror"  name="akun_aktiva">
+                                    <option {{ old('akun_aktiva') ? '' : 'selected' }} disabled></option>
+                                    @foreach ($akun as $items )
+                                    <option value="{{ $items->no_akun }}">{{ $items->no_akun }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control form-control-sm @error('akun_aktiva') is-invalid @enderror"  name="akun_aktiva">
+                                    <option {{ old('akun_aktiva') ? '' : 'selected' }} disabled></option>
+                                    @foreach ($akun as $items )
+                                    <option value="{{ $items->nama_akun_indonesia }}">{{ $items->nama_akun_indonesia }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-4">Akun Retur Penjualan</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control form-control-sm @error('akun_aktiva') is-invalid @enderror"  name="akun_aktiva">
+                                    <option {{ old('akun_aktiva') ? '' : 'selected' }} disabled></option>
+                                    @foreach ($akun as $items )
+                                    <option value="{{ $items->no_akun }}">{{ $items->no_akun }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control form-control-sm @error('akun_aktiva') is-invalid @enderror"  name="akun_aktiva">
+                                    <option {{ old('akun_aktiva') ? '' : 'selected' }} disabled></option>
+                                    @foreach ($akun as $items )
+                                    <option value="{{ $items->nama_akun_indonesia }}">{{ $items->nama_akun_indonesia }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-4">Akun Retur Pembelian</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control form-control-sm @error('akun_aktiva') is-invalid @enderror"  name="akun_aktiva">
+                                    <option {{ old('akun_aktiva') ? '' : 'selected' }} disabled></option>
+                                    @foreach ($akun as $items )
+                                    <option value="{{ $items->no_akun }}">{{ $items->no_akun }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control form-control-sm @error('akun_aktiva') is-invalid @enderror"  name="akun_aktiva">
+                                    <option {{ old('akun_aktiva') ? '' : 'selected' }} disabled></option>
+                                    @foreach ($akun as $items )
+                                    <option value="{{ $items->nama_akun_indonesia }}">{{ $items->nama_akun_indonesia }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-4">Akun HPP</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control form-control-sm @error('akun_aktiva') is-invalid @enderror"  name="akun_aktiva">
+                                    <option {{ old('akun_aktiva') ? '' : 'selected' }} disabled></option>
+                                    @foreach ($akun as $items )
+                                    <option value="{{ $items->no_akun }}">{{ $items->no_akun }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control form-control-sm @error('akun_aktiva') is-invalid @enderror"  name="akun_aktiva">
+                                    <option {{ old('akun_aktiva') ? '' : 'selected' }} disabled></option>
+                                    @foreach ($akun as $items )
+                                    <option value="{{ $items->nama_akun_indonesia }}">{{ $items->nama_akun_indonesia }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-4">Akun Penerimaan Belum Tertagih</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control form-control-sm @error('akun_aktiva') is-invalid @enderror"  name="akun_aktiva">
+                                    <option {{ old('akun_aktiva') ? '' : 'selected' }} disabled></option>
+                                    @foreach ($akun as $items )
+                                    <option value="{{ $items->no_akun }}">{{ $items->no_akun }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control form-control-sm @error('akun_aktiva') is-invalid @enderror"  name="akun_aktiva">
+                                    <option {{ old('akun_aktiva') ? '' : 'selected' }} disabled></option>
+                                    @foreach ($akun as $items )
+                                    <option value="{{ $items->nama_akun_indonesia }}">{{ $items->nama_akun_indonesia }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-sm-4">Akun Barang Terkirim</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control form-control-sm @error('akun_aktiva') is-invalid @enderror"  name="akun_aktiva">
+                                    <option {{ old('akun_aktiva') ? '' : 'selected' }} disabled></option>
+                                    @foreach ($akun as $items )
+                                    <option value="{{ $items->no_akun }}">{{ $items->no_akun }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control form-control-sm @error('akun_aktiva') is-invalid @enderror"  name="akun_aktiva">
+                                    <option {{ old('akun_aktiva') ? '' : 'selected' }} disabled></option>
+                                    @foreach ($akun as $items )
+                                    <option value="{{ $items->nama_akun_indonesia }}">{{ $items->nama_akun_indonesia }}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div id="bebandanharga" class="tab-pane fade">
                         <div class="card">
                             <div class="card-body">

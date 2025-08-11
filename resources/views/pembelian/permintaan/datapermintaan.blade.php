@@ -258,7 +258,7 @@
                         }
                     },
                 ],
-                columns: [{
+                columns:  [{
                         data: 'checkbox',
                         name: 'checkbox',
                         orderable: false,

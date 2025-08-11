@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Satuan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class SatuanController extends Controller
 {
@@ -19,10 +20,21 @@ class SatuanController extends Controller
     }
 
     public function saveRecordSatuan(Request $request){
-        $request->validate([
+        
+        $rules =[
             'nama'          => 'required|string|max:255',
-        ]);
+        ];
 
+        $message = [
+            'nama.required' => 'Nama satuan wajib diisi.',
+            'nama.unique' => 'Satuan sudah ada.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi Gagal, Beberapa Input Wajib Belum Terisi!');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         //debug
         // DB::enableQueryLog();
         // MataUang::create($request->all());
@@ -30,7 +42,7 @@ class SatuanController extends Controller
 
         DB::beginTransaction();
         try {
-            $satuan = new Satuan();
+            $satuan = new Satuan($validator->validated());
             $satuan->nama = $request->nama;
             $satuan->save();
             

@@ -7,6 +7,7 @@ use App\Models\Barang;
 use App\Models\PenyesuaianBarangDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class PenyesuaianBarangController extends Controller
 {
@@ -113,7 +114,7 @@ class PenyesuaianBarangController extends Controller
     public function simpanPenyesuaian(Request $request)
     {
         $rules = [
-            'tgl_penyesuaian' => 'nullable|string|max:255',
+            'tgl_penyesuaian' => 'required|string|max:255',
             'akun_penyesuaian' => 'nullable|string|max:255',
             'no_akun_penyesuaian' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string|max:255',
@@ -123,13 +124,21 @@ class PenyesuaianBarangController extends Controller
             'total_nilai_penyesuaian' => 'nullable|string|max:255',
         ];
 
-        $validated = $request->validate($rules);
+        $message = [
+            'tgl_penyesuaian.required' => 'Tanggal wajib diisi.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi Gagal, Beberapa Input Wajib Belum Terisi!');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         $validated['total_nilai_penyesuaian'] = str_replace(['Rp', '.', ' '], '', $request->total_nilai_penyesuaian);
 
         DB::beginTransaction();
         try {
-            $penyesuaianBarang = new PenyesuaianBarang($validated);
+            $penyesuaianBarang = new PenyesuaianBarang($validator->validated());
             $penyesuaianBarang->save();
 
             $kts_baru = (int) str_replace(['.', ',', ' '], '', $request->kts_baru);

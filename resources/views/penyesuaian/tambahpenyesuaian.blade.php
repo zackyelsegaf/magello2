@@ -31,6 +31,9 @@
                                                 <label>Tanggal Penyesuaian</label>
                                                 <div class="cal-icon">
                                                     <input type="text" class="form-control form-control-sm datetimepicker @error('tgl_penyesuaian') is-invalid @enderror" name="tgl_penyesuaian" value="{{ old('tgl_penyesuaian') }}"> 
+                                                    @error('tgl_penyesuaian')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="form-group">
