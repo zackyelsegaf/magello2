@@ -23,6 +23,9 @@
                                             <option value="{{ $items->nama }}">{{ $items->nama }}</option>
                                         @endforeach
                                     </select>
+                                    @error('tipe_akun')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>                              
                                 <div class="form-group">
                                     <label>No. Akun</label>
@@ -33,11 +36,17 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Akun (Indonesia)</label>
-                                    <textarea class="form-control form-control-sm  derror" name="nama_akun_indonesia" value="{{ old('nama_akun_indonesia') }}">{{ old('nama_akun_indonesia') }}</textarea>
+                                    <textarea class="form-control form-control-sm @error('nama_akun_indonesia') is-invalid @enderror" name="nama_akun_indonesia" value="{{ old('nama_akun_indonesia') }}">{{ old('nama_akun_indonesia') }}</textarea>
+                                    @error('nama_akun_indonesia')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Akun (English)</label>
-                                    <textarea class="form-control form-control-sm  form-control-sm"  name="nama_akun_inggris" value="{{ old('nama_akun_inggris') }}">{{ old('nama_akun_inggris') }}</textarea>
+                                    <textarea class="form-control form-control-sm @error('nama_akun_inggris') is-invalid @enderror"  name="nama_akun_inggris" value="{{ old('nama_akun_inggris') }}">{{ old('nama_akun_inggris') }}</textarea>
+                                    @error('nama_akun_inggris')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group" id="mata_uang_group">
                                     <label>Mata Uang</label>

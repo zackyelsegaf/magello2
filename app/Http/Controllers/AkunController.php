@@ -34,9 +34,9 @@ class AkunController extends Controller
         
         $rules = [
             'no_akun'             => 'required|string|max:255|unique:akun,no_akun',
-            'tipe_akun'           => 'nullable|string|max:255',
-            'nama_akun_indonesia' => 'nullable|string|max:255',
-            'nama_akun_inggris'   => 'nullable|string|max:255',
+            'tipe_akun'           => 'required|string|max:255',
+            'nama_akun_indonesia' => 'required|string|max:255',
+            'nama_akun_inggris'   => 'required|string|max:255',
             'mata_uang'           => 'nullable|string|max:255',
             'sub_akun_check'      => 'nullable|boolean',
             'sub_akun'            => 'nullable|string|max:255',
@@ -48,6 +48,9 @@ class AkunController extends Controller
         $message = [
             'no_akun.unique' => 'No akun sudah ada di dalam sistem.',
             'no_akun.required' => 'No akun wajib diisi.',
+            'tipe_akun.required' => 'Tipe akun wajib diisi.',
+            'nama_akun_indonesia.required' => 'Nama akun (Indonesia) wajib diisi.',
+            'nama_akun_inggris.required' => 'Nama akun (English) wajib diisi',
         ];
 
         $validator = Validator::make($request->all(), $rules, $message);
