@@ -25,6 +25,7 @@
 
     <!-- (Optional) Latest compiled and minified JavaScript translation files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
@@ -164,6 +165,7 @@
         {{ $slot }}
     </div>
     <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ URL::to('assets/js/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ URL::to('assets/js/popper.min.js') }}"></script>
     <script src="{{ URL::to('assets/js/bootstrap.min.js') }}"></script>

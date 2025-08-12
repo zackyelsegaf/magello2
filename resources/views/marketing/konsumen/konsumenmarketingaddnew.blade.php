@@ -26,12 +26,12 @@
                         <div class="invalid-feedback d-block">{{ $err }}</div>
                     @endforeach
                 </div>
-                <div class="col-md-4 mb-2">
-                    <label for="warm_meter" class="form-label fw-bold">
+                <div class="col-md-4 mb-2" wire:ignore>
+                    <label for="status" class="form-label fw-bold">
                         <strong class="text-danger h3 align-middle">*</strong>&nbsp;Status Pengajuan
                     </label>
                     <select class="form-control @error('status_pengajuan') is-invalid @enderror" wire:model="status_pengajuan"
-                        id="warm_meter">
+                        id="status">
                         <option value="">--Status Pengajuan--</option>
                         @foreach ($data_status_pengajuan as $items )
                             <option value="{{ $items->nama }}">{{ $items->nama }}</option>
@@ -68,12 +68,12 @@
                         <div class="invalid-feedback">{{ $err }}</div>
                     @endforeach
                 </div>
-                <div class="col-md-4 mb-2">
-                    <label for="jenis_kelamin" class="form-label fw-bold">
+                <div class="col-md-4 mb-2" wire:ignore>
+                    <label for="gender" class="form-label fw-bold">
                         <strong class="text-danger h3 align-middle">*</strong>&nbsp;Jenis Kelamin
                     </label>
                     <select class="form-control @error('jenis_kelamin') is-invalid @enderror" wire:model="jenis_kelamin"
-                        id="jenis_kelamin">
+                        id="gender">
                         <option value="">--Jenis Kelamin--</option>
                         @foreach ($data_jenis_kelamin as $items )
                             <option value="{{ $items->nama }}">{{ $items->nama }}</option>
@@ -129,12 +129,12 @@
                         <div class="invalid-feedback">{{ $err }}</div>
                     @endforeach
                 </div>
-                <div class="col-md-4 mb-2">
-                    <label for="sumber_prospek" class="form-label fw-bold">
+                <div class="col-md-4 mb-2" wire:ignore>
+                    <label for="status_pekerjaan" class="form-label fw-bold">
                         <strong class="text-danger h3 align-middle">*</strong>&nbsp;Pekerjaan
                     </label>
                     <select class="form-control @error('pekerjaan') is-invalid @enderror" wire:model="pekerjaan"
-                        id="sumber_prospek">
+                        id="status_pekerjaan">
                         <option value="">--Pekerjaan--</option>
                         @foreach ($data_pekerjaan as $items )
                             <option value="{{ $items->nama }}">{{ $items->nama }}</option>
@@ -240,6 +240,8 @@
     </div>
 </div>
 @push('scripts')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -284,6 +286,10 @@
             $('#klaster').select2();
             $('#provinsi_ktp').select2();
             $('#kota_ktp').select2();
+            $('#gender').select2();
+            $('#status').select2();
+            $('#status_pekerjaan').select2();
+
     
             $('#klaster').on('change', function(e){
                 var data = $(this).select2('val')
@@ -297,7 +303,18 @@
                 var data = $(this).select2('val')
                 @this.set('kota', data)
             });
+            $('#gender').on('change', function(e){
+                var data = $(this).select2('val')
+                @this.set('jenis_kelamin', data)
+            });
+            $('#status').on('change', function(e){
+                var data = $(this).select2('val')
+                @this.set('status_pengajuan', data)
+            });
+            $('#status_pekerjaan').on('change', function(e){
+                var data = $(this).select2('val')
+                @this.set('pekerjaan', data)
+            });
         });
-
     </script>
 @endpush
