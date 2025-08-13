@@ -126,6 +126,23 @@
                     </ul>
                 </li>
 
+                <li class="submenu"> <a href="#"></i><i class="fas fa-database mr-2"></i><span> Projek </span> <span class="menu-arrow"></span></a>
+                    <ul class="submenu_class" style="display: none;">
+                        <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Lahan </span> <span class="menu-arrow"></span></a>
+                            <ul class="submenu_class" style="display: none;">
+                                <li><a class="{{ set_active(['masterbiayalahan/list/page'], 1) }}" href="{{ route('masterbiayalahan/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Master Biaya Lahan</a></li>
+                                <li><a class="{{ set_active(['datalahan/list/page'], 1) }}" href="{{ route('datalahan/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Data Lahan</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="{{ set_active(['perencanaanpembangunan/list/page']) }}" href="{{ route('perencanaanpembangunan/list/page') }}"><i class="fas fa-money-check-alt mr-3"></i>Perencanaan Pembangunan</a></li>
+                        <li><a class="{{ set_active(['spkmandorpekerja/list/page']) }}" href="{{ route('spkmandorpekerja/list/page') }}"><i class="fas fa-users ml-0 mr-3"></i>SPK Mandor/Pekerja</a></li>
+                        <li><a class="{{ set_active(['rabrap/list/page']) }}" href="{{ route('rabrap/list/page') }}"><i class="fas fa-money-check-alt mr-3"></i>RAB & RAP</a></li>
+                        <li><a class="{{ set_active(['pengajuanbahanbangunan/list/page']) }}" href="{{ route('pengajuanbahanbangunan/list/page') }}"><i class="fas fa-box ml-0 mr-3"></i>Pengajuan Bahan Bangunan</a></li>
+                        <li><a class="{{ set_active(['pengajuanbahanlainya/list/page']) }}" href="{{ route('pengajuanbahanlainya/list/page') }}"><i class="fas fa-box ml-0 mr-3"></i>Pengajuan Bahan Lainya</a></li>
+                        <li><a class="{{ set_active(['kemajuanpembangunan/list/page']) }}" href="{{ route('kemajuanpembangunan/list/page') }}"><i class="fas fa-warehouse ml-0 mr-3"></i>Kemajuan Pembangunan</a></li>
+                    </ul>
+                </li>
+
                 <li class="submenu"> <a href="#"></i><i class="fas fa-boxes mr-2"></i><span> Modul Utama  <span class="badge bg-light text-dark">New Update!</span></span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Pembelian </span> <span class="menu-arrow"></span></a>

@@ -56,6 +56,14 @@ use App\Http\Controllers\Persediaan\HargaJualController;
 use App\Http\Controllers\Persediaan\BarangPerGudangController;
 use App\Http\Controllers\Persediaan\PembiayaanPesananController;
 use App\Http\Controllers\Persediaan\PencatatanNomorSerialController;
+use App\Http\Controllers\Projek\KemajuanPembangunanController;
+use App\Http\Controllers\Projek\Lahan\DataLahanController;
+use App\Http\Controllers\Projek\Lahan\MasterBiayaLahanController;
+use App\Http\Controllers\Projek\PengajuanBahanBangunanController;
+use App\Http\Controllers\Projek\PengajuanBahanLainyaController;
+use App\Http\Controllers\Projek\PerencanaanPembangunanController;
+use App\Http\Controllers\Projek\RabrapController;
+use App\Http\Controllers\Projek\SpkMandorPekerjaController;
 use App\Livewire\KlusterPerumahanForm;
 use App\Livewire\KonsumenForm;
 use App\Livewire\ProspekForm;
@@ -784,6 +792,84 @@ Route::controller(SuratPerintahPembangunanController::class)->group(function () 
     Route::post('suratperintahpembangunan/update/{id}', [SuratPerintahPembangunanController::class, 'update'])->name('suratperintahpembangunan/update');
     Route::post('suratperintahpembangunan/delete', [SuratPerintahPembangunanController::class, 'delete'])->name('suratperintahpembangunan/delete');
     Route::get('get-surat-perintah-pembangunan-data', [SuratPerintahPembangunanController::class, 'getSuratPerintahPembangunan'])->name('get-surat-perintah-pembangunan-data');
+});
+
+// ----------------------------- Projek - (INTERNSHIP TEAM) ----------------------------//
+// ----------------------------- Projek sub-Lahan - (INTERNSHIP TEAM) ----------------------------//
+Route::controller(MasterBiayaLahanController::class)->group(function () {
+    Route::get('masterbiayalahan/list/page', 'MasterBiayaLahanList')->middleware('auth')->name('masterbiayalahan/list/page');
+    Route::get('masterbiayalahan/add/new', 'MasterBiayaLahanAddNew')->middleware('auth')->name('masterbiayalahan/add/new');
+    Route::post('form/masterbiayalahan/save', 'saveRecordMasterBiayaLahan')->middleware('auth')->name('form/masterbiayalahan/save');
+    Route::get('masterbiayalahan/edit/{id}', [MasterBiayaLahanController::class, 'edit'])->name('masterbiayalahan/edit');
+    Route::post('masterbiayalahan/update/{id}', [MasterBiayaLahanController::class, 'update'])->name('masterbiayalahan/update');
+    Route::post('masterbiayalahan/delete', [MasterBiayaLahanController::class, 'delete'])->name('masterbiayalahan/delete');
+    Route::get('get-masterbiayalahan-data', [MasterBiayaLahanController::class, 'getMasterBiayaLahan'])->name('get-masterbiayalahan-data');
+});
+
+Route::controller(DataLahanController::class)->group(function () {
+    Route::get('datalahan/list/page', 'DataLahanList')->middleware('auth')->name('datalahan/list/page');
+    Route::get('datalahan/add/new', 'DataLahanAddNew')->middleware('auth')->name('datalahan/add/new');
+    Route::post('form/datalahan/save', 'saveRecordDataLahan')->middleware('auth')->name('form/datalahan/save');
+    Route::get('datalahan/edit/{id}', [DataLahanController::class, 'edit'])->name('datalahan/edit');
+    Route::post('datalahan/update/{id}', [DataLahanController::class, 'update'])->name('datalahan/update');
+    Route::post('datalahan/delete', [DataLahanController::class, 'delete'])->name('datalahan/delete');
+    Route::get('get-datalahan-data', [DataLahanController::class, 'getDataLahan'])->name('get-datalahan-data');
+});
+
+Route::controller(PerencanaanPembangunanController::class)->group(function () {
+    Route::get('perencanaanpembangunan/list/page', 'PerencanaanPembangunanList')->middleware('auth')->name('perencanaanpembangunan/list/page');
+});
+
+Route::controller(SpkMandorPekerjaController::class)->group(function () {
+    Route::get('spkmandorpekerja/list/page', 'SpkMandorPekerjaList')->middleware('auth')->name('spkmandorpekerja/list/page');
+    Route::get('spkmandorpekerjainternal/add/new', 'SpkMandorPekerjaInternalAddNew')->middleware('auth')->name('spkmandorpekerjainternal/add/new');
+    Route::get('spkmandorpekerjasubcon/add/new', 'SpkMandorPekerjaSubConAddNew')->middleware('auth')->name('spkmandorpekerjasubcon/add/new');
+    Route::post('form/spkmandorpekerja/save', 'saveRecordSpkMandorPekerja')->middleware('auth')->name('form/spkmandorpekerja/save');
+    Route::get('spkmandorpekerja/edit/{id}', [SpkMandorPekerjaController::class, 'edit'])->name('spkmandorpekerja/edit');
+    Route::post('spkmandorpekerja/update/{id}', [SpkMandorPekerjaController::class, 'update'])->name('spkmandorpekerja/update');
+    Route::post('spkmandorpekerja/delete', [SpkMandorPekerjaController::class, 'delete'])->name('spkmandorpekerja/delete');
+    Route::get('get-spkmandorpekerja-data', [SpkMandorPekerjaController::class, 'getSpkMandorPekerja'])->name('get-spkmandorpekerja-data');
+});
+
+Route::controller(RabrapController::class)->group(function () {
+    Route::get('rabrap/list/page', 'RabrapList')->middleware('auth')->name('rabrap/list/page');
+    Route::get('rabrap/add/new', 'RabrapAddNew')->middleware('auth')->name('rabrap/add/new');
+    Route::post('form/rabrap/save', 'saveRecordRabrap')->middleware('auth')->name('form/rabrap/save');
+    Route::get('rabrap/edit/{id}', [RabrapController::class, 'edit'])->name('rabrap/edit');
+    Route::post('rabrap/update/{id}', [RabrapController::class, 'update'])->name('rabrap/update');
+    Route::post('rabrap/delete', [RabrapController::class, 'delete'])->name('rabrap/delete');
+    Route::get('get-rabrap-data', [RabrapController::class, 'getRabrap'])->name('get-rabrap-data');
+});
+
+Route::controller(PengajuanBahanBangunanController::class)->group(function () {
+    Route::get('pengajuanbahanbangunan/list/page', 'PengajuanBahanBangunanList')->middleware('auth')->name('pengajuanbahanbangunan/list/page');
+    Route::get('pengajuanbahanbangunan/add/new', 'PengajuanBahanBangunanAddNew')->middleware('auth')->name('pengajuanbahanbangunan/add/new');
+    Route::post('form/pengajuanbahanbangunan/save', 'saveRecordPengajuanBahanBangunan')->middleware('auth')->name('form/pengajuanbahanbangunan/save');
+    Route::get('pengajuanbahanbangunan/edit/{id}', [PengajuanBahanBangunanController::class, 'edit'])->name('pengajuanbahanbangunan/edit');
+    Route::post('pengajuanbahanbangunan/update/{id}', [PengajuanBahanBangunanController::class, 'update'])->name('pengajuanbahanbangunan/update');
+    Route::post('pengajuanbahanbangunan/delete', [PengajuanBahanBangunanController::class, 'delete'])->name('pengajuanbahanbangunan/delete');
+    Route::get('get-pengajuanbahanbangunan-data', [PengajuanBahanBangunanController::class, 'getPengajuanBahanBangunan'])->name('get-pengajuanbahanbangunan-data');
+});
+
+Route::controller(PengajuanBahanLainyaController::class)->group(function () {
+    Route::get('pengajuanbahanlainya/list/page', 'PengajuanBahanLainyaList')->middleware('auth')->name('pengajuanbahanlainya/list/page');
+    Route::get('pengajuanbahanlainya/add/new', 'PengajuanBahanLainyaAddNew')->middleware('auth')->name('pengajuanbahanlainya/add/new');
+    Route::post('form/pengajuanbahanlainya/save', 'saveRecordPengajuanBahanLainya')->middleware('auth')->name('form/pengajuanbahanlainya/save');
+    Route::get('pengajuanbahanlainya/edit/{id}', [PengajuanBahanLainyaController::class, 'edit'])->name('pengajuanbahanlainya/edit');
+    Route::post('pengajuanbahanlainya/update/{id}', [PengajuanBahanLainyaController::class, 'update'])->name('pengajuanbahanlainya/update');
+    Route::post('pengajuanbahanlainya/delete', [PengajuanBahanLainyaController::class, 'delete'])->name('pengajuanbahanlainya/delete');
+    Route::get('get-pengajuanbahanlainya-data', [PengajuanBahanLainyaController::class, 'getPengajuanBahanLainya'])->name('get-pengajuanbahanlainya-data');
+});
+
+
+Route::controller(KemajuanPembangunanController::class)->group(function () {
+    Route::get('kemajuanpembangunan/list/page', 'KemajuanPembangunanList')->middleware('auth')->name('kemajuanpembangunan/list/page');
+    Route::get('kemajuanpembangunan/add/new', 'KemajuanPembangunanAddNew')->middleware('auth')->name('kemajuanpembangunan/add/new');
+    Route::post('form/kemajuanpembangunan/save', 'saveRecordKemajuanPembangunan')->middleware('auth')->name('form/kemajuanpembangunan/save');
+    Route::get('kemajuanpembangunan/edit/{id}', [KemajuanPembangunanController::class, 'edit'])->name('kemajuanpembangunan/edit');
+    Route::post('kemajuanpembangunan/update/{id}', [KemajuanPembangunanController::class, 'update'])->name('kemajuanpembangunan/update');
+    Route::post('kemajuanpembangunan/delete', [KemajuanPembangunanController::class, 'delete'])->name('kemajuanpembangunan/delete');
+    Route::get('get-kemajuanpembangunan-data', [KemajuanPembangunanController::class, 'getKemajuanPembangunan'])->name('get-kemajuanpembangunan-data');
 });
 
 
