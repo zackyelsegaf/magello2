@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Easy Accounting | Dashboard</title>
     
-    <link rel="shortcut icon" type="image/x-icon" href="{{ URL::to('public/assets/img/logo_EA7.svg') }}">
-    <link rel="stylesheet" href="{{ URL::to('public/assets/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ URL::to('public/assets/plugins/fontawesome/css/fontawesome.min.css') }}">
-    <link rel="stylesheet" href="{{ URL::to('public/assets/plugins/fontawesome/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ URL::to('public/assets/plugins/datatables/datatables.min.css') }}">
-    <link rel="stylesheet" href="{{ URL::to('public/assets/css/feathericon.min.css') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ URL::to('assets/img/logo_EA7.svg') }}">
+    <link rel="stylesheet" href="{{ URL::to('assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ URL::to('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ URL::to('assets/plugins/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ URL::to('assets/plugins/datatables/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ URL::to('assets/css/feathericon.min.css') }}">
     <link rel="stylehseet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">
-    <link rel="stylesheet" href="{{ URL::to('public/assets/plugins/morris/morris.css') }}">
-    <link rel="stylesheet" href="{{ URL::to('public/assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ URL::to('assets/plugins/morris/morris.css') }}">
+    <link rel="stylesheet" href="{{ URL::to('assets/css/style.css') }}">
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
@@ -27,7 +27,7 @@
     @stack('scripts')
     {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
 </head>
-<link rel="stylesheet" type="text/css" href="{{ URL::to('public/assets/css/bootstrap-datetimepicker.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ URL::to('assets/css/bootstrap-datetimepicker.min.css') }}">
 
 <body div="app">
 
@@ -55,7 +55,7 @@
                                     <a href="#">
                                         <div class="media"> <span class="avatar avatar-sm">
                                                 <img class="avatar-img rounded-circle" alt="User Image"
-                                                    src="{{ URL::to('public/assets/img/profiles/avatar-02.jpg') }}">
+                                                    src="{{ URL::to('assets/img/profiles/avatar-02.jpg') }}">
                                             </span>
                                             <div class="media-body">
                                                 <p class="noti-details"><span class="noti-title">Carlson Tech</span> has
@@ -70,7 +70,7 @@
                                     <a href="#">
                                         <div class="media"> <span class="avatar avatar-sm">
                                                 <img class="avatar-img rounded-circle" alt="User Image"
-                                                    src="{{ URL::to('public/assets/img/profiles/avatar-11.jpg') }}">
+                                                    src="{{ URL::to('assets/img/profiles/avatar-11.jpg') }}">
                                             </span>
                                             <div class="media-body">
                                                 <p class="noti-details"><span class="noti-title">International Software
@@ -86,7 +86,7 @@
                                     <a href="#">
                                         <div class="media"> <span class="avatar avatar-sm">
                                                 <img class="avatar-img rounded-circle" alt="User Image"
-                                                    src="{{ URL::to('public/assets/img/profiles/avatar-17.jpg') }}">
+                                                    src="{{ URL::to('assets/img/profiles/avatar-17.jpg') }}">
                                             </span>
                                             <div class="media-body">
                                                 <p class="noti-details"><span class="noti-title">John Hendry</span> sent
@@ -123,10 +123,10 @@
                         <span class="user-img">
                             @if (Auth::user()->avatar)
                                 <img class="rounded-circle"
-                                    src="{{ asset('../../public/assets/img/' . Auth::user()->avatar) }}"
+                                    src="{{ asset('../../assets/img/' . Auth::user()->avatar) }}"
                                     alt="profile_image" style="object-fit: cover; width: 31px; height: 31px;">
                             @elseif (Auth::user()->avatar == 0)
-                                <img class="rounded-circle" src="{{ asset('public/assets/img/profile.png') }}"
+                                <img class="rounded-circle" src="{{ asset('assets/img/profile.png') }}"
                                     alt="profile_image" style="object-fit: cover; width: 31px; height: 31px;">
                             @endif
                         </span>
@@ -135,7 +135,7 @@
                         <div class="user-header">
                             @if (Auth::user()->avatar)
                                 <img class="avatar-img rounded-circle"
-                                    src="{{ asset('../../public/assets/img/' . Auth::user()->avatar) }}"
+                                    src="{{ asset('../../assets/img/' . Auth::user()->avatar) }}"
                                     alt="profile_image" style="object-fit: cover; width: 40px; height: 40px;">
                             @elseif (Auth::user()->avatar == 0)
                                 <img class="avatar-img rounded-circle"
@@ -165,17 +165,17 @@
         @yield('content')
     </div>
     {{-- <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> --}}
-    <script src="{{ URL::to('public/assets/js/jquery-3.5.1.min.js') }}"></script>
-    <script src="{{ URL::to('public/assets/js/popper.min.js') }}"></script>
-    <script src="{{ URL::to('public/assets/js/bootstrap.min.js') }}"></script>
-    <script src="{{ URL::to('public/assets/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
-    <script src="{{ URL::to('public/assets/plugins/raphael/raphael.min.js') }}"></script>
-    <script src="{{ URL::to('public/assets/js/moment.min.js') }}"></script>
-    <script src="{{ URL::to('public/assets/js/bootstrap-datetimepicker.min.js') }}"></script>
-    <script src="{{ URL::to('public/assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ URL::to('public/assets/plugins/datatables/datatables.min.js') }}"></script>
-    <script src="{{ URL::to('public/assets/js/script.js') }}"></script>
-    <script src="{{ URL::to('public/assets/js/moment.min.js') }}"></script>
+    <script src="{{ URL::to('assets/js/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ URL::to('assets/js/popper.min.js') }}"></script>
+    <script src="{{ URL::to('assets/js/bootstrap.min.js') }}"></script>
+    <script src="{{ URL::to('assets/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ URL::to('assets/plugins/raphael/raphael.min.js') }}"></script>
+    <script src="{{ URL::to('assets/js/moment.min.js') }}"></script>
+    <script src="{{ URL::to('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="{{ URL::to('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ URL::to('assets/plugins/datatables/datatables.min.js') }}"></script>
+    <script src="{{ URL::to('assets/js/script.js') }}"></script>
+    <script src="{{ URL::to('assets/js/moment.min.js') }}"></script>
     {{-- <script src="{{ URL::to('public/assets/plugins/morris/morris.min.js') }}"></script>
     <script src="{{ URL::to('public/assets/js/chart.morris.js') }}"></script> --}}
 

@@ -20,37 +20,76 @@ class PesananPenjualanController extends BasePenjualanController
     protected $model = Model::class;
     public function fetch(Request $request)
     {
-        $model = $this->model;
-
-        $query = $model::query();
-
         // Contoh filter dinamis (jika perlu):
-        if ($request->has('status') && $request->status !== null) {
-            $query->where('status', $request->status);
-        }
+        $model = $this->model::with(['user'])
+            ->when($request->filled('quoteno'), function ($q) use ($request) {
+                $q->where('no_penawaran', 'like', '%' . $request->quoteno . '%');
+            })
+            ->when($request->filled('description'), function ($q) use ($request) {
+                $q->where('deskripsi', 'like', '%' . $request->description . '%');
+            })
+            ->when($request->filled('pelanggan_id'), function ($q) use ($request) {
+                $q->where('pelanggan_id', $request->pelanggan_id);
+            })
+            ->when($request->filled('matauang_id'), function ($q) use ($request) {
+                $q->where('mata_uang', $request->matauang_id);
+            })
+            ->when($request->boolean('use_date'), function ($q) use ($request) {
+                $q->when($request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                    $q->whereBetween('tgl_penawaran', [$request->tgl_mulai, $request->tgl_sampai]);
+                })
+                    ->when($request->filled('tgl_mulai') && !$request->filled('tgl_sampai'), function ($q) use ($request) {
+                        $q->whereDate('tgl_penawaran', '>=', $request->tgl_mulai);
+                    })
+                    ->when(!$request->filled('tgl_mulai') && $request->filled('tgl_sampai'), function ($q) use ($request) {
+                        $q->whereDate('tgl_penawaran', '<=', $request->tgl_sampai);
+                    });
+            })
+            ->when($request->filled('status'), function ($q) use ($request) {
+                $q->whereIn('status', $request->status);
+            })
+            ->when($request->filled('audit_notes'), function ($q) use ($request) {
+                foreach ($request->audit_notes as $note) {
+                    switch ($note) {
+                        case 'catatan_pemeriksaan':
+                            $q->whereNotNull('catatan_pemeriksaan');
+                            break;
+                        case 'belum_catatan_pemeriksaan':
+                            $q->whereNull('catatan_pemeriksaan');
+                            break;
+                        case 'disetujui':
+                            $q->where('disetujui', true);
+                            break;
+                        case 'belum_disetujui':
+                            $q->where(function ($sub) {
+                                $sub->whereNull('disetujui')->orWhere('disetujui', false);
+                            });
+                            break;
+                        case 'tindak_lanjut':
+                            $q->whereNotNull('tindak_lanjut');
+                            break;
+                        case 'belum_tindak_lanjut':
+                            $q->whereNull('tindak_lanjut');
+                            break;
+                        case 'urgent':
+                            $q->where('urgensi', 'urgent');
+                            break;
+                        case 'tidak_urgent':
+                            $q->where('urgensi', '!=', 'urgent');
+                            break;
+                    }
+                }
+            });
 
-        // DataTables response
-        return datatables()->of($query)
-            ->addIndexColumn() // untuk No urutan
+        return datatables()->of($model)
+            ->addIndexColumn()
             ->addColumn('checkbox', function ($row) {
-                return '<input type="checkbox" class="permintaan_checkbox" value="' . $row->id . '">';
-            })
-            ->addColumn('pengguna', function ($row) {
-                return optional($row->user)->name ?? '-';
-            })
-            ->addColumn('cabang', function ($row) {
-                return optional($row->cabang)->nama ?? '-';
-            })
-            ->addColumn('catatan_pemeriksaan', function ($row) {
-                return $row->catatan_pemeriksaan ? true : false;
-            })
-            ->addColumn('tindak_lanjut', function ($row) {
-                return $row->tindak_lanjut ? true : false;
-            })
-            ->addColumn('disetujui', function ($row) {
-                return $row->disetujui ? true : false;
-            })
-            ->rawColumns(['checkbox']) // jika pakai HTML (checkbox)
+                return '<input type="checkbox" name="selected_ids[]" value="' . $row->id . '">';
+            })->rawColumns(['checkbox'])
+            ->addColumn('pengguna', fn($row) => $row->user->name ?? '-')
+            ->addColumn('catatan_pemeriksaan', fn($row) => $row->catatan_pemeriksaan ? true : false)
+            ->addColumn('tindak_lanjut', fn($row) => $row->tindak_lanjut ? true : false)
+            ->addColumn('disetujui', fn($row) => $row->disetujui ? true : false)
             ->make(true);
     }
 
