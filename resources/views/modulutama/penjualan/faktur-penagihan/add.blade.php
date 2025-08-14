@@ -521,7 +521,7 @@
                     }).then(() => {
                         // Redirect setelah klik "OK"
                         window.location.href =
-                        "{{ route('penjualan.penawaran.index') }}"; // Ganti dengan URL yang kamu inginkan
+                         "{{ $indexRoute }}"; // Ganti dengan URL yang kamu inginkan
                     });
                 } else {
                     Swal.fire({
@@ -652,7 +652,7 @@
                 const formData = new FormData(form);
 
                 try {
-                    const response = await fetch("{{ route('penjualan.penawaran.store') }}", {
+                    const response = await fetch("{{ $storeRoute }}", {
                         method: "POST",
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
