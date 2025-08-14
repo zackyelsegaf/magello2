@@ -31,6 +31,8 @@ class DatabaseSeeder extends Seeder
 
         // Panggil seeder lain
         $this->call([
+            RolePermissionSeeder::class,
+            \Laravolt\Indonesia\Seeds\DatabaseSeeder::class,
             TipeAkunSeeder::class,
             TipeBarangSeeder::class,
             TipeDepartemenSeeder::class,

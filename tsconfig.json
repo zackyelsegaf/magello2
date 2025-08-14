@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": "resources/js",
+    "paths": {
+      "@/*": ["*"],
+      "@svelte/*": ["svelte/*"]
+    },
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "esnext",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  },
+  "include": ["resources/js/**/*"],
+  "exclude": ["node_modules", "public"]
+}

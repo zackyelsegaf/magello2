@@ -14,36 +14,34 @@
 
         <div class="row">
             <div class="col-md-3">
-                <div class="card rounded-default p-3 filterBox text-white">
-                    <form method="GET" action="{{ route('departemen/list/page') }}">
-                        <div class="form-group mb-1">
-                            <label>Pencarian</label>
-                            <input type="text" name="departemen_id" class="form-control form-control-sm" onchange="this.form.submit()" placeholder="Cari berdasarkan ID" value="{{ request('departemen_id') }}">
-                        </div> 
-                        <div class="form-group mb-1">
-                            <input type="text" name="nama_departemen" class="form-control form-control-sm" onchange="this.form.submit()" placeholder="Nama Departemen" value="{{ request('nama_departemen') }}">
+                <div class="card rounded-default p-3 bg-dark text-white">
+                    <div class="form-group">
+                        <label>Pencarian</label>
+                        <input type="text" name="departemen_id" class="form-control key-filter" placeholder="Cari berdasarkan ID">
+                    </div> 
+                    <div class="form-group">
+                        <input type="text" name="nama_departemen" class="form-control key-filter" placeholder="Nama Departemen">
+                    </div>
+                    <div class="form-group">
+                        <label>Dihentikan</label><br>
+                        <div class="form-check">
+                            <input class="form-check-input click-filter" type="radio" id="alldihentikan" name="dihentikan" checked>
+                            <label for="alldihentikan" class="form-check-label">Semua</label>
                         </div>
-                        <div class="form-group mb-1">
-                            <label>Dihentikan</label><br>
-                            <div class="form-check mb-1">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="" {{ request('dihentikan') === null ? 'checked' : '' }}>
-                                <label class="form-check-label">Semua</label>
-                            </div>
-                            <div class="form-check mb-1">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="1" {{ request('dihentikan') === '1' ? 'checked' : '' }}>
-                                <label class="form-check-label">Ya</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" onchange="this.form.submit()" name="dihentikan" value="0" {{ request('dihentikan') === '0' ? 'checked' : '' }}>
-                                <label class="form-check-label">Tidak</label>
-                            </div>
+                        <div class="form-check">
+                            <input class="form-check-input click-filter" type="radio" id="dihentikan" name="dihentikan">
+                            <label for="dihentikan" class="form-check-label">Ya</label>
                         </div>
-                    </form>
+                        <div class="form-check">
+                            <input class="form-check-input click-filter" type="radio" id="notdihentikan" name="dihentikan">
+                            <label for="notdihentikan" class="form-check-label">Tidak</label>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-9">
                 <div class="card card-table">
-                    <div class="card-body">
+                    <div class="card-body booking_card">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover table-center mb-0" id="DepartemenList">
                                 <thead class="thead-dark">
@@ -56,7 +54,7 @@
                                         <th>Nama Kontak</th>
                                         <th>Deskripsi</th>
                                         <th>Tipe</th>
-                                        <th>Status</th>
+                                        <th>Dihentikan</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -159,38 +157,38 @@
                     {
                         data: 'departemen_id',
                         name: 'departemen_id',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'nama_departemen',
                         name: 'nama_departemen',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'nama_kontak',
                         name: 'nama_kontak',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'deskripsi',
                         name: 'deskripsi',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'tipe_departemen',
                         name: 'tipe_departemen',
-                        orderable: false,
-                        searchable: false
+                        orderable: true,
+                        searchable: true
                     },
                     {
                         data: 'dihentikan',
                         name: 'dihentikan',
-                        orderable: false,
-                        searchable: false,
+                        orderable: true,
+                        searchable: true,
                         render: function(data, type, row) {
                             return data == 1
                                 ? '<h3 class="badge badge-pill text-white badge-secondary">Ya</h3>'
@@ -200,9 +198,11 @@
                 ]
             });
 
-            $('form').on('submit', function(e) {
-                e.preventDefault();
-                table.draw();
+            $('.key-filter').on('keyup', function(e){
+                table.draw()
+            });
+            $('.click-filter').on('change', function(e){
+                table.draw()
             });
 
             $('#select_all').on('click', function() {

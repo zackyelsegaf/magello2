@@ -14,77 +14,6 @@ class SyaratController extends Controller
         return view('syarat.listsyarat');
     }
 
-    public function SyaratAddNew()
-    {
-        return view('syarat.syarataddnew');
-    }
-
-    public function update(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'nama'              => 'required|string|max:255',
-            'batas_hutang'      => 'required|string|max:255',
-            'cash_on_delivery'  => 'required|boolean',
-            'persentase_diskon' => 'required|string|max:255',
-            'periode_diskon'    => 'required|string|max:255',
-        ]);
-
-        DB::beginTransaction();
-        try {
-            $syarat = Syarat::findOrFail($id);
-            $syarat->update($validated);
-            
-            DB::commit();
-            sweetalert()->success('Updated record successfully :)');
-            return redirect()->route('syarat/list/page');    
-            
-        } catch(\Exception $e) {
-            DB::rollback();
-            sweetalert()->error('Update record fail :)');
-            \Log::error($e->getMessage());
-            return redirect()->back();
-        }
-    }
-
-    public function edit($id)
-    {
-        $syarat = Syarat::findOrFail($id);
-        if (!$syarat) {
-            return redirect()->back()->with('error', 'Data tidak ditemukan');
-        }
-        return view('syarat.syaratedit', compact('syarat'));
-    }
-
-    public function saveRecordSyarat(Request $request){
-        $validated = $request->validate([
-            'nama'              => 'required|string|max:255',
-            'batas_hutang'      => 'required|string|max:255',
-            'cash_on_delivery'  => 'required|boolean',
-            'persentase_diskon' => 'required|string|max:255',
-            'periode_diskon'    => 'required|string|max:255',
-        ]);
-
-        //debug
-        // DB::enableQueryLog();
-        // MataUang::create($request->all());
-        // dd(DB::getQueryLog());
-
-        DB::beginTransaction();
-        try {
-            $syarat = new Syarat($validated);
-            $syarat->save();
-            
-            DB::commit();
-            sweetalert()->success('Create new Syarat successfully :)');
-            return redirect()->route('syarat/list/page');    
-            
-        } catch(\Exception $e) {
-            DB::rollback();
-            sweetalert()->error('Tambah Data Gagal :)');
-            return redirect()->back();
-        }
-    }
-
     public function delete(Request $request)
     {
         try {
@@ -124,8 +53,11 @@ class SyaratController extends Controller
 
         $totalRecordsWithFilter = $syarat->count();
 
+        if($columnName != 'checkbox'){
+            $syarat->orderBy($columnName, $columnSortOrder);
+        }
+
         $records = $syarat
-            ->orderBy($columnName, $columnSortOrder)
             ->skip($start)
             ->take($rowPerPage)
             ->get();

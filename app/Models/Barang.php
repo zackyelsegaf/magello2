@@ -67,4 +67,12 @@ class Barang extends Model
     {
         return $this->hasMany(StokBarang::class, 'barang_id');
     }
+    
+    public function dokumen(){
+        return $this->morphMany(Dokumen::class, 'dokumenable');
+    }
+
+    public function satuan() {
+        return $this->hasMany(Satuan::class, 'satuan_id');
+    }
 }
