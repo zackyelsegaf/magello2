@@ -10,18 +10,19 @@ class Proyek extends Model
     use HasFactory;
 
     protected $table = 'proyek';
+    protected $guarded = ['id'];
 
-    protected $fillable = [
-        'proyek_id'                ,
-        'nama_proyek'              ,
-        'nama_kontak'              ,
-        'tanggal_from'             ,
-        'tanggal_to'               ,
-        'persentase_komplet'       ,
-        'persentase_komplet_check' ,
-        'deskripsi'                ,
-        'dihentikan'               ,
-    ];
+    // protected $fillable = [
+    //     'proyek_id',
+    //     'nama_proyek',
+    //     'nama_kontak',
+    //     'tanggal_from',
+    //     'tanggal_to',
+    //     'persentase_komplet',
+    //     'persentase_komplet_check',
+    //     'deskripsi',
+    //     'dihentikan',
+    // ];
 
     // /** generate id */
     // protected static function boot()
@@ -39,4 +40,14 @@ class Proyek extends Model
     //         }
     //     });
     // }
+
+    public function journalEntries()
+    {
+        return $this->hasMany(JurnalEntri::class);
+    }
+
+    public function rincianAkun()
+    {
+        return $this->hasMany(PembiayaanRincianAkun::class);
+    }
 }

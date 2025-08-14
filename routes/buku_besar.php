@@ -13,13 +13,13 @@ use App\Livewire\BukuBesar\PenerimaanLainnyaForm;
 use Illuminate\Support\Facades\Route;
 
 //-------------------------------- AKUN ---------------------------------//
-// Route::get('akun/add/new', AkunForm::class)->middleware('auth')->name('akun/add/new');
-// Route::get('/akun/edit/{id}', AkunForm::class)->name('akun/edit');
-// Route::controller(AkunController::class)->group(function () {
-//     Route::get('akun/list/page', 'akunList')->middleware('auth')->name('akun/list/page');
-//     Route::post('/akun/delete', 'delete')->name('akun/delete');
-//     Route::get('get-akun-data', 'getAkun')->name('get-akun-data');
-// });
+Route::get('akun/add/new', AkunForm::class)->middleware('auth')->name('akun/add/new');
+Route::get('/akun/edit/{id}', AkunForm::class)->name('akun/edit');
+Route::controller(AkunController::class)->group(function () {
+    Route::get('akun/list/page', 'akunList')->middleware('auth')->name('akun/list/page');
+    Route::post('/akun/delete', 'delete')->name('akun/delete');
+    Route::get('get-akun-data', 'getAkun')->name('get-akun-data');
+});
 
 //-------------------------------- JURNAL ---------------------------------//
 Route::get('jurnal/add/new', JurnalForm::class)->middleware('auth')->name('jurnal/add/new');

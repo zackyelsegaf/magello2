@@ -42,15 +42,6 @@ return new class extends Migration
             $table->string('maksimal_harga_jual')->nullable();
             $table->string('minimal_harga_beli')->nullable();
             $table->string('maksimal_harga_beli')->nullable();
-            $table->string('satuan')->nullable();
-            $table->string('rasio')->nullable();
-            $table->string('level_harga_1')->nullable();
-            $table->string('level_harga_2')->nullable();
-            $table->string('level_harga_3')->nullable();
-            $table->string('level_harga_4')->nullable();
-            $table->string('level_harga_5')->nullable();
-            $table->string('harga_beli')->nullable();
-            $table->string('merk_barang')->nullable();
             $table->string('nomor_upc')->nullable();
             $table->string('nomor_plu')->nullable();
             $table->string('fileupload_1')->nullable();

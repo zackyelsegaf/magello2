@@ -13,53 +13,81 @@ return new class extends Migration
     {
         Schema::create('pelanggan', function (Blueprint $table) {
             $table->id();
-            $table->string('pelanggan_id');
-            $table->string('nama_pelanggan')->nullable();
-            $table->string('nik_pelanggan')->nullable();
-            $table->string('npwp_pelanggan')->nullable();
-            $table->string('nppkp_pelanggan')->nullable();
-            $table->string('pajak_1_pelanggan')->nullable();
-            $table->string('pajak_2_pelanggan')->nullable();
-            $table->string('penjual')->nullable();
-            $table->string('tipe_pelanggan')->nullable();
-            $table->string('level_harga_pelanggan')->nullable();
-            $table->string('diskon_penjualan_pelanggan')->nullable();
-            $table->string('syarat_pelanggan')->nullable();
-            $table->string('batas_maks_hutang')->nullable();
-            $table->string('batas_umur_hutang')->nullable();
-            $table->string('mata_uang_pelanggan')->nullable();
-            $table->string('saldo_awal_pelanggan')->nullable();
-            $table->string('tanggal_pelanggan')->nullable();
-            $table->string('deskripsi')->nullable();
-            $table->string('status')->nullable();
-            $table->string('tanggal_lahir')->nullable();
-            $table->string('tempat_lahir')->nullable();
-            $table->string('agama')->nullable();
-            $table->string('nama_ayah')->nullable();
-            $table->string('nama_ibu')->nullable();
-            $table->string('jenis_kelamin')->nullable();
-            $table->boolean('dihentikan')->nullable()->default(false);
+
+            // Info dasar
+            $table->string('kode_pelanggan')->unique();
+            $table->string('nama')->nullable();
+            $table->string('nik')->nullable();
+            $table->foreignId('tipe_pelanggan_id')->nullable()->constrained('tipe_pelanggan')->nullOnDelete(); // relasi ke tipe_pelanggan
+
+            // Penjual dan proyek
+            $table->foreignId('penjual_id')->nullable()->constrained('penjual')->nullOnDelete();
+            // $table->foreignId('proyek_id')->nullable()->constrained('proyek')->nullOnDelete(); // nama cluster
+            $table->nullableMorphs('proyek');
+
+            // Pajak dan syarat
+            $table->string('npwp')->nullable();
+            $table->string('nppkp')->nullable();
+            $table->foreignId('pajak_1_id')->nullable()->constrained('pajak')->nullOnDelete();
+            $table->foreignId('pajak_2_id')->nullable()->constrained('pajak')->nullOnDelete();
+            $table->foreignId('syarat_id')->nullable()->constrained('syarat')->nullOnDelete();
+
+            // Level harga & diskon
+            $table->integer('level_harga')->default(0);
+            $table->decimal('diskon_penjualan', 5, 2)->nullable();
+
+            // Mata uang dan saldo
+            $table->foreignId('mata_uang_id')->nullable()->constrained('mata_uang')->nullOnDelete();
+            $table->decimal('saldo_awal', 15, 2)->default(0);
+            $table->date('tanggal_saldo_awal')->nullable();
+
+            // Alamat
             $table->string('alamat_1')->nullable();
             $table->string('alamat_2')->nullable();
             $table->string('alamatpajak_1')->nullable();
             $table->string('alamatpajak_2')->nullable();
-            $table->string('negara')->nullable();
-            $table->string('kota')->nullable();
-            $table->string('provinsi')->nullable();
+
+            $table->char('provinsi_code', 2)->nullable()->index();
+            $table->char('kota_code', 4)->nullable()->index();
+
+            $table->foreign('provinsi_code')
+                ->references('code')
+                ->on(config('laravolt.indonesia.table_prefix') . 'provinces')
+                ->onUpdate('cascade')->onDelete('set null');
+
+            $table->foreign('kota_code')
+                ->references('code')
+                ->on(config('laravolt.indonesia.table_prefix') . 'cities')
+                ->onUpdate('cascade')->onDelete('set null');
             $table->string('kode_pos')->nullable();
+
+            // Kontak
             $table->string('kontak')->nullable();
             $table->string('no_telp')->nullable();
             $table->string('no_fax')->nullable();
             $table->string('email')->nullable();
             $table->string('website')->nullable();
-            $table->string('memo')->nullable();
-            $table->string('fileupload_1')->nullable();
-            $table->string('fileupload_2')->nullable();
-            $table->string('fileupload_3')->nullable();
-            $table->string('fileupload_4')->nullable();
-            $table->string('fileupload_5')->nullable();
-            $table->string('fileupload_6')->nullable();
-            $table->string('fileupload_7')->nullable();
+
+            // Lainnya
+            $table->boolean('dihentikan')->default(false);
+            $table->string('status_pengajuan')->nullable(); // dari dropdown
+
+            // Booking Support
+            $table->boolean('is_booking')->default(false);
+            $table->foreignId('booking_id')->nullable()->constrained('bookings')->nullOnDelete();
+
+            // Info tambahan
+            $table->date('tanggal_lahir')->nullable();
+            $table->string('tempat_lahir')->nullable();
+
+            // ✅ Ganti string → foreignId
+            $table->foreignId('religion_id')->nullable()->constrained('religion')->nullOnDelete();
+            $table->foreignId('gender_id')->nullable()->constrained('gender')->nullOnDelete();
+
+            $table->string('nama_ayah')->nullable();
+            $table->string('nama_ibu')->nullable();
+            $table->text('memo')->nullable();
+
             $table->timestamps();
         });
     }

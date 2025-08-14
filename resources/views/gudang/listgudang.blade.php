@@ -15,12 +15,10 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="card rounded-default p-3 filterBox text-white">
-                    <form method="GET" action="{{ route('gudang/list/page') }}">
-                        <div class="form-group mb-1">
-                            <label>Pencarian</label>
-                            <input type="text" name="nama_gudang" class="form-control form-control-sm" onchange="this.form.submit()" placeholder="Nama Gudang" value="{{ request('nama_gudang') }}">
-                        </div> 
-                    </form>
+                    <div class="form-group mb-1">
+                        <label>Pencarian</label>
+                        <input type="text" name="nama_gudang" class="form-control form-control-sm key-filter" placeholder="Nama Gudang">
+                    </div> 
                 </div>
             </div>
 
@@ -176,9 +174,8 @@
                 ]
             });
 
-            $('form').on('submit', function(e) {
-                e.preventDefault();
-                table.draw();
+            $('.key-filter').on('keyup', function(e){
+                table.draw()
             });
 
             $('#select_all').on('click', function() {

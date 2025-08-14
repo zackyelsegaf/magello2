@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\BukuBesar;
 
 use App\Http\Controllers\Controller;
-use App\Models\BukuBesar\AnggaranAkun;
+use App\Models\AnggaranAkun;
 use App\Models\Dokumen;
+use App\Models\TipeAkun;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class AnggaranAkunController extends Controller
 {
     public function anggaranList() {
-        $tipe_akun = [];
+        $tipe_akun = TipeAkun::all();
         return view('bukubesar.anggaranakun.index', compact('tipe_akun'));
     }
 
@@ -51,9 +52,9 @@ class AnggaranAkunController extends Controller
         $columnName      = $columnName_arr[$columnIndex]['data']; // Column name
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
 
-        $Anggaran =  DB::table('anggaran_akun')
+        $Anggaran =  DB::table('anggaran_akuns')
             ->select([
-                'anggaran_akun.id', 
+                'anggaran_akuns.id', 
                 'no_akun', 
                 'nama_akun_indonesia', 
                 'tahun', 
@@ -70,7 +71,7 @@ class AnggaranAkunController extends Controller
                 'periode_11',
                 'periode_12',
             ])
-            ->join('akun', 'akun.id', '=', 'anggaran_akun.akun_id', 'left');
+            ->join('akun', 'akun.id', '=', 'anggaran_akuns.akun_id', 'left');
 
         $totalRecords = $Anggaran->count();
 
