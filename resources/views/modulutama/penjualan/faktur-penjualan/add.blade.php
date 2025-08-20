@@ -80,6 +80,10 @@
                                                 href="#rincian">Rincian</a>
                                         </li>
                                         <li class="nav-item">
+                                            <a class="nav-link font-weight-bold" data-toggle="tab" href="#uangmuka">Uang
+                                                Muka</a>
+                                        </li>
+                                        <li class="nav-item">
                                             <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen</a>
                                         </li>
                                         <li class="nav-item">
@@ -131,9 +135,93 @@
                                     </div>
 
                                 </div>
+                                <div id="uangmuka" class="tab-pane fade">
+                                    <div class="row mt-2">
+                                        <div class="col-lg-10">
+                                            <table
+                                                class="table table-striped table-bordered table-hover table-center mb-0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th style="width:150px;">Keterangan</th>
+                                                        <th style="width:120px;">Total Uang Muka</th>
+                                                        <th style="width:100px;">Tgl Uang Muka</th>
+                                                        <th style="width:80px;">Pajak</th>
+                                                        <th style="width:100px;">Pajak Inklusif</th>
+                                                        <th style="width:100px;">Pajak 1</th>
+                                                        <th style="width:100px;">Pajak 2</th>
+                                                        <th style="width:150px;">No. Faktur</th>
+                                                        <th style="width:150px;">No. SO</th>
+                                                        <th style="width:150px;">Nilai Tukar</th>
+                                                        <th style="width:150px;">Nilai Tukar Pajak</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input style="height: 26px; font-size: 12px;"
+                                                                type="text" class="form-control"
+                                                                name="keterangan[]" value="">
+                                                        </td>
+                                                        <td>
+                                                            <input style="height: 26px; font-size: 12px;"
+                                                                type="text" class="form-control input-rupiah"
+                                                                name="total_uang_muka[]" value="">
+                                                        </td>
+                                                        <td>
+                                                            <input style="height: 26px; font-size: 12px;"
+                                                                type="date" class="form-control"
+                                                                name="tgl_uang_muka[]" value="">
+                                                        </td>
+                                                        <td>
+                                                            <input style="height: 26px; font-size: 12px;"
+                                                                type="number" class="form-control" name="pajak[]"
+                                                                value="">
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control" name="pajak_inklusif[]"
+                                                                style="height:26px; font-size:12px;">
+                                                                <option value="0">Tidak</option>
+                                                                <option value="1">Ya</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <input style="height: 26px; font-size: 12px;"
+                                                                type="number" class="form-control" name="pajak_1[]"
+                                                                value="">
+                                                        </td>
+                                                        <td>
+                                                            <input style="height: 26px; font-size: 12px;"
+                                                                type="number" class="form-control" name="pajak_2[]"
+                                                                value="">
+                                                        </td>
+                                                        <td>
+                                                            <input style="height: 26px; font-size: 12px;"
+                                                                type="text" class="form-control"
+                                                                name="no_faktur[]" value="">
+                                                        </td>
+                                                        <td>
+                                                            <input style="height: 26px; font-size: 12px;"
+                                                                type="text" class="form-control" name="no_so[]"
+                                                                value="">
+                                                        </td>
+                                                        <td>
+                                                            <input style="height: 26px; font-size: 12px;"
+                                                                type="text" class="form-control input-rupiah"
+                                                                name="nilai_tukar[]" value="">
+                                                        </td>
+                                                        <td>
+                                                            <input style="height: 26px; font-size: 12px;"
+                                                                type="text" class="form-control input-rupiah"
+                                                                name="nilai_tukar_pajak[]" value="">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div id="dokumen" class="tab-pane fade">
-
-                                    <div class="row">
+                                    <div class="row mb-4">
                                         <div class="col-lg-10">
                                             <x-dynamic-link-input id="file-input-1" name="files" />
                                         </div>
@@ -233,42 +321,19 @@
                                     </div>
                                 </div>
                                 <div id="informasi" class="tab-pane fade">
-                                    {{-- <h5 class="card-title">Change Password</h5> --}}
-                                    <div class="row">
-                                        <div class="col-lg-10">
-                                            <div class="row">
-                                                {{-- Penawaran Untuk --}}
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="quotetoData"><strong>Penawaran
-                                                                Untuk</strong></label>
-                                                        <textarea class="form-control" name="quotetoData" id="quotetoData" rows="4"
-                                                            placeholder="Isi tujuan penawaran">{{ old('quotetoData') }}</textarea>
-                                                    </div>
-                                                </div>
+                                    <div class="row mt-0 mb-4">
+                                        <div class="col">
+                                            <div class="row mb-0 mt-0">
+                                                <div class="col">
 
-                                                {{-- Penjual --}}
-                                                <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <x-select2.search size="sm" placeholder="Penjual"
-                                                            name="penjual" label="Penjual" :options="$penjuals" />
+                                                        <label for="Informasi_address"><strong>Alamat</strong></label>
+                                                        <textarea readonly class="form-control" name="address" id="alamat-input" rows="4"
+                                                            placeholder="Alamat tujuan">{{ old('address') }}</textarea>
                                                     </div>
-                                                </div>
 
-                                                {{-- Nilai Tukar --}}
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="nilai_tukar"><strong>Nilai Tukar</strong></label>
-                                                        <input type="number" class="form-control form-control-sm"
-                                                            id="nilai_tukar" name="nilai_tukar"
-                                                            value="{{ old('nilai_tukar', 0) }}">
-                                                    </div>
                                                 </div>
-                                            </div>
-
-                                            {{-- Alamat --}}
-                                            <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col">
                                                     <div class="form-group">
                                                         <label for="Informasi_address"><strong>Alamat</strong></label>
                                                         <textarea readonly class="form-control" name="address" id="alamat-input" rows="4"
@@ -276,6 +341,70 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <label class="font-bold" for="inputGmp2"
+                                                            class="form-label mb-1">Tanggal
+                                                            {{ $title }}</label>
+                                                        <div class="input-group input-group-sm">
+                                                            <input type="text"
+                                                                class="form-control datetimepicker @error('tgl_permintaan') is-invalid @enderror"
+                                                                name="tgl_permintaan">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <x-select2.search size="sm" placeholder="nilai tukar"
+                                                            name="nilai_tukar" label="Nilai Tukar"
+                                                            :options="$penjuals" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <x-form.select-basic placeholder="   " size="sm"
+                                                            id="syarat_pembayaran" name="syarat_pembayaran"
+                                                            :options="$syaratPembayaran" :isbold="true"
+                                                            label="Syarat Pembayaran" />
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    &nbsp;
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <x-form.select-basic placeholder="   " size="sm"
+                                                            id="ekspedisi" name="ekspedisi" :options="$syaratPembayaran"
+                                                            :isbold="true" label="Kirim Melalui" />
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <x-select2.search size="sm" placeholder="Penjual"
+                                                            name="penjual" label="Penjual" :options="$penjuals" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <x-form.select-basic placeholder="   " size="sm"
+                                                            id="fob" name="fob" :options="$syaratPembayaran"
+                                                            :isbold="true" label="FOB" />
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    &nbsp;
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            &nbsp;
                                         </div>
                                     </div>
                                 </div>
