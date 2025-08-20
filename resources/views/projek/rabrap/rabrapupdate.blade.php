@@ -11,12 +11,12 @@
             </div>
 
             {{-- Formulir penyimpanan --}}
-            <form method="POST" action="{{ route('form/rabrap/save') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('rabrap/update', $updateRabRap->id) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label for="judul_rap" class="form-label fw-bold">Judul</label>
-                        <input type="text" id="judul_rap" name="judul_rap" class="form-control form-control-sm @error('judul_rap') is-invalid @enderror" value="{{ old('judul_rap') }}">
+                        <input type="text" id="judul_rap" name="judul_rap" class="form-control form-control-sm @error('judul_rap') is-invalid @enderror" value="{{ old('judul_rap', $updateRabRap->judul_rap) }}">
                         @error('judul_rap')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -24,9 +24,9 @@
                     <div class="col-md-4">
                         <label for="cluster" class="form-label fw-bold">Perumahan Cluster</label>
                         <select class="tomselect @error('cluster') is-invalid @enderror" name="cluster" id="cluster" data-placeholder="Pilih cluster...">
-                            <option {{ old('cluster') ? '' : 'selected' }} disabled></option>
+                            <option selected disabled></option>
                             @foreach ($cluster as $items )
-                            <option value="{{ $items->nama_cluster }}">{{ $items->nama_cluster }}</option>
+                            <option value="{{ $items->nama_cluster }}" {{ old('cluster', $updateRabRap->cluster) == $items->nama_cluster ? 'selected' : '' }}>{{ $items->nama_cluster }}</option>
                             @endforeach
                         </select>
                         @error('cluster')
@@ -36,10 +36,10 @@
                     <div class="col-md-4">
                         <label for="tipe_model" class="form-label fw-bold">Tipe Model</label>
                         <select class="tomselect @error('tipe_model') is-invalid @enderror" name="tipe_model" id="tipe_model" data-placeholder="Pilih Tipe Model...">
-                            <option {{ old('tipe_model') ? '' : 'selected' }} disabled>-- Pilih Tipe Model --</option>
-                            <option value="Kapling" {{ old('tipe_model') == 'Kapling' ? 'selected' : '' }}>Kapling</option>
-                            <option value="Fasos" {{ old('tipe_model') == 'Fasos' ? 'selected' : '' }}>Fasilitas Sosial</option>
-                            <option value="Fasum" {{ old('tipe_model') == 'Fasum' ? 'selected' : '' }}>Fasilitas Umum</option>
+                            <option {{ old('tipe_model', $updateRabRap->tipe_model) ? '' : 'selected' }} disabled>-- Pilih Tipe Model --</option>
+                            <option value="Kapling" {{ old('tipe_model', $updateRabRap->tipe_model) == 'Kapling' ? 'selected' : '' }}>Kapling</option>
+                            <option value="Fasos" {{ old('tipe_model', $updateRabRap->tipe_model) == 'Fasos' ? 'selected' : '' }}>Fasilitas Sosial</option>
+                            <option value="Fasum" {{ old('tipe_model', $updateRabRap->tipe_model) == 'Fasum' ? 'selected' : '' }}>Fasilitas Umum</option>
                         </select>
                         @error('tipe_model')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -47,17 +47,17 @@
                     </div>
                     <div class="col-md-4">
                         <label for="persen_kenaikan_qty" class="form-label fw-bold text-nowrap">Persentase Kenaikan Kuantitas RAP ke RAB</label>
-                        <input type="number" id="persen_kenaikan_qty" name="persen_kenaikan_qty" class="form-control form-control-sm" value="{{ old('persen_kenaikan_qty') }}" placeholder="Persentase Kenaikan Kuantitas RAP ke RAB">
+                        <input type="number" id="persen_kenaikan_qty" name="persen_kenaikan_qty" class="form-control form-control-sm" value="{{ old('persen_kenaikan_qty', $updateRabRap->persen_kenaikan_qty) }}" placeholder="Persentase Kenaikan Kuantitas RAP ke RAB">
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="total_rap" class="form-label fw-bold">Total RAP</label>
-                        <input type="text" id="total_rap" name="total_rap" class="form-control form-control-sm" value="{{ old('total_rap') }}" placeholder="Total RAP" readonly>
+                        <input type="text" id="total_rap" name="total_rap" class="form-control form-control-sm" value="{{ old('total_rap', $updateRabRap->total_rap) }}" placeholder="Total RAP" readonly>
                     </div>
                     <div class="col-md-6">
                         <label for="total_rab" class="form-label fw-bold">Total RAB</label>
-                        <input type="text" id="total_rab" name="total_rab" class="form-control form-control-sm" value="{{ old('total_rab') }}" placeholder="Total RAB" readonly>
+                        <input type="text" id="total_rab" name="total_rab" class="form-control form-control-sm" value="{{ old('total_rab', $updateRabRap->total_rab) }}" placeholder="Total RAB" readonly>
                     </div>
                 </div>
                 <div class="card">
@@ -184,34 +184,32 @@
                                     </tr>
                                 </thead>
                                 <tbody id="barangTableBody">
-                                    @if(old('no_item'))
-                                        @foreach(old('no_item') as $index => $no_item)
-                                            <tr class="barang-row">
-                                                <td style="display: none;"><input style="width: 150px;" type="text" name="no_item[]" value="{{ $no_item }}" class="form-control form-control-sm" readonly></td>
-                                                <td><input style="width: 150px;" type="text" name="nama_item[]" value="{{ old('nama_item')[$index] ?? '' }}" class="form-control form-control-sm"></td>
-                                                <td><input style="width: 150px;" type="text" name="satuan[]" value="{{ old('satuan')[$index] ?? '' }}" class="form-control form-control-sm"></td>
-                                                <td><input style="width: 150px;" type="text" name="rap_qty[]" value="{{ old('rap_qty')[$index] ?? '' }}" class="form-control form-control-sm @error("rap_qty.$index") is-invalid @enderror">
-                                                    @error("rap_qty.$index")
-                                                        <p class="Invalid-feedback ">{{ $message }}</p>
-                                                    @enderror
-                                                </td>
-                                                <td><input style="width: 150px;" type="text" name="persen_naik[]" value="{{ old('persen_naik')[$index] ?? '' }}" class="form-control form-control-sm"></td>
-                                                <td><input style="width: 150px;" type="text" name="rab_qty[]" value="{{ old('rab_qty')[$index] ?? '' }}" class="form-control form-control-sm"></td>
-                                                <td><input style="width: 150px;" type="text" name="harga_item[]" value="{{ old('harga_item')[$index] ?? '' }}" class="form-control form-control-sm"></td>
-                                                <td>
-                                                    <small><strong>Total RAP</strong></small>
-                                                    <input style="width: 150px;" type="text" name="total_rap_item[]" value="{{ old('total_rap_item')[$index] ?? '' }}" readonly class="form-control form-control-sm">
-                                                    <small><strong>Total RAB</strong></small>
-                                                    <input style="width: 150px;" type="text" name="total_rab_item[]" value="{{ old('total_rab_item')[$index] ?? '' }}" readonly class="form-control form-control-sm">
-                                                </td>
-                                                <td>
-                                                    <button style="width: 150px;" type="button" class="btn btn-primary buttonedit2 mr-2 remove-row">
-                                                        <strong><i class="fas fa-trash-alt mr-3"></i>Hapus</strong>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
+                                    @foreach ($updateRabRap->detail as $index => $detail)
+                                        <tr class="barang-row">
+                                            <td style="display: none;"><input style="width: 150px;" type="text" name="no_item[]" value="{{ $detail->no_item }}" class="form-control form-control-sm" readonly></td>
+                                            <td><input style="width: 150px;" type="text" name="nama_item[]" value="{{ $detail->nama_item }}" class="form-control form-control-sm"></td>
+                                            <td><input style="width: 150px;" type="text" name="satuan[]" value="{{ $detail->satuan }}" class="form-control form-control-sm"></td>
+                                            <td><input style="width: 150px;" type="text" name="rap_qty[]" value="{{ $detail->rap_qty }}" class="form-control form-control-sm @error("rap_qty.$index") is-invalid @enderror">
+                                                @error("rap_qty.$index")
+                                                    <p class="Invalid-feedback ">{{ $message }}</p>
+                                                @enderror
+                                            </td>
+                                            <td><input style="width: 150px;" type="text" name="persen_naik[]" value="{{ $detail->persen_naik }}" class="form-control form-control-sm"></td>
+                                            <td><input style="width: 150px;" type="text" name="rab_qty[]" value="{{ $detail->rab_qty }}" class="form-control form-control-sm"></td>
+                                            <td><input style="width: 150px;" type="text" name="harga_item[]" value="{{ $detail->harga_item }}" class="form-control form-control-sm"></td>
+                                            <td>
+                                                <small><strong>Total RAP</strong></small>
+                                                <input style="width: 150px;" type="text" name="total_rap_item[]" value="{{ $detail->total_rap_item }}" readonly class="form-control form-control-sm">
+                                                <small><strong>Total RAB</strong></small>
+                                                <input style="width: 150px;" type="text" name="total_rab_item[]" value="{{ $detail->total_rab_item }}" readonly class="form-control form-control-sm">
+                                            </td>
+                                            <td>
+                                                <button style="width: 150px;" type="button" class="btn btn-primary buttonedit2 mr-2 remove-row">
+                                                    <strong><i class="fas fa-trash-alt mr-3"></i>Hapus</strong>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -330,16 +328,13 @@
         });
 
         $(document).ready(function () {
-            // ===== Helper =====
             function parseNum(v) {
                 if (v == null) return 0;
-                // buang titik pemisah ribuan, spasi, dan koma → titik
                 v = (''+v).replace(/\./g,'').replace(/\s+/g,'').replace(',', '.');
                 let n = parseFloat(v);
                 return isNaN(n) ? 0 : n;
             }
             function formatIDR(n) {
-                // tampilkan tanpa desimal, pakai ribuan
                 n = Math.round(n);
                 return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
@@ -347,7 +342,6 @@
             function recalcRow($row) {
                 const rapQty   = parseNum($row.find('input[name="rap_qty[]"]').val());
                 let persen     = $row.find('input[name="persen_naik[]"]').val();
-                // jika kosong, pakai default header
                 if (persen === '' || persen === null) {
                     persen = $('#persen_kenaikan_qty').val();
                 }
@@ -355,12 +349,10 @@
 
                 const harga    = parseNum($row.find('input[name="harga_item[]"]').val());
 
-                // Opsi A
                 const qtyRAB = rapQty * (1 + (p/100));
                 const totalRAP = rapQty * harga;
                 const totalRAB = qtyRAB * harga;
 
-                // set nilai ke input (rab_qty readonly)
                 $row.find('input[name="rab_qty[]"]').val(qtyRAB % 1 === 0 ? qtyRAB : qtyRAB.toFixed(2));
                 $row.find('input[name="total_rap_item[]"]').val(formatIDR(totalRAP));
                 $row.find('input[name="total_rab_item[]"]').val(formatIDR(totalRAB));
@@ -376,49 +368,39 @@
                 $('#total_rab').val(formatIDR(sumRAB));
             }
 
-            // ===== Trigger hitung ulang saat input berubah =====
             $(document).on('input', 'input[name="rap_qty[]"], input[name="persen_naik[]"], input[name="harga_item[]"]', function(){
                 const $row = $(this).closest('tr.barang-row');
                 recalcRow($row);
                 recalcHeaderTotals();
             });
 
-            // Jika default persen header berubah → terapkan ke item yang kolom persennya masih kosong
             $('#persen_kenaikan_qty').on('input', function(){
                 $('#barangTableBody tr.barang-row').each(function(){
                     const $p = $(this).find('input[name="persen_naik[]"]');
                     if ($p.val() === '' || $p.val() === null) {
-                        // biarkan kosong (tetap ambil dari header saat hitung), cukup re-hitungs aja
                     }
                     recalcRow($(this));
                 });
                 recalcHeaderTotals();
             });
 
-            // Saat tambah barang dari modal → isi default persen & hitung otomatis
             $('#tambahBarangTerpilih').off('click.calc').on('click.calc', function(){
-                // jalankan handler bawaan kamu dulu (yang append row)
                 setTimeout(function(){
-                    // untuk setiap row baru, auto set & hitung
                     $('#barangTableBody tr.barang-row').each(function(){
                         const $row = $(this);
                         const rap = $row.find('input[name="rap_qty[]"]').val();
-                        // kalau baru ditambahkan biasanya rap_qty kosong—biarkan user isi
-                        // tapi begitu ada nilai, langsung hitung (ditangani event 'input')
                         recalcRow($row);
                     });
                     recalcHeaderTotals();
                 }, 0);
             });
 
-            // Saat hapus baris → update total header
             $(document).on('click', '.remove-row', function () {
                 const $tr = $(this).closest('tr.barang-row');
                 $tr.remove();
                 recalcHeaderTotals();
             });
 
-            // Initial recalc kalau ada old() / prefilled
             $('#barangTableBody tr.barang-row').each(function(){
                 recalcRow($(this));
             });

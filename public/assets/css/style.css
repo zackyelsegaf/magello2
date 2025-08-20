@@ -6969,6 +6969,8 @@ input:checked+.slider:before {
 #TipeAktivaTetapList td,
 #BarangPerGudangList th,
 #BarangPerGudangList td,
+#RapRabList th,
+#RapRabList td,
 #KategoriBarangList th,
 #KategoriBarangList td {
     padding: 4px 8px !important;

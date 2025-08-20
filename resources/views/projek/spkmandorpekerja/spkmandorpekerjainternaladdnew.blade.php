@@ -85,7 +85,7 @@
 
                     <div class="col-md-4">
                         <label for="tanggal_mulai" class="form-label fw-bold">Tanggal Mulai</label>
-                        <input type="date" id="tanggal_mulai" name="tanggal_mulai" class="form-control"
+                        <input type="text" id="tanggal_mulai" name="tanggal_mulai" class="form-control datetimepicker"
                             value="{{ old('tanggal_mulai') }}">
                     </div>
 
@@ -97,7 +97,7 @@
 
                     <div class="col-md-4">
                         <label for="tanggal_spk" class="form-label fw-bold">Tanggal SPK</label>
-                        <input type="date" id="tanggal_spk" name="tanggal_spk" class="form-control"
+                        <input type="text" id="tanggal_spk" name="tanggal_spk" class="form-control datetimepicker"
                             value="{{ old('tanggal_spk') }}">
                     </div>
 
@@ -105,6 +105,11 @@
                         <label for="siklus_pembayaran" class="form-label fw-bold">Siklus Pembayaran</label>
                         <select class="form-control @error('siklus_pembayaran') is-invalid @enderror" name="siklus_pembayaran" id="siklus_pembayaran">
                             <option value="">-- Siklus Pembayaran --</option>
+                            <option value="Harian" {{ old('siklus_pembayaran') == 'Harian' ? 'selected' : '' }}>Harian</option>
+                            <option value="Mingguan" {{ old('siklus_pembayaran') == 'Mingguan' ? 'selected' : '' }}>Mingguan</option>
+                            <option value="2 Mingguan" {{ old('siklus_pembayaran') == '2 Mingguan' ? 'selected' : '' }}>2 Mingguan</option>
+                            <option value="3 Mingguan" {{ old('siklus_pembayaran') == '3 Mingguan' ? 'selected' : '' }}>3 Mingguan</option>
+                            <option value="Bulanan" {{ old('siklus_pembayaran') == 'Bulanan' ? 'selected' : '' }}>Bulanan</option>
                         </select>
                     </div>
 
@@ -153,8 +158,7 @@
                                                 <!-- Kapling -->
                                                 <div class="form-group mb-1">
                                                     <label for="kapling" class="form-label fw-bold">Kapling</label>
-                                                    <select name="kapling" id="kapling"
-                                                        class="form-control form-control-sm">
+                                                    <select name="kapling" id="kapling" class="form-control form-control-sm">
                                                         <option value="">-- Pilih Kapling --</option>
                                                     </select>
                                                 </div>
@@ -162,22 +166,19 @@
                                                 <!-- Pekerjaan -->
                                                 <div class="form-group mb-1">
                                                     <label for="pekerjaan" class="form-label fw-bold">Pekerjaan</label>
-                                                    <input type="text" name="pekerjaan" id="pekerjaan"
-                                                        class="form-control form-control-sm" placeholder="Pekerjaan">
+                                                    <input type="text" name="pekerjaan" id="pekerjaan" class="form-control form-control-sm" placeholder="Pekerjaan">
                                                 </div>
 
                                                 <!-- Upah -->
                                                 <div class="form-group mb-1">
                                                     <label for="upah" class="form-label fw-bold">Upah</label>
-                                                    <input type="number" name="upah" id="upah"
-                                                        class="form-control form-control-sm" placeholder="Upah">
+                                                    <input type="number" name="upah" id="upah" class="form-control form-control-sm" placeholder="Upah">
                                                 </div>
 
                                                 <!-- Retensi -->
                                                 <div class="form-group mb-1">
                                                     <label for="retensi" class="form-label fw-bold">Retensi (%)</label>
-                                                    <input type="number" name="retensi" id="retensi"
-                                                        class="form-control form-control-sm" placeholder="Retensi (%)">
+                                                    <input type="number" name="retensi" id="retensi" class="form-control form-control-sm" placeholder="Retensi (%)">
                                                 </div>
 
                                             </div>
@@ -213,6 +214,20 @@
                                                 <strong><i class="fas fa-cube mr-2 ml-1"></i>Tambah</strong>
                                             </button>
                                         </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="text-center">
+                                                    <p class="font-weight-bold mb-0 h5">LIST FEE</p>
+                                                </div>
+                                            </div>
+                                            {{-- <div class="col-md-12 mr-1">
+                                                <div class="text-center">
+                                                    <p class="font-weight-light">Silahkan masukkan poin - poin RAP & RAB</p>
+                                                </div>
+                                            </div> --}}
+                                        </div>
+
                                         <div class="table-responsive">
                                             <table
                                                 class="table table-striped table-bordered table-hover table-center mb-0">
@@ -234,7 +249,7 @@
                             <div id="dokumen" class="tab-pane fade">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div id="editor-container" style="height: 200px;"></div>
+                                        <div id="editor" style="height: 200px;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -257,27 +272,16 @@
     </div>
 @section('script')
     <!-- Script Quill -->
-    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
     <script>
-        var quill = new Quill('#editor-container', {
-            theme: 'snow', // atau 'bubble'
-            placeholder: 'Tulis sesuatu...',
-            modules: {
-                toolbar: [
-                    [{
-                        header: [1, 2, false]
-                    }],
-                    ['bold', 'italic', 'underline'],
-                    ['link', 'blockquote', 'code-block', 'image'],
-                    [{
-                        list: 'ordered'
-                    }, {
-                        list: 'bullet'
-                    }]
-                ]
-            }
-        });
+    ClassicEditor.create(document.querySelector('#editor'), {
+        toolbar: [
+            'heading','|','bold','italic','underline','link',
+            'bulletedList','numberedList','|',
+            'blockQuote','insertTable','imageUpload','mediaEmbed','|',
+            'undo','redo','codeBlock'
+        ]
+    }).catch(console.error);
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

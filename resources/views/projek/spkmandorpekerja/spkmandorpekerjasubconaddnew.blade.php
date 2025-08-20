@@ -85,7 +85,7 @@
 
                     <div class="col-md-4">
                         <label for="tanggal_mulai" class="form-label fw-bold">Tanggal Mulai</label>
-                        <input type="date" id="tanggal_mulai" name="tanggal_mulai" class="form-control"
+                        <input type="text" id="tanggal_mulai" name="tanggal_mulai" class="form-control datetimepicker"
                             value="{{ old('tanggal_mulai') }}">
                     </div>
 
@@ -97,7 +97,7 @@
 
                     <div class="col-md-4">
                         <label for="tanggal_spk" class="form-label fw-bold">Tanggal SPK</label>
-                        <input type="date" id="tanggal_spk" name="tanggal_spk" class="form-control"
+                        <input type="text" id="tanggal_spk" name="tanggal_spk" class="form-control datetimepicker"
                             value="{{ old('tanggal_spk') }}">
                     </div>
 
@@ -139,10 +139,12 @@
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-body">
-                        <label for="tipe_pembayaran_subcon" class="form-label fw-bold">Syarat & Ketentuan</label>
-                        <div id="editor-container" style="height: 200px;"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <label for="tipe_pembayaran_subcon" class="font-weight-bold mb-3 h5">Syarat & Ketentuan</label>
+                            <div id="editor-container" style="height: 200px;"></div>
+                        </div>
                     </div>
                 </div>
 

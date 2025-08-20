@@ -23,13 +23,13 @@
                     </div>
                     <div class="col-md-4">
                         <label for="spk" class="form-label fw-bold">SPK</label>
-                        <select class="form-control @error('spk') is-invalid @enderror" name="spk" id="spk">
+                        <select class="tomselect @error('spk') is-invalid @enderror" name="spk" id="spk">
                             <option value="">-- Pilih SPK --</option>
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="perumahan_cluster" class="form-label fw-bold">Perumahan/Cluster</label>
-                        <select class="form-control @error('perumahan_cluster') is-invalid @enderror"
+                        <select class="tomselect @error('perumahan_cluster') is-invalid @enderror"
                             name="perumahan_cluster" id="perumahan_cluster">
                             <option value="">-- Pilih Perumahan/Cluster --</option>
                         </select>
@@ -37,13 +37,13 @@
 
                     <div class="col-md-4">
                         <label for="kavling" class="form-label fw-bold">Kavling</label>
-                        <select class="form-control @error('kavling') is-invalid @enderror" name="kavling" id="kavling">
+                        <select class="tomselect @error('kavling') is-invalid @enderror" name="kavling" id="kavling">
                             <option value="">-- Pilih Kavling --</option>
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="perumahan_cluster" class="form-label fw-bold">Tanggal</label>
-                        <input type="date" id="perumahan_cluster" name="perumahan_cluster" class="form-control"
+                        <input type="text" id="perumahan_cluster" name="perumahan_cluster" class="form-control datetimepicker"
                             value="{{ old('perumahan_cluster') }}" placeholder="Perumahan Cluster">
                     </div>
                     <div class="col-12">
@@ -79,7 +79,7 @@
                                                 <div class="form-group mb-1">
                                                     <label for="item" class="form-label fw-bold">Item</label>
                                                     <select name="item" id="item"
-                                                        class="form-control form-control-sm">
+                                                        class="tomselect">
                                                         <option value="">-- Pilih Item --</option>
                                                     </select>
                                                 </div>
@@ -104,7 +104,7 @@
                                                 <div class="form-group mb-1">
                                                     <label for="satuan" class="form-label fw-bold">Satuan</label>
                                                     <select name="satuan" id="satuan"
-                                                        class="form-control form-control-sm">
+                                                        class="tomselect">
                                                         <option value="">-- Pilih Satuan --</option>
                                                         <option value="Unit">test</option>
                                                     </select>
@@ -122,6 +122,19 @@
                                         <button type="button" class="btn btn-primary buttonedit" id="tambahTerpilih"><i
                                                 class="fas fa-paper-plane mr-2"></i> Tambah ke Form</button>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="text-center">
+                                    <p class="font-weight-bold mb-0 h6">Item Pengajuan Bahan Bangunan</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mr-3">
+                                <div class="text-center">
+                                    <p class="font-weight-light">Silahkan masukkan poin - poin Pengajuan Bahan Bangunan</p>
                                 </div>
                             </div>
                         </div>
@@ -161,6 +174,8 @@
         </div>
     </div>
 @section('script')
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const tambahBtn = document.getElementById('tambahTerpilih');
@@ -206,6 +221,19 @@
                 if (e.target.closest('.remove-row')) {
                     e.target.closest('tr').remove();
                 }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('select.tomselect').forEach(function (el) {
+                new TomSelect(el,{
+                    create: true,
+                    sortField: {
+                        field: "text",
+                        direction: "asc"
+                    }
+                });
             });
         });
     </script>

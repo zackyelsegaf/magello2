@@ -18,58 +18,66 @@
 
                     <div class="col-md-4">
                         <label for="nama_tanah" class="form-label fw-bold">Nama Tanah</label>
-                        <input type="text" id="nama_tanah" name="nama_tanah" class="form-control"
+                        <input type="text" id="nama_tanah" name="nama_tanah" class="form-control form-control-sm"
                         value="{{ old('nama_tanah') }}" placeholder="Nama Tanah">
                     </div>
 
                     <div class="col-md-4">
                         <label for="klaster_proyek" class="form-label fw-bold">Untuk Klaster Proyek</label>
-                        <select class="form-control @error('klaster_proyek') is-invalid @enderror" name="klaster_proyek" id="klaster_proyek">
-                            <option value="">-- Pilih Klaster Proyek --</option>
+                        <select class="tomselect @error('klaster_proyek') is-invalid @enderror" name="klaster_proyek" id="klaster_proyek" data-placeholder="Pilih klaster...">
+                            <option {{ old('klaster_proyek') ? '' : 'selected' }} disabled></option>
+                            @foreach ($cluster as $items )
+                            <option value="{{ $items->nama_cluster }}">{{ $items->nama_cluster }}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="col-md-4">
                         <label for="tanggal_perolehan" class="form-label fw-bold">Tanggal Perolehan</label>
-                        <input type="date" id="tanggal_perolehan" name="tanggal_perolehan" class="form-control" value="{{ old('tanggal_perolehan') }}"
+                        <input type="text" id="tanggal_perolehan" name="tanggal_perolehan" class="form-control datetimepicker" value="{{ old('tanggal_perolehan') }}"
                             placeholder="Tanggal Perolehan">
                     </div>
 
                     <div class="col-md-4">
                         <label for="tuan_tanah" class="form-label fw-bold">Tuan Tanah</label>
-                        <select class="form-control @error('tuan_tanah') is-invalid @enderror" name="tuan_tanah" id="klaster_proyek">
-                            <option value="">-- Pilih Tuan Tanah --</option>
+                        <select class="tomselect @error('tuan_tanah') is-invalid @enderror" name="tuan_tanah" id="tuan_tanah" data-placeholder="Pilih supplier...">
+                            <option {{ old('tuan_tanah') ? '' : 'selected' }} disabled></option>
+                            @foreach ($pemasok as $items )
+                            <option value="{{ $items->nama }}">{{ $items->nama }}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="col-md-4">
                         <label for="nomor_hp_tuan_tanah" class="form-label fw-bold">Nomor Hp Tuan Tanah</label>
-                        <input type="number" id="nomor_hp_tuan_tanah" name="nomor_hp_tuan_tanah" class="form-control"
+                        <input type="number" id="nomor_hp_tuan_tanah" name="nomor_hp_tuan_tanah" class="form-control form-control-sm"
                             value="{{ old('nomor_hp_tuan_tanah') }}" placeholder="Nomor Hp Tuan Tanah">
                     </div>
 
                     <div class="col-md-4">
                         <label for="luas_area" class="form-label fw-bold">Luas Area (m²)</label>
-                        <input type="text" id="luas_area" name="luas_area" class="form-control"
+                        <input type="text" id="luas_area" name="luas_area" class="form-control form-control-sm"
                             value="{{ old('luas_area') }}" placeholder="Luas Area (m²)">
                     </div>
 
                     <div class="col-md-4">
                         <label for="harga" class="form-label fw-bold">Harga per (m²)</label>
-                        <input type="text" id="harga" name="harga" class="form-control" value="{{ old('harga') }}"
+                        <input type="text" id="harga" name="harga" class="form-control form-control-sm" value="{{ old('harga') }}"
                             placeholder="Harga per (m²)">
                     </div>
 
                     <div class="col-md-4">
                         <label for="dicatat_sebagai" class="form-label fw-bold">Dicatat Sebagai</label>
-                        <select class="form-control @error('dicatat_sebagai') is-invalid @enderror" name="dicatat_sebagai" id="klaster_proyek">
+                        <select class="tomselect @error('dicatat_sebagai') is-invalid @enderror" name="dicatat_sebagai" id="dicatat_sebagai" data-placeholder="Pilih...">
                             <option value="">-- Pilih Dicatat Sebagai --</option>
+                            <option value="Sebelumnya Sudah Dibeli (Sudah dicatat Persediaan Tanah)" {{ old('dicatat_sebagai') == 'Sebelumnya Sudah Dibeli (Sudah dicatat Persediaan Tanah)' ? 'selected' : '' }}>Sebelumnya Sudah Dibeli (Sudah dicatat Persediaan Tanah)</option>
+                            <option value="Pembelian Lahan Baru (Belum dicatat pada Persediaan Tanah)" {{ old('dicatat_sebagai') == 'Pembelian Lahan Baru (Belum dicatat pada Persediaan Tanah)' ? 'selected' : '' }}>Pembelian Lahan Baru (Belum dicatat pada Persediaan Tanah)</option>
                         </select>
                     </div>
 
                     <div class="col-12">
                         <label for="catatan" class="form-label">Catatan</label>
-                        <textarea id="catatan" class="form-control" rows="2"></textarea>
+                        <textarea id="catatan" class="form-control form-control-sm" rows="2"></textarea>
                     </div>
                 </div>
 
@@ -86,4 +94,30 @@
             </form>
         </div>
     </div>
+@section('script')
+    {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('select.tomselect').forEach(function (el) {
+                new TomSelect(el,{
+                    create: true,
+                    sortField: {
+                        field: "text",
+                        direction: "asc"
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(function() {
+            $('#datetimepicker3').datetimepicker({
+                format: 'LT'
+            });
+        });
+    </script>
+@endsection
 @endsection

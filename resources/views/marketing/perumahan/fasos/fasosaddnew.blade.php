@@ -17,9 +17,15 @@
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label for="kluster" class="form-label fw-bold">Kluster</label>
-                        <select class="form-control @error('kluster') is-invalid @enderror" name="kluster" id="kluster">
-                            <option value="">-- Pilih Kluster --</option>
+                        <select class="tomselect @error('kluster') is-invalid @enderror" name="kluster" id="kluster" data-placeholder="Pilih cluster...">
+                            <option {{ old('kluster') ? '' : 'selected' }} disabled></option>
+                            @foreach ($cluster as $items )
+                            <option value="{{ $items->nama_cluster }}">{{ $items->nama_cluster }}</option>
+                            @endforeach
                         </select>
+                        @error('kluster')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="col-md-4">
@@ -60,9 +66,15 @@
 
                     <div class="col-md-4">
                         <label for="rap_rab" class="form-label fw-bold">RAP & RAB</label>
-                        <select class="form-control @error('rap_rab') is-invalid @enderror" name="rap_rab" id="rap_rab">
-                            <option value="">-- Pilih RAP & RAB --</option>
+                        <select class="tomselect @error('rap_rab') is-invalid @enderror" name="rap_rab" id="rap_rab" data-placeholder="Pilih rap & rab...">
+                            <option {{ old('rap_rab') ? '' : 'selected' }} disabled></option>
+                            @foreach ($rap_rab as $items )
+                            <option value="{{ $items->judul_rap }}">{{ $items->judul_rap }}</option>
+                            @endforeach
                         </select>
+                        @error('rap_rab')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="col-md-4">
@@ -89,4 +101,21 @@
             </form>
         </div>
     </div>
+@push('scripts')
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('select.tomselect').forEach(function (el) {
+                new TomSelect(el,{
+                    create: true,
+                    sortField: {
+                        field: "text",
+                        direction: "asc"
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
 @endsection

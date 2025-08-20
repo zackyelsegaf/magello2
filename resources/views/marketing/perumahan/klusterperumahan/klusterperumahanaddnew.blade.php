@@ -41,7 +41,7 @@
                 </div>
                 <div class="col-md-4 mb-2" wire:ignore>
                     <label>Provinsi</label>
-                    <select class="form-control form-control-sm @error('provinsi') is-invalid @enderror" id="provinsi" wire:model="provinsi">
+                    <select class="tomselect @error('provinsi') is-invalid @enderror" id="provinsi" wire:model="provinsi">
                         <option selected> --Pilih Provinsi-- </option>
                         @foreach ($data_provinsi as $items )
                             <option value="{{ $items->nama }}">{{ $items->nama }}</option>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="col-md-4 mb-2" wire:ignore>
                     <label>Kota</label>
-                    <select class="form-control form-control-sm @error('kota') is-invalid @enderror" id="kota" wire:model="kota">
+                    <select class="tomselect @error('kota') is-invalid @enderror" id="kota" wire:model="kota">
                         <option selected> --Pilih Kota-- </option>
                         @foreach ($data_kota as $items )
                             <option value="{{ $items->nama }}">{{ $items->nama }}</option>
@@ -103,20 +103,18 @@
     </div>
 </div>
 @push('scripts')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#provinsi').select2();
-            $('#kota').select2();
-
-            $('#provinsi').on('change', function(e){
-                var data = $(this).select2('val')
-                @this.set('provinsi', data)
-            });
-            $('#kota').on('change', function(e){
-                var data = $(this).select2('val')
-                @this.set('kota', data)
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('select.tomselect').forEach(function (el) {
+                new TomSelect(el,{
+                    create: true,
+                    sortField: {
+                        field: "text",
+                        direction: "asc"
+                    }
+                });
             });
         });
     </script>

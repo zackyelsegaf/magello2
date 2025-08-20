@@ -17,13 +17,13 @@
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label for="tanggal" class="form-label fw-bold">Tanggal</label>
-                        <input type="date" id="tanggal" name="tanggal" class="form-control"
+                        <input type="text" id="tanggal" name="tanggal" class="form-control datetimepicker"
                             value="{{ old('tanggal') }}" placeholder="Tanggal">
                     </div>
 
                     <div class="col-md-4">
                         <label for="kavling" class="form-label fw-bold">Kavling</label>
-                        <select class="form-control @error('kavling') is-invalid @enderror" name="kavling" id="kavling">
+                        <select class="tomselect @error('kavling') is-invalid @enderror" name="kavling" id="kavling">
                             <option value="">-- Pilih Kavling --</option>
                         </select>
                     </div>
@@ -96,6 +96,20 @@
                                         <strong><i class="fas fa-cube mr-2 ml-1"></i>Tambah</strong>
                                     </button>
                                 </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="text-center">
+                                            <p class="font-weight-bold mb-0 h6">Daftar Pekerjaan</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mr-1">
+                                        <div class="text-center">
+                                            <p class="font-weight-light">Pekerjaan yang dilakukan di lapangan</p>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover table-center mb-0">
                                         <thead class="thead-dark">
@@ -135,7 +149,7 @@
                                                 <label for="pekerjaan" class="form-label fw-bold">Pekerjaan Yang
                                                     Dilaksanakan</label>
                                                 <select name="pekerjaan" id="pekerjaan"
-                                                    class="form-control form-control-sm">
+                                                    class="tomselect">
                                                     <option value="">-- Pilih Pekerjaan Yang Dilaksanakan --</option>
                                                 </select>
                                             </div>
@@ -178,6 +192,20 @@
                     <div id="bahan" class="tab-pane fade">
                         <div class="card">
                             <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="text-center">
+                                            <p class="font-weight-bold mb-0 h6">Bahan Material</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mr-1">
+                                        <div class="text-center">
+                                            <p class="font-weight-light">Bahan yang digunakan dalam mengerjakan pekerjaan</p>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover table-center mb-0">
                                         <thead class="thead-dark">
@@ -207,6 +235,20 @@
                                         <strong><i class="fas fa-cube mr-2 ml-1"></i>Tambah</strong>
                                     </button>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="text-center">
+                                            <p class="font-weight-bold mb-0 h6">Alat Material</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mr-1">
+                                        <div class="text-center">
+                                            <p class="font-weight-light">Alat yang digunakan dalam mengerjakan pekerjaan</p>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover table-center mb-0">
                                         <thead class="thead-dark">
@@ -237,7 +279,7 @@
                                 <div class="modal-body">
                                     <div class="form-group mb-2">
                                         <label for="itemAlat" class="fw-bold">Item</label>
-                                        <select id="itemAlat" class="form-control form-control-sm">
+                                        <select id="itemAlat" class="tomselect">
                                             <option value="">Pilih</option>
                                             <option value="Bor">Bor</option>
                                             <option value="Gerinda">Gerinda</option>
@@ -274,6 +316,20 @@
                                         <strong><i class="fas fa-cube mr-2 ml-1"></i>Tambah</strong>
                                     </button>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="text-center">
+                                            <p class="font-weight-bold mb-0 h6">Tenaga Kerja</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mr-1">
+                                        <div class="text-center">
+                                            <p class="font-weight-light">Tenaga Kerja yang digunakan dalam mengerjakan pekerjaan</p>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover table-center mb-0">
                                         <thead class="thead-dark">
@@ -304,7 +360,7 @@
                                 <div class="modal-body">
                                     <div class="form-group mb-2">
                                         <label for="itemTenaga" class="fw-bold">Item</label>
-                                        <select id="itemTenaga" class="form-control form-control-sm">
+                                        <select id="itemTenaga" class="tomselect">
                                             <option value="">Pilih</option>
                                             <option value="Tukang Batu">Tukang Batu</option>
                                             <option value="Tukang Kayu">Tukang Kayu</option>
@@ -330,10 +386,7 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-
-
                 <div class="mb-4 row align-items-center">
                     <div class="col">
                         <button type="submit" class="btn btn-primary">
@@ -348,6 +401,8 @@
         </div>
     </div>
 @section('script')
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     <script>
         // Daftar Pekerjaan
         let pekerjaanIndex = 1;
@@ -450,6 +505,19 @@
             `;
 
             fieldContainer.appendChild(newField);
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('select.tomselect').forEach(function (el) {
+                new TomSelect(el,{
+                    create: true,
+                    sortField: {
+                        field: "text",
+                        direction: "asc"
+                    }
+                });
+            });
         });
     </script>
 @endsection

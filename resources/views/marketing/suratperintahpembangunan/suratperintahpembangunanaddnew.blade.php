@@ -35,7 +35,7 @@
 
                 <div class="mb-3">
                     <label for="tanggal" class="form-label fw-bold">Tanggal</label>
-                    <input type="date" id="tanggal" name="tanggal" class="form-control" value="{{ old('tanggal') }}">
+                    <input type="text" id="tanggal" name="tanggal" class="form-control datetimepicker" value="{{ old('tanggal') }}">
                 </div>
 
                 <div class="mb-3">

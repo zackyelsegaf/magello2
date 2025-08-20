@@ -13,7 +13,7 @@
             <div class="row mb-3">
                 <div class="col-md-4" wire:ignore>
                     <label for="klaster" class="form-label fw-bold">Nama Klaster</label>
-                    <select class="form-control @error('cluster') is-invalid @enderror" wire:model="cluster" id="klaster">
+                    <select class="tomselect @error('cluster') is-invalid @enderror" wire:model="cluster" id="klaster">
                         <option value="">--Nama Klaster--</option>
                         @foreach ($data_cluster as $items )
                             <option value="{{ $items->nama_cluster }}">{{ $items->nama_cluster }}</option>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-md-4" wire:ignore>
                     <label for="ditugaskan_ke" class="form-label fw-bold">Ditugaskan Ke</label>
-                    <select class="form-control @error('ditugaskan_ke') is-invalid @enderror" wire:model="ditugaskan_ke" id="ditugaskan_ke">
+                    <select class="tomselect @error('ditugaskan_ke') is-invalid @enderror" wire:model="ditugaskan_ke" id="ditugaskan_ke">
                         <option value="">--Ditugaskan Ke--</option>
                         @foreach ($data_user as $items )
                             <option value="{{ $items->name }}">{{ $items->name }}</option>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="col-md-4" wire:ignore>
                     <label for="sumber_prospek" class="form-label fw-bold">Sumber Prospek</label>
-                    <select class="form-control @error('sumber_prospek') is-invalid @enderror" wire:model="sumber_prospek" id="sumber_prospek">
+                    <select class="tomselect @error('sumber_prospek') is-invalid @enderror" wire:model="sumber_prospek" id="sumber_prospek">
                         <option value="">--Sumber Prospek--</option>
                         <option value="Google Organik">Google Organik</option>
                         <option value="Instagram Organik">Instagram Organik</option>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="col-md-4" wire:ignore>
                     <label for="warm_meter" class="form-label fw-bold">Warm Meter</label>
-                    <select class="form-control @error('warm_meter') is-invalid @enderror" wire:model="warm_meter" id="warm_meter">
+                    <select class="tomselect @error('warm_meter') is-invalid @enderror" wire:model="warm_meter" id="warm_meter">
                         <option value="">--Warm Meter--</option>
                         <option value="Cold">Cold</option>
                         <option value="Warm">Warm</option>
@@ -67,7 +67,7 @@
                 </div>
                 <div class="col-md-4" wire:ignore>
                     <label class="form-label">Tags</label>
-                    <select class="form-control" wire:model="tags" id="tagInput" multiple>
+                    <select class="" wire:model="tags" id="tagInput" multiple>
                         @foreach ($tags as $item)
                             <option value="{{ $item }}">{{ $item }}</option>
                         @endforeach
@@ -92,39 +92,30 @@
     </div>
 </div>
 @push('scripts')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#tagInput').select2({
-                placeholder: 'Ketik lalu tekan Enter',
-                multiple: true,
-                tags: true,
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('select.tomselect').forEach(function (el) {
+                new TomSelect(el,{
+                    create: true,
+                    sortField: {
+                        field: "text",
+                        direction: "asc"
+                    }
+                });
             });
-            $('#klaster').select2();
-            $('#ditugaskan_ke').select2();
-            $('#sumber_prospek').select2();
-            $('#warm_meter').select2();
-
-            $('#tagInput').on('change', function(e){
-                var data = $(this).select2('val')
-                @this.set('tags', data)
-            });
-            $('#klaster').on('change', function(e){
-                var data = $(this).select2('val')
-                @this.set('cluster', data)
-            });
-            $('#ditugaskan_ke').on('change', function(e){
-                var data = $(this).select2('val')
-                @this.set('ditugaskan_ke', data)
-            });
-            $('#sumber_prospek').on('change', function(e){
-                var data = $(this).select2('val')
-                @this.set('sumber_prospek', data)
-            });
-            $('#warm_meter').on('change', function(e){
-                var data = $(this).select2('val')
-                @this.set('warm_meter', data)
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tagInput = document.getElementById('tagInput');
+            new TomSelect(tagInput, {
+                create: true,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                }
             });
         });
     </script>

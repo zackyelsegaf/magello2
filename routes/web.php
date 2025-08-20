@@ -739,7 +739,7 @@ Route::controller(KavlingController::class)->group(function () {
     Route::get('kavling/add/new', 'KavlingAddNew')->middleware('auth')->name('kavling/add/new');
     Route::post('form/kavling/save', 'saveRecordKavling')->middleware('auth')->name('form/kavling/save');
     Route::get('kavling/edit/{id}', 'edit')->middleware('auth')->name('kavling/edit');
-    Route::post('kavling/update/{id}', 'update')->middleware('auth')->name('kavling/update');
+    Route::post('kavling/update/{id}', 'updateKavling')->middleware('auth')->name('kavling/update');
     Route::post('kavling/delete', 'delete')->middleware('auth')->name('kavling/delete');
     Route::get('get-kavling-data', 'getKavling')->middleware('auth')->name('get/kavling/data');
 });
@@ -834,12 +834,14 @@ Route::controller(SpkMandorPekerjaController::class)->group(function () {
 Route::controller(RabrapController::class)->group(function () {
     Route::get('rabrap/list/page', 'RabrapList')->middleware('auth')->name('rabrap/list/page');
     Route::get('rabrap/add/new', 'RabrapAddNew')->middleware('auth')->name('rabrap/add/new');
-    Route::post('form/rabrap/save', 'saveRecordRabrap')->middleware('auth')->name('form/rabrap/save');
-    Route::get('rabrap/edit/{id}', [RabrapController::class, 'edit'])->name('rabrap/edit');
-    Route::post('rabrap/update/{id}', [RabrapController::class, 'update'])->name('rabrap/update');
-    Route::post('rabrap/delete', [RabrapController::class, 'delete'])->name('rabrap/delete');
+    Route::post('form/rabrap/save', 'simpanRabRap')->middleware('auth')->name('form/rabrap/save');
+    Route::get('/rabrap/edit/{id}', [RabrapController::class, 'edit'])->name('rabrap/edit');
+    Route::post('/rabrap/update/{id}', [RabrapController::class, 'updateRabRap'])->name('rabrap/update');
+    Route::post('/rabrap/delete', [RabrapController::class, 'delete'])->name('rabrap/delete');
     Route::get('get-rabrap-data', [RabrapController::class, 'getRabrap'])->name('get-rabrap-data');
 });
+Route::get('get-raprab2-data', [RabrapController::class, 'RabrapAddNew'])->name('get-raprab2-data');
+
 
 Route::controller(PengajuanBahanBangunanController::class)->group(function () {
     Route::get('pengajuanbahanbangunan/list/page', 'PengajuanBahanBangunanList')->middleware('auth')->name('pengajuanbahanbangunan/list/page');

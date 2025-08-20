@@ -209,8 +209,7 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label fw-bold">Tanggal Booking</label>
-                            <input type="date" class="form-control form-control-sm" name="tanggal_booking"
-                                value="{{ old('tanggal_booking') }}">
+                            <input type="text" class="form-control form-control-sm datetimepicker" name="tanggal_booking" value="{{ old('tanggal_booking') }}">
                         </div>
                     </div>
                 </div>
@@ -218,7 +217,7 @@
                 <div id="link" class="tab-pane fade">
                     <div class="row mb-3 mt-2">
                         <div class="col-md-4">
-                            <label for="link_email" class="form-label fw-bold">email</label>
+                            <label for="link_email" class="form-label fw-bold">Email</label>
                             <input type="text" name="link_email" class="form-control"
                                 value="{{ old('link_email') }}">
                         </div>
