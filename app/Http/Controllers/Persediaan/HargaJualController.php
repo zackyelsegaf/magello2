@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Persediaan;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class HargaJualController extends Controller
 {

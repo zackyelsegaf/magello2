@@ -14,6 +14,4 @@ class StatusPemasok extends Model
     protected $fillable = [
         'nama',
     ];
-
-    
 }

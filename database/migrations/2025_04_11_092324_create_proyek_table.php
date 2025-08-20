@@ -13,23 +13,31 @@ return new class extends Migration
     {
         Schema::create('proyek', function (Blueprint $table) {
             $table->id();
-            $table->string('proyek_id');
+            $table->string('proyek_id')->unique(); // disarankan unik
             $table->string('nama_proyek')->nullable();
             $table->string('nama_kontak')->nullable();
-            $table->string('tanggal_from')->nullable();
-            $table->string('tanggal_to')->nullable();
-            $table->string('persentase_komplet')->nullable();
-            $table->boolean('persentase_komplet_check')->nullable()->default(false);
-            $table->string('deskripsi')->nullable();
-            $table->boolean('dihentikan')->nullable()->default(false);
-            $table->string('total_pendapatan')->nullable();
-            $table->string('total_pendapatan_from')->nullable();
-            $table->string('total_biaya')->nullable();
-            $table->string('total_biaya_from')->nullable();
-            $table->string('total_beban')->nullable();
-            $table->string('total_beban_from')->nullable();
-            $table->string('laba_rugi')->nullable();
-            $table->string('laba_rugi_from')->nullable();
+
+            $table->date('tanggal_from')->nullable();
+            $table->date('tanggal_to')->nullable();
+
+            $table->decimal('persentase_komplet', 5, 2)->default(0); // ex: 85.50
+            $table->boolean('persentase_komplet_check')->default(false);
+
+            $table->text('deskripsi')->nullable();
+            $table->boolean('dihentikan')->default(false);
+
+            $table->decimal('total_pendapatan', 20, 2)->default(0);
+            $table->decimal('total_pendapatan_from', 20, 2)->default(0);
+
+            $table->decimal('total_biaya', 20, 2)->default(0);
+            $table->decimal('total_biaya_from', 20, 2)->default(0);
+
+            $table->decimal('total_beban', 20, 2)->default(0);
+            $table->decimal('total_beban_from', 20, 2)->default(0);
+
+            $table->decimal('laba_rugi', 20, 2)->default(0);
+            $table->decimal('laba_rugi_from', 20, 2)->default(0);
+
             $table->timestamps();
         });
     }

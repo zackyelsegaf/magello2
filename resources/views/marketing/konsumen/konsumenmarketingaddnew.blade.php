@@ -1,25 +1,24 @@
-<div class="page-wrapper">
-    <div class="content container-fluid">
-        <div class="page-header">
-            <div class="row align-items-center">
-                <div class="col">
-                    <h3 class="page-title mt-5">Tambah Konsumen</h3>
+@extends('layouts.master')
+@section('content')
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="page-title mt-5">Tambah Konsumen</h3>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <form wire:submit.prevent='save'>
-            <div class="row mb-3">
-                <div class="col-md-4 mb-2">
-                    <label for="klaster" class="form-label fw-bold">
-                        <strong class="text-danger h3 align-middle">*</strong>&nbsp;Nama Klaster
-                    </label>
-                    <div wire:ignore>
-                        <select class="form-control" wire:model="cluster" id="klaster">
-                            <option value="" selected>--Nama Klaster--</option>
-                            @foreach ($data_cluster as $items )
-                                <option value="{{ $items->nama_cluster }}">{{ $items->nama_cluster }}</option>
-                            @endforeach
+            <form method="POST" action="{{ route('prospek/list/page') }}">
+                @csrf
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="klaster" class="form-label fw-bold">Nama Klaster</label>
+                        <select class="form-control @error('klaster') is-invalid @enderror" name="klaster" id="klaster">
+                            <option value="">--Nama Klaster--</option>
+                            <option value="1">Test</option>
+                            {{-- Isi opsi --}}
                         </select>
                     </div>
                     @foreach ($errors->get('cluster') as $err)
@@ -150,48 +149,42 @@
                 </div>
             </div>
 
-            <!-- Tabs -->
-            <div class="tab-content profile-tab-cont">
-                <div class="profile-menu">
-                    <ul class="nav nav-tabs nav-tabs-solid">
-                        <li class="nav-item">
-                            <a id="tab-data" class="nav-link active" data-toggle="tab" href="#data">Data
-                                Suami/Istri</a>
-                        </li>
-                        <li class="nav-item">
-                            <a id="tab-booking" class="nav-link" data-bs-toggle="tab" href="#booking">Booking</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#link">Link dengan EA7</a>
-                        </li>
-                    </ul>
-                </div>
+                <!-- Tabs -->
+                <div class="tab-content profile-tab-cont">
+                    <div class="profile-menu">
+                        <ul class="nav nav-tabs nav-tabs-solid">
+                            <li class="nav-item">
+                                <a id="tab-data" class="nav-link active" data-toggle="tab" href="#data">Data
+                                    Suami/Istri</a>
+                            </li>
+                            <li class="nav-item">
+                                <a id="tab-booking" class="nav-link" data-bs-toggle="tab" href="#booking">Booking</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#link">Link dengan EA7</a>
+                            </li>
+                        </ul>
+                    </div>
 
-                <div id="data" class="tab-pane fade show active">
-                    <div class="row mb-3 mt-2">
-                        <div class="col-md-4">
-                            <label class="form-label fw-bold">NIK Pasangan</label>
-                            <input type="number" wire:model="nik_pasangan" class="form-control @error('nik_pasangan') is-invalid @enderror">
-                            @foreach ($errors->get('nik_pasangan') as $err)
-                                <div class="invalid-feedback">{{ $err }}</div>
-                            @endforeach
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label fw-bold">Nama Pasangan</label>
-                            <input type="text" wire:model="nama_pasangan" class="form-control @error('nama_pasangan') is-invalid @enderror">
-                            @foreach ($errors->get('nama_pasangan') as $err)
-                                <div class="invalid-feedback">{{ $err }}</div>
-                            @endforeach
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label fw-bold">Nomor HP Pasangan</label>
-                            <input type="number" wire:model="no_hp_pasangan" class="form-control @error('no_hp_pasangan') is-invalid @enderror">
-                            @foreach ($errors->get('no_hp_pasangan') as $err)
-                                <div class="invalid-feedback">{{ $err }}</div>
-                            @endforeach
+                    <div id="data" class="tab-pane fade show active">
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">NIK Pasangan</label>
+                                <input type="number" name="nik_pasangan" class="form-control"
+                                    value="{{ old('nik_pasangan') }}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Nama Pasangan</label>
+                                <input type="text" name="nama_pasangan" class="form-control"
+                                    value="{{ old('nama_pasangan') }}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Nomor HP Pasangan</label>
+                                <input type="number" name="hp_pasangan" class="form-control"
+                                    value="{{ old('hp_pasangan') }}">
+                            </div>
                         </div>
                     </div>
-                </div>
 
                 <div id="booking" class="tab-pane fade">
                     <div class="row mb-3 mt-2">
@@ -250,25 +243,25 @@
             const tabDataLink = document.querySelector('a[href="#data"]');
             const tabBookingLink = document.querySelector('a[href="#booking"]');
 
-            tabBooking.addEventListener('click', function (e) {
-                const klasterValue = klasterSelect.value;
+        tabBooking.addEventListener('click', function (e) {
+            const klasterValue = klasterSelect.value;
 
-                if (!klasterValue) {
-                    e.preventDefault();
+            if (!klasterValue) {
+                e.preventDefault();
 
-                    // Tampilkan alert
-                    Swal.fire({
-                        icon: 'error',
-                        text: 'Silakan pilih Nama Klaster terlebih dahulu!',
-                        confirmButtonColor: '#8c54ff',
-                        timer: 2500,
-                        showConfirmButton: true
-                    });
+                // Tampilkan alert
+                Swal.fire({
+                    icon: 'error',
+                    text: 'Silakan pilih Nama Klaster terlebih dahulu!',
+                    confirmButtonColor: '#8c54ff',
+                    timer: 2500,
+                    showConfirmButton: true
+                });
 
-                    // Nonaktifkan semua tab dan kontennya
-                    document.querySelectorAll('.nav-link, .tab-pane').forEach(el => {
-                        el.classList.remove('active', 'show');
-                    });
+                // Nonaktifkan semua tab dan kontennya
+                document.querySelectorAll('.nav-link, .tab-pane').forEach(el => {
+                    el.classList.remove('active', 'show');
+                });
 
                     // Aktifkan kembali tab #data
                     const tabData = new bootstrap.Tab(tabDataLink);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pemasok;
 use App\Http\Controllers\DependentDropdownController;
+use App\Models\Dokumen;
 use Illuminate\Support\Facades\DB;
 
 class PemasokController extends Controller
@@ -15,209 +16,21 @@ class PemasokController extends Controller
         return view('pemasok.listpemasok', compact('mata_uang'));
     }
 
-    public function pemasokAddNew()
-    {
-        $data = DB::table('status_pemasok')->get();
-        $provinsi = DB::table('provinsi')->orderBy('nama', 'asc')->get();
-        $kota = DB::table('kota')->orderBy('nama', 'asc')->get();
-        $negara = DB::table('negara')->orderBy('nama', 'asc')->get();
-        $mata_uang = DB::table('mata_uang')->orderBy('nama', 'asc')->get();
-        $latest = Pemasok::orderBy('pemasok_id', 'desc')->first();
-        $nextID = $latest ? intval(substr($latest->pemasok_id, 3)) + 1 : 1;
-        $kodeBaru = 'TB-' . sprintf("%04d", $nextID);
-        $pajak = DB::table('pajak')->orderBy('nama', 'asc')->get();
-        $syarat = DB::table('syarat')->orderBy('nama', 'asc')->get();
-        return view('pemasok.pemasokaddnew', compact('data','provinsi','kota','negara','mata_uang','kodeBaru','pajak','syarat'));
-    }
-
     public function delete(Request $request)
     {
         try {
             $ids = $request->ids;
-            Pemasok::whereIn('id', $ids)->delete();
+            foreach ($ids as $id) {
+                $pemasok = Pemasok::find($id);
+                Dokumen::destroy($pemasok->dokumen);
+                $pemasok->delete();
+            }
             sweetalert()->success('Data berhasil dihapus :)');
-            return redirect()->route('pemasok/list/page');
-
+            return redirect()->route('pemasok/list/page');    
+            
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Data gagal dihapus :)');
-            \Log::error($e->getMessage());
-            return redirect()->back();
-        }
-    }
-
-    public function saveRecordPemasok(Request $request){
-
-        $validated = $request->validate([
-            'nama'          => 'required|string|max:255',
-            'status'        => 'required|string|max:255',
-            'kode_pos'      => 'required|string|max:255',
-            'provinsi'      => 'required|string|max:255',
-            'kota'          => 'required|string|max:255',
-            'negara'        => 'required|string|max:255',
-            'alamat_1'      => 'required|string|max:255',
-            'alamat_2'      => 'nullable|string|max:255',
-            'alamatpajak_1' => 'required|string|max:255',
-            'alamatpajak_2' => 'nullable|string|max:255',
-            'kontak'        => 'required|string|max:255',
-            'no_telp'       => 'required|string|max:255',
-            'no_fax'        => 'nullable|string|max:255',
-            'email'         => 'required|string|max:255',
-            'website'       => 'nullable|string|max:255',
-            'memo'          => 'nullable|string|max:255',
-            'fileupload_1'  => 'nullable|string|max:255',
-            'dihentikan'    => 'required|boolean',
-            'pajak_1_check' => 'nullable|boolean',
-            'pajak_2_check' => 'nullable|boolean',
-            'npwp'          => 'nullable|string|max:255',
-            'pajak_1'       => 'nullable|string|max:255',
-            'pajak_2'       => 'nullable|string|max:255',
-            'syarat'        => 'nullable|string|max:255',
-            'mata_uang'     => 'nullable|string|max:255',
-            'nilai_tukar'   => 'nullable|string|max:255',
-            'saldo_awal'    => 'nullable|string|max:255',
-            'tanggal'       => 'nullable|string|max:255',
-            'deskripsi'     => 'nullable|string|max:255',
-            'no_pkp'        => 'nullable|string|max:255',
-            // 'fileupload_2'  => 'file',
-            // 'fileupload_3'  => 'file',
-            // 'fileupload_4'  => 'file',
-            // 'fileupload_5'  => 'file',
-            // 'fileupload_6'  => 'file',
-            // 'fileupload_7'  => 'file',
-        ]);
-
-        //debug
-        // DB::enableQueryLog();
-        // MataUang::create($request->all());
-        // dd(DB::getQueryLog());
-
-        $validated['saldo_awal'] = str_replace(['Rp', '.', ' '], '', $validated['saldo_awal']);
-
-        DB::beginTransaction();
-        try {
-
-            // $photo= $request->fileupload_1;
-            // $file_name = rand() . '.' .$photo->getClientOriginalName();
-            // $photo->move(public_path('/assets/img/'), $file_name);
-
-            $pemasok = new Pemasok($validated);
-            $pemasok->save();
-
-            DB::commit();
-            sweetalert()->success('Create new Pemasok successfully :)');
-            return redirect()->route('pemasok/list/page');
-
-        } catch(\Exception $e) {
-            DB::rollback();
-            sweetalert()->error('Tambah Data Gagal: ' . $e->getMessage());
-            return redirect()->back();
-        }
-    }
-
-    public function edit($id, $pemasok_id)
-    {
-        $data = DB::table('status_pemasok')->get();
-        $provinsi = DB::table('provinsi')->orderBy('nama', 'asc')->get();
-        $kota = DB::table('kota')->orderBy('nama', 'asc')->get();
-        $negara = DB::table('negara')->orderBy('nama', 'asc')->get();
-        $mata_uang = DB::table('mata_uang')->orderBy('nama', 'asc')->get();
-        $pemasokEdit = DB::table('pemasok')->where('pemasok_id',$pemasok_id)->first();
-        $pajak = DB::table('pajak')->orderBy('nama', 'asc')->get();
-        $syarat = DB::table('syarat')->orderBy('nama', 'asc')->get();
-        $Pemasok = Pemasok::findOrFail($id);
-        if (!$Pemasok) {
-            return redirect()->back()->with('error', 'Data tidak ditemukan');
-        }
-        return view('pemasok.pemasokedit', compact('Pemasok','pemasokEdit','data','provinsi','kota','negara','mata_uang','pajak','syarat'));
-    }
-
-    // public function update(Request $request, $pemasok_id)
-    // {
-    //     DB::beginTransaction();
-    //     try {
-    //         $update = [
-    //         'pemasok_id'    => $request->pemasok_id,
-    //         'nama'          => $request->nama,
-    //         'status'        => $request->status,
-    //         'kode_pos'      => $request->kode_pos,
-    //         'provinsi'      => $request->provinsi,
-    //         'kota'          => $request->kota,
-    //         'negara'        => $request->negara,
-    //         'alamat_1'      => $request->alamat_1,
-    //         'alamat_2'      => $request->alamat_2,
-    //         'alamatpajak_1' => $request->alamatpajak_1,
-    //         'alamatpajak_2' => $request->alamatpajak_2,
-    //         'kontak'        => $request->kontak,
-    //         'no_telp'       => $request->no_telp,
-    //         'no_fax'        => $request->no_fax,
-    //         'email'         => $request->email,
-    //         'website'       => $request->website,
-    //         'memo'          => $request->memo,
-    //         'fileupload_1'  => $request->fileupload_1,
-    //         ];
-
-    //         Pemasok::where('pemasok_id',$request->pemasok_id)->update($update);
-
-    //         DB::commit();
-    //         sweetalert()->success('Updated record successfully :)');
-    //         return redirect()->route('pemasok/list/page');
-
-    //     } catch(\Exception $e) {
-    //         DB::rollback();
-    //         sweetalert()->error('Update record fail :)');
-    //         \Log::error($e->getMessage());
-    //         return redirect()->back();
-    //     }
-    // }
-
-    public function update(Request $request, $id)
-    {
-        $validate = $request->validate([
-            'nama'          => 'required|string|max:255',
-            'status'        => 'required|string|max:255',
-            'kode_pos'      => 'required|string|max:255',
-            'provinsi'      => 'required|string|max:255',
-            'kota'          => 'required|string|max:255',
-            'negara'        => 'required|string|max:255',
-            'alamat_1'      => 'required|string|max:255',
-            'alamat_2'      => 'nullable|string|max:255',
-            'alamatpajak_1' => 'required|string|max:255',
-            'alamatpajak_2' => 'nullable|string|max:255',
-            'kontak'        => 'required|string|max:255',
-            'no_telp'       => 'required|string|max:255',
-            'no_fax'        => 'nullable|string|max:255',
-            'email'         => 'required|string|max:255',
-            'website'       => 'nullable|string|max:255',
-            'memo'          => 'nullable|string|max:255',
-            'fileupload_1'  => 'nullable|string|max:255',
-            'dihentikan'    => 'required|boolean',
-            'pajak_1_check' => 'nullable|boolean',
-            'pajak_2_check' => 'nullable|boolean',
-            'npwp'          => 'nullable|string|max:255',
-            'pajak_1'       => 'nullable|string|max:255',
-            'pajak_2'       => 'nullable|string|max:255',
-            'syarat'        => 'nullable|string|max:255',
-            'mata_uang'     => 'nullable|string|max:255',
-            'nilai_tukar'   => 'nullable|string|max:255',
-            'saldo_awal'    => 'nullable|string|max:255',
-            'tanggal'       => 'nullable|string|max:255',
-            'deskripsi'     => 'nullable|string|max:255',
-            'no_pkp'        => 'nullable|string|max:255',
-        ]);
-
-        DB::beginTransaction();
-        try {
-            $pemasok                 = Pemasok::findOrFail($id);
-            $pemasok->update($validate);
-
-            DB::commit();
-            sweetalert()->success('Updated record successfully :)');
-            return redirect()->route('pemasok/list/page');
-
-        } catch(\Exception $e) {
-            DB::rollback();
-            sweetalert()->error('Update record fail :)');
             \Log::error($e->getMessage());
             return redirect()->back();
         }
@@ -240,11 +53,23 @@ class PemasokController extends Controller
         $columnName      = $columnName_arr[$columnIndex]['data']; // Column name
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
 
-        $pemasok =  DB::table('pemasok');
+        $pemasok =  DB::table('pemasok')
+            ->select([
+                "pemasok.id",
+                "pemasok_id",
+                "pemasok.nama",
+                'alamat_1',
+                'alamat_2',
+                'kontak',
+                'no_telp',
+                DB::raw('mata_uang.nama as mata_uang'),
+                'pemasok.dihentikan',
+            ])
+            ->join('mata_uang', 'mata_uang.id', '=', 'pemasok.mata_uang_id', 'left');
         $totalRecords = $pemasok->count();
 
         if ($namaFilter) {
-            $pemasok->where('nama', 'like', '%' . $namaFilter . '%');
+            $pemasok->where('pemasok.nama', 'like', '%' . $namaFilter . '%');
         }
 
         if ($pelangganIdFilter) {
@@ -252,7 +77,7 @@ class PemasokController extends Controller
         }
 
         if ($pelangganMataUangFilter) {
-            $pemasok->where('mata_uang', $pelangganMataUangFilter);
+            $pemasok->where('mata_uang_id', $pelangganMataUangFilter);
         }
 
         if ($pelangganDihentikanFilter  !== null && $pelangganDihentikanFilter !== '') {
@@ -261,8 +86,11 @@ class PemasokController extends Controller
 
         $totalRecordsWithFilter = $pemasok->count();
 
+        if($columnName != 'checkbox'){
+            $pemasok->orderBy($columnName, $columnSortOrder);
+        }
+
         $records = $pemasok
-            ->orderBy($columnName, $columnSortOrder)
             ->skip($start)
             ->take($rowPerPage)
             ->get();
@@ -286,12 +114,12 @@ class PemasokController extends Controller
                 'dihentikan'   => $record->dihentikan,
             ];
         }
-
+        
         return response()->json([
             "draw"                 => intval($draw),
             "recordsTotal"         => $totalRecords,
             "recordsFiltered"      => $totalRecordsWithFilter,
             "data"                 => $data_arr
-        ])->header('Content-Type', 'application/json');
+        ])->header('Content-Type', 'application/json');        
     }
 }
