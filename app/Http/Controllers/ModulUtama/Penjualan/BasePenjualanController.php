@@ -151,6 +151,7 @@ class BasePenjualanController extends Controller
         $this->data['syaratPembayaran'] = Syarat::all()->mapWithKeys(function ($item) {
             return [$item->id => $item->nama];
         })->toArray();
+        $this->data['fob'] = [1 => 'Shipping Point', 2=> 'Destination' ];
         $this->data['jasaPengiriman'] = JasaPengiriman::all()->mapWithKeys(function ($item) {
             return [$item->id => $item->nama . ' - ' . $item->jasa_pengiriman];
         })->toArray();

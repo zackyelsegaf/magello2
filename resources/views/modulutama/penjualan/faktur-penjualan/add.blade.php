@@ -104,20 +104,19 @@
                                     <!-- Modal -->
                                     <x-form.modal-barang :databarang=$nama_barang />
                                     {{-- <div id="modalbarang-svelte"></div> --}}
-                                    <div class="table-responsive"
-                                        style="max-height: calc(100vh - 250px); overflow-y: auto; margin-bottom: 100px;">
+                                    <div class="table-responsive">
                                         <table class="table table-striped table-bordered table-hover table-center mb-0"
                                             id="DataBarangAddSatuan">
                                             <thead class="thead-dark">
                                                 <tr>
-                                                    <th style="width: 80px;">No. Barang</th>
+                                                    <th style="width: 250px;">No. Barang</th>
                                                     <th style="width: 200px;">Deskripsi Barang</th>
-                                                    <th style="width: 80px;">Kts</th>
-                                                    <th style="width: 70px;">Satuan</th>
-                                                    <th style="width: 100px;">Harga Satuan</th>
-                                                    <th style="width: 50px;">Disk %</th>
-                                                    <th style="width: 50px;">Pajak</th>
-                                                    <th style="width: 100px;">Jumlah</th>
+                                                    <th style="width: 150px;">Kts</th>
+                                                    <th style="width: 100px;">Satuan</th>
+                                                    <th style="width: 250px;">Harga Satuan</th>
+                                                    <th style="width: 100pt;">Disk %</th>
+                                                    <th style="width: 100pt;">Pajak</th>
+                                                    <th style="width: 200px;">Jumlah</th>
                                                     <th style="width: 200px;">Gudang</th>
                                                     <th style="width: 150px;">Proyek</th>
                                                     <th style="width: 150px;">Departemen</th>
@@ -394,7 +393,7 @@
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <x-form.select-basic placeholder="   " size="sm"
-                                                            id="fob" name="fob" :options="$syaratPembayaran"
+                                                            id="fob" name="fob" :options="$fob"
                                                             :isbold="true" label="FOB" />
                                                     </div>
                                                 </div>
@@ -660,7 +659,7 @@
         <input style="width: 100%; height: 26px; font-size: 12px;" type="text" class="form-control deskripsi-barang-input" name="deskripsi_barang[]" value="${nama}">
     </td>
     <td>
-        <input style="height: 26px; font-size: 12px;" type="number" class="form-control" name="kts_permintaan[]" value="">
+        <input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="kts_permintaan[]" value="">
     </td>
     <td>
         <input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="satuan[]" value="${satuan}">
@@ -669,10 +668,10 @@
         <input type="text" name="harga_satuan[]" class="form-control input-rupiah" style="height:26px; font-size:12px;" />
     </td>
     <td>
-        <input style="height: 26px; font-size: 12px;" type="number" class="form-control" name="diskon[]" value="">
+        <input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="diskon[]" value="">
     </td>
     <td>
-        <input style="height: 26px; font-size: 12px;" type="number" class="form-control" name="pajak[]" value="">
+        <input style="height: 26px; font-size: 12px;" type="text" class="form-control" name="pajak[]" value="">
     </td>
     <td>
         <input style="height: 26px; font-size: 12px;" type="text" class="form-control input-rupiah" name="jumlah[]" value="" readonly>
