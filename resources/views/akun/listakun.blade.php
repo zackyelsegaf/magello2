@@ -24,10 +24,10 @@
                         </div>
                         <div class="form-group mb-1">
                             <label>Tipe Akun</label>
-                            <select class="form-control form-control-sm" name="tipe_akun" onchange="this.form.submit()">
+                            <select class="form-control form-control-sm" name="tipe_id" onchange="this.form.submit()">
                                 <option value="" selected></option>
                                 @foreach ($tipe_akun as $items)
-                                    <option value="{{ $items->nama }}" {{ request('tipe_akun') == $items->nama ? 'selected' : '' }}>
+                                    <option value="{{ $items->id }}" {{ request('tipe_id') == $items->id ? 'selected' : '' }}>
                                         {{ $items->nama }}
                                     </option>
                                 @endforeach
@@ -111,7 +111,7 @@
                     data: function(d) {
                         d.nama_akun = $('input[name=nama_akun]').val(),
                         d.no_akun = $('input[name=no_akun]').val(),
-                        d.tipe_akun = $('select[name=tipe_akun]').val(),
+                        d.tipe_id = $('select[name=tipe_id]').val(),
                         d.dihentikan = $('input[name=dihentikan]:checked').val();
                     }
                 },
@@ -187,14 +187,14 @@
                         searchable: false
                     },
                     {
-                        data: 'tipe_akun',
-                        name: 'tipe_akun',
+                        data: 'tipe_id',
+                        name: 'tipe_id',
                         orderable: false,
                         searchable: false
                     },
                     {
-                        data: 'mata_uang',
-                        name: 'mata_uang',
+                        data: 'mata_uang_id',
+                        name: 'mata_uang_id',
                         orderable: false,
                         searchable: false
                     },

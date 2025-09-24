@@ -36,6 +36,14 @@ return new class extends Migration
             $table->string('kuantitas_saldo_sekarang')->nullable();
             $table->string('harga_satuan_sekarang')->nullable();
             $table->string('biaya_pokok_sekarang')->nullable();
+            $table->string('satuan')->nullable();
+            $table->integer('rasio')->nullable()->default(1);
+            $table->integer('level_harga_1')->nullable()->default(0);
+            $table->integer('level_harga_2')->nullable()->default(0);
+            $table->integer('level_harga_3')->nullable()->default(0);
+            $table->integer('level_harga_4')->nullable()->default(0);
+            $table->integer('level_harga_5')->nullable()->default(0);
+            $table->string('merk_barang')->nullable();
             $table->string('gudang')->nullable();
             $table->string('tanggal_mulai')->nullable();
             $table->string('minimal_harga_jual')->nullable();

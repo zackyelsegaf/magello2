@@ -4,47 +4,123 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Konsumen;
+use App\Models\Cluster;
+use App\Models\City;
+use App\Models\District;
+use App\Models\Province;
+use App\Models\Village;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
 class KonsumenController extends Controller
 {
     public function daftarKonsumen()
     {
-        return view('konsumen.datakonsumen');
-
+        return view('marketing.konsumen.datakonsumen');
     }
 
     public function tambahKonsumen()
     {
-        $provinsi = DB::table('provinsi')->orderBy('nama', 'asc')->get();
-        $jenis_kelamin = DB::table('gender')->orderBy('nama', 'asc')->get();
-        $pekerjaan = DB::table('tipe_pelanggan')->orderBy('nama', 'asc')->get();
-        $kota = DB::table('kota')->orderBy('nama', 'asc')->get();
-        $cluster = DB::table('cluster')->orderBy('nama', 'asc')->get();
-        $status_pengajuan = DB::table('status_pengajuan')->orderBy('nama', 'asc')->get();
-        return view('konsumen.tambahkonsumen', compact('kota', 'provinsi', 'jenis_kelamin', 'pekerjaan', 'cluster', 'status_pengajuan'));
+        $data_jenis_kelamin = DB::table('gender')->orderBy('nama', 'asc')->get();
+        $data_pekerjaan = DB::table('tipe_pelanggan')->orderBy('nama', 'asc')->get();
+        $data_cluster = DB::table('cluster')->orderBy('nama', 'asc')->get();
+        $kapling = DB::table('kapling')->get();
+        $data_status_pengajuan = DB::table('status_pengajuan')->orderBy('nama', 'asc')->get();
+        $provinces = Province::orderBy('name')->get(['code','name']);
+        $kota = DB::table('kota')
+            ->select('id', 'nama')
+            ->union(
+                DB::table('provinsi')->select('id', 'nama')
+            )
+            ->orderBy('nama')
+            ->get();
+        return view('marketing.konsumen.konsumenaddnew', compact('kota', 'provinces', 'kapling', 'data_jenis_kelamin', 'data_pekerjaan', 'data_cluster', 'data_status_pengajuan'));
+    }
+
+    public function citiesByProvince(Request $request)
+    {
+        $request->validate([
+            'provinsi_code' => 'required|string|size:2',
+        ]);
+
+        $cities = City::where('province_code', $request->provinsi_code)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($cities);
+    }
+
+    public function districtsByCity(Request $request)
+    {
+        $request->validate([
+            'kota_code' => 'required|string|size:4',
+        ]);
+
+        $districts = District::where('city_code', $request->kota_code)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($districts);
+    }
+
+    public function villagesByDistrict(Request $request)
+    {
+        $request->validate([
+            'kecamatan_code' => 'required|string|size:6',
+        ]);
+
+        $villages = Village::where('district_code', $request->kecamatan_code)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($villages);
     }
 
     public function simpanKonsumen(Request $request){
 
-        $validate = $request->validate([
+        $rules = [
             'nama_konsumen'    => 'required|string|max:255',
             'nik_konsumen'     => 'required|string|max:255',
             'no_hp'            => 'required|string|max:255',
-            'status_pengajuan' => 'nullable|string|max:255',
-            'jenis_kelamin'    => 'required|string|max:255',
-            'cluster'          => 'nullable|string|max:255',
-            'provinsi'         => 'required|string|max:255',
-            'kota'             => 'required|string|max:255',
-            'kecamatan'        => 'required|string|max:255',
-            'kelurahan'        => 'required|string|max:255',
+            'status_pengajuan_id' => 'nullable|string|max:255',
+            'jenis_kelamin_id'    => 'required|string|max:255',
+            'cluster_id'          => 'required|string|max:255',
+            'provinsi_code'         => 'required|string|max:255',
+            'kota_code'             => 'required|string|max:255',
+            'kecamatan_code'        => 'required|string|max:255',
+            'kelurahan_code'        => 'required|string|max:255',
             'alamat_konsumen'  => 'required|string|max:255',
-            'pekerjaan'        => 'required|string|max:255',
+            'pekerjaan_id'        => 'required|string|max:255',
             'marketing'        => 'required|string|max:255',
+            'tanggal_booking'     => 'nullable|string|max:255',
+            'booking_fee'      => 'nullable|string|max:255',
+            'email'      => 'nullable|string|max:255',
             'nik_pasangan'     => 'nullable|string|max:255',
             'nama_pasangan'    => 'nullable|string|max:255',
             'no_hp_pasangan'   => 'nullable|string|max:255',
-        ]);
+        ];
+
+        $message = [
+            'nama_konsumen.required' => 'Nama konsumen wajib diisi',
+            'nik_konsumen.required' => 'NIK konsumen wajib diisi',
+            'no_hp.required' => 'No HP wajib diisi',
+            'jenis_kelamin_id.required' => 'Jenis kelamin wajib diisi',
+            'cluster_id.required' => 'Cluster wajib diisi',
+            'provinsi_code.required' => 'Provinsi wajib diisi',
+            'kota_code.required' => 'Kota wajib diisi',
+            'kecamatan_code.required' => 'Kecamatan wajib diisi',
+            'kelurahan_code.required' => 'Kelurahan wajib diisi',
+            'alamat_konsumen.required' => 'Alamat konsumen wajib diisi',
+            'pekerjaan_id.required' => 'Pekerjaan wajib diisi',
+            'marketing.required' => 'Marketing wajib diisi',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi Gagal, Beberapa Input Wajib Belum Terisi!');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         //debug
         // DB::enableQueryLog();
@@ -58,7 +134,7 @@ class KonsumenController extends Controller
             // $file_name = rand() . '.' .$photo->getClientOriginalName();
             // $photo->move(public_path('/assets/img/'), $file_name);
 
-            $konsumen = new Konsumen($validate);
+            $konsumen = new Konsumen($validator->validated());
             $konsumen->save();
 
             DB::commit();
@@ -74,44 +150,73 @@ class KonsumenController extends Controller
 
     public function editKonsumen($id)
     {
-        $provinsi = DB::table('provinsi')->orderBy('nama', 'asc')->get();
-        $jenis_kelamin = DB::table('gender')->orderBy('nama', 'asc')->get();
-        $pekerjaan = DB::table('tipe_pelanggan')->orderBy('nama', 'asc')->get();
-        $kota = DB::table('kota')->orderBy('nama', 'asc')->get();
-        $cluster = DB::table('cluster')->orderBy('nama', 'asc')->get();
-        $status_pengajuan = DB::table('status_pengajuan')->orderBy('nama', 'asc')->get();
+        $data_jenis_kelamin = DB::table('gender')->orderBy('nama', 'asc')->get();
+        $data_pekerjaan = DB::table('tipe_pelanggan')->orderBy('nama', 'asc')->get();
+        $data_cluster = DB::table('cluster')->orderBy('nama', 'asc')->get();
+        $kapling = DB::table('kapling')->get();
+        $data_status_pengajuan = DB::table('status_pengajuan')->orderBy('nama', 'asc')->get();
         $Konsumen = Konsumen::findOrFail($id);
         if (!$Konsumen) {
             return redirect()->back()->with('error', 'Data tidak ditemukan');
         }
-        return view('konsumen.ubahkonsumen', compact('Konsumen', 'kota', 'provinsi', 'jenis_kelamin', 'pekerjaan', 'cluster', 'status_pengajuan'));
+        $provinces = Province::orderBy('name')->get(['code','name']);
+        $citySelected     = $Konsumen->kota ? City::where('code', $Konsumen->kota)->first(['code','name']) : null;
+        $districtSelected = $Konsumen->kecamatan ? District::where('code', $Konsumen->kecamatan)->first(['code','name']) : null;
+        $villageSelected  = $Konsumen->kelurahan ? Village::where('code', $Konsumen->kelurahan)->first(['code','name']) : null;
+        return view('marketing.konsumen.ubahkonsumen', compact('Konsumen','provinces','citySelected', 'districtSelected', 'villageSelected', 'kapling', 'data_jenis_kelamin', 'data_pekerjaan', 'data_cluster', 'data_status_pengajuan'));
     }
 
     public function updateKonsumen(Request $request, $id)
     {
-        $validate = $request->validate([
+        $rules = [
             'nama_konsumen'    => 'required|string|max:255',
             'nik_konsumen'     => 'required|string|max:255',
             'no_hp'            => 'required|string|max:255',
-            'status_pengajuan' => 'nullable|string|max:255',
-            'jenis_kelamin'    => 'required|string|max:255',
-            'cluster'          => 'nullable|string|max:255',
-            'provinsi'         => 'required|string|max:255',
-            'kota'             => 'required|string|max:255',
-            'kecamatan'        => 'required|string|max:255',
-            'kelurahan'        => 'required|string|max:255',
+            'status_pengajuan_id' => 'nullable|string|max:255',
+            'jenis_kelamin_id'    => 'required|string|max:255',
+            'cluster_id'          => 'required|string|max:255',
+            'provinsi_code'         => 'required|string|max:255',
+            'kota_code'             => 'required|string|max:255',
+            'kecamatan_code'        => 'required|string|max:255',
+            'kelurahan_code'        => 'required|string|max:255',
             'alamat_konsumen'  => 'required|string|max:255',
-            'pekerjaan'        => 'required|string|max:255',
+            'pekerjaan_id'        => 'required|string|max:255',
             'marketing'        => 'required|string|max:255',
+            'tanggal_booking'     => 'nullable|string|max:255',
+            'booking_fee'      => 'nullable|string|max:255',
+            'email'      => 'nullable|string|max:255',
             'nik_pasangan'     => 'nullable|string|max:255',
             'nama_pasangan'    => 'nullable|string|max:255',
             'no_hp_pasangan'   => 'nullable|string|max:255',
-        ]);
+        ];
+
+        $message = [
+            'nama_konsumen.required' => 'Nama konsumen wajib diisi',
+            'nik_konsumen.required' => 'NIK konsumen wajib diisi',
+            'no_hp.required' => 'No HP wajib diisi',
+            'jenis_kelamin_id.required' => 'Jenis kelamin wajib diisi',
+            'cluster_id.required' => 'Cluster wajib diisi',
+            'provinsi_code.required' => 'Provinsi wajib diisi',
+            'kota_code.required' => 'Kota wajib diisi',
+            'kecamatan_code.required' => 'Kecamatan wajib diisi',
+            'kelurahan_code.required' => 'Kelurahan wajib diisi',
+            'alamat_konsumen.required' => 'Alamat konsumen wajib diisi',
+            'pekerjaan_id.required' => 'Pekerjaan wajib diisi',
+            'marketing.required' => 'Marketing wajib diisi',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi Gagal, Beberapa Input Wajib Belum Terisi!');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         DB::beginTransaction();
         try {
-            $konsumen = Konsumen::findOrFail($id);
-            $konsumen->update($validate);
+            $Konsumen = Konsumen::findOrFail($id);
+            $Konsumen->fill($validator->validated());
+            $Konsumen->save();
 
             DB::commit();
             sweetalert()->success('Updated record successfully :)');
@@ -155,8 +260,8 @@ class KonsumenController extends Controller
         $columnName      = $columnName_arr[$columnIndex]['data']; // Column name
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
 
-        $konsumen =  DB::table('konsumen');
-        $totalRecords = $konsumen->count();
+        $konsumen =  Konsumen::with(['cluster','city']);
+        $totalRecords = Konsumen::count();
 
         if ($namaFilter) {
             $konsumen->where('nama_konsumen', 'like', '%' . $namaFilter . '%');
@@ -182,9 +287,11 @@ class KonsumenController extends Controller
                 "nik_konsumen"  => $record->nik_konsumen,
                 "nama_konsumen" => $record->nama_konsumen,
                 'no_hp'         => $record->no_hp,
-                // 'email'         => $record->email,
-                'cluster'       => $record->cluster,
-                'kota'          => $record->kota,
+                // 'email'      => $record->email,
+                'cluster_id'    => $record->cluster_id,
+                "cluster"       => $record->cluster?->nama_cluster,
+                'kota_code'     => $record->kota_code,
+                "kota"          => $record->city?->name,  
             ];
         }
 

@@ -28,8 +28,8 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>No</label>
-                                                <input type="text" class="form-control @error('kode_pelanggan') is-invalid @enderror" wire:model="kode_pelanggan">
-                                                @foreach ($errors->get('kode_pelanggan') as $err)
+                                                <input type="text" class="form-control @error('pelanggan_id') is-invalid @enderror" wire:model="pelanggan_id">
+                                                @foreach ($errors->get('pelanggan_id') as $err)
                                                     <div class="invalid-feedback">{{ $err }}</div>
                                                 @endforeach
                                             </div>                                                

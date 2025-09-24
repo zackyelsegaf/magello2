@@ -24,7 +24,7 @@ class PajakController extends Controller
     {
         $validated = $request->validate([
             'nama'                 => 'required|string|max:255',
-            'kode_pajak'           => 'required|string|max:255',
+            'kode'           => 'required|string|max:255',
             'nilai_persentase'     => 'nullable|string|max:255',
             'akun_pajak_penjualan' => 'required|string|max:255',
             'akun_pajak_pembelian' => 'required|string|max:255',
@@ -60,7 +60,7 @@ class PajakController extends Controller
     public function saveRecordPajak(Request $request){
         $validated = $request->validate([
             'nama'                 => 'required|string|max:255',
-            'kode_pajak'           => 'required|string|max:255',
+            'kode'           => 'required|string|max:255',
             'nilai_persentase'     => 'nullable|string|max:255',
             'akun_pajak_penjualan' => 'required|string|max:255',
             'akun_pajak_pembelian' => 'required|string|max:255',
@@ -113,7 +113,7 @@ class PajakController extends Controller
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
         $namaFilter      = $request->get('nama');
-        $pajakKodePajakFilter = $request->get('kode_pajak');
+        $pajakKodePajakFilter = $request->get('kode');
 
         $columnIndex     = $columnIndex_arr[0]['column']; // Column index
         $columnName      = $columnName_arr[$columnIndex]['data']; // Column name
@@ -127,7 +127,7 @@ class PajakController extends Controller
         }
 
         if ($pajakKodePajakFilter) {
-            $pajak->where('kode_pajak', 'like', '%' . $pajakKodePajakFilter . '%');
+            $pajak->where('kode', 'like', '%' . $pajakKodePajakFilter . '%');
         }
 
         $totalRecordsWithFilter = $pajak->count();
@@ -147,7 +147,7 @@ class PajakController extends Controller
                 "no"               => $start + $key + 1,
                 "id"               => $record->id,
                 "nama"             => $record->nama,
-                "kode_pajak"       => $record->kode_pajak,
+                "kode"       => $record->kode,
                 "deskripsi"        => $record->deskripsi,
                 "nilai_persentase" => $record->nilai_persentase,
             ];

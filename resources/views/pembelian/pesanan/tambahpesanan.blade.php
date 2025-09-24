@@ -153,11 +153,11 @@
                                                     @foreach ($pemasok as $items )
                                                         <option value="{{ $items->nama }}"
                                                             data-no-pemasok="{{ $items->pemasok_id }}"
-                                                            data-syarat="{{ $items->syarat }}"
+                                                            data-syarat="{{ $items->syarat_id }}"
                                                             data-alamat-1="{{ $items->alamat_1 }}"
                                                             data-nilai-tukar="{{ $items->nilai_tukar }}"
                                                             data-pajak="{{ $items->pajak_1_check }}">
-                                                            {{ $items->pemasok_id . " - " . $items->nama . " - " . $items->mata_uang }}
+                                                            {{ $items->pemasok_id . " - " . $items->nama . " - " . $items->mata_uang_nama }}
                                                         </option>
                                                     @endforeach
                                                 </select>

@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cluster;
+use App\Models\City;
+use App\Models\District;
+use App\Models\Province;
+use App\Models\Village;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
 class ClusterController extends Controller
@@ -16,80 +22,142 @@ class ClusterController extends Controller
 
     public function tambahCluster()
     {
-        $provinsi = DB::table('provinsi')->orderBy('nama', 'asc')->get();
-        $kota = DB::table('kota')->orderBy('nama', 'asc')->get();
-        return view('cluster.tambahcluster', compact('kota', 'provinsi'));
+        $provinces = Province::orderBy('name')->get(['code','name']);
+        return view('cluster.tambahcluster', compact('provinces'));
     }
 
-    public function simpanCluster(Request $request){
-
-        $validate = $request->validate([
-            'nama_cluster'   => 'required|string|max:255',
-            'no_hp'          => 'required|string|max:255',
-            'luas_tanah'     => 'required|string|max:255',
-            'total_unit'     => 'required|string|max:255',
-            'provinsi'       => 'required|string|max:255',
-            'kota'           => 'required|string|max:255',
-            'kecamatan'      => 'required|string|max:255',
-            'kelurahan'      => 'required|string|max:255',
-            'alamat_cluster' => 'required|string|max:255',
+    public function citiesByProvince(Request $request)
+    {
+        $request->validate([
+            'provinsi_code' => 'required|string|size:2',
         ]);
 
-        //debug
-        // DB::enableQueryLog();
-        // MataUang::create($request->all());
-        // dd(DB::getQueryLog());
+        $cities = City::where('province_code', $request->provinsi_code)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($cities);
+    }
+
+    public function districtsByCity(Request $request)
+    {
+        $request->validate([
+            'kota_code' => 'required|string|size:4',
+        ]);
+
+        $districts = District::where('city_code', $request->kota_code)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($districts);
+    }
+
+    public function villagesByDistrict(Request $request)
+    {
+        $request->validate([
+            'kecamatan' => 'required|string|size:6',
+        ]);
+
+        $villages = Village::where('district_code', $request->kecamatan)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($villages);
+    }
+
+    public function simpanCluster(Request $request)
+    {   
+        $rules = [
+            'nama_cluster'   => 'required|string|max:255',
+            'no_hp'          => 'required|string|max:255',
+            'luas_tanah'     => 'required|numeric',
+            'total_unit'     => 'required|integer',
+            'provinsi_code'  => 'required|string|size:2',
+            'kota_code'      => 'required|string|size:4',
+            'kecamatan'      => 'nullable|string|size:6',
+            'kelurahan'      => 'nullable|string|size:10',
+            'alamat_cluster' => 'required|string|max:255',
+        ];
+
+        $message = [
+            'nama_cluster.required' => 'Nama cluster wajib diisi.',
+            'no_hp.required' => 'Nomor HP wajib diisi.',
+            'luas_tanah.required' => 'Luas tanah wajib diisi.',
+            'total_unit.required' => 'Total unit wajib diisi.',
+            'provinsi_code.required' => 'Provinsi wajib dipilih.',
+            'kota_code.required' => 'Kota wajib dipilih.',
+            'alamat_cluster.required' => 'Alamat cluster wajib diisi.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi Gagal, Beberapa Input Wajib Belum Terisi!');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         DB::beginTransaction();
         try {
-
-            // $photo= $request->fileupload_1;
-            // $file_name = rand() . '.' .$photo->getClientOriginalName();
-            // $photo->move(public_path('/assets/img/'), $file_name);
-
-            $cluster = new Cluster($validate);
-            $cluster->save();
+            $simpanCluster = new Cluster($validator->validated());
+            $simpanCluster->save();
 
             DB::commit();
             sweetalert()->success('Create new cluster successfully :)');
             return redirect()->route('cluster/list/page');
-
-        } catch(\Exception $e) {
-            DB::rollback();
-            sweetalert()->error('Tambah Data Gagal: ' . $e->getMessage());
-            return redirect()->back();
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            sweetalert()->error('Tambah Data Gagal: '.$e->getMessage());
+            return back()->withInput();
         }
     }
 
     public function editCluster($id)
     {
-        $provinsi = DB::table('provinsi')->orderBy('nama', 'asc')->get();
-        $kota = DB::table('kota')->orderBy('nama', 'asc')->get();
         $Cluster = Cluster::findOrFail($id);
-        if (!$Cluster) {
-            return redirect()->back()->with('error', 'Data tidak ditemukan');
-        }
-        return view('cluster.ubahcluster', compact('Cluster', 'kota', 'provinsi'));
+        $provinces = Province::orderBy('name')->get(['code','name']);
+        $citySelected     = $Cluster->kota_code ? City::where('code', $Cluster->kota_code)->first(['code','name']) : null;
+        $districtSelected = $Cluster->kecamatan ? District::where('code', $Cluster->kecamatan)->first(['code','name']) : null;
+        $villageSelected  = $Cluster->kelurahan ? Village::where('code', $Cluster->kelurahan)->first(['code','name']) : null;
+
+        return view('cluster.ubahcluster', compact('Cluster','provinces','citySelected','districtSelected','villageSelected'));
     }
 
     public function updateCluster(Request $request, $id)
     {
-        $validate = $request->validate([
+        $rules = [
             'nama_cluster'   => 'required|string|max:255',
             'no_hp'          => 'required|string|max:255',
-            'luas_tanah'     => 'required|string|max:255',
-            'total_unit'     => 'required|string|max:255',
-            'provinsi'       => 'required|string|max:255',
-            'kota'           => 'required|string|max:255',
-            'kecamatan'      => 'required|string|max:255',
-            'kelurahan'      => 'required|string|max:255',
+            'luas_tanah'     => 'required|numeric',
+            'total_unit'     => 'required|integer',
+            'provinsi_code'  => 'required|string|size:2',
+            'kota_code'      => 'required|string|size:4',
+            'kecamatan'      => 'nullable|string|size:6',
+            'kelurahan'      => 'nullable|string|size:10',
             'alamat_cluster' => 'required|string|max:255',
-        ]);
+        ];
 
+        $message = [
+            'nama_cluster.required' => 'Nama cluster wajib diisi.',
+            'no_hp.required' => 'Nomor HP wajib diisi.',
+            'luas_tanah.required' => 'Luas tanah wajib diisi.',
+            'total_unit.required' => 'Total unit wajib diisi.',
+            'provinsi_code.required' => 'Provinsi wajib dipilih.',
+            'kota_code.required' => 'Kota wajib dipilih.',
+            'alamat_cluster.required' => 'Alamat cluster wajib diisi.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi Gagal, Beberapa Input Wajib Belum Terisi!');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        
         DB::beginTransaction();
         try {
-            $cluster = Cluster::findOrFail($id);
-            $cluster->update($validate);
+            $Cluster = Cluster::findOrFail($id);
+            $Cluster->fill($validator->validated());
+            $Cluster->save();
 
             DB::commit();
             sweetalert()->success('Updated record successfully :)');
@@ -157,7 +225,7 @@ class ClusterController extends Controller
                 "no"           => $start + $key + 1,
                 "id"           => $record->id,
                 "nama_cluster" => $record->nama_cluster,
-                'kota'         => $record->kota,
+                'kota_code'=> $record->kota_code,
                 "no_hp"        => $record->no_hp,
                 'luas_tanah'   => $record->luas_tanah,
                 'total_unit'   => $record->total_unit,

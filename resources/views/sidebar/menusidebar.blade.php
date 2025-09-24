@@ -84,12 +84,12 @@
                 <li class="submenu"> <a href="#"></i><i class="fas fa-database mr-2"></i><span> Marketing  <span class="badge bg-light text-dark">New!</span></span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li><a class="{{ set_active(['prospek/list/page']) }}" href="{{ route('prospek/list/page') }}"><i class="fas fa-money-check-alt mr-3"></i>Prospek</a></li>
-                        <li><a class="{{ set_active(['konsumenmarketing/list/page']) }}" href="{{ route('konsumenmarketing/list/page') }}"><i class="fas fa-warehouse ml-0 mr-3"></i>Konsumen</a></li>
+                        <li><a class="{{ set_active(['konsumen/list/page']) }}" href="{{ route('konsumen/list/page') }}"><i class="fas fa-warehouse ml-0 mr-3"></i>Konsumen</a></li>
                         @if(Auth::user() && Auth::user()->email === 'user.zacky@gmail.com')
                         <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Perumahan </span> <span class="menu-arrow"></span></a>
                             <ul class="submenu_class" style="display: none;">
                                 <li><a class="{{ set_active(['siteplane/page'], 1) }}" href="{{ route('siteplane/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Site Plan</a></li>
-                                <li><a class="{{ set_active(['klusterperumahan/list/page'], 1) }}" href="{{ route('klusterperumahan/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Kluster/Perumahan</a></li>
+                                <li><a class="{{ set_active(['cluster/list/page'], 1) }}" href="{{ route('cluster/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Kluster/Perumahan</a></li>
                                 <li><a class="{{ set_active(['kavling/list/page'], 1) }}" href="{{ route('kavling/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Kavling</a></li>
                                 <li><a class="{{ set_active(['fasum/list/page'], 1) }}" href="{{ route('fasum/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Fasum</a></li>
                                 <li><a class="{{ set_active(['fasos/list/page'], 1) }}" href="{{ route('fasos/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Fasos</a></li>
@@ -136,7 +136,7 @@
                         </li>
                         <li><a class="{{ set_active(['perencanaanpembangunan/list/page']) }}" href="{{ route('perencanaanpembangunan/list/page') }}"><i class="fas fa-money-check-alt mr-3"></i>Perencanaan Pembangunan</a></li>
                         <li><a class="{{ set_active(['spkmandorpekerja/list/page']) }}" href="{{ route('spkmandorpekerja/list/page') }}"><i class="fas fa-users ml-0 mr-3"></i>SPK Mandor/Pekerja</a></li>
-                        <li><a class="{{ set_active(['rabrap/list/page']) }}" href="{{ route('rabrap/list/page') }}"><i class="fas fa-money-check-alt mr-3"></i>RAB & RAP</a></li>
+                        <li><a class="{{ set_active(['rabrap/list/page']) }}" href="{{ route('rabrap/list/page') }}"><i class="fas fa-clipboard-list mr-3"></i>RAB & RAP</a></li>
                         <li><a class="{{ set_active(['pengajuanbahanbangunan/list/page']) }}" href="{{ route('pengajuanbahanbangunan/list/page') }}"><i class="fas fa-box ml-0 mr-3"></i>Pengajuan Bahan Bangunan</a></li>
                         <li><a class="{{ set_active(['pengajuanbahanlainya/list/page']) }}" href="{{ route('pengajuanbahanlainya/list/page') }}"><i class="fas fa-box ml-0 mr-3"></i>Pengajuan Bahan Lainya</a></li>
                         <li><a class="{{ set_active(['kemajuanpembangunan/list/page']) }}" href="{{ route('kemajuanpembangunan/list/page') }}"><i class="fas fa-warehouse ml-0 mr-3"></i>Kemajuan Pembangunan</a></li>

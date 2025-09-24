@@ -356,7 +356,10 @@ class ReturPembelianController extends Controller
         $departemen = DB::table('departemen')->get();
         $proyek = DB::table('proyek')->get();
         $syarat = DB::table('syarat')->get();
-        $pemasok = DB::table('pemasok')->get();
+        $pemasok = DB::table('pemasok')
+            ->leftJoin('mata_uang', 'pemasok.mata_uang_id', '=', 'mata_uang.id')
+            ->select('pemasok.*', 'mata_uang.nama as mata_uang_nama')
+            ->get();
         $satuan = DB::table('satuan')->get();
         $sub_barang = DB::table('barang')->get();
         $mata_uang = DB::table('mata_uang')->orderBy('nama', 'asc')->get();

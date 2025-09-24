@@ -22,6 +22,13 @@
                         @enderror
                     </div>
                     <div class="col-md-4">
+                        <label for="tanggal_pencatatan" class="form-label fw-bold">Tanggal</label>
+                        <input type="text" id="tanggal_pencatatan" name="tanggal_pencatatan" class="form-control form-control-sm datetimepicker @error('tanggal_pencatatan') is-invalid @enderror" value="{{ old('tanggal_pencatatan') }}">
+                        @error('tanggal_pencatatan')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-md-4">
                         <label for="cluster" class="form-label fw-bold">Perumahan Cluster</label>
                         <select class="tomselect @error('cluster') is-invalid @enderror" name="cluster" id="cluster" data-placeholder="Pilih cluster...">
                             <option {{ old('cluster') ? '' : 'selected' }} disabled></option>
@@ -53,11 +60,11 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="total_rap" class="form-label fw-bold">Total RAP</label>
-                        <input type="text" id="total_rap" name="total_rap" class="form-control form-control-sm" value="{{ old('total_rap') }}" placeholder="Total RAP" readonly>
+                        <input type="text" id="total_rap" name="total_rap" class="form-control form-control-sm rupiah" value="{{ old('total_rap') }}" placeholder="Total RAP" readonly>
                     </div>
                     <div class="col-md-6">
                         <label for="total_rab" class="form-label fw-bold">Total RAB</label>
-                        <input type="text" id="total_rab" name="total_rab" class="form-control form-control-sm" value="{{ old('total_rab') }}" placeholder="Total RAB" readonly>
+                        <input type="text" id="total_rab" name="total_rab" class="form-control form-control-sm rupiah" value="{{ old('total_rab') }}" placeholder="Total RAB" readonly>
                     </div>
                 </div>
                 <div class="card">
@@ -197,12 +204,12 @@
                                                 </td>
                                                 <td><input style="width: 150px;" type="text" name="persen_naik[]" value="{{ old('persen_naik')[$index] ?? '' }}" class="form-control form-control-sm"></td>
                                                 <td><input style="width: 150px;" type="text" name="rab_qty[]" value="{{ old('rab_qty')[$index] ?? '' }}" class="form-control form-control-sm"></td>
-                                                <td><input style="width: 150px;" type="text" name="harga_item[]" value="{{ old('harga_item')[$index] ?? '' }}" class="form-control form-control-sm"></td>
+                                                <td><input style="width: 150px;" type="text" name="harga_item[]" value="{{ old('harga_item')[$index] ?? '' }}" class="form-control form-control-sm rupiah"></td>
                                                 <td>
                                                     <small><strong>Total RAP</strong></small>
-                                                    <input style="width: 150px;" type="text" name="total_rap_item[]" value="{{ old('total_rap_item')[$index] ?? '' }}" readonly class="form-control form-control-sm">
+                                                    <input style="width: 150px;" type="text" name="total_rap_item[]" value="{{ old('total_rap_item')[$index] ?? '' }}" readonly class="form-control form-control-sm rupiah">
                                                     <small><strong>Total RAB</strong></small>
-                                                    <input style="width: 150px;" type="text" name="total_rab_item[]" value="{{ old('total_rab_item')[$index] ?? '' }}" readonly class="form-control form-control-sm">
+                                                    <input style="width: 150px;" type="text" name="total_rab_item[]" value="{{ old('total_rab_item')[$index] ?? '' }}" readonly class="form-control form-control-sm rupiah">
                                                 </td>
                                                 <td>
                                                     <button style="width: 150px;" type="button" class="btn btn-primary buttonedit2 mr-2 remove-row">
@@ -234,6 +241,7 @@
 @section('script')
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
     <script>
         $(document).ready(function() {
             function fetchFilteredData() {
@@ -280,151 +288,187 @@
                 fetchFilteredData();
             });
         });
-    </script>        
+    </script>    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cleaveMap = new WeakMap();
+            window.__cleaveMap = cleaveMap;
+
+            function initCleave(el) {
+                if (!el || el.classList.contains('cleave-initialized')) return;
+                const instance = new Cleave(el, {
+                    numeral: true,
+                    numeralPositiveOnly: true,
+                    numeralDecimalScale: 2,
+                    numeralThousandsGroupStyle: 'thousand',
+                    numeralDecimalMark: '.',
+                    delimiter: ',',
+                    prefix: 'Rp ',
+                    rawValueTrimPrefix: true
+                });
+                el.classList.add('cleave-initialized');
+                cleaveMap.set(el, instance);
+            }
+
+            window.initCleaveIn = function(container) {
+                container.querySelectorAll('input.rupiah').forEach(initCleave);
+            };
+
+            document.querySelectorAll('input.rupiah').forEach(initCleave);
+
+            document.querySelectorAll('form').forEach(function (form) {
+                form.addEventListener('submit', function () {
+                    form.querySelectorAll('input.rupiah').forEach(function (el) {
+                        const inst = cleaveMap.get(el);
+                        if (inst) el.value = inst.getRawValue();
+                    });
+                });
+            });
+        });
+    </script>
     <script>
         $(document).ready(function () {
-        $('#checkAll').click(function () {
-            $('.check-barang').prop('checked', this.checked);
-        });
-    
-        $('#tambahBarangTerpilih').click(function () {
-            $('.check-barang:checked').each(function () {
-                let id = $(this).data('id');
-                let nama = $(this).data('nama');
-                let satuan = $(this).data('satuan');
-                let kuantitas = $(this).data('kuantitas');
-                let biaya_satuan_saldo_awal = $(this).data('biaya_satuan_saldo_awal');
-                let kode_pajak = $(this).data('kode_pajak') || '';
-    
-                let newRow = `
-                <tr class="barang-row">
-                    <td style="display: none;"><input style="width: 150px;" type="text" class="form-control form-control-sm" name="no_item[]" value="${id}" readonly></td>
-                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm  deskripsi-barang-input" name="nama_item[]" value="${nama}"></td>
-                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="satuan[]" value="${satuan}"></td>
-                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="rap_qty[]" value=""></td>
-                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="persen_naik[]" value=""></td>
-                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="rab_qty[]" value="" readonly></td>
-                    <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="harga_item[]" value="${biaya_satuan_saldo_awal || ''}"></td>
-                    <td>
-                        <small><strong>Total RAP</strong></small>
-                        <input style="width: 150px;" type="text" name="total_rap_item[]" readonly class="form-control form-control-sm">
-                        <small><strong>Total RAB</strong></small>
-                        <input style="width: 150px;" type="text" name="total_rab_item[]" readonly class="form-control form-control-sm">
-                    </td>
-                    <td><button type="button" style="width: 120px;" class="btn btn-primary buttonedit2 mr-2 remove-row"><strong><i class="fas fa-trash-alt mr-3"></i>Hapus</strong></button></td>
-                </tr>`;
-                
-                $('#barangTableBody').append(newRow);
+            $('#checkAll').click(function () {
+                $('.check-barang').prop('checked', this.checked);
             });
-    
-            $('#modalBarang').modal('hide');
-        });
+        
+            $('#tambahBarangTerpilih').click(function () {
+                $('.check-barang:checked').each(function () {
+                    let id = $(this).data('id');
+                    let nama = $(this).data('nama');
+                    let satuan = $(this).data('satuan');
+                    let kuantitas = $(this).data('kuantitas');
+                    let biaya_satuan_saldo_awal = $(this).data('biaya_satuan_saldo_awal');
+                    let kode_pajak = $(this).data('kode_pajak') || '';
+        
+                    let newRow = `
+                    <tr class="barang-row">
+                        <td style="display: none;"><input style="width: 150px;" type="text" class="form-control form-control-sm" name="no_item[]" value="${id}" readonly></td>
+                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm  deskripsi-barang-input" name="nama_item[]" value="${nama}"></td>
+                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="satuan[]" value="${satuan}"></td>
+                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="rap_qty[]" value=""></td>
+                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="persen_naik[]" value=""></td>
+                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm" name="rab_qty[]" value="" readonly></td>
+                        <td><input style="width: 150px;" type="text" class="form-control form-control-sm rupiah" name="harga_item[]" value="${biaya_satuan_saldo_awal || ''}"></td>
+                        <td>
+                            <small><strong>Total RAP</strong></small>
+                            <input style="width: 150px;" type="text" name="total_rap_item[]" readonly class="form-control form-control-sm rupiah">
+                            <small><strong>Total RAB</strong></small>
+                            <input style="width: 150px;" type="text" name="total_rab_item[]" readonly class="form-control form-control-sm rupiah">
+                        </td>
+                        <td><button type="button" style="width: 120px;" class="btn btn-primary buttonedit2 mr-2 remove-row"><strong><i class="fas fa-trash-alt mr-3"></i>Hapus</strong></button></td>
+                    </tr>`;
+                    
+                    $('#barangTableBody').append(newRow);
 
-        $(document).on('click', '.remove-row', function () {
-            $(this).closest('tr').remove();
-        });
-
-        $('#modalBarang').on('show.bs.modal', function () {
-            $('#checkAll').prop('checked', false);
-            $('.check-barang').prop('checked', false);
-        });
-
-        $(document).ready(function () {
-            // ===== Helper =====
-            function parseNum(v) {
-                if (v == null) return 0;
-                // buang titik pemisah ribuan, spasi, dan koma → titik
-                v = (''+v).replace(/\./g,'').replace(/\s+/g,'').replace(',', '.');
-                let n = parseFloat(v);
-                return isNaN(n) ? 0 : n;
-            }
-            function formatIDR(n) {
-                // tampilkan tanpa desimal, pakai ribuan
-                n = Math.round(n);
-                return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-            }
-
-            function recalcRow($row) {
-                const rapQty   = parseNum($row.find('input[name="rap_qty[]"]').val());
-                let persen     = $row.find('input[name="persen_naik[]"]').val();
-                // jika kosong, pakai default header
-                if (persen === '' || persen === null) {
-                    persen = $('#persen_kenaikan_qty').val();
-                }
-                const p = parseNum(persen);
-
-                const harga    = parseNum($row.find('input[name="harga_item[]"]').val());
-
-                // Opsi A
-                const qtyRAB = rapQty * (1 + (p/100));
-                const totalRAP = rapQty * harga;
-                const totalRAB = qtyRAB * harga;
-
-                // set nilai ke input (rab_qty readonly)
-                $row.find('input[name="rab_qty[]"]').val(qtyRAB % 1 === 0 ? qtyRAB : qtyRAB.toFixed(2));
-                $row.find('input[name="total_rap_item[]"]').val(formatIDR(totalRAP));
-                $row.find('input[name="total_rab_item[]"]').val(formatIDR(totalRAB));
-            }
-
-            function recalcHeaderTotals() {
-                let sumRAP = 0, sumRAB = 0;
-                $('#barangTableBody tr.barang-row').each(function(){
-                    sumRAP += parseNum($(this).find('input[name="total_rap_item[]"]').val());
-                    sumRAB += parseNum($(this).find('input[name="total_rab_item[]"]').val());
-                });
-                $('#total_rap').val(formatIDR(sumRAP));
-                $('#total_rab').val(formatIDR(sumRAB));
-            }
-
-            // ===== Trigger hitung ulang saat input berubah =====
-            $(document).on('input', 'input[name="rap_qty[]"], input[name="persen_naik[]"], input[name="harga_item[]"]', function(){
-                const $row = $(this).closest('tr.barang-row');
-                recalcRow($row);
-                recalcHeaderTotals();
-            });
-
-            // Jika default persen header berubah → terapkan ke item yang kolom persennya masih kosong
-            $('#persen_kenaikan_qty').on('input', function(){
-                $('#barangTableBody tr.barang-row').each(function(){
-                    const $p = $(this).find('input[name="persen_naik[]"]');
-                    if ($p.val() === '' || $p.val() === null) {
-                        // biarkan kosong (tetap ambil dari header saat hitung), cukup re-hitungs aja
+                    if (window.initCleaveIn) {
+                        const lastRow = $('#barangTableBody tr.barang-row').last().get(0);
+                        window.initCleaveIn(lastRow);
                     }
+                });
+        
+                $('#modalBarang').modal('hide');
+            });
+
+            $(document).on('click', '.remove-row', function () {
+                $(this).closest('tr').remove();
+            });
+
+            $('#modalBarang').on('show.bs.modal', function () {
+                $('#checkAll').prop('checked', false);
+                $('.check-barang').prop('checked', false);
+            });
+
+            $(document).ready(function () {
+                function readNumber($input) {
+                    const el = $input.get(0);
+                    if (el && el.classList.contains('rupiah') && window.__cleaveMap) {
+                        const inst = window.__cleaveMap.get(el);
+                        if (inst) {
+                            const raw = inst.getRawValue();
+                            const n = parseFloat(raw);
+                            return isNaN(n) ? 0 : n;
+                        }
+                    }
+                    const v = ($input.val() ?? '').toString().replace(/\s+/g,'').replace(',', '.');
+                    const n = parseFloat(v);
+                    return isNaN(n) ? 0 : n;
+                }
+
+                function writeCurrency($input, number) {
+                    const el = $input.get(0);
+                    if (el && el.classList.contains('rupiah') && window.__cleaveMap) {
+                        const inst = window.__cleaveMap.get(el);
+                        if (inst) {
+                            inst.setRawValue((+number || 0).toFixed(0));
+                            return;
+                        }
+                    }
+                    $input.val(number);
+                }
+
+                function recalcRow($row) {
+                    const rapQty = readNumber($row.find('input[name="rap_qty[]"]'));
+                    let persen   = $row.find('input[name="persen_naik[]"]').val();
+                    if (persen === '' || persen === null) persen = $('#persen_kenaikan_qty').val();
+                    const p = parseFloat(persen) || 0;
+
+                    const harga  = readNumber($row.find('input[name="harga_item[]"]'));
+
+                    const qtyRAB   = rapQty * (1 + (p/100));
+                    const totalRAP = rapQty * harga;
+                    const totalRAB = qtyRAB * harga;
+
+                    $row.find('input[name="rab_qty[]"]').val(Number.isInteger(qtyRAB) ? qtyRAB : qtyRAB.toFixed(2));
+                    writeCurrency($row.find('input[name="total_rap_item[]"]'), totalRAP);
+                    writeCurrency($row.find('input[name="total_rab_item[]"]'), totalRAB);
+                }
+
+                function recalcHeaderTotals() {
+                    let sumRAP = 0, sumRAB = 0;
+                    $('#barangTableBody tr.barang-row').each(function(){
+                        sumRAP += readNumber($(this).find('input[name="total_rap_item[]"]'));
+                        sumRAB += readNumber($(this).find('input[name="total_rab_item[]"]'));
+                    });
+                    writeCurrency($('#total_rap'), sumRAP);
+                    writeCurrency($('#total_rab'), sumRAB);
+                }
+
+                $(document).on('input', 'input[name="rap_qty[]"], input[name="persen_naik[]"], input[name="harga_item[]"]', function(){
+                    const $row = $(this).closest('tr.barang-row');
+                    recalcRow($row);
+                    recalcHeaderTotals();
+                });
+
+                $('#persen_kenaikan_qty').on('input', function(){
+                    $('#barangTableBody tr.barang-row').each(function(){
+                        recalcRow($(this));
+                    });
+                    recalcHeaderTotals();
+                });
+
+                $('#tambahBarangTerpilih').off('click.calc').on('click.calc', function(){
+                    setTimeout(function(){
+                        const $row = $('#barangTableBody tr.barang-row').last();
+                        $(document).trigger('input');
+                        $row.each(function(){ 
+                            
+                        });
+                    }, 0);
+                });
+
+                $(document).on('click', '.remove-row', function () {
+                    const $tr = $(this).closest('tr.barang-row');
+                    $tr.remove();
+                    recalcHeaderTotals();
+                });
+
+                $('#barangTableBody tr.barang-row').each(function(){
                     recalcRow($(this));
                 });
                 recalcHeaderTotals();
             });
-
-            // Saat tambah barang dari modal → isi default persen & hitung otomatis
-            $('#tambahBarangTerpilih').off('click.calc').on('click.calc', function(){
-                // jalankan handler bawaan kamu dulu (yang append row)
-                setTimeout(function(){
-                    // untuk setiap row baru, auto set & hitung
-                    $('#barangTableBody tr.barang-row').each(function(){
-                        const $row = $(this);
-                        const rap = $row.find('input[name="rap_qty[]"]').val();
-                        // kalau baru ditambahkan biasanya rap_qty kosong—biarkan user isi
-                        // tapi begitu ada nilai, langsung hitung (ditangani event 'input')
-                        recalcRow($row);
-                    });
-                    recalcHeaderTotals();
-                }, 0);
-            });
-
-            // Saat hapus baris → update total header
-            $(document).on('click', '.remove-row', function () {
-                const $tr = $(this).closest('tr.barang-row');
-                $tr.remove();
-                recalcHeaderTotals();
-            });
-
-            // Initial recalc kalau ada old() / prefilled
-            $('#barangTableBody tr.barang-row').each(function(){
-                recalcRow($(this));
-            });
-            recalcHeaderTotals();
         });
-    });
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {

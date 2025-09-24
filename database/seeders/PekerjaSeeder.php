@@ -18,7 +18,7 @@ class PekerjaSeeder extends Seeder
 
         for ($i = 0; $i < 20; $i++) {
             Pekerja::create([
-                'nama' => $faker->name,
+                'nama_pekerja' => $faker->name,
                 'alamat' => $faker->address,
                 'no_hp' => $faker->phoneNumber,
             ]);

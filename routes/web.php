@@ -26,6 +26,7 @@ use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\PenjualController;
 use App\Http\Controllers\MataUangController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\KonsumenController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DepartemenController;
 use App\Http\Controllers\ProyekUmumController;
@@ -33,6 +34,7 @@ use App\Http\Controllers\PindahBarangController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\StatusPemasokController;
 use App\Http\Controllers\TipePelangganController;
+use App\Http\Controllers\ClusterController;
 use App\Http\Controllers\KategoriBarangController;
 use App\Http\Controllers\ReturPembelianController;
 use App\Http\Controllers\UserManagementController;
@@ -68,6 +70,7 @@ use App\Http\Controllers\Projek\PengajuanBahanLainyaController;
 use App\Http\Controllers\Projek\PerencanaanPembangunanController;
 use App\Http\Controllers\Projek\RabrapController;
 use App\Http\Controllers\Projek\SpkMandorPekerjaController;
+use App\Http\Controllers\Projek\PekerjaController;
 use App\Http\Controllers\Marketing\SuratPerintahPembangunanController;
 use App\Http\Controllers\Marketing\TiketKostumer\KategoriTiketKostumerController;
 use App\Http\Controllers\Marketing\TiketKostumer\TiketKostumerController;
@@ -280,8 +283,9 @@ Route::controller(PelangganController::class)->group(function () {
     Route::post('/pelanggan/delete', [PelangganController::class, 'delete'])->name('pelanggan/delete');
     Route::get('get-pelanggan-data', [PelangganController::class, 'getPelanggan'])->name('get-pelanggan-data');
     Route::get('/pelanggan/cari', [PelangganController::class, 'cari'])->name('/pelanggan/cari');
-    // Route::get('provinces', 'DependentDropdownController@provinces')->name('provinces');
-    // Route::get('cities', 'DependentDropdownController@cities')->name('cities');
+    Route::get('/ajax/indonesia/cities', [PelangganController::class, 'citiesByProvince'])->name('ajax.cities.by-province');
+    Route::get('/ajax/indonesia/districts', [PelangganController::class, 'districtsByCity'])->name('ajax.districts.by-city');
+    Route::get('/ajax/indonesia/villages', [PelangganController::class, 'villagesByDistrict'])->name('ajax.villages.by-district');
 });
 
 // ----------------------------- Tipe Pelanggan -----------------------------//
@@ -350,6 +354,9 @@ Route::controller(PegawaiController::class)->group(function () {
     Route::post('/pegawai/update/{id}', [PegawaiController::class, 'update'])->name('pegawai/update');
     Route::post('/pegawai/delete', [PegawaiController::class, 'delete'])->name('pegawai/delete');
     Route::get('get-pegawai-data', [PegawaiController::class, 'getPegawai'])->name('get-pegawai-data');
+    Route::get('/ajax/indonesia/cities', [PegawaiController::class, 'citiesByProvince'])->name('ajax.cities.by-province');
+    Route::get('/ajax/indonesia/districts', [PegawaiController::class, 'districtsByCity'])->name('ajax.districts.by-city');
+    Route::get('/ajax/indonesia/villages', [PegawaiController::class, 'villagesByDistrict'])->name('ajax.villages.by-district');
 });
 
 
@@ -430,27 +437,31 @@ Route::controller(BarangController::class)->group(function () {
 
 
 // ----------------------------- Cluster (deprecated) -----------------------------//
-// Route::controller(ClusterController::class)->group(function () {
-//     Route::get('cluster/list/page', 'daftarCluster')->middleware('auth')->name('cluster/list/page');
-//     Route::get('cluster/add/new', 'tambahCluster')->middleware('auth')->name('cluster/add/new');
-//     Route::post('form/cluster/save', 'simpanCluster')->middleware('auth')->name('form/cluster/save');
-//     Route::get('/cluster/edit/{id}', [ClusterController::class, 'editCluster'])->name('cluster/edit');
-//     Route::post('/cluster/update/{id}', [ClusterController::class, 'updateCluster'])->name('cluster/update');
-//     Route::post('/cluster/delete', [ClusterController::class, 'hapusCluster'])->name('cluster/delete');
-//     Route::get('get-cluster-data', [ClusterController::class, 'dataCluster'])->name('get-cluster-data');
-// });
+Route::controller(ClusterController::class)->group(function () {
+    Route::get('cluster/list/page', 'daftarCluster')->middleware('auth')->name('cluster/list/page');
+    Route::get('cluster/add/new', 'tambahCluster')->middleware('auth')->name('cluster/add/new');
+    Route::post('form/cluster/save', 'simpanCluster')->middleware('auth')->name('form/cluster/save');
+    Route::get('/cluster/edit/{id}', [ClusterController::class, 'editCluster'])->name('cluster/edit');
+    Route::post('/cluster/update/{id}', [ClusterController::class, 'updateCluster'])->name('cluster/update');
+    Route::post('/cluster/delete', [ClusterController::class, 'hapusCluster'])->name('cluster/delete');
+    Route::get('get-cluster-data', [ClusterController::class, 'dataCluster'])->name('get-cluster-data');
+    Route::get('/ajax/indonesia/cities', [ClusterController::class, 'citiesByProvince'])->name('ajax.cities.by-province');
+    Route::get('/ajax/indonesia/districts', [ClusterController::class, 'districtsByCity'])->name('ajax.districts.by-city');
+    Route::get('/ajax/indonesia/villages', [ClusterController::class, 'villagesByDistrict'])->name('ajax.villages.by-district');
+});
 
-
-// ----------------------------- Konsumen (deprecated) -----------------------------//
-// Route::controller(KonsumenController::class)->group(function () {
-//     Route::get('konsumen/list/page', 'daftarKonsumen')->middleware('auth')->name('konsumen/list/page');
-//     Route::get('konsumen/add/new', 'tambahKonsumen')->middleware('auth')->name('konsumen/add/new');
-//     Route::post('form/konsumen/save', 'simpanKonsumen')->middleware('auth')->name('form/konsumen/save');
-//     Route::get('/konsumen/edit/{id}', [KonsumenController::class, 'editKonsumen'])->name('konsumen/edit');
-//     Route::post('/konsumen/update/{id}', [KonsumenController::class, 'updateKonsumen'])->name('konsumen/update');
-//     Route::post('/konsumen/delete', [KonsumenController::class, 'hapusKonsumen'])->name('konsumen/delete');
-//     Route::get('get-konsumen-data', [KonsumenController::class, 'dataKonsumen'])->name('get-konsumen-data');
-// });
+Route::controller(KonsumenController::class)->group(function () {
+    Route::get('konsumen/list/page', 'daftarKonsumen')->middleware('auth')->name('konsumen/list/page');
+    Route::get('konsumen/add/new', 'tambahKonsumen')->middleware('auth')->name('konsumen/add/new');
+    Route::post('form/konsumen/save', 'simpanKonsumen')->middleware('auth')->name('form/konsumen/save');
+    Route::get('/konsumen/edit/{id}', [KonsumenController::class, 'editKonsumen'])->name('konsumen/edit');
+    Route::post('/konsumen/update/{id}', [KonsumenController::class, 'updateKonsumen'])->name('konsumen/update');
+    Route::post('/konsumen/delete', [KonsumenController::class, 'hapusKonsumen'])->name('konsumen/delete');
+    Route::get('get-konsumen-data', [KonsumenController::class, 'dataKonsumen'])->name('get-konsumen-data');
+    Route::get('/ajax/indonesia/cities', [KonsumenController::class, 'citiesByProvince'])->name('ajax.cities.by-province');
+    Route::get('/ajax/indonesia/districts', [KonsumenController::class, 'districtsByCity'])->name('ajax.districts.by-city');
+    Route::get('/ajax/indonesia/villages', [KonsumenController::class, 'villagesByDistrict'])->name('ajax.villages.by-district');
+});
 
 
 // ----------------------------- Proyek Umum -----------------------------//
@@ -566,9 +577,9 @@ Route::get('get-faktur2-data', [FakturPembelianController::class, 'tambahFaktur'
 
 Route::get('get-faktur23-data', [FakturPembelianController::class, 'tambahFaktur'])->name('get-faktur23-data');
 
-Route::get('/get-detail-faktur', [FakturPembelianController::class, 'getDetailFaktur']);
+Route::get('get-detail-faktur', [FakturPembelianController::class, 'getDetailFaktur'])->name('get-detail-faktur');
 
-Route::get('/get-detail2-faktur', [FakturPembelianController::class, 'getDetailPenerimaan2']);
+Route::get('get-detail2-faktur', [FakturPembelianController::class, 'getDetailPenerimaan2'])->name('get-detail2-faktur');
 
 
 // ----------------------------- Cabang -----------------------------//
@@ -709,32 +720,33 @@ Route::controller(PencatatanNomorSerialController::class)->group(function () {
 
 Route::get('prospek/add/new', ProspekForm::class)->middleware('auth')->name('prospek/add/new');
 Route::get('/prospek/edit/{id}', ProspekForm::class)->name('prospek/edit');
-Route::controller(ProspekController::class)->group(function () {
+    Route::controller(ProspekController::class)->group(function () {
     Route::get('prospek/list/page', 'ProspekList')->middleware('auth')->name('prospek/list/page');
     Route::post('/prospek/delete', 'delete')->name('prospek/delete');
     Route::get('get-prospek-data', 'getProspek')->name('get-prospek-data');
 });
 
-Route::get('konsumenmarketing/add/new', KonsumenForm::class)->middleware('auth')->name('konsumenmarketing/add/new');
-Route::get('/konsumenmarketing/edit/{id}', KonsumenForm::class)->name('konsumenmarketing/edit');
-Route::controller(KonsumenMarketingController::class)->group(function () {
-    Route::get('konsumenmarketing/list/page', 'KonsumenMarketingList')->middleware('auth')->name('konsumenmarketing/list/page');
-    Route::post('/konsumenmarketing/delete', [KonsumenMarketingController::class, 'delete'])->name('konsumenmarketing/delete');
-    Route::get('get-konsumen-data', [KonsumenMarketingController::class, 'getKonsumen'])->name('get-konsumen-data');
-});
+// ----------------------------- Konsumen (deprecated) -----------------------------//
+// Route::get('konsumenmarketing/add/new', KonsumenForm::class)->middleware('auth')->name('konsumenmarketing/add/new');
+// Route::get('/konsumenmarketing/edit/{id}', KonsumenForm::class)->name('konsumenmarketing/edit');
+// Route::controller(KonsumenMarketingController::class)->group(function () {
+//     Route::get('konsumenmarketing/list/page', 'KonsumenMarketingList')->middleware('auth')->name('konsumenmarketing/list/page');
+//     Route::post('/konsumenmarketing/delete', [KonsumenMarketingController::class, 'delete'])->name('konsumenmarketing/delete');
+//     Route::get('get-konsumen-data', [KonsumenMarketingController::class, 'getKonsumen'])->name('get-konsumen-data');
+// });
 
 // ----------------------------- Marketing sub-perumahan - (INTERNSHIP TEAM) ----------------------------//
 Route::controller(SitePlanController::class)->group(function () {
     Route::get('siteplane/page', 'SitePlanView')->middleware('auth')->name('siteplane/page');
 });
 
-Route::get('klusterperumahan/add/new', KlusterPerumahanForm::class)->middleware('auth')->name('klusterperumahan/add/new');
-Route::get('/klusterperumahan/edit/{id}', KlusterPerumahanForm::class)->name('klusterperumahan/edit');
-Route::controller(KlusterPerumahanController::class)->group(function () {
-    Route::get('klusterperumahan/list/page', 'KlusterPerumahanList')->middleware('auth')->name('klusterperumahan/list/page');
-    Route::post('/klusterperumahan/delete', 'delete')->name('klusterperumahan/delete');
-    Route::get('get-cluster-data', 'dataCluster')->name('get-cluster-data');
-});
+// Route::get('klusterperumahan/add/new', KlusterPerumahanForm::class)->middleware('auth')->name('klusterperumahan/add/new');
+// Route::get('/klusterperumahan/edit/{id}', KlusterPerumahanForm::class)->name('klusterperumahan/edit');
+// Route::controller(KlusterPerumahanController::class)->group(function () {
+//     Route::get('klusterperumahan/list/page', 'KlusterPerumahanList')->middleware('auth')->name('klusterperumahan/list/page');
+//     Route::post('/klusterperumahan/delete', 'delete')->name('klusterperumahan/delete');
+//     Route::get('get-cluster-data', 'dataCluster')->name('get-cluster-data');
+// });
 
 Route::controller(KavlingController::class)->group(function () {
     Route::get('kavling/list/page', 'KavlingList')->middleware('auth')->name('kavling/list/page');
@@ -743,7 +755,7 @@ Route::controller(KavlingController::class)->group(function () {
     Route::get('kavling/edit/{id}', 'edit')->middleware('auth')->name('kavling/edit');
     Route::post('kavling/update/{id}', 'updateKavling')->middleware('auth')->name('kavling/update');
     Route::post('kavling/delete', 'delete')->middleware('auth')->name('kavling/delete');
-    Route::get('get-kavling-data', 'getKavling')->middleware('auth')->name('get/kavling/data');
+    Route::get('get-kavling-data', 'getKavling')->middleware('auth')->name('get-kavling-data');
 });
 
 Route::controller(FasumController::class)->group(function () {
@@ -751,9 +763,9 @@ Route::controller(FasumController::class)->group(function () {
     Route::get('fasum/add/new', 'FasumAddNew')->middleware('auth')->name('fasum/add/new');
     Route::post('form/fasum/save', 'saveRecordFasum')->middleware('auth')->name('form/fasum/save');
     Route::get('fasum/edit/{id}', 'edit')->middleware('auth')->name('fasum/edit');
-    Route::post('fasum/update/{id}', 'update')->middleware('auth')->name('fasum/update');
+    Route::post('fasum/update/{id}', 'updateFasum')->middleware('auth')->name('fasum/update');
     Route::post('fasum/delete', 'delete')->middleware('auth')->name('fasum/delete');
-    Route::get('get-fasum-data', 'getFasum')->middleware('auth')->name('get/fasum/data');
+    Route::get('get-fasum-data', 'getFasum')->middleware('auth')->name('get-fasum-data');
 });
 
 Route::controller(FasosController::class)->group(function () {
@@ -761,9 +773,9 @@ Route::controller(FasosController::class)->group(function () {
     Route::get('fasos/add/new', 'FasosAddNew')->middleware('auth')->name('fasos/add/new');
     Route::post('form/fasos/save', 'saveRecordFasos')->middleware('auth')->name('form/fasos/save');
     Route::get('fasos/edit/{id}', 'edit')->middleware('auth')->name('fasos/edit');
-    Route::post('fasos/update/{id}', 'update')->middleware('auth')->name('fasos/update');
+    Route::post('fasos/update/{id}', 'updateFasos')->middleware('auth')->name('fasos/update');
     Route::post('fasos/delete', 'delete')->middleware('auth')->name('fasos/delete');
-    Route::get('get-fasos-data', 'getFasos')->middleware('auth')->name('get/fasos/data');
+    Route::get('get-fasos-data', 'getFasos')->middleware('auth')->name('get-fasos-data');
 });
 
 // ----------------------------- Marketing sub-TiketCostumer - (INTERNSHIP TEAM) ----------------------------//
@@ -790,9 +802,10 @@ Route::controller(SuratPerintahPembangunanController::class)->group(function () 
     Route::get('suratperintahpembangunan/list/page', 'SuratPerintahPembangunanList')->middleware('auth')->name('suratperintahpembangunan/list/page');
     Route::get('suratperintahpembangunan/add/new', 'SuratPerintahPembangunanAddNew')->middleware('auth')->name('suratperintahpembangunan/add/new');
     Route::post('form/suratperintahpembangunan/save', 'saveRecordSuratPerintahPembangunan')->middleware('auth')->name('form/suratperintahpembangunan/save');
-    Route::get('suratperintahpembangunan/edit/{id}', [SuratPerintahPembangunanController::class, 'edit'])->name('suratperintahpembangunan/edit');
-    Route::post('suratperintahpembangunan/update/{id}', [SuratPerintahPembangunanController::class, 'update'])->name('suratperintahpembangunan/update');
-    Route::post('suratperintahpembangunan/delete', [SuratPerintahPembangunanController::class, 'delete'])->name('suratperintahpembangunan/delete');
+    // Route::get('suratperintahpembangunan/edit/{id}', [SuratPerintahPembangunanController::class, 'edit'])->name('suratperintahpembangunan/edit');
+    Route::get('suratperintahpembangunan/{id}/json', 'getDetailJson')->middleware('auth')->name('suratperintahpembangunan/json');
+    Route::post('suratperintahpembangunan/update/', [SuratPerintahPembangunanController::class, 'update'])->name('suratperintahpembangunan/update');
+    Route::post('suratperintahpembangunan/delete', [SuratPerintahPembangunanController::class, 'bulkDelete'])->name('suratperintahpembangunan/delete');    
     Route::get('get-surat-perintah-pembangunan-data', [SuratPerintahPembangunanController::class, 'getSuratPerintahPembangunan'])->name('get-surat-perintah-pembangunan-data');
 });
 
@@ -822,16 +835,39 @@ Route::controller(PerencanaanPembangunanController::class)->group(function () {
     Route::get('perencanaanpembangunan/list/page', 'PerencanaanPembangunanList')->middleware('auth')->name('perencanaanpembangunan/list/page');
 });
 
+Route::controller(PekerjaController::class)->group(function () {
+    Route::get('pekerja/list/page', 'pekerjaList')->middleware('auth')->name('pekerja/list/page');
+    Route::get('pekerja/add/new', 'pekerjaAddNew')->middleware('auth')->name('pekerja/add/new');
+    Route::post('form/pekerja/save', 'saveRecordpekerja')->middleware('auth')->name('form/pekerja/save');
+    Route::get('pekerja/edit/{id}', [PekerjaController::class, 'edit'])->name('pekerja/edit');
+    Route::post('pekerja/update/{id}', [PekerjaController::class, 'update'])->name('pekerja/update');
+    Route::post('pekerja/delete', [PekerjaController::class, 'delete'])->name('pekerja/delete');
+    Route::get('get-pekerja-data', [PekerjaController::class, 'getpekerja'])->name('get-pekerja-data');
+});
+
 Route::controller(SpkMandorPekerjaController::class)->group(function () {
     Route::get('spkmandorpekerja/list/page', 'SpkMandorPekerjaList')->middleware('auth')->name('spkmandorpekerja/list/page');
     Route::get('spkmandorpekerjainternal/add/new', 'SpkMandorPekerjaInternalAddNew')->middleware('auth')->name('spkmandorpekerjainternal/add/new');
-    Route::get('spkmandorpekerjasubcon/add/new', 'SpkMandorPekerjaSubConAddNew')->middleware('auth')->name('spkmandorpekerjasubcon/add/new');
+    Route::get('spkmandorpekerjasubcon/add/new', 'SpkMandorPekerjaSubconAddNew')->middleware('auth')->name('spkmandorpekerjasubcon/add/new');
     Route::post('form/spkmandorpekerja/save', 'saveRecordSpkMandorPekerja')->middleware('auth')->name('form/spkmandorpekerja/save');
-    Route::get('spkmandorpekerja/edit/{id}', [SpkMandorPekerjaController::class, 'edit'])->name('spkmandorpekerja/edit');
-    Route::post('spkmandorpekerja/update/{id}', [SpkMandorPekerjaController::class, 'update'])->name('spkmandorpekerja/update');
+    Route::post('form/spkmandorpekerjasubcon/save', 'saveRecordSpkMandorPekerjaSubcon')->middleware('auth')->name('form/spkmandorpekerjasubcon/save');
+    Route::get('spkmandorpekerjainternal/edit/{id}', [SpkMandorPekerjaController::class, 'editInternal'])->name('spkmandorpekerjainternal/edit');
+    Route::get('spkmandorpekerjasubcon/edit/{id}', [SpkMandorPekerjaController::class, 'editSubcon'])->name('spkmandorpekerjasubcon/edit');
+    Route::post('spkmandorpekerjainternal/update/{id}', [SpkMandorPekerjaController::class, 'updateInternal'])->name('spkmandorpekerjainternal/update');
+    Route::post('spkmandorpekerjasubcon/update/{id}', [SpkMandorPekerjaController::class, 'updateSubcon'])->name('spkmandorpekerjasubcon/update');
     Route::post('spkmandorpekerja/delete', [SpkMandorPekerjaController::class, 'delete'])->name('spkmandorpekerja/delete');
     Route::get('get-spkmandorpekerja-data', [SpkMandorPekerjaController::class, 'getSpkMandorPekerja'])->name('get-spkmandorpekerja-data');
+    Route::post('spkmandorpekerja/store-ajax', [SpkMandorPekerjaController::class, 'storeAjax'])->middleware('auth')->name('spkmandorpekerja/store-ajax');
 });
+
+Route::post('/spkmandorpekerja/{id}/approve', [SpkMandorPekerjaController::class, 'approve'])->name('spkmandorpekerja/approve')->middleware('auth');
+
+Route::get('spk/kapling-by-spp', [SpkMandorPekerjaController::class, 'kaplingBySpp'])
+    ->middleware('auth')->name('spk/kapling-by-spp');
+
+Route::get('spk/kaplings-by-spp', [SpkMandorPekerjaController::class, 'kaplingsBySpp'])
+->middleware('auth')->name('spk/kaplings-by-spp');
+
 
 Route::controller(RabrapController::class)->group(function () {
     Route::get('rabrap/list/page', 'RabrapList')->middleware('auth')->name('rabrap/list/page');

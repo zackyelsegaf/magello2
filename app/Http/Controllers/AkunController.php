@@ -34,23 +34,25 @@ class AkunController extends Controller
         
         $rules = [
             'no_akun'             => 'required|string|max:255|unique:akun,no_akun',
-            'tipe_akun'           => 'required|string|max:255',
+            'tipe_id'             => 'required|integer|exists:tipe_akun,id',
             'nama_akun_indonesia' => 'required|string|max:255',
-            'nama_akun_inggris'   => 'required|string|max:255',
-            'mata_uang'           => 'nullable|string|max:255',
-            'sub_akun_check'      => 'nullable|boolean',
-            'sub_akun'            => 'nullable|string|max:255',
+            'nama_akun_inggris'   => 'nullable|string|max:255',
+            'mata_uang_id'        => 'nullable|integer|exists:mata_uang,id',
+            'parent_id'           => 'nullable|integer|exists:akun,id',
             'saldo_akun'          => 'nullable|string|max:255',
             'tanggal'             => 'nullable|string|max:255',
+            'sub_akun_check'      => 'nullable|string|max:255',
             'dihentikan'          => 'nullable|boolean',
         ];
 
         $message = [
-            'no_akun.unique' => 'No akun sudah ada di dalam sistem.',
-            'no_akun.required' => 'No akun wajib diisi.',
-            'tipe_akun.required' => 'Tipe akun wajib diisi.',
+            'no_akun.unique'      => 'No akun sudah ada di dalam sistem.',
+            'no_akun.required'    => 'No akun wajib diisi.',
+            'tipe_id.required'  => 'Tipe akun wajib diisi.',
             'nama_akun_indonesia.required' => 'Nama akun (Indonesia) wajib diisi.',
-            'nama_akun_inggris.required' => 'Nama akun (English) wajib diisi',
+            'tipe_akun.exists'      => 'Tipe akun tidak ditemukan di dalam sistem.',
+            'mata_uang_id.exists' => 'Mata uang tidak ditemukan di dalam sistem.',
+            'parent_id.exists'    => 'Akun induk tidak ditemukan di dalam sistem.',
         ];
 
         $validator = Validator::make($request->all(), $rules, $message);
@@ -89,7 +91,10 @@ class AkunController extends Controller
     {
         $mata_uang = DB::table('mata_uang')->get();
         $tipe_akun = DB::table('tipe_akun')->get();
-        $nama_akun = DB::table('akun')->get();
+        $nama_akun = DB::table('akun')
+                ->whereIn('sub_akun_check', ['0'])
+                ->orderBy('nama', 'asc')
+                ->get();
         $Akun = Akun::findOrFail($id);
         if (!$Akun) {
             return redirect()->back()->with('error', 'Data tidak ditemukan');
@@ -99,23 +104,40 @@ class AkunController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validate = $request->validate([
-            'no_akun'             => 'nullable|string|max:255',
-            'tipe_akun'           => 'nullable|string|max:255',
-            'nama_akun_indonesia' => 'nullable|string|max:255',
+        $rules = [
+            'no_akun'             => 'required|string|max:255',
+            'tipe_id'             => 'required|integer|exists:tipe_akun,id',
+            'nama_akun_indonesia' => 'required|string|max:255',
             'nama_akun_inggris'   => 'nullable|string|max:255',
-            'mata_uang'           => 'nullable|string|max:255',
-            'sub_akun_check'      => 'nullable|boolean',
-            'sub_akun'            => 'nullable|string|max:255',
+            'mata_uang_id'        => 'nullable|integer|exists:mata_uang,id',
+            'parent_id'           => 'nullable|integer|exists:akun,id',
             'saldo_akun'          => 'nullable|string|max:255',
             'tanggal'             => 'nullable|string|max:255',
+            'sub_akun_check'      => 'nullable|string|max:255',
             'dihentikan'          => 'nullable|boolean',
-        ]);
+        ];
+
+        $message = [
+            // 'no_akun.unique'      => 'No akun sudah ada di dalam sistem.',
+            'no_akun.required'    => 'No akun wajib diisi.',
+            'tipe_id.required'  => 'Tipe akun wajib diisi.',
+            'nama_akun_indonesia.required' => 'Nama akun (Indonesia) wajib diisi.',
+            'tipe_akun.exists'      => 'Tipe akun tidak ditemukan di dalam sistem.',
+            'mata_uang_id.exists' => 'Mata uang tidak ditemukan di dalam sistem.',
+            'parent_id.exists'    => 'Akun induk tidak ditemukan di dalam sistem.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi Gagal, Beberapa Input Wajib Belum Terisi!');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         DB::beginTransaction();
         try {
             $Akun = Akun::findOrFail($id);
-            $Akun->update($validate);
+            $Akun->fill($validator->validated());
+            $Akun->save();
             
             DB::commit();
             sweetalert()->success('Updated record successfully :)');
@@ -155,7 +177,7 @@ class AkunController extends Controller
         $order_arr       = $request->get('order');
         $namaFilter      = $request->get('nama_akun');
         $akunIdFilter  = $request->get('no_akun');
-        $akunTipeAkunFilter  = $request->get('tipe_akun');
+        $akunTipeAkunFilter  = $request->get('tipe_id');
         $akunDihentikanFilter  = $request->get('dihentikan');
 
         $columnIndex     = $columnIndex_arr[0]['column']; // Column index
@@ -174,7 +196,7 @@ class AkunController extends Controller
         }
 
         if ($akunTipeAkunFilter) {
-            $Akun->where('tipe_akun', 'like', '%' . $akunTipeAkunFilter . '%');
+            $Akun->where('tipe_id', 'like', '%' . $akunTipeAkunFilter . '%');
         }
 
         if ($akunDihentikanFilter  !== null && $akunDihentikanFilter !== '') {
@@ -198,10 +220,10 @@ class AkunController extends Controller
                 "no"                    => $start + $key + 1,
                 "id"                    => $record->id,
                 "no_akun"               => $record->sub_akun_check == 0 ? '<strong>' . $record->no_akun . '</strong>' : str_repeat('&nbsp;', 3) . $record->no_akun,
-                "nama_akun_indonesia"   => $record->sub_akun_check == 0 ? '<strong>' . $record->nama_akun_indonesia . '</strong>' : $record->nama_akun_indonesia,
-                "tipe_akun"             => $record->sub_akun_check == 0 ? '<strong>' . $record->tipe_akun . '</strong>' : $record->tipe_akun,
-                "mata_uang"             => $record->sub_akun_check == 0 ? '<strong>' . $record->mata_uang . '</strong>' : $record->mata_uang,
-                "saldo_akun"            => '<strong>' . number_format($record->saldo_akun, 0, ',', '.') . "</strong>",
+                "nama_akun_indonesia"   => $record->sub_akun_check == 0 ? '<strong>' . $record->nama_akun_indonesia . '</strong>' : str_repeat('&nbsp;', 3) . $record->nama_akun_indonesia,
+                "tipe_id"               => $record->sub_akun_check == 0 ? '<strong>' . $record->tipe_id . '</strong>' : $record->tipe_id,
+                "mata_uang_id"          => $record->sub_akun_check == 0 ? '<strong>' . $record->mata_uang_id . '</strong>' : $record->mata_uang_id,
+                "saldo_akun"            => $record->sub_akun_check == 0 ? '<strong>' . "Rp " . number_format($record->saldo_akun, 0, ',', '.') . '</strong>' : "Rp " . number_format($record->saldo_akun, 0, ',', '.'),
             ];
         }
         

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('pemasok_pesanan')->nullable();
             $table->string('tgl_pesanan')->nullable();
             $table->string('deskripsi_pesanan')->nullable();
+            $table->string('nilai_tukar')->nullable();
             $table->boolean('tindak_lanjut_check')->nullable()->default(false);
             $table->boolean('urgent_check')->nullable()->default(false);
             $table->boolean('catatan_pemeriksaan_check')->nullable()->default(false);

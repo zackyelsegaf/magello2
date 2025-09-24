@@ -16,9 +16,19 @@
                         <div class="row formtype">
                             <div class="col-md-4">
                                 <div class="form-group">
+                                    <label>Kode</label>
+                                    <input type="text"
+                                        class="form-control form-control-sm  @error('kode') is-invalid @enderror" name="kode" value="{{ old('kode') }}">
+                                    @error('kode')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
                                     <label>Nama Mata Uang</label>
                                     <input type="text"
-                                        class="form-control form-control-sm  @error('nama') is-invalid @enderror"name="nama"
+                                        class="form-control form-control-sm  @error('nama') is-invalid @enderror" name="nama"
                                         value="{{ old('nama') }}">
                                     @error('nama')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -33,7 +43,7 @@
                                             <span class="input-group-text">Rp</span>
                                         </div>
                                         <input type="text"
-                                            class="form-control form-control-sm  @error('nilai_tukar') is-invalid @enderror"name="nilai_tukar"
+                                            class="form-control form-control-sm  @error('nilai_tukar') is-invalid @enderror" name="nilai_tukar"
                                             placeholder="contoh: 100.000.000" value="{{ old('nilai_tukar') }}">
                                         @error('nilai_tukar')
                                             <div class="invalid-feedback">{{ $message }}</div>

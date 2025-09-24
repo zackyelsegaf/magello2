@@ -65,6 +65,7 @@ class RabrapController extends Controller
         $rules = [
             'judul_rap'            => 'required|string|max:255',
             'cluster'              => 'required|string|max:255',
+            'tanggal_pencatatan'   => 'required|string|max:255',
             'persen_kenaikan_qty'  => 'nullable|string|max:255',
             'tipe_model'           => 'required|string|max:255',
             'total_rap'            => 'nullable|string|max:255',
@@ -154,6 +155,7 @@ class RabrapController extends Controller
         $rules = [
             'judul_rap'            => 'required|string|max:255',
             'cluster'              => 'required|string|max:255',
+            'tanggal_pencatatan'   => 'required|string|max:255',
             'persen_kenaikan_qty'  => 'nullable|string|max:255',
             'tipe_model'           => 'required|string|max:255',
             'total_rap'            => 'nullable|string|max:255',
@@ -220,6 +222,21 @@ class RabrapController extends Controller
         }
     }
 
+    public function delete(Request $request)
+    {
+        try {
+            $ids = $request->ids;
+            RabRap::whereIn('id', $ids)->delete();
+            sweetalert()->success('Data berhasil dihapus :)');
+            return redirect()->route('rabrap/list/page');
+        } catch (\Exception $e) {
+            DB::rollback();
+            sweetalert()->error('Data gagal dihapus :)');
+            \Log::error($e->getMessage());
+            return redirect()->back();
+        }
+    }
+
     public function getRabrap(Request $request)
     {
         $draw            = $request->get('draw');
@@ -263,7 +280,7 @@ class RabrapController extends Controller
                 "id"                        => $record->id,
                 "judul_rap"                 => $record->judul_rap,
                 "tipe_model"                => $record->tipe_model,
-                // "tanggal_pencatatan"        => $record->tanggal_pencatatan,
+                "tanggal_pencatatan"        => $record->tanggal_pencatatan,
                 "total_rap"                 => $record->total_rap,
                 "total_rab"                 => $record->total_rab,
             ];

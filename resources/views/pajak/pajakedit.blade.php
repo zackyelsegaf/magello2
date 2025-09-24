@@ -17,8 +17,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Kode</label>
-                                    <input type="text" class="form-control form-control-sm  @error('kode_pajak') is-invalid @enderror" name="kode_pajak" placeholder="Kode pajak pelanggan" value="{{ $pajak->kode_pajak }}">
-                                    @error('kode_pajak')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                    <input type="text" class="form-control form-control-sm  @error('kode') is-invalid @enderror" name="kode" placeholder="Kode pajak pelanggan" value="{{ $pajak->kode }}">
+                                    @error('kode')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Nama</label>

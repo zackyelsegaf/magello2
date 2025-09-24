@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ URL::to('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ URL::to('assets/plugins/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ URL::to('assets/plugins/datatables/datatables.min.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">    
     <link rel="stylesheet" href="{{ URL::to('assets/css/feathericon.min.css') }}">
     <link rel="stylehseet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">
     <link rel="stylesheet" href="{{ URL::to('assets/plugins/morris/morris.css') }}">
@@ -34,7 +35,7 @@
 <body div="app">    
     <div class="main-wrapper">
         <div class="header">
-            <a href="javascript:void(0);" id="toggle_btn"> <i class="fe fe-text-align-justify"></i> </a>
+            <a href="javascript:void(0);" id="toggle_btn"> <i class="fas fa-bars"></i> </a>
             <a class="mobile_btn" id="mobile_btn"> <i class="fas fa-bars"></i> </a>
             <div class="header-left">
                 <a href="{{ route('home') }}" class="logo"><strong><span class="logoclass">Easy Accounting

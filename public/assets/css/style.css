@@ -1,12 +1,12 @@
 /* @import '../../../../../css.css'; */
 
-@font-face {
+/* @font-face {
     font-family: material icons;
     font-style: normal;
     font-weight: 400;
     src: url(../fonts/MaterialIcons-Regular.eot);
     src: local('Material Icons'), local('MaterialIcons-Regular'), url(../fonts/MaterialIcons-Regular.woff2) format('woff2'), url(../fonts/MaterialIcons-Regular.woff) format('woff'), url(../fonts/MaterialIcons-Regular.ttf) format('truetype')
-}
+} */
 
 html {
     height: 100%
@@ -18,7 +18,8 @@ body {
     font-size: 1rem;
     height: 100%;
     line-height: 1.5;
-    overflow-x: hidden
+    overflow-x: hidden;
+    font-family: "Nunito Sans", sans-serif;
 }
 
 h1,
@@ -27,7 +28,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: rubik, sans-serif;
+    font-family: "Nunito Sans", sans-serif;
     margin-top: 0
 }
 
@@ -420,9 +421,14 @@ button.bg-primary:hover {
 
 .bg-success,
 .badge-success {
-    background-color: #699834 !important;
     color: white;
     padding: 8px;
+}
+
+.badge-secondary {
+  color: #fff;
+  background-color: #6c757d;
+  padding: 8px;
 }
 
 a.bg-success:focus,
@@ -2939,13 +2945,13 @@ html.menu-opened body {
 .fc-toolbar h2 {
     font-size: 18px;
     font-weight: 600;
-    font-family: roboto, sans-serif;
+    font-family: "Nunito Sans", sans-serif;
     line-height: 30px;
     text-transform: uppercase
 }
 
 .fc-day-grid-event .fc-time {
-    font-family: roboto, sans-serif
+    font-family: "Nunito Sans", sans-serif
 }
 
 .fc-day {
@@ -3038,13 +3044,13 @@ html.menu-opened body {
 .fc-basic-view td.fc-week-number span {
     padding-right: 8px;
     font-weight: 700;
-    font-family: roboto, sans-serif
+    font-family: "Nunito Sans", sans-serif
 }
 
 .fc-basic-view td.fc-day-number {
     padding-right: 8px;
     font-weight: 700;
-    font-family: roboto, sans-serif
+    font-family: "Nunito Sans", sans-serif
 }
 
 .event-form .input-group .form-control {
@@ -4290,6 +4296,17 @@ card-title {
     padding: 10px 25px 10px 25px;
     background: #27548A;
     border-color: #27548A;
+
+}
+
+.buttonedit-sm {
+    float: left;
+    font-size: .9rem;
+    border-radius: 10px;
+    width: fit-content;
+    padding: 5px 15px 5px 15px;
+    background: #27548A;
+    border-color: #27548A;
 }
 
 .buttonedit1 {
@@ -4314,6 +4331,32 @@ card-title {
     padding: 4px 8px;
     background: #F7374F;
     border-color: #F7374F;
+}
+
+.buttonedit3 {
+    float: left;
+    font-size: .9rem;
+    border-radius: 8px;
+    width: fit-content;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    float:right;
+    padding: 8px 17px;
+    background: #F7374F;
+    border-color: #F7374F;
+}
+
+.buttonedit4 {
+    float: left;
+    font-size: .9rem;
+    border-radius: 8px;
+    width: fit-content;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    float: right;
+    padding: 8px 17px;
+    background: #27548A;
+    border-color: #27548A;
 }
 
 .veiwbutton {
@@ -6971,6 +7014,12 @@ input:checked+.slider:before {
 #BarangPerGudangList td,
 #RapRabList th,
 #RapRabList td,
+#SppList th,
+#SppList td,
+#SpkList th,
+#SpkList td,
+#FeeTable th,
+#FeeTable td,
 #KategoriBarangList th,
 #KategoriBarangList td {
     padding: 4px 8px !important;

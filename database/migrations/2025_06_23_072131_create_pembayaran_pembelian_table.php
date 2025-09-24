@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('no_formulir')->nullable();
             $table->string('pemasok_pembayaran')->nullable();
             $table->string('tgl_pembayaran')->nullable();
+            $table->string('nilai_tukar')->nullable();
             $table->boolean('cek_kosong_check')->nullable()->default(false);
             $table->boolean('disetujui_check')->nullable()->default(false);
             $table->boolean('pajak_check')->nullable()->default(false);

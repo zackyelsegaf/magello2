@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pekerja extends Model
 {
-    /** @use HasFactory<\Database\Factories\PekerjaFactory> */
     use HasFactory;
 
-    protected $table = 'pekerjas';
-    protected $guarded = ['id'];
+    protected $table = 'pekerja_simandor';
+    protected $fillable = [
+        'nama_pekerja',
+        'alamat',
+        'no_hp'
+    ];
 }

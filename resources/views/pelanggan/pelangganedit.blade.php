@@ -33,39 +33,38 @@
                                                 <div class="form-group">
                                                     <label>No</label>
                                                     <input type="text" class="form-control form-control-sm " id="pelanggan_id" name="pelanggan_id" value="{{ $Pelanggan->pelanggan_id }}">
-                                                     @error('pelanggan_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Nama Pelanggan</label>
-                                                    <input type="text" class="form-control form-control-sm  @error('nama_pelanggan') is-invalid @enderror" name="nama_pelanggan" value="{{ $Pelanggan->nama_pelanggan }}">
-                                                     @error('nama_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <input type="text" class="form-control form-control-sm  @error('nama') is-invalid @enderror" name="nama" value="{{ $Pelanggan->nama }}">
+                                                     @error('nama')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Status</label>
-                                                    <select class="form-control form-control-sm  @error('status') is-invalid @enderror" name="status">
-                                                        <option selected disabled {{ old('status', $Pelanggan->status) ? '' : 'selected' }}> --Pilih Status-- </option>
+                                                    <select class="tomselect @error('status_id') is-invalid @enderror" name="status_id">
+                                                        <option selected disabled {{ old('status_id', $Pelanggan->status_id) ? '' : 'selected' }}> --Pilih Status-- </option>
                                                         @foreach ($data as $items)
-                                                            <option value="{{ $items->nama }}" {{ old('status', $Pelanggan->status) == $items->nama ? 'selected' : '' }}>
+                                                            <option value="{{ $items->id }}" {{ old('status_id', $Pelanggan->status_id) == $items->id ? 'selected' : '' }}>
                                                                 {{ $items->nama }}
                                                             </option>
                                                         @endforeach
                                                     </select>
-                                                     @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                     @error('status_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>NIK</label>
-                                                    <input type="text" class="form-control form-control-sm  @error('nik_pelanggan') is-invalid @enderror" name="nik_pelanggan" value="{{ $Pelanggan->nik_pelanggan }}">
-                                                     @error('nik_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <input type="text" class="form-control form-control-sm  @error('nik') is-invalid @enderror" name="nik" value="{{ $Pelanggan->nik }}">
+                                                     @error('nik')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <h7 class="font-weight-bold">Tempat dan Tanggal Lahir</h7>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label>Kota</label>
-                                                            <select class="form-control form-control-sm  @error('tempat_lahir') is-invalid @enderror"  name="tempat_lahir">
+                                                            <select class="tomselect @error('tempat_lahir') is-invalid @enderror"  name="tempat_lahir">
                                                                 <option selected disabled {{ old('tempat_lahir', $Pelanggan->tempat_lahir) ? '' : 'selected' }}> --Pilih Kota-- </option>
                                                                 @foreach ($kota as $items )
-                                                                    <option value="{{ $items->nama }}" {{ old('tempat_lahir', $Pelanggan->tempat_lahir) == $items->nama ? 'selected' : '' }}>
+                                                                    <option value="{{ $items->id }}" {{ old('tempat_lahir', $Pelanggan->tempat_lahir) == $items->id ? 'selected' : '' }}>
                                                                         {{ $items->nama }}
                                                                     </option>
                                                                 @endforeach
@@ -97,23 +96,23 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Agama</label>
-                                                    <select class="form-control form-control-sm  @error('agama') is-invalid @enderror" name="agama">
-                                                        <option selected disabled {{ old('agama', $Pelanggan->agama) ? '' : 'selected' }}> --Pilih Agama-- </option>
+                                                    <select class="tomselect @error('religion_id') is-invalid @enderror" name="religion_id">
+                                                        <option selected disabled {{ old('religion_id', $Pelanggan->religion_id) ? '' : 'selected' }}> --Pilih Agama-- </option>
                                                         @foreach ($agama as $items )
-                                                            <option value="{{ $items->nama }}" {{ old('agama', $Pelanggan->agama) == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
+                                                            <option value="{{ $items->id }}" {{ old('religion_id', $Pelanggan->religion_id) == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
-                                                     @error('agama')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                     @error('religion_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Jenis Kelamin</label>
-                                                    <select class="form-control form-control-sm  @error('jenis_kelamin') is-invalid @enderror"  name="jenis_kelamin">
-                                                        <option selected disabled {{ old('jenis_kelamin', $Pelanggan->jenis_kelamin) ? '' : 'selected' }}> --Pilih Gender-- </option>
+                                                    <select class="tomselect @error('gender_id') is-invalid @enderror"  name="gender_id">
+                                                        <option selected disabled {{ old('gender_id', $Pelanggan->gender_id) ? '' : 'selected' }}> --Pilih Gender-- </option>
                                                         @foreach ($gender as $items )
-                                                            <option value="{{ $items->nama }}" {{ old('jenis_kelamin', $Pelanggan->jenis_kelamin) == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
+                                                            <option value="{{ $items->id }}" {{ old('gender_id', $Pelanggan->gender_id) == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
-                                                     @error('jenis_kelamin')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                     @error('gender_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Nama Ayah</label>
@@ -208,83 +207,84 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Alamat 2</label>
-                                                    <textarea class="form-control form-control-sm  @error('alamat_2') is-invalid @enderror" name="alamat_2">{{ old('alamat_2', $Pelanggan->alamat_2) }}</textarea>
-                                                     @error('alamat_2')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <textarea class="form-control form-control-sm" name="alamat_2">{{ old('alamat_2', $Pelanggan->alamat_2) }}</textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Alamat Pajak 1</label>
-                                                    <textarea class="form-control form-control-sm  @error('alamatpajak_1') is-invalid @enderror" name="alamatpajak_1">{{ old('alamatpajak_1', $Pelanggan->alamatpajak_1) }}</textarea>
-                                                     @error('alamatpajak_1')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <textarea class="form-control form-control-sm" name="alamatpajak_1">{{ old('alamatpajak_1', $Pelanggan->alamatpajak_1) }}</textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Alamat Pajak 2</label>
-                                                    <textarea class="form-control form-control-sm  @error('alamatpajak_2') is-invalid @enderror" name="alamatpajak_2">{{ old('alamatpajak_2', $Pelanggan->alamatpajak_2) }}</textarea>
-                                                     @error('alamatpajak_2')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <textarea class="form-control form-control-sm" name="alamatpajak_2">{{ old('alamatpajak_2', $Pelanggan->alamatpajak_2) }}</textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Provinsi</label>
-                                                    <select class="form-control form-control-sm  @error('provinsi') is-invalid @enderror" name="provinsi">
-                                                        <option selected disabled {{ old('provinsi', $Pelanggan->provinsi) ? '' : 'selected' }}> --Pilih Provinsi-- </option>
-                                                        @foreach ($provinsi as $items )
-                                                            <option value="{{ $items->nama }}" {{ old('provinsi', $Pelanggan->provinsi) == $items->nama ? 'selected' : '' }}>
-                                                                {{ $items->nama }}
-                                                            </option>
+                                                    <select id="provinsi_code" class="@error('provinsi_code') is-invalid @enderror" name="provinsi_code">
+                                                        <option selected disabled {{ old('provinsi_code', $Pelanggan->provinsi_code) ? '' : 'selected' }}> --Pilih Provinsi-- </option>
+                                                        @foreach ($provinsi as $p)
+                                                        <option value="{{ $p->code }}" {{ old('provinsi_code', $Pelanggan->provinsi_code) === $p->code ? 'selected' : '' }}>
+                                                            {{ $p->name }}
+                                                        </option>
                                                         @endforeach
                                                     </select>
-                                                     @error('provinsi')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                     {{-- @error('provinsi_code')<div class="invalid-feedback">{{ $message }}</div>@enderror --}}
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Kota</label>
-                                                    <select class="form-control form-control-sm  @error('kota') is-invalid @enderror"  name="kota">
-                                                        <option selected disabled {{ old('kota', $Pelanggan->kota) ? '' : 'selected' }}> --Pilih Kota-- </option>
+                                                    <select id="kota_code" class="@error('kota_code') is-invalid @enderror"  name="kota_code">
+                                                        <option selected disabled {{ old('kota_code', $Pelanggan->kota_code) ? '' : 'selected' }}> --Pilih Kota-- </option>
                                                         @foreach ($kota as $items )
-                                                            <option value="{{ $items->nama }}" {{ old('kota', $Pelanggan->kota) == $items->nama ? 'selected' : '' }}>
+                                                            <option value="{{ $items->nama }}" {{ old('kota_code', $Pelanggan->kota_code) == $items->nama ? 'selected' : '' }}>
                                                                 {{ $items->nama }}
                                                             </option>
                                                         @endforeach
                                                     </select>
-                                                     @error('kota')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                     {{-- @error('kota_code')<div class="invalid-feedback">{{ $message }}</div>@enderror --}}
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Negara</label>
-                                                    <select class="form-control form-control-sm  @error('negara') is-invalid @enderror"  name="negara">
-                                                        <option selected disabled {{ old('negara', $Pelanggan->negara) ? '' : 'selected' }}> --Pilih Negara-- </option>
-                                                        @foreach ($negara as $items )
-                                                            <option value="{{ $items->nama }}" {{ old('negara', $Pelanggan->negara) == $items->nama ? 'selected' : '' }}>
-                                                                {{ $items->nama }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                     @error('negara')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <label for="kecamatan_code">Kecamatan</label>
+                                                    <select id="kecamatan_code" name="kecamatan_code" class="@error('kecamatan_code') is-invalid @enderror">
+                                                        @if(!empty($districtSelected))
+                                                        <option value="{{ $districtSelected->code }}" selected>{{ $districtSelected->name }}</option>
+                                                        @else
+                                                        <option value="" disabled selected> --Pilih Kecamatan-- </option>
+                                                        @endif
+                                                    </select>                                     
+                                                    {{-- @error('kecamatan_code')<div class="invalid-feedback">{{ $message }}</div>@enderror --}}
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="kelurahan_code">Kelurahan</label>
+                                                    <select id="kelurahan_code" name="kelurahan_code" class="@error('kelurahan_code') is-invalid @enderror">
+                                                        @if(!empty($villageSelected))
+                                                        <option value="{{ $villageSelected->code }}" selected>{{ $villageSelected->name }}</option>
+                                                        @else
+                                                        <option value="" disabled selected> --Pilih Kelurahan-- </option>
+                                                        @endif
+                                                    </select>                                     
+                                                    {{-- @error('kelurahan_code')<div class="invalid-feedback">{{ $message }}</div>@enderror --}}
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Kode Pos</label>
-                                                    <input type="text" class="form-control form-control-sm  @error('kode_pos') is-invalid @enderror" name="kode_pos" value="{{ $Pelanggan->kode_pos }}">
-                                                     @error('kode_pos')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <input type="text" class="form-control form-control-sm" name="kode_pos" value="{{ $Pelanggan->kode_pos }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Kontak</label>
-                                                    <input type="text" class="form-control form-control-sm  @error('kontak') is-invalid @enderror" name="kontak" value="{{ $Pelanggan->kontak }}">
-                                                     @error('kontak')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <input type="text" class="form-control form-control-sm" name="kontak" value="{{ $Pelanggan->kontak }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>No. Telp</label>
-                                                    <input type="text" class="form-control form-control-sm  @error('no_telp') is-invalid @enderror" name="no_telp" value="{{ $Pelanggan->no_telp }}">
-                                                     @error('no_telp')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <input type="text" class="form-control form-control-sm" name="no_telp" value="{{ $Pelanggan->no_telp }}">
                                                 </div><div class="form-group">
                                                     <label>No. FAX</label>
-                                                    <input type="text" class="form-control form-control-sm  @error('no_fax') is-invalid @enderror"  name="no_fax" value="{{ $Pelanggan->no_fax }}">
-                                                     @error('no_telp')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <input type="text" class="form-control form-control-sm"  name="no_fax" value="{{ $Pelanggan->no_fax }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Email</label>
-                                                    <input type="text" class="form-control form-control-sm  @error('email') is-invalid @enderror" name="email" value="{{ $Pelanggan->email }}">
-                                                     @error('no_fax')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <input type="text" class="form-control form-control-sm" name="email" value="{{ $Pelanggan->email }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Website</label>
-                                                    <input type="text" class="form-control form-control-sm  @error('website') is-invalid @enderror" name="website" value="{{ $Pelanggan->website }}">
-                                                     @error('website')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <input type="text" class="form-control form-control-sm" name="website" value="{{ $Pelanggan->website }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -303,33 +303,33 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>NPWP</label>
-                                                    <input type="text" class="form-control form-control-sm  mb-3 @error('npwp_pelanggan') is-invalid @enderror" name="npwp_pelanggan" value="{{ $Pelanggan->npwp_pelanggan }}">
-                                                     @error('npwp_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <input type="text" class="form-control form-control-sm  mb-3 @error('npwp') is-invalid @enderror" name="npwp" value="{{ $Pelanggan->npwp }}">
+                                                     @error('npwp')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>NPPKP</label>
-                                                    <input type="text" class="form-control form-control-sm  mb-3 @error('nppkp_pelanggan') is-invalid @enderror" name="nppkp_pelanggan" value="{{ $Pelanggan->nppkp_pelanggan }}">
-                                                     @error('nppkp_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <input type="text" class="form-control form-control-sm  mb-3 @error('nppkp') is-invalid @enderror" name="nppkp" value="{{ $Pelanggan->nppkp }}">
+                                                     @error('nppkp')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Pajak 1</label>
-                                                    <select class="form-control form-control-sm  @error('pajak_1_pelanggan') is-invalid @enderror" name="pajak_1_pelanggan">
-                                                        <option selected disabled {{ old('pajak_1_pelanggan', $Pelanggan->pajak_1_pelanggan) ? '' : 'selected' }}> --Pilih Pajak 1-- </option>
+                                                    <select class="tomselect @error('pajak_1_id') is-invalid @enderror" name="pajak_1_id">
+                                                        <option selected disabled {{ old('pajak_1_id', $Pelanggan->pajak_1_id) ? '' : 'selected' }}> --Pilih Pajak 1-- </option>
                                                         @foreach ($pajak as $items )
-                                                            <option value="{{ $items->nama }}" {{ old('pajak_1_pelanggan', $Pelanggan->pajak_1_pelanggan) == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
+                                                            <option value="{{ $items->id }}" {{ old('pajak_1_id', $Pelanggan->pajak_1_id) == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
-                                                     @error('pajak_1_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                     @error('pajak_1_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Pajak 2</label>
-                                                    <select class="form-control form-control-sm  @error('pajak_2_pelanggan') is-invalid @enderror"  name="pajak_2_pelanggan">
-                                                        <option selected disabled {{ old('pajak_2_pelanggan', $Pelanggan->pajak_2_pelanggan) ? '' : 'selected' }}> --Pilih Pajak 2-- </option>
+                                                    <select class="tomselect @error('pajak_2_id') is-invalid @enderror"  name="pajak_2_id">
+                                                        <option selected disabled {{ old('pajak_2_id', $Pelanggan->pajak_2_id) ? '' : 'selected' }}> --Pilih Pajak 2-- </option>
                                                         @foreach ($pajak as $items )
-                                                            <option value="{{ $items->nama }}" {{ old('pajak_2_pelanggan', $Pelanggan->pajak_2_pelanggan) == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
+                                                            <option value="{{ $items->id }}" {{ old('pajak_2_id', $Pelanggan->pajak_2_id) == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
-                                                     @error('pajak_2_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                     @error('pajak_2_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 {{-- <div class="form-group">
                                                     <label>Penjual</label>
@@ -343,29 +343,26 @@
                                                 </div> --}}
                                                 <div class="form-group">
                                                     <label>Tipe Pelanggan</label>
-                                                    <select class="form-control form-control-sm  @error('tipe_pelanggan') is-invalid @enderror"  name="tipe_pelanggan">
-                                                        <option selected disabled {{ old('tipe_pelanggan', $Pelanggan->tipe_pelanggan) ? '' : 'selected' }}> --Pilih Tipe Pelanggan-- </option>
+                                                    <select class="tomselect @error('tipe_pelanggan_id') is-invalid @enderror"  name="tipe_pelanggan_id">
+                                                        <option selected disabled {{ old('tipe_pelanggan_id', $Pelanggan->tipe_pelanggan_id) ? '' : 'selected' }}> --Pilih Tipe Pelanggan-- </option>
                                                         @foreach ($tipe_pelanggan as $items )
-                                                            <option value="{{ $items->nama }}" {{ old('tipe_pelanggan', $Pelanggan->tipe_pelanggan) == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
+                                                            <option value="{{ $items->id }}" {{ old('tipe_pelanggan_id', $Pelanggan->tipe_pelanggan_id) == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
-                                                     @error('tipe_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                     @error('tipe_pelanggan_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Level Harga</label>
-                                                    <select class="form-control form-control-sm  @error('level_harga_pelanggan') is-invalid @enderror"  name="level_harga_pelanggan">
-                                                        <option selected disabled {{ old('level_harga_pelanggan', $Pelanggan->level_harga_pelanggan) ? '' : 'selected' }}> --Pilih Level Harga-- </option>
-                                                        @foreach ($level_harga as $items )
-                                                            <option value="{{ $items->nama }}" {{ old('level_harga_pelanggan', $Pelanggan->level_harga_pelanggan) == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
-                                                        @endforeach
+                                                    <select class="tomselect"  name="level_harga">
+                                                        <option selected disabled {{ old('level_harga', $Pelanggan->level_harga) ? '' : 'selected' }}> --Pilih Level Harga-- </option>
+                                                        <option value="Shipping Point" {{ old('level_harga', $Pelanggan->level_harga  ?? null) == 'Shipping Point' ? 'selected' : '' }}>Shipping Point</option>
+                                                    <option value="Destination" {{ old('level_harga', $Pelanggan->level_harga  ?? null) == 'Destination' ? 'selected' : '' }}>Destination</option>
                                                     </select>
-                                                     @error('level_harga_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Diskon Penjualan</label>
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control form-control-sm  @error('diskon_penjualan_pelanggan') is-invalid @enderror" name="diskon_penjualan_pelanggan" placeholder="Persentase Pajak" value="{{ $Pelanggan->diskon_penjualan_pelanggan }}">
-                                                         @error('diskon_penjualan_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                        <input type="text" class="form-control form-control-sm" name="diskon_penjualan_pelanggan" placeholder="Persentase Pajak" value="{{ $Pelanggan->diskon_penjualan_pelanggan }}">
                                                         <div class="input-group-append">
                                                             <span class="input-group-text">%</span>
                                                         </div>
@@ -388,24 +385,21 @@
                                             <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label>Syarat</label>
-                                                    <select class="form-control form-control-sm  @error('syarat_pelanggan') is-invalid @enderror"  name="syarat_pelanggan">
-                                                        <option selected disabled  {{ old('syarat_pelanggan', $Pelanggan->syarat_pelanggan) ? '' : 'selected' }}> --Pilih Syarat-- </option>
+                                                    <select class="tomselect"  name="syarat_id">
+                                                        <option selected disabled  {{ old('syarat_id', $Pelanggan->syarat_id) ? '' : 'selected' }}> --Pilih Syarat-- </option>
                                                         @foreach ($syarat as $items )
-                                                            <option value="{{ $items->nama }}" {{ old('syarat_pelanggan', $Pelanggan->syarat_pelanggan) == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
+                                                            <option value="{{ $items->id }}" {{ old('syarat_id', $Pelanggan->syarat_id) == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
-                                                     @error('syarat_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Batas Maksimal Hutang</label>
-                                                    <input type="text" class="form-control form-control-sm  @error('batas_maks_hutang') is-invalid @enderror" name="batas_maks_hutang" value="{{ $Pelanggan->batas_maks_hutang }}">
-                                                     @error('batas_maks_hutang')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <input type="text" class="form-control form-control-sm rupiah" name="batas_maks_hutang" value="{{ $Pelanggan->batas_maks_hutang }}">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Batas Umur Hutang</label>
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control form-control-sm  @error('batas_umur_hutang') is-invalid @enderror" name="batas_umur_hutang" placeholder="Batas Umur Hutang" value="{{ $Pelanggan->batas_umur_hutang }}">
-                                                         @error('batas_umur_hutang')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                        <input type="text" class="form-control form-control-sm" name="batas_umur_hutang" placeholder="Batas Umur Hutang" value="{{ $Pelanggan->batas_umur_hutang }}">
                                                         <div class="input-group-append">
                                                             <span class="input-group-text">Hari</span>
                                                         </div>
@@ -413,20 +407,20 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Mata Uang</label>
-                                                    <select class="form-control form-control-sm  @error('mata_uang_pelanggan') is-invalid @enderror"  name="mata_uang_pelanggan">
-                                                        <option selected disabled  {{ old('mata_uang_pelanggan', $Pelanggan->mata_uang_pelanggan) ? '' : 'selected' }}> --Pilih Mata Uang-- </option>
+                                                    <select class="tomselect @error('mata_uang_id') is-invalid @enderror"  name="mata_uang_id">
+                                                        <option selected disabled  {{ old('mata_uang_id', $Pelanggan->mata_uang_id) ? '' : 'selected' }}> --Pilih Mata Uang-- </option>
                                                         @foreach ($mata_uang as $items )
-                                                            <option value="{{ $items->nama }}" {{ old('mata_uang_pelanggan', $Pelanggan->mata_uang_pelanggan) == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
+                                                            <option value="{{ $items->id }}" {{ old('mata_uang_id', $Pelanggan->mata_uang_id) == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
                                                         @endforeach
                                                     </select>
-                                                     @error('mata_uang_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                     @error('mata_uang_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label>Saldo Awal</label>
-                                                            <input type="text" id="saldo_awal_pelanggan" class="form-control form-control-sm  @error('saldo_awal_pelanggan') is-invalid @enderror" name="saldo_awal_pelanggan" value="{{ 'Rp ' . number_format($Pelanggan->saldo_awal_pelanggan, 0, ',', '.') }}">
-                                                             @error('saldo_awal_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                            <input type="text" class="form-control form-control-sm rupiah" name="saldo_awal" value="{{ $Pelanggan->saldo_awal }}">
+                                                             @error('saldo_awal')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -434,15 +428,13 @@
                                                             <label>Tanggal</label>
                                                             <div class="cal-icon">
                                                                 <input type="text" class="form-control form-control-sm  datetimepicker @error('tanggal_pelanggan') is-invalid @enderror" name="tanggal_pelanggan" value="{{ $Pelanggan->tanggal_pelanggan }}">
-                                                                 @error('tanggal_pelanggan')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Deskripsi</label>
-                                                    <textarea class="form-control form-control-sm  @error('deskripsi') is-invalid @enderror" name="deskripsi">{{ old('deskripsi', $Pelanggan->deskripsi) }}</textarea>
-                                                     @error('deskripsi')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <textarea class="form-control form-control-sm" name="deskripsi">{{ old('deskripsi', $Pelanggan->deskripsi) }}</textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -460,8 +452,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     {{-- <label>Memo</label> --}}
-                                                    <textarea class="form-control form-control-sm  @error('memo') is-invalid @enderror" name="memo">{{ old('memo', $Pelanggan->memo) }}</textarea>
-                                                     @error('memo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                                    <textarea class="form-control form-control-sm" name="memo">{{ old('memo', $Pelanggan->memo) }}</textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -475,18 +466,25 @@
             </form>
         </div>
     </div>
-    @section('script')
-        @if ($errors->any())
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Terjadi Kesalahan',
-                text: 'Silakan periksa kembali form yang Anda isi.',
-                confirmButtonText: 'OK'
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
+@section('script')
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('select.tomselect').forEach(function (el) {
+                new TomSelect(el,{
+                    create: true,
+                    sortField: {
+                        field: "text",
+                        direction: "asc"
+                    },
+                    maxOptions: null,
+                    maxItems: 1
+                });
             });
-        </script>
-    @endif
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const checkbox = document.getElementById('dihentikan');
@@ -508,9 +506,9 @@
             });
         });
     </script>
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const input = document.getElementById('saldo_awal_pelanggan');
+            const input = document.getElementById('saldo_awal');
 
             input.addEventListener('input', () => {
                 let angka = input.value.replace(/\D/g, '');
@@ -525,7 +523,7 @@
                 return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
         });
-    </script>
+    </script> --}}
     <script>
         let fieldCount = {{ $i - 1 }};
         const maxFields = 7;
@@ -544,8 +542,6 @@
                         <div class="form-group">
                             <label for="fileupload_${fieldCount}">File ${fieldCount}</label>
                             <input type="text" class="form-control form-control-sm " name="fileupload_${fieldCount}" placeholder="Link dokumen Anda">
-                             @error('fileupload_${fieldIndex}')<div class="invalid-feedback">{{ $message }}</div>@enderror@enderror
-
                         </div>
                     </div>
                 </div>
@@ -561,5 +557,112 @@
             }
         });
     </script>
-    @endsection
+@endsection
+@push('scripts')
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const cleaveMap = new WeakMap();
+
+            document.querySelectorAll('input.rupiah').forEach(function (el) {
+                const instance = new Cleave(el, {
+                    numeral: true,
+                    numeralPositiveOnly: true,
+                    numeralDecimalScale: 2,
+                    numeralThousandsGroupStyle: 'thousand',
+                    numeralDecimalMark: '.',
+                    delimiter: ',',
+                    prefix: 'Rp ',
+                    rawValueTrimPrefix: true
+                });
+                cleaveMap.set(el, instance);
+            });
+
+            document.querySelectorAll('form').forEach(function (form) {
+                form.addEventListener('submit', function () {
+                    form.querySelectorAll('input.rupiah').forEach(function (el) {
+                        const inst = cleaveMap.get(el);
+                        if (inst) el.value = inst.getRawValue();
+                    });
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const oldProv      = "{{ old('provinsi_code', $Pelanggan->provinsi_code ?? '') }}";
+            const oldKota      = "{{ old('kota_code', $Pelanggan->kota_code ?? '') }}";
+            const oldKecamatan = "{{ old('kecamatan_code', $Pelanggan->kecamatan_code ?? '') }}";
+            const oldKelurahan = "{{ old('kelurahan_code', $Pelanggan->kelurahan_code ?? '') }}";
+
+            const provTS = new TomSelect('#provinsi_code',{create:false,maxItems:1,sortField:{field:'text',direction:'asc'}});
+            const kotaTS = new TomSelect('#kota_code',    {create:false,maxItems:1,sortField:{field:'text',direction:'asc'}});
+            const kecTS  = new TomSelect('#kecamatan_code',    {create:false,maxItems:1,sortField:{field:'text',direction:'asc'}});
+            const kelTS  = new TomSelect('#kelurahan_code',    {create:false,maxItems:1,sortField:{field:'text',direction:'asc'}});
+
+            const disableAll = ts => { ts.clear(true); ts.clearOptions(); ts.addOption({value:'',text:'--'}); ts.refreshOptions(false); ts.disable(); }
+            [kotaTS,kecTS,kelTS].forEach(disableAll);
+
+            const api = async (url, params) => {
+                const q = new URLSearchParams(params||{}).toString();
+                const res = await fetch(url + (q?`?${q}`:''), {headers:{'Accept':'application/json'}});
+                if(!res.ok) return [];
+                const data = await res.json();
+                return Array.isArray(data) ? data : (Array.isArray(data.data)?data.data:[]);
+            };
+
+            const fill = (ts, list, placeholder) => {
+                ts.clear(true); ts.clearOptions();
+                ts.addOption({value:'', text: placeholder});
+                ts.addOptions(list.map(i => ({value:i.code, text:i.name})));
+                ts.enable(); ts.refreshOptions(false);
+            };
+
+            async function loadCities(provCode, selectedCode){
+                [kecTS,kelTS].forEach(disableAll);
+                if(!provCode) return disableAll(kotaTS);
+                const list = await api("{{ route('ajax.cities.by-province') }}", {provinsi_code: provCode});
+                fill(kotaTS, list, '--Pilih Kota--');
+                if(selectedCode) kotaTS.setValue(selectedCode, true);
+            }
+
+            async function loadDistricts(cityCode, selectedCode){
+                disableAll(kecTS); disableAll(kelTS);
+                if(!cityCode) return;
+                const list = await api("{{ route('ajax.districts.by-city') }}", {kota_code: cityCode});
+                fill(kecTS, list, '--Pilih Kecamatan--');
+                if(selectedCode) kecTS.setValue(selectedCode, true);
+                return kecTS.getValue();
+            }
+
+            async function loadVillages(districtCode, selectedCode){
+                disableAll(kelTS);
+                if(!districtCode || String(districtCode).length !== 6) return;
+                const list = await api("{{ route('ajax.villages.by-district') }}", {kecamatan_code: districtCode});
+                fill(kelTS, list, '--Pilih Kelurahan--');
+                if(selectedCode) kelTS.setValue(selectedCode, true);
+            }
+
+            if (oldProv){
+                provTS.setValue(oldProv, true);
+                await loadCities(oldProv, oldKota);
+                const pickedKec = await loadDistricts(oldKota, oldKecamatan);
+                if (pickedKec) await loadVillages(pickedKec, oldKelurahan);
+            }
+
+            provTS.on('change', async (prov) => {
+                kotaTS.clear(true);
+                await loadCities(prov || null, null);
+            });
+
+            kotaTS.on('change', async (kota) => {
+                await loadDistricts(kota || null, null);
+            });
+
+            kecTS.on('change', async (kec) => {
+                await loadVillages(kec || null, null);
+            });
+        });
+    </script>
+@endpush
 @endsection

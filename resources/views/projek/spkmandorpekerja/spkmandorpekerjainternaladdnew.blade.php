@@ -23,7 +23,7 @@
                                 <span>&times;</span>
                             </button>
                         </div>
-                        <form action="">
+                        <form method="POST" action="{{ route('form/spkmandorpekerja/save') }}" enctype="multipart/form-data">                            
                             @csrf
                             <div class="modal-body">
                                 <div class="form-group mb-1">
@@ -32,20 +32,18 @@
                                         class="form-control form-control-sm" placeholder="Nama">
                                 </div>
                                 <div class="form-group mb-1">
-                                    <label for="alamat_pekerja" class="form-label fw-bold">Alamat</label>
-                                    <input type="text" name="alamat_pekerja" id="alamat_pekerja"
+                                    <label for="alamat" class="form-label fw-bold">Alamat</label>
+                                    <input type="text" name="alamat" id="alamat"
                                         class="form-control form-control-sm" placeholder="Alamat">
                                 </div>
                                 <div class="form-group mb-1">
-                                    <label for="telepon_pekerja" class="form-label fw-bold">Nomor Telepon</label>
-                                    <input type="number" name="telepon_pekerja" id="telepon_pekerja"
+                                    <label for="no_hp" class="form-label fw-bold">Nomor Telepon</label>
+                                    <input type="number" name="no_hp" id="no_hp"
                                         class="form-control form-control-sm" placeholder="Nomor Telepon">
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button id="tambahPekerja" type="button" class="btn btn-primary"><i
-                                        class="fas fa-save mr-2"></i>
-                                    Simpan</button>
+                                <button id="tambahPekerja" type="button" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
                             </div>
                         </form>
                     </div>
@@ -53,57 +51,66 @@
             </div>
 
             {{-- Formulir penyimpanan --}}
-            <form method="POST" action="{{ route('spkmandorpekerja/list/page') }}">
+            <form method="POST" action="{{ route('form/spkmandorpekerja/save') }}" enctype="multipart/form-data">
                 @csrf
-
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label for="nomor_pengajuan" class="form-label fw-bold">Nomor</label>
-                        <input type="text" id="nomor_pengajuan" name="nomor_pengajuan" class="form-control"
-                            value="{{ old('nomor_pengajuan') }}" placeholder="Nomor Pengajuan">
+                        <label for="nomor_spk" class="form-label fw-bold">Nomor</label>
+                        <input type="text" id="nomor_spk" name="nomor_spk" class="form-control form-control-sm font-weight-bold" value="{{ $nomorPreview }}" placeholder="Nomor Pengajuan" readonly>
                     </div>
-
                     <div class="col-md-4">
-                        <label for="pekerja" class="form-label fw-bold">Pekerja</label>
-                        <select class="form-control @error('pekerja') is-invalid @enderror" name="pekerja" id="pekerja">
-                            <option value="">-- Pekerja --</option>
+                        <label for="pekerja_id" class="form-label fw-bold">Pekerja</label>
+                        <select class="tomselect @error('pekerja_id') is-invalid @enderror" name="pekerja_id" id="pekerja_id" placeholder="Pilih Pekerja">
+                            <option {{ old('pekerja_id') ? '' : 'selected' }} disabled></option>
+                            @foreach($pekerja as $items)
+                            <option value="{{ $items->id }}">{{ $items->nama_pekerja }}  ({{ $items->no_hp }})</option>
+                            @endforeach
                         </select>
+                        @error('pekerja_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-
                     <div class="col-md-4 d-flex align-items-end">
                         <button type="button" class="btn btn-primary buttonedit" data-toggle="modal"
                             data-target="#modalPekerja">
-                            <strong><i class="fa-regular fa-user mr-2 ml-1"></i>Tambah Pekerja</strong>
+                            <strong><i class="fas fa-user-tie mr-2"></i>Tambah Pekerja</strong>
                         </button>
                     </div>
-
                     <div class="col-md-4">
-                        <label for="judul" class="form-label fw-bold">Judul</label>
-                        <input type="text" id="judul" name="judul" class="form-control" value="{{ old('judul') }}"
-                            placeholder="Judul">
+                        <label for="judul_spk" class="form-label fw-bold">Judul</label>
+                        <input type="text" id="judul_spk" name="judul_spk" class="form-control form-control-sm @error('judul_spk') is-invalid @enderror" value="{{ old('judul_spk') }}" placeholder="Judul">
+                        @error('judul_spk')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-
+                    <div class="col-md-4" style="display: none;">
+                        <label for="status_spk" class="form-label fw-bold">Status</label>
+                        <input type="text" id="status_spk" name="status_spk" class="form-control form-control-sm" value="1" placeholder="Status">
+                    </div>
                     <div class="col-md-4">
                         <label for="tanggal_mulai" class="form-label fw-bold">Tanggal Mulai</label>
-                        <input type="text" id="tanggal_mulai" name="tanggal_mulai" class="form-control datetimepicker"
-                            value="{{ old('tanggal_mulai') }}">
+                        <input type="text" id="tanggal_mulai" name="tanggal_mulai" class="form-control form-control-sm datetimepicker @error('tanggal_mulai') is-invalid @enderror" value="{{ old('tanggal_mulai') }}">
+                        @error('tanggal_mulai')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-
                     <div class="col-md-4">
                         <label for="lama_pengerjaan" class="form-label fw-bold">Lama Pengerjaan (hari)</label>
-                        <input type="number" id="lama_pengerjaan" name="lama_pengerjaan" class="form-control"
-                            value="{{ old('lama_pengerjaan') }}" placeholder="Durasi">
+                        <input type="number" id="lama_pengerjaan" name="lama_pengerjaan" class="form-control form-control-sm @error('lama_pengerjaan') is-invalid @enderror" value="{{ old('lama_pengerjaan') }}" placeholder="Durasi">
+                        @error('lama_pengerjaan')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-
                     <div class="col-md-4">
                         <label for="tanggal_spk" class="form-label fw-bold">Tanggal SPK</label>
-                        <input type="text" id="tanggal_spk" name="tanggal_spk" class="form-control datetimepicker"
-                            value="{{ old('tanggal_spk') }}">
+                        <input type="text" id="tanggal_spk" name="tanggal_spk" class="form-control form-control-sm datetimepicker @error('tanggal_spk') is-invalid @enderror" value="{{ old('tanggal_spk') }}">
+                        @error('tanggal_spk')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-
                     <div class="col-md-4">
                         <label for="siklus_pembayaran" class="form-label fw-bold">Siklus Pembayaran</label>
-                        <select class="form-control @error('siklus_pembayaran') is-invalid @enderror" name="siklus_pembayaran" id="siklus_pembayaran">
+                        <select class="tomselect @error('siklus_pembayaran') is-invalid @enderror" name="siklus_pembayaran" id="siklus_pembayaran">
                             <option value="">-- Siklus Pembayaran --</option>
                             <option value="Harian" {{ old('siklus_pembayaran') == 'Harian' ? 'selected' : '' }}>Harian</option>
                             <option value="Mingguan" {{ old('siklus_pembayaran') == 'Mingguan' ? 'selected' : '' }}>Mingguan</option>
@@ -111,35 +118,50 @@
                             <option value="3 Mingguan" {{ old('siklus_pembayaran') == '3 Mingguan' ? 'selected' : '' }}>3 Mingguan</option>
                             <option value="Bulanan" {{ old('siklus_pembayaran') == 'Bulanan' ? 'selected' : '' }}>Bulanan</option>
                         </select>
+                        @error('siklus_pembayaran')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-
                     <div class="col-md-4">
-                        <label for="surat_perintah" class="form-label fw-bold">Surat Perintah Pembangunan</label>
-                        <select class="form-control @error('surat_perintah') is-invalid @enderror"
-                            name="surat_perintah" id="surat_perintah">
-                            <option value="">-- Surat Perintah Pembangunan --</option>
+                        <label for="spp_id" class="form-label fw-bold">Surat Perintah Pembangunan</label>
+                        <select class="tomselect @error('spp_id') is-invalid @enderror" id="spp_id" name="spp_id" data-placeholder="Pilih cluster...">
+                            <option {{ old('spp_id') ? '' : 'selected' }} disabled></option>
+                            @foreach($spp as $items)
+                            <option value="{{ $items->id }}">{{ $items->nomor_spp }} - {{ $items->tanggal_spp }} - {{ $items->instruksi }}</option>
+                            @endforeach
                         </select>
+                        @error('spp_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="col-md-4">
-                        <label for="Kapling" class="form-label">Kapling</label>
-                        <input type="text" id="Kapling" name="Kapling" class="form-control"
-                            rows="2">{{ old('Kapling') }}</input>
+                        <label style="display: none;" for="Kapling" class="form-label">Kapling</label>
+                        <input style="display: none;" type="text" name="dibuat_oleh" class="form-control" rows="2" value="{{ Auth::user()->name }}"></input>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Lampiran</label>
-                            <input type="text" class="form-control form-control-sm " name="fileupload_1"
-                                placeholder="Link dokumen Anda" value="{{ old('fileupload_1') }}">
-                            @error('fileupload_1')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <div class="form-group mb-2">
+                            <label for="fileupload">Lampiran</label>
+                            <div class="custom-file">
+                                <input type="file" id="fileupload" name="fileupload" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                                <label class="custom-file-label">Pilih File</label>
+                            </div>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <label for="kapling" class="form-label fw-bold">Kapling</label>
+                        <select class="tomselect @error('kapling_id') is-invalid @enderror" id="kapling" name="kapling_id[]" multiple data-placeholder="Pilih kapling...">
+                            <option {{ old('kapling_id') ? '' : 'selected' }} disabled></option>
+                            @foreach($spp as $items)
+                            <option value="{{ $items->id }}">{{ $items->nomor_spp }} - {{ $items->tanggal_spp }} - {{ $items->instruksi }}</option>
+                            @endforeach
+                        </select>
+                        @error('kapling_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
-
                 <div class="card">
                     <div class="card-body">
-
                         {{-- Modal --}}
                         <div class="modal fade" id="modal" tabindex="-1" role="dialog"
                             aria-labelledby="modalLabel" aria-hidden="true">
@@ -154,37 +176,27 @@
                                     <div class="modal-body">
                                         <div id="filterBox" class="mb-3">
                                             <div class="card m-3">
-
-                                                <!-- Kapling -->
                                                 <div class="form-group mb-1">
-                                                    <label for="kapling" class="form-label fw-bold">Kapling</label>
-                                                    <select name="kapling" id="kapling" class="form-control form-control-sm">
-                                                        <option value="">-- Pilih Kapling --</option>
+                                                    <label for="kaplingItem" class="form-label fw-bold">Kapling</label>
+                                                    <select class="tomselect" id="kaplingItem" name="nama_kapling" data-placeholder="Pilih kapling...">
+                                                        <option {{ old('nama_kapling') ? '' : 'selected' }} disabled></option>
                                                     </select>
                                                 </div>
-
-                                                <!-- Pekerjaan -->
                                                 <div class="form-group mb-1">
                                                     <label for="pekerjaan" class="form-label fw-bold">Pekerjaan</label>
                                                     <input type="text" name="pekerjaan" id="pekerjaan" class="form-control form-control-sm" placeholder="Pekerjaan">
                                                 </div>
-
-                                                <!-- Upah -->
                                                 <div class="form-group mb-1">
                                                     <label for="upah" class="form-label fw-bold">Upah</label>
                                                     <input type="number" name="upah" id="upah" class="form-control form-control-sm" placeholder="Upah">
                                                 </div>
-
-                                                <!-- Retensi -->
                                                 <div class="form-group mb-1">
                                                     <label for="retensi" class="form-label fw-bold">Retensi (%)</label>
-                                                    <input type="number" name="retensi" id="retensi" class="form-control form-control-sm" placeholder="Retensi (%)">
+                                                    <input type="number" name="retensi" id="retensi" class="form-control form-control-sm" value="5" placeholder="Retensi (%)">
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary buttonedit" id="tambahTerpilih">
                                             <i class="fas fa-paper-plane mr-2"></i> Tambah ke Form
@@ -193,64 +205,92 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="tab-content profile-tab-cont">
-                            <div class="profile-menu">
-                                <ul class="nav nav-tabs nav-tabs-solid">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#detail">Upah</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div id="detail" class="tab-pane fade show active">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row float-right mr-0">
-                                            <button type="button" class="btn btn-primary buttonedit mb-3"
-                                                data-toggle="modal" data-target="#modal">
-                                                <strong><i class="fas fa-cube mr-2 ml-1"></i>Tambah</strong>
-                                            </button>
-                                        </div>
-                                        
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="text-center">
-                                                    <p class="font-weight-bold mb-0 h5">LIST FEE</p>
-                                                </div>
-                                            </div>
-                                            {{-- <div class="col-md-12 mr-1">
-                                                <div class="text-center">
-                                                    <p class="font-weight-light">Silahkan masukkan poin - poin RAP & RAB</p>
-                                                </div>
-                                            </div> --}}
-                                        </div>
-
-                                        <div class="table-responsive">
-                                            <table
-                                                class="table table-striped table-bordered table-hover table-center mb-0">
-                                                <thead class="thead-dark">
-                                                    <tr>
-                                                        <th>Kapling</th>
-                                                        <th>Pekerjaan </th>
-                                                        <th>Upah</th>
-                                                        <th>Retensi (%)</th>
-                                                        <th>Aksi</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="TableBody"></tbody>
-                                            </table>
+                    </div>
+                </div>
+                <div class="tab-content profile-tab-cont">
+                    <div class="profile-menu">
+                        <ul class="nav nav-tabs nav-tabs-solid">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#detail">Upah</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="detail" class="tab-pane fade show active">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row float-right mr-0">
+                                    <button type="button" class="btn btn-primary buttonedit mb-3" id="tambahFeeRow">
+                                        <strong><i class="fas fa-cube mr-3 ml-1"></i>Tambah</strong>
+                                    </button>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="text-center">
+                                            <p class="font-weight-bold mb-0 h5">LIST FEE</p>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div id="dokumen" class="tab-pane fade">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div id="editor" style="height: 200px;"></div>
+                                <div class="table-responsive mt-3">
+                                    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                                        <i class="fa fa-exclamation-triangle mr-2"></i>
+                                        Setelah pilih SPP & kapling, tambahkan fee per pekerja per kapling.
+                                        <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
                                     </div>
+
+                                    <table class="table table-striped table-bordered table-hover table-center mb-0" id="FeeTable">
+                                        <thead class="thead-dark">
+                                        <tr>
+                                            <th>Kapling</th>
+                                            <th>Pekerjaan</th>
+                                            <th>Upah</th>
+                                            <th>Retensi (%)</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="feeTableBody">
+                                        @if(old('fee'))
+                                            @foreach(old('fee') as $i => $row)
+                                            <tr class="fee-row">
+                                                <td style="min-width:220px">
+                                                <select class="form-control form-control-sm select-kapling"></select>
+                                                {{-- yang disimpan: NAMA kapling --}}
+                                                <input type="hidden" name="fee[{{ $i }}][nama_kapling]" value="{{ $row['nama_kapling'] ?? '' }}" class="input-nama-kapling">
+                                                </td>
+                                                <td><input style="width: 200px;" type="text"   name="fee[{{ $i }}][pekerjaan]" class="form-control form-control-sm input-pekerjaan" value="{{ $row['pekerjaan'] ?? '' }}"></td>
+                                                <td><input style="width: 200px;" type="text" name="fee[{{ $i }}][upah]"      class="form-control form-control-sm rupiah input-upah"      value="{{ $row['upah'] ?? '' }}" min="0" step="1"></td>
+                                                <td><input style="width: 100px;" type="text" name="fee[{{ $i }}][retensi]"   class="form-control form-control-sm input-retensi"   value="{{ $row['retensi'] ?? 5 }}" min="0" max="100" step="1"></td>
+                                                <td>
+                                                <button style="width: 100px;" type="button" class="btn btn-primary buttonedit2 mr-2 remove-fee-row">
+                                                    <strong><i class="fas fa-trash-alt mr-3"></i>Hapus</strong>
+                                                </button>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="dokumen" class="tab-pane fade">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="editor" style="height: 200px;">
+                                    <ol>
+                                        <li>
+                                            Item pekerjaan, bobot prosentase pekerjaan, volume pekerjaan, gambar kerja dan Rencana Kerja dan Syarat — Syarat (RKS) merupakan bagian yang tidak terpisahkan dari Surat Perintah Kerja (SPK) ini.
+                                        </li>
+                                        <li>
+                                            Keterlambatan terhadap penyelesaian pekerjaan (100%), sesuai dengan Surat Perjanjian Kerjasama pasal 4 butir 2, akan dikenakan denda 0,2% dari Nilai Pekerjaan untuk setiap minggunya.   
+                                        </li>
+                                        <li>
+                                            Apabila dalam masa pelaksanaan pekerjaan ada perubahan — perubahan secara teknis, maka akan diatur dan dituangkan dalam bentuk SPK Tambahan, yang akan diberitahukan oleh Pihak I.
+                                        </li>
+                                    </ol>
                                 </div>
                             </div>
                         </div>
@@ -267,78 +307,197 @@
                     </div>
                 </div>
             </form>
-
         </div>
     </div>
 @section('script')
-    <!-- Script Quill -->
+    <!-- Script CKEditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
     <script>
-    ClassicEditor.create(document.querySelector('#editor'), {
-        toolbar: [
-            'heading','|','bold','italic','underline','link',
-            'bulletedList','numberedList','|',
-            'blockQuote','insertTable','imageUpload','mediaEmbed','|',
-            'undo','redo','codeBlock'
-        ]
-    }).catch(console.error);
+        (function(){
+            const el = document.querySelector('#editor');
+            if (!el) return;
+            ClassicEditor.create(el, {
+                toolbar: [
+                'heading','|','bold','italic','underline','link',
+                'bulletedList','numberedList','|',
+                'blockQuote','insertTable','imageUpload','mediaEmbed','|',
+                'undo','redo','codeBlock'
+                ]
+            }).catch(console.error);
+        })();
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const tambahBtn = document.getElementById('tambahTerpilih');
-            const tambahPekerjaBtn = document.getElementById('tambahPekerja');
-            const tableBody = document.getElementById('TableBody');
+        $(function () {
+            const cleaveMap = new WeakMap();
 
-            tambahPekerjaBtn.addEventListener('click', function() {
-                const nama = document.getElementById('nama_pekerja').value;
-                const alamat = document.getElementById('alamat_pekerja').value;
-                const telepon = document.getElementById('telepon_pekerja').value;
-
-                ['nama_pekerja', 'alamat_pekerja', 'telepon_pekerja'].forEach(id => {
-                    document.getElementById(id).value = '';
+            document.querySelectorAll('form').forEach(function (form) {
+                form.addEventListener('submit', function () {
+                form.querySelectorAll('input.rupiah').forEach(function (el) {
+                    const inst = cleaveMap.get(el);
+                    if (inst) el.value = inst.getRawValue();
                 });
-                $('#modalPekerja').modal('hide');
-
-            })
-            // data tabel
-            tambahBtn.addEventListener('click', function() {
-                const kapling = document.getElementById('kapling').value;
-                const pekerjaan = document.getElementById('pekerjaan').value;
-                const upah = document.getElementById('upah').value;
-                const retensi = document.getElementById('retensi').value;
-
-                // Bikin baris baru
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><input type="text" name="kapling[]" value="${kapling}" class="form-control form-control-sm" readonly></td>
-                    <td><input type="text" name="pekerjaan[]" value="${pekerjaan}" class="form-control form-control-sm" readonly></td>
-                    <td><input type="text" name="upah[]" value="${upah}" class="form-control form-control-sm" readonly></td>
-                    <td><input type="text" name="retensi[]" value="${retensi}" class="form-control form-control-sm" readonly></td>
-                    <td>
-                        <button type="button" style="width: 120px;" class="btn btn-primary buttonedit2 mr-2 remove-row">
-                            <strong><i class="fas fa-trash-alt mr-3"></i>Hapus</strong>
-                        </button>
-                    </td>
-                `;
-
-                tableBody.appendChild(row);
-
-                // Reset input modal
-                ['kapling', 'pekerjaan', 'upah', 'retensi'].forEach(id => {
-                    document.getElementById(id).value = '';
                 });
-
-                // Tutup modal
-                $('#modal').modal('hide');
             });
 
-            // Event hapus baris
-            tableBody.addEventListener('click', function(e) {
-                if (e.target.closest('.remove-row')) {
-                    e.target.closest('tr').remove();
+            let feeIndex = $('#feeTableBody .fee-row').length;
+
+            function getSelectedKaplingNames() {
+                const el = document.getElementById('kapling');
+                const ts = el && el.tomselect ? el.tomselect : null;
+                if (!ts) return [];
+                return ts.items.map(id => (ts.options[id]?.text || id)); // ambil NAMA (label)
+            }
+
+            function fillKaplingOptions($select, selectedName) {
+                const names = getSelectedKaplingNames();
+                $select.empty();
+                $select.append(`<option value="" disabled ${selectedName ? '' : 'selected'}>-- Pilih kapling (dari SPP) --</option>`);
+                names.forEach(nm => {
+                const sel = (nm === selectedName) ? 'selected' : '';
+                $select.append(`<option value="${nm}" ${sel}>${nm}</option>`);
+                });
+                $select.prop('disabled', names.length === 0);
+            }
+
+            function addFeeRow(prefill = {}) {
+                const idx = feeIndex++;
+                const rowHtml = `
+                <tr class="fee-row">
+                    <td style="min-width:220px">
+                    <select class="form-control form-control-sm select-kapling"></select>
+                    <input type="hidden" name="fee[${idx}][nama_kapling]" class="input-nama-kapling" value="${prefill.nama_kapling || ''}">
+                    </td>
+                    <td><input style="width: 200px;" type="text"   name="fee[${idx}][pekerjaan]" class="form-control form-control-sm input-pekerjaan" value="${prefill.pekerjaan || ''}"></td>
+                    <td><input style="width: 200px;" type="text"   name="fee[${idx}][upah]"      class="form-control form-control-sm rupiah input-upah"  value="${prefill.upah || ''}"></td>
+                    <td><input style="width: 100px;" type="number" name="fee[${idx}][retensi]"   class="form-control form-control-sm input-retensi" value="${prefill.retensi || 5}" min="0" max="100" step="1"></td>
+                    <td>
+                    <button style="width: 100px;" type="button" class="btn btn-primary buttonedit2 mr-2 remove-fee-row">
+                        <strong><i class="fas fa-trash-alt mr-3"></i>Hapus</strong>
+                    </button>
+                    </td>
+                </tr>`;
+
+                const $row = $(rowHtml);
+                $('#feeTableBody').append($row);
+
+                const $sel = $row.find('.select-kapling');
+                fillKaplingOptions($sel, prefill.nama_kapling || null);
+                $sel.on('change', function(){
+                $row.find('.input-nama-kapling').val($(this).val() || '');
+                });
+
+                const upahInput = $row.find('.rupiah')[0];
+                if (upahInput) {
+                    const instance = new Cleave(upahInput, {
+                        numeral: true,
+                        numeralPositiveOnly: true,
+                        numeralDecimalScale: 2,
+                        numeralThousandsGroupStyle: 'thousand',
+                        numeralDecimalMark: '.',
+                        delimiter: ',',
+                        prefix: 'Rp ',
+                        rawValueTrimPrefix: true
+                    });
+                    cleaveMap.set(upahInput, instance);
+                }
+            }
+
+            $('#tambahFeeRow').on('click', function(){
+                addFeeRow();
+            });
+
+            $(document).on('click', '.remove-fee-row', function(){
+                $(this).closest('tr').remove();
+            });
+
+            const tsKap = document.getElementById('kapling')?.tomselect || null;
+            if (tsKap) {
+                tsKap.on('change', function(){
+                $('#feeTableBody .fee-row').each(function(){
+                    const $row = $(this);
+                    const currentName = $row.find('.select-kapling').val() || $row.find('.input-nama-kapling').val();
+                    fillKaplingOptions($row.find('.select-kapling'), currentName || null);
+                });
+                });
+            }
+
+            $('#feeTableBody .fee-row').each(function(){
+                const $row = $(this);
+                const selectedName = $row.find('.input-nama-kapling').val() || '';
+                fillKaplingOptions($row.find('.select-kapling'), selectedName);
+
+                const upahInput = $row.find('.rupiah')[0];
+                if (upahInput && !cleaveMap.get(upahInput)) {
+                const instance = new Cleave(upahInput, {
+                    numeral: true,
+                    numeralPositiveOnly: true,
+                    numeralDecimalScale: 2,
+                    numeralThousandsGroupStyle: 'thousand',
+                    numeralDecimalMark: '.',
+                    delimiter: ',',
+                    prefix: 'Rp ',
+                    rawValueTrimPrefix: true
+                });
+                cleaveMap.set(upahInput, instance);
                 }
             });
+
+            if (!$('#feeTableBody .fee-row').length) addFeeRow();
         });
     </script>
 @endsection
+@push('scripts')
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        const tsPekerja          = new TomSelect('#pekerja_id', {create:false, searchField:['text']});
+        const tsSpp              = new TomSelect('#spp_id', {create:false, searchField:['text']});
+        const tsSiklusPembayaran = new TomSelect('#siklus_pembayaran', {create:false, searchField:['text']});
+        const tsKapling          = new TomSelect('#kapling',    {create:false, searchField:['text'], plugins:['remove_button'], maxItems: null}); // multiple
+        // const tsKaplingItem      = new TomSelect('#kaplingItem',    {create:false, searchField:['text'], plugins:['remove_button'], maxItems: null});
+
+        document.getElementById('tambahPekerja').addEventListener('click', function(){
+            const nama_pekerja   = document.getElementById('nama_pekerja').value.trim();
+            const alamat = document.getElementById('alamat').value.trim();
+            const no_hp  = document.getElementById('no_hp').value.trim();
+            if(!nama_pekerja || !no_hp){ alert('Nama & No HP wajib.'); return; }
+
+            fetch("{{ route('spkmandorpekerja/store-ajax') }}", {
+            method: 'POST',
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json','Content-Type':'application/json'},
+            body: JSON.stringify({nama_pekerja, alamat, no_hp})
+            })
+            .then(r => r.json())
+            .then(json => {
+            tsPekerja.addOption({value: String(json.id), text: json.text});
+            tsPekerja.addItem(String(json.id));
+            $('#modalPekerja').modal('hide');
+            document.getElementById('nama_pekerja').value='';
+            document.getElementById('alamat').value='';
+            document.getElementById('no_hp').value='';
+            })
+            .catch(() => alert('Gagal menyimpan pekerja'));
+        });
+
+        tsSpp.on('change', function(value){
+            if(!value){
+                tsKapling.clear(true);
+                tsKapling.disable();
+                return;
+            }
+            fetch("{{ route('spk/kapling-by-spp') }}?spp_id="+encodeURIComponent(value))
+            .then(r => r.json())
+            .then(list => {
+                tsKapling.clearOptions();
+                list.forEach(opt => tsKapling.addOption({value:String(opt.id), text:opt.text}));
+                tsKapling.enable();
+            })
+            .catch(() => { alert('Gagal memuat kapling'); tsKapling.disable(); });
+        });
+        tsKapling.disable();
+        });
+    </script>
+@endpush
 @endsection

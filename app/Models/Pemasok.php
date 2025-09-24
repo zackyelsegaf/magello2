@@ -107,8 +107,16 @@ class Pemasok extends Model
         return $this->belongsTo(City::class, 'kota_code', 'code');
     }
 
-    public function dataLahans()
-    {
-        return $this->hasMany(DataLahan::class);
+    public function pesananPembelian(){
+        return $this->hasMany(PesananPembelian::class, 'no_pemasok', 'pemasok_id');
+    }
+    public function penerimaanPembelian(){
+        return $this->hasMany(PenerimaanPembelian::class, 'no_pemasok', 'pemasok_id');
+    }
+    public function fakturPembelian(){
+        return $this->hasMany(FakturPembelian::class, 'no_pemasok', 'pemasok_id');
+    }
+    public function returPembelian(){
+        return $this->hasMany(ReturPembelian::class, 'no_pemasok', 'pemasok_id');
     }
 }

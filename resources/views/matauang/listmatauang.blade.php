@@ -33,6 +33,7 @@
                                         <th width="20"><input type="checkbox" id="select_all"></th>
                                         <th>No</th>
                                         <th hidden>ID</th>
+                                        <th>Kode</th>
                                         <th>Nama Mata Uang</th>
                                         <th>Nilai Tukar</th>
                                     </tr>
@@ -131,6 +132,10 @@
                         data: 'id',
                         name: 'id',
                         visible: false
+                    },
+                    {
+                        data: 'kode',
+                        name: 'kode'
                     },
                     {
                         data: 'nama',

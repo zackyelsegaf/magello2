@@ -96,13 +96,16 @@ class PembayaranPembelianController extends Controller
         $gudang = DB::table('gudang')->get();
         $departemen = DB::table('departemen')->get();
         $proyek = DB::table('proyek')->get();
-        $pemasok = DB::table('pemasok')->get();
+        $pemasok = DB::table('pemasok')
+            ->leftJoin('mata_uang', 'pemasok.mata_uang_id', '=', 'mata_uang.id')
+            ->select('pemasok.*', 'mata_uang.nama as mata_uang_nama')
+            ->get();
         $syarat = DB::table('syarat')->get();
         $satuan = DB::table('satuan')->get();
         $mata_uang = DB::table('mata_uang')->orderBy('nama', 'asc')->get();
         $nama_akun = DB::table('akun')
-            ->whereIn('tipe_akun', ['Kas/Bank'])
-            ->orderBy('nama', 'asc')
+            ->whereIn('tipe_id', [1])
+            ->orderBy('nama_akun_indonesia', 'asc')
             ->get();
         $prefix = 'GMP';
         $latest = PembayaranPembelian::orderBy('no_pembayaran', 'desc')->first();
@@ -246,13 +249,16 @@ class PembayaranPembelianController extends Controller
         $departemen = DB::table('departemen')->get();
         $proyek = DB::table('proyek')->get();
         $syarat = DB::table('syarat')->get();
-        $pemasok = DB::table('pemasok')->get();
+        $pemasok = DB::table('pemasok')
+            ->leftJoin('mata_uang', 'pemasok.mata_uang_id', '=', 'mata_uang.id')
+            ->select('pemasok.*', 'mata_uang.nama as mata_uang_nama')
+            ->get();
         $satuan = DB::table('satuan')->get();
         $sub_barang = DB::table('barang')->get();
         $mata_uang = DB::table('mata_uang')->orderBy('nama', 'asc')->get();
         $nama_akun = DB::table('akun')
-            ->whereIn('tipe_akun', ['Kas/Bank'])
-            ->orderBy('nama', 'asc')
+            ->whereIn('tipe_id', [1])
+            ->orderBy('nama_akun_indonesia', 'asc')
             ->get();
         // $penyesuaianBarangEdit = DB::table('penyesuaian_barang')->where('no_penyesuaian',$no_penyesuaian)->first();
         $pembayaranPembelian = PembayaranPembelian::with(['detail', 'detail2'])->findOrFail($id);

@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pegawai;
+use App\Models\City;
+use App\Models\District;
+use App\Models\Province;
+use App\Models\Village;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
 
@@ -17,8 +22,14 @@ class PegawaiController extends Controller
     public function pegawaiAddNew()
     {
         $data = DB::table('status_pemasok')->get();
-        $provinsi = DB::table('provinsi')->orderBy('nama', 'asc')->get();
-        $kota = DB::table('kota')->orderBy('nama', 'asc')->get();
+        $provinces = Province::orderBy('name')->get(['code','name']);
+        $kota = DB::table('kota')
+            ->select('id', 'nama')
+            ->union(
+                DB::table('provinsi')->select('id', 'nama')
+            )
+            ->orderBy('nama')
+            ->get();
         // $negara = DB::table('negara')->orderBy('nama', 'asc')->get();
         // $mata_uang = DB::table('mata_uang')->orderBy('nama', 'asc')->get();
         // $prefix = 'GMPSCR-';
@@ -31,40 +42,79 @@ class PegawaiController extends Controller
         $golongan_darah = DB::table('golongan_darah')->orderBy('nama', 'asc')->get();
         $agama = DB::table('religion')->orderBy('nama', 'asc')->get();
         $gender = DB::table('gender')->orderBy('nama', 'asc')->get();
-        return view('pegawai.pegawaiaddnew', compact('data', 'kota', 'gender', 'agama', 'golongan_darah', 'provinsi', 'kartu_identitas', 'hubungan_pegawai', 'status_pekerjaan'));
+        return view('pegawai.pegawaiaddnew', compact('data', 'kota', 'gender', 'agama', 'golongan_darah', 'provinces', 'kartu_identitas', 'hubungan_pegawai', 'status_pekerjaan'));
     }
 
-    public function saveRecordPegawai(Request $request){
-
+    public function citiesByProvince(Request $request)
+    {
         $request->validate([
+            'provinsi_code' => 'required|string|size:2',
+        ]);
+
+        $cities = City::where('province_code', $request->provinsi_code)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($cities);
+    }
+
+    public function districtsByCity(Request $request)
+    {
+        $request->validate([
+            'kota_code' => 'required|string|size:4',
+        ]);
+
+        $districts = District::where('city_code', $request->kota_code)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($districts);
+    }
+
+    public function villagesByDistrict(Request $request)
+    {
+        $request->validate([
+            'kecamatan_code' => 'required|string|size:6',
+        ]);
+
+        $villages = Village::where('district_code', $request->kecamatan_code)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($villages);
+    }
+
+    public function saveRecordPegawai(Request $request)
+    {
+        $rules = [
             'nik_pegawai' => 'required|string|max:255',
             'nama_pegawai' => 'required|string|max:255',
             'tempat_lahir_pegawai' => 'required|string|max:255',
             'tanggal_lahir_pegawai' => 'required|string|max:255',
-            'jenis_kelamin_pegawai' => 'required|string|max:255',
-            'agama_pegawai' => 'required|string|max:255',
-            'status_pernikahan_pegawai' => 'required|string|max:255',
-            'golongan_darah_pegawai' => 'nullable|string|max:255',
+            'jenis_kelamin_pegawai_id' => 'required|string|max:255',
+            'agama_pegawai_id' => 'required|string|max:255',
+            'status_pernikahan_pegawai_id' => 'required|string|max:255',
+            'golongan_darah_id' => 'nullable|string|max:255',
             'email_pegawai' => 'required|string|max:255',
             'no_telp_pegawai' => 'required|string|max:255',
-            'provinsi' => 'required|string|max:255',
-            'kota' => 'required|string|max:255',
-            'kecamatan' => 'required|string|max:255',
-            'kelurahan' => 'required|string|max:255',
+            'provinsi_code' => 'required|string|max:255',
+            'kota_code' => 'required|string|max:255',
+            'kecamatan_code' => 'required|string|max:255',
+            'kelurahan_code' => 'required|string|max:255',
             'rt_pegawai' => 'required|string|max:255',
             'rw_pegawai' => 'required|string|max:255',
             'alamat_pegawai' => 'required|string|max:255',
             'nama_bank_pegawai' => 'nullable|string|max:255',
             'nomor_rekening_pegawai' => 'nullable|string|max:255',
             'atas_nama_pegawai' => 'nullable|string|max:255',
-            'jenis_identitas_pegawai' => 'nullable|string|max:255',
+            'jenis_identitas_pegawai_id' => 'nullable|string|max:255',
             'nomor_identitas_pegawai' => 'nullable|string|max:255',
             'nama_ayah_pegawai' => 'required|string|max:255',
             'nama_ibu_pegawai' => 'required|string|max:255',
             'nama_kontak_darurat_pegawai' => 'required|string|max:255',
             'no_telp_darurat_pegawai' => 'required|string|max:255',
             'hubungan_pegawai' => 'required|string|max:255',
-            'status_pekerjaan_pegawai' => 'nullable|string|max:255',
+            'status_pekerjaan_pegawai_id' => 'nullable|string|max:255',
             'foto_pegawai' => 'nullable|file',
             'tanggal_masuk_pegawai' => 'nullable|string|max:255',
             'tanggal_keluar_pegawai' => 'nullable|string|max:255',
@@ -73,7 +123,33 @@ class PegawaiController extends Controller
             'youtube' => 'nullable|string|max:255',
             'facebook' => 'nullable|string|max:255',
             'linkedin' => 'nullable|string|max:255',
-        ]);
+        ];
+
+        $message = [
+            'nik_pegawai.required' => 'NIK wajib diisi',
+            'nama_pegawai.required' => 'Nama wajib diisi',
+            'tempat_lahir_pegawai.required' => 'Tempat Lahir wajib diisi',
+            'tanggal_lahir_pegawai.required' => 'Tanggal Lahir wajib diisi',
+            'jenis_kelamin_pegawai_id.required' => 'Jenis Kelamin wajib diisi',
+            'agama_pegawai_id.required' => 'Agama wajib diisi',
+            'status_pernikahan_pegawai_id.required' => 'Status Pernikahan wajib diisi',
+            'email_pegawai.required' => 'Email wajib diisi',
+            'no_telp_pegawai.required' => 'No Telepon wajib diisi',
+            'provinsi_code.required' => 'Provinsi wajib diisi',
+            'kota_code.required' => 'Kota wajib diisi',
+            'kecamatan_code.required' => 'Kecamatan wajib diisi',
+            'kelurahan_code.required' => 'Kelurahan wajib diisi',
+            'rt_pegawai.required' => 'RT wajib diisi',
+            'rw_pegawai.required' => 'RW wajib diisi',
+            'alamat_pegawai.required' => 'Alamat wajib diisi',
+            'nama_ayah_pegawai.required' => 'Nama Ayah wajib diisi',
+            'nama_ibu_pegawai.required' => 'Nama Ibu wajib diisi',
+            'nama_kontak_darurat_pegawai.required' => 'Nama Kontak Darurat wajib diisi',
+            'no_telp_darurat_pegawai.required' => 'No Telepon Darurat wajib diisi',
+            'hubungan_pegawai.required' => 'Hubungan wajib diisi',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
 
         //debug
         // DB::enableQueryLog();
@@ -83,47 +159,11 @@ class PegawaiController extends Controller
         DB::beginTransaction();
         try {
 
-            $photo= $request->foto_pegawai;
-            $file_name = rand() . '.' .$photo->getClientOriginalName();
-            $photo->move(public_path('/assets/upload/'), $file_name);
+            // $photo= $request->foto_pegawai;
+            // $file_name = rand() . '.' .$photo->getClientOriginalName();
+            // $photo->move(public_path('/assets/upload/'), $file_name);
 
-            $pegawai                              = new Pegawai;
-            $pegawai->nik_pegawai                 = $request->nik_pegawai;
-            $pegawai->nama_pegawai                = $request->nama_pegawai;
-            $pegawai->tempat_lahir_pegawai        = $request->tempat_lahir_pegawai;
-            $pegawai->tanggal_lahir_pegawai       = $request->tanggal_lahir_pegawai;
-            $pegawai->jenis_kelamin_pegawai       = $request->jenis_kelamin_pegawai;
-            $pegawai->agama_pegawai               = $request->agama_pegawai;
-            $pegawai->status_pernikahan_pegawai   = $request->status_pernikahan_pegawai;
-            $pegawai->golongan_darah_pegawai      = $request->golongan_darah_pegawai;
-            $pegawai->email_pegawai               = $request->email_pegawai;
-            $pegawai->no_telp_pegawai             = $request->no_telp_pegawai;
-            $pegawai->provinsi                    = $request->provinsi;
-            $pegawai->kota                        = $request->kota;
-            $pegawai->kecamatan                   = $request->kecamatan;
-            $pegawai->kelurahan                   = $request->kelurahan;
-            $pegawai->rt_pegawai                  = $request->rt_pegawai;
-            $pegawai->rw_pegawai                  = $request->rw_pegawai;
-            $pegawai->alamat_pegawai              = $request->alamat_pegawai;
-            $pegawai->nama_bank_pegawai           = $request->nama_bank_pegawai;
-            $pegawai->nomor_rekening_pegawai      = $request->nomor_rekening_pegawai;
-            $pegawai->atas_nama_pegawai           = $request->atas_nama_pegawai;
-            $pegawai->jenis_identitas_pegawai     = $request->jenis_identitas_pegawai;
-            $pegawai->nomor_identitas_pegawai     = $request->nomor_identitas_pegawai;
-            $pegawai->nama_ayah_pegawai           = $request->nama_ayah_pegawai;
-            $pegawai->nama_ibu_pegawai            = $request->nama_ibu_pegawai;
-            $pegawai->nama_kontak_darurat_pegawai = $request->nama_kontak_darurat_pegawai;
-            $pegawai->no_telp_darurat_pegawai     = $request->no_telp_darurat_pegawai;
-            $pegawai->hubungan_pegawai            = $request->hubungan_pegawai;
-            $pegawai->status_pekerjaan_pegawai    = $request->status_pekerjaan_pegawai;
-            $pegawai->foto_pegawai                = $file_name;
-            $pegawai->tanggal_masuk_pegawai       = $request->tanggal_masuk_pegawai;
-            $pegawai->tanggal_keluar_pegawai      = $request->tanggal_keluar_pegawai;
-            $pegawai->twitter                     = $request->twitter;
-            $pegawai->instagram                   = $request->instagram;
-            $pegawai->youtube                     = $request->youtube;
-            $pegawai->facebook                    = $request->email;
-            $pegawai->linkedin                    = $request->linkedin;
+            $pegawai = new Pegawai($validator->validated());
             $pegawai->save();
 
             DB::commit();
@@ -140,8 +180,13 @@ class PegawaiController extends Controller
     public function edit($id)
     {
         $data = DB::table('status_pemasok')->get();
-        $provinsi = DB::table('provinsi')->orderBy('nama', 'asc')->get();
-        $kota = DB::table('kota')->orderBy('nama', 'asc')->get();
+        $kota = DB::table('kota')
+            ->select('id', 'nama')
+            ->union(
+                DB::table('provinsi')->select('id', 'nama')
+            )
+            ->orderBy('nama')
+            ->get();
         // $negara = DB::table('negara')->orderBy('nama', 'asc')->get();
         // $mata_uang = DB::table('mata_uang')->orderBy('nama', 'asc')->get();
         // $prefix = 'GMPSCR-';
@@ -154,45 +199,45 @@ class PegawaiController extends Controller
         $golongan_darah = DB::table('golongan_darah')->orderBy('nama', 'asc')->get();
         $agama = DB::table('religion')->orderBy('nama', 'asc')->get();
         $gender = DB::table('gender')->orderBy('nama', 'asc')->get();
-
         $Pegawai = Pegawai::findOrFail($id);
-        if (!$Pegawai) {
-            return redirect()->back()->with('error', 'Data tidak ditemukan');
-        }
-        return view('pegawai.pegawaiedit', compact('Pegawai', 'data', 'kota', 'gender', 'agama', 'golongan_darah', 'provinsi', 'kartu_identitas', 'hubungan_pegawai', 'status_pekerjaan'));
+        $provinces = Province::orderBy('name')->get(['code','name']);
+        $citySelected     = $Pegawai->kota_code ? City::where('code', $Pegawai->kota_code)->first(['code','name']) : null;
+        $districtSelected = $Pegawai->kecamatan_code ? District::where('code', $Pegawai->kecamatan_code)->first(['code','name']) : null;
+        $villageSelected  = $Pegawai->kelurahan_code ? Village::where('code', $Pegawai->kelurahan_code)->first(['code','name']) : null;
+        return view('pegawai.pegawaiedit', compact('Pegawai', 'data', 'kota', 'gender', 'agama', 'golongan_darah', 'provinces', 'kartu_identitas', 'hubungan_pegawai', 'status_pekerjaan', 'citySelected', 'districtSelected', 'villageSelected'));
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nik_pegawai' => 'nullable|string|max:255',
-            'nama_pegawai' => 'nullable|string|max:255',
-            'tempat_lahir_pegawai' => 'nullable|string|max:255',
-            'tanggal_lahir_pegawai' => 'nullable|string|max:255',
-            'jenis_kelamin_pegawai' => 'nullable|string|max:255',
-            'agama_pegawai' => 'nullable|string|max:255',
-            'status_pernikahan_pegawai' => 'nullable|string|max:255',
-            'golongan_darah_pegawai' => 'nullable|string|max:255',
+        $rules = [
+            'nik_pegawai' => 'required|string|max:255',
+            'nama_pegawai' => 'required|string|max:255',
+            'tempat_lahir_pegawai' => 'required|string|max:255',
+            'tanggal_lahir_pegawai' => 'required|string|max:255',
+            'jenis_kelamin_pegawai_id' => 'required|string|max:255',
+            'agama_pegawai_id' => 'required|string|max:255',
+            'status_pernikahan_pegawai_id' => 'required|string|max:255',
+            'golongan_darah_id' => 'nullable|string|max:255',
             'email_pegawai' => 'required|string|max:255',
-            'no_telp_pegawai' => 'nullable|string|max:255',
-            'provinsi' => 'nullable|string|max:255',
-            'kota' => 'nullable|string|max:255',
-            'kecamatan' => 'nullable|string|max:255',
-            'kelurahan' => 'nullable|string|max:255',
-            'rt_pegawai' => 'nullable|string|max:255',
-            'rw_pegawai' => 'nullable|string|max:255',
-            'alamat_pegawai' => 'nullable|string|max:255',
+            'no_telp_pegawai' => 'required|string|max:255',
+            'provinsi_code' => 'required|string|max:255',
+            'kota_code' => 'required|string|max:255',
+            'kecamatan_code' => 'required|string|max:255',
+            'kelurahan_code' => 'required|string|max:255',
+            'rt_pegawai' => 'required|string|max:255',
+            'rw_pegawai' => 'required|string|max:255',
+            'alamat_pegawai' => 'required|string|max:255',
             'nama_bank_pegawai' => 'nullable|string|max:255',
             'nomor_rekening_pegawai' => 'nullable|string|max:255',
             'atas_nama_pegawai' => 'nullable|string|max:255',
-            'jenis_identitas_pegawai' => 'nullable|string|max:255',
+            'jenis_identitas_pegawai_id' => 'nullable|string|max:255',
             'nomor_identitas_pegawai' => 'nullable|string|max:255',
-            'nama_ayah_pegawai' => 'nullable|string|max:255',
-            'nama_ibu_pegawai' => 'nullable|string|max:255',
-            'nama_kontak_darurat_pegawai' => 'nullable|string|max:255',
-            'no_telp_darurat_pegawai' => 'nullable|string|max:255',
+            'nama_ayah_pegawai' => 'required|string|max:255',
+            'nama_ibu_pegawai' => 'required|string|max:255',
+            'nama_kontak_darurat_pegawai' => 'required|string|max:255',
+            'no_telp_darurat_pegawai' => 'required|string|max:255',
             'hubungan_pegawai' => 'required|string|max:255',
-            'status_pekerjaan_pegawai' => 'nullable|string|max:255',
+            'status_pekerjaan_pegawai_id' => 'nullable|string|max:255',
             'foto_pegawai' => 'nullable|file',
             'tanggal_masuk_pegawai' => 'nullable|string|max:255',
             'tanggal_keluar_pegawai' => 'nullable|string|max:255',
@@ -201,7 +246,38 @@ class PegawaiController extends Controller
             'youtube' => 'nullable|string|max:255',
             'facebook' => 'nullable|string|max:255',
             'linkedin' => 'nullable|string|max:255',
-        ]);
+        ];
+
+        $message = [
+            'nik_pegawai.required' => 'NIK wajib diisi',
+            'nama_pegawai.required' => 'Nama wajib diisi',
+            'tempat_lahir_pegawai.required' => 'Tempat Lahir wajib diisi',
+            'tanggal_lahir_pegawai.required' => 'Tanggal Lahir wajib diisi',
+            'jenis_kelamin_pegawai_id.required' => 'Jenis Kelamin wajib diisi',
+            'agama_pegawai_id.required' => 'Agama wajib diisi',
+            'status_pernikahan_pegawai_id.required' => 'Status Pernikahan wajib diisi',
+            'email_pegawai.required' => 'Email wajib diisi',
+            'no_telp_pegawai.required' => 'No Telepon wajib diisi',
+            'provinsi_code.required' => 'Provinsi wajib diisi',
+            'kota_code.required' => 'Kota wajib diisi',
+            'kecamatan_code.required' => 'Kecamatan wajib diisi',
+            'kelurahan_code.required' => 'Kelurahan wajib diisi',
+            'rt_pegawai.required' => 'RT wajib diisi',
+            'rw_pegawai.required' => 'RW wajib diisi',
+            'alamat_pegawai.required' => 'Alamat wajib diisi',
+            'nama_ayah_pegawai.required' => 'Nama Ayah wajib diisi',
+            'nama_ibu_pegawai.required' => 'Nama Ibu wajib diisi',
+            'nama_kontak_darurat_pegawai.required' => 'Nama Kontak Darurat wajib diisi',
+            'no_telp_darurat_pegawai.required' => 'No Telepon Darurat wajib diisi',
+            'hubungan_pegawai.required' => 'Hubungan wajib diisi',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $message);
+
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi Gagal, Beberapa Input Wajib Belum Terisi!');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         DB::beginTransaction();
         try {
@@ -211,42 +287,7 @@ class PegawaiController extends Controller
             // $photo->move(public_path('/assets/upload/'), $file_name);
 
             $pegawai = Pegawai::findOrFail($id);
-            $pegawai->nik_pegawai                 = $request->nik_pegawai;
-            $pegawai->nama_pegawai                = $request->nama_pegawai;
-            $pegawai->tempat_lahir_pegawai        = $request->tempat_lahir_pegawai;
-            $pegawai->tanggal_lahir_pegawai       = $request->tanggal_lahir_pegawai;
-            $pegawai->jenis_kelamin_pegawai       = $request->jenis_kelamin_pegawai;
-            $pegawai->agama_pegawai               = $request->agama_pegawai;
-            $pegawai->status_pernikahan_pegawai   = $request->status_pernikahan_pegawai;
-            $pegawai->golongan_darah_pegawai      = $request->golongan_darah_pegawai;
-            $pegawai->email_pegawai               = $request->email_pegawai;
-            $pegawai->no_telp_pegawai             = $request->no_telp_pegawai;
-            $pegawai->provinsi                    = $request->provinsi;
-            $pegawai->kota                        = $request->kota;
-            $pegawai->kecamatan                   = $request->kecamatan;
-            $pegawai->kelurahan                   = $request->kelurahan;
-            $pegawai->rt_pegawai                  = $request->rt_pegawai;
-            $pegawai->rw_pegawai                  = $request->rw_pegawai;
-            $pegawai->alamat_pegawai              = $request->alamat_pegawai;
-            $pegawai->nama_bank_pegawai           = $request->nama_bank_pegawai;
-            $pegawai->nomor_rekening_pegawai      = $request->nomor_rekening_pegawai;
-            $pegawai->atas_nama_pegawai           = $request->atas_nama_pegawai;
-            $pegawai->jenis_identitas_pegawai     = $request->jenis_identitas_pegawai;
-            $pegawai->nomor_identitas_pegawai     = $request->nomor_identitas_pegawai;
-            $pegawai->nama_ayah_pegawai           = $request->nama_ayah_pegawai;
-            $pegawai->nama_ibu_pegawai            = $request->nama_ibu_pegawai;
-            $pegawai->nama_kontak_darurat_pegawai = $request->nama_kontak_darurat_pegawai;
-            $pegawai->no_telp_darurat_pegawai     = $request->no_telp_darurat_pegawai;
-            $pegawai->hubungan_pegawai            = $request->hubungan_pegawai;
-            $pegawai->status_pekerjaan_pegawai    = $request->status_pekerjaan_pegawai;
-            // $pegawai->foto_pegawai                = $file_name;
-            $pegawai->tanggal_masuk_pegawai       = $request->tanggal_masuk_pegawai;
-            $pegawai->tanggal_keluar_pegawai      = $request->tanggal_keluar_pegawai;
-            $pegawai->twitter                     = $request->twitter;
-            $pegawai->instagram                   = $request->instagram;
-            $pegawai->youtube                     = $request->youtube;
-            $pegawai->facebook                    = $request->email;
-            $pegawai->linkedin                    = $request->linkedin;
+            $pegawai->fill($validator->validated());
             $pegawai->save();
 
             DB::commit();
@@ -291,8 +332,8 @@ class PegawaiController extends Controller
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
         $searchValue     = $search_arr['value']; // Search value
 
-        $pegawai =  DB::table('pegawai');
-        $totalRecords = $pegawai->count();
+        $pegawai =  Pegawai::with(['gender']);
+        $totalRecords = Pegawai::count();
 
         $totalRecordsWithFilter = $pegawai->where(function ($query) use ($searchValue) {
             $query->where('nama_depan_penjual', 'like', '%' . $searchValue . '%');
@@ -323,7 +364,8 @@ class PegawaiController extends Controller
                 "nik_pegawai"            => $record->nik_pegawai,
                 'nama_pegawai'           => $record->nama_pegawai,
                 "email_pegawai"          => $record->email_pegawai,
-                'jenis_kelamin_pegawai'  => $record->jenis_kelamin_pegawai,
+                'jenis_kelamin_pegawai_id'  => $record->jenis_kelamin_pegawai_id,
+                'jenis_kelamin_pegawai'  => $record->gender?->nama,
                 'tanggal_masuk_pegawai'  => $record->tanggal_masuk_pegawai,
                 'nomor_rekening_pegawai' => $record->nomor_rekening_pegawai,
             ];

@@ -31,7 +31,7 @@ class PelangganSeeder extends Seeder
 
         $data = [
             [
-                'kode_pelanggan' => 'GMPCSR-001',
+                'pelanggan_id' => 'GMPCSR-001',
                 'nama' => 'RISKY DEBRIAN BANGOL',
                 'alamat_1' => 'POOPO BARAT, DUSUN 2, RW 007, PASSI TIMUR',
                 'kontak' => 'FAJRI / 08212990224',
@@ -40,7 +40,7 @@ class PelangganSeeder extends Seeder
                 'saldo' => 1000000,
             ],
             [
-                'kode_pelanggan' => 'GMPCSR-002',
+                'pelanggan_id' => 'GMPCSR-002',
                 'nama' => 'NOVAN HENDRAWAN MAN',
                 'alamat_1' => 'DUSUN III, RT 002 / 001, KEC PASSI BARAT',
                 'kontak' => 'KANTOR',
@@ -49,7 +49,7 @@ class PelangganSeeder extends Seeder
                 'saldo' => 1000000,
             ],
             [
-                'kode_pelanggan' => 'GMPCSR-005',
+                'pelanggan_id' => 'GMPCSR-005',
                 'nama' => 'FANTHY AFANDY DETU',
                 'alamat_1' => 'MOLINOW, RT 011 / RW 006, KOTAMOBAGU BARAT',
                 'kontak' => 'RINNY / 082187946695',
@@ -58,7 +58,7 @@ class PelangganSeeder extends Seeder
                 'saldo' => 1000000,
             ],
             [
-                'kode_pelanggan' => 'GMPCSR-009',
+                'pelanggan_id' => 'GMPCSR-009',
                 'nama' => 'SABRIA GUMOHUNG',
                 'alamat_1' => null,
                 'kontak' => 'KANTOR',
@@ -67,7 +67,7 @@ class PelangganSeeder extends Seeder
                 'saldo' => 1000000,
             ],
             [
-                'kode_pelanggan' => 'GMPCSR-011',
+                'pelanggan_id' => 'GMPCSR-011',
                 'nama' => 'FIKRY POBELA, S.PT',
                 'alamat_1' => 'BILALANG I, RT 001, KOTAMOBAGU TIMUR',
                 'kontak' => 'ARI / 085657085227',
@@ -79,7 +79,7 @@ class PelangganSeeder extends Seeder
 
         foreach ($data as $item) {
             Pelanggan::create([
-                'kode_pelanggan' => $item['kode_pelanggan'],
+                'pelanggan_id' => $item['pelanggan_id'],
                 'nama' => $item['nama'],
                 'alamat_1' => $item['alamat_1'],
                 'kontak' => $item['kontak'],

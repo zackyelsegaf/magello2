@@ -11,7 +11,7 @@ use Livewire\Component;
 class PelangganForm extends Component
 {
     public $pelangganId;
-    public $kode_pelanggan;
+    public $pelanggan_id;
     public $nama;
     public $status_id;
     public $nik;
@@ -53,7 +53,7 @@ class PelangganForm extends Component
         if($id){
             $pelanggan = Pelanggan::findOrFail($id);
             $this->pelangganId = $pelanggan->id;
-            $this->kode_pelanggan = $pelanggan->kode_pelanggan;
+            $this->pelanggan_id = $pelanggan->pelanggan_id;
             $this->nama = $pelanggan->nama;
             $this->status_id = $pelanggan->status_id;
             $this->nik = $pelanggan->nik;
@@ -96,7 +96,7 @@ class PelangganForm extends Component
 
     public function save(){
         $data = $this->validate([
-            'kode_pelanggan'    => 'required|string|max:255|unique:pelanggan,kode_pelanggan,'.$this->pelangganId,
+            'pelanggan_id'    => 'required|string|max:255|unique:pelanggan,pelanggan_id,'.$this->pelangganId,
             'nama'              => 'required|string|max:255',
             'status_id'         => 'nullable',
             'nik'               => 'nullable|max:255',
@@ -207,9 +207,9 @@ class PelangganForm extends Component
 
         if(!isset($this->pelangganId)){
             $prefix = 'GMPSCR-';
-            $latest = Pelanggan::orderBy('kode_pelanggan', 'desc')->first();
-            $nextID = $latest ? intval(substr($latest->kode_pelanggan, strlen($prefix))) + 1 : 1;
-            $this->kode_pelanggan = $prefix . sprintf("%04d", $nextID);
+            $latest = Pelanggan::orderBy('pelanggan_id', 'desc')->first();
+            $nextID = $latest ? intval(substr($latest->pelanggan_id, strlen($prefix))) + 1 : 1;
+            $this->pelanggan_id = $prefix . sprintf("%04d", $nextID);
         }
         if(count($this->dokumens) < 1){
             $this->dokumens[] = '';

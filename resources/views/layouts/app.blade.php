@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ URL::to('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ URL::to('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ URL::to('assets/plugins/fontawesome/css/all.min.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">    
     <link rel="stylesheet" href="{{ URL::to('assets/css/feathericon.min.css') }}">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="{{ URL::to('assets/plugins/morris/morris.css') }}">
@@ -26,22 +27,33 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
-
 <body>
     @yield('content')
 
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-    <script src="{{ URL::to('assets/js/jquery-3.5.1.min.js') }}"></script>
-    <script src="{{ URL::to('assets/js/popper.min.js') }}"></script>
-    <script src="{{ URL::to('assets/js/bootstrap.min.js') }}"></script>
-    <script src="{{ URL::to('assets/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
-    <script src="{{ URL::to('assets/js/script.js') }}"></script>
+    <!-- Core bundle (jQuery, Bootstrap, Popper) -->
+    <script src="{{ asset('template/vendor/global/global.min.js') }}"></script>
 
+    <!-- Charts & vendor yang perlu jQuery -->
+    <script src="{{ asset('template/vendor/chart.js/Chart.bundle.min.js') }}"></script>
+    <script src="{{ asset('template/vendor/jquery-nice-select/js/jquery.nice-select.min.js') }}"></script>
+    <script src="{{ asset('template/vendor/apexchart/apexchart.js') }}"></script>
+    <script src="{{ asset('template/vendor/nouislider/nouislider.min.js') }}"></script>
+    <script src="{{ asset('template/vendor/wnumb/wNumb.js') }}"></script>
 
+    <!-- Moment + Daterangepicker (pindah ke sini, setelah jQuery) -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
+    <!-- Theme scripts -->
+    <script src="{{ asset('template/js/dashboard/dashboard-1.js') }}"></script>
+    <script src="{{ asset('template/js/custom.min.js') }}"></script>
+    <script src="{{ asset('template/js/dlabnav-init.js') }}"></script>
+    <script src="{{ asset('template/js/demo.js') }}"></script>
+    <script src="{{ asset('template/js/styleSwitcher.js') }}"></script>
+
+    @stack('scripts')
 </body>
+
 
 </html>

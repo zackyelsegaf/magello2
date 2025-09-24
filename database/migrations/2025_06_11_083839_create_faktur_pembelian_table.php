@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('proyek')->nullable();
             $table->string('gudang')->nullable();
             $table->string('departemen')->nullable();
+            $table->string('nilai_tukar')->nullable();
+            $table->string('nilai_tukar_pajak')->nullable();
             $table->boolean('tindak_lanjut_check')->nullable()->default(false);
             $table->boolean('urgent_check')->nullable()->default(false);
             $table->boolean('catatan_pemeriksaan_check')->nullable()->default(false);

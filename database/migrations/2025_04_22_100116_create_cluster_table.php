@@ -17,14 +17,10 @@ return new class extends Migration
             $table->string('no_hp')->nullable();
             $table->string('luas_tanah')->nullable();
             $table->string('total_unit')->nullable();
-            // ✅ Relasi ke Laravolt
             $table->char('provinsi_code', 2)->nullable()->index();
             $table->char('kota_code', 4)->nullable()->index();
-
-            // ❌ Tidak pakai Laravolt, simpan biasa
-            $table->string('kecamatan')->nullable();
-            $table->string('kelurahan')->nullable();
-
+            $table->string('kecamatan_code')->nullable();
+            $table->string('kelurahan_code')->nullable();
             $table->string('alamat_cluster')->nullable();
 
             // Foreign Key ke Laravolt
@@ -36,6 +32,16 @@ return new class extends Migration
             $table->foreign('kota_code')
                 ->references('code')
                 ->on(config('laravolt.indonesia.table_prefix') . 'cities')
+                ->onUpdate('cascade')->onDelete('set null');
+
+            $table->foreign('kecamatan_code')
+                ->references('code')
+                ->on(config('laravolt.indonesia.table_prefix') . 'districts')
+                ->onUpdate('cascade')->onDelete('set null');
+
+            $table->foreign('kelurahan_code')
+                ->references('code')
+                ->on(config('laravolt.indonesia.table_prefix') . 'villages')
                 ->onUpdate('cascade')->onDelete('set null');
 
             $table->timestamps();

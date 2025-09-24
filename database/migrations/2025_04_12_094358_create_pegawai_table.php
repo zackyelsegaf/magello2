@@ -17,30 +17,46 @@ return new class extends Migration
             $table->string('nama_pegawai')->nullable();
             $table->string('tempat_lahir_pegawai')->nullable();
             $table->string('tanggal_lahir_pegawai')->nullable();
-            $table->string('jenis_kelamin_pegawai')->nullable();
-            $table->string('agama_pegawai')->nullable();
-            $table->string('status_pernikahan_pegawai')->nullable();
-            $table->string('golongan_darah_pegawai')->nullable();
+            $table->foreignId('jenis_kelamin_pegawai_id')->nullable()->constrained('gender')->onDelete('cascade');
+            $table->foreignId('agama_pegawai_id')->nullable()->constrained('religion')->onDelete('cascade');
+            $table->foreignId('status_pernikahan_pegawai_id')->nullable()->constrained('status_pemasok')->onDelete('cascade');
+            $table->foreignId('golongan_darah_id')->nullable()->constrained('golongan_darah')->onDelete('cascade');
             $table->string('email_pegawai')->nullable();
             $table->string('no_telp_pegawai')->nullable();
-            $table->string('provinsi')->nullable();
-            $table->string('kota')->nullable();
-            $table->string('kecamatan')->nullable();
-            $table->string('kelurahan')->nullable();
+            $table->string('provinsi_code')->nullable();
+            $table->string('kota_code')->nullable();
+            $table->string('kecamatan_code')->nullable();
+            $table->string('kelurahan_code')->nullable();
+            $table->foreign('provinsi_code')
+                ->references('code')
+                ->on(config('laravolt.indonesia.table_prefix') . 'provinces')
+                ->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('kota_code')
+                ->references('code')
+                ->on(config('laravolt.indonesia.table_prefix') . 'cities')
+                ->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('kecamatan_code')
+                ->references('code')
+                ->on(config('laravolt.indonesia.table_prefix') . 'districts')
+                ->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('kelurahan_code')
+                ->references('code')
+                ->on(config('laravolt.indonesia.table_prefix') . 'villages')
+                ->onUpdate('cascade')->onDelete('set null');
             $table->string('rt_pegawai')->nullable();
             $table->string('rw_pegawai')->nullable();
             $table->string('alamat_pegawai')->nullable();
             $table->string('nama_bank_pegawai')->nullable();
             $table->string('nomor_rekening_pegawai')->nullable();
             $table->string('atas_nama_pegawai')->nullable();
-            $table->string('jenis_identitas_pegawai')->nullable();
+            $table->foreignId('jenis_identitas_pegawai_id')->nullable()->constrained('kartu_identitas')->onDelete('cascade');
             $table->string('nomor_identitas_pegawai')->nullable();
             $table->string('nama_ayah_pegawai')->nullable();
             $table->string('nama_ibu_pegawai')->nullable();
             $table->string('nama_kontak_darurat_pegawai')->nullable();
             $table->string('no_telp_darurat_pegawai')->nullable();
             $table->string('hubungan_pegawai')->nullable();
-            $table->string('status_pekerjaan_pegawai')->nullable();
+            $table->foreignId('status_pekerjaan_pegawai_id')->nullable()->constrained('status_pekerja')->onDelete('cascade');
             $table->string('foto_pegawai')->nullable();
             $table->string('tanggal_masuk_pegawai')->nullable();
             $table->string('tanggal_keluar_pegawai')->nullable();

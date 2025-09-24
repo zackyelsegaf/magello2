@@ -9,92 +9,163 @@
                 </div>
             </div>
             <form action="{{ route('cluster/update', $Cluster->id) }}" method="POST" enctype="multipart/form-data">
+                <!-- Section 1: Form Header -->
                 @csrf
-                <div class="row">
-                    <div class="col-md-6 mb-4">
-                        <div class="card shadow-sm my-rounded-2">
-                            <div class="custom-header my-rounded">
-                                <h6 class="my-padding font-weight-bold">Tambah Cluster</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label>Nama Cluster</label>
-                                    <input type="text" class="form-control form-control-sm  @error('nama_cluster') is-invalid @enderror" name="nama_cluster" value="{{ $Cluster->nama_cluster }}">
-                                    @error('nama_cluster')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="form-group">
-                                    <label>No. HP</label>
-                                    <input type="text" class="form-control form-control-sm  @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ $Cluster->no_hp }}">
-                                    @error('no_hp')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="form-group">
-                                    <label>Luas Tanah M2</label>
-                                    <input type="text" class="form-control form-control-sm  @error('luas_tanah') is-invalid @enderror" name="luas_tanah" value="{{ $Cluster->luas_tanah }}">
-                                    @error('luas_tanah')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="form-group">
-                                    <label>Total Unit</label>
-                                    <input type="text" class="form-control form-control-sm  @error('total_unit') is-invalid @enderror" name="total_unit" value="{{ $Cluster->total_unit }}">
-                                    @error('total_unit')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="form-group">
-                                    <label>Provinsi</label>
-                                    <select class="form-control form-control-sm  @error('provinsi') is-invalid @enderror" name="provinsi">
-                                        <option selected disabled {{ old('provinsi', $Cluster->provinsi) ? '' : 'selected' }}> --Pilih Provinsi-- </option>
-                                        @foreach ($provinsi as $items )
-                                            <option value="{{ $items->nama }}" {{ old('provinsi', $Cluster->provinsi) == $items->nama ? 'selected' : '' }}>
-                                                {{ $items->nama }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('provinsi')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="form-group">
-                                    <label>Kota</label>
-                                    <select class="form-control form-control-sm  @error('kota') is-invalid @enderror"  name="kota">
-                                        <option selected disabled {{ old('kota', $Cluster->kota) ? '' : 'selected' }}> --Pilih Kota-- </option>
-                                        @foreach ($kota as $items )
-                                            <option value="{{ $items->nama }}" {{ old('kota', $Cluster->kota) == $items->nama ? 'selected' : '' }}>
-                                                {{ $items->nama }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('kota')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="form-group">
-                                    <label>Kecamatan</label>
-                                    <input type="text" class="form-control form-control-sm  @error('kecamatan') is-invalid @enderror" name="kecamatan" value="{{ $Cluster->kecamatan }}">
-                                    @error('kecamatan')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="form-group">
-                                    <label>Kelurahan</label>
-                                    <input type="text" class="form-control form-control-sm  @error('kelurahan') is-invalid @enderror" name="kelurahan" value="{{ $Cluster->kelurahan }}">
-                                    @error('kelurahan')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="form-group">
-                                    <label>Alamat</label>
-                                    <textarea class="form-control form-control-sm  @error('alamat_cluster') is-invalid @enderror" name="alamat_cluster" value="{{ old('alamat_cluster') }}">{{ old('alamat_cluster', $Cluster->alamat_cluster) }}</textarea>
-                                    @error('alamat_cluster')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                </div>
-                            </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 mb-2">
+                        <label>Nama Cluster</label>
+                        <input type="text" class="form-control form-control-sm" name="nama_cluster" value="{{ $Cluster->nama_cluster }}">
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label>No. HP</label>
+                        <input type="text" class="form-control form-control-sm" name="no_hp" value="{{ $Cluster->no_hp }}">
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label>Luas Tanah M2</label>
+                        <input type="text" class="form-control form-control-sm" name="luas_tanah" value="{{ $Cluster->luas_tanah }}">
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label>Total Unit</label>
+                        <input type="text" class="form-control form-control-sm" name="total_unit" value="{{ $Cluster->total_unit }}">
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label>Provinsi</label>
+                        <select id="provinsi_code" name="provinsi_code">
+                            <option value="" disabled {{ old('provinsi_code', $Cluster->provinsi_code) ? '' : 'selected' }}> --Pilih Provinsi-- </option>
+                            @foreach ($provinces as $p)
+                            <option value="{{ $p->code }}" {{ old('provinsi_code', $Cluster->provinsi_code) == $p->code ? 'selected' : '' }}>
+                                {{ $p->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label>Kota</label>
+                        <select id="kota_code" name="kota_code">
+                            @if(!empty($citySelected))
+                            <option value="{{ $citySelected->code }}" selected>{{ $citySelected->name }}</option>
+                            @else
+                            <option value="" disabled selected> --Pilih Kota-- </option>
+                            @endif
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label>Kecamatan</label>
+                        <select id="kecamatan" name="kecamatan">
+                            @if(!empty($districtSelected))
+                            <option value="{{ $districtSelected->code }}" selected>{{ $districtSelected->name }}</option>
+                            @else
+                            <option value="" disabled selected> --Pilih Kecamatan-- </option>
+                            @endif
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label>Kelurahan</label>
+                        <select id="kelurahan" name="kelurahan">
+                            @if(!empty($villageSelected))
+                            <option value="{{ $villageSelected->code }}" selected>{{ $villageSelected->name }}</option>
+                            @else
+                            <option value="" disabled selected> --Pilih Kelurahan-- </option>
+                            @endif
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label>Alamat</label>
+                        <textarea class="form-control form-control-sm" name="alamat_cluster">{{ $Cluster->alamat_cluster }}</textarea>
+                    </div>
+                </div>
+                <div class="mb-15 row align-items-center">
+                    <div class="col">
+                        <div class="">
+                            <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-check mr-2"></i>Simpan</button>
+                            <a href="{{ route('cluster/list/page') }}" class="btn btn-primary float-left veiwbutton ml-3"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary buttonedit">Update</button>
             </form>
         </div>
     </div>
-    @section('script')
-        @if ($errors->any())
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Terjadi Kesalahan',
-                text: 'Silakan periksa kembali form yang Anda isi.',
-                confirmButtonText: 'OK'
+@section('script')
+@endsection
+@push('scripts')
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const oldProv      = "{{ old('provinsi_code', $Cluster->provinsi_code ?? '') }}";
+            const oldKota      = "{{ old('kota_code', $Cluster->kota_code ?? '') }}";
+            const oldKecamatan = "{{ old('kecamatan', $Cluster->kecamatan ?? '') }}";
+            const oldKelurahan = "{{ old('kelurahan', $Cluster->kelurahan ?? '') }}";
+
+            const provTS = new TomSelect('#provinsi_code',{create:false,maxItems:1,sortField:{field:'text',direction:'asc'}});
+            const kotaTS = new TomSelect('#kota_code',    {create:false,maxItems:1,sortField:{field:'text',direction:'asc'}});
+            const kecTS  = new TomSelect('#kecamatan',    {create:false,maxItems:1,sortField:{field:'text',direction:'asc'}});
+            const kelTS  = new TomSelect('#kelurahan',    {create:false,maxItems:1,sortField:{field:'text',direction:'asc'}});
+
+            const disableAll = ts => { ts.clear(true); ts.clearOptions(); ts.addOption({value:'',text:'--'}); ts.refreshOptions(false); ts.disable(); }
+            [kotaTS,kecTS,kelTS].forEach(disableAll);
+
+            const api = async (url, params) => {
+                const q = new URLSearchParams(params||{}).toString();
+                const res = await fetch(url + (q?`?${q}`:''), {headers:{'Accept':'application/json'}});
+                if(!res.ok) return [];
+                const data = await res.json();
+                return Array.isArray(data) ? data : (Array.isArray(data.data)?data.data:[]);
+            };
+
+            const fill = (ts, list, placeholder) => {
+                ts.clear(true); ts.clearOptions();
+                ts.addOption({value:'', text: placeholder});
+                ts.addOptions(list.map(i => ({value:i.code, text:i.name})));
+                ts.enable(); ts.refreshOptions(false);
+            };
+
+            async function loadCities(provCode, selectedCode){
+                [kecTS,kelTS].forEach(disableAll);
+                if(!provCode) return disableAll(kotaTS);
+                const list = await api("{{ route('ajax.cities.by-province') }}", {provinsi_code: provCode});
+                fill(kotaTS, list, '--Pilih Kota--');
+                if(selectedCode) kotaTS.setValue(selectedCode, true);
+            }
+
+            async function loadDistricts(cityCode, selectedCode){
+                disableAll(kecTS); disableAll(kelTS);
+                if(!cityCode) return;
+                const list = await api("{{ route('ajax.districts.by-city') }}", {kota_code: cityCode});
+                fill(kecTS, list, '--Pilih Kecamatan--');
+                if(selectedCode) kecTS.setValue(selectedCode, true);
+                return kecTS.getValue();
+            }
+
+            async function loadVillages(districtCode, selectedCode){
+                disableAll(kelTS);
+                if(!districtCode || String(districtCode).length !== 6) return;
+                const list = await api("{{ route('ajax.villages.by-district') }}", {kecamatan: districtCode});
+                fill(kelTS, list, '--Pilih Kelurahan--');
+                if(selectedCode) kelTS.setValue(selectedCode, true);
+            }
+
+            if (oldProv){
+                provTS.setValue(oldProv, true);
+                await loadCities(oldProv, oldKota);
+                const pickedKec = await loadDistricts(oldKota, oldKecamatan);
+                if (pickedKec) await loadVillages(pickedKec, oldKelurahan);
+            }
+
+            provTS.on('change', async (prov) => {
+                kotaTS.clear(true);
+                await loadCities(prov || null, null);
             });
-        </script>
-    @endif
-    @endsection
+
+            kotaTS.on('change', async (kota) => {
+                await loadDistricts(kota || null, null);
+            });
+
+            kecTS.on('change', async (kec) => {
+                await loadVillages(kec || null, null);
+            });
+        });
+    </script>
+
+@endpush
 @endsection

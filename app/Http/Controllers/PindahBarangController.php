@@ -103,6 +103,9 @@ class PindahBarangController extends Controller
                     ]);
                     $stokTujuan->jumlah = ($stokTujuan->jumlah ?? 0) + $jumlahPindah;
                     $stokTujuan->save();
+
+                    $barang->default_gudang = (string) $validated['ke_gudang'];
+                    $barang->save();
                 }
             }
 

@@ -25,10 +25,10 @@
                         </div>
                         <div class="form-group mb-1">
                             <label>Mata Uang</label>
-                            <select class="form-control form-control-sm" name="mata_uang" onchange="this.form.submit()">
+                            <select class="form-control form-control-sm" name="mata_uang_id" onchange="this.form.submit()">
                                 <option value="" selected>Mata Uang</option>
                                 @foreach ($mata_uang as $items)
-                                    <option value="{{ $items->nama }}" {{ request('mata_uang') == $items->nama ? 'selected' : '' }}>
+                                    <option value="{{ $items->nama }}" {{ request('mata_uang_id') == $items->nama ? 'selected' : '' }}>
                                         {{ $items->nama }}
                                     </option>
                                 @endforeach
@@ -107,7 +107,7 @@
                     data: function(d) {
                         d.nama = $('input[name=nama]').val(),
                         d.pemasok_id = $('input[name=pemasok_id]').val(),
-                        d.mata_uang = $('select[name=mata_uang]').val(),
+                        d.mata_uang_id = $('select[name=mata_uang_id]').val(),
                         d.dihentikan = $('input[name=dihentikan]:checked').val();
                     }
                 },

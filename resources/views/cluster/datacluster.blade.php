@@ -149,8 +149,8 @@
                         searchable: false
                     },
                     {
-                        data: 'kota',
-                        name: 'kota',
+                        data: 'kota_code',
+                        name: 'kota_code',
                         orderable: false,
                         searchable: false
                     },

@@ -9,82 +9,117 @@
                     </div>
                 </div>
             </div>
-
-            <form method="POST" action="{{ route('suratperintahpembangunan/list/page') }}">
+            <form method="POST" action="{{ route('form/suratperintahpembangunan/save') }}">
                 @csrf
-
                 <div class="mb-3">
                     <label class="form-label fw-bold">Instruksi</label><br>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="instruksi" id="instruksi_marketing"
-                            value="marketing" checked>
-                        <label class="form-check-label" for="instruksi_marketing">Marketing (Konsumen)</label>
+                        <input class="form-check-input" type="radio" name="instruksi" id="instruksi_konsumen" value="konsumen" checked>
+                        <label class="form-check-label" for="instruksi_konsumen">Marketing (Konsumen)</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="instruksi" id="instruksi_manajemen"
-                            value="manajemen">
-                        <label class="form-check-label" for="instruksi_manajemen">Manajemen (Stok)</label>
+                        <input class="form-check-input" type="radio" name="instruksi" id="instruksi_stok" value="stok">
+                        <label class="form-check-label" for="instruksi_stok">Manajemen (Stok)</label>
                     </div>
+                    <input type="hidden" name="konsumen" id="konsumen_val" value="1">
+                    <input type="hidden" name="stok" id="stok_val" value="0">
+                    @error('konsumen')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                    @error('stok')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                 </div>
-
                 <div class="mb-3">
-                    <label for="no_spp" class="form-label fw-bold">Nomor SPP</label>
-                    <input type="text" id="no_spp" name="no_spp" class="form-control" placeholder="Nomor SPP"
-                        value="{{ old('no_spp', '') }}">
+                    <label for="nomor_spp" class="form-label fw-bold">Nomor SPP</label>
+                    <input type="text" id="nomor_spp" class="form-control form-control-sm font-weight-bold" value="{{ $nomorPreview }}" readonly>
                 </div>
-
                 <div class="mb-3">
-                    <label for="tanggal" class="form-label fw-bold">Tanggal</label>
-                    <input type="text" id="tanggal" name="tanggal" class="form-control datetimepicker" value="{{ old('tanggal') }}">
+                    <label for="tanggal_spp" class="form-label fw-bold">Tanggal SPP</label>
+                    <input type="text" id="tanggal_spp" name="tanggal_spp" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_spp') }}">
+                    @error('tanggal_spp')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                 </div>
-
                 <div class="mb-3">
-                    <label for="kapling" class="form-label fw-bold">Kapling</label>
-                    <select id="kapling" name="kapling" class="form-control select2">
-                        <option value="">Pilih 1 Kapling</option>
-                        {{-- @foreach ($listKapling as $kapling)
-                        <option value="{{ $kapling->id }}">{{ $kapling->kode_kavling }}</option>
-                    @endforeach --}}
+                    <select id="select-tags" multiple placeholder="Pilih Kapling" name="kapling_id[]">
+                        @foreach($cluster as $clusterId => $items)
+                            <optgroup label="{{ $items->first()->nama_cluster }}">
+                                @foreach($items as $k)
+                                    @if($k->kapling_id)
+                                        <option value="{{ $k->kapling_id }}">
+                                            {{ $k->blok_kapling }} - {{ $k->nomor_unit_kapling }} \ {{ $k->nama_cluster }}
+                                        </option>
+                                    @endif
+                                @endforeach
+                            </optgroup>
+                        @endforeach
                     </select>
+                    @error('kapling_id')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                    @error('kapling_id.*')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                 </div>
-
                 <div class="mb-3">
                     <label for="catatan" class="form-label fw-bold">Catatan</label>
                     <textarea id="catatan" name="catatan" class="form-control" rows="3">{{ old('catatan') }}</textarea>
+                    @error('catatan')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                 </div>
-
                 <div class="mb-15 row align-items-center">
                     <div class="col">
-                        <div class="">
-                            <button type="submit" class="btn btn-primary buttonedit">
-                                <i class="fa fa-check mr-2"></i>Simpan
-                            </button>
-                            <a href="{{ route('kategoritiketkostumer/list/page') }}"
-                                class="btn btn-primary float-left veiwbutton ml-3">
-                                <i class="fas fa-chevron-left mr-2"></i>Batal
-                            </a>
-                        </div>
+                        <button type="submit" class="btn btn-primary buttonedit">
+                            <i class="fa fa-check mr-2"></i>Simpan
+                        </button>
+                        <a href="{{ route('kategoritiketkostumer/list/page') }}" class="btn btn-primary float-left veiwbutton ml-3">
+                            <i class="fas fa-chevron-left mr-2"></i> Batal
+                        </a>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-@endsection
-
-@push('styles')
-    <!-- Select2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-@endpush
-
 @push('scripts')
-    <!-- Select2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('.select2').select2({
-                placeholder: 'Pilih 1 Kapling',
-                allowClear: true
+        document.addEventListener('DOMContentLoaded', function () {
+            new TomSelect("#select-tags", {
+                plugins: ['remove_button'],
+                create: false,
+                searchField: ['text']
             });
+
+            const ts = document.getElementById('select-tags')?.tomselect;
+
+            function setInstruksiMode(mode){
+            if(mode === 'konsumen'){
+                $('#konsumen_val').val(1); $('#stok_val').val(0);
+                if (ts?.setMaxItems) ts.setMaxItems(1);
+                if (ts && ts.items.length > 1) ts.setValue([ts.items[0]], true);
+            }else{
+                $('#konsumen_val').val(0); $('#stok_val').val(1);
+                if (ts?.setMaxItems) ts.setMaxItems(null);
+            }
+            }
+
+            $('input[name="instruksi"]').on('change', function(){
+            setInstruksiMode($(this).val());
+            });
+
+            if (ts){
+            ts.on('item_add', function(){
+                if ($('input[name="instruksi"]:checked').val() === 'konsumen' && ts.items.length > 1){
+                ts.setValue([ts.items[0]], true);
+                }
+            });
+            }
+
+            setInstruksiMode($('input[name="instruksi"]:checked').val());
+
+            function syncInstruksi(val){
+                const isKonsumen = (val === 'konsumen');
+                document.getElementById('konsumen_val').value = isKonsumen ? '1' : '0';
+                document.getElementById('stok_val').value     = isKonsumen ? '0' : '1';
+            }
+
+            document.querySelectorAll('input[name="instruksi"]').forEach(r => {
+                r.addEventListener('change', (e) => syncInstruksi(e.target.value));
+            });
+
+            syncInstruksi(document.querySelector('input[name="instruksi"]:checked').value);
         });
     </script>
 @endpush
+@endsection

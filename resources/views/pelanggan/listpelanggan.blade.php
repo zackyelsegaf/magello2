@@ -21,14 +21,14 @@
                             <input type="text" name="pelanggan_id" class="form-control form-control-sm" onchange="this.form.submit()" placeholder="Cari berdasarkan ID" value="{{ request('pelanggan_id') }}">
                         </div>
                         <div class="form-group mb-1">
-                            <input type="text" name="nama_pelanggan" class="form-control form-control-sm" onchange="this.form.submit()" placeholder="Nama Pelanggan" value="{{ request('nama_pelanggan') }}">
+                            <input type="text" name="nama" class="form-control form-control-sm" onchange="this.form.submit()" placeholder="Nama Pelanggan" value="{{ request('nama') }}">
                         </div>     
                         <div class="form-group mb-1">
                             <label>Mata Uang</label>
-                            <select class="form-control form-control-sm" name="mata_uang_pelanggan" onchange="this.form.submit()">
+                            <select class="form-control form-control-sm" name="mata_uang_id" onchange="this.form.submit()">
                                 <option value="" selected>Mata Uang</option>
                                 @foreach ($mata_uang as $items)
-                                    <option value="{{ $items->nama }}" {{ request('mata_uang_pelanggan') == $items->nama ? 'selected' : '' }}>
+                                    <option value="{{ $items->nama }}" {{ request('mata_uang_id') == $items->nama ? 'selected' : '' }}>
                                         {{ $items->nama }}
                                     </option>
                                 @endforeach
@@ -36,10 +36,10 @@
                         </div>
                         <div class="form-group mb-1">
                             <label>Tipe Pelanggan</label>
-                            <select class="form-control form-control-sm" name="tipe_pelanggan" onchange="this.form.submit()">
+                            <select class="form-control form-control-sm" name="tipe_pelanggan_id" onchange="this.form.submit()">
                                 <option value="" selected> Tipe Pelanggan </option>
                                 @foreach ($tipe_pelanggan as $items)
-                                    <option value="{{ $items->nama }}" {{ request('tipe_pelanggan') == $items->nama ? 'selected' : '' }}>
+                                    <option value="{{ $items->nama }}" {{ request('tipe_pelanggan_id') == $items->nama ? 'selected' : '' }}>
                                         {{ $items->nama }}
                                     </option>
                                 @endforeach
@@ -118,10 +118,10 @@
                 ajax: {
                     url: "{{ route('get-pelanggan-data') }}",
                     data: function(d) {
-                        d.nama_pelanggan = $('input[name=nama_pelanggan]').val(),
+                        d.nama = $('input[name=nama]').val(),
                         d.pelanggan_id = $('input[name=pelanggan_id]').val(),
-                        d.mata_uang_pelanggan = $('select[name=mata_uang_pelanggan]').val(),
-                        d.tipe_pelanggan = $('select[name=tipe_pelanggan]').val(),
+                        d.mata_uang_id = $('select[name=mata_uang_id]').val(),
+                        d.tipe_pelanggan_id = $('select[name=tipe_pelanggan_id]').val(),
                         d.dihentikan = $('input[name=dihentikan]:checked').val();
                     }
                 },
@@ -191,8 +191,8 @@
                         searchable: false
                     },
                     {
-                        data: 'nama_pelanggan',
-                        name: 'nama_pelanggan',
+                        data: 'nama',
+                        name: 'nama',
                         orderable: false,
                         searchable: false
                     },
@@ -221,8 +221,8 @@
                         searchable: false
                     },
                     {
-                        data: 'mata_uang_pelanggan',
-                        name: 'mata_uang_pelanggan',
+                        data: 'mata_uang',
+                        name: 'mata_uang',
                         orderable: false,
                         searchable: false
                     },

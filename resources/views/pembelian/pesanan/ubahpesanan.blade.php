@@ -151,12 +151,12 @@
                                                     @foreach ($pemasok as $items )
                                                         <option value="{{ $items->nama }}"
                                                             data-no-pemasok="{{ $items->pemasok_id }}"
-                                                            data-syarat="{{ $items->syarat }}"
+                                                            data-syarat="{{ $items->syarat_id }}"
                                                             data-alamat-1="{{ $items->alamat_1 }}"
                                                             data-nilai-tukar="{{ $items->nilai_tukar }}"
                                                             data-pajak="{{ $items->pajak_1_check }}"
                                                             {{ old('pemasok_pesanan', $pesananPembelian->pemasok_pesanan) == $items->nama ? 'selected' : '' }}>
-                                                            {{ $items->pemasok_id . " - " . $items->nama . " - " . $items->mata_uang }}
+                                                            {{ $items->pemasok_id . " - " . $items->nama . " - " . $items->mata_uang_nama }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -247,7 +247,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="datatable table table-striped table-bordered table-hover table-center mb-0" id="DataBarangAddSatuan">
+                                    <table class="table table-striped table-bordered table-hover table-center mb-0" id="DataBarangAddSatuan">
                                         <thead class="thead-dark">
                                             <tr>
                                                 {{-- <th>Dari</th> --}}

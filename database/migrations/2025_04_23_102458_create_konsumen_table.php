@@ -16,15 +16,34 @@ return new class extends Migration
             $table->string('nama_konsumen')->nullable();
             $table->string('nik_konsumen')->nullable();
             $table->string('no_hp')->nullable();
-            $table->string('status_pengajuan')->nullable();
-            $table->string('cluster')->nullable();
-            $table->string('jenis_kelamin')->nullable();
-            $table->string('provinsi')->nullable();
-            $table->string('kota')->nullable();
-            $table->string('kecamatan')->nullable();
-            $table->string('kelurahan')->nullable();
+            $table->foreignId('status_pengajuan_id')->nullable()->constrained('status_pengajuan')->onDelete('cascade');
+            $table->foreignId('cluster_id')->nullable()->constrained('cluster')->onDelete('cascade');
+            $table->foreignId('jenis_kelamin_id')->nullable()->constrained('gender')->onDelete('cascade');
+            $table->string('provinsi_code')->nullable();
+            $table->string('kota_code')->nullable();
+            $table->string('kecamatan_code')->nullable();
+            $table->string('kelurahan_code')->nullable();
+            $table->foreign('provinsi_code')
+                ->references('code')
+                ->on(config('laravolt.indonesia.table_prefix') . 'provinces')
+                ->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('kota_code')
+                ->references('code')
+                ->on(config('laravolt.indonesia.table_prefix') . 'cities')
+                ->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('kecamatan_code')
+                ->references('code')
+                ->on(config('laravolt.indonesia.table_prefix') . 'districts')
+                ->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('kelurahan_code')
+                ->references('code')
+                ->on(config('laravolt.indonesia.table_prefix') . 'villages')
+                ->onUpdate('cascade')->onDelete('set null');
             $table->string('alamat_konsumen')->nullable();
-            $table->string('pekerjaan')->nullable();
+            $table->foreignId('pekerjaan_id')->nullable()->constrained('tipe_pelanggan')->onDelete('cascade');
+            $table->foreignId('booking_id')->nullable()->constrained('bookings')->nullOnDelete();
+            $table->string('tanggal_booking')->nullable();
+            $table->string('booking_fee')->nullable();
             $table->string('marketing')->nullable();
             $table->string('nik_pasangan')->nullable();
             $table->string('nama_pasangan')->nullable();

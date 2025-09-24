@@ -16,6 +16,17 @@
                         <div class="row formtype">
                             <div class="col-md-4">
                                 <div class="form-group">
+                                    <label>Kode</label>
+                                    <input type="text"
+                                        class="form-control form-control-sm  @error('kode') is-invalid @enderror"
+                                        id="kode" name="kode" value="{{ $mataUang->kode }}">
+                                    @error('kode')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
                                     <label>Nama</label>
                                     <input type="text"
                                         class="form-control form-control-sm  @error('nama') is-invalid @enderror"

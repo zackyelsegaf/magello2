@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('departemen', function (Blueprint $table) {
             $table->id();
-            $table->string('departemen_id');
+            $table->string('departemen_id')->unique()->change();
             $table->string('nama_departemen')->nullable();
             $table->string('nama_kontak')->nullable();
             $table->string('deskripsi')->nullable();

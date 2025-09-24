@@ -35,7 +35,7 @@
                                             <th hidden>ID</th>
                                             <th>Judul</th>
                                             <th>Tipe</th>
-                                            {{-- <th>Tanggal</th> --}}
+                                            <th>Tanggal</th>
                                             <th>Total RAB</th>
                                             <th>Total RAP</th>
                                         </tr>
@@ -150,12 +150,12 @@
                         orderable: false,
                         searchable: false
                     },
-                    // {
-                    //     data: 'tanggal_pencatatan',
-                    //     name: 'tanggal_pencatatan',
-                    //     orderable: false,
-                    //     searchable: false
-                    // },
+                    {
+                        data: 'tanggal_pencatatan',
+                        name: 'tanggal_pencatatan',
+                        orderable: false,
+                        searchable: false
+                    },
                     {
                         data: 'total_rap',
                         name: 'total_rap',

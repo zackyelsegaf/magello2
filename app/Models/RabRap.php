@@ -14,6 +14,7 @@ class RabRap extends Model
     protected $fillable = [
         'judul_rap',
         'cluster',
+        'tanggal_pencatatan',
         'persen_kenaikan_qty',
         'tipe_model',
         'total_rap',

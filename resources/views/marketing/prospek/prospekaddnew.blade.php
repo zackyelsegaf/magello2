@@ -13,10 +13,13 @@
             <div class="row mb-3">
                 <div class="col-md-4" wire:ignore>
                     <label for="klaster" class="form-label fw-bold">Nama Klaster</label>
-                    <select class="tomselect @error('cluster') is-invalid @enderror" wire:model="cluster" id="klaster">
+                    <select class="tomselect @error('cluster') is-invalid @enderror" wire:model="cluster" id="klaster" wire:ignore>
                         <option value="">--Nama Klaster--</option>
-                        @foreach ($data_cluster as $items )
-                            <option value="{{ $items->nama_cluster }}">{{ $items->nama_cluster }}</option>
+                        @foreach ($data_cluster as $items)
+                            <option value="{{ $items->nama_cluster }}"
+                                @selected($cluster === $items->nama_cluster)>
+                                {{ $items->nama_cluster }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -34,42 +37,41 @@
                 </div>
                 <div class="col-md-4" wire:ignore>
                     <label for="ditugaskan_ke" class="form-label fw-bold">Ditugaskan Ke</label>
-                    <select class="tomselect @error('ditugaskan_ke') is-invalid @enderror" wire:model="ditugaskan_ke" id="ditugaskan_ke">
+                    <select class="tomselect @error('ditugaskan_ke') is-invalid @enderror" wire:model="ditugaskan_ke" id="ditugaskan_ke" wire:ignore>
                         <option value="">--Ditugaskan Ke--</option>
-                        @foreach ($data_user as $items )
-                            <option value="{{ $items->name }}">{{ $items->name }}</option>
+                        @foreach ($data_user as $items)
+                            <option value="{{ $items->name }}"
+                                @selected($ditugaskan_ke === $items->name)>
+                                {{ $items->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-md-4" wire:ignore>
                     <label for="sumber_prospek" class="form-label fw-bold">Sumber Prospek</label>
-                    <select class="tomselect @error('sumber_prospek') is-invalid @enderror" wire:model="sumber_prospek" id="sumber_prospek">
+                    <select class="tomselect @error('sumber_prospek') is-invalid @enderror" wire:model="sumber_prospek" id="sumber_prospek" wire:ignore>
                         <option value="">--Sumber Prospek--</option>
-                        <option value="Google Organik">Google Organik</option>
-                        <option value="Instagram Organik">Instagram Organik</option>
-                        <option value="Facebook Organik">Facebook Organik</option>
-                        <option value="Iklan Facebook">Iklan Facebook</option>
-                        <option value="Iklan Google">Iklan Google</option>
-                        <option value="Iklan Instagram">Iklan Instagram</option>
-                        <option value="Brosur">Brosur</option>
-                        <option value="Relasi">Relasi</option>
-                        <option value="Marketing">Marketing</option>
+                        @foreach (['Google Organik','Instagram Organik','Facebook Organik','Iklan Facebook','Iklan Google','Iklan Instagram','Brosur','Relasi','Marketing'] as $opt)
+                            <option value="{{ $opt }}" @selected($sumber_prospek === $opt)>{{ $opt }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-md-4" wire:ignore>
                     <label for="warm_meter" class="form-label fw-bold">Warm Meter</label>
-                    <select class="tomselect @error('warm_meter') is-invalid @enderror" wire:model="warm_meter" id="warm_meter">
+                    <select class="tomselect @error('warm_meter') is-invalid @enderror" wire:model="warm_meter" id="warm_meter" wire:ignore>
                         <option value="">--Warm Meter--</option>
-                        <option value="Cold">Cold</option>
-                        <option value="Warm">Warm</option>
-                        <option value="Hot">Hot</option>
+                        @foreach (['Cold','Warm','Hot'] as $wm)
+                            <option value="{{ $wm }}" @selected($warm_meter === $wm)>{{ $wm }}</option>
+                        @endforeach
                     </select>
                 </div>
-                <div class="col-md-4" wire:ignore>
+                <div class="col-md-4">
                     <label class="form-label">Tags</label>
-                    <select class="" wire:model="tags" id="tagInput" multiple>
-                        @foreach ($tags as $item)
-                            <option value="{{ $item }}">{{ $item }}</option>
+                    <select id="tagInput" wire:model="tags" multiple wire:ignore>
+                        @foreach (($allTags ?? $tags ?? []) as $item)
+                            <option value="{{ $item }}" @selected(in_array($item, (array)$tags, true))>
+                                {{ $item }}
+                            </option>
                         @endforeach
                     </select>
                 </div>

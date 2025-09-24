@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('no_akun')->nullable();
             $table->string('nama_akun_indonesia')->nullable();
             $table->string('nama_akun_inggris')->nullable();
+            $table->boolean('sub_akun_check')->nullable()->default(false);
             $table->foreignId('mata_uang_id')->nullable()->constrained('mata_uang')->onDelete('set null');
             $table->string('saldo_akun')->nullable();
             $table->string('tanggal')->nullable();

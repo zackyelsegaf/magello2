@@ -17,33 +17,43 @@
                             <div class="col-md-6">   
                                 <div class="form-group">
                                     <label>Tipe Akun</label>
-                                    <select class="form-control form-control-sm  @error('tipe_akun') is-invalid @enderror"  name="tipe_akun">
-                                        <option selected disabled  {{ old('tipe_akun', $Akun->tipe_akun) ? '' : 'selected' }}> --Pilih Tipe Akun-- </option>
+                                    <select id="tipe_id" class="tomselect @error('tipe_id') is-invalid @enderror"  name="tipe_id">
+                                        <option selected disabled  {{ old('tipe_id', $Akun->tipe_id) ? '' : 'selected' }}> --Pilih Tipe Akun-- </option>
                                         @foreach ($tipe_akun as $items )
-                                            <option value="{{ $items->nama }}" {{ old('tipe_akun', $Akun->tipe_akun) == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
+                                            <option value="{{ $items->id }}" {{ old('tipe_id', $Akun->tipe_id) == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
                                         @endforeach
                                     </select>
-                                </div>                        
+                                    @error('tipe_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>                    
                                 <div class="form-group">
                                     <label>No. Akun</label>
-                                    <input type="text" class="form-control form-control-sm  @error('no_akun') is-invalid @enderror" name="no_akun" value="{{ $Akun->no_akun }}">
+                                    <input type="text" class="form-control form-control-sm  @error('no_akun') is-invalid @enderror" name="no_akun" value="{{ old('no_akun', $Akun->no_akun) }}">
+                                    @error('no_akun')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Akun (Indonesia)</label>
-                                    <input type="text" class="form-control form-control-sm  derror" name="nama_akun_indonesia" value="{{ $Akun->nama_akun_indonesia }}">
+                                    <input type="text" class="form-control form-control-sm @error('nama_akun_indonesia') is-invalid @enderror" name="nama_akun_indonesia" value="{{ $Akun->nama_akun_indonesia }}">
+                                    @error('nama_akun_indonesia')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Akun (English)</label>
-                                    <input type="text" class="form-control form-control-sm " name="nama_akun_inggris" value="{{ $Akun->nama_akun_inggris }}">
+                                    <input type="text" class="form-control form-control-sm" name="nama_akun_inggris" value="{{ $Akun->nama_akun_inggris }}">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group"  id="mata_uang_id">
                                     <label>Mata Uang</label>
-                                    <select class="form-control form-control-sm  @error('mata_uang') is-invalid @enderror"  name="mata_uang">
-                                        <option selected disabled  {{ old('mata_uang', $Akun->mata_uang) ? '' : 'selected' }}> --Pilih Mata Uang-- </option>
+                                    <select class="tomselect @error('mata_uang_id') is-invalid @enderror" name="mata_uang_id">
+                                        <option selected disabled  {{ old('mata_uang_id', $Akun->mata_uang_id) ? '' : 'selected' }}> --Pilih Mata Uang-- </option>
                                         @foreach ($mata_uang as $items )
-                                            <option value="{{ $items->nama }}" {{ old('mata_uang', $Akun->mata_uang) == $items->nama ? 'selected' : '' }}>{{ $items->nama }}</option>
+                                            <option value="{{ $items->id }}" {{ old('mata_uang_id', $Akun->mata_uang_id) == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
                                         @endforeach
                                     </select>
+                                    @error('mata_uang_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="sub_akun_check">Sub Akun Dari</label>
@@ -55,21 +65,21 @@
                                 </div>
                                 <div class="form-group" id="tipe_akun_form" style="display: none;">
                                     {{-- <label>Subdari</label> --}}
-                                    <select class="form-control form-control-sm  @error('sub_akun') is-invalid @enderror"  name="sub_akun">
-                                        <option selected disabled  {{ old('sub_akun', $Akun->sub_akun) ? '' : 'selected' }}> --Pilih Akun-- </option>
+                                    <select class="tomselect"  name="parent_id">
+                                        <option selected disabled  {{ old('parent_id', $Akun->parent_id) ? '' : 'selected' }}> --Pilih Akun-- </option>
                                         @foreach ($nama_akun as $items )
-                                            <option value="{{ $items->no_akun }}" {{ old('sub_akun', $Akun->sub_akun) == $items->no_akun ? 'selected' : '' }}>{{ $items->no_akun }}</option>
+                                            <option value="{{ $items->id }}" {{ old('parent_id', $Akun->parent_id) == $items->id ? 'selected' : '' }}>{{ $items->no_akun .' - '. $items->nama_akun_indonesia }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="saldo_akun">
                                     <label>Saldo</label>
-                                    <input type="text" id="saldo_akun" class="form-control form-control-sm  @error('saldo_akun') is-invalid @enderror" name="saldo_akun" value="{{ 'Rp ' . number_format($Akun->saldo_akun, 0, ',', '.') }}">
+                                    <input type="text" class="form-control form-control-sm rupiah" name="saldo_akun" value="{{ 'Rp ' . number_format($Akun->saldo_akun, 0, ',', '.') }}">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group"  id="tanggal">
                                     <label>Tanggal</label>
                                     <div class="cal-icon">
-                                        <input type="text" class="form-control form-control-sm  datetimepicker @error('tanggal') is-invalid @enderror" name="tanggal" value="{{ $Akun->tanggal }}"> 
+                                        <input type="text" class="form-control form-control-sm  datetimepicker" name="tanggal" value="{{ $Akun->tanggal }}"> 
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -89,12 +99,15 @@
             </form>
         </div>
     </div>
-    @section('script')
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
+@section('script')
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const checkbox = document.getElementById("sub_akun_check");
             const tipeAkunForm = document.getElementById("tipe_akun_form");
-    
+
             function toggleTipeAkunForm() {
                 if (checkbox.checked) {
                     tipeAkunForm.style.display = "block";
@@ -102,9 +115,9 @@
                     tipeAkunForm.style.display = "none";
                 }
             }
-    
+
             toggleTipeAkunForm();
-    
+
             checkbox.addEventListener("change", toggleTipeAkunForm);
         });
     </script>
@@ -116,12 +129,48 @@
             function updateStatusText() {
                 statusText.textContent = checkbox.checked ? 'Ya' : 'Tidak';
             }
-    
+
             updateStatusText();
-    
+
             checkbox.addEventListener('change', updateStatusText);
         });
     </script>    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tipeAkunSelect = document.getElementById('tipe_id');
+            const mataUangGroup = document.getElementById('mata_uang_id');
+            const saldoGroup = document.getElementById('saldo_akun');
+            const tanggalGroup = document.getElementById('tanggal');
+
+            function toggleFields() {
+                const selectedValue = tipeAkunSelect.value;
+
+                if (selectedValue === '5' || selectedValue === '6') {
+                    mataUangGroup.style.display = 'none';
+                    saldoGroup.style.display = 'none';
+                    tanggalGroup.style.display = 'none';
+                } else if (selectedValue === '2' || selectedValue === '7') {
+                    mataUangGroup.style.display = '';
+                    saldoGroup.style.display = 'none';
+                    tanggalGroup.style.display = 'none';
+                } else if (selectedValue === '3' || selectedValue === '4' || selectedValue === '8' || selectedValue === '9' || selectedValue === '10' || selectedValue === '11' || selectedValue === '15' || selectedValue === '13' || selectedValue === '14' || selectedValue === '12') {
+                    mataUangGroup.style.display = 'none';
+                    saldoGroup.style.display = '';
+                    tanggalGroup.style.display = '';
+                } else {
+                    mataUangGroup.style.display = '';
+                    saldoGroup.style.display = '';
+                    tanggalGroup.style.display = '';
+                }
+            }
+
+            // Jalankan saat select berubah
+            tipeAkunSelect.addEventListener('change', toggleFields);
+
+            // Jalankan saat pertama kali halaman dimuat (jika ada old value)
+            toggleFields();
+        });
+    </script>
     <script>
         $(function() {
             $('#datetimepicker3').datetimepicker({
@@ -129,23 +178,60 @@
             });
         });
     </script>
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('saldo_akun');
-    
+
             input.addEventListener('input', () => {
                 let angka = input.value.replace(/\D/g, '');
                 input.value = formatRupiah(angka, 'Rp ');
             });
-    
+
             input.closest('form').addEventListener('submit', () => {
                 input.value = input.value.replace(/\D/g, '');
             });
-    
+
             function formatRupiah(angka, prefix = '') {
                 return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
         });
+    </script> --}}
+@endsection
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('select.tomselect').forEach(function (el) {
+                new TomSelect(el, {
+                    create: false,
+                    sortField: { field: "text", direction: "asc" }
+                });
+            });
+
+            const cleaveMap = new WeakMap();
+
+            document.querySelectorAll('input.rupiah').forEach(function (el) {
+                const instance = new Cleave(el, {
+                    numeral: true,
+                    numeralPositiveOnly: true,
+                    numeralDecimalScale: 2,
+                    numeralThousandsGroupStyle: 'thousand',
+                    numeralDecimalMark: '.',
+                    delimiter: ',',
+                    prefix: 'Rp ',
+                    rawValueTrimPrefix: true
+                });
+                cleaveMap.set(el, instance);
+            });
+
+            document.querySelectorAll('form').forEach(function (form) {
+                form.addEventListener('submit', function () {
+                    form.querySelectorAll('input.rupiah').forEach(function (el) {
+                        const inst = cleaveMap.get(el);
+                        if (inst) el.value = inst.getRawValue();
+                    });
+                });
+            });
+        });
     </script>
-    @endsection
+@endpush
 @endsection

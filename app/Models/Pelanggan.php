@@ -8,9 +8,14 @@ use App\Models\Dokumen;
 use App\Models\Penjual;
 use App\Models\MataUang;
 use App\Models\TipePelanggan;
-use Laravolt\Indonesia\Models\City;
+use App\Models\StatusPemasok;
+use App\Models\Province;
+use App\Models\City;
+use App\Models\Gender;
+use App\Models\Religion;
+use App\Models\District;
+use App\Models\Village;
 use Illuminate\Database\Eloquent\Model;
-use Laravolt\Indonesia\Models\Province;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pelanggan extends Model
@@ -82,7 +87,7 @@ class Pelanggan extends Model
             $latest = self::orderBy('id', 'desc')->first();
             $prefix = 'GMPCSR-';
             $nextID = $latest ? $latest->id + 1 : 1;
-            $model->kode_pelanggan = $prefix . sprintf("%04d", $nextID);
+            $model->pelanggan_id = $prefix . sprintf("%04d", $nextID);
         });
     }
 
@@ -104,7 +109,6 @@ class Pelanggan extends Model
     {
         return $this->belongsTo(StatusPemasok::class, 'status_id');
     }
-
     /**
      * Polymorphic relation to proyek (could be Proyek, Cluster, Kavling, etc.)
      */
@@ -130,17 +134,27 @@ class Pelanggan extends Model
 
     public function mataUang()
     {
-        return $this->belongsTo(MataUang::class);
+        return $this->belongsTo(MataUang::class, 'mata_uang_id');
     }
 
-    public function provinsi()
-    {
-        return $this->belongsTo(Province::class, 'provinsi_code', 'code');
+    public function province() 
+    { 
+        return $this->belongsTo(Province::class, 'provinsi', 'code'); 
     }
 
-    public function kota()
-    {
-        return $this->belongsTo(City::class, 'kota_code', 'code');
+    public function city()     
+    { 
+        return $this->belongsTo(City::class, 'kota', 'code');  
+    }
+
+    public function district() 
+    { 
+        return $this->belongsTo(District::class, 'kelurahan', 'code'); 
+    }
+
+    public function village()     
+    { 
+        return $this->belongsTo(Village::class, 'kecamatan', 'code');  
     }
 
     public function religion()

@@ -20,7 +20,7 @@
                         <select class="tomselect @error('cluster_id') is-invalid @enderror" name="cluster_id" id="kluster" data-placeholder="Pilih cluster...">
                             <option {{ old('cluster_id') ? '' : 'selected' }} disabled></option>
                             @foreach ($cluster as $items )
-                            <option value="{{ $items->id }}">{{ $items->nama_cluster }}</option>
+                            <option value="{{ $items->id }}" {{ old('cluster_id') == $items->id ? 'selected' : '' }}>{{ $items->nama_cluster }}</option>
                             @endforeach
                         </select>
                         @error('cluster_id')
@@ -75,7 +75,7 @@
                         <select class="tomselect @error('rap_rab_id') is-invalid @enderror" name="rap_rab_id" id="rap_rab" data-placeholder="Pilih rap & rab...">
                             <option {{ old('rap_rab_id') ? '' : 'selected' }} disabled></option>
                             @foreach ($rap_rab as $items )
-                            <option value="{{ $items->id }}">{{ $items->judul_rap }}</option>
+                            <option value="{{ $items->id }}" {{ old('rap_rab_id') == $items->id ? 'selected' : '' }}>{{ $items->judul_rap }}</option>
                             @endforeach
                         </select>
                         @error('rap_rab_id')
@@ -92,7 +92,7 @@
                     </div>
                     <div class="col-12">
                         <label for="spesifikasi" class="form-label">Spesifikasi</label>
-                        <textarea id="spesifikasi" class="form-control @error('spesifikasi') is-invalid @enderror" name="spesifikasi" rows="2"></textarea>
+                        <textarea id="spesifikasi" class="form-control @error('spesifikasi') is-invalid @enderror" name="spesifikasi" rows="2">{{ old('spesifikasi') }}</textarea>
                         @error('spesifikasi')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -115,48 +115,42 @@
 @push('scripts')
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
-
-    {{-- Cleave.js untuk masking angka/rupiah --}}
     <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
-
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // --- TomSelect
-        document.querySelectorAll('select.tomselect').forEach(function (el) {
-            new TomSelect(el, {
-                create: false, // data harus dari master (FK), hindari input bebas
-                sortField: { field: "text", direction: "asc" }
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- TomSelect
+            document.querySelectorAll('select.tomselect').forEach(function (el) {
+                new TomSelect(el, {
+                    create: false,
+                    sortField: { field: "text", direction: "asc" }
+                });
             });
-        });
 
-        // --- Cleave.js (Rupiah)
-        // Tambahkan class="rupiah" pada input yang ingin diformat
-        const cleaveMap = new WeakMap();
+            const cleaveMap = new WeakMap();
 
-        document.querySelectorAll('input.rupiah').forEach(function (el) {
-            const instance = new Cleave(el, {
-                numeral: true,
-                numeralPositiveOnly: true,
-                numeralDecimalScale: 2,       // Rupiah tanpa desimal. Ubah ke 2 kalau butuh sen.
-                numeralThousandsGroupStyle: 'thousand',
-                numeralDecimalMark: '.',
-                delimiter: ',',
-                prefix: 'Rp ',
-                rawValueTrimPrefix: true
+            document.querySelectorAll('input.rupiah').forEach(function (el) {
+                const instance = new Cleave(el, {
+                    numeral: true,
+                    numeralPositiveOnly: true,
+                    numeralDecimalScale: 2,
+                    numeralThousandsGroupStyle: 'thousand',
+                    numeralDecimalMark: '.',
+                    delimiter: ',',
+                    prefix: 'Rp ',
+                    rawValueTrimPrefix: true
+                });
+                cleaveMap.set(el, instance);
             });
-            cleaveMap.set(el, instance);
-        });
 
-        // Saat submit form, kirim raw value (tanpa "Rp " dan titik)
-        document.querySelectorAll('form').forEach(function (form) {
-            form.addEventListener('submit', function () {
-                form.querySelectorAll('input.rupiah').forEach(function (el) {
-                    const inst = cleaveMap.get(el);
-                    if (inst) el.value = inst.getRawValue(); // contoh "Rp 12.345" -> "12345"
+            document.querySelectorAll('form').forEach(function (form) {
+                form.addEventListener('submit', function () {
+                    form.querySelectorAll('input.rupiah').forEach(function (el) {
+                        const inst = cleaveMap.get(el);
+                        if (inst) el.value = inst.getRawValue();
+                    });
                 });
             });
         });
-    });
     </script>
 @endpush
 @endsection
