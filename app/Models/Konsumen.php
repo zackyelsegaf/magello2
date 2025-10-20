@@ -16,6 +16,12 @@ class Konsumen extends Model
 
     protected $table = 'konsumen';
 
+    protected $casts = [
+        'provinsi_code'  => 'string',
+        'kota_code'      => 'string',
+        'kecamatan_code' => 'string',
+        'kelurahan_code' => 'string',
+    ];
     protected $guarded = ['id'];
 
     // protected $fillable = [
@@ -36,10 +42,15 @@ class Konsumen extends Model
     //     'nama_pasangan'   ,
     //     'no_hp_pasangan'  ,
     // ];
+    
+    public function gender()
+    {
+        return $this->belongsTo(Gender::class, 'jenis_kelamin_id');
+    }
 
     public function province() 
     { 
-        return $this->belongsTo(Province::class, 'provinsi', 'code'); 
+        return $this->belongsTo(Province::class, 'provinsi_code', 'code'); 
     }
 
     public function cluster()
@@ -54,11 +65,32 @@ class Konsumen extends Model
 
     public function district() 
     { 
-        return $this->belongsTo(District::class, 'kelurahan', 'code'); 
+        return $this->belongsTo(District::class, 'kelurahan_code', 'code'); 
     }
 
     public function village()     
     { 
-        return $this->belongsTo(Village::class, 'kecamatan', 'code');  
+        return $this->belongsTo(Village::class, 'kecamatan_code', 'code');  
+    }
+
+    public function status_pengajuan()
+    {
+        return $this->belongsTo(StatusPengajuan::class, 'status_pengajuan_id');
+    }
+
+    public function pekerjaan()
+    {
+        return $this->belongsTo(TipePelanggan::class, 'pekerjaan_id');
+    }
+
+    public function konsumen()
+    {
+        return $this->belongsTo(Konsumen::class, 'konsumen_id');
+    }
+
+    public function kapling()
+    {
+        return $this->hasMany(Kapling::class, 'kapling_id');
     }
 }
+

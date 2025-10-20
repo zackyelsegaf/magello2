@@ -115,13 +115,30 @@
                         <input type="text" name="dibuat_oleh" class="form-control" rows="2" value="{{ Auth::user()->name }}"></input>
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group mb-2">
-                            <label for="fileupload">Lampiran</label>
-                            <div class="custom-file">
-                                <input type="file" id="fileupload" name="fileupload" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
-                                <label class="custom-file-label">Pilih File</label>
+                        @if($arsip && $arsip->isNotEmpty())
+                            @foreach($arsip as $a)
+                                <div class="form-group mb-2">
+                                    @if($a['file_url'])
+                                        <label>File Arsip</label>
+                                        <small class="d-block mt-1">
+                                            <a class="btn btn-primary buttonedit-sm mr-2" href="{{ $a['file_url'] }}" target="_blank"><strong><i class="fas fa-file mr-2"></i></strong>Download File{{-- $a['original_name'] ?? 'lihat' --}}</a>
+                                            <a class="btn btn-primary buttonedit2-sm" href="{{ route('spkmandorpekerjainternal/file/delete', $a['id']) }}" ><i class="fas fa-trash-alt mr-2"></i>Hapus</a>
+                                        </small>
+                                    @endif
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="form-group mb-2">
+                                <label>File Arsip</label>
+                                <div class="custom-file">
+                                    <input type="file" name="fileupload" class="custom-file-input" value="{{ old('fileupload', $updateSpk->fileupload)  }}" accept=".pdf,.jpg,.jpeg,.png">
+                                    <label class="custom-file-label">Pilih File</label>
+                                </div>
                             </div>
-                        </div>
+                            <div class="alert alert-info mt-2" role="alert">
+                                <i class="fas fa-info mr-2"></i>Tidak ada file yang diunggah.
+                            </div>
+                        @endif
                     </div>
                     <div class="col-md-4">
                         <label for="kapling" class="form-label fw-bold">Kapling</label>
@@ -287,6 +304,19 @@
                 ]
             }).catch(console.error);
         })();
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.custom-file-input').forEach(function (inp) {
+                inp.addEventListener('change', function (e) {
+                const f = e.target.files && e.target.files[0];
+                const label = inp.nextElementSibling;
+                if (f && label && label.classList.contains('custom-file-label')) {
+                    label.textContent = f.name;
+                }
+                });
+            });
+        });
     </script>
     <script>
         $(function () {

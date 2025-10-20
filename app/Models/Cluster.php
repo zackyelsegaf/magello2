@@ -23,8 +23,8 @@ class Cluster extends Model
         'total_unit',
         'provinsi_code',
         'kota_code',
-        'kecamatan',
-        'kelurahan',
+        'kecamatan_code',
+        'kelurahan_code',
         'alamat_cluster',
     ];
 
@@ -38,11 +38,11 @@ class Cluster extends Model
     }
     public function district() 
     { 
-        return $this->belongsTo(District::class, 'kelurahan', 'code'); 
+        return $this->belongsTo(District::class, 'kelurahan_code', 'code'); 
     }
     public function village()     
     { 
-        return $this->belongsTo(Village::class, 'kecamatan', 'code');  
+        return $this->belongsTo(Village::class, 'kecamatan_code', 'code');  
     }
 
     public function dataLahans()

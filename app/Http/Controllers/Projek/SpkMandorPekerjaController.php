@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\SuratPerintahKerjaInternal;
 use App\Models\SuratPerintahKerjaInternalListFee;
+use App\Models\ArsipFile;
+use App\Models\DokumenBooking;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -29,19 +31,21 @@ class SpkMandorPekerjaController extends Controller
             ->select('id','nama_pekerja','no_hp')
             ->orderBy('nama_pekerja')->get();
 
-        $spp = DB::table('surat_perintah_pembangunan')
+        $spp = DB::table('surat_perintah_pembangunan as spp')
+            ->leftJoin('surat_perintah_kerja as spk', 'spk.spp_id', '=', 'spp.id')
+            ->whereNull('spk.spp_id')                                             
             ->select(
-                'id',
-                'nomor_spp',
-                'tanggal_spp',
-                'konsumen',
-                'stok',
-                DB::raw("CASE WHEN konsumen = 1 THEN '(Marketing)' ELSE '(Manajemen)' END AS instruksi")
+                'spp.id',
+                'spp.nomor_spp',
+                'spp.tanggal_spp',
+                'spp.konsumen',
+                'spp.stok',
+                DB::raw("CASE WHEN spp.konsumen = 1 THEN '(Marketing)' ELSE '(Manajemen)' END AS instruksi")
             )
-            ->orderBy('tanggal_spp', 'desc')
-            ->orderBy('nomor_spp', 'desc')
+            ->orderBy('spp.tanggal_spp', 'desc')
+            ->orderBy('spp.nomor_spp', 'desc')
             ->get();
-
+            
         $today = Carbon::now('Asia/Jakarta')->toDateString();
         $nomorPreview = SuratPerintahKerjaInternal::generateNomorSpk($today);
 
@@ -55,17 +59,19 @@ class SpkMandorPekerjaController extends Controller
             ->select('id','nama_pekerja','no_hp')
             ->orderBy('nama_pekerja')->get();
 
-        $spp = DB::table('surat_perintah_pembangunan')
+        $spp = DB::table('surat_perintah_pembangunan as spp')
+            ->leftJoin('surat_perintah_kerja as spk', 'spk.spp_id', '=', 'spp.id')
+            ->whereNull('spk.spp_id')                                             
             ->select(
-                'id',
-                'nomor_spp',
-                'tanggal_spp',
-                'konsumen',
-                'stok',
-                DB::raw("CASE WHEN konsumen = 1 THEN '(Marketing)' ELSE '(Manajemen)' END AS instruksi")
+                'spp.id',
+                'spp.nomor_spp',
+                'spp.tanggal_spp',
+                'spp.konsumen',
+                'spp.stok',
+                DB::raw("CASE WHEN spp.konsumen = 1 THEN '(Marketing)' ELSE '(Manajemen)' END AS instruksi")
             )
-            ->orderBy('tanggal_spp', 'desc')
-            ->orderBy('nomor_spp', 'desc')
+            ->orderBy('spp.tanggal_spp', 'desc')
+            ->orderBy('spp.nomor_spp', 'desc')
             ->get();
 
         $today = Carbon::now('Asia/Jakarta')->toDateString();
@@ -159,6 +165,24 @@ class SpkMandorPekerjaController extends Controller
                 'spp_id'            => $data['spp_id'],
             ]);
             $spk->save();
+
+            if ($path) { 
+                $uploaded = $request->file('fileupload');
+                ArsipFile::create([
+                    'arsipmultimenu_type' => get_class($spk),
+                    'arsipmultimenu_id'   => $spk->id,
+                    'nama_arsip'          => $data['judul_spk'] ?? 'Lampiran SPK',
+                    'nomor_arsip'         => null,
+                    'tanggal_arsip'       => $data['tanggal_spk'],
+                    'disk'                => 'public',
+                    'file_arsip'          => $path,
+                    'keterangan_arsip'    => 'Lampiran SPK Mandor/Pekerja Internal',
+                    'original_name'       => $uploaded?->getClientOriginalName(),
+                    'mime_type'           => $uploaded?->getClientMimeType(),
+                    'file_size'           => $uploaded?->getSize(),
+                    'uploaded_by'         => optional($request->user())->id,
+                ]);
+            }
 
             $spk->kaplings()->sync($data['kapling_id']);
 
@@ -281,6 +305,24 @@ class SpkMandorPekerjaController extends Controller
             ]);
             $spk->save();
 
+            if ($path) { 
+                $uploaded = $request->file('fileupload');
+                ArsipFile::create([
+                    'arsipmultimenu_type' => get_class($spk),
+                    'arsipmultimenu_id'   => $spk->id,
+                    'nama_arsip'          => $data['judul_spk'] ?? 'Lampiran SPK',
+                    'nomor_arsip'         => null,
+                    'tanggal_arsip'       => $data['tanggal_spk'],
+                    'disk'                => 'public',
+                    'file_arsip'          => $path,
+                    'keterangan_arsip'    => 'Lampiran SPK Mandor/Pekerja Subcon',
+                    'original_name'       => $uploaded?->getClientOriginalName(),
+                    'mime_type'           => $uploaded?->getClientMimeType(),
+                    'file_size'           => $uploaded?->getSize(),
+                    'uploaded_by'         => optional($request->user())->id,
+                ]);
+            }
+
             $spk->kaplings()->sync($data['kapling_id']);
 
             $now  = now();
@@ -354,6 +396,23 @@ class SpkMandorPekerjaController extends Controller
     {
         $updateSpk = SuratPerintahKerjaInternal::with(['kaplings:id','fees'])->findOrFail($id);
 
+        $tanggal_spk = $updateSpk->tanggal_spk ? Carbon::parse($updateSpk->tanggal_spk)->format('d/m/Y') : null;
+        $tanggal_mulai = $updateSpk->tanggal_mulai ? Carbon::parse($updateSpk->tanggal_mulai)->format('d/m/Y') : null;
+
+        $updateKavling = SuratPerintahKerjaInternal::find($id);
+        $arsip = $updateKavling->arsipFiles()->get()->map(function($a){
+                return [
+                    'id'               => $a->id,
+                    'nama_arsip'       => $a->nama_arsip,
+                    'nomor_arsip'      => $a->nomor_arsip,
+                    // 'tanggal_arsip'    => $a->tanggal_arsip ? $a->tanggal_arsip->format('Y-m-d') : null,
+                    'keterangan_arsip' => $a->keterangan_arsip,
+                    'original_name'    => $a->original_name,
+                    'file_url'         => $a->file_arsip ? asset('storage/'.$a->file_arsip) : null,
+                    'file_label'       => 'Ganti File',
+                ];
+            });
+
         if (!$updateSpk) {
             return redirect()
                 ->route('spkmandorpekerja/list/page')
@@ -396,12 +455,61 @@ class SpkMandorPekerjaController extends Controller
             ->orderBy('id')
             ->get();
 
-        return view('projek.spkmandorpekerja.spkmandorpekerjainternaledit', compact('updateSpk','pekerja','spp','kaplingOptions','selectedKaplingIds','feeRows'));
+        
+
+        return view('projek.spkmandorpekerja.spkmandorpekerjainternaledit', compact('updateSpk','pekerja','spp','kaplingOptions','selectedKaplingIds','feeRows', 'arsip', 'tanggal_spk', 'tanggal_mulai'));
+    }
+
+    public function deleteFile(ArsipFile $file)
+    {
+        try {
+            $disk      = $file->disk ?? config('filesystems.default', 'public');
+            $path      = $file->file_arsip;
+            $parent    = $file->arsipmultimenu;
+            $parentDir = $path ? dirname($path) : null;
+
+            if ($path && Storage::disk($disk)->exists($path)) {
+                Storage::disk($disk)->delete($path);
+            }
+
+            $file->delete();
+
+            if ($parent instanceof DokumenBooking && $parent->files()->count() === 0) {
+                $parent->delete();
+            }
+
+            if ($parentDir && empty(Storage::disk($disk)->files($parentDir)) && empty(Storage::disk($disk)->directories($parentDir))) {
+                Storage::disk($disk)->deleteDirectory($parentDir);
+            }
+
+            sweetalert()->success('File berhasil dihapus.');
+        } catch (\Throwable $e) {
+            sweetalert()->warning('Gagal menghapus file: '.$e->getMessage());
+        }
+
+        return back();
     }
 
     public function editSubcon($id)
     {
         $updateSpk = SuratPerintahKerjaInternal::with(['kaplings:id','fees'])->findOrFail($id);
+
+        $tanggal_spk = $updateSpk->tanggal_spk ? Carbon::parse($updateSpk->tanggal_spk)->format('d/m/Y') : null;
+        $tanggal_mulai = $updateSpk->tanggal_mulai ? Carbon::parse($updateSpk->tanggal_mulai)->format('d/m/Y') : null;
+
+        $updateKavling = SuratPerintahKerjaInternal::find($id);
+        $arsip = $updateKavling->arsipFiles()->get()->map(function($a){
+                return [
+                    'id'               => $a->id,
+                    'nama_arsip'       => $a->nama_arsip,
+                    'nomor_arsip'      => $a->nomor_arsip,
+                    // 'tanggal_arsip'    => $a->tanggal_arsip ? $a->tanggal_arsip->format('Y-m-d') : null,
+                    'keterangan_arsip' => $a->keterangan_arsip,
+                    'original_name'    => $a->original_name,
+                    'file_url'         => $a->file_arsip ? asset('storage/'.$a->file_arsip) : null,
+                    'file_label'       => 'Ganti File',
+                ];
+            });
 
         if (!$updateSpk) {
             return redirect()
@@ -458,14 +566,13 @@ class SpkMandorPekerjaController extends Controller
             ->orderBy('id')
             ->get();
 
-        return view('projek.spkmandorpekerja.spkmandorpekerjasubconedit', compact('updateSpk','pekerja','spp','kaplingOptions','selectedKaplingIds','feeRows'));
+        return view('projek.spkmandorpekerja.spkmandorpekerjasubconedit', compact('updateSpk','pekerja','spp','kaplingOptions','selectedKaplingIds','feeRows', 'arsip', 'tanggal_spk', 'tanggal_mulai'));
     }
 
 
     public function updateInternal(Request $request)
     {
         $rules = [
-            'id'                => 'nullable|exists:surat_perintah_kerja,id',
             'judul_spk'         => 'nullable|string|max:200',
             'tanggal_spk'       => 'nullable|date_format:Y-m-d',
             'fileupload'        => 'nullable|file|max:5120|mimes:pdf,jpg,jpeg,png,doc,docx',
@@ -497,7 +604,6 @@ class SpkMandorPekerjaController extends Controller
         DB::beginTransaction();
         try {
             $spk = SuratPerintahKerjaInternal::findOrFail($id);
-
             if ($sppId && !empty($kaplingIds)) {
                 $allowedKaplings = DB::table('spp_kapling')
                     ->where('spp_id', $sppId)
@@ -510,10 +616,27 @@ class SpkMandorPekerjaController extends Controller
                 }
             }
 
-            $path = $spk->fileupload;
+            $path = null;
             if ($request->hasFile('fileupload')) {
-                if ($path) Storage::disk('public')->delete($path);
                 $path = $request->file('fileupload')->store('spk_files', 'public');
+            }
+
+            if ($path) { 
+                $uploaded = $request->file('fileupload');
+                ArsipFile::create([
+                    'arsipmultimenu_type' => get_class($spk),
+                    'arsipmultimenu_id'   => $spk->id,
+                    'nama_arsip'          => $data['judul_spk'] ?? 'Lampiran SPK',
+                    'nomor_arsip'         => null,
+                    'tanggal_arsip'       => $data['tanggal_spk'],
+                    'disk'                => 'public',
+                    'file_arsip'          => $path,
+                    'keterangan_arsip'    => 'Lampiran SPK Mandor/Pekerja Internal',
+                    'original_name'       => $uploaded?->getClientOriginalName(),
+                    'mime_type'           => $uploaded?->getClientMimeType(),
+                    'file_size'           => $uploaded?->getSize(),
+                    'uploaded_by'         => optional($request->user())->id,
+                ]);
             }
 
             $update = [];
@@ -725,10 +848,27 @@ class SpkMandorPekerjaController extends Controller
                 }
             }
 
-            $path = $spk->fileupload;
+            $path = null;
             if ($request->hasFile('fileupload')) {
-                if ($path) Storage::disk('public')->delete($path);
                 $path = $request->file('fileupload')->store('spk_files', 'public');
+            }
+
+            if ($path) { 
+                $uploaded = $request->file('fileupload');
+                ArsipFile::create([
+                    'arsipmultimenu_type' => get_class($spk),
+                    'arsipmultimenu_id'   => $spk->id,
+                    'nama_arsip'          => $data['judul_spk'] ?? 'Lampiran SPK',
+                    'nomor_arsip'         => null,
+                    'tanggal_arsip'       => $data['tanggal_spk'],
+                    'disk'                => 'public',
+                    'file_arsip'          => $path,
+                    'keterangan_arsip'    => 'Lampiran SPK Mandor/Pekerja Subcon',
+                    'original_name'       => $uploaded?->getClientOriginalName(),
+                    'mime_type'           => $uploaded?->getClientMimeType(),
+                    'file_size'           => $uploaded?->getSize(),
+                    'uploaded_by'         => optional($request->user())->id,
+                ]);
             }
 
             $update = [];

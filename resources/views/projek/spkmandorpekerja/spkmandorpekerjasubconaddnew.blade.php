@@ -305,6 +305,19 @@
         })();
     </script>
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.custom-file-input').forEach(function (inp) {
+                inp.addEventListener('change', function (e) {
+                const f = e.target.files && e.target.files[0];
+                const label = inp.nextElementSibling;
+                if (f && label && label.classList.contains('custom-file-label')) {
+                    label.textContent = f.name;
+                }
+                });
+            });
+        });
+    </script>
+    <script>
         $(function () {
             function getRawNumber($input){
                 const v = ($input.val()||'').toString().replace(/[^\d.-]/g,'');

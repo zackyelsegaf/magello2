@@ -11,7 +11,6 @@ use Illuminate\Support\Str;
 use App\Models\Fasum;
 use App\Models\Arsip;
 
-
 class FasumController extends Controller
 {
         public function FasumList()
@@ -25,7 +24,7 @@ class FasumController extends Controller
     public function FasumAddNew()
     {
         $cluster = DB::table('cluster')->get();
-        $rap_rab = DB::table('rap_rab')->get();
+        $rap_rab = DB::table('rap_rab')->where('tipe_model', 'Fasum')->get();
         return view('marketing.perumahan.fasum.fasumaddnew', compact('cluster', 'rap_rab'));
     }
 
@@ -86,7 +85,7 @@ class FasumController extends Controller
     {
         $updateFasum = Fasum::findOrFail($id);
         $cluster = DB::table('cluster')->get();
-        $rap_rab = DB::table('rap_rab')->get();
+        $rap_rab = DB::table('rap_rab')->where('tipe_model', 'Fasum')->get();
 
         $detail = DB::table('fasum as fasum')
             ->leftJoin('cluster as cluster', 'cluster.id', '=', 'fasum.cluster_id')

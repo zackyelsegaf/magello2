@@ -30,12 +30,12 @@
 
                     <div class="col-md-4">
                         <label for="tipe_model" class="form-label fw-bold">Tipe Model</label>
-                        <input type="text" id="tipe_model" name="tipe_model" class="form-control" value="Kapling" placeholder="Tipe Model" readonly>
+                        <input type="text" id="tipe_model" name="tipe_model" class="form-control form-control-sm" value="Kapling" placeholder="Tipe Model" readonly>
                     </div>
 
                     <div class="col-md-4">
                         <label for="blok" class="form-label fw-bold">Blok</label>
-                        <input type="text" id="blok" name="blok_kapling" class="form-control @error('blok_kapling') is-invalid @enderror" value="{{ old('blok_kapling') }}" placeholder="Blok">
+                        <input type="text" id="blok" name="blok_kapling" class="form-control form-control-sm @error('blok_kapling') is-invalid @enderror" value="{{ old('blok_kapling') }}" placeholder="Blok">
                         @error('blok_kapling')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -43,7 +43,7 @@
 
                     <div class="col-md-4">
                         <label for="nomor_unit" class="form-label fw-bold">Nomor Unit</label>
-                        <input type="number" id="nomor_unit" name="nomor_unit_kapling" class="form-control @error('nomor_unit_kapling') is-invalid @enderror" value="{{ old('nomor_unit_kapling') }}" placeholder="Nomor Unit">
+                        <input type="number" id="nomor_unit" name="nomor_unit_kapling" class="form-control form-control-sm @error('nomor_unit_kapling') is-invalid @enderror" value="{{ old('nomor_unit_kapling') }}" placeholder="Nomor Unit">
                         @error('nomor_unit_kapling')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -51,7 +51,7 @@
 
                     <div class="col-md-4">
                         <label for="jumlah_lantai" class="form-label fw-bold">Jumlah Lantai</label>
-                        <input type="number" id="jumlah_lantai" name="jumlah_lantai" class="form-control @error('jumlah_lantai') is-invalid @enderror" value="{{ old('jumlah_lantai') }}" placeholder="Jumlah Lantai">
+                        <input type="number" id="jumlah_lantai" name="jumlah_lantai" class="form-control form-control-sm @error('jumlah_lantai') is-invalid @enderror" value="{{ old('jumlah_lantai') }}" placeholder="Jumlah Lantai">
                         @error('jumlah_lantai')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -59,7 +59,7 @@
 
                     <div class="col-md-4">
                         <label for="luas_tanah" class="form-label fw-bold">Luas Tanah (m²)</label>
-                        <input type="number" id="luas_tanah" name="luas_tanah" class="form-control @error('luas_tanah') is-invalid @enderror" value="{{ old('luas_tanah') }}" placeholder="Luas Tanah (m²)">
+                        <input type="number" id="luas_tanah" name="luas_tanah" class="form-control form-control-sm @error('luas_tanah') is-invalid @enderror" value="{{ old('luas_tanah') }}" placeholder="Luas Tanah (m²)">
                         @error('luas_tanah')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -67,7 +67,7 @@
 
                     <div class="col-md-4">
                         <label for="luas_bangunan" class="form-label fw-bold">Luas Bangunan (m²)</label>
-                        <input type="number" id="luas_bangunan" name="luas_bangunan" class="form-control @error('luas_bangunan') is-invalid @enderror" value="{{ old('luas_bangunan') }}" placeholder="Luas Bangunan (m²)">
+                        <input type="number" id="luas_bangunan" name="luas_bangunan" class="form-control form-control-sm @error('luas_bangunan') is-invalid @enderror" value="{{ old('luas_bangunan') }}" placeholder="Luas Bangunan (m²)">
                     </div>
 
                     <div class="col-md-4">
@@ -85,7 +85,7 @@
 
                     <div class="col-md-4">
                         <label for="harga" class="form-label fw-bold">Harga</label>
-                        <input type="text" id="harga" name="harga_kapling" class="form-control rupiah @error('harga_kapling') is-invalid @enderror" value="{{ old('harga_kapling') }}" placeholder="Harga">
+                        <input type="text" id="harga" name="harga_kapling" class="form-control form-control-sm rupiah @error('harga_kapling') is-invalid @enderror" value="{{ old('harga_kapling') }}" placeholder="Harga">
                         @error('harga_kapling')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -101,12 +101,12 @@
 
                 <div class="mb-4 row align-items-center">
                     <div class="col">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-check mr-2"></i> Simpan
-                        </button>
-                        <a href="{{ route('kavling/list/page') }}" class="btn btn-primary ml-3">
+                        <a href="{{ url()->previous() }}" class="btn btn-primary mr-2 buttonedit">
                             <i class="fas fa-chevron-left mr-2"></i> Batal
                         </a>
+                        <button type="submit" class="btn btn-primary buttonedit">
+                            <i class="fa fa-save ml-2"></i> Simpan
+                        </button>
                     </div>
                 </div>
             </form>

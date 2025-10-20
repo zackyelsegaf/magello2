@@ -36,6 +36,7 @@
                                             <th>No. HP</th>
                                             <th>Perumahan</th>
                                             <th>Kota</th>
+                                            <th class="aksi">Aksi</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -170,6 +171,12 @@
                         name: 'kota',
                         orderable: false,
                         searchable: false
+                    },
+                    {
+                        data: 'modify',
+                        name: 'modify',
+                        orderable: false,
+                        searchable: false
                     }
                 ]
             });
@@ -212,7 +219,7 @@
 
             $('#KonsumenList tbody').on('click', 'tr', function(e) {
                 // Cek apakah yang diklik adalah checkbox atau elemen dalam checkbox
-                if ($(e.target).is('input[type="checkbox"], label')) {
+                if ($(e.target).is('input[type="checkbox"], label, .konsumen-btn')) {
                     return; // Jika iya, hentikan eksekusi supaya tidak redirect
                 }
 

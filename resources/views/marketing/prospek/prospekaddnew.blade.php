@@ -80,13 +80,13 @@
             <div class="mb-15 row align-items-center">
                 <div class="col">
                     <div class="">
-                        <button type="submit" class="btn btn-primary buttonedit">
-                            <i class="fa fa-check mr-2"></i>Simpan
-                        </button>
-                        <a href="{{ route('prospek/list/page') }}"
-                            class="btn btn-primary float-left veiwbutton ml-3">
+                        <a href="{{ url()->previous() }}"
+                            class="btn btn-primary float-left mr-2 buttonedit">
                             <i class="fas fa-chevron-left mr-2"></i>Batal
                         </a>
+                        <button type="submit" class="btn btn-primary buttonedit">
+                            <i class="fa fa-save mr-2"></i>Simpan
+                        </button>
                     </div>
                 </div>
             </div>

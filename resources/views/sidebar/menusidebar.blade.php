@@ -121,7 +121,7 @@
                                 <li><a class="{{ set_active(['tiketkostumer/list/page'], 1) }}" href="{{ route('tiketkostumer/list/page') }}"><i class="fas fa-box-open ml-0 mr-3"></i>Tiket Kostumer</a></li>
                             </ul>
                         </li>
-                        <li><a class="{{ set_active(['databooking/list/page']) }}" href="{{ route('databooking/list/page') }}"><i class="fas fa-users ml-0 mr-3"></i>Data Booking</a></li>
+                        <li><a class="{{ set_active(['booking/list/page']) }}" href="{{ route('booking/list/page') }}"><i class="fas fa-users ml-0 mr-3"></i>Data Booking</a></li>
                         <li><a class="{{ set_active(['suratperintahpembangunan/list/page']) }}" href="{{ route('suratperintahpembangunan/list/page') }}"><i class="fas fa-warehouse ml-0 mr-3"></i>Surat Perintah Pembangunan</a></li>
                     </ul>
                 </li>

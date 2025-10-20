@@ -55,10 +55,10 @@ class ClusterController extends Controller
     public function villagesByDistrict(Request $request)
     {
         $request->validate([
-            'kecamatan' => 'required|string|size:6',
+            'kecamatan_code' => 'required|string|size:6',
         ]);
 
-        $villages = Village::where('district_code', $request->kecamatan)
+        $villages = Village::where('district_code', $request->kecamatan_code)
             ->orderBy('name')
             ->get(['code','name']);
 
@@ -74,8 +74,8 @@ class ClusterController extends Controller
             'total_unit'     => 'required|integer',
             'provinsi_code'  => 'required|string|size:2',
             'kota_code'      => 'required|string|size:4',
-            'kecamatan'      => 'nullable|string|size:6',
-            'kelurahan'      => 'nullable|string|size:10',
+            'kecamatan_code'      => 'nullable|string|size:6',
+            'kelurahan_code'      => 'nullable|string|size:10',
             'alamat_cluster' => 'required|string|max:255',
         ];
 
@@ -116,8 +116,8 @@ class ClusterController extends Controller
         $Cluster = Cluster::findOrFail($id);
         $provinces = Province::orderBy('name')->get(['code','name']);
         $citySelected     = $Cluster->kota_code ? City::where('code', $Cluster->kota_code)->first(['code','name']) : null;
-        $districtSelected = $Cluster->kecamatan ? District::where('code', $Cluster->kecamatan)->first(['code','name']) : null;
-        $villageSelected  = $Cluster->kelurahan ? Village::where('code', $Cluster->kelurahan)->first(['code','name']) : null;
+        $districtSelected = $Cluster->kecamatan_code ? District::where('code', $Cluster->kecamatan_code)->first(['code','name']) : null;
+        $villageSelected  = $Cluster->kelurahan_code ? Village::where('code', $Cluster->kelurahan_code)->first(['code','name']) : null;
 
         return view('cluster.ubahcluster', compact('Cluster','provinces','citySelected','districtSelected','villageSelected'));
     }
@@ -131,8 +131,8 @@ class ClusterController extends Controller
             'total_unit'     => 'required|integer',
             'provinsi_code'  => 'required|string|size:2',
             'kota_code'      => 'required|string|size:4',
-            'kecamatan'      => 'nullable|string|size:6',
-            'kelurahan'      => 'nullable|string|size:10',
+            'kecamatan_code'      => 'nullable|string|size:6',
+            'kelurahan_code'      => 'nullable|string|size:10',
             'alamat_cluster' => 'required|string|max:255',
         ];
 
@@ -201,8 +201,8 @@ class ClusterController extends Controller
         $columnName      = $columnName_arr[$columnIndex]['data']; // Column name
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
 
-        $cluster =  DB::table('cluster');
-        $totalRecords = $cluster->count();
+        $cluster =  Cluster::with(['city']);
+        $totalRecords = Cluster::count();
 
         if ($namaFilter) {
             $cluster->where('nama_cluster', 'like', '%' . $namaFilter . '%');
@@ -226,6 +226,7 @@ class ClusterController extends Controller
                 "id"           => $record->id,
                 "nama_cluster" => $record->nama_cluster,
                 'kota_code'=> $record->kota_code,
+                "kota"          => $record->city?->name, 
                 "no_hp"        => $record->no_hp,
                 'luas_tanah'   => $record->luas_tanah,
                 'total_unit'   => $record->total_unit,

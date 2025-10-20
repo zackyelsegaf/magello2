@@ -80,7 +80,7 @@
                         <div class="col">
                             <div class="">
                                 <button type="submit" class="btn btn-primary buttonedit1"><i class="fas fa-check mr-2"></i>Simpan Perubahan</button>
-                                <a href="{{ route('users/list/page') }}" class="btn btn-primary float-left veiwbutton ml-3"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                                <a href="{{ route('users/list/page') }}" class="btn btn-primary float-left veiwbutton ml-2"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
                             </div>
                         </div>
                     </div>

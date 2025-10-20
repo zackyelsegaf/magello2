@@ -78,7 +78,7 @@
                             <div class="col">
                                 <a href="{{ Route('prospek/add/new') }}" class="btn btn-primary float-left veiwbutton"><i
                                         class="fas fa-plus mr-2"></i>Tambah</a>
-                                <button id="deleteSelected" class="btn btn-primary float-left veiwbutton ml-3"><i
+                                <button id="deleteSelected" class="btn btn-primary float-left veiwbutton ml-2"><i
                                         class="fas fa-trash mr-2"></i>Hapus</button>
                             </div>
                         </div>

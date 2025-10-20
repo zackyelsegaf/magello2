@@ -225,7 +225,13 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary buttonedit">Update</button>
+                <a href="{{ url()->previous() }}" class="btn btn-primary buttonedit mr-2">
+                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                </a>
+                <button type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                <a href="{{ route('konsumen/detail', $Konsumen->id) }}" class="btn btn-primary buttonedit ml-2">
+                    <i class="fas fa-info-circle mr-2"></i>Detail Konsumen
+                </a>
             </form>
         </div>
     </div>

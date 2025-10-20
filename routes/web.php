@@ -455,6 +455,8 @@ Route::controller(KonsumenController::class)->group(function () {
     Route::get('konsumen/add/new', 'tambahKonsumen')->middleware('auth')->name('konsumen/add/new');
     Route::post('form/konsumen/save', 'simpanKonsumen')->middleware('auth')->name('form/konsumen/save');
     Route::get('/konsumen/edit/{id}', [KonsumenController::class, 'editKonsumen'])->name('konsumen/edit');
+    Route::get('konsumen/detail/{id}', 'konsumenDetail')->middleware('auth')->name('konsumen/detail');
+    Route::get('konsumen/detail/{id}/pdf', [KonsumenController::class, 'cetakKonsumen'])->name('konsumen/detail/pdf');
     Route::post('/konsumen/update/{id}', [KonsumenController::class, 'updateKonsumen'])->name('konsumen/update');
     Route::post('/konsumen/delete', [KonsumenController::class, 'hapusKonsumen'])->name('konsumen/delete');
     Route::get('get-konsumen-data', [KonsumenController::class, 'dataKonsumen'])->name('get-konsumen-data');
@@ -750,12 +752,30 @@ Route::controller(SitePlanController::class)->group(function () {
 
 Route::controller(KavlingController::class)->group(function () {
     Route::get('kavling/list/page', 'KavlingList')->middleware('auth')->name('kavling/list/page');
+    Route::get('booking/list/page', 'BookingList')->middleware('auth')->name('booking/list/page');
     Route::get('kavling/add/new', 'KavlingAddNew')->middleware('auth')->name('kavling/add/new');
     Route::post('form/kavling/save', 'saveRecordKavling')->middleware('auth')->name('form/kavling/save');
     Route::get('kavling/edit/{id}', 'edit')->middleware('auth')->name('kavling/edit');
+    Route::get('booking/edit/{id}', 'editBooking')->middleware('auth')->name('booking/edit');
+    Route::get('booking/detail/{id}', 'detailBooking')->middleware('auth')->name('booking/detail');
+    Route::get('booking/konsumen/detail/{id}', 'detailKonsumen')->middleware('auth')->name('booking/konsumen/detail');
+    Route::get('booking/konsumen/detail/{id}/pdf', [KavlingController::class, 'cetakKonsumen'])->name('booking/konsumen/detail/pdf');
     Route::post('kavling/update/{id}', 'updateKavling')->middleware('auth')->name('kavling/update');
+    Route::post('booking/update/{id}', 'updateBooking')->middleware('auth')->name('booking/update');
+    Route::get('/booking/file/delete/{file}', [KavlingController::class, 'deleteFile'])->name('booking/file/delete');
+    Route::get('kavling/{id}/booking/new', 'kavlingAddBooking')->middleware('auth')->name('kavling/booking/new');
+    Route::get('spr/{booking}/add/new', [KavlingController::class, 'kavlingAddSpr'])->middleware('auth')->name('spr/add/new');
+    Route::post('spr/update/{id}', 'updateSPR')->middleware('auth')->name('spr/update');
+    Route::get('spr/edit/{id}', 'editSPR')->middleware('auth')->name('spr/edit');
+    Route::post('form/spr/save', 'saveRecordSpr')->middleware('auth')->name('form/spr/save');
+    Route::post('form/{id}/booking/save', 'saveRecordKavlingBooking')->middleware('auth')->name('form/booking/save');
+    // Route::get('/booking/{booking}/generate-spr', [KavlingController::class, 'generateSpr'])->name('booking.generate-spr');
+    Route::get('booking/list/page/{id}/pdf', [KavlingController::class, 'cetak'])->name('booking/list/page/pdf');
+    // Route::post('kavling/{id}/booking', 'kavlingAddBooking')->middleware('auth')->name('kavling/update');
     Route::post('kavling/delete', 'delete')->middleware('auth')->name('kavling/delete');
+    Route::post('booking/delete', 'deleteBooking')->middleware('auth')->name('booking/delete');
     Route::get('get-kavling-data', 'getKavling')->middleware('auth')->name('get-kavling-data');
+    Route::get('get-booking-data', 'getBookingKavling')->middleware('auth')->name('get-booking-data');
 });
 
 Route::controller(FasumController::class)->group(function () {
@@ -802,11 +822,12 @@ Route::controller(SuratPerintahPembangunanController::class)->group(function () 
     Route::get('suratperintahpembangunan/list/page', 'SuratPerintahPembangunanList')->middleware('auth')->name('suratperintahpembangunan/list/page');
     Route::get('suratperintahpembangunan/add/new', 'SuratPerintahPembangunanAddNew')->middleware('auth')->name('suratperintahpembangunan/add/new');
     Route::post('form/suratperintahpembangunan/save', 'saveRecordSuratPerintahPembangunan')->middleware('auth')->name('form/suratperintahpembangunan/save');
-    // Route::get('suratperintahpembangunan/edit/{id}', [SuratPerintahPembangunanController::class, 'edit'])->name('suratperintahpembangunan/edit');
-    Route::get('suratperintahpembangunan/{id}/json', 'getDetailJson')->middleware('auth')->name('suratperintahpembangunan/json');
-    Route::post('suratperintahpembangunan/update/', [SuratPerintahPembangunanController::class, 'update'])->name('suratperintahpembangunan/update');
+    Route::get('suratperintahpembangunan/edit/{id}', [SuratPerintahPembangunanController::class, 'edit'])->name('suratperintahpembangunan/edit');
+    // Route::get('suratperintahpembangunan/{id}/json', 'getDetailJson')->middleware('auth')->name('suratperintahpembangunan/json');
+    Route::post('suratperintahpembangunan/update/{id}', [SuratPerintahPembangunanController::class, 'update'])->name('suratperintahpembangunan/update');
     Route::post('suratperintahpembangunan/delete', [SuratPerintahPembangunanController::class, 'bulkDelete'])->name('suratperintahpembangunan/delete');    
     Route::get('get-surat-perintah-pembangunan-data', [SuratPerintahPembangunanController::class, 'getSuratPerintahPembangunan'])->name('get-surat-perintah-pembangunan-data');
+    Route::get('suratperintahpembangunan/update/{id}/pdf', [SuratPerintahPembangunanController::class, 'cetak'])->name('suratperintahpembangunan/update/pdf');
 });
 
 // ----------------------------- Projek - (INTERNSHIP TEAM) ----------------------------//
@@ -852,6 +873,7 @@ Route::controller(SpkMandorPekerjaController::class)->group(function () {
     Route::post('form/spkmandorpekerja/save', 'saveRecordSpkMandorPekerja')->middleware('auth')->name('form/spkmandorpekerja/save');
     Route::post('form/spkmandorpekerjasubcon/save', 'saveRecordSpkMandorPekerjaSubcon')->middleware('auth')->name('form/spkmandorpekerjasubcon/save');
     Route::get('spkmandorpekerjainternal/edit/{id}', [SpkMandorPekerjaController::class, 'editInternal'])->name('spkmandorpekerjainternal/edit');
+    Route::get('/spkmandorpekerjainternal/file/delete/{file}', [SpkMandorPekerjaController::class, 'deleteFile'])->name('spkmandorpekerjainternal/file/delete');
     Route::get('spkmandorpekerjasubcon/edit/{id}', [SpkMandorPekerjaController::class, 'editSubcon'])->name('spkmandorpekerjasubcon/edit');
     Route::post('spkmandorpekerjainternal/update/{id}', [SpkMandorPekerjaController::class, 'updateInternal'])->name('spkmandorpekerjainternal/update');
     Route::post('spkmandorpekerjasubcon/update/{id}', [SpkMandorPekerjaController::class, 'updateSubcon'])->name('spkmandorpekerjasubcon/update');
@@ -911,6 +933,3 @@ Route::controller(KemajuanPembangunanController::class)->group(function () {
     Route::post('kemajuanpembangunan/delete', [KemajuanPembangunanController::class, 'delete'])->name('kemajuanpembangunan/delete');
     Route::get('get-kemajuanpembangunan-data', [KemajuanPembangunanController::class, 'getKemajuanPembangunan'])->name('get-kemajuanpembangunan-data');
 });
-
-
-

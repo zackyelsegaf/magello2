@@ -11,55 +11,6 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="modalEditSPP" tabindex="-1">
-                <div class="modal-dialog model-lg" role="document">
-                    <form id="editSPPForm" method="POST" action="{{ route('suratperintahpembangunan/update') }}">
-                        @csrf
-                        <input type="hidden" name="id" id="edit_id">
-                        <div class="modal-content my-rounded-2">   
-                            <div class="modal-header">
-                                <h5 class="modal-title">Edit Surat Perintah Pembangunan</h5>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>          
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label>Nomor SPP</label>
-                                    <input type="text" name="nomor_spp" id="edit_nomor_spp" class="form-control" readonly>
-                                </div>
-                                <div class="mb-3">
-                                    <label>Tanggal</label>
-                                    <input type="text" name="tanggal_spp" id="edit_tanggal_spp" class="form-control datetimepicker">
-                                </div>
-                                <div class="mb-3">
-                                    <label>Catatan</label>
-                                    <textarea name="catatan" id="edit_catatan" class="form-control"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label>Instruksi</label><br>
-                                    <label><input type="radio" name="instruksi" value="konsumen" id="edit_radio_konsumen"> Konsumen</label>
-                                    <label><input type="radio" name="instruksi" value="stok" id="edit_radio_stok"> Stok</label>
-                                </div>
-                                <div class="mb-3">
-                                    <label>Pilih Kapling</label>
-                                    <select name="kapling_id[]" id="select-tags" multiple placeholder=" ">
-                                    @foreach($cluster as $clusterId => $items)
-                                        <optgroup label="{{ $items->first()->nama_cluster }}">
-                                        @foreach($items as $k)
-                                            <option value="{{ $k->kapling_id }}">{{ $k->blok_kapling }} - {{ $k->nomor_unit_kapling }} \ {{ $k->nama_cluster }}</option>
-                                        @endforeach
-                                        </optgroup>
-                                    @endforeach
-                                    </select>
-                                </div>
-                            </div>                     
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Simpan</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                            </div>  
-                        </div>
-                    </form>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-md-3">
                     <div class="card rounded-default p-3 filterBox text-white">
@@ -274,36 +225,16 @@
             });
 
             $('#SppList tbody').on('click', 'tr', function(e) {
-                if ($(e.target).is('input[type="checkbox"], label')) return;
+                // Cek apakah yang diklik adalah checkbox atau elemen dalam checkbox
+                if ($(e.target).is('input[type="checkbox"], label')) {
+                    return; // Jika iya, hentikan eksekusi supaya tidak redirect
+                }
 
                 var data = table.row(this).data();
-                if (!data) return;
-
-                $.get("/suratperintahpembangunan/" + data.id + "/json", function(res) {
-                    $('#edit_id').val(res.id);
-                    $('#edit_nomor_spp').val(res.nomor_spp);
-                    $('#edit_tanggal_spp').val(res.tanggal_spp);
-                    $('#edit_catatan').val(res.catatan);
-
-                    if (res.konsumen == 1) {
-                        $('#edit_radio_konsumen').prop('checked', true);
-                    } else {
-                        $('#edit_radio_stok').prop('checked', true);
+                    if (data) {
+                        window.location.href = "/suratperintahpembangunan/edit/" + data.id;
                     }
-
-                    const el = document.getElementById('select-tags');
-                    const ts = el && el.tomselect ? el.tomselect : null;
-                    if (ts) {
-                        ts.clear(true);
-                        ts.setValue((res.kapling_ids || []).map(String));
-                    } else {
-                        $('#select-tags').val(res.kapling_ids).trigger('change');
-                    }
-
-                    $('#modalEditSPP').modal('show');
-                });
             });
-
         });
     </script>
     <script>

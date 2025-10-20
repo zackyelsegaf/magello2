@@ -34,6 +34,15 @@ class Kapling extends Model
         return $this->belongsTo(Cluster::class, 'cluster_id');
     }
 
+    public function konsumen()
+    {
+        return $this->belongsTo(Konsumen::class, 'konsumen_id');
+    }
+
+    public function spps(){
+        return $this->belongsToMany(SuratPerintahPembangunan::class, 'spp_kapling', 'kapling_id', 'spp_id');
+    }
+
     public function rapRab()   
     { 
         return $this->belongsTo(RabRap::class, 'rap_rab_id'); 
@@ -62,4 +71,22 @@ class Kapling extends Model
             }
         });
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(BookingKavling::class, 'kapling_id');
+    }
+
+    public function activeBooking()
+    {
+        return $this->hasOne(BookingKavling::class, 'kapling_id')
+            ->whereNotIn('status_pengajuan', ['booking','gagal','expired'])
+            ->latest('id');
+    }
+
+    public function getIsBookedAttribute(): bool
+    {
+        return $this->activeBooking()->exists();
+    }
+
 }

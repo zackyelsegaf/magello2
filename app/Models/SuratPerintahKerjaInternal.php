@@ -10,6 +10,7 @@ use App\Models\Pekerja;
 use App\Models\Kapling;
 use App\Models\SuratPerintahPembangunan;
 use App\Models\SuratPerintahKerjaInternalListFee;
+use App\Models\ArsipFile;
 
 class SuratPerintahKerjaInternal extends Model
 {
@@ -79,4 +80,10 @@ class SuratPerintahKerjaInternal extends Model
     {
         return $this->belongsToMany(Kapling::class, 'spk_kapling', 'spk_id', 'kapling_id')->withTimestamps();
     }
+
+    public function arsipFiles()
+    {
+        return $this->morphMany(ArsipFile::class, 'arsipmultimenu');
+    }
+
 }

@@ -932,14 +932,14 @@ button.bg-danger:hover {
 }
 
 .btn-outline-danger {
-    color: #27548A;
-    border-color: #27548A
+    color: #dc3545;
+    border-color: #dc3545
 }
 
 .btn-outline-danger:hover {
     color: #fff;
-    background-color: #27548A;
-    border-color: #27548A
+    background-color: #dc3545;
+    border-color: #dc3545
 }
 
 .btn-outline-danger:focus,
@@ -950,14 +950,15 @@ button.bg-danger:hover {
 .btn-outline-danger.disabled,
 .btn-outline-danger:disabled {
     background-color: transparent;
-    color: #27548A
+    color: #dc3545
 }
 
 .btn-outline-danger:not(:disabled):not(.disabled):active,
 .btn-outline-danger:not(:disabled):not(.disabled).active,
 .show>.btn-outline-danger.dropdown-toggle {
-    background-color: #27548A;
-    border-color: #27548A
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545
 }
 
 .btn-outline-danger:not(:disabled):not(.disabled):active:focus,
@@ -2296,7 +2297,6 @@ html.menu-opened body {
     font-size: 1rem;
     font-weight: 500;
     margin-bottom: 0;
-    padding: 0
 }
 
 .page-header .breadcrumb a {
@@ -4296,17 +4296,74 @@ card-title {
     padding: 10px 25px 10px 25px;
     background: #27548A;
     border-color: #27548A;
+}
 
+.buttonedit-outline {
+    float: left;
+    font-size: .9rem;
+    border-radius: 10px;
+    width: fit-content;
+    padding: 10px 25px 10px 25px;
+}
+
+.dropdown-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    margin-right: 0.75rem;
+}
+
+.dropdown-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    /* padding: 0.5rem 1rem; */
+    clear: both;
+    color: var(--bs-text-level-2);
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+
+.dropdown-content{
+    flex: 1;
+    display: block;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .buttonedit-sm {
     float: left;
     font-size: .9rem;
-    border-radius: 10px;
+    border-radius: 8px;
     width: fit-content;
     padding: 5px 15px 5px 15px;
     background: #27548A;
     border-color: #27548A;
+}
+
+.buttonedit2-sm {
+    float: left;
+    font-size: .9rem;
+    border-radius: 8px;
+    width: fit-content;
+    padding: 5px 15px 5px 15px;
+    background: #F7374F;
+    border-color: #F7374F;
+}
+
+.ck-editor{
+    width: 795px;
+				margin-left: auto;
+				margin-right: auto;
 }
 
 .buttonedit1 {
@@ -7016,6 +7073,8 @@ input:checked+.slider:before {
 #RapRabList td,
 #SppList th,
 #SppList td,
+#BookingKavlingList th,
+#BookingKavlingList td,
 #SpkList th,
 #SpkList td,
 #FeeTable th,
@@ -7046,6 +7105,22 @@ input:checked+.slider:before {
     padding: 15px 8px 15px 55px !important;
     justify-content: center;
     font-size: 13px;
+    vertical-align: middle;
+}
+
+#DetailKonsumenList th,
+#DetailKonsumenList td {
+    padding: 10px 15px !important;
+    justify-content: center;
+    font-size: 13px;
+    border: 1.5px solid #adb7be;
+    vertical-align: middle;
+}
+
+#dokumenTable th,
+#dokumenTable td {
+    padding: 15px 8px  !important;
+    justify-content: center;
     vertical-align: middle;
 }
 

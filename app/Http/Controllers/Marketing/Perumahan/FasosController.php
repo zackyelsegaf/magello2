@@ -24,7 +24,7 @@ class FasosController extends Controller
     public function FasosAddNew()
     {
         $cluster = DB::table('cluster')->get();
-        $rap_rab = DB::table('rap_rab')->get();
+        $rap_rab = DB::table('rap_rab')->where('tipe_model', 'Fasos')->get();
         return view('marketing.perumahan.fasos.fasosaddnew', compact('cluster', 'rap_rab'));
     }
 
@@ -85,7 +85,7 @@ class FasosController extends Controller
     {
         $updateFasos = Fasos::findOrFail($id);
         $cluster = DB::table('cluster')->get();
-        $rap_rab = DB::table('rap_rab')->get();
+        $rap_rab = DB::table('rap_rab')->where('tipe_model', 'Fasos')->get();
 
         $detail = DB::table('fasos as fasos')
             ->leftJoin('cluster as cluster', 'cluster.id', '=', 'fasos.cluster_id')

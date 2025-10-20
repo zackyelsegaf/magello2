@@ -9,6 +9,10 @@ class Village extends Model
     protected $table;
     public $timestamps = false;
     protected $guarded = [];
+    
+    protected $primaryKey = 'code';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     public function __construct(array $attributes = [])
     {

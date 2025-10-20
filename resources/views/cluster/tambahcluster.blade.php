@@ -65,14 +65,14 @@
                     </div>
                     <div class="col-md-4 mb-2">
                         <label>Kecamatan</label>
-                        <select id="kecamatan" name="kecamatan" class="" disabled>
-                            <option value="" disabled {{ old('kecamatan') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
+                        <select id="kecamatan_code" name="kecamatan_code" class="" disabled>
+                            <option value="" disabled {{ old('kecamatan_code') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
                         </select>
                     </div>
                     <div class="col-md-4 mb-2">
                         <label>Kelurahan</label>
-                        <select id="kelurahan" name="kelurahan" class="" disabled>
-                            <option value="" disabled {{ old('kelurahan') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
+                        <select id="kelurahan_code" name="kelurahan_code" class="" disabled>
+                            <option value="" disabled {{ old('kelurahan_code') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
                         </select>
                     </div>
                     <div class="col-12">
@@ -86,8 +86,8 @@
                 <div class="mb-15 row align-items-center">
                     <div class="col">
                         <div class="">
-                            <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-check mr-2"></i>Simpan</button>
-                            <a href="{{ route('cluster/list/page') }}" class="btn btn-primary float-left veiwbutton ml-3"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                            <a href="{{ url()->previous() }}" class="btn btn-primary float-left veiwbutton mr-2"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                            <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-save mr-2"></i>Simpan</button>
                         </div>
                     </div>
                 </div>
@@ -110,8 +110,8 @@
         document.addEventListener('DOMContentLoaded', async function () {
             const oldProv       = "{{ old('provinsi_code') }}";
             const oldKota       = "{{ old('kota_code') }}";
-            const oldKecamatan  = "{{ old('kecamatan') }}";
-            const oldKelurahan  = "{{ old('kelurahan') }}";  
+            const oldKecamatan  = "{{ old('kecamatan_code') }}";
+            const oldKelurahan  = "{{ old('kelurahan_code') }}";  
             const kelurahanText = document.querySelector('input[name="kelurahan"]'); 
 
             const provTS = new TomSelect('#provinsi_code', {
@@ -127,14 +127,14 @@
             });
             kotaTS.disable();
 
-            const kecamatanTS = new TomSelect('#kecamatan', {
+            const kecamatanTS = new TomSelect('#kecamatan_code', {
                 create: false,                 
                 maxItems: 1,
                 sortField: { field: "text", direction: "asc" }
             });
             kecamatanTS.disable();
 
-            const kelurahanTS = new TomSelect('#kelurahan', {  
+            const kelurahanTS = new TomSelect('#kelurahan_code', {  
                 create: false,                 
                 maxItems: 1,
                 sortField: { field: "text", direction: "asc" }
@@ -222,7 +222,7 @@
                 kelurahanTS.refreshOptions(false);
 
                 try {
-                    const url = "{{ route('ajax.villages.by-district') }}" + '?kecamatan=' + encodeURIComponent(districtCode);
+                    const url = "{{ route('ajax.villages.by-district') }}" + '?kecamatan_code=' + encodeURIComponent(districtCode);
                     const res = await fetch(url, { headers: { 'Accept': 'application/json' }});
 
                     if (!res.ok) {

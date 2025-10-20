@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="gudang" class="form-label fw-bold">Gudang</label>
-                                    <select class="form-select select2-tag @error('gudang') is-invalid @enderror" id="gudang" name="gudang[]" multiple>
+                                    <select class="form-select tomselect @error('gudang') is-invalid @enderror" name="gudang[]" multiple>
                                         <option></option>
                                         @foreach ($gudang as $items )
                                         <option value="{{ $items->nama_gudang }}">{{ $items->nama_gudang }}</option>
@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="Pengguna" class="form-label fw-bold">Pengguna</label>
-                                    <select class="form-select select2-tag @error('pengguna') is-invalid @enderror" id="pengguna" name="pengguna[]" multiple>
+                                    <select class="form-select tomselect @error('pengguna') is-invalid @enderror" name="pengguna[]" multiple>
                                         <option></option>
                                         @foreach ($users as $items )
                                         <option value="{{ $items->name }}">{{ $items->name }}</option>
@@ -58,8 +58,8 @@
                     <div class="mb-15 row align-items-center">
                         <div class="col">
                             <div class="">
-                                <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-check mr-2"></i>Simpan</button>
-                                <a href="{{ route('statuspemasok/list/page') }}" class="btn btn-primary float-left veiwbutton ml-3"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                                <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-save mr-2"></i>Simpan</button>
+                                <a href="{{ route('statuspemasok/list/page') }}" class="btn btn-primary float-left veiwbutton ml-2"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
                             </div>
                         </div>
                     </div>
@@ -67,16 +67,17 @@
             </form>
         </div>
     </div>
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     @section('script')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.select2-tag').select2({
-            tags: true,
-            placeholder: 'Pilih atau ketik Gudang',
-            allowClear: true,
-            width: '100%'
+    <script>    
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('select.tomselect').forEach(function (el) {
+                new TomSelect(el, {
+                plugins: ['remove_button'],
+                create: false,
+                searchField: ['text']
+            });
             });
         });
     </script>

@@ -51,7 +51,7 @@
                     </div>
                     <div class="col-md-4 mb-2">
                         <label>Kecamatan</label>
-                        <select id="kecamatan" name="kecamatan">
+                        <select id="kecamatan_code" name="kecamatan_code">
                             @if(!empty($districtSelected))
                             <option value="{{ $districtSelected->code }}" selected>{{ $districtSelected->name }}</option>
                             @else
@@ -61,7 +61,7 @@
                     </div>
                     <div class="col-md-4 mb-2">
                         <label>Kelurahan</label>
-                        <select id="kelurahan" name="kelurahan">
+                        <select id="kelurahan_code" name="kelurahan_code">
                             @if(!empty($villageSelected))
                             <option value="{{ $villageSelected->code }}" selected>{{ $villageSelected->name }}</option>
                             @else
@@ -77,8 +77,8 @@
                 <div class="mb-15 row align-items-center">
                     <div class="col">
                         <div class="">
-                            <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-check mr-2"></i>Simpan</button>
-                            <a href="{{ route('cluster/list/page') }}" class="btn btn-primary float-left veiwbutton ml-3"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                            <a href="{{ url()->previous() }}" class="btn btn-primary float-left veiwbutton mr-3"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                            <button type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
                         </div>
                     </div>
                 </div>
@@ -94,13 +94,13 @@
         document.addEventListener('DOMContentLoaded', async () => {
             const oldProv      = "{{ old('provinsi_code', $Cluster->provinsi_code ?? '') }}";
             const oldKota      = "{{ old('kota_code', $Cluster->kota_code ?? '') }}";
-            const oldKecamatan = "{{ old('kecamatan', $Cluster->kecamatan ?? '') }}";
-            const oldKelurahan = "{{ old('kelurahan', $Cluster->kelurahan ?? '') }}";
+            const oldKecamatan = "{{ old('kecamatan_code', $Cluster->kecamatan_code ?? '') }}";
+            const oldKelurahan = "{{ old('kelurahan_code', $Cluster->kelurahan_code ?? '') }}";
 
             const provTS = new TomSelect('#provinsi_code',{create:false,maxItems:1,sortField:{field:'text',direction:'asc'}});
             const kotaTS = new TomSelect('#kota_code',    {create:false,maxItems:1,sortField:{field:'text',direction:'asc'}});
-            const kecTS  = new TomSelect('#kecamatan',    {create:false,maxItems:1,sortField:{field:'text',direction:'asc'}});
-            const kelTS  = new TomSelect('#kelurahan',    {create:false,maxItems:1,sortField:{field:'text',direction:'asc'}});
+            const kecTS  = new TomSelect('#kecamatan_code',    {create:false,maxItems:1,sortField:{field:'text',direction:'asc'}});
+            const kelTS  = new TomSelect('#kelurahan_code',    {create:false,maxItems:1,sortField:{field:'text',direction:'asc'}});
 
             const disableAll = ts => { ts.clear(true); ts.clearOptions(); ts.addOption({value:'',text:'--'}); ts.refreshOptions(false); ts.disable(); }
             [kotaTS,kecTS,kelTS].forEach(disableAll);
@@ -140,7 +140,7 @@
             async function loadVillages(districtCode, selectedCode){
                 disableAll(kelTS);
                 if(!districtCode || String(districtCode).length !== 6) return;
-                const list = await api("{{ route('ajax.villages.by-district') }}", {kecamatan: districtCode});
+                const list = await api("{{ route('ajax.villages.by-district') }}", {kecamatan_code: districtCode});
                 fill(kelTS, list, '--Pilih Kelurahan--');
                 if(selectedCode) kelTS.setValue(selectedCode, true);
             }

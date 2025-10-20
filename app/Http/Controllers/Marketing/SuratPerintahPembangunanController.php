@@ -6,14 +6,21 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use App\Models\SuratPerintahPembangunan;
 use Illuminate\Support\Carbon;
+use App\Models\SuratPerintahPembangunan;
+use App\Models\Kapling;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SuratPerintahPembangunanController extends Controller
 {
     public function SuratPerintahPembangunanList()
     {
+        // $kaplingTerpakai = SuratPerintahPembangunan::pluck('kapling_id');
+        // $kaplingTersedia = Kapling::whereNotIn('id', $kaplingTerpakai)
+        //     ->orderBy('blok_kapling')
+        //     ->get();
         $kapling = DB::table('kapling')->get();
+
         $cluster = DB::table('cluster')
             ->leftJoin('kapling','kapling.cluster_id','=','cluster.id')
             ->select(
@@ -36,14 +43,28 @@ class SuratPerintahPembangunanController extends Controller
     {
         $kapling = DB::table('kapling')->get();
 
+        $lastBookingPerKapling = DB::table('booking_kavling as b')
+            ->selectRaw('b.kapling_id, MAX(b.id) as last_booking_id')
+            ->groupBy('b.kapling_id');
+
         $cluster = DB::table('cluster')
-            ->leftJoin('kapling','kapling.cluster_id','=','cluster.id')
+            ->join('kapling', 'kapling.cluster_id', '=', 'cluster.id')
+            ->joinSub($lastBookingPerKapling, 'lb', function($join){
+                $join->on('lb.kapling_id', '=', 'kapling.id');
+            })
+            ->leftJoin('spp_kapling as spp', 'spp.kapling_id', '=', 'kapling.id')
+            ->whereNull('spp.kapling_id')
+            ->join('booking_kavling as b', 'b.id', '=', 'lb.last_booking_id')
+            ->leftJoin('konsumen as k', 'k.id', '=', 'b.konsumen_id')
             ->select(
                 'cluster.id as cluster_id',
                 'cluster.nama_cluster',
                 'kapling.id as kapling_id',
                 'kapling.blok_kapling',
-                'kapling.nomor_unit_kapling'
+                'kapling.nomor_unit_kapling',
+                'b.nomor_booking',
+                'b.tanggal_booking',
+                'k.nama_konsumen as konsumen_nama'
             )
             ->orderBy('cluster.nama_cluster')
             ->orderBy('kapling.blok_kapling')
@@ -53,12 +74,143 @@ class SuratPerintahPembangunanController extends Controller
         $today = Carbon::now('Asia/Jakarta')->toDateString();
         $nomorPreview = SuratPerintahPembangunan::generateNomorSpp($today);
 
-        return view(
-            'marketing.suratperintahpembangunan.suratperintahpembangunanaddnew',
-            compact('kapling', 'cluster', 'nomorPreview')
-        );
+        return view('marketing.suratperintahpembangunan.suratperintahpembangunanaddnew', compact('kapling', 'cluster', 'nomorPreview'));
 
     }
+
+    public function edit($id)
+    {
+        $spp = SuratPerintahPembangunan::with(['kaplings:id'])->findOrFail($id);
+        $kapling = DB::table('kapling')->get();
+        $cluster = DB::table('cluster')
+            ->leftJoin('kapling','kapling.cluster_id','=','cluster.id')
+            ->leftJoin('spp_kapling as spp', 'spp.kapling_id', '=', 'kapling.id')
+            ->leftJoin('booking_kavling as b', 'b.kapling_id', '=', 'kapling.id')
+            ->leftJoin('konsumen as k', 'k.id', '=', 'b.konsumen_id')
+            ->select(
+                'cluster.id as cluster_id',
+                'cluster.nama_cluster',
+                'kapling.id as kapling_id',
+                'kapling.blok_kapling',
+                'kapling.nomor_unit_kapling'
+                ,'k.nama_konsumen as konsumen_nama'
+            )
+            ->orderBy('cluster.nama_cluster')
+            ->orderBy('kapling.blok_kapling')
+            ->get()
+            ->groupBy('cluster_id');
+        $selectedKaplingIds = $spp->kaplings->pluck('id')->toArray();
+        $tanggalSppForForm = $spp->tanggal_spp ? Carbon::parse($spp->tanggal_spp)->format('d/m/Y') : null;
+        $tanggalSppHuman = $spp->tanggal_spp ? Carbon::parse($spp->tanggal_spp)->locale('id')->isoFormat('dddd, D MMMM Y') : null;
+        return view('marketing.suratperintahpembangunan.suratperintahpembangunanedit', compact('spp', 'kapling', 'cluster', 'selectedKaplingIds', 'tanggalSppForForm', 'tanggalSppHuman'));
+    }
+
+    public function cetak($id)
+    {
+        $spp = SuratPerintahPembangunan::findOrFail($id);
+
+        $spkSub = DB::table('surat_perintah_kerja')
+            ->select('spp_id','dibuat_oleh','disetujui_oleh')
+            ->where('spp_id', $spp->id)
+            ->latest('tanggal_spk')
+            ->limit(1);
+
+        $konsumen = DB::table('konsumen')
+            ->select('spp_id','dibuat_oleh','disetujui_oleh')
+            ->where('spp_id', $spp->id)
+            ->latest('tanggal_spk')
+            ->limit(1);
+
+        $cluster = DB::table('cluster')
+            ->leftJoin('kapling','kapling.cluster_id','=','cluster.id')
+            ->leftJoinSub($spkSub, 'spk', function($join){
+            })
+            ->select(
+                'cluster.id as cluster_id',
+                'cluster.nama_cluster',
+                'kapling.id as kapling_id',
+                'kapling.blok_kapling',
+                'kapling.nomor_unit_kapling',
+                'kapling.luas_tanah',
+                'kapling.luas_bangunan',
+                'spk.dibuat_oleh',
+                'spk.disetujui_oleh'
+            )
+            ->orderBy('cluster.nama_cluster')
+            ->orderBy('kapling.blok_kapling')
+            ->get()
+            ->groupBy('cluster_id');
+
+        $selectedKaplingIds = $spp->kaplings->pluck('id')->toArray();
+        $instruksi = $spp->konsumen ? 'Marketing' : 'Manajemen';
+        $kaplingHuman = DB::table('kapling as k')
+            ->leftJoin('cluster as c','c.id','=','k.cluster_id')
+            ->whereIn('k.id', $selectedKaplingIds ?: [0])
+            ->select('k.blok_kapling','k.nomor_unit_kapling','c.nama_cluster')
+            ->orderBy('c.nama_cluster')->orderBy('k.blok_kapling')
+            ->get()
+            ->map(function($r){
+                return ($r->blok_kapling ?? '-') . ' - ' . ($r->nomor_unit_kapling ?? '-') . ' \\ ' . ($r->nama_cluster ?? '-');
+            })
+            ->implode(', ');
+
+        $konsumenNames = DB::table('booking_kavling as booking')
+            ->join('konsumen as konsumen','konsumen.id','=','booking.konsumen_id')
+            ->whereIn('booking.kapling_id', $selectedKaplingIds ?: [0])
+            ->orderBy('konsumen.nama_konsumen')
+            ->pluck('konsumen.nama_konsumen')
+            ->unique()
+            ->implode(', ');  
+
+        $spp->nama_konsumen = $konsumenNames ?: 'Anonymous';
+
+        // $latestKonsumen = DB::table('booking_kavling as b')
+        //     ->join('konsumen as k','k.id','=','b.konsumen_id')
+        //     ->whereIn('b.kapling_id', $selectedKaplingIds ?: [0])
+        //     ->orderByDesc('b.tanggal_booking')
+        //     ->value('k.nama_konsumen');
+
+        // $bkmax = DB::table('booking_kavling as b')
+        //     ->selectRaw('b.kapling_id, MAX(b.tanggal_booking) as max_tanggal')
+        //     ->whereIn('b.kapling_id', $selectedKaplingIds ?: [0])
+        //     ->groupBy('b.kapling_id');
+
+        // $cluster = DB::table('cluster')
+        //     ->leftJoin('kapling','kapling.cluster_id','=','cluster.id')
+        //     ->leftJoinSub($spkSub, 'spk', function($join){})
+        //     ->leftJoinSub($bkmax, 'bkmax', function($join){
+        //         $join->on('bkmax.kapling_id','=','kapling.id');
+        //     })
+        //     ->leftJoin('booking_kavling as b', function($join){
+        //         $join->on('b.kapling_id','=','kapling.id')
+        //             ->on('b.tanggal_booking','=','bkmax.max_tanggal');
+        //     })
+        //     ->leftJoin('konsumen as k','k.id','=','b.konsumen_id')
+        //     ->select(
+        //         'cluster.id as cluster_id',
+        //         'cluster.nama_cluster',
+        //         'kapling.id as kapling_id',
+        //         'kapling.blok_kapling',
+        //         'kapling.nomor_unit_kapling',
+        //         'kapling.luas_tanah',
+        //         'kapling.luas_bangunan',
+        //         'spk.dibuat_oleh',
+        //         'spk.disetujui_oleh',
+        //         DB::raw('COALESCE(k.nama_konsumen, "-") as nama_konsumen')
+        //     )
+        //     ->orderBy('cluster.nama_cluster')
+        //     ->orderBy('kapling.blok_kapling')
+        //     ->get()
+        //     ->groupBy('cluster_id');
+
+        $tanggalSppForForm = $spp->tanggal_spp ? Carbon::parse($spp->tanggal_spp)->format('d/m/Y') : null;
+        $tanggalSppHuman = $spp->tanggal_spp ? Carbon::parse($spp->tanggal_spp)->locale('id')->isoFormat('dddd, D MMMM Y') : null;
+
+        $pdf = Pdf::loadView('marketing.suratperintahpembangunan.pdf', compact('spp','spkSub','cluster','selectedKaplingIds','tanggalSppForForm','tanggalSppHuman','kaplingHuman', 'instruksi'))->setPaper('A4','portrait');
+
+        return $pdf->stream('SPP-'.$spp->nomor_spp.'.pdf');
+    }
+
 
     public function saveRecordSuratPerintahPembangunan(Request $request)
     {
@@ -75,7 +227,7 @@ class SuratPerintahPembangunanController extends Controller
             'kapling_id.required'   => 'Kapling wajib diisi',
             'kapling_id.array'      => 'Format kapling tidak valid',
             'kapling_id.*.exists'   => 'Ada kapling yang tidak ditemukan',
-            'tanggal_spp.date_format'      => 'Tanggal SPP tidak valid',
+            'tanggal_spp.date_format' => 'Tanggal SPP tidak valid',
             'catatan.string'        => 'Catatan harus berupa teks',
             'konsumen.required'     => 'Konsumen harus 0/1',
             'stok.required'         => 'Stok harus 0/1',
@@ -111,49 +263,58 @@ class SuratPerintahPembangunanController extends Controller
             return redirect()->back()->withInput();
         }
     }
-    
-    public function getDetailJson($id)
-    {
-        $spp = SuratPerintahPembangunan::with('kaplings:id')
-                ->findOrFail($id);
 
-        return response()->json([
-            'id'         => $spp->id,
-            'nomor_spp'  => $spp->nomor_spp,
-            'tanggal_spp'=> $spp->tanggal_spp,
-            'catatan'    => $spp->catatan,
-            'konsumen'   => $spp->konsumen,
-            'stok'       => $spp->stok,
-            'kapling_ids'=> $spp->kaplings->pluck('id'),
-        ]);
-    }
-
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $rules = [
-            'id'          => 'required|exists:surat_perintah_pembangunan,id',
-            'kapling_id'  => 'required|array',
-            'kapling_id.*'=> 'exists:kapling,id',
-            'tanggal_spp' => 'nullable|date_format:Y-m-d',
-            'catatan'     => 'nullable|string',
-            'instruksi'   => 'required|in:konsumen,stok',
+            'kapling_id'   => 'required|array',
+            'kapling_id.*' => 'exists:kapling,id',
+            'tanggal_spp'  => 'nullable|date_format:d/m/Y',
+            'catatan'      => 'nullable|string',
+            'konsumen'     => 'required|boolean',
+            'stok'         => 'required|boolean',
         ];
 
-        $data = $request->validate($rules);
+        $messages = [
+            'kapling_id.required'   => 'Kapling wajib diisi',
+            'kapling_id.array'      => 'Format kapling tidak valid',
+            'kapling_id.*.exists'   => 'Ada kapling yang tidak ditemukan',
+            'tanggal_spp.date_format' => 'Tanggal SPP tidak valid',
+            'catatan.string'        => 'Catatan harus berupa teks',
+            'konsumen.required'     => 'Konsumen harus 0/1',
+            'stok.required'         => 'Stok harus 0/1',
+        ];
 
-        $spp = SuratPerintahPembangunan::findOrFail($data['id']);
+        $validator = Validator::make($request->all(), $rules, $messages);
 
-        $spp->update([
-            'tanggal_spp' => $data['tanggal_spp'],
-            'catatan'     => $data['catatan'],
-            'konsumen'    => $data['instruksi'] === 'konsumen' ? 1 : 0,
-            'stok'        => $data['instruksi'] === 'stok' ? 1 : 0,
-        ]);
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi gagal. Mohon periksa input Anda.');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
-        $spp->kaplings()->sync($data['kapling_id']);
+        DB::beginTransaction();
+        try {
 
-        sweetalert()->success('Surat Perintah Pembangunan berhasil diperbarui.');
+            $data = $validator->validated();
+
+            if (!empty($data['tanggal_spp'])) {
+                $data['tanggal_spp'] = Carbon::createFromFormat('d/m/Y', $data['tanggal_spp'])->format('Y-m-d');
+            }
+
+            $spp = SuratPerintahPembangunan::findOrFail($id);
+            $spp->update($data);
+
+            $spp->kaplings()->sync($data['kapling_id']);
+
+            DB::commit();
+            sweetalert()->success('Update SPP successfully :)');
             return redirect()->route('suratperintahpembangunan/list/page');
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            sweetalert()->error('Update Data Gagal: ' . $e->getMessage());
+            return redirect()->back()->withInput();
+        }
     }
 
     public function bulkDelete(Request $request)
@@ -164,34 +325,26 @@ class SuratPerintahPembangunanController extends Controller
             return response()->json(['message' => 'Tidak ada data terpilih.'], 422);
         }
 
-        // Normalisasi
         $ids = array_values(array_unique(array_map('intval', $ids)));
 
         $deleted = [];
-        $failed  = []; // [id => pesan]
+        $failed  = [];
 
         DB::beginTransaction();
         try {
-            // Ambil semua SPP yang diminta
             $items = SuratPerintahPembangunan::whereIn('id', $ids)->get();
 
             foreach ($items as $spp) {
                 try {
-                    // 1) Bersihkan pivot (aman untuk semua DB; kalau pivot sudah CASCADE ini cuma no-op)
                     DB::table('spp_kapling')->where('spp_id', $spp->id)->delete();
-
-                    // 2) Hapus SPP; jika FK anak sudah CASCADE/NULL ON DELETE, ini akan lolos
                     $spp->delete();
-
                     $deleted[] = $spp->id;
 
                 } catch (QueryException $e) {
-                    // Kalau masih ada FK lain yang belum kamu ubah, tangkap di sini
                     $failed[$spp->id] = 'Gagal hapus karena constraint: '.$e->getCode();
                 }
             }
 
-            // Kalau ada yang gagal, tetap commit yang berhasil—biar pengguna nggak “semua gagal”
             DB::commit();
 
         } catch (\Throwable $e) {
@@ -244,11 +397,13 @@ class SuratPerintahPembangunanController extends Controller
             $sudahDipakai = $spp->spk_internals_count > 0;
             $badgeClass = $sudahDipakai ? 'badge-info' : 'badge-secondary';
             $statusText = $sudahDipakai ? 'SPK' : 'Pending';
+            $linkClass = $sudahDipakai ? 'data-toggle="tooltip" data-placement="top" title="Sudah SPK"' : 'data-toggle="tooltip" data-placement="top" title="Belum SPK"';
+            $urlSpk = $sudahDipakai ? url('spkmandorpekerjainternal/edit/'.$spp->spkInternals()->latest('tanggal_spk')->value('id')) : '';
 
             $badges = '';
             foreach ($spp->kaplings as $k) {
                 $label = trim(($k->blok_kapling ?? '-') . ' - ' . ($k->nomor_unit_kapling ?? '-') . ' \ ' . ($k->cluster)->nama_cluster);
-                $badges .= '<strong><span class="badge '.$badgeClass.' m-1">'.$label.'</span></strong><br>';
+                $badges .= '<a href="'.$urlSpk.'" '.$linkClass.'><strong><span class="badge '.$badgeClass.' m-1">'.$label.'</span></strong></a><br>';
             }
 
             $instruksi = $spp->konsumen ? 'Marketing' : 'Manajemen';

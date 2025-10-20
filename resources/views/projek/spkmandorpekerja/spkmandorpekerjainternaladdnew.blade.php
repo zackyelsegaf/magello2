@@ -446,6 +446,19 @@
             if (!$('#feeTableBody .fee-row').length) addFeeRow();
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.custom-file-input').forEach(function (inp) {
+                inp.addEventListener('change', function (e) {
+                const f = e.target.files && e.target.files[0];
+                const label = inp.nextElementSibling;
+                if (f && label && label.classList.contains('custom-file-label')) {
+                    label.textContent = f.name;
+                }
+                });
+            });
+        });
+    </script>
 @endsection
 @push('scripts')
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />

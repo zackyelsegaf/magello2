@@ -11,6 +11,8 @@ use App\Models\Province;
 use App\Models\Village;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Carbon;
 
 class KonsumenController extends Controller
 {
@@ -166,6 +168,57 @@ class KonsumenController extends Controller
         return view('marketing.konsumen.ubahkonsumen', compact('Konsumen','provinces','citySelected', 'districtSelected', 'villageSelected', 'kapling', 'data_jenis_kelamin', 'data_pekerjaan', 'data_cluster', 'data_status_pengajuan'));
     }
 
+    public function konsumenDetail($id)
+    {
+        $Konsumen = Konsumen::with([
+            'konsumen:id,jenis_kelamin_id,cluster_id,status_pengajuan_id,provinsi_code,kota_code,kelurahan_code,kecamatan_code,pekerjaan_id,nama_konsumen,nik_konsumen,no_hp,alamat_konsumen,booking_fee',
+            'konsumen.gender:id,nama',
+            'konsumen.status_pengajuan:id,nama',
+            'konsumen.province:code,name',
+            'konsumen.city:code,name',
+            'konsumen.district:code,name',
+            'konsumen.village:code,name',
+            'konsumen.pekerjaan:id,nama',
+            'konsumen.cluster:id,nama_cluster',
+        ])->findOrFail($id);
+        if (!$Konsumen) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan');
+        }
+
+        $provinceSelected = $Konsumen->provinsi_code  ? Province::find($Konsumen->provinsi_code, ['name']) : null;
+        $citySelected     = $Konsumen->kota_code      ? City::find($Konsumen->kota_code, ['name']) : null;
+        $districtSelected = $Konsumen->kecamatan_code ? District::find($Konsumen->kecamatan_code, ['code','name']) : null;
+        $villageSelected  = $Konsumen->kelurahan_code ? Village::find($Konsumen->kelurahan_code, ['code','name']) : null;
+        return view('marketing.konsumen.detailkonsumen', compact('Konsumen','provinceSelected','citySelected', 'districtSelected', 'villageSelected'));
+    }
+
+    public function cetakKonsumen($id)
+    {
+        $Konsumen = Konsumen::with([
+            'konsumen:id,jenis_kelamin_id,cluster_id,status_pengajuan_id,provinsi_code,kota_code,kelurahan_code,kecamatan_code,pekerjaan_id,nama_konsumen,nik_konsumen,no_hp,alamat_konsumen,booking_fee',
+            'konsumen.gender:id,nama',
+            'konsumen.status_pengajuan:id,nama',
+            'konsumen.province:code,name',
+            'konsumen.city:code,name',
+            'konsumen.district:code,name',
+            'konsumen.village:code,name',
+            'konsumen.pekerjaan:id,nama',
+            'konsumen.cluster:id,nama_cluster',
+        ])->findOrFail($id);
+        if (!$Konsumen) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan');
+        }
+
+        $provinceSelected = $Konsumen->provinsi_code  ? Province::find($Konsumen->provinsi_code, ['name']) : null;
+        $citySelected     = $Konsumen->kota_code      ? City::find($Konsumen->kota_code, ['name']) : null;
+        $districtSelected = $Konsumen->kecamatan_code ? District::find($Konsumen->kecamatan_code, ['code','name']) : null;
+        $villageSelected  = $Konsumen->kelurahan_code ? Village::find($Konsumen->kelurahan_code, ['code','name']) : null;
+
+        $pdf = Pdf::loadView('marketing.konsumen.konsumenpdf', compact('Konsumen','provinceSelected','citySelected','districtSelected','villageSelected'))->setPaper('A4','portrait');
+
+        return $pdf->stream('Detail Konsumen '.$Konsumen->nama_konsumen.'.pdf');
+    }
+
     public function updateKonsumen(Request $request, $id)
     {
         $rules = [
@@ -280,6 +333,22 @@ class KonsumenController extends Controller
         foreach ($records as $key => $record) {
             $checkbox = '<input type="checkbox" class="konsumen_checkbox" value="'.$record->id.'">';
 
+            $modify = '
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary buttonedit-sm konsumen-btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Aksi</button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="'.route('konsumen/detail', $record->id).'">
+                                <div class="dropdown-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="dropdown-text">Detail Konsumen</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            ';
+
             $data_arr[] = [
                 "checkbox"      => $checkbox,
                 "no"            => $start + $key + 1,
@@ -292,6 +361,7 @@ class KonsumenController extends Controller
                 "cluster"       => $record->cluster?->nama_cluster,
                 'kota_code'     => $record->kota_code,
                 "kota"          => $record->city?->name,  
+                'modify'        => $modify
             ];
         }
 

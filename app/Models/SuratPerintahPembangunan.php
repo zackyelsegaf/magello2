@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Models\SuratPerintahKerjaInternal;
+use App\Models\Konsumen;
 
 class SuratPerintahPembangunan extends Model
 {
@@ -26,10 +27,19 @@ class SuratPerintahPembangunan extends Model
         return $this->hasMany(SuratPerintahKerjaInternal::class, 'spp_id', 'id');
     }
 
-    public function kaplings()
+    public function kapling()
     {
-        return $this->belongsToMany(Kapling::class, 'spp_kapling', 'spp_id', 'kapling_id')->withTimestamps();
+        return $this->hasMany(Kapling::class, 'kapling_id');
     }
+
+    public function cluster()
+    {
+        return $this->belongsTo(Cluster::class, 'cluster_id');
+    }
+
+    public function kaplings(){
+    return $this->belongsToMany(Kapling::class, 'spp_kapling', 'spp_id', 'kapling_id');
+}
 
     // /** generate id */
     protected static function booted()
@@ -65,5 +75,10 @@ class SuratPerintahPembangunan extends Model
         $seq = str_pad($countThisMonth + 1, 4, '0', STR_PAD_LEFT);
 
         return 'SPP' . $year . $month . $seq;
+    }
+
+    public function konsumen()
+    {
+        return $this->belongsTo(Konsumen::class, 'konsumen_id');
     }
 }

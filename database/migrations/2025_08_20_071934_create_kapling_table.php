@@ -23,8 +23,12 @@ return new class extends Migration
             $table->string('luas_bangunan')->nullable();
             $table->string('harga_kapling')->nullable();
             $table->string('spesifikasi')->nullable();
-            $table->string('status_penjualan')->nullable();
-            $table->string('status_pembangunan')->nullable();
+            $table->enum('status_penjualan', ['Siap Jual','Terbooking','Terjual'])
+                  ->default('Siap Jual')
+                  ->index();
+            $table->enum('status_pembangunan', ['Kapling Kosong','Unit Jadi','Proses Pembangunan'])
+                  ->default('Kapling Kosong')
+                  ->index();
             $table->timestamps();
         });
     }
