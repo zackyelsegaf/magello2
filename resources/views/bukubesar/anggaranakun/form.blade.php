@@ -241,14 +241,14 @@
                     searchable: true
                 },
                 {
-                    data: 'tipe_akun',
-                    name: 'tipe_akun',
+                    data: 'tipe_id',
+                    name: 'tipe_id',
                     orderable: true,
                     searchable: true
                 },
                 {
-                    data: 'mata_uang',
-                    name: 'mata_uang',
+                    data: 'mata_uang_id',
+                    name: 'mata_uang_id',
                     orderable: true,
                     searchable: true
                 },

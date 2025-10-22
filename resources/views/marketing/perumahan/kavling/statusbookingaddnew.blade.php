@@ -11,7 +11,7 @@
             </div>
 
             {{-- Formulir penyimpanan --}}
-            <form method="POST" action="{{ route('form/booking/save', $kavling->id) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('form/booking/update/save', $kavling->id) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                     <label for="konsumen" class="form-label fw-bold">Konsumen</label>

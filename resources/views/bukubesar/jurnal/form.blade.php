@@ -268,7 +268,7 @@
             ordering: true,
             searching: false,
             ajax: {
-                url: "{{ route('get-akun-data') }}",
+                url: "{{ route('get-akuns-data') }}",
                 data: function(d) {
                     d.nama_akun = $('input[name=nama_akun]').val()
                     d.no_akun = $('input[name=no_akun]').val()
@@ -307,8 +307,8 @@
                     searchable: true
                 },
                 {
-                    data: 'mata_uang',
-                    name: 'mata_uang',
+                    data: 'mata_uang_id',
+                    name: 'mata_uang_id',
                     orderable: true,
                     searchable: true
                 },

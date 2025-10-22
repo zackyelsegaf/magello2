@@ -9,6 +9,7 @@ use App\Models\City;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\Village;
+use App\Models\KonsumenDetail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -52,6 +53,97 @@ class KonsumenController extends Controller
         return response()->json($cities);
     }
 
+    public function citiesByProvince_1(Request $request)
+    {
+        $request->validate([
+            'provinsi_code_1' => 'required|string|size:2',
+        ]);
+
+        $cities = City::where('province_code', $request->provinsi_code_1)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($cities);
+    }
+    
+    public function citiesByProvince_2(Request $request)
+    {
+        $request->validate([
+            'provinsi_code_2' => 'required|string|size:2',
+        ]);
+
+        $cities = City::where('province_code', $request->provinsi_code_2)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($cities);
+    }
+
+    public function citiesByProvince_3(Request $request)
+    {
+        $request->validate([
+            'provinsi_code_3' => 'required|string|size:2',
+        ]);
+
+        $cities = City::where('province_code', $request->provinsi_code_3)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($cities);
+    }
+
+    public function citiesByProvince_4(Request $request)
+    {
+        $request->validate([
+            'provinsi_code_4' => 'required|string|size:2',
+        ]);
+
+        $cities = City::where('province_code', $request->provinsi_code_4)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($cities);
+    }
+
+    public function citiesByProvince_5(Request $request)
+    {
+        $request->validate([
+            'provinsi_code_5' => 'required|string|size:2',
+        ]);
+
+        $cities = City::where('province_code', $request->provinsi_code_5)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($cities);
+    }
+
+    public function citiesByProvince_6(Request $request)
+    {
+        $request->validate([
+            'provinsi_code_6' => 'required|string|size:2',
+        ]);
+
+        $cities = City::where('province_code', $request->provinsi_code_6)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($cities);
+    }
+
+    public function citiesByProvince_7(Request $request)
+    {
+        $request->validate([
+            'provinsi_code_7' => 'required|string|size:2',
+        ]);
+
+        $cities = City::where('province_code', $request->provinsi_code_7)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($cities);
+    }
+
     public function districtsByCity(Request $request)
     {
         $request->validate([
@@ -59,6 +151,97 @@ class KonsumenController extends Controller
         ]);
 
         $districts = District::where('city_code', $request->kota_code)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($districts);
+    }
+    
+    public function districtsByCity_1(Request $request)
+    {
+        $request->validate([
+            'kota_code_1' => 'required|string|size:4',
+        ]);
+
+        $districts = District::where('city_code', $request->kota_code_1)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($districts);
+    }
+
+    public function districtsByCity_2(Request $request)
+    {
+        $request->validate([
+            'kota_code_2' => 'required|string|size:4',
+        ]);
+
+        $districts = District::where('city_code', $request->kota_code_2)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($districts);
+    }
+
+    public function districtsByCity_3(Request $request)
+    {
+        $request->validate([
+            'kota_code_3' => 'required|string|size:4',
+        ]);
+
+        $districts = District::where('city_code', $request->kota_code_3)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($districts);
+    }
+
+    public function districtsByCity_4(Request $request)
+    {
+        $request->validate([
+            'kota_code_4' => 'required|string|size:4',
+        ]);
+
+        $districts = District::where('city_code', $request->kota_code_4)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($districts);
+    }
+
+    public function districtsByCity_5(Request $request)
+    {
+        $request->validate([
+            'kota_code_5' => 'required|string|size:4',
+        ]);
+
+        $districts = District::where('city_code', $request->kota_code_5)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($districts);
+    }
+
+    public function districtsByCity_6(Request $request)
+    {
+        $request->validate([
+            'kota_code_6' => 'required|string|size:4',
+        ]);
+
+        $districts = District::where('city_code', $request->kota_code_6)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($districts);
+    }
+
+    public function districtsByCity_7(Request $request)
+    {
+        $request->validate([
+            'kota_code_7' => 'required|string|size:4',
+        ]);
+
+        $districts = District::where('city_code', $request->kota_code_7)
             ->orderBy('name')
             ->get(['code','name']);
 
@@ -78,42 +261,211 @@ class KonsumenController extends Controller
         return response()->json($villages);
     }
 
+    public function villagesByDistrict_1(Request $request)
+    {
+        $request->validate([
+            'kecamatan_code_1' => 'required|string|size:6',
+        ]);
+
+        $villages = Village::where('district_code', $request->kecamatan_code_1)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($villages);
+    }
+
+    public function villagesByDistrict_2(Request $request)
+    {
+        $request->validate([
+            'kecamatan_code_2' => 'required|string|size:6',
+        ]);
+
+        $villages = Village::where('district_code', $request->kecamatan_code_2)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($villages);
+    }
+
+    public function villagesByDistrict_3(Request $request)
+    {
+        $request->validate([
+            'kecamatan_code_3' => 'required|string|size:6',
+        ]);
+
+        $villages = Village::where('district_code', $request->kecamatan_code_3)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($villages);
+    }
+
+    public function villagesByDistrict_4(Request $request)
+    {
+        $request->validate([
+            'kecamatan_code_4' => 'required|string|size:6',
+        ]);
+
+        $villages = Village::where('district_code', $request->kecamatan_code_4)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($villages);
+    }
+
+    public function villagesByDistrict_5(Request $request)
+    {
+        $request->validate([
+            'kecamatan_code_5' => 'required|string|size:6',
+        ]);
+
+        $villages = Village::where('district_code', $request->kecamatan_code_5)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($villages);
+    }
+
+    public function villagesByDistrict_6(Request $request)
+    {
+        $request->validate([
+            'kecamatan_code_6' => 'required|string|size:6',
+        ]);
+
+        $villages = Village::where('district_code', $request->kecamatan_code_6)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($villages);
+    }
+
+    public function villagesByDistrict_7(Request $request)
+    {
+        $request->validate([
+            'kecamatan_code_7' => 'required|string|size:6',
+        ]);
+
+        $villages = Village::where('district_code', $request->kecamatan_code_7)
+            ->orderBy('name')
+            ->get(['code','name']);
+
+        return response()->json($villages);
+    }
+
     public function simpanKonsumen(Request $request){
 
         $rules = [
-            'nama_konsumen'    => 'required|string|max:255',
-            'nik_konsumen'     => 'required|string|max:255',
-            'no_hp'            => 'required|string|max:255',
-            'status_pengajuan_id' => 'nullable|string|max:255',
-            'jenis_kelamin_id'    => 'required|string|max:255',
-            'cluster_id'          => 'required|string|max:255',
-            'provinsi_code'         => 'required|string|max:255',
-            'kota_code'             => 'required|string|max:255',
-            'kecamatan_code'        => 'required|string|max:255',
-            'kelurahan_code'        => 'required|string|max:255',
-            'alamat_konsumen'  => 'required|string|max:255',
-            'pekerjaan_id'        => 'required|string|max:255',
-            'marketing'        => 'required|string|max:255',
-            'tanggal_booking'     => 'nullable|string|max:255',
-            'booking_fee'      => 'nullable|string|max:255',
-            'email'      => 'nullable|string|max:255',
-            'nik_pasangan'     => 'nullable|string|max:255',
-            'nama_pasangan'    => 'nullable|string|max:255',
-            'no_hp_pasangan'   => 'nullable|string|max:255',
+            'nama_1'                     => 'required|string|max:255',
+            'nik_1'                      => 'required|string|max:255',
+            'tempat_lahir_1'             => 'nullable|string|max:255',
+            'tanggal_lahir_1'            => 'nullable|string|max:255',
+            'no_hp_1'                    => 'required|string|max:255',
+            'npwp_1'                     => 'nullable|string|max:255',
+            'status_pengajuan_id'        => 'required|string|max:255',
+            'jenis_kelamin_id'           => 'required|string|max:255',
+            'cluster_id'                 => 'required|string|max:255',
+            'provinsi_code'              => 'required|string|max:255',
+            'kota_code'                  => 'required|string|max:255',
+            'kecamatan_code'             => 'nullable|string|max:255',
+            'kelurahan_code'             => 'nullable|string|max:255',
+            'alamat_konsumen'            => 'nullable|string|max:255',
+            'provinsi_code_1'            => 'nullable|string|max:255',
+            'kota_code_1'                => 'nullable|string|max:255',
+            'kecamatan_code_1'           => 'nullable|string|max:255',
+            'kelurahan_code_1'           => 'nullable|string|max:255',
+            'alamat_1'                   => 'nullable|string|max:255',
+            'pekerjaan_1_id'             => 'required|string|max:255',
+            'marketing'                  => 'required|string|max:255',
+            'tanggal_booking'            => 'nullable|string|max:255',
+            'booking_fee'                => 'nullable|string|max:255',
+            'email'                      => 'required|string|max:255',
+            'booking_fee'                => 'nullable|string|max:255',
+
+            'konsumen_id'                => 'nullable|string|max:255',
+            'pekerjaan_2_id'             => 'nullable|string|max:255',
+            'nama_2'                     => 'nullable|string|max:255',
+            'nik_2'                      => 'nullable|string|max:255',
+            'no_hp_2'                    => 'nullable|string|max:255',
+            'tempat_lahir_2'             => 'nullable|string|max:255',
+            'tanggal_lahir_2'            => 'nullable|string|max:255',
+            'npwp_2'                     => 'nullable|string|max:255',
+            'provinsi_code_2'            => 'nullable|string|max:255',
+            'kota_code_2'                => 'nullable|string|max:255',
+            'kecamatan_code_2'           => 'nullable|string|max:255',
+            'kelurahan_code_2'           => 'nullable|string|max:255',
+            'alamat_2'                   => 'nullable|string|max:255',
+            'provinsi_code_3'            => 'nullable|string|max:255',
+            'kota_code_3'                => 'nullable|string|max:255',
+            'kecamatan_code_3'           => 'nullable|string|max:255',
+            'kelurahan_code_3'           => 'nullable|string|max:255',
+            'alamat_3'                   => 'nullable|string|max:255',
+            'provinsi_code_4'            => 'nullable|string|max:255',
+            'kota_code_4'                => 'nullable|string|max:255',
+            'kecamatan_code_4'           => 'nullable|string|max:255',
+            'kelurahan_code_4'           => 'nullable|string|max:255',
+            'alamat_4'                   => 'nullable|string|max:255',
+            'provinsi_code_5'            => 'nullable|string|max:255',
+            'kota_code_5'                => 'nullable|string|max:255',
+            'kecamatan_code_5'           => 'nullable|string|max:255',
+            'kelurahan_code_5'           => 'nullable|string|max:255',
+            'alamat_5'                   => 'nullable|string|max:255',
+            'provinsi_code_6'            => 'nullable|string|max:255',
+            'kota_code_6'                => 'nullable|string|max:255',
+            'kecamatan_code_6'           => 'nullable|string|max:255',
+            'kelurahan_code_6'           => 'nullable|string|max:255',
+            'alamat_6'                   => 'nullable|string|max:255',
+            'provinsi_code_7'            => 'nullable|string|max:255',
+            'kota_code_7'                => 'nullable|string|max:255',
+            'kecamatan_code_7'           => 'nullable|string|max:255',
+            'kelurahan_code_7'           => 'nullable|string|max:255',
+            'alamat_7'                   => 'nullable|string|max:255',
+            'nama_perusahaan_1'          => 'nullable|string|max:255',
+            'bidang_usaha_1'             => 'nullable|string|max:255',
+            'jabatan_1'                  => 'nullable|string|max:255',
+            'status_pekerjaan_1'         => 'nullable|string|max:255',
+            'tanggal_mulai_kerja_1'      => 'nullable|string|max:255',
+            'gaji_pokok_1'               => 'nullable|string|max:255',
+            'cycle_gaji_pokok_1'         => 'nullable|string|max:255',
+            'gaji_tambahan_1'            => 'nullable|string|max:255',
+            'daftar_cicilan_1'           => 'nullable|string|max:255',
+            'nama_usaha_1'               => 'nullable|string|max:255',
+            'bidang_wirausaha_1'         => 'nullable|string|max:255',
+            'lama_usaha_1'               => 'nullable|string|max:255',
+            'legalitas_1'                => 'nullable|string|max:255',
+            'pendapatan_kotor_1'         => 'nullable|string|max:255',
+            'pendapatan_bersih_1'        => 'nullable|string|max:255',
+            'pendapatan_tambahan_1'      => 'nullable|string|max:255',
+            'daftar_cicilan_wirausaha_1' => 'nullable|string|max:255',
+            'nama_perusahaan_2'          => 'nullable|string|max:255',
+            'bidang_usaha_2'             => 'nullable|string|max:255',
+            'jabatan_2'                  => 'nullable|string|max:255',
+            'status_pekerjaan_2'         => 'nullable|string|max:255',
+            'tanggal_mulai_kerja_2'      => 'nullable|string|max:255',
+            'gaji_pokok_2'               => 'nullable|string|max:255',
+            'cycle_gaji_pokok_2'         => 'nullable|string|max:255',
+            'gaji_tambahan_2'            => 'nullable|string|max:255',
+            'daftar_cicilan_2'           => 'nullable|string|max:255',
+            'nama_usaha_2'               => 'nullable|string|max:255',
+            'bidang_wirausaha_2'         => 'nullable|string|max:255',
+            'lama_usaha_2'               => 'nullable|string|max:255',
+            'legalitas_2'                => 'nullable|string|max:255',
+            'pendapatan_kotor_2'         => 'nullable|string|max:255',
+            'pendapatan_bersih_2'        => 'nullable|string|max:255',
+            'pendapatan_tambahan_2'      => 'nullable|string|max:255',
+            'daftar_cicilan_wirausaha_2' => 'nullable|string|max:255',
         ];
 
         $message = [
-            'nama_konsumen.required' => 'Nama konsumen wajib diisi',
-            'nik_konsumen.required' => 'NIK konsumen wajib diisi',
-            'no_hp.required' => 'No HP wajib diisi',
+            'nama_1.required' => 'Nama konsumen wajib diisi',
+            'nik_1.required' => 'NIK konsumen wajib diisi',
+            'no_hp_1.required' => 'No HP wajib diisi',
+            'status_pengajuan_id.required' => 'Status pengajuan wajib diisi',
             'jenis_kelamin_id.required' => 'Jenis kelamin wajib diisi',
             'cluster_id.required' => 'Cluster wajib diisi',
             'provinsi_code.required' => 'Provinsi wajib diisi',
             'kota_code.required' => 'Kota wajib diisi',
-            'kecamatan_code.required' => 'Kecamatan wajib diisi',
-            'kelurahan_code.required' => 'Kelurahan wajib diisi',
-            'alamat_konsumen.required' => 'Alamat konsumen wajib diisi',
-            'pekerjaan_id.required' => 'Pekerjaan wajib diisi',
+            'email.required' => 'Email wajib diisi',
+            'pekerjaan_1_id.required' => 'Pekerjaan wajib diisi',
             'marketing.required' => 'Marketing wajib diisi',
         ];
 
@@ -138,6 +490,81 @@ class KonsumenController extends Controller
 
             $konsumen = new Konsumen($validator->validated());
             $konsumen->save();
+
+            $detail = new KonsumenDetail();
+            $detail->konsumen_id                = $konsumen->id;
+            $detail->pekerjaan_2_id             = $request->pekerjaan_2_id;
+            $detail->nama_2                     = $request->nama_2;
+            $detail->nik_2                      = $request->nik_2;
+            $detail->no_hp_2                    = $request->no_hp_2;
+            $detail->tempat_lahir_2             = $request->tempat_lahir_2;
+            $detail->tanggal_lahir_2            = $request->tanggal_lahir_2;
+            $detail->npwp_2                     = $request->npwp_2;
+            $detail->provinsi_code_2            = $request->provinsi_code_2;
+            $detail->kota_code_2                = $request->kota_code_2;
+            $detail->kecamatan_code_2           = $request->kecamatan_code_2;
+            $detail->kelurahan_code_2           = $request->kelurahan_code_2;
+            $detail->alamat_2                   = $request->alamat_2;
+            $detail->provinsi_code_3            = $request->provinsi_code_3;
+            $detail->kota_code_3                = $request->kota_code_3;
+            $detail->kecamatan_code_3           = $request->kecamatan_code_3;
+            $detail->kelurahan_code_3           = $request->kelurahan_code_3;
+            $detail->alamat_3                   = $request->alamat_3;
+            $detail->provinsi_code_4            = $request->provinsi_code_4;
+            $detail->kota_code_4                = $request->kota_code_4;
+            $detail->kecamatan_code_4           = $request->kecamatan_code_4;
+            $detail->kelurahan_code_4           = $request->kelurahan_code_4;
+            $detail->alamat_4                   = $request->alamat_4;
+            $detail->provinsi_code_5            = $request->provinsi_code_5;
+            $detail->kota_code_5                = $request->kota_code_5;
+            $detail->kecamatan_code_5           = $request->kecamatan_code_5;
+            $detail->kelurahan_code_5           = $request->kelurahan_code_5;
+            $detail->alamat_5                   = $request->alamat_5;
+            $detail->provinsi_code_6            = $request->provinsi_code_6;
+            $detail->kota_code_6                = $request->kota_code_6;
+            $detail->kecamatan_code_6           = $request->kecamatan_code_6;
+            $detail->kelurahan_code_6           = $request->kelurahan_code_6;
+            $detail->alamat_6                   = $request->alamat_6;
+            $detail->provinsi_code_7            = $request->provinsi_code_7;
+            $detail->kota_code_7                = $request->kota_code_7;
+            $detail->kecamatan_code_7           = $request->kecamatan_code_7;
+            $detail->kelurahan_code_7           = $request->kelurahan_code_7;
+            $detail->alamat_7                   = $request->alamat_7;
+            $detail->nama_perusahaan_1          = $request->nama_perusahaan_1;
+            $detail->bidang_usaha_1             = $request->bidang_usaha_1;
+            $detail->jabatan_1                  = $request->jabatan_1;
+            $detail->status_pekerjaan_1         = $request->status_pekerjaan_1;
+            $detail->tanggal_mulai_kerja_1      = $request->tanggal_mulai_kerja_1;
+            $detail->gaji_pokok_1               = $request->gaji_pokok_1;
+            $detail->cycle_gaji_pokok_1         = $request->cycle_gaji_pokok_1;
+            $detail->gaji_tambahan_1            = $request->gaji_tambahan_1;
+            $detail->daftar_cicilan_1           = $request->daftar_cicilan_1;
+            $detail->nama_usaha_1               = $request->nama_usaha_1;
+            $detail->bidang_wirausaha_1         = $request->bidang_wirausaha_1;
+            $detail->lama_usaha_1               = $request->lama_usaha_1;
+            $detail->legalitas_1                = $request->legalitas_1;
+            $detail->pendapatan_kotor_1         = $request->pendapatan_kotor_1;
+            $detail->pendapatan_bersih_1        = $request->pendapatan_bersih_1;
+            $detail->pendapatan_tambahan_1      = $request->pendapatan_tambahan_1;
+            $detail->daftar_cicilan_wirausaha_1 = $request->daftar_cicilan_wirausaha_1;
+            $detail->nama_perusahaan_2          = $request->nama_perusahaan_2;
+            $detail->bidang_usaha_2             = $request->bidang_usaha_2;
+            $detail->jabatan_2                  = $request->jabatan_2;
+            $detail->status_pekerjaan_2         = $request->status_pekerjaan_2;
+            $detail->tanggal_mulai_kerja_2      = $request->tanggal_mulai_kerja_2;
+            $detail->gaji_pokok_2               = $request->gaji_pokok_2;
+            $detail->cycle_gaji_pokok_2         = $request->cycle_gaji_pokok_2;
+            $detail->gaji_tambahan_2            = $request->gaji_tambahan_2;
+            $detail->daftar_cicilan_2           = $request->daftar_cicilan_2;
+            $detail->nama_usaha_2               = $request->nama_usaha_2;
+            $detail->bidang_wirausaha_2         = $request->bidang_wirausaha_2;
+            $detail->lama_usaha_2               = $request->lama_usaha_2;
+            $detail->legalitas_2                = $request->legalitas_2;
+            $detail->pendapatan_kotor_2         = $request->pendapatan_kotor_2;
+            $detail->pendapatan_bersih_2        = $request->pendapatan_bersih_2;
+            $detail->pendapatan_tambahan_2      = $request->pendapatan_tambahan_2;
+            $detail->daftar_cicilan_wirausaha_2 = $request->daftar_cicilan_wirausaha_2;
+            $detail->save();
 
             DB::commit();
             sweetalert()->success('Create new cluster successfully :)');
@@ -170,91 +597,195 @@ class KonsumenController extends Controller
 
     public function konsumenDetail($id)
     {
-        $Konsumen = Konsumen::with([
-            'konsumen:id,jenis_kelamin_id,cluster_id,status_pengajuan_id,provinsi_code,kota_code,kelurahan_code,kecamatan_code,pekerjaan_id,nama_konsumen,nik_konsumen,no_hp,alamat_konsumen,booking_fee',
-            'konsumen.gender:id,nama',
-            'konsumen.status_pengajuan:id,nama',
-            'konsumen.province:code,name',
-            'konsumen.city:code,name',
-            'konsumen.district:code,name',
-            'konsumen.village:code,name',
-            'konsumen.pekerjaan:id,nama',
-            'konsumen.cluster:id,nama_cluster',
+        $konsumen = Konsumen::with([
+            'gender:id,nama',
+            'status_pengajuan:id,nama',
+            'province:code,name',
+            'city:code,name',
+            'district:code,name',
+            'village:code,name',
+            'pekerjaan:id,nama',
+            'pekerjaan_2:id,nama',
+            'cluster:id,nama_cluster',
+            'detail.province2:code,name',
+            'detail.city2:code,name',
+            'detail.district2:code,name',
+            'detail.village2:code,name',
+            'detail.province2:code,name',
+            'detail.city2:code,name',
+            'detail.district2:code,name',
+            'detail.village2:code,name',
         ])->findOrFail($id);
-        if (!$Konsumen) {
-            return redirect()->back()->with('error', 'Data tidak ditemukan');
-        }
 
-        $provinceSelected = $Konsumen->provinsi_code  ? Province::find($Konsumen->provinsi_code, ['name']) : null;
-        $citySelected     = $Konsumen->kota_code      ? City::find($Konsumen->kota_code, ['name']) : null;
-        $districtSelected = $Konsumen->kecamatan_code ? District::find($Konsumen->kecamatan_code, ['code','name']) : null;
-        $villageSelected  = $Konsumen->kelurahan_code ? Village::find($Konsumen->kelurahan_code, ['code','name']) : null;
-        return view('marketing.konsumen.detailkonsumen', compact('Konsumen','provinceSelected','citySelected', 'districtSelected', 'villageSelected'));
+        return view('marketing.konsumen.detailkonsumen', compact('konsumen'));
     }
+
+    // public function konsumenDetail($id)
+    // {
+    //     $Konsumen = Konsumen::with([
+    //         'konsumen:id,jenis_kelamin_id,cluster_id,status_pengajuan_id,provinsi_code,kota_code,kelurahan_code,kecamatan_code,pekerjaan_1_id,nama_konsumen,nik_konsumen,no_hp,alamat_konsumen,booking_fee',
+    //         'konsumen.gender:id,nama',
+    //         'konsumen.status_pengajuan:id,nama',
+    //         'konsumen.province:code,name',
+    //         'konsumen.city:code,name',
+    //         'konsumen.district:code,name',
+    //         'konsumen.village:code,name',
+    //         'konsumen.pekerjaan:id,nama',
+    //         'konsumen.cluster:id,nama_cluster',
+    //     ])->findOrFail($id);
+
+    //     if (!$Konsumen) {
+    //         return redirect()->back()->with('error', 'Data tidak ditemukan');
+    //     }
+
+    //     $provinceSelected = $Konsumen->provinsi_code  ? Province::find($Konsumen->provinsi_code, ['name']) : null;
+    //     $citySelected     = $Konsumen->kota_code      ? City::find($Konsumen->kota_code, ['name']) : null;
+    //     $districtSelected = $Konsumen->kecamatan_code ? District::find($Konsumen->kecamatan_code, ['code','name']) : null;
+    //     $villageSelected  = $Konsumen->kelurahan_code ? Village::find($Konsumen->kelurahan_code, ['code','name']) : null;
+    //     return view('marketing.konsumen.detailkonsumen', compact('Konsumen','provinceSelected','citySelected', 'districtSelected', 'villageSelected'));
+    // }
 
     public function cetakKonsumen($id)
     {
-        $Konsumen = Konsumen::with([
-            'konsumen:id,jenis_kelamin_id,cluster_id,status_pengajuan_id,provinsi_code,kota_code,kelurahan_code,kecamatan_code,pekerjaan_id,nama_konsumen,nik_konsumen,no_hp,alamat_konsumen,booking_fee',
-            'konsumen.gender:id,nama',
-            'konsumen.status_pengajuan:id,nama',
-            'konsumen.province:code,name',
-            'konsumen.city:code,name',
-            'konsumen.district:code,name',
-            'konsumen.village:code,name',
-            'konsumen.pekerjaan:id,nama',
-            'konsumen.cluster:id,nama_cluster',
+        $konsumen = Konsumen::with([
+            'gender:id,nama',
+            'status_pengajuan:id,nama',
+            'province:code,name',
+            'city:code,name',
+            'district:code,name',
+            'village:code,name',
+            'pekerjaan:id,nama',
+            'pekerjaan_2:id,nama',
+            'cluster:id,nama_cluster',
+            'detail.province2:code,name',
+            'detail.city2:code,name',
+            'detail.district2:code,name',
+            'detail.village2:code,name',
+            'detail.province2:code,name',
+            'detail.city2:code,name',
+            'detail.district2:code,name',
+            'detail.village2:code,name',
         ])->findOrFail($id);
-        if (!$Konsumen) {
-            return redirect()->back()->with('error', 'Data tidak ditemukan');
-        }
 
-        $provinceSelected = $Konsumen->provinsi_code  ? Province::find($Konsumen->provinsi_code, ['name']) : null;
-        $citySelected     = $Konsumen->kota_code      ? City::find($Konsumen->kota_code, ['name']) : null;
-        $districtSelected = $Konsumen->kecamatan_code ? District::find($Konsumen->kecamatan_code, ['code','name']) : null;
-        $villageSelected  = $Konsumen->kelurahan_code ? Village::find($Konsumen->kelurahan_code, ['code','name']) : null;
+        $pdf = Pdf::loadView('marketing.konsumen.konsumenpdf', compact('konsumen'))->setPaper('A4','portrait');
 
-        $pdf = Pdf::loadView('marketing.konsumen.konsumenpdf', compact('Konsumen','provinceSelected','citySelected','districtSelected','villageSelected'))->setPaper('A4','portrait');
-
-        return $pdf->stream('Detail Konsumen '.$Konsumen->nama_konsumen.'.pdf');
+        return $pdf->stream('Detail Konsumen '.$konsumen->nama_1.'.pdf');
     }
 
     public function updateKonsumen(Request $request, $id)
     {
         $rules = [
-            'nama_konsumen'    => 'required|string|max:255',
-            'nik_konsumen'     => 'required|string|max:255',
-            'no_hp'            => 'required|string|max:255',
-            'status_pengajuan_id' => 'nullable|string|max:255',
-            'jenis_kelamin_id'    => 'required|string|max:255',
-            'cluster_id'          => 'required|string|max:255',
-            'provinsi_code'         => 'required|string|max:255',
-            'kota_code'             => 'required|string|max:255',
-            'kecamatan_code'        => 'required|string|max:255',
-            'kelurahan_code'        => 'required|string|max:255',
-            'alamat_konsumen'  => 'required|string|max:255',
-            'pekerjaan_id'        => 'required|string|max:255',
-            'marketing'        => 'required|string|max:255',
-            'tanggal_booking'     => 'nullable|string|max:255',
-            'booking_fee'      => 'nullable|string|max:255',
-            'email'      => 'nullable|string|max:255',
-            'nik_pasangan'     => 'nullable|string|max:255',
-            'nama_pasangan'    => 'nullable|string|max:255',
-            'no_hp_pasangan'   => 'nullable|string|max:255',
+            'nama_1'                     => 'required|string|max:255',
+            'nik_1'                      => 'required|string|max:255',
+            'tempat_lahir_1'             => 'nullable|string|max:255',
+            'tanggal_lahir_1'            => 'nullable|string|max:255',
+            'no_hp_1'                    => 'required|string|max:255',
+            'npwp_1'                     => 'nullable|string|max:255',
+            'status_pengajuan_id'        => 'required|string|max:255',
+            'jenis_kelamin_id'           => 'required|string|max:255',
+            'cluster_id'                 => 'required|string|max:255',
+            'provinsi_code'              => 'required|string|max:255',
+            'kota_code'                  => 'required|string|max:255',
+            'kecamatan_code'             => 'nullable|string|max:255',
+            'kelurahan_code'             => 'nullable|string|max:255',
+            'alamat_konsumen'            => 'nullable|string|max:255',
+            'provinsi_code_1'            => 'nullable|string|max:255',
+            'kota_code_1'                => 'nullable|string|max:255',
+            'kecamatan_code_1'           => 'nullable|string|max:255',
+            'kelurahan_code_1'           => 'nullable|string|max:255',
+            'alamat_1'                   => 'nullable|string|max:255',
+            'pekerjaan_1_id'             => 'required|string|max:255',
+            'marketing'                  => 'required|string|max:255',
+            'tanggal_booking'            => 'nullable|string|max:255',
+            'booking_fee'                => 'nullable|string|max:255',
+            'email'                      => 'required|string|max:255',
+            'booking_fee'                => 'nullable|string|max:255',
+
+            'konsumen_id'                => 'nullable|string|max:255',
+            'pekerjaan_2_id'             => 'nullable|string|max:255',
+            'nama_2'                     => 'nullable|string|max:255',
+            'nik_2'                      => 'nullable|string|max:255',
+            'no_hp_2'                    => 'nullable|string|max:255',
+            'tempat_lahir_2'             => 'nullable|string|max:255',
+            'tanggal_lahir_2'            => 'nullable|string|max:255',
+            'npwp_2'                     => 'nullable|string|max:255',
+            'provinsi_code_2'            => 'nullable|string|max:255',
+            'kota_code_2'                => 'nullable|string|max:255',
+            'kecamatan_code_2'           => 'nullable|string|max:255',
+            'kelurahan_code_2'           => 'nullable|string|max:255',
+            'alamat_2'                   => 'nullable|string|max:255',
+            'provinsi_code_3'            => 'nullable|string|max:255',
+            'kota_code_3'                => 'nullable|string|max:255',
+            'kecamatan_code_3'           => 'nullable|string|max:255',
+            'kelurahan_code_3'           => 'nullable|string|max:255',
+            'alamat_3'                   => 'nullable|string|max:255',
+            'provinsi_code_4'            => 'nullable|string|max:255',
+            'kota_code_4'                => 'nullable|string|max:255',
+            'kecamatan_code_4'           => 'nullable|string|max:255',
+            'kelurahan_code_4'           => 'nullable|string|max:255',
+            'alamat_4'                   => 'nullable|string|max:255',
+            'provinsi_code_5'            => 'nullable|string|max:255',
+            'kota_code_5'                => 'nullable|string|max:255',
+            'kecamatan_code_5'           => 'nullable|string|max:255',
+            'kelurahan_code_5'           => 'nullable|string|max:255',
+            'alamat_5'                   => 'nullable|string|max:255',
+            'provinsi_code_6'            => 'nullable|string|max:255',
+            'kota_code_6'                => 'nullable|string|max:255',
+            'kecamatan_code_6'           => 'nullable|string|max:255',
+            'kelurahan_code_6'           => 'nullable|string|max:255',
+            'alamat_6'                   => 'nullable|string|max:255',
+            'provinsi_code_7'            => 'nullable|string|max:255',
+            'kota_code_7'                => 'nullable|string|max:255',
+            'kecamatan_code_7'           => 'nullable|string|max:255',
+            'kelurahan_code_7'           => 'nullable|string|max:255',
+            'alamat_7'                   => 'nullable|string|max:255',
+            'nama_perusahaan_1'          => 'nullable|string|max:255',
+            'bidang_usaha_1'             => 'nullable|string|max:255',
+            'jabatan_1'                  => 'nullable|string|max:255',
+            'status_pekerjaan_1'         => 'nullable|string|max:255',
+            'tanggal_mulai_kerja_1'      => 'nullable|string|max:255',
+            'gaji_pokok_1'               => 'nullable|string|max:255',
+            'cycle_gaji_pokok_1'         => 'nullable|string|max:255',
+            'gaji_tambahan_1'            => 'nullable|string|max:255',
+            'daftar_cicilan_1'           => 'nullable|string|max:255',
+            'nama_usaha_1'               => 'nullable|string|max:255',
+            'bidang_wirausaha_1'         => 'nullable|string|max:255',
+            'lama_usaha_1'               => 'nullable|string|max:255',
+            'legalitas_1'                => 'nullable|string|max:255',
+            'pendapatan_kotor_1'         => 'nullable|string|max:255',
+            'pendapatan_bersih_1'        => 'nullable|string|max:255',
+            'pendapatan_tambahan_1'      => 'nullable|string|max:255',
+            'daftar_cicilan_wirausaha_1' => 'nullable|string|max:255',
+            'nama_perusahaan_2'          => 'nullable|string|max:255',
+            'bidang_usaha_2'             => 'nullable|string|max:255',
+            'jabatan_2'                  => 'nullable|string|max:255',
+            'status_pekerjaan_2'         => 'nullable|string|max:255',
+            'tanggal_mulai_kerja_2'      => 'nullable|string|max:255',
+            'gaji_pokok_2'               => 'nullable|string|max:255',
+            'cycle_gaji_pokok_2'         => 'nullable|string|max:255',
+            'gaji_tambahan_2'            => 'nullable|string|max:255',
+            'daftar_cicilan_2'           => 'nullable|string|max:255',
+            'nama_usaha_2'               => 'nullable|string|max:255',
+            'bidang_wirausaha_2'         => 'nullable|string|max:255',
+            'lama_usaha_2'               => 'nullable|string|max:255',
+            'legalitas_2'                => 'nullable|string|max:255',
+            'pendapatan_kotor_2'         => 'nullable|string|max:255',
+            'pendapatan_bersih_2'        => 'nullable|string|max:255',
+            'pendapatan_tambahan_2'      => 'nullable|string|max:255',
+            'daftar_cicilan_wirausaha_2' => 'nullable|string|max:255',
         ];
 
         $message = [
-            'nama_konsumen.required' => 'Nama konsumen wajib diisi',
-            'nik_konsumen.required' => 'NIK konsumen wajib diisi',
-            'no_hp.required' => 'No HP wajib diisi',
+            'nama_1.required' => 'Nama konsumen wajib diisi',
+            'nik_1.required' => 'NIK konsumen wajib diisi',
+            'no_hp_1.required' => 'No HP wajib diisi',
+            'status_pengajuan_id.required' => 'Status pengajuan wajib diisi',
             'jenis_kelamin_id.required' => 'Jenis kelamin wajib diisi',
             'cluster_id.required' => 'Cluster wajib diisi',
             'provinsi_code.required' => 'Provinsi wajib diisi',
             'kota_code.required' => 'Kota wajib diisi',
-            'kecamatan_code.required' => 'Kecamatan wajib diisi',
-            'kelurahan_code.required' => 'Kelurahan wajib diisi',
-            'alamat_konsumen.required' => 'Alamat konsumen wajib diisi',
-            'pekerjaan_id.required' => 'Pekerjaan wajib diisi',
+            'email.required' => 'Email wajib diisi',
+            'pekerjaan_1_id.required' => 'Pekerjaan wajib diisi',
             'marketing.required' => 'Marketing wajib diisi',
         ];
 
@@ -270,6 +801,83 @@ class KonsumenController extends Controller
             $Konsumen = Konsumen::findOrFail($id);
             $Konsumen->fill($validator->validated());
             $Konsumen->save();
+
+            KonsumenDetail::where('konsumen_id', $Konsumen->id)->delete();
+
+            $detail = new KonsumenDetail();
+            $detail->konsumen_id                = $Konsumen->id;
+            $detail->pekerjaan_2_id             = $request->pekerjaan_2_id;
+            $detail->nama_2                     = $request->nama_2;
+            $detail->nik_2                      = $request->nik_2;
+            $detail->no_hp_2                    = $request->no_hp_2;
+            $detail->tempat_lahir_2             = $request->tempat_lahir_2;
+            $detail->tanggal_lahir_2            = $request->tanggal_lahir_2;
+            $detail->npwp_2                     = $request->npwp_2;
+            $detail->provinsi_code_2            = $request->provinsi_code_2;
+            $detail->kota_code_2                = $request->kota_code_2;
+            $detail->kecamatan_code_2           = $request->kecamatan_code_2;
+            $detail->kelurahan_code_2           = $request->kelurahan_code_2;
+            $detail->alamat_2                   = $request->alamat_2;
+            $detail->provinsi_code_3            = $request->provinsi_code_3;
+            $detail->kota_code_3                = $request->kota_code_3;
+            $detail->kecamatan_code_3           = $request->kecamatan_code_3;
+            $detail->kelurahan_code_3           = $request->kelurahan_code_3;
+            $detail->alamat_3                   = $request->alamat_3;
+            $detail->provinsi_code_4            = $request->provinsi_code_4;
+            $detail->kota_code_4                = $request->kota_code_4;
+            $detail->kecamatan_code_4           = $request->kecamatan_code_4;
+            $detail->kelurahan_code_4           = $request->kelurahan_code_4;
+            $detail->alamat_4                   = $request->alamat_4;
+            $detail->provinsi_code_5            = $request->provinsi_code_5;
+            $detail->kota_code_5                = $request->kota_code_5;
+            $detail->kecamatan_code_5           = $request->kecamatan_code_5;
+            $detail->kelurahan_code_5           = $request->kelurahan_code_5;
+            $detail->alamat_5                   = $request->alamat_5;
+            $detail->provinsi_code_6            = $request->provinsi_code_6;
+            $detail->kota_code_6                = $request->kota_code_6;
+            $detail->kecamatan_code_6           = $request->kecamatan_code_6;
+            $detail->kelurahan_code_6           = $request->kelurahan_code_6;
+            $detail->alamat_6                   = $request->alamat_6;
+            $detail->provinsi_code_7            = $request->provinsi_code_7;
+            $detail->kota_code_7                = $request->kota_code_7;
+            $detail->kecamatan_code_7           = $request->kecamatan_code_7;
+            $detail->kelurahan_code_7           = $request->kelurahan_code_7;
+            $detail->alamat_7                   = $request->alamat_7;
+            $detail->nama_perusahaan_1          = $request->nama_perusahaan_1;
+            $detail->bidang_usaha_1             = $request->bidang_usaha_1;
+            $detail->jabatan_1                  = $request->jabatan_1;
+            $detail->status_pekerjaan_1         = $request->status_pekerjaan_1;
+            $detail->tanggal_mulai_kerja_1      = $request->tanggal_mulai_kerja_1;
+            $detail->gaji_pokok_1               = $request->gaji_pokok_1;
+            $detail->cycle_gaji_pokok_1         = $request->cycle_gaji_pokok_1;
+            $detail->gaji_tambahan_1            = $request->gaji_tambahan_1;
+            $detail->daftar_cicilan_1           = $request->daftar_cicilan_1;
+            $detail->nama_usaha_1               = $request->nama_usaha_1;
+            $detail->bidang_wirausaha_1         = $request->bidang_wirausaha_1;
+            $detail->lama_usaha_1               = $request->lama_usaha_1;
+            $detail->legalitas_1                = $request->legalitas_1;
+            $detail->pendapatan_kotor_1         = $request->pendapatan_kotor_1;
+            $detail->pendapatan_bersih_1        = $request->pendapatan_bersih_1;
+            $detail->pendapatan_tambahan_1      = $request->pendapatan_tambahan_1;
+            $detail->daftar_cicilan_wirausaha_1 = $request->daftar_cicilan_wirausaha_1;
+            $detail->nama_perusahaan_2          = $request->nama_perusahaan_2;
+            $detail->bidang_usaha_2             = $request->bidang_usaha_2;
+            $detail->jabatan_2                  = $request->jabatan_2;
+            $detail->status_pekerjaan_2         = $request->status_pekerjaan_2;
+            $detail->tanggal_mulai_kerja_2      = $request->tanggal_mulai_kerja_2;
+            $detail->gaji_pokok_2               = $request->gaji_pokok_2;
+            $detail->cycle_gaji_pokok_2         = $request->cycle_gaji_pokok_2;
+            $detail->gaji_tambahan_2            = $request->gaji_tambahan_2;
+            $detail->daftar_cicilan_2           = $request->daftar_cicilan_2;
+            $detail->nama_usaha_2               = $request->nama_usaha_2;
+            $detail->bidang_wirausaha_2         = $request->bidang_wirausaha_2;
+            $detail->lama_usaha_2               = $request->lama_usaha_2;
+            $detail->legalitas_2                = $request->legalitas_2;
+            $detail->pendapatan_kotor_2         = $request->pendapatan_kotor_2;
+            $detail->pendapatan_bersih_2        = $request->pendapatan_bersih_2;
+            $detail->pendapatan_tambahan_2      = $request->pendapatan_tambahan_2;
+            $detail->daftar_cicilan_wirausaha_2 = $request->daftar_cicilan_wirausaha_2;
+            $detail->save();
 
             DB::commit();
             sweetalert()->success('Updated record successfully :)');
@@ -353,10 +961,10 @@ class KonsumenController extends Controller
                 "checkbox"      => $checkbox,
                 "no"            => $start + $key + 1,
                 "id"            => $record->id,
-                "nik_konsumen"  => $record->nik_konsumen,
-                "nama_konsumen" => $record->nama_konsumen,
-                'no_hp'         => $record->no_hp,
-                // 'email'      => $record->email,
+                "nik_1"  => $record->nik_1,
+                "nama_1" => $record->nama_1,
+                'no_hp_1'         => $record->no_hp_1,
+                'email'      => $record->email,
                 'cluster_id'    => $record->cluster_id,
                 "cluster"       => $record->cluster?->nama_cluster,
                 'kota_code'     => $record->kota_code,

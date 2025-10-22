@@ -169,37 +169,37 @@
             <tr>
                 <td style="width: 100px;"><strong>NIK KTP</strong></td>
                 <td style="width: 10px;">:</td>
-                <td>{{ $booking->konsumen->nik_konsumen ?? '-' }}</td>
+                <td>{{ $booking->konsumen->nik_1 ?? '-' }}</td>
             </tr>
             <tr>
                 <td style="width: 100px"><strong>Nama Lengkap</strong></td>
                 <td style="width: 10px;">:</td>
-                <td>{{ $booking->konsumen->nama_konsumen ?? '-' }}</td>
+                <td>{{ $booking->konsumen->nama_1 ?? '-' }}</td>
             </tr>
             <tr>
                 <td style="width: 100px"><strong>Tempat/Tgl Lahir</strong></td>
                 <td style="width: 10px;">:</td>
-                <td></td>
+                <td>{{ $booking->konsumen->tempat_lahir_1 ?? '-' }} / {{ $booking->konsumen->tanggal_lahir_1 ?? '-' }}</td>
             </tr>
             <tr>
                 <td style="width: 100px"><strong>Jenis Kelamin</strong></td>
                 <td style="width: 10px;">:</td>
-                <td>{{ $booking->konsumen->gender->nama }}</td>
+                <td>{{ $booking->konsumen->gender->nama ?? '-' }}</td>
             </tr>
             <tr>
                 <td style="width: 100px"><strong>Alamat KTP</strong></td>
                 <td style="width: 10px;">:</td>
-                <td>{{ $booking->konsumen->alamat_konsumen }}</td>
+                <td>{{ $booking->konsumen->alamat_konsumen ?? '-' }}</td>
             </tr>
             <tr>
                 <td style="width: 100px"><strong>No. HP</strong></td>
                 <td style="width: 10px;">:</td>
-                <td>{{ $booking->konsumen->no_hp }}</td>
+                <td>{{ $booking->konsumen->no_hp_1 ?? '-' }}</td>
             </tr>
             <tr>
                 <td style="width: 100px"><strong>Email</strong></td>
                 <td style="width: 10px;">:</td>
-                <td></td>
+                <td>{{ $booking->konsumen->email ?? '-' }}</td>
             </tr>
         </table>
     </div>
@@ -423,7 +423,7 @@
                 <p style="padding-bottom: 0px;">{{ $booking->suratPemesananRumah->lokasi_pemesanan }}, {{ $tanggalSppHuman }}</p>
                 <p style="padding-bottom: 70px; font-size: 12px;">Pemesan,</p>
                 <p style="padding-bottom: 0;">_______________________</p>
-                <p class="kecil"><i>{{ $booking->konsumen->nama_konsumen ?? '-' }}</i></p>
+                <p class="kecil"><i>{{ $booking->konsumen->nama_1 ?? '-' }}</i></p>
             </td>
         </tr>
     </table>

@@ -167,7 +167,7 @@ class AkunController extends Controller
         }
     }
 
-    public function getAKun(Request $request)
+    public function getAkun(Request $request)
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
@@ -184,8 +184,8 @@ class AkunController extends Controller
         $columnName      = $columnName_arr[$columnIndex]['data']; // Column name
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
 
-        $Akun =  DB::table('akun');
-        $totalRecords = $Akun->count();
+        $Akun =  Akun::with(['mataUang','tipe']);
+        $totalRecords = Akun::count();
 
         if ($namaFilter) {
             $Akun->where('nama_akun', 'like', '%' . $namaFilter . '%');
@@ -210,6 +210,7 @@ class AkunController extends Controller
             ->skip($start)
             ->take($rowPerPage)
             ->get();
+            
         $data_arr = [];
 
         foreach ($records as $key => $record) {
@@ -221,8 +222,10 @@ class AkunController extends Controller
                 "id"                    => $record->id,
                 "no_akun"               => $record->sub_akun_check == 0 ? '<strong>' . $record->no_akun . '</strong>' : str_repeat('&nbsp;', 3) . $record->no_akun,
                 "nama_akun_indonesia"   => $record->sub_akun_check == 0 ? '<strong>' . $record->nama_akun_indonesia . '</strong>' : str_repeat('&nbsp;', 3) . $record->nama_akun_indonesia,
-                "tipe_id"               => $record->sub_akun_check == 0 ? '<strong>' . $record->tipe_id . '</strong>' : $record->tipe_id,
-                "mata_uang_id"          => $record->sub_akun_check == 0 ? '<strong>' . $record->mata_uang_id . '</strong>' : $record->mata_uang_id,
+                "tipe_id"               => $record->tipe_id,
+                "tipe_nama"             => $record->sub_akun_check == 0 ? '<strong>' . $record->tipe?->nama . '</strong>' : $record->tipe?->nama,
+                "mata_uang_id"          => $record->mata_uang_id,
+                "mata_uang"             => $record->sub_akun_check == 0 ? '<strong>' . $record->mataUang?->nama . '</strong>' : $record->mataUang?->nama,
                 "saldo_akun"            => $record->sub_akun_check == 0 ? '<strong>' . "Rp " . number_format($record->saldo_akun, 0, ',', '.') . '</strong>' : "Rp " . number_format($record->saldo_akun, 0, ',', '.'),
             ];
         }

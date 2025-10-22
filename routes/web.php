@@ -463,6 +463,28 @@ Route::controller(KonsumenController::class)->group(function () {
     Route::get('/ajax/indonesia/cities', [KonsumenController::class, 'citiesByProvince'])->name('ajax.cities.by-province');
     Route::get('/ajax/indonesia/districts', [KonsumenController::class, 'districtsByCity'])->name('ajax.districts.by-city');
     Route::get('/ajax/indonesia/villages', [KonsumenController::class, 'villagesByDistrict'])->name('ajax.villages.by-district');
+    Route::get('/ajax/indonesia/cities_1', [KonsumenController::class, 'citiesByProvince_1'])->name('ajax.cities.by-province-1');
+    Route::get('/ajax/indonesia/districts_1', [KonsumenController::class, 'districtsByCity_1'])->name('ajax.districts.by-city-1');
+    Route::get('/ajax/indonesia/villages_1', [KonsumenController::class, 'villagesByDistrict_1'])->name('ajax.villages.by-district-1');
+    Route::get('/ajax/indonesia/cities_2', [KonsumenController::class, 'citiesByProvince_2'])->name('ajax.cities.by-province-2');
+    Route::get('/ajax/indonesia/districts_2', [KonsumenController::class, 'districtsByCity_2'])->name('ajax.districts.by-city-2');
+    Route::get('/ajax/indonesia/villages_2', [KonsumenController::class, 'villagesByDistrict_2'])->name('ajax.villages.by-district-2');
+    Route::get('/ajax/indonesia/cities_3', [KonsumenController::class, 'citiesByProvince_3'])->name('ajax.cities.by-province-3');
+    Route::get('/ajax/indonesia/districts_3', [KonsumenController::class, 'districtsByCity_3'])->name('ajax.districts.by-city-3');
+    Route::get('/ajax/indonesia/villages_3', [KonsumenController::class, 'villagesByDistrict_3'])->name('ajax.villages.by-district-3');
+    Route::get('/ajax/indonesia/cities_4', [KonsumenController::class, 'citiesByProvince_4'])->name('ajax.cities.by-province-4');
+    Route::get('/ajax/indonesia/districts_4', [KonsumenController::class, 'districtsByCity_4'])->name('ajax.districts.by-city-4');
+    Route::get('/ajax/indonesia/villages_4', [KonsumenController::class, 'villagesByDistrict_4'])->name('ajax.villages.by-district-4');
+    Route::get('/ajax/indonesia/cities_5', [KonsumenController::class, 'citiesByProvince_5'])->name('ajax.cities.by-province-5');
+    Route::get('/ajax/indonesia/districts_5', [KonsumenController::class, 'districtsByCity_5'])->name('ajax.districts.by-city-5');
+    Route::get('/ajax/indonesia/villages_5', [KonsumenController::class, 'villagesByDistrict_5'])->name('ajax.villages.by-district-5');
+    Route::get('/ajax/indonesia/cities_6', [KonsumenController::class, 'citiesByProvince_6'])->name('ajax.cities.by-province-6');
+    Route::get('/ajax/indonesia/districts_6', [KonsumenController::class, 'districtsByCity_6'])->name('ajax.districts.by-city-6');
+    Route::get('/ajax/indonesia/villages_6', [KonsumenController::class, 'villagesByDistrict_6'])->name('ajax.villages.by-district-6');
+    Route::get('/ajax/indonesia/cities_7', [KonsumenController::class, 'citiesByProvince_7'])->name('ajax.cities.by-province-7');
+    Route::get('/ajax/indonesia/districts_7', [KonsumenController::class, 'districtsByCity_7'])->name('ajax.districts.by-city-7');
+    Route::get('/ajax/indonesia/villages_7', [KonsumenController::class, 'villagesByDistrict_7'])->name('ajax.villages.by-district-7');
+    
 });
 
 
@@ -764,6 +786,8 @@ Route::controller(KavlingController::class)->group(function () {
     Route::post('booking/update/{id}', 'updateBooking')->middleware('auth')->name('booking/update');
     Route::get('/booking/file/delete/{file}', [KavlingController::class, 'deleteFile'])->name('booking/file/delete');
     Route::get('kavling/{id}/booking/new', 'kavlingAddBooking')->middleware('auth')->name('kavling/booking/new');
+    Route::get('booking/{booking}/status/update', 'addStatusBooking')->middleware('auth')->name('booking/status/update');
+    Route::post('form/{id}/booking/status/save', 'saveRecordStatusBooking')->middleware('auth')->name('form/booking/status/save');
     Route::get('spr/{booking}/add/new', [KavlingController::class, 'kavlingAddSpr'])->middleware('auth')->name('spr/add/new');
     Route::post('spr/update/{id}', 'updateSPR')->middleware('auth')->name('spr/update');
     Route::get('spr/edit/{id}', 'editSPR')->middleware('auth')->name('spr/edit');

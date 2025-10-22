@@ -317,8 +317,8 @@
                     searchable: true
                 },
                 {
-                    data: 'tipe_akun',
-                    name: 'tipe_akun',
+                    data: 'tipe_id',
+                    name: 'tipe_id',
                     orderable: true,
                     searchable: true
                 },

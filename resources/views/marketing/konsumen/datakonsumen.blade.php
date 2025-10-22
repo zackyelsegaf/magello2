@@ -34,6 +34,7 @@
                                             <th>NIK</th>
                                             <th>Nama Konsumen</th>
                                             <th>No. HP</th>
+                                            <th>Email</th>
                                             <th>Perumahan</th>
                                             <th>Kota</th>
                                             <th class="aksi">Aksi</th>
@@ -137,29 +138,29 @@
                         visible: false
                     },
                     {
-                        data: 'nik_konsumen',
-                        name: 'nik_konsumen',
+                        data: 'nik_1',
+                        name: 'nik_1',
                         orderable: false,
                         searchable: false
                     },
                     {
-                        data: 'nama_konsumen',
-                        name: 'nama_konsumen',
+                        data: 'nama_1',
+                        name: 'nama_1',
                         orderable: false,
                         searchable: false
                     },
                     {
-                        data: 'no_hp',
-                        name: 'no_hp',
+                        data: 'no_hp_1',
+                        name: 'no_hp_1',
                         orderable: false,
                         searchable: false
                     },
-                    // {
-                    //     data: 'email',
-                    //     name: 'email',
-                    //     orderable: false,
-                    //     searchable: false
-                    // },
+                    {
+                        data: 'email',
+                        name: 'email',
+                        orderable: false,
+                        searchable: false
+                    },
                     {
                         data: 'cluster',
                         name: 'cluster',

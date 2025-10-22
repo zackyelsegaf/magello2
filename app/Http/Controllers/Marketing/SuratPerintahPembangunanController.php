@@ -64,7 +64,7 @@ class SuratPerintahPembangunanController extends Controller
                 'kapling.nomor_unit_kapling',
                 'b.nomor_booking',
                 'b.tanggal_booking',
-                'k.nama_konsumen as konsumen_nama'
+                'k.nama_1 as konsumen_nama'
             )
             ->orderBy('cluster.nama_cluster')
             ->orderBy('kapling.blok_kapling')
@@ -93,7 +93,7 @@ class SuratPerintahPembangunanController extends Controller
                 'kapling.id as kapling_id',
                 'kapling.blok_kapling',
                 'kapling.nomor_unit_kapling'
-                ,'k.nama_konsumen as konsumen_nama'
+                ,'k.nama_1 as konsumen_nama'
             )
             ->orderBy('cluster.nama_cluster')
             ->orderBy('kapling.blok_kapling')
@@ -157,8 +157,8 @@ class SuratPerintahPembangunanController extends Controller
         $konsumenNames = DB::table('booking_kavling as booking')
             ->join('konsumen as konsumen','konsumen.id','=','booking.konsumen_id')
             ->whereIn('booking.kapling_id', $selectedKaplingIds ?: [0])
-            ->orderBy('konsumen.nama_konsumen')
-            ->pluck('konsumen.nama_konsumen')
+            ->orderBy('konsumen.nama_1')
+            ->pluck('konsumen.nama_1')
             ->unique()
             ->implode(', ');  
 
@@ -168,7 +168,7 @@ class SuratPerintahPembangunanController extends Controller
         //     ->join('konsumen as k','k.id','=','b.konsumen_id')
         //     ->whereIn('b.kapling_id', $selectedKaplingIds ?: [0])
         //     ->orderByDesc('b.tanggal_booking')
-        //     ->value('k.nama_konsumen');
+        //     ->value('k.nama_1');
 
         // $bkmax = DB::table('booking_kavling as b')
         //     ->selectRaw('b.kapling_id, MAX(b.tanggal_booking) as max_tanggal')
@@ -196,7 +196,7 @@ class SuratPerintahPembangunanController extends Controller
         //         'kapling.luas_bangunan',
         //         'spk.dibuat_oleh',
         //         'spk.disetujui_oleh',
-        //         DB::raw('COALESCE(k.nama_konsumen, "-") as nama_konsumen')
+        //         DB::raw('COALESCE(k.nama_1, "-") as nama_1')
         //     )
         //     ->orderBy('cluster.nama_cluster')
         //     ->orderBy('kapling.blok_kapling')

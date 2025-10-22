@@ -48,19 +48,8 @@ class AkunController extends Controller
         $columnName      = $columnName_arr[$columnIndex]['data']; // Column name
         $columnSortOrder = $order_arr[0]['dir']; // asc or desc
 
-        $Akun =  DB::table('akun')
-            ->select([
-                'akun.id', 
-                'no_akun', 
-                'nama_akun_indonesia', 
-                DB::raw('tipe_akun.nama as tipe_akun'), 
-                DB::raw('mata_uang.nama as mata_uang'), 
-                'saldo_akun'
-            ])
-            ->join('tipe_akun', 'tipe_akun.id', '=', 'akun.tipe_id', 'left')
-            ->join('mata_uang', 'mata_uang.id', '=', 'akun.mata_uang_id', 'left');
-
-        $totalRecords = $Akun->count();
+        $Akun = Akun::with(['mataUang','tipe']);
+        $totalRecords = Akun::count();
 
         if ($namaFilter) {
             $Akun->where('nama_akun_indonesia', 'like', '%' . $namaFilter . '%');
@@ -86,9 +75,11 @@ class AkunController extends Controller
         }
 
         $records = $Akun
+            ->orderBy($columnName, $columnSortOrder)
             ->skip($start)
             ->take($rowPerPage)
             ->get();
+
         $data_arr = [];
 
         foreach ($records as $key => $record) {
@@ -100,7 +91,8 @@ class AkunController extends Controller
                 "id"                    => $record->id,
                 "no_akun"               => !isset($record->parent_id) ? '<strong>' . $record->no_akun . '</strong>' : str_repeat('&nbsp;', 3) . $record->no_akun,
                 "nama_akun_indonesia"   => !isset($record->parent_id) ? '<strong>' . $record->nama_akun_indonesia . '</strong>' : $record->nama_akun_indonesia,
-                "tipe_akun"             => !isset($record->parent_id) ? '<strong>' . $record->tipe_akun . '</strong>' : $record->tipe_akun,
+                "tipe_id"               => $record->tipe_id,
+                "tipe_akun"             => $record->tipe?->nama,
                 "mata_uang"             => !isset($record->parent_id) ? '<strong>' . $record->mata_uang . '</strong>' : $record->mata_uang,
                 "saldo_akun"            => '<strong>' . "Rp " . number_format($record->saldo_akun, 0, ',', '.') . "</strong>",
             ];

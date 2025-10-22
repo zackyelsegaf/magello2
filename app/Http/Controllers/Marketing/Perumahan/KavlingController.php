@@ -824,7 +824,7 @@ class KavlingController extends Controller
 
     public function detailBooking($id)
     {
-        $detailBooking = BookingKavling::with('konsumen:id,nama_konsumen,booking_fee')
+        $detailBooking = BookingKavling::with('konsumen:id,nama_1,booking_fee')
             ->select('id','konsumen_id','metode_pembayaran','nomor_booking')
             ->findOrFail($id);
 
@@ -834,11 +834,11 @@ class KavlingController extends Controller
                 'cluster.id as cluster_id',
                 'cluster.nama_cluster',
                 'konsumen.id as konsumen_id',
-                'konsumen.nama_konsumen',
+                'konsumen.nama_1',
                 'konsumen.booking_fee'
             )
             ->orderBy('cluster.nama_cluster')
-            ->orderBy('konsumen.nama_konsumen')
+            ->orderBy('konsumen.nama_1')
             ->get()
             ->groupBy('cluster_id');
 
@@ -846,7 +846,7 @@ class KavlingController extends Controller
             'metode_pembayaran' => $detailBooking->metode_pembayaran,
             'nomor_booking'     => $detailBooking->nomor_booking,
             'konsumen_id'       => $detailBooking->konsumen_id,
-            'nama_konsumen'     => $detailBooking->konsumen?->nama_konsumen,
+            'nama_1'     => $detailBooking->konsumen?->nama_1,
             'booking_fee'       => $detailBooking->konsumen?->booking_fee,
         ];
 
@@ -978,7 +978,7 @@ class KavlingController extends Controller
     public function detailKonsumen($id)
     {
         $booking = BookingKavling::with([
-            'konsumen:id,jenis_kelamin_id,status_pengajuan_id,provinsi_code,kota_code,kelurahan_code,kecamatan_code,pekerjaan_id,nama_konsumen,nik_konsumen,no_hp,alamat_konsumen,booking_fee',
+            'konsumen:id,jenis_kelamin_id,status_pengajuan_id,provinsi_code,kota_code,kelurahan_code,kecamatan_code,provinsi_code_1,kota_code_1,kelurahan_code_1,kecamatan_code_1,pekerjaan_1_id,nama_1,npwp_1,tanggal_lahir_1,tempat_lahir_1,email,nik_1,no_hp_1,alamat_konsumen,alamat_1,cluster_id,booking_fee',
             'konsumen.gender:id,nama',
             'konsumen.status_pengajuan:id,nama',
             'konsumen.province:code,name',
@@ -991,7 +991,7 @@ class KavlingController extends Controller
         ])->findOrFail($id);
 
 
-        $konsumen = $booking->konsumen; // atau dari mana pun objeknya
+        $konsumen = $booking->konsumen;
         $provinceSelected = $konsumen->provinsi_code  ? Province::find($konsumen->provinsi_code, ['name']) : null;
         $citySelected     = $konsumen->kota_code      ? City::find($konsumen->kota_code, ['name']) : null;
         $districtSelected = $konsumen->kecamatan_code ? District::find($konsumen->kecamatan_code, ['code','name']) : null;
@@ -1015,11 +1015,11 @@ class KavlingController extends Controller
                 'cluster.id as cluster_id',
                 'cluster.nama_cluster',
                 'konsumen.id as konsumen_id',
-                'konsumen.nama_konsumen',
+                'konsumen.nama_1',
                 'konsumen.booking_fee'
             )
             ->orderBy('cluster.nama_cluster')
-            ->orderBy('konsumen.nama_konsumen')
+            ->orderBy('konsumen.nama_1')
             ->get()
             ->groupBy('cluster_id');
 
@@ -1027,7 +1027,7 @@ class KavlingController extends Controller
             'metode_pembayaran' => $booking->metode_pembayaran,
             'nomor_booking'     => $booking->nomor_booking,
             'konsumen_id'       => $booking->konsumen_id,
-            'nama_konsumen'     => $booking->konsumen?->nama_konsumen,
+            'nama_1'     => $booking->konsumen?->nama_1,
             'booking_fee'       => $booking->konsumen?->booking_fee,
         ];
 
@@ -1647,8 +1647,8 @@ class KavlingController extends Controller
     //             "id"                        => $record->id,
     //             "kapling_id"                => $record->kapling_id,
     //             "konsumen_id"               => $record->konsumen_id,
-    //             "konsumen"                  => $record->konsumen?->nama_konsumen,
-    //             "nomor_hp"                  => $record->konsumen?->no_hp,
+    //             "konsumen"                  => $record->konsumen?->nama_1,
+    //             "nomor_hp"                  => $record->konsumen?->no_hp_1,
     //             "nomor_booking"             => $record->nomor_booking,
     //             "tanggal_booking"           => $record->tanggal_booking,
     //             "metode_pembayaran"         => $record->metode_pembayaran,
@@ -1669,7 +1669,7 @@ class KavlingController extends Controller
     {
         $booking = BookingKavling::with([
             'suratPemesananRumah:id,booking_id,nomor_spr,tanggal_pemesanan,lokasi_pemesanan,deskripsi',
-            'konsumen:id,jenis_kelamin_id,nama_konsumen,nik_konsumen,no_hp,alamat_konsumen,booking_fee',
+            'konsumen:id,jenis_kelamin_id,status_pengajuan_id,provinsi_code,kota_code,kelurahan_code,kecamatan_code,provinsi_code_1,kota_code_1,kelurahan_code_1,kecamatan_code_1,pekerjaan_1_id,nama_1,npwp_1,tanggal_lahir_1,tempat_lahir_1,email,nik_1,no_hp_1,alamat_konsumen,alamat_1,cluster_id,booking_fee',
             'konsumen.gender:id,nama',
             'kapling:id,cluster_id,blok_kapling,nomor_unit_kapling,luas_tanah,luas_bangunan,harga_kapling',
             'kapling.cluster:id,nama_cluster',
@@ -1728,7 +1728,7 @@ class KavlingController extends Controller
     public function cetakKonsumen($id)
     {
         $booking = BookingKavling::with([
-            'konsumen:id,jenis_kelamin_id,status_pengajuan_id,provinsi_code,kota_code,kelurahan_code,kecamatan_code,pekerjaan_id,nama_konsumen,nik_konsumen,no_hp,alamat_konsumen,booking_fee',
+            'konsumen:id,jenis_kelamin_id,status_pengajuan_id,provinsi_code,kota_code,kelurahan_code,kecamatan_code,provinsi_code_1,kota_code_1,kelurahan_code_1,kecamatan_code_1,pekerjaan_1_id,nama_1,npwp_1,tanggal_lahir_1,tempat_lahir_1,email,nik_1,no_hp_1,alamat_konsumen,alamat_1,cluster_id,booking_fee',
             'konsumen.gender:id,nama',
             'konsumen.status_pengajuan:id,nama',
             'konsumen.province:code,name',
@@ -1757,7 +1757,7 @@ class KavlingController extends Controller
 
         $pdf = Pdf::loadView('marketing.perumahan.kavling.konsumenpdf', compact('booking','tanggalSppForForm','tanggalSppHuman','konsumen','provinceSelected','citySelected','districtSelected','villageSelected'))->setPaper('A4','portrait');
 
-        return $pdf->stream('Detail Konsumen '.$booking->konsumen->nama_konsumen.'.pdf');
+        return $pdf->stream('Detail Konsumen '.$booking->konsumen->nama_1.'.pdf');
     }
 
     public function generateSpr(BookingKavling $booking)
@@ -1783,7 +1783,7 @@ class KavlingController extends Controller
 
         $query = BookingKavling::query()
             ->with([
-                'konsumen:id,nama_konsumen,no_hp',
+                'konsumen:id,nama_1,no_hp_1',
                 'kapling:id,cluster_id,blok_kapling,nomor_unit_kapling',
                 'kapling.cluster:id,nama_cluster',
                 'suratPemesananRumah',
@@ -1873,8 +1873,8 @@ class KavlingController extends Controller
                 'cluster_nama'     => $clusterNama,
                 'kapling_label'    => $kaplingLabel,
                 'konsumen_id'      => $record->konsumen_id,
-                'konsumen'         => $record->konsumen?->nama_konsumen,
-                'nomor_hp'         => $record->konsumen?->no_hp,
+                'konsumen'         => $record->konsumen?->nama_1,
+                'nomor_hp'         => $record->konsumen?->no_hp_1,
                 'nomor_booking'    => $record->nomor_booking,
                 'tanggal_booking'  => $record->tanggal_booking,
                 'metode_pembayaran'=> $record->metode_pembayaran,

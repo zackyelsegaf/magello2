@@ -18,7 +18,7 @@
                     <select class="tomselect @error('konsumen_id') is-invalid @enderror" name="konsumen_id" id="konsumen" data-placeholder="Pilih konsumen...">
                         <option selected disabled></option>
                         @foreach ($konsumen as $items )
-                        <option value="{{ $items->id }}" {{ old('konsumen_id', $updateBooking->konsumen_id) == $items->id ? 'selected' : '' }}>{{ $items->nama_konsumen }}</option>
+                        <option value="{{ $items->id }}" {{ old('konsumen_id', $updateBooking->konsumen_id) == $items->id ? 'selected' : '' }}>{{ $items->nama_1 }}</option>
                         @endforeach
                     </select>
                     @error('konsumen_id')

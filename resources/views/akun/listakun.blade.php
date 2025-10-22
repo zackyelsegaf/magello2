@@ -187,14 +187,14 @@
                         searchable: false
                     },
                     {
-                        data: 'tipe_id',
-                        name: 'tipe_id',
+                        data: 'tipe_nama',
+                        name: 'tipe_nama',
                         orderable: false,
                         searchable: false
                     },
                     {
-                        data: 'mata_uang_id',
-                        name: 'mata_uang_id',
+                        data: 'mata_uang',
+                        name: 'mata_uang',
                         orderable: false,
                         searchable: false
                     },

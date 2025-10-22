@@ -11,10 +11,11 @@
             </div>
 
             {{-- Formulir penyimpanan --}}
-            <form method="POST" action="{{ route('konsumen/detail', $Konsumen->id) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('konsumen/detail', $konsumen->id) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="card card-table">
                     <div class="card-body">
+                        @if($konsumen->detail)
                         <div class="table-responsive">
                             <table class="table table-bordered mb-0" id="DetailKonsumenList">
                                 <thead>
@@ -28,104 +29,461 @@
                                 <tbody class="bg-white">
                                     <tr>
                                         <td width="40">Customer dari Perumahan/Cluster</td>
-                                        <td>{{ $Konsumen->cluster->nama_cluster ?? '-' }}</td>
+                                        <td>{{ $konsumen->cluster->nama_cluster ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Email</td>
-                                        <td>{{ $Konsumen->email ?? '-' }}</td>
+                                        <td>{{ $konsumen->email ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Status Pengajuan</td>
-                                        <td>{{ $Konsumen->status_pengajuan->nama ?? '-' }}</td>
+                                        <td>{{ $konsumen->status_pengajuan->nama ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Nama Lengkap</td>
-                                        <td>{{ $Konsumen->nama_konsumen ?? '-' }}</td>
+                                        <td>{{ $konsumen->nama_1 ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Provinsi KTP</td>
-                                        <td>{{ $provinceSelected->name ?? '-' }}</td>
+                                        <td>{{ ($konsumen->province)->name ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Kota KTP</td>
-                                        <td>{{ $citySelected->name ?? '-' }}</td>
+                                        <td>{{ ($konsumen->city)->name ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Kelurahan KTP</td>
-                                        <td>{{ $districtSelected->name ?? '-' }}</td>
+                                        <td>{{ ($konsumen->village)->name ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Kecamatan KTP</td>
-                                        <td>{{ $villageSelected->name ?? '-' }}</td>
+                                        <td>{{ ($konsumen->district)->name ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Alamat KTP</td>
-                                        <td>{{ $Konsumen->alamat_konsumen ?? '-' }}</td>
+                                        <td>{{ $konsumen->alamat_konsumen ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Provinsi Domisili</td>
-                                        <td>{{ $provinceSelected->name ?? '-' }}</td>
+                                        <td>{{ ($konsumen->province1)->name ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Kota Domisili</td>
-                                        <td>{{ $citySelected->name ?? '-' }}</td>
+                                        <td>{{ ($konsumen->city1)->name ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Kelurahan Domisili</td>
-                                        <td>{{ $districtSelected->name ?? '-' }}</td>
+                                        <td>{{ ($konsumen->village1)->name ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Kecamatan Domisili</td>
-                                        <td>{{ $villageSelected->name ?? '-' }}</td>
+                                        <td>{{ ($konsumen->district1)->name ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Alamat Domisili</td>
-                                        <td>{{ $Konsumen->alamat_konsumen ?? '-' }}</td>
+                                        <td>{{ $konsumen->alamat_1 ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Tempat Lahir</td>
-                                        <td>{{ $citySelected->name ?? '-' }}</td>
+                                        <td>{{ $konsumen->tempat_lahir_1 ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Tanggal Lahir</td>
-                                        <td>{{ $citySelected->name ?? '-' }}</td>
+                                        <td>{{ $konsumen->tanggal_lahir_1 ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">NIK KTP</td>
-                                        <td>{{ $Konsumen->nik_konsumen ?? '-' }}</td>
+                                        <td>{{ $konsumen->nik_1 ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">No NPWP</td>
-                                        <td>{{ $citySelected->name ?? '-' }}</td>
+                                        <td>{{ $konsumen->npwp_1 ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Pekerjaan</td>
-                                        <td>{{ $Konsumen->pekerjaan->nama ?? '-' }}</td>
+                                        <td>{{ $konsumen->pekerjaan->nama ?? '-' }}</td>
                                     </tr>
-                                    
                                     <tr>
                                         <td width="40">No TLP</td>
-                                        <td>{{ $Konsumen->no_hp ?? '-' }}</td>
+                                        <td>{{ $konsumen->no_hp_1 ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Status</td>
-                                        <td>{{ $citySelected->name ?? '-' }}</td>
+                                        <td>{{ $konsumen->pekerjaan->nama ?? '-' }}</td>
                                     </tr>
                                     <tr>
                                         <td width="40">Jenis Kelamin</td>
-                                        <td>{{ $Konsumen->gender->nama ?? '-' }}</td>
+                                        <td>{{ $konsumen->gender->nama ?? '-' }}</td>
+                                    </tr>
+                                </tbody>
+                                <thead>
+                                    <tr class="bg-white">
+                                        <th colspan="2">DATA PEKERJAAN CALON KONSUMEN ( KARYAWAN )</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white">
+                                    <tr>
+                                        <td width="40">Nama Perusahaan</td>
+                                        <td>{{ $konsumen->detail->nama_perusahaan_1 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Provinsi Perusahaan</td>
+                                        <td>{{ ($konsumen->detail->province4)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Kota Perusahaan</td>
+                                        <td>{{ ($konsumen->detail->city4)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Bidang Usaha</td>
+                                        <td>{{ $konsumen->detail->bidang_usaha_1 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Jabatan</td>
+                                        <td>{{ $konsumen->detail->jabatan_1 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Status Pekerjaan</td>
+                                        <td>{{ $konsumen->detail->status_pekerjaan_1 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Tanggal Mulai Bekerja</td>
+                                        <td>{{ $konsumen->detail->tanggal_mulai_kerja_1 ?? '-' }}</td>
+                                    </tr>
+                                </tbody>
+                                <thead>
+                                    <tr class="bg-white">
+                                        <th colspan="2">NOMINAL PENDAPATAN CALON KONSUMEN ( KARYAWAN )</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white">
+                                    <tr>
+                                        <td width="40">Gaji Pokok</td>
+                                        <td>{{ $konsumen->detail->gaji_pokok_1 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Cycle Gaji Pokok</td>
+                                        <td>{{ $konsumen->detail->cycle_gaji_pokok_1 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Gaji Tambahan</td>
+                                        <td>{{ $konsumen->detail->gaji_tambahan_1 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Daftar Cicilan</td>
+                                        <td>{{ $konsumen->detail->daftar_cicilan_1 ?? '-' }}</td>
+                                    </tr>
+                                </tbody>
+                                <thead>
+                                    <tr class="bg-white">
+                                        <th colspan="2">DATA USAHA CALON KONSUMEN ( WIRAUSAHA )</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white">
+                                    <tr>
+                                        <td width="40">Nama Usaha</td>
+                                        <td>{{ $konsumen->detail->nama_usaha_1 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Provinsi Usaha</td>
+                                        <td>{{ ($konsumen->detail->province6)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Kota Usaha</td>
+                                        <td>{{ ($konsumen->detail->city6)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Kecamatan Usaha</td>
+                                        <td>{{ ($konsumen->detail->village6)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Kelurahan Usaha</td>
+                                        <td>{{ ($konsumen->detail->district6)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Alamat Usaha</td>
+                                        <td>{{ $konsumen->detail->alamat_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Bidang Usaha</td>
+                                        <td>{{ $konsumen->detail->bidang_wirausaha_1 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Lama Usaha</td>
+                                        <td>{{ $konsumen->detail->lama_usaha_1 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Legalitas Usaha</td>
+                                        <td>{{ $konsumen->detail->legalitas_1 ?? '-' }}</td>
+                                    </tr>
+                                </tbody>
+                                <thead>
+                                    <tr class="bg-white">
+                                        <th colspan="2">NOMINAL PENDAPATAN CALON KONSUMEN ( WIRAUSAHA )</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white">
+                                    <tr>
+                                        <td width="40">Pendapatan Kotor</td>
+                                        <td>{{ $konsumen->detail->pendapatan_kotor_1 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Pendapatan Bersih</td>
+                                        <td>{{ $konsumen->detail->pendapatan_bersih_1 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Pendapatan Tambahan</td>
+                                        <td>{{ $konsumen->detail->pendapatan_tambahan_1 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Daftar Cicilan</td>
+                                        <td>{{ $konsumen->detail->daftar_cicilan_1 ?? '-' }}</td>
+                                    </tr>
+                                </tbody>
+                                <thead>
+                                    <tr class="text-center bg-light">
+                                        <th colspan="2">DATA CALON PASANGAN KONSUMEN / INFORMASI PEMESAN</th>
+                                    </tr>
+                                    <tr class="bg-white">
+                                        <th colspan="2">DATA PASANGAN SUAMI/ISTRI</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white">
+                                    <tr>
+                                        <td width="40">Nama Lengkap</td>
+                                        <td>{{ $konsumen->detail->nama_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Provinsi KTP</td>
+                                        <td>{{ ($konsumen->detail->province2)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Kota KTP</td>
+                                        <td>{{ ($konsumen->detail->city2)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Kecamatan KTP</td>
+                                        <td>{{ ($konsumen->detail->village2)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Kelurahan KTP</td>
+                                        <td>{{ ($konsumen->detail->district2)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Alamat KTP</td>
+                                        <td>{{ $konsumen->detail->alamat_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Provinsi Domisili</td>
+                                        <td>{{ ($konsumen->detail->province3)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Kota Domisili</td>
+                                        <td>{{ ($konsumen->detail->city3)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Kelurahan Domisili</td>
+                                        <td>{{ ($konsumen->detail->village3)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Kecamatan Domisili</td>
+                                        <td>{{ ($konsumen->detail->district3)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Alamat Domisili</td>
+                                        <td>{{ $konsumen->detail->alamat_3 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Tempat Lahir</td>
+                                        <td>{{ $konsumen->detail->tempat_lahir_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Tanggal Lahir</td>
+                                        <td>{{ $konsumen->detail->tanggal_lahir_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">NIK KTP</td>
+                                        <td>{{ $konsumen->detail->nik_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">No NPWP</td>
+                                        <td>{{ $konsumen->detail->npwp_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Pekerjaan</td>
+                                        <td>{{ $konsumen->detail->pekerjaan_2->nama ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">No TLP</td>
+                                        <td>{{ $konsumen->detail->no_hp_2 ?? '-' }}</td>
+                                    </tr>
+                                </tbody>
+                                <thead>
+                                    <tr class="bg-white">
+                                        <th colspan="2">DATA PEKERJAAN PASANGAN CALON KONSUMEN ( KARYAWAN )</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white">
+                                    <tr>
+                                        <td width="40">Nama Perusahaan</td>
+                                        <td>{{ $konsumen->detail->nama_perusahaan_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Provinsi KTP</td>
+                                        <td>{{ ($konsumen->detail->province5)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Kota KTP</td>
+                                        <td>{{ ($konsumen->detail->city5)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Bidang Usaha</td>
+                                        <td>{{ $konsumen->detail->bidang_usaha_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Jabatan</td>
+                                        <td>{{ $konsumen->detail->jabatan_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Status Pekerjaan</td>
+                                        <td>{{ $konsumen->detail->status_pekerjaan_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Tanggal Mulai Bekerja</td>
+                                        <td>{{ $konsumen->detail->tanggal_mulai_kerja_2 ?? '-' }}</td>
+                                    </tr>
+                                </tbody>
+                                <thead>
+                                    <tr class="bg-white">
+                                        <th colspan="2">NOMINAL PENDAPATAN PASANGAN CALON KONSUMEN ( KARYAWAN )</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white">
+                                    <tr>
+                                        <td width="40">Gaji Pokok</td>
+                                        <td>{{ $konsumen->detail->gaji_pokok_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Cycle Gaji Pokok</td>
+                                        <td>{{ $konsumen->detail->cycle_gaji_pokok_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Gaji Tambahan</td>
+                                        <td>{{ $konsumen->detail->gaji_tambahan_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Daftar Cicilan</td>
+                                        <td>{{ $konsumen->detail->daftar_cicilan_2 ?? '-' }}</td>
+                                    </tr>
+                                </tbody>
+                                <thead>
+                                    <tr class="bg-white">
+                                        <th colspan="2">DATA USAHA PASANGAN CALON KONSUMEN ( WIRAUSAHA )</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white">
+                                    <tr>
+                                        <td width="40">Nama Usaha</td>
+                                        <td>{{ $konsumen->detail->nama_usaha_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Provinsi Usaha</td>
+                                        <td>{{ ($konsumen->detail->province7)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Kota Usaha</td>
+                                        <td>{{ ($konsumen->detail->city7)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Kecamatan Usaha</td>
+                                        <td>{{ ($konsumen->detail->province7)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Kelurahan Usaha</td>
+                                        <td>{{ ($konsumen->detail->city7)->name ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Alamat Usaha</td>
+                                        <td>{{ $konsumen->detail->alamat_7 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Bidang Usaha</td>
+                                        <td>{{ $konsumen->detail->bidang_wirausaha_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Lama Usaha</td>
+                                        <td>{{ $konsumen->detail->lama_usaha_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Legalitas Usaha</td>
+                                        <td>{{ $konsumen->detail->legalitas_2 ?? '-' }}</td>
+                                    </tr>
+                                </tbody>
+                                <thead>
+                                    <tr class="bg-white">
+                                        <th colspan="2">NOMINAL PENDAPATAN PASANGAN CALON KONSUMEN ( WIRAUSAHA )</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white">
+                                    <tr>
+                                        <td width="40">Pendapatan Kotor</td>
+                                        <td>{{ $konsumen->detail->pendapatan_kotor_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Pendapatan Bersih</td>
+                                        <td>{{ $konsumen->detail->pendapatan_bersih_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Pendapatan Tambahan</td>
+                                        <td>{{ $konsumen->detail->pendapatan_tambahan_2 ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40">Daftar Cicilan</td>
+                                        <td>{{ $konsumen->detail->daftar_cicilan_wirausaha_2 ?? '-' }}</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
+                        @else
+                            <div class="alert alert-warning mt-4">Detail konsumen belum diisi.</div>
+                        @endif
                     </div>
                 </div>
+                {{-- @if($konsumen->detail)
+                    <h5 class="mt-4">Data Pasangan / Pekerjaan (Detail)</h5>
+
+                    <p><strong>Nama Pasangan:</strong> {{ $konsumen->detail->nama_2 ?? '-' }}</p>
+                    <p><strong>NIK Pasangan:</strong> {{ $konsumen->detail->nik_2 ?? '-' }}</p>
+                    <p><strong>No HP Pasangan:</strong> {{ $konsumen->detail->no_hp_2 ?? '-' }}</p>
+
+                    <p class="mb-0"><strong>Alamat #2:</strong></p>
+                    <ul class="mb-3">
+                        <li>Provinsi:  {{ optional($konsumen->detail->province2)->name ?? '-' }}</li>
+                        <li>Kota/Kab:  {{ optional($konsumen->detail->city2)->name ?? '-' }}</li>
+                        <li>Kecamatan: {{ optional($konsumen->detail->district2)->name ?? '-' }}</li>
+                        <li>Kelurahan: {{ optional($konsumen->detail->village2)->name ?? '-' }}</li>
+                        <li>Alamat:    {{ $konsumen->detail->alamat_2 ?? '-' }}</li>
+                    </ul>
+
+                    <p class="mb-0"><strong>Pekerjaan Utama:</strong></p>
+                    <ul>
+                        <li>Nama Perusahaan: {{ $konsumen->detail->nama_perusahaan_1 ?? '-' }}</li>
+                        <li>Bidang Usaha:    {{ $konsumen->detail->bidang_usaha_1 ?? '-' }}</li>
+                        <li>Jabatan:         {{ $konsumen->detail->jabatan_1 ?? '-' }}</li>
+                        <li>Status Kerja:    {{ $konsumen->detail->status_pekerjaan_1 ?? '-' }}</li>
+                        <li>Tanggal Mulai:   {{ $konsumen->detail->tanggal_mulai_kerja_1 ? \Carbon\Carbon::parse($konsumen->detail->tanggal_mulai_kerja_1)->isoFormat('D MMMM Y') : '-' }}</li>
+                        <li>Gaji Pokok:      {{ isset($konsumen->detail->gaji_pokok_1) ? 'Rp ' . number_format($konsumen->detail->gaji_pokok_1,0,',','.') : '-' }}</li>
+                        <li>Gaji Tambahan:   {{ isset($konsumen->detail->gaji_tambahan_1) ? 'Rp ' . number_format($konsumen->detail->gaji_tambahan_1,0,',','.') : '-' }}</li>
+                    </ul>
+                @else
+                    <div class="alert alert-warning mt-4">Detail konsumen belum diisi.</div>
+                @endif --}}
                 <div class="mb-4 row align-items-center">
                     <div class="col">
                         <a href="{{ url()->previous() }}" class="btn btn-primary buttonedit mr-2">
                             <i class="fas fa-chevron-left mr-2"></i> Kembali
                         </a>
-                        <a href="{{ route('konsumen/detail/pdf', $Konsumen->id) }}" class="btn btn-primary buttonedit" target="_blank">
+                        <a href="{{ route('konsumen/detail/pdf', $konsumen->id) }}" class="btn btn-primary buttonedit" target="_blank">
                             <i class="fas fa-print mr-2"></i> Print
                         </a>
                     </div>
