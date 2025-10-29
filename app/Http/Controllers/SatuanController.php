@@ -20,7 +20,7 @@ class SatuanController extends Controller
     }
 
     public function saveRecordSatuan(Request $request){
-        
+
         $rules =[
             'nama'          => 'required|string|max:255',
         ];
@@ -45,11 +45,11 @@ class SatuanController extends Controller
             $satuan = new Satuan($validator->validated());
             $satuan->nama = $request->nama;
             $satuan->save();
-            
+
             DB::commit();
             sweetalert()->success('Create new Tipe Pelanggan successfully :)');
-            return redirect()->route('satuan/list/page');    
-            
+            return redirect()->route('satuan/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Tambah Data Gagal :)');
@@ -63,14 +63,47 @@ class SatuanController extends Controller
             $ids = $request->ids; // Ambil ID dari checkbox
             Satuan::whereIn('id', $ids)->delete();
             sweetalert()->success('Data berhasil dihapus :)');
-            return redirect()->route('satuan/list/page');    
-            
+            return redirect()->route('satuan/list/page');
+
         } catch(\Exception $e) {
             DB::rollback();
             sweetalert()->error('Data gagal dihapus :)');
             \Log::error($e->getMessage());
             return redirect()->back();
         }
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $satuan = Satuan::findOrFail($id);
+            $satuan->nama = $request->nama;
+            $satuan->save();
+
+            DB::commit();
+            sweetalert()->success('Updated record successfully :)');
+            return redirect()->route('satuan/list/page');
+
+        } catch(\Exception $e) {
+            DB::rollback();
+            sweetalert()->error('Update record fail :)');
+            \Log::error($e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function edit($id)
+    {
+        $satuan = Satuan::findOrFail($id);
+        if (!$satuan) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan');
+        }
+        return view('satuan.satuanedit', compact('satuan'));
     }
 
     public function getSatuan(Request $request)
@@ -96,15 +129,12 @@ class SatuanController extends Controller
 
         $totalRecordsWithFilter = $satuan->count();
 
-        if($columnName != 'checkbox'){
-            $satuan->orderBy($columnName, $columnSortOrder);
-        }
-
         $records = $satuan
+            ->orderBy($columnName, $columnSortOrder)
             ->skip($start)
             ->take($rowPerPage)
             ->get();
-        
+
         $data_arr = [];
 
         foreach ($records as $key => $record) {
@@ -117,12 +147,12 @@ class SatuanController extends Controller
                 "nama"         => $record->nama,
             ];
         }
-        
+
         return response()->json([
             "draw"                 => intval($draw),
             "recordsTotal"         => $totalRecords,
             "recordsFiltered"      => $totalRecordsWithFilter,
             "data"                 => $data_arr
-        ])->header('Content-Type', 'application/json');        
+        ])->header('Content-Type', 'application/json');
     }
 }

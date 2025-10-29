@@ -29,7 +29,7 @@
                                         <option value="{{ $items->tipe_aktiva_tetap_pajak }}"
                                             data-penyusutan="{{ $items->metode_penyusutan }}"
                                             data-umur_perkiraan="{{ $items->umur_perkiraan }}"
-                                            data-nilai_penyusutan="{{ $items->nilai_penyusutan }}" 
+                                            data-nilai_penyusutan="{{ $items->nilai_penyusutan }}"
                                             {{ old('tipe_aktiva_tetap_pajak', $tipeAktivaTetap->tipe_aktiva_tetap_pajak) == $items->tipe_aktiva_tetap_pajak ? 'selected' : '' }}>{{ $items->tipe_aktiva_tetap_pajak }}</option>
                                         @endforeach
                                     </select>
@@ -65,8 +65,12 @@
                     <div class="mb-15 row align-items-center">
                         <div class="col">
                             <div class="">
-                                <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-save mr-2"></i>Simpan</button>
-                                <a href="{{ route('tipeaktivatetap/list/page') }}" class="btn btn-primary float-left veiwbutton ml-2"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                                <a href="{{ route('tipeaktivateteap/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary buttonedit">
+                                    <i class="fas fa-save mr-2"></i>Update
+                                </button>
                             </div>
                         </div>
                     </div>

@@ -5,211 +5,582 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title mt-5">Tambah Kavling</h3>
+                        <h3 class="page-title mt-5">Update Status</h3>
                     </div>
                 </div>
             </div>
-
-            {{-- Formulir penyimpanan --}}
-            <form method="POST" action="{{ route('form/booking/update/save', $kavling->id) }}" enctype="multipart/form-data">
-                @csrf
-                <div class="mb-3">
-                    <label for="konsumen" class="form-label fw-bold">Konsumen</label>
-                    <select class="tomselect @error('konsumen_id') is-invalid @enderror" name="konsumen_id" id="konsumen" data-placeholder="Pilih konsumen...">
-                        <option {{ old('konsumen_id') ? '' : 'selected' }} disabled></option>
-                        @foreach ($konsumen as $items )
-                        <option value="{{ $items->id }}" {{ old('konsumen_id') == $items->id ? 'selected' : '' }}>{{ $items->nama_1 }}</option>
-                        @endforeach
-                    </select>
-                    @error('konsumen_id')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="kapling" class="form-label fw-bold">Kapling</label>
-                    <select class="tomselect @error('kapling_id') is-invalid @enderror" name="kapling_id" data-placeholder="Pilih Kapling">
-                        @foreach($cluster as $clusterId => $items)
-                            <optgroup class="font-weight-bold" label="{{ $items->first()->nama_cluster }}">
-                                @foreach($items as $k)
-                                    @if($k->kapling_id)
-                                        <option value="{{ $k->kapling_id }}" {{ old('kapling_id', $kavling->id) == $k->kapling_id ? 'selected' : '' }}>
-                                            {{ $k->nama_cluster }} - {{ $k->blok_kapling }} / {{ $k->nomor_unit_kapling }}
-                                        </option>
-                                    @endif
-                                @endforeach
-                            </optgroup>
-                        @endforeach
-                    </select>
-                    @error('kapling_id')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="nomor_booking" class="form-label fw-bold">Nomor Booking</label>
-                    <input type="text" id="nomor_booking" class="form-control form-control-sm font-weight-bold" value="{{ $nomorPreview }}" readonly>
-                </div>
-                <div class="mb-3" style="display: none;">
-                    <label for="status_pengajuan" class="form-label fw-bold">Status Pengajuan</label>
-                    <input type="text" id="status_pengajuan" name="status_pengajuan" class="form-control form-control-sm font-weight-bold" value="Booking" readonly>
-                </div>
-                <div class="mb-3">
-                    <label for="tanggal_booking" class="form-label fw-bold">Tanggal Booking</label>
-                    <input type="text" id="tanggal_booking" name="tanggal_booking" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_booking') }}">
-                    {{-- @error('tanggal_booking')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror --}}
-                </div>
-                <div class="mb-3">
-                    <label for="metode_pembayaran" class="form-label fw-bold">Metode Pembayaran</label>
-                    <select class="tomselect @error('metode_pembayaran') is-invalid @enderror" name="metode_pembayaran" id="metode_pembayaran_id" data-placeholder="Pilih Metode Pembayaran...">
-                        <option value="">-- Siklus Pembayaran --</option>
-                        <option value="Cash Keras" {{ old('metode_pembayaran') == 'Cash Keras' ? 'selected' : '' }}>Cash Keras</option>
-                        <option value="Cash Bertahap" {{ old('metode_pembayaran') == 'Cash Bertahap' ? 'selected' : '' }}>Cash Bertahap</option>
-                        <option value="KPR" {{ old('metode_pembayaran') == 'KPR' ? 'selected' : '' }}>KPR</option>
-                    </select>
-                    @error('metode_pembayaran')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="tab-content profile-tab-cont">
-                    <div class="profile-menu">
-                        <ul class="nav nav-tabs nav-tabs-solid">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#biayakonsumen">Biaya Konsumen</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen Persyaratan</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="alert alert-primary alert-dismissible fade show mt-3" role="alert">
-                        <i class="fa fa-exclamation-triangle mr-2"></i><strong>Halo {{ Auth::user()->name }}, </strong> Silahkan pilih metode pembayaran terlebih dahulu!
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div id="biayakonsumen" class="tab-pane fade show active mt-3">
-                        @foreach(collect($jenisBiaya)->chunk(2) as $pair)
-                            <div class="row">
-                                @foreach($pair as $jb)
-                                    @php
-                                        $prefix = "costs.{$jb->id}";
-                                        $existing = isset($booking)
-                                        ? optional($booking->costs->firstWhere('jenis_biaya_id', $jb->id))
-                                        : null;
-                                        $rows = old("costs.{$jb->id}.schedules", $existing?->schedules?->map(fn($s)=>[
-                                            'due_date'=>$s->tanggal_bayar, 'amount'=>$s->nominal_pembayaran
-                                        ])->toArray() ?? []);
-                                    @endphp
-
-                                    <div class="col-md-6 mt-2 py-2" data-biaya-id="{{ $jb->id }}">
-                                        <label class="form-label fw-bold"><strong>{{ $jb->nama }}</strong></label>
-                                        <input type="text" class="form-control form-control-sm mb-1 rupiah" name="costs[{{ $jb->id }}][amount]" value="{{ old("$prefix.amount", $existing->nominal_biaya ?? 0) }}" placeholder="0">
-                                        <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                                            <input type="checkbox" class="custom-control-input" id="diskon_cb_{{ $jb->id }}" name="costs[{{ $jb->id }}][use_discount]" value="1" {{ old("$prefix.use_discount", $existing->use_diskon ?? false) ? 'checked' : '' }}>
-                                            <label class="custom-control-label" for="diskon_cb_{{ $jb->id }}">Buat Diskon {{ $jb->nama }}</label>
-                                        </div>
-                                        <input type="text" class="form-control form-control-sm mb-2" name="costs[{{ $jb->id }}][discount]" value="{{ old("$prefix.discount", $existing->nominal_diskon ?? '') }}" placeholder="Nominal diskon">
-                                        <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                                            <input type="checkbox" class="custom-control-input" id="jadwal_cb_{{ $jb->id }}" name="costs[{{ $jb->id }}][use_schedule]" value="1" {{ old("$prefix.use_schedule", $existing->use_jadwal ?? false) ? 'checked' : '' }} data-target="#jadwal_tabel_{{ $jb->id }}">
-                                            <label class="custom-control-label" for="jadwal_cb_{{ $jb->id }}">
-                                                Buat Jadwal Pembayaran {{ $jb->nama }}
-                                            </label>
-                                        </div>
-                                        <div id="jadwal_tabel_{{ $jb->id }}" style="{{ count($rows)?'':'display:none' }}">
-                                            <div class="row float-right mr-0">
-                                                <button type="button" class="btn btn-primary buttonedit-sm mb-2 add-row" data-ct="{{ $jb->id }}"><strong><i class="fas fa-plus mr-2 ml-1"></i></strong>Tambah</button>
+            <div class="row">
+                <div class="col-md-6 px-2">
+                    <div class="timeline">
+                        <div class="timeline-container primary">
+                            <div class="timeline-icon">
+                                <i class="fas fa-dot-circle"></i>
+                            </div>
+                            <div class="card my-rounded-2">
+                                <div class="col-12 border col-md-12 px-0 my-rounded-2">
+                                    <a href="#" class="d-block text-reset my-rounded-2 tl-link" data-target="panel-pemberkasan">
+                                        <div class="d-flex align-items-center flex-nowrap bg-white my-rounded-2 p-3">
+                                            <div class="d-inline-flex align-items-center justify-content-center bg-info rounded mr-3 py-4 px-4 text-white">
+                                                <div class="timeline-icons">
+                                                    <i class="fas fa-book"></i>
+                                                </div>
                                             </div>
-                                            <div class="table-responsive mt-2">
-                                                <table class="table table-striped table-bordered table-hover table-center mb-0">
-                                                    <thead class="thead-dark">
-                                                        <tr>
-                                                            <th>Tanggal</th>
-                                                            <th>Nominal</th>
-                                                            <th>Aksi</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="apalah" class="schedule-body" data-ct="{{ $jb->id }}">
-                                                        @foreach($rows as $i => $r)
-                                                        <tr class="barang-row">
-                                                            <td><input type="date" class="form-control form-control-sm" name="costs[{{ $jb->id }}][schedules][{{ $i }}][due_date]" value="{{ $r['due_date'] ?? '' }}"></td>
-                                                            <td><input type="text" class="form-control form-control-sm rupiah" name="costs[{{ $jb->id }}][schedules][{{ $i }}][amount]" value="{{ $r['amount'] ?? '' }}"></td>
-                                                            <td style="width: 80px;"><button style="width: 100px;" type="button" class="btn btn-primary buttonedit2 remove-row"><strong><i class="fas fa-trash-alt mr-3"></i>Hapus</strong></button></td>
-                                                        </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
+                                            <div class="w-100">
+                                                <div class="text-dark font-weight-bold text-truncate"><h6>Pemberkasan</h6></div>
+                                                @if($detailPemberkasan)
+                                                    <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailPemberkasan->tanggal_pemberkasan)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-container primary">
+                            <div class="timeline-icon">
+                                <i class="fas fa-dot-circle"></i>
+                            </div>
+                            <div class="card my-rounded-2">
+                                <div class="col-12 border col-md-12 px-0 my-rounded-2">
+                                    <a href="#" class="d-block text-reset my-rounded-2 tl-link" data-target="panel-proses-ke-bank">
+                                        <div class="d-flex align-items-center flex-nowrap bg-white my-rounded-2 p-3">
+                                            <div class="d-inline-flex align-items-center justify-content-center bg-info rounded mr-3 py-4 px-4 text-white">
+                                                <div class="timeline-icons">
+                                                    <i class="fas fa-university"></i>
+                                                </div>
+                                            </div>
+                                            <div class="w-100">
+                                                <div class="text-dark font-weight-bold text-truncate"><h6>Proses Ke Bank</h6></div>
+                                                @if($detailProses)
+                                                    <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailProses->tanggal_masuk_bank)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-container primary">
+                            <div class="timeline-icon">
+                                <i class="fas fa-dot-circle"></i>
+                            </div>
+                            <div class="card my-rounded-2">
+                                <div class="col-12 border col-md-12 px-0 my-rounded-2">
+                                    <a href="#" class="d-block text-reset my-rounded-2 tl-link" data-target="panel-analisa-bank">
+                                        <div class="d-flex align-items-center flex-nowrap bg-white my-rounded-2 p-3">
+                                            <div class="d-inline-flex align-items-center justify-content-center bg-info rounded mr-3 py-4 px-4 text-white">
+                                                <div class="timeline-icons">
+                                                    <i class="fas fa-search"></i>
+                                                </div>
+                                            </div>
+                                            <div class="w-100">
+                                                <div class="text-dark font-weight-bold text-truncate"><h6>Analisa Bank</h6></div>
+                                                @if($detailAnalisa)
+                                                    <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailAnalisa->tanggal_masuk_analisa_bank)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-container primary">
+                            <div class="timeline-icon">
+                                <i class="fas fa-dot-circle"></i>
+                            </div>
+                            <div class="card my-rounded-2">
+                                <div class="col-12 border col-md-12 px-0 my-rounded-2">
+                                    <a href="#" class="d-block text-reset my-rounded-2 tl-link" data-target="panel-sp3k">
+                                        <div class="d-flex align-items-center flex-nowrap bg-white my-rounded-2 p-3">
+                                            <div class="d-inline-flex align-items-center justify-content-center bg-info rounded mr-3 py-4 px-4 text-white">
+                                                <div class="timeline-icons">
+                                                    <i class="fas fa-clipboard-check"></i>
+                                                </div>
+                                            </div>
+                                            <div class="w-100">
+                                                <div class="text-dark font-weight-bold text-truncate"><h6>SP3K</h6></div>
+                                                @if($detailSp3k)
+                                                    <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailSp3k->tanggal_sp3k)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-container primary">
+                            <div class="timeline-icon">
+                                <i class="fas fa-dot-circle"></i>
+                            </div>
+                            <div class="card my-rounded-2">
+                                <div class="col-12 border col-md-12 px-0 my-rounded-2">
+                                    <a href="#" class="d-block text-reset my-rounded-2 tl-link" data-target="panel-akad-kredit">
+                                        <div class="d-flex align-items-center flex-nowrap bg-white my-rounded-2 p-3">
+                                            <div class="d-inline-flex align-items-center justify-content-center bg-info rounded mr-3 py-4 px-4 text-white">
+                                                <div class="timeline-icons">
+                                                    <i class="fas fa-edit"></i>
+                                                </div>
+                                            </div>
+                                            <div class="w-100">
+                                                <div class="text-dark font-weight-bold text-truncate"><h6>Akad Kredit</h6></div>
+                                                @if($detailAkad)
+                                                    <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailAkad->tanggal_akad)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-container primary">
+                            <div class="timeline-icon">
+                                <i class="fas fa-dot-circle"></i>
+                            </div>
+                            <div class="card my-rounded-2">
+                                <div class="col-12 border col-md-12 px-0 my-rounded-2">
+                                    <a href="#" class="d-block text-reset my-rounded-2 tl-link" data-target="panel-ajb">
+                                        <div class="d-flex align-items-center flex-nowrap bg-white my-rounded-2 p-3">
+                                            <div class="d-inline-flex align-items-center justify-content-center bg-info rounded mr-3 py-4 px-4 text-white">
+                                                <div class="timeline-icons">
+                                                    <i class="fas fa-edit"></i>
+                                                </div>
+                                            </div>
+                                            <div class="w-100">
+                                                <div class="text-dark font-weight-bold text-truncate"><h6>AJB</h6></div>
+                                                @if($detailAjb)
+                                                    <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailAjb->tanggal_ajb)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-container primary">
+                            <div class="timeline-icon">
+                                <i class="fas fa-dot-circle"></i>
+                            </div>
+                            <div class="card my-rounded-2">
+                                <div class="col-12 border col-md-12 px-0 my-rounded-2">
+                                    <a href="#" class="d-block text-reset my-rounded-2 tl-link" data-target="panel-ditolak-bank">
+                                        <div class="d-flex align-items-center flex-nowrap bg-white my-rounded-2 p-3">
+                                            <div class="d-inline-flex align-items-center justify-content-center bg-info rounded mr-3 py-4 px-4 text-white">
+                                                <div class="timeline-icons">
+                                                    <div class="timeline-icons">
+                                                </div>
+                                                    <i class="fas fa-times-circle"></i>
+                                                </div>
+                                            </div>
+                                            <div class="w-100">
+                                                <div class="text-dark font-weight-bold text-truncate"><h6>Ditolak Bank</h6></div>
+                                                @if($detailDitolakBank)
+                                                    <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailDitolakBank->tanggal_ditolak)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-container primary">
+                            <div class="timeline-icon">
+                                <i class="fas fa-dot-circle"></i>
+                            </div>
+                            <div class="card my-rounded-2">
+                                <div class="col-12 border col-md-12 px-0 my-rounded-2">
+                                    <a href="#" class="d-block text-reset my-rounded-2 tl-link" data-target="panel-mundur">
+                                        <div class="d-flex align-items-center flex-nowrap bg-white my-rounded-2 p-3">
+                                            <div class="d-inline-flex align-items-center justify-content-center bg-info rounded mr-3 py-4 px-4 text-white">
+                                                <div class="timeline-icons">
+                                                    <i class="fas fa-hiking"></i>
+                                                </div>
+                                            </div>
+                                            <div class="w-100">
+                                                <div class="text-dark font-weight-bold text-truncate"><h6>Mundur</h6></div>
+                                                @if($detailMundur)
+                                                    <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailMundur->tanggal_mundur)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 px-2">
+                    <div class="timeline-2">
+                        <div class="row-cols-1">
+                            <form method="POST" action="{{ route('booking.status-update.pemberkasan.store', $booking) }}">
+                                @csrf
+                                <div class="col px-0 mb-3 timeline-panel" id="panel-pemberkasan">
+                                    <div class="timeline-container primary">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div class="timeline-icon mr-2">
+                                                <i class="fas fa-book text-white"></i>
+                                            </div>
+                                            <h3 class="font-weight-bold mb-0">Pemberkasan</h3>
+                                            @php
+    $isAktif = $detailPemberkasan?->timeline()?->where('is_current', true) ?? false;
+@endphp
+
+<span class="ml-2 badge badge-{{ $isAktif ? 'success' : 'secondary' }}">
+    {{ $isAktif ? 'Aktif' : 'Draft' }}
+</span>
+
+
+                                        </div>
+
+                                        <div class="border bg-white my-rounded-2 p-3">
+                                            {{-- Tanggal --}}
+                                            <div class="form-group mb-2">
+                                                <label class="d-flex align-items-center">
+                                                    <span>Tanggal Pemberkasan</span>
+                                                </label>
+
+                                                <input
+                                                    type="text" {{-- ganti ke type="date" kalau tak pakai datetimepicker --}}
+                                                    name="tanggal_pemberkasan"
+                                                    class="form-control form-control-sm datetimepicker @error('tanggal_pemberkasan') is-invalid @enderror"
+                                                    value="{{ old('tanggal_pemberkasan', $tanggalPemberkasan ?? '') }}"
+                                                >
+                                                @error('tanggal_pemberkasan')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            {{-- Catatan --}}
+                                            <div class="form-group mb-2">
+                                                <label>Catatan</label>
+                                                <textarea
+                                                    name="catatan_pemberkasan"
+                                                    rows="2"
+                                                    class="form-control @error('catatan_pemberkasan') is-invalid @enderror"
+                                                >{{ old('catatan_pemberkasan', $detailPemberkasan->catatan_pemberkasan ?? '') }}</textarea>
+                                                @error('catatan_pemberkasan')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            {{-- Aksi --}}
+                                            <div class="text-right pt-1 pb-5">
+                                                <button type="submit" class="btn btn-primary buttonedit4 btn-remove ml-2" name="action" value="save">
+                                                    <strong><i class="fas fa-save mr-2"></i>Simpan Data</strong>
+                                                </button>
+
+                                                <button type="submit" class="btn btn-outline-primary buttonedit5 text-dark btn-remove" name="action" value="set">
+                                                    <strong><i class="fas fa-cog mr-2"></i>Set Status</strong>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach
-                                @if($pair->count() === 1)
-                                    <div class="col"></div>
-                                @endif
-                            </div>
-                        @endforeach
-                    </div>
-                    <div id="dokumen" class="tab-pane fade mt-3">
-                        @php $i = 1; @endphp
-                            @foreach(collect($jenisDokumen)->chunk(2) as $pair)
-                                <div class="row mb-2">
-                                    @foreach($pair as $jenis)
-                                        <div class="col" data-jenis-id="{{ $jenis->id }}">
-                                            <label class="mb-1"><strong>{{ $jenis->nama }}</strong></label>
-                                            <div class="custom-file mb-3">
-                                            <input type="hidden" name="jenis_dokumen_persyaratan_id_{{ $i }}" value="{{ $jenis->id }}">
-                                            <input type="file" class="custom-file-input" id="file_arsip_{{ $i }}" name="file_arsip_{{ $i }}">
-                                            <label class="custom-file-label" for="file_arsip_{{ $i }}">Pilih File</label>
+                                </div>
+                            </form>
+                            <form method="POST" action="{{ route('booking.status-update.proses.store', $booking) }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="col px-0 mb-3 timeline-panel" id="panel-proses-ke-bank">
+                                    <div class="timeline-container warning">
+                                        <div class="timeline-icon">
+                                            <i class="fas fa-university text-white"></i>
+                                        </div>
+                                        <h3 class="font-weight-bold mb-3">Proses ke Bank</h3>
+                                        <div class="border bg-white my-rounded-2 p-3">
+                                            <div class="form-group mb-2">
+                                                <label>Tanggal Masuk Proses Bank</label>
+                                                <input type="text" name="tanggal_masuk_bank" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_masuk_bank', $tanggalProses ?? '') }}">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Nama Bank</label>
+                                                <input type="text" name="nama_bank_proses" class="form-control form-control-sm" value="{{  old('nama_bank_proses', $detailProses->nama_bank_proses ?? '') }}">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Catatan</label>
+                                                <textarea name="catatan_proses" rows="2" class="form-control">{{ old('catatan_proses', $detailProses->catatan_proses ?? '') }}</textarea>
+                                            </div>
+                                            <div class="text-right pt-1 pb-5">
+                                                <button type="submit" class="btn btn-primary buttonedit4 btn-remove ml-2" name="action" value="save">
+                                                    <strong><i class="fas fa-save mr-3"></i>Simpan Data</strong>
+                                                </button>
+                                                <button type="submit" class="btn btn-primary buttonedit5 text-dark btn-remove" name="action" value="set">
+                                                    <strong><i class="fas fa-cog mr-3"></i>Set Status</strong>
+                                                </button>
                                             </div>
                                         </div>
-                                        @php $i++; @endphp
-                                    @endforeach
+                                    </div>
                                 </div>
-                            @endforeach
-                        <input type="hidden" name="arsip_counter" value="{{ $i - 1 }}">
+                            </form>
+                            <form method="POST" action="{{ route('booking.status-update.analisa.store', $booking->id) }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="col px-0 mb-3 timeline-panel" id="panel-analisa-bank">
+                                    <div class="timeline-container warning">
+                                        <div class="timeline-icon">
+                                            <i class="fas fa-search text-white"></i>
+                                        </div>
+                                        <h3 class="font-weight-bold mb-3">Analisa Bank</h3>
+                                        <div class="border bg-white my-rounded-2 p-3">
+                                            <div class="form-group mb-2">
+                                                <label>Tanggal Masuk Analisa Bank</label>
+                                                <input type="text" name="tanggal_masuk_analisa_bank" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_masuk_analisa_bank', $tanggalAnalisa ?? '') }}">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Nama Bank</label>
+                                                <input type="text" name="nama_bank_analisa" class="form-control form-control-sm" value="{{ old('nama_bank_analisa', $detailAnalisa->nama_bank_analisa ?? '') }}">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Catatan</label>
+                                                <textarea name="catatan_analisa" rows="2" class="form-control">{{ old('catatan_analisa', $detailAnalisa->catatan_analisa ?? '') }}</textarea>
+                                            </div>
+                                            <div class="text-right pt-1 pb-5">
+                                                <button type="submit" class="btn btn-primary buttonedit4 btn-remove ml-2" name="action" value="save">
+                                                    <strong><i class="fas fa-save mr-3"></i>Simpan Data</strong>
+                                                </button>
+                                                <button type="submit" class="btn btn-primary buttonedit5 text-dark btn-remove" name="action" value="set">
+                                                    <strong><i class="fas fa-cog mr-3"></i>Set Status</strong>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <form method="POST" action="{{ route('booking.status-update.sp3k.store', $booking->id) }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="col px-0 mb-3 timeline-panel" id="panel-sp3k">
+                                    <div class="timeline-container success">
+                                        <div class="timeline-icon">
+                                            <i class="fas fa-clipboard-check text-white"></i>
+                                        </div>
+                                        <h3 class="font-weight-bold mb-3">SP3K</h3>
+                                        <div class="border bg-white my-rounded-2 p-3">
+                                            <div class="form-group mb-2">
+                                                <label>Nomor SP3K</label>
+                                                <input type="text" name="nomor_sp3k" class="form-control form-control-sm" value="{{ old('nomor_sp3k', $detailSp3k->nomor_sp3k ?? '') }}">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Tanggal SP3K</label>
+                                                <input type="text" name="tanggal_sp3k" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_sp3k', $tanggalSp3k ?? '') }}">
+                                            </div>
+                                            {{-- <div class="form-group mb-2">
+                                                <label>Upload File SP3K</label>
+                                                <div class="custom-file">
+                                                    <input type="file" name="file_sp3k"
+                                                        class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                                                    <label class="custom-file-label">Pilih File</label>
+                                                </div>
+                                                <small class="d-block mt-1">
+                                                    File lama:<a class="btn btn-primary buttonedit4" href="" target="_blank"><strong><i class="fas fa-file mr-2 ml-1"></i></strong>Download File</a>
+                                                </small>
+                                            </div> --}}
+                                            <div class="form-group mb-2">
+                                                @if($arsip && $arsip->isNotEmpty())
+                                                    @foreach($arsip as $a)
+                                                        <div class="form-group mb-2">
+                                                            @if($a['file_url'])
+                                                                <label>File Arsip</label>
+                                                                <small class="d-block mt-1">
+                                                                    <a class="btn btn-primary buttonedit-sm mr-2" href="{{ $a['file_url'] }}" target="_blank"><strong><i class="fas fa-file mr-2"></i></strong>Download File{{-- $a['original_name'] ?? 'lihat' --}}</a>
+                                                                    {{-- <a class="btn btn-primary buttonedit2-sm" href="{{ route('spkmandorpekerjainternal/file/delete', $a['id']) }}" ><i class="fas fa-trash-alt mr-2"></i>Hapus</a> --}}
+                                                                </small>
+                                                            @endif
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                    <div class="form-group mb-2">
+                                                        <label for="file_sp3k">File Arsip</label>
+                                                        <div class="custom-file">
+                                                            <input type="file" id="file_sp3k" name="file_sp3k" class="custom-file-input" value="{{ old('file_sp3k', $detailSp3k->file_sp3k ?? '')  }}" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                                                            <label class="custom-file-label">Pilih File</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="alert alert-info mt-2" role="alert">
+                                                        <i class="fas fa-info mr-2"></i>Tidak ada file yang diunggah.
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Plafond Acc</label>
+                                                <input type="number" name="plafond_sp3k" class="form-control form-control-sm" value="{{ old('plafond_sp3k', $detailSp3k->plafond_sp3k ?? '') }}">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Cicilan per Bulan</label>
+                                                <input type="number" name="cicilan_sp3k" class="form-control form-control-sm" value="{{ old('cicilan_sp3k', $detailSp3k->cicilan_sp3k ?? '') }}">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Tenor</label>
+                                                <input type="text" name="tenor_sp3k" class="form-control form-control-sm" value="{{ old('tenor_sp3k', $detailSp3k->tenor_sp3k ?? '') }}">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Bank</label>
+                                                <input type="text" name="bank_sp3k" class="form-control form-control-sm" value="{{ old('bank_sp3k', $detailSp3k->bank_sp3k ?? '') }}">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Program Subsidi</label>
+                                                <input type="text" name="program_subsidi" class="form-control form-control-sm" value="{{ old('program_subsidi', $detailSp3k->program_subsidi ?? '') }}">
+                                            </div>
+                                            <div class="text-right pt-1 pb-5">
+                                                <button type="submit" class="btn btn-primary buttonedit4 btn-remove ml-2" name="action" value="save">
+                                                    <strong><i class="fas fa-save mr-3"></i>Simpan Data</strong>
+                                                </button>
+                                                <button type="submit" class="btn btn-primary buttonedit5 text-dark btn-remove" name="action" value="set">
+                                                    <strong><i class="fas fa-cog mr-3"></i>Set Status</strong>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <form method="POST" action="{{ route('booking.status-update.akad.store', $booking->id) }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="col px-0 mb-3 timeline-panel" id="panel-akad-kredit">
+                                    <div class="timeline-container success">
+                                        <div class="timeline-icon">
+                                            <i class="fas fa-edit text-white"></i>
+                                        </div>
+                                        <h3 class="font-weight-bold mb-3">Akad Kredit</h3>
+                                        <div class="border bg-white my-rounded-2 p-3">
+                                            <div class="form-group mb-2">
+                                                <label>Tanggal Akad</label>
+                                                <input type="text" name="tanggal_akad" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_akad', $tanggalAkad  ?? '') }}">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Bank</label>
+                                                <input type="text" name="nama_akad" class="form-control form-control-sm" value="{{ old('nama_akad', $detailAkad->nama_akad  ?? '') }}">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Plafond Acc</label>
+                                                <input type="number" name="plafond_akad" class="form-control form-control-sm" value="{{ old('plafond_akad', $detailAkad->plafond_akad  ?? '') }}">
+                                            </div>
+                                            <div class="text-right pt-1 pb-5">
+                                                <button type="submit" class="btn btn-primary buttonedit4 btn-remove ml-2" name="action" value="save">
+                                                    <strong><i class="fas fa-save mr-3"></i>Simpan Data</strong>
+                                                </button>
+                                                <button type="submit" class="btn btn-primary buttonedit5 text-dark btn-remove" name="action" value="set">
+                                                    <strong><i class="fas fa-cog mr-3"></i>Set Status</strong>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <form method="POST" action="{{ route('booking.status-update.ajb.store', $booking->id) }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="col px-0 mb-3 timeline-panel" id="panel-ajb">
+                                    <div class="timeline-container success">
+                                        <div class="timeline-icon">
+                                            <i class="fas fa-edit text-white"></i>
+                                        </div>
+                                        <h3 class="font-weight-bold mb-3">AJB</h3>
+                                        <div class="border bg-white my-rounded-2 p-3">
+                                            <div class="form-group mb-2">
+                                                <label>Tanggal AJB</label>
+                                                <input type="text" name="tanggal_ajb" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_ajb', $tanggalAjb ?? '') }}">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Catatan</label>
+                                                <textarea name="catatan_ajb" rows="2" class="form-control">{{  old('catatan_ajb', $detailAjb->catatan_ajb ?? '') }}</textarea>
+                                            </div>
+                                            <div class="text-right pt-1 pb-5">
+                                                <button type="submit" class="btn btn-primary buttonedit4 btn-remove ml-2" name="action" value="save">
+                                                    <strong><i class="fas fa-save mr-3"></i>Simpan Data</strong>
+                                                </button>
+                                                <button type="submit" class="btn btn-primary buttonedit5 text-dark btn-remove" name="action" value="set">
+                                                    <strong><i class="fas fa-cog mr-3"></i>Set Status</strong>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <form method="POST" action="{{ route('booking.status-update.ditolak.store', ['booking' => $booking->id]) }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="col px-0 mb-3 timeline-panel" id="panel-ditolak-bank">
+                                    <div class="timeline-container danger">
+                                        <div class="timeline-icon">
+                                            <i class="fas fa-times-circle text-white"></i>
+                                        </div>
+                                        <h3 class="font-weight-bold mb-3">Ditolak Bank</h3>
+                                        <div class="border bg-white my-rounded-2 p-3">
+                                            <div class="form-group mb-2">
+                                                <label>Tanggal Ditolak</label>
+                                                <input type="text" name="tanggal_ditolak" class="form-control form-control-sm datetimepicker" value="">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Alasan Penolakan</label>
+                                                <textarea name="alasan_ditolak" rows="2" class="form-control"></textarea>
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Upload Surat Penolakan</label>
+                                                <div class="custom-file">
+                                                    <input type="file" name="file_ditolak"
+                                                        class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
+                                                    <label class="custom-file-label">Pilih File</label>
+                                                </div>
+                                                {{-- <small class="d-block mt-1">
+                                                    File lama:<a class="btn btn-primary buttonedit4" href="" target="_blank"><strong><i class="fas fa-file mr-2 ml-1"></i></strong>Download File</a>
+                                                </small> --}}
+                                            </div>
+                                            <div class="text-right pt-1 pb-5">
+                                                <button type="submit" class="btn btn-primary buttonedit4 btn-remove ml-2" name="action" value="save">
+                                                    <strong><i class="fas fa-save mr-3"></i>Simpan Data</strong>
+                                                </button>
+                                                <button type="submit" class="btn btn-primary buttonedit5 text-dark btn-remove" name="action" value="set">
+                                                    <strong><i class="fas fa-cog mr-3"></i>Set Status</strong>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <form method="POST" action="{{ route('booking.status-update.mundur.store', $booking->id) }}" enctype="multipart/form-data">
+                                @csrf
+                                <div class="col px-0 mb-3 timeline-panel" id="panel-mundur">
+                                    <div class="timeline-container info">
+                                        <div class="timeline-icon">
+                                            <i class="fas fa-hiking text-white"></i>
+                                        </div>
+                                        <h3 class="font-weight-bold mb-3">Mundur</h3>
+                                        <div class="border bg-white my-rounded-2 p-3">
+                                            <div class="form-group mb-2">
+                                                <label>Tanggal Mundur</label>
+                                                <input type="text" name="tanggal_mundur" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_mundur', $tanggalMundur ?? '') }}">
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <label>Alasan Mundur</label>
+                                                <textarea name="alasan_mundur" rows="2" class="form-control">{{ old('alasan_mundur', $detailMundur->alasan_mundur ?? '') }}</textarea>
+                                            </div>
+                                            <div class="text-right pt-1 pb-5">
+                                                <button type="submit" class="btn btn-primary buttonedit4 btn-remove ml-2" name="action" value="save">
+                                                    <strong><i class="fas fa-save mr-3"></i>Simpan Data</strong>
+                                                </button>
+                                                <button type="submit" class="btn btn-primary buttonedit5 text-dark btn-remove" name="action" value="set">
+                                                    <strong><i class="fas fa-cog mr-3"></i>Set Status</strong>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <div class="mb-4 row align-items-center">
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-check mr-2"></i> Simpan
-                        </button>
-                        <a href="{{ route('kavling/list/page') }}" class="btn btn-primary ml-3">
-                            <i class="fas fa-chevron-left mr-2"></i> Batal
-                        </a>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
     @section('script')
     <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
-    {{-- <script>    
-        $(document).ready(function () {
-            $('#tambahBarangBtn').click(function () {
-                let row = $('.barang-row:first').clone();
-    
-                row.find('select').val('');
-                row.find('input').val('');
-                $('#barangTableBody').append(row);
-            });
-    
-            $(document).on('change', '.no-barang-select', function () {
-                let selected = $(this).find(':selected');
-                let row = $(this).closest('tr');
-    
-                row.find('.deskripsi-barang-input').val(selected.data('nama'));
-                row.find('.kts-barang-input').val(selected.data('kts'));
-                row.find('select[name="satuan[]"]').val(selected.data('satuan'));
-            });
-    
-            $(document).on('click', '.remove-row', function () {
-                if ($('#barangTableBody .barang-row').length > 1) {
-                    $(this).closest('tr').remove();
-                } else {
-                    alert("Minimal satu barang harus ada.");
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.custom-file-input').forEach(function (inp) {
+                inp.addEventListener('change', function (e) {
+                const f = e.target.files && e.target.files[0];
+                const label = inp.nextElementSibling;
+                if (f && label && label.classList.contains('custom-file-label')) {
+                    label.textContent = f.name;
                 }
+                });
             });
         });
-    </script> --}}
+    </script>
     {{-- <script>
         document.addEventListener('DOMContentLoaded', function () {
             const metodePembayaranSelect = document.getElementById('metode_pembayaran_id');
@@ -383,356 +754,34 @@
         });
     </script> --}}
     <script>
-        window.DOKUMEN_SHOW_IDS = @json($showIdsByMetode ?? []);
-    </script>
-    <script>
-        window.BIAYA_SHOW_IDS = @json($showIdsByBiaya ?? []);
-    </script>
-
-    <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const select  = document.getElementById('metode_pembayaran_id');
-            const items   = document.querySelectorAll('[data-jenis-id]');
-            const items1   = document.querySelectorAll('[data-biaya-id]');
-            const show    = el => { if (el && el.style) el.style.display = ''; };
-            const hide    = el => { if (el && el.style) el.style.display = 'none'; };
+            var tlLinks = document.querySelectorAll('.tl-link');
+            var panels  = document.querySelectorAll('.timeline-panel');
 
-            function applyByMetode(val) {
-                const allowed = (window.DOKUMEN_SHOW_IDS && window.DOKUMEN_SHOW_IDS[val]) || [];
-                items.forEach(el => {
-                const id = parseInt(el.getAttribute('data-jenis-id'), 10);
-                if (!val || !allowed.length) return hide(el);
-                allowed.includes(id) ? show(el) : hide(el);
+            function showPanel(panelId, clickedLink) {
+
+                panels.forEach(function (p) { p.classList.add('d-none'); });
+
+                var target = document.getElementById(panelId);
+                if (target) target.classList.remove('d-none');
+
+                document.querySelectorAll('.timeline .card').forEach(function(card){
+                card.classList.remove('border', 'border-primary');
                 });
+                var card = clickedLink.closest('.card');
+                if (card) card.classList.add('border', 'border-primary');
             }
 
-            function applyByBiaya(val) {
-                const allowed = (window.BIAYA_SHOW_IDS && window.BIAYA_SHOW_IDS[val]) || [];
-                items1.forEach(el => {
-                const id = parseInt(el.getAttribute('data-biaya-id'), 10);
-                if (!val || !allowed.length) return hide(el);
-                allowed.includes(id) ? show(el) : hide(el);
-                });
-            }
+            // Set default aktif = Pemberkasan saat load
+            showPanel('panel-pemberkasan', document.querySelector('.tl-link[data-target="panel-pemberkasan"]') || document.body);
 
-            function apply() {
-                let val = '';
-                if (!select) return;
-                if (select.tomselect && typeof select.tomselect.getValue === 'function') {
-                val = select.tomselect.getValue(); // TomSelect
-                } else {
-                val = select.value; // native
-                }
-                applyByMetode((val || '').trim());
-                applyByBiaya((val || '').trim());
-            }
-
-            if (select) {
-                const ts = select.tomselect || null;
-                if (ts && typeof ts.on === 'function') {
-                ts.on('change', apply);
-                setTimeout(apply, 0); // initial setelah TomSelect set value
-                } else {
-                select.addEventListener('change', apply);
-                apply(); // initial
-                }
-            }
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.custom-file-input').forEach(function (inp) {
-                inp.addEventListener('change', function (e) {
-                const f = e.target.files && e.target.files[0];
-                const label = inp.nextElementSibling;
-                if (f && label && label.classList.contains('custom-file-label')) {
-                    label.textContent = f.name;
-                }
-                });
-            });
-        });
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const fee = document.getElementById('booking_fee');
-            const ids = ['diskon_cb_0', 'jadwal_cb_0'];
-            const tabDataLink = document.getElementById('diskon_0');
-            const tabBookingLink = document.getElementById('jadwal_tabel_0');
-
-            function guard(e){
-                if (!(fee.value || '').trim() || fee.value === '0') {
+            tlLinks.forEach(function (a) {
+                a.addEventListener('click', function (e) {
                 e.preventDefault();
-                e.currentTarget.checked = false;
-                Swal.fire({
-                    icon: 'error',
-                    text: 'Silakan isi Booking Fee terlebih dahulu!',
-                    confirmButtonColor: '#8c54ff',
-                    timer: 2500,
-                    showConfirmButton: true
-                });
-                if (tabDataLink) new bootstrap.Tab(tabDataLink).show?.();
-                fee.focus();
-                } else if (tabBookingLink) {
-                new bootstrap.Tab(tabBookingLink).show?.();
-                }
-            }
-
-            ids.forEach(id => document.getElementById(id)?.addEventListener('click', guard));
-        });
-    </script> --}}
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Uncheck semua checkbox di blok yg field nominal-nya kosong/0 saat load
-            document.querySelectorAll('[id^="bk_"]').forEach(wrap => {
-                const field = wrap.querySelector('input[type="text"]');
-                if (!field || !(field.value || '').trim() || field.value === '0') {
-                wrap.querySelectorAll('.custom-control-input').forEach(cb => cb.checked = false);
-                }
-            });
-
-            // Cekal centang jika nominal belum diisi (berlaku untuk semua checkbox di setiap bk_*)
-            document.querySelectorAll('[id^="bk_"] .custom-control-input').forEach(cb => {
-                cb.addEventListener('click', function (e) {
-                const wrap  = e.currentTarget.closest('[id^="bk_"]');
-                const field = wrap.querySelector('input[type="text"]'); // ambil input nominal di blok tsb
-                const val   = (field && field.value || '').trim();
-
-                if (!val || val === '0') {
-                    e.preventDefault();
-                    e.currentTarget.checked = false;
-                    Swal.fire({
-                    icon: 'error',
-                    text: 'Silakan isi nominal terlebih dahulu!',
-                    confirmButtonColor: '#8c54ff',
-                    timer: 2500,
-                    showConfirmButton: true
-                    });
-                    field && field.focus();
-                }
+                var targetId = a.getAttribute('data-target');
+                if (targetId) showPanel(targetId, a);
                 });
             });
-        });
-    </script> --}}
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('[id^="bk_"]').forEach(w => {
-                const f = w.querySelector('input[type="text"]');
-                if (!f || !f.value.trim() || f.value.trim() === '0') {
-                w.querySelectorAll('.custom-control-input').forEach(cb => cb.checked = false);
-                }
-            });
-
-            document.addEventListener('click', e => {
-                if (!e.target.classList.contains('custom-control-input')) return;
-
-                const w = e.target.closest('[id^="bk_"]');
-                const f = w && w.querySelector('input[type="text"]');
-
-                if (!f || !f.value.trim() || f.value.trim() === '0') {
-                e.preventDefault();
-                e.target.checked = false;
-                Swal.fire({
-                    icon: 'error',
-                    text: 'Silakan isi nominal terlebih dahulu!',
-                    confirmButtonColor: '#8c54ff',
-                    timer: 2500,
-                    showConfirmButton: true
-                });
-                f && f.focus();
-                }
-            });
-        });
-    </script> --}}
-    {{-- <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const checkbox_diskon = document.getElementById("diskon_cb_0");
-            const diskonInput = document.getElementById("diskon_0");
-            const checkbox_jadwal = document.getElementById("jadwal_cb_0");
-            const jadwalTabel = document.getElementById("jadwal_tabel_0");
-
-            function toggleDiskonInput() {
-                if (checkbox_diskon.checked) {
-                    diskonInput.style.display = "block";
-                } else {
-                    diskonInput.style.display = "none";
-                }
-            }
-
-            function toggleJadwalTabel() {
-                if (checkbox_jadwal.checked) {
-                    jadwalTabel.style.display = "block";
-                } else {
-                    jadwalTabel.style.display = "none";
-                }
-            }
-
-            toggleDiskonInput();
-            toggleJadwalTabel();
-
-            checkbox_diskon.addEventListener("change", toggleDiskonInput);
-            checkbox_jadwal.addEventListener("change", toggleJadwalTabel);
-        });
-    </script> --}}
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const show = (el, on) => { if (el) el.style.display = on ? 'block' : 'none'; };
-            document.querySelectorAll('[id^="diskon_cb_"]').forEach(cb => {
-                const i = cb.id.replace('diskon_cb_', '');
-                const target = document.getElementById('diskon_' + i);
-                const sync = () => show(target, cb.checked);
-                sync();
-                cb.addEventListener('change', sync);
-            });
-
-            document.querySelectorAll('[id^="jadwal_cb_"]').forEach(cb => {
-                const i = cb.id.replace('jadwal_cb_', '');
-                const target = document.getElementById('jadwal_tabel_' + i);
-                const sync = () => show(target, cb.checked);
-                sync();
-                cb.addEventListener('change', sync);
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('click', function(e){
-            if (e.target.matches('.add-row')) {
-                const ct = e.target.getAttribute('data-ct');
-                const tbody = document.querySelector(`.schedule-body[data-ct="${ct}"]`);
-                const idx = tbody.querySelectorAll('tr').length;
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                <td><input type="text" class="form-control form-control-sm datetimepicker"
-                    name="costs[${ct}][schedules][${idx}][due_date]"></td>
-                <td><input type="text" class="form-control form-control-sm"
-                    name="costs[${ct}][schedules][${idx}][amount]"></td>
-                <td style="width: 80px;"><button style="width: 100px;" type="button" class="btn btn-sm btn-danger buttonedit2 remove-row"><strong><i class="fas fa-trash-alt mr-3"></i></strong>Hapus</button></td>`;
-                tbody.appendChild(tr);
-            }
-            if (e.target.matches('.remove-row')) {
-                e.target.closest('tr').remove();
-            }
-            if (e.target.matches('input[id^="jadwal_cb_"]')) {
-                const target = document.querySelector(e.target.dataset.target);
-                if (target) target.style.display = e.target.checked ? '' : 'none';
-            }
-        }, false);
-    </script> --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            function getDiscountInput(cb) {
-                const group = cb.closest('.custom-control');
-                let el = group ? group.nextElementSibling : null;
-                while (el && !(el.tagName === 'INPUT' && el.type === 'text')) {
-                el = el.nextElementSibling;
-                }
-                return el;
-            }
-
-            function toggleDiscount(cb) {
-                const input = getDiscountInput(cb);
-                if (!input) return;
-                input.style.display = cb.checked ? 'block' : 'none';
-            }
-
-            function getTargetEl(cb) {
-                const sel = cb.getAttribute('data-target');
-                return sel ? document.querySelector(sel) : null;
-            }
-
-            function toggleSchedule(cb) {
-                const box = getTargetEl(cb);
-                if (!box) return;
-                const tbody = box.querySelector('tbody.schedule-body');
-                const hasRows = tbody && tbody.querySelectorAll('tr').length > 0;
-                box.style.display = (cb.checked || hasRows) ? 'block' : 'none';
-            }
-
-            function nextScheduleIndex(tbody) {
-                return tbody.querySelectorAll('tr').length;
-            }
-
-            function initDateTimePicker(scope) {
-                if (window.$ && typeof $.fn.datetimepicker === 'function') {
-                const $scope = scope ? $(scope) : $(document);
-                $scope.find('.datetimepicker').each(function(){ 
-                    try { $(this).datetimepicker(); } catch(e) {}
-                });
-                }
-            }
-
-            document.querySelectorAll('input[id^="diskon_cb_"]').forEach(function (cb) {
-                toggleDiscount(cb);
-                cb.addEventListener('change', function () { toggleDiscount(cb); });
-            });
-
-            document.querySelectorAll('input[id^="jadwal_cb_"]').forEach(function (cb) {
-                toggleSchedule(cb);
-                cb.addEventListener('change', function () { toggleSchedule(cb); });
-            });
-
-            document.addEventListener('click', function (e) {
-                const addBtn = e.target.closest('.add-row');
-                if (!addBtn) return;
-
-                const ct = addBtn.getAttribute('data-ct'); 
-                const box = document.querySelector('#jadwal_tabel_' + ct);
-                if (!box) return;
-
-                const tbody = box.querySelector('tbody.schedule-body[data-ct="' + ct + '"]');
-                if (!tbody) return;
-
-                const idx = nextScheduleIndex(tbody);
-
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                <td>
-                    <input type="date" class="form-control form-control-sm"
-                        name="costs[${ct}][schedules][${idx}][due_date]" value="">
-                </td>
-                <td>
-                    <input type="text" class="form-control form-control-sm rupiah"
-                        name="costs[${ct}][schedules][${idx}][amount]" value="">
-                </td>
-                <td style="width: 80px;">
-                    <button type="button" class="btn btn-primary buttonedit2 remove-row" style="width: 100px;">
-                    <strong><i class="fas fa-trash-alt mr-3"></i>Hapus</strong>
-                    </button>
-                </td>
-                `;
-
-                tbody.appendChild(tr);
-
-                box.style.display = 'block';
-
-                initDateTimePicker(tr);
-
-                initCleaveIn(tr);
-            });
-
-            document.addEventListener('click', function (e) {
-                const rmBtn = e.target.closest('.remove-row');
-                if (!rmBtn) return;
-
-                const tr = rmBtn.closest('tr');
-                const tbody = tr && tr.parentElement;
-                const box = tr && tr.closest('[id^="jadwal_tabel_"]');
-
-                if (tr) tr.remove();
-
-                if (box) {
-                const cbId = box.id.replace('jadwal_tabel_', 'jadwal_cb_');
-                const cb = document.getElementById(cbId);
-                const hasRows = tbody && tbody.querySelectorAll('tr').length > 0;
-                if (cb && !cb.checked && !hasRows) {
-                    box.style.display = 'none';
-                }
-                }
-            });
-
-            initDateTimePicker();
         });
     </script>
     <script>

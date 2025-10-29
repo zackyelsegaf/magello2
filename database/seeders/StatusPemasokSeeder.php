@@ -16,8 +16,8 @@ class StatusPemasokSeeder extends Seeder
         $statusPemasok = [
             'Belum Kawin',
             'Kawin',
-            'Toko Bangunan',
-            'Distributor',
+            'Duda',
+            'Janda'
         ];
 
         foreach ($statusPemasok as $nama) {

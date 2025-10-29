@@ -5,7 +5,7 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title mt-5">Edit Akun</h3> 
+                        <h3 class="page-title mt-5">Edit Akun</h3>
                     </div>
                 </div>
             </div>
@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="row formtype">
-                            <div class="col-md-6">   
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Tipe Akun</label>
                                     <select id="tipe_id" class="tomselect @error('tipe_id') is-invalid @enderror"  name="tipe_id">
@@ -26,7 +26,7 @@
                                     @error('tipe_id')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                </div>                    
+                                </div>
                                 <div class="form-group">
                                     <label>No. Akun</label>
                                     <input type="text" class="form-control form-control-sm  @error('no_akun') is-invalid @enderror" name="no_akun" value="{{ old('no_akun', $Akun->no_akun) }}">
@@ -79,11 +79,11 @@
                                 <div class="form-group"  id="tanggal">
                                     <label>Tanggal</label>
                                     <div class="cal-icon">
-                                        <input type="text" class="form-control form-control-sm  datetimepicker" name="tanggal" value="{{ $Akun->tanggal }}"> 
+                                        <input type="text" class="form-control form-control-sm  datetimepicker" name="tanggal" value="{{ $Akun->tanggal }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="dihentikan">Dihentikan</label>
+                                    <label for="dihentikan">Status</label>
                                     <label class="switch">
                                         <input type="hidden" name="dihentikan" value="0">
                                         <input type="checkbox" name="dihentikan" id="dihentikan" value="1" {{ old('dihentikan', $Akun->dihentikan) ? 'checked' : '' }}>
@@ -127,14 +127,14 @@
             const statusText = document.getElementById('dihentikan-status');
 
             function updateStatusText() {
-                statusText.textContent = checkbox.checked ? 'Ya' : 'Tidak';
+                statusText.textContent = checkbox.checked ? 'Aktif' : 'Tidak Aktif';
             }
 
             updateStatusText();
 
             checkbox.addEventListener('change', updateStatusText);
         });
-    </script>    
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const tipeAkunSelect = document.getElementById('tipe_id');

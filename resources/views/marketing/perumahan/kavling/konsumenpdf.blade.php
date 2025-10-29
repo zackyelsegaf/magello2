@@ -415,19 +415,19 @@
                 </tr>
                 <tr>
                     <td width="40">Gaji Pokok</td>
-                    <td>{{ $booking->konsumen->detail->gaji_pokok_1 ?? '-' }}</td>
+                    <td>{{ 'Rp ' . number_format($booking->konsumen->detail->gaji_pokok_1 ?? 0, 0, '.', ',') ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td width="40">Cycle Gaji Pokok</td>
-                    <td>{{ $booking->konsumen->detail->cycle_gaji_pokok_1 ?? '-' }}</td>
+                    <td>{{ 'Rp ' . number_format($booking->konsumen->detail->cycle_gaji_pokok_1 ?? 0, 0, '.', ',') ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td width="40">Gaji Tambahan</td>
-                    <td>{{ $booking->konsumen->detail->gaji_tambahan_1 ?? '-' }}</td>
+                    <td>{{ 'Rp ' . number_format($booking->konsumen->detail->gaji_tambahan_1 ?? 0, 0, '.', ',') ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td width="40">Daftar Cicilan</td>
-                    <td>{{ $booking->konsumen->detail->daftar_cicilan_1 ?? '-' }}</td>
+                    <td>{{ 'Rp ' . number_format($booking->konsumen->detail->daftar_cicilan_1 ?? 0, 0, '.', ',') ?? '-' }}</td>
                 </tr>
                 <tr class="section-title">
                     <th colspan="2">DATA USAHA CALON KONSUMEN ( WIRAUSAHA )</th>
@@ -473,19 +473,19 @@
                 </tr>
                 <tr>
                     <td width="40">Pendapatan Kotor</td>
-                    <td>{{ $booking->konsumen->detail->pendapatan_kotor_1 ?? '-' }}</td>
+                    <td>{{ 'Rp ' . number_format($booking->konsumen->detail->pendapatan_kotor_1 ?? 0, 0, '.', ',') ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td width="40">Pendapatan Bersih</td>
-                    <td>{{ $booking->konsumen->detail->pendapatan_bersih_1 ?? '-' }}</td>
+                    <td>{{ 'Rp ' . number_format($booking->konsumen->detail->pendapatan_bersih_1 ?? 0, 0, '.', ',') ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td width="40">Pendapatan Tambahan</td>
-                    <td>{{ $booking->konsumen->detail->pendapatan_tambahan_1 ?? '-' }}</td>
+                    <td>{{ 'Rp ' . number_format($booking->konsumen->detail->pendapatan_tambahan_1 ?? 0, 0, '.', ',') ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td width="40">Daftar Cicilan</td>
-                    <td>{{ $booking->konsumen->detail->daftar_cicilan_1 ?? '-' }}</td>
+                    <td>{{ 'Rp ' . number_format($booking->konsumen->detail->daftar_cicilan_1 ?? 0, 0, '.', ',') ?? '-' }}</td>
                 </tr>
                 <tr class="text-center" style="background-color: #f8f9fa !important;">
                     <th colspan="2">DATA CALON PASANGAN KONSUMEN / INFORMASI PEMESAN</th>
@@ -597,19 +597,19 @@
                 </tr>
                 <tr>
                     <td width="40">Gaji Pokok</td>
-                    <td>{{ $booking->konsumen->detail->gaji_pokok_2 ?? '-' }}</td>
+                    <td>{{ 'Rp ' . number_format($booking->konsumen->detail->gaji_pokok_2 ?? 0, 0, '.', ',') ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td width="40">Cycle Gaji Pokok</td>
-                    <td>{{ $booking->konsumen->detail->cycle_gaji_pokok_2 ?? '-' }}</td>
+                    <td>{{ 'Rp ' . number_format($booking->konsumen->detail->cycle_gaji_pokok_2 ?? 0, 0, '.', ',') ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td width="40">Gaji Tambahan</td>
-                    <td>{{ $booking->konsumen->detail->gaji_tambahan_2 ?? '-' }}</td>
+                    <td>{{ 'Rp ' . number_format($booking->konsumen->detail->gaji_tambahan_2 ?? 0, 0, '.', ',') ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td width="40">Daftar Cicilan</td>
-                    <td>{{ $booking->konsumen->detail->daftar_cicilan_2 ?? '-' }}</td>
+                    <td>{{ 'Rp ' . number_format($booking->konsumen->detail->daftar_cicilan_2 ?? 0, 0, '.', ',') ?? '-' }}</td>
                 </tr>
                 <tr class="section-title">
                     <th colspan="2">DATA USAHA PASANGAN CALON KONSUMEN ( WIRAUSAHA )</th>
@@ -655,19 +655,19 @@
                 </tr>
                 <tr>
                     <td width="40">Pendapatan Kotor</td>
-                    <td>{{ $booking->konsumen->detail->pendapatan_kotor_2 ?? '-' }}</td>
+                    <td>{{ 'Rp ' . number_format($booking->konsumen->detail->pendapatan_kotor_2 ?? 0, 0, '.', ',') ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td width="40">Pendapatan Bersih</td>
-                    <td>{{ $booking->konsumen->detail->pendapatan_bersih_2 ?? '-' }}</td>
+                    <td>{{ 'Rp ' . number_format($booking->konsumen->detail->pendapatan_bersih_2 ?? 0, 0, '.', ',') ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td width="40">Pendapatan Tambahan</td>
-                    <td>{{ $booking->konsumen->detail->pendapatan_tambahan_2 ?? '-' }}</td>
+                    <td>{{ 'Rp ' . number_format($booking->konsumen->detail->pendapatan_tambahan_2 ?? 0, 0, '.', ',') ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td width="40">Daftar Cicilan</td>
-                    <td>{{ $booking->konsumen->detail->daftar_cicilan_wirausaha_2 ?? '-' }}</td>
+                    <td>{{ 'Rp ' . number_format($booking->konsumen->detail->daftar_cicilan_wirausaha_2 ?? 0, 0, '.', ',') ?? '-' }}</td>
                 </tr>
             </tbody>
         </table>

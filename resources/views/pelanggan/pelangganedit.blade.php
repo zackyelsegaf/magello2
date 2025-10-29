@@ -5,7 +5,7 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title mt-5">Edit Mata Uang</h3>
+                        <h3 class="page-title mt-5">Edit Pelanggan</h3>
                     </div>
                 </div>
             </div>
@@ -249,7 +249,7 @@
                                                         @else
                                                         <option value="" disabled selected> --Pilih Kecamatan-- </option>
                                                         @endif
-                                                    </select>                                     
+                                                    </select>
                                                     {{-- @error('kecamatan_code')<div class="invalid-feedback">{{ $message }}</div>@enderror --}}
                                                 </div>
                                                 <div class="form-group">
@@ -260,7 +260,7 @@
                                                         @else
                                                         <option value="" disabled selected> --Pilih Kelurahan-- </option>
                                                         @endif
-                                                    </select>                                     
+                                                    </select>
                                                     {{-- @error('kelurahan_code')<div class="invalid-feedback">{{ $message }}</div>@enderror --}}
                                                 </div>
                                                 <div class="form-group">
@@ -462,7 +462,20 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary buttonedit">Update</button>
+                <div class="page-header">
+                    <div class="mb-15 row align-items-center">
+                        <div class="col">
+                            <div class="">
+                                <a href="{{ route('pelanggan/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary buttonedit">
+                                    <i class="fas fa-save mr-2"></i>Update
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

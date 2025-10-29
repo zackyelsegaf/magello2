@@ -29,7 +29,20 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary buttonedit">Update</button>
+                <div class="page-header">
+                    <div class="mb-15 row align-items-center">
+                        <div class="col">
+                            <div class="">
+                                <a href="{{ route('statuspemasok/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary buttonedit">
+                                    <i class="fas fa-save mr-2"></i>Update
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

@@ -22,15 +22,15 @@
                                             <div class="form-group">
                                                 <label>No. Penyesuaian</label>
                                                 <input type="text" class="form-control form-control-sm"  name="no_penyesuaian" value="{{ $kodeBaru }}">
-                                            </div>  
+                                            </div>
                                             <div class="form-group" style="display: none">
                                                 <label>Pengguna</label>
                                                 <input type="text" class="form-control form-control-sm"  name="pengguna_penyesuaian" value="{{ Auth::user()->name }}">
-                                            </div>  
+                                            </div>
                                             <div class="form-group">
                                                 <label>Tanggal Penyesuaian</label>
                                                 <div class="cal-icon">
-                                                    <input type="text" class="form-control form-control-sm datetimepicker @error('tgl_penyesuaian') is-invalid @enderror" name="tgl_penyesuaian" value="{{ old('tgl_penyesuaian') }}"> 
+                                                    <input type="text" class="form-control form-control-sm datetimepicker @error('tgl_penyesuaian') is-invalid @enderror" name="tgl_penyesuaian" value="{{ old('tgl_penyesuaian') }}">
                                                     @error('tgl_penyesuaian')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -41,13 +41,13 @@
                                                 <select class="form-control form-control-sm"  id="noAkunSelect" name="no_akun_penyesuaian">
                                                     <option disabled {{ old('no_akun_penyesuaian') ? '' : 'selected' }}>-- Pilih Akun --</option>
                                                     @foreach ($nama_akun as $items)
-                                                        <option 
+                                                        <option
                                                             value="{{ $items->no_akun }}" data-nama="{{ $items->nama_akun_indonesia }}" {{ old('no_akun_penyesuaian') == $items->no_akun ? 'selected' : '' }}>
                                                             {{ $items->no_akun }}
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                            </div>                                            
+                                            </div>
                                             <div class="form-group">
                                                 <label>Nama Akun Penyesuaian</label>
                                                 <select class="form-control form-control-sm"  id="namaAkunSelect" name="akun_penyesuaian">
@@ -58,7 +58,7 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                            </div>                                            
+                                            </div>
                                             <div class="form-group">
                                                 <label>Deskripsi</label>
                                                 <textarea class="form-control form-control-sm @error('deskripsi') is-invalid @enderror" name="deskripsi" value="{{ old('deskripsi') }}">{{ old('deskripsi_1') }}</textarea>
@@ -90,8 +90,8 @@
                 <div class="tab-content profile-tab-cont">
                     <div class="profile-menu">
                         <ul class="nav nav-tabs nav-tabs-solid">
-                            <li class="nav-item"> 
-                                <a class="nav-link active font-weight-bold" data-toggle="tab" href="#detail">Rincian</a> 
+                            <li class="nav-item">
+                                <a class="nav-link active font-weight-bold" data-toggle="tab" href="#detail">Rincian</a>
                             </li>
                         </ul>
                     </div>
@@ -119,7 +119,7 @@
                                                     <select id="namaBarangSelect" style="width: 150px;" class="form-control form-control-sm @error('no_barang') is-invalid @enderror" name="no_barang">
                                                         <option {{ old('no_barang') ? '' : 'selected' }} disabled></option>
                                                         @foreach ($nama_barang as $items)
-                                                            <option value="{{ $items->no_barang }}" 
+                                                            <option value="{{ $items->no_barang }}"
                                                                 data-nama="{{ $items->nama_barang }}"
                                                                 data-departemen="{{ $items->departemen }}"
                                                                 data-proyek="{{ $items->proyek }}"
@@ -133,7 +133,7 @@
                                                 </td>
                                                 <td>
                                                     <input style="width: 150px;" id="deskripsiBarangInput" class="form-control form-control-sm"  name="deskripsi_barang" value="{{ old('deskripsi_barang') }}" readonly>
-                                                </td>                                            
+                                                </td>
                                                 <td>
                                                     <input style="width: 150px;" id="ktsSaatIniInput" type="text" class="form-control form-control-sm"  name="kts_saat_ini" value="{{ old('kts_saat_ini') }}" readonly>
                                                 </td>
@@ -152,7 +152,7 @@
                                                         @foreach ($departemen as $items)
                                                             <option value="{{ $items->nama_departemen }}">{{ $items->nama_departemen }}</option>
                                                         @endforeach
-                                                    </select>                                            
+                                                    </select>
                                                 </td>
                                                 <td>
                                                     <select id="proyekSelect" style="width: 150px;" class="form-control form-control-sm @error('proyek') is-invalid @enderror" name="proyek">
@@ -160,7 +160,7 @@
                                                         @foreach ($proyek as $items)
                                                             <option value="{{ $items->nama_proyek }}">{{ $items->nama_proyek }}</option>
                                                         @endforeach
-                                                    </select>                                            
+                                                    </select>
                                                 </td>
                                                 <td>
                                                     <select id="gudangSelect" style="width: 150px;" class="form-control form-control-sm @error('gudang') is-invalid @enderror" name="gudang">
@@ -168,7 +168,7 @@
                                                         @foreach ($gudang as $items)
                                                             <option value="{{ $items->nama_gudang }}">{{ $items->nama_gudang }}</option>
                                                         @endforeach
-                                                    </select>                                            
+                                                    </select>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -180,19 +180,23 @@
                                             <label>Total Penyesuaian</label>
                                             <input type="text" class="form-control form-control-sm"  id="displayTotalPenyesuaian" value="{{ old('total_nilai_penyesuaian') }}" readonly>
                                             <input type="hidden" name="total_nilai_penyesuaian">
-                                        </div>                                        
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="page-header"></div>
+                <div class="page-header">
                     <div class="mb-15 row align-items-center">
                         <div class="col">
                             <div class="">
-                                <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-save mr-2"></i>Simpan</button>
-                                <a href="{{ route('penyesuaian/list/page') }}" class="btn btn-primary float-left veiwbutton ml-2"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                                <a href="{{ route('penyesuaian/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary buttonedit">
+                                    <i class="fas fa-save mr-2"></i>Simpan
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -206,19 +210,19 @@
             let ktsBaru = parseFloat(document.querySelector('input[name="kts_baru"]').value) || 0;
             let nilaiSaatIni = parseFloat(document.getElementById('nilaiSaatIniInput').value.replace(/\./g, '').replace(',', '.')) || 0;
             let ktsSaatIni = parseFloat(document.getElementById('ktsSaatIniInput').value) || 0;
-    
+
             let hargaPerUnit = ktsSaatIni !== 0 ? nilaiSaatIni / ktsSaatIni : 0;
             let nilaiBaru = ktsBaru * hargaPerUnit;
             let totalPenyesuaian = nilaiBaru - nilaiSaatIni;
 
             const inputNilaiBaru = document.querySelector('input[name="nilai_baru"]');
             inputNilaiBaru.value = Math.round(nilaiBaru);
-    
+
             document.getElementById('displayTotalPenyesuaian').value = formatRupiah(totalPenyesuaian);
-    
+
             document.querySelector('input[name="total_nilai_penyesuaian"]').value = Math.round(totalPenyesuaian);
         }
-    
+
         function formatRupiah(angka) {
             return angka.toLocaleString('id-ID', {
                 style: 'currency',
@@ -226,9 +230,9 @@
                 minimumFractionDigits: 0
             });
         }
-    
+
         document.querySelector('input[name="kts_baru"]').addEventListener('input', hitungPenyesuaian);
-    
+
         document.getElementById('namaBarangSelect').addEventListener('change', function () {
             let selectedOption = this.options[this.selectedIndex];
             document.getElementById('ktsSaatIniInput').value = selectedOption.getAttribute('data-ktssaatini');
@@ -237,26 +241,26 @@
             document.getElementById('departemenSelect').value = selectedOption.getAttribute('data-departemen');
             document.getElementById('proyekSelect').value = selectedOption.getAttribute('data-proyek');
             document.getElementById('gudangSelect').value = selectedOption.getAttribute('data-gudang');
-    
+
             hitungPenyesuaian();
         });
-    </script>              
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const checkbox = document.getElementById('nilai_penyesuaian_check');
             const kolomNilai = document.querySelectorAll('.kolom-nilai');
-    
+
             function toggleKolomNilai() {
                 const show = checkbox.checked;
                 kolomNilai.forEach(kolom => {
                     kolom.style.display = show ? '' : 'none';
                 });
             }
-    
+
             toggleKolomNilai();
             checkbox.addEventListener('change', toggleKolomNilai);
         });
-    </script>    
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const namaBarangSelect = document.getElementById('namaBarangSelect');
@@ -266,7 +270,7 @@
             const gudangSelect = document.getElementById('gudangSelect');
             const ktsSaatIniInput = document.getElementById('ktsSaatIniInput');
             const nilaiSaatIniInput = document.getElementById('nilaiSaatIniInput');
-        
+
         namaBarangSelect.addEventListener('change', function () {
             const selectedOption = this.options[this.selectedIndex];
             deskripsiBarangInput.value = selectedOption.getAttribute('data-nama') || '';
@@ -277,16 +281,16 @@
             nilaiSaatIniInput.value = selectedOption.getAttribute('data-nilaisaatini') || '';
         });
     });
-    </script>        
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const noAkunSelect = document.getElementById('noAkunSelect');
             const namaAkunSelect = document.getElementById('namaAkunSelect');
-        
+
         noAkunSelect.addEventListener('change', function () {
             const selectedNo = this.value;
             const nama = this.options[this.selectedIndex].getAttribute('data-nama');
-    
+
             for (let i = 0; i < namaAkunSelect.options.length; i++) {
                 if (namaAkunSelect.options[i].value === nama) {
                     namaAkunSelect.selectedIndex = i;
@@ -294,11 +298,11 @@
                 }
             }
         });
-    
+
         namaAkunSelect.addEventListener('change', function () {
             const selectedNama = this.value;
             const no = this.options[this.selectedIndex].getAttribute('data-no');
-    
+
             for (let i = 0; i < noAkunSelect.options.length; i++) {
                 if (noAkunSelect.options[i].value === no) {
                     noAkunSelect.selectedIndex = i;
@@ -312,7 +316,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             const checkbox = document.getElementById("sub_barang_check");
             const tipeAkunForm = document.getElementById("tipe_barang_form");
-    
+
             function toggleTipeAkunForm() {
                 if (checkbox.checked) {
                     tipeAkunForm.style.display = "block";
@@ -320,9 +324,9 @@
                     tipeAkunForm.style.display = "none";
                 }
             }
-    
+
             toggleTipeAkunForm();
-    
+
             checkbox.addEventListener("change", toggleTipeAkunForm);
         });
     </script>
@@ -336,16 +340,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('nilaiSaatIniInput');
-    
+
             input.addEventListener('input', () => {
                 let angka = input.value.replace(/\D/g, '');
                 input.value = formatRupiah(angka);
             });
-    
+
             input.closest('form').addEventListener('submit', () => {
                 input.value = input.value.replace(/\D/g, '');
             });
-    
+
             function formatRupiah(angka, prefix = '') {
                 return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
@@ -354,16 +358,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('biaya_satuan_saldo_awal');
-    
+
             input.addEventListener('input', () => {
                 let angka = input.value.replace(/\D/g, '');
                 input.value = formatRupiah(angka);
             });
-    
+
             input.closest('form').addEventListener('submit', () => {
                 input.value = input.value.replace(/\D/g, '');
             });
-    
+
             function formatRupiah(angka, prefix = '') {
                 return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
@@ -382,10 +386,10 @@
                     hitungTotal();
                 });
             }
-    
+
             handleInputFormat(biaya_satuan_saldo_awal);
             handleInputFormat(kuantitas_saldo_awal);
-    
+
             function hitungTotal() {
                 let saldo = parseInt(biaya_satuan_saldo_awal.value.replace(/\D/g, '')) || 0;
                 let tambahan = parseInt(kuantitas_saldo_awal.value.replace(/\D/g, '')) || 0;
@@ -393,11 +397,11 @@
                 total_saldo.value = formatRupiah(String(total));
                 document.getElementById('total_saldo_awal').value = total;
             }
-    
+
             function formatRupiah(angka, prefix = '') {
                 return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
-    
+
             const form = biaya_satuan_saldo_awal.closest('form');
             if (form) {
                 form.addEventListener('submit', () => {
@@ -432,7 +436,7 @@
                         </div>
                     </div>
                 </div>
-            
+
             `;
 
             fieldContainer.appendChild(newField);

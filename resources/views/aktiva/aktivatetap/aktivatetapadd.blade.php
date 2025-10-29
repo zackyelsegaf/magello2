@@ -186,7 +186,7 @@
                                                             <input type="text" name="nama_akun_indonesia" id="nama_akun_indonesia" class="form-control form-control-sm" placeholder="Nama Akun">
                                                         </div>
                                                     </div>
-                                                </div>                                            
+                                                </div>
                                                 <div class="modal-body">
                                                     <div class="table-responsive">
                                                         <table class="datatable table table-striped table-bordered table-hover table-center mb-0" id="tabelPilihBarang" style="margin: 0; border-collapse: collapse; width: 100%;">
@@ -213,7 +213,7 @@
                                                                     </tr>
                                                                 @endforeach
                                                             </tbody>
-                                                        </table>                                                    
+                                                        </table>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -222,7 +222,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered table-hover table-center mb-0" id="DataBarangAddSatuan">
                                             <thead class="thead-dark">
@@ -316,10 +316,12 @@
                     <div class="mb-15 row align-items-center">
                         <div class="col">
                             <div class="">
-                                <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-save mr-2"></i>Simpan</button>
-                                <a href="{{ route('aktivatetap/list/page') }}"
-                                    class="btn btn-primary float-left veiwbutton ml-3"><i
-                                        class="fas fa-chevron-left mr-2"></i>Batal</a>
+                                <a href="{{ route('aktivatetap/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary buttonedit">
+                                    <i class="fas fa-save mr-2"></i>Simpan
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -396,14 +398,14 @@
         document.addEventListener('DOMContentLoaded', function () {
             const checkbox = document.getElementById('rekonsiliasi_check');
             const kolomNilai = document.querySelectorAll('.kolom-nilai');
-    
+
             function toggleKolomNilai() {
                 const show = checkbox.checked;
                 kolomNilai.forEach(kolom => {
                     kolom.style.display = show ? '' : 'none';
                 });
             }
-    
+
             toggleKolomNilai();
             checkbox.addEventListener('change', toggleKolomNilai);
         });

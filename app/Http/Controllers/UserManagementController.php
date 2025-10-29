@@ -50,11 +50,11 @@ class UserManagementController extends Controller
             User::where('user_id',$request->user_id)->update($updateRecord);
         
             DB::commit();
-            flash()->success('Updated record successfully :)');
+            sweetalert()->success('Updated record successfully :)');
             return redirect()->route('users/list/page');    
         } catch(\Exception $e) {
             DB::rollback();
-            flash()->error('Update record fail :)');
+            sweetalert()->error('Update record fail :)');
             \Log::error($e->getMessage());
             return redirect()->back();
         }
@@ -67,12 +67,12 @@ class UserManagementController extends Controller
 
             $deleteRecord = User::find($id);
             $deleteRecord->delete();
-            flash()->success('User deleted successfully :)');
+            sweetalert()->success('User deleted successfully :)');
             return redirect()->back();
         
         } catch(\Exception $e) {
             DB::rollback();
-            flash()->error('User delete fail :)');
+            sweetalert()->error('User delete fail :)');
             \Log::error($e->getMessage());
             return redirect()->back();
         }

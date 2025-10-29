@@ -121,7 +121,7 @@
                                                     @error('nama_ibu')<div class="invalid-feedback">{{ $message }}</div>@enderror
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="dihentikan">Dihentikan</label>
+                                                    <label for="dihentikan">Status</label>
                                                     <label class="switch">
                                                         <input type="hidden" name="dihentikan" value="0">
                                                         <input type="checkbox" name="dihentikan" id="dihentikan" value="1" {{ old('dihentikan') ? 'checked' : '' }}>
@@ -436,8 +436,12 @@
                     <div class="mb-15 row align-items-center">
                         <div class="col">
                             <div class="">
-                                <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-save mr-2"></i>Simpan</button>
-                                <a href="{{ route('pelanggan/list/page') }}" class="btn btn-primary float-left veiwbutton ml-2"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                                <a href="{{ route('pelanggan/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary buttonedit">
+                                    <i class="fas fa-save mr-2"></i>Simpan
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -449,7 +453,7 @@
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
 @section('script')
-    <script>    
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('select.tomselect').forEach(function (el) {
                 new TomSelect(el,{
@@ -551,40 +555,40 @@
             });
         });
     </script>
-    <script>        
+    <script>
         document.addEventListener('DOMContentLoaded', async function () {
             const oldProv       = "{{ old('provinsi_code') }}";
             const oldKota       = "{{ old('kota_code') }}";
             const oldKecamatan  = "{{ old('kecamatan_code') }}";
-            const oldKelurahan  = "{{ old('kelurahan_code') }}";  
-            const kelurahanText = document.querySelector('input[name="kelurahan_code"]'); 
+            const oldKelurahan  = "{{ old('kelurahan_code') }}";
+            const kelurahanText = document.querySelector('input[name="kelurahan_code"]');
 
             const provTS = new TomSelect('#provinsi_code', {
-                create: false,                 
+                create: false,
                 maxItems: 1,
                 sortField: { field: "text", direction: "asc" }
             });
 
             const kotaTS = new TomSelect('#kota_code', {
-                create: false,                 
+                create: false,
                 maxItems: 1,
                 sortField: { field: "text", direction: "asc" }
             });
             kotaTS.disable();
 
             const kecamatanTS = new TomSelect('#kecamatan_code', {
-                create: false,                 
+                create: false,
                 maxItems: 1,
                 sortField: { field: "text", direction: "asc" }
             });
             kecamatanTS.disable();
 
-            const kelurahanTS = new TomSelect('#kelurahan_code', {  
-                create: false,                 
+            const kelurahanTS = new TomSelect('#kelurahan_code', {
+                create: false,
                 maxItems: 1,
                 sortField: { field: "text", direction: "asc" }
             });
-            kelurahanTS.disable();                                    
+            kelurahanTS.disable();
 
             async function loadCities(provCode, selectedCity = null) {
                 kotaTS.disable();
@@ -713,7 +717,7 @@
                 kelurahanTS.disable();
                 if (kelurahanText) kelurahanText.value = '';
             }
-            
+
             if (oldProv) {
                 provTS.setValue(oldProv, true);
                 await loadCities(oldProv, oldKota);
@@ -750,7 +754,7 @@
                 }
             });
 
-            kecamatanTS.on('change', async (kec) => {    
+            kecamatanTS.on('change', async (kec) => {
                 if (kec) {
                 await loadVillages(kec);
                 } else {
@@ -758,7 +762,7 @@
                 }
             });
 
-            kelurahanTS.on('change', (kel) => {              
+            kelurahanTS.on('change', (kel) => {
                 if (kelurahanText) {
                 const opt = kelurahanTS.options[kel];
                 kelurahanText.value = opt ? opt.text : '';

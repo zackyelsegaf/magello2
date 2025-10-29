@@ -36,6 +36,18 @@
                             @error('status_pengajuan_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="status_pernikahan_id" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Status Pernikahan</label>
+                            <select class="tomselect @error('status_pernikahan_id') is-invalid @enderror" name="status_pernikahan_id" id="status_pernikahan_ids">
+                                <option {{ old('status_pernikahan_id') ? '' : 'selected' }} disabled>--Status Pernikahan--</option>
+                                @foreach ($status_pernikahan as $items )
+                                    <option value="{{ $items->id }}" {{ old('status_pernikahan_id') == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
+                                @endforeach
+                            </select>
+                            @error('status_pernikahan_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+                    </div>
                 </div>
                 <h6 class="font-weight-bold">Data Diri Calon Konsumen</h6>
                 <div class="row mb-3">
@@ -70,6 +82,18 @@
                         <div class="form-group">
                             <label class="form-label fw-bold">Tanggal Lahir</label>
                             <input type="text" class="form-control form-control-sm datetimepicker" name="tanggal_lahir_1" value="{{ old('tanggal_lahir_1') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="religion_id" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Pilih Agama</label>
+                            <select class="tomselect @error('religion_id') is-invalid @enderror" name="religion_id" id="religion_id">
+                                <option {{ old('religion_id') ? '' : 'selected' }} disabled>--Pilih Agama--</option>
+                                @foreach ($agama as $items )
+                                    <option value="{{ $items->id }}" {{ old('religion_id') == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
+                                @endforeach
+                            </select>
+                            @error('religion_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -125,7 +149,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="alamat_konsumen" class="form-label">Alamat KTP</label>
+                            <label for="alamat_konsumen" class="form-label"><strong class="text-danger align-middle">*</strong>&nbsp;Alamat KTP</label>
                             <textarea id="alamat_konsumen" name="alamat_konsumen" class="form-control form-control-sm @error('alamat_konsumen') is-invalid @enderror" rows="2">{{ old('alamat_konsumen') }}</textarea>
                             @error('alamat_konsumen')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
@@ -188,8 +212,26 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
+                            <label>Nama Ayah</label>
+                            <input type="text" class="form-control form-control-sm mb-3" name="nama_ayah" value="{{ old('nama_ayah') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Nama Ibu</label>
+                            <input type="text" class="form-control form-control-sm mb-3" name="nama_ibu" value="{{ old('nama_ibu') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
                             <label>No NPWP</label>
-                            <input type="text" class="form-control form-control-sm  mb-3" name="npwp_1" value="{{ old('npwp_1') }}">
+                            <input type="text" class="form-control form-control-sm mb-3" name="npwp_1" value="{{ old('npwp_1') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>NPPKP</label>
+                            <input type="text" class="form-control form-control-sm mb-3" name="nppkp_konsumen" value="{{ old('nppkp_konsumen') }}">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -207,128 +249,220 @@
                         </div>
                     </div>
                 </div>
-                <h6 class="font-weight-bold">Data Pasangan Suami/Istri</h6>
+                <h6 class="font-weight-bold">Penjualan</h6>
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="nama_2" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Nama Lengkap</label>
-                            <input type="text" id="nama_2" name="nama_2" class="form-control form-control-sm" value="{{ old('nama_2') }}">
+                            <label for="alamat_pajak_1" class="form-label">Alamat Pajak 1</label>
+                            <textarea id="alamat_pajak_1" name="alamat_pajak_1" class="form-control form-control-sm" rows="2">{{ old('alamat_pajak_1') }}</textarea>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="provinsi_code_2" class="form-label fw-bold">Provinsi KTP</label>
-                            <select id="provinsi_code_2" name="provinsi_code_2">
-                                <option value="" disabled {{ old('provinsi_code_2') ? '' : 'selected' }}> --Pilih Provinsi-- </option>
-                                @foreach ($provinces as $p)
-                                <option value="{{ $p->code }}" {{ old('provinsi_code_2') === $p->code ? 'selected' : '' }}>
-                                    {{ $p->name }}
-                                </option>
+                            <label for="alamat_pajak_2" class="form-label">Alamat Pajak 2</label>
+                            <textarea id="alamat_pajak_2" name="alamat_pajak_2" class="form-control form-control-sm" rows="2">{{ old('alamat_pajak_2') }}</textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Pajak 1</label>
+                            <select class="tomselect"  name="pajak_1_id">
+                                <option {{ old('pajak_1_id') ? '' : 'selected' }} disabled> --Pilih Pajak 1-- </option>
+                                @foreach ($pajak as $items )
+                                    <option value="{{ $items->id }}" {{ old('pajak_1_id') == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="kota_code_2" class="form-label fw-bold">Kota KTP</label>
-                            <select id="kota_code_2" name="kota_code_2">
-                                <option value="" {{ old('kota_code_2') ? '' : 'selected' }}> --Pilih Kota-- </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="kecamatan_code_2">Kecamatan KTP</label>
-                            <select id="kecamatan_code_2" name="kecamatan_code_2">
-                                <option value="" {{ old('kecamatan_code_2') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="kelurahan_code_2">Kelurahan KTP</label>
-                            <select id="kelurahan_code_2" name="kelurahan_code_2">
-                                <option value="" {{ old('kelurahan_code_2') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="alamat_2" class="form-label">Alamat KTP</label>
-                            <textarea id="alamat_2" name="alamat_2" class="form-control form-control-sm" rows="2">{{ old('alamat_2') }}</textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="provinsi_code_3" class="form-label fw-bold">Provinsi Domisili</label>
-                            <select id="provinsi_code_3" name="provinsi_code_3">
-                                <option value="" disabled {{ old('provinsi_code_3') ? '' : 'selected' }}> --Pilih Provinsi-- </option>
-                                @foreach ($provinces as $p)
-                                <option value="{{ $p->code }}" {{ old('provinsi_code_3') === $p->code ? 'selected' : '' }}>
-                                    {{ $p->name }}
-                                </option>
+                            <label>Pajak 2</label>
+                            <select class="tomselect"  name="pajak_2_id">
+                                <option {{ old('pajak_2_id') ? '' : 'selected' }} disabled> --Pilih Pajak 2-- </option>
+                                @foreach ($pajak as $items )
+                                    <option value="{{ $items->id }}" {{ old('pajak_2_id') == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="kota_code_3" class="form-label fw-bold">Kota Domisili</label>
-                            <select id="kota_code_3" name="kota_code_3">
-                                <option value="" {{ old('kota_code_3') ? '' : 'selected' }}> --Pilih Kota-- </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="kecamatan_code_3">Kecamatan Domisili</label>
-                            <select id="kecamatan_code_3" name="kecamatan_code_3">
-                                <option value="" {{ old('kecamatan_code_3') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
-                            </select>                                     
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="kelurahan_code_3">Kelurahan Domisili</label>
-                            <select id="kelurahan_code_3" name="kelurahan_code_3">
-                                <option value="" {{ old('kelurahan_code_3') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
-                            </select>                                     
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="alamat_3" class="form-label">Alamat Domisili</label>
-                            <textarea id="alamat_3" name="alamat_3" class="form-control form-control-sm" rows="2">{{ old('alamat_3') }}</textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="nik_2" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;NIK KTP</label>
-                            <input type="number" id="nik_2" name="nik_2" class="form-control form-control-sm" value="{{ old('nik_2') }}">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>No NPWP</label>
-                            <input type="text" class="form-control form-control-sm  mb-3" name="npwp_2" value="{{ old('npwp_2') }}">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="pekerjaan_id" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Pekerjaan
-                            </label>
-                            <select class="tomselect" name="pekerjaan_id" id="pekerjaan_id">
-                                <option {{ old('pekerjaan_id') ? '' : 'selected' }} disabled>--Pekerjaan--</option>
-                                @foreach ($data_pekerjaan as $items )
-                                    <option value="{{ $items->id }}" {{ old('pekerjaan_id') == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
+                            <label>Level Harga</label>
+                            <select class="tomselect"  name="level_harga_id">
+                                <option {{ old('level_harga_id') ? '' : 'selected' }} disabled> --Pilih Level Harga-- </option>
+                                @foreach ($level_harga as $items )
+                                    <option value="{{ $items->id }}" {{ old('level_harga_id') == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="no_hp_2" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;No HP</label>
-                            <input type="text" id="no_hp_2" name="no_hp_2" class="form-control form-control-sm" value="{{ old('no_hp_2') }}">
+                            <label>Diskon Penjualan</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-sm" name="diskon_penjualan" placeholder="Persentase Pajak" value="{{ old('diskon_penjualan') }}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h6 class="font-weight-bold">Syarat</h6>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Syarat</label>
+                            <select class="tomselect"  name="syarat_id">
+                                <option {{ old('syarat_id') ? '' : 'selected' }} disabled> --Pilih Syarat-- </option>
+                                @foreach ($syarat as $items )
+                                    <option value="{{ $items->id }}" {{ old('syarat_id') == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Batas Maksimal Hutang</label>
+                            <input type="text" class="form-control form-control-sm rupiah" name="batas_maks_hutang" value="{{ old('batas_maks_hutang') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Batas Umur Hutang</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-sm" name="batas_umur_hutang" placeholder="Batas Umur Hutang" value="{{ old('batas_umur_hutang') }}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Hari</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="data_pasangan_id_0">
+                    <h6 class="font-weight-bold">Data Pasangan Suami/Istri</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="nama_2" class="form-label fw-bold">Nama Lengkap</label>
+                                <input type="text" id="nama_2" name="nama_2" class="form-control form-control-sm" value="{{ old('nama_2') }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="provinsi_code_2" class="form-label fw-bold">Provinsi KTP</label>
+                                <select id="provinsi_code_2" name="provinsi_code_2">
+                                    <option value="" disabled {{ old('provinsi_code_2') ? '' : 'selected' }}> --Pilih Provinsi-- </option>
+                                    @foreach ($provinces as $p)
+                                    <option value="{{ $p->code }}" {{ old('provinsi_code_2') === $p->code ? 'selected' : '' }}>
+                                        {{ $p->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="kota_code_2" class="form-label fw-bold">Kota KTP</label>
+                                <select id="kota_code_2" name="kota_code_2">
+                                    <option value="" {{ old('kota_code_2') ? '' : 'selected' }}> --Pilih Kota-- </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="kecamatan_code_2">Kecamatan KTP</label>
+                                <select id="kecamatan_code_2" name="kecamatan_code_2">
+                                    <option value="" {{ old('kecamatan_code_2') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="kelurahan_code_2">Kelurahan KTP</label>
+                                <select id="kelurahan_code_2" name="kelurahan_code_2">
+                                    <option value="" {{ old('kelurahan_code_2') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="alamat_2" class="form-label">Alamat KTP</label>
+                                <textarea id="alamat_2" name="alamat_2" class="form-control form-control-sm" rows="2">{{ old('alamat_2') }}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="provinsi_code_3" class="form-label fw-bold">Provinsi Domisili</label>
+                                <select id="provinsi_code_3" name="provinsi_code_3">
+                                    <option value="" disabled {{ old('provinsi_code_3') ? '' : 'selected' }}> --Pilih Provinsi-- </option>
+                                    @foreach ($provinces as $p)
+                                    <option value="{{ $p->code }}" {{ old('provinsi_code_3') === $p->code ? 'selected' : '' }}>
+                                        {{ $p->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="kota_code_3" class="form-label fw-bold">Kota Domisili</label>
+                                <select id="kota_code_3" name="kota_code_3">
+                                    <option value="" {{ old('kota_code_3') ? '' : 'selected' }}> --Pilih Kota-- </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="kecamatan_code_3">Kecamatan Domisili</label>
+                                <select id="kecamatan_code_3" name="kecamatan_code_3">
+                                    <option value="" {{ old('kecamatan_code_3') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
+                                </select>                                     
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="kelurahan_code_3">Kelurahan Domisili</label>
+                                <select id="kelurahan_code_3" name="kelurahan_code_3">
+                                    <option value="" {{ old('kelurahan_code_3') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
+                                </select>                                     
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="alamat_3" class="form-label">Alamat Domisili</label>
+                                <textarea id="alamat_3" name="alamat_3" class="form-control form-control-sm" rows="2">{{ old('alamat_3') }}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="nik_2" class="form-label fw-bold">NIK KTP</label>
+                                <input type="number" id="nik_2" name="nik_2" class="form-control form-control-sm" value="{{ old('nik_2') }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>No NPWP</label>
+                                <input type="text" class="form-control form-control-sm  mb-3" name="npwp_2" value="{{ old('npwp_2') }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="pekerjaan_id" class="form-label fw-bold">Pekerjaan
+                                </label>
+                                <select class="tomselect" name="pekerjaan_id" id="pekerjaan_id">
+                                    <option {{ old('pekerjaan_id') ? '' : 'selected' }} disabled>--Pekerjaan--</option>
+                                    @foreach ($data_pekerjaan as $items )
+                                        <option value="{{ $items->id }}" {{ old('pekerjaan_id') == $items->id ? 'selected' : '' }}>{{ $items->nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="no_hp_2" class="form-label fw-bold">No HP</label>
+                                <input type="text" id="no_hp_2" name="no_hp_2" class="form-control form-control-sm" value="{{ old('no_hp_2') }}">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -336,7 +470,7 @@
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="nama_perusahaan_1" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Nama Perusahaan</label>
+                            <label for="nama_perusahaan_1" class="form-label fw-bold">Nama Perusahaan</label>
                             <input type="text" id="nama_perusahaan_1" name="nama_perusahaan_1" class="form-control form-control-sm" value="{{ old('nama_perusahaan_1') }}">
                         </div>
                     </div>
@@ -385,7 +519,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="bidang_usaha_1" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Bidang Usaha</label>
+                            <label for="bidang_usaha_1" class="form-label fw-bold">Bidang Usaha</label>
                             <input type="number" id="bidang_usaha_1" name="bidang_usaha_1" class="form-control form-control-sm" value="{{ old('bidang_usaha_1') }}">
                         </div>
                     </div>
@@ -412,129 +546,133 @@
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="gaji_pokok_1" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Gaji Pokok</label>
+                            <label for="gaji_pokok_1" class="form-label fw-bold">Gaji Pokok</label>
                             <input type="text" id="gaji_pokok_1" name="gaji_pokok_1" class="form-control form-control-sm" value="{{ old('gaji_pokok_1') }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="cycle_gaji_pokok_1" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Cycle Gaji Pokok</label>
+                            <label for="cycle_gaji_pokok_1" class="form-label fw-bold">Cycle Gaji Pokok</label>
                             <input type="text" id="cycle_gaji_pokok_1" name="cycle_gaji_pokok_1" class="form-control form-control-sm" value="{{ old('cycle_gaji_pokok_1') }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="gaji_tambahan_1" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Gaji Tambahan</label>
+                            <label for="gaji_tambahan_1" class="form-label fw-bold">Gaji Tambahan</label>
                             <input type="text" id="gaji_tambahan_1" name="gaji_tambahan_1" class="form-control form-control-sm" value="{{ old('gaji_tambahan_1') }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="daftar_cicilan_1" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Daftar Cicilan</label>
+                            <label for="daftar_cicilan_1" class="form-label fw-bold">Daftar Cicilan</label>
                             <input type="text" id="daftar_cicilan_1" name="daftar_cicilan_1" class="form-control form-control-sm" value="{{ old('daftar_cicilan_1') }}">
                         </div>
                     </div>
                 </div>
-                <h6 class="font-weight-bold">Data Pekerjaan Pasangan Calon Konsumen</h6>
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="nama_perusahaan_2" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Nama Perusahaan</label>
-                            <input type="text" id="nama_perusahaan_2" name="nama_perusahaan_2" class="form-control form-control-sm" value="{{ old('nama_perusahaan_2') }}">
+                <div id="data_pasangan_id_1">
+                    <h6 class="font-weight-bold">Data Pekerjaan Pasangan Calon Konsumen</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="nama_perusahaan_2" class="form-label fw-bold">Nama Perusahaan</label>
+                                <input type="text" id="nama_perusahaan_2" name="nama_perusahaan_2" class="form-control form-control-sm" value="{{ old('nama_perusahaan_2') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="provinsi_code_5" class="form-label fw-bold">Provinsi Perusahaan</label>
-                            <select id="provinsi_code_5" name="provinsi_code_5">
-                                <option value="" disabled {{ old('provinsi_code_5') ? '' : 'selected' }}> --Pilih Provinsi-- </option>
-                                @foreach ($provinces as $p)
-                                <option value="{{ $p->code }}" {{ old('provinsi_code_5') === $p->code ? 'selected' : '' }}>
-                                    {{ $p->name }}
-                                </option>
-                                @endforeach
-                            </select>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="provinsi_code_5" class="form-label fw-bold">Provinsi Perusahaan</label>
+                                <select id="provinsi_code_5" name="provinsi_code_5">
+                                    <option value="" disabled {{ old('provinsi_code_5') ? '' : 'selected' }}> --Pilih Provinsi-- </option>
+                                    @foreach ($provinces as $p)
+                                    <option value="{{ $p->code }}" {{ old('provinsi_code_5') === $p->code ? 'selected' : '' }}>
+                                        {{ $p->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="kota_code_5" class="form-label fw-bold">Kota Perusahaan</label>
-                            <select id="kota_code_5" name="kota_code_5">
-                                <option value="" {{ old('kota_code_5') ? '' : 'selected' }}> --Pilih Kota-- </option>
-                            </select>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="kota_code_5" class="form-label fw-bold">Kota Perusahaan</label>
+                                <select id="kota_code_5" name="kota_code_5">
+                                    <option value="" {{ old('kota_code_5') ? '' : 'selected' }}> --Pilih Kota-- </option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="kecamatan_code_5">Kecamatan Perusahaan</label>
-                            <select id="kecamatan_code_5" name="kecamatan_code_5">
-                                <option value="" {{ old('kecamatan_code_5') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
-                            </select>                                     
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="kecamatan_code_5">Kecamatan Perusahaan</label>
+                                <select id="kecamatan_code_5" name="kecamatan_code_5">
+                                    <option value="" {{ old('kecamatan_code_5') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
+                                </select>                                     
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="kelurahan_code_5">Kelurahan Perusahaan</label>
-                            <select id="kelurahan_code_5" name="kelurahan_code_5">
-                                <option value="" {{ old('kelurahan_code_5') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
-                            </select>                                     
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="kelurahan_code_5">Kelurahan Perusahaan</label>
+                                <select id="kelurahan_code_5" name="kelurahan_code_5">
+                                    <option value="" {{ old('kelurahan_code_5') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
+                                </select>                                     
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="alamat_5" class="form-label">Alamat Perusahaan</label>
-                            <textarea id="alamat_5" name="alamat_5" class="form-control form-control-sm" rows="2">{{ old('alamat_5') }}</textarea>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="alamat_5" class="form-label">Alamat Perusahaan</label>
+                                <textarea id="alamat_5" name="alamat_5" class="form-control form-control-sm" rows="2">{{ old('alamat_5') }}</textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="bidang_usaha_2" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Bidang Usaha</label>
-                            <input type="number" id="bidang_usaha_2" name="bidang_usaha_2" class="form-control form-control-sm" value="{{ old('bidang_usaha_2') }}">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="bidang_usaha_2" class="form-label fw-bold">Bidang Usaha</label>
+                                <input type="number" id="bidang_usaha_2" name="bidang_usaha_2" class="form-control form-control-sm" value="{{ old('bidang_usaha_2') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Jabatan</label>
-                            <input type="text" class="form-control form-control-sm  mb-3" name="jabatan_2" value="{{ old('jabatan_2') }}">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Jabatan</label>
+                                <input type="text" class="form-control form-control-sm  mb-3" name="jabatan_2" value="{{ old('jabatan_2') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Status Pekerjaan</label>
-                            <input type="text" class="form-control form-control-sm  mb-3" name="status_pekerjaan_2" value="{{ old('status_pekerjaan_2') }}">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Status Pekerjaan</label>
+                                <input type="text" class="form-control form-control-sm  mb-3" name="status_pekerjaan_2" value="{{ old('status_pekerjaan_2') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="form-label fw-bold">Tanggal Mulai Bekerja</label>
-                            <input type="text" class="form-control form-control-sm datetimepicker" name="tanggal_mulai_kerja_2" value="{{ old('tanggal_mulai_kerja_2') }}">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label fw-bold">Tanggal Mulai Bekerja</label>
+                                <input type="text" class="form-control form-control-sm datetimepicker" name="tanggal_mulai_kerja_2" value="{{ old('tanggal_mulai_kerja_2') }}">
+                            </div>
                         </div>
                     </div>
                 </div>
-                <h6 class="font-weight-bold">Nominal Pendapatan Pasangan Calon Konsumen</h6>
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="gaji_pokok_2" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Gaji Pokok</label>
-                            <input type="text" id="gaji_pokok_2" name="gaji_pokok_2" class="form-control form-control-sm" value="{{ old('gaji_pokok_2') }}">
+                <div id="data_pasangan_id_2">
+                    <h6 class="font-weight-bold">Nominal Pendapatan Pasangan Calon Konsumen</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="gaji_pokok_2" class="form-label fw-bold">Gaji Pokok</label>
+                                <input type="text" id="gaji_pokok_2" name="gaji_pokok_2" class="form-control form-control-sm" value="{{ old('gaji_pokok_2') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="cycle_gaji_pokok_2" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Cycle Gaji Pokok</label>
-                            <input type="text" id="cycle_gaji_pokok_2" name="cycle_gaji_pokok_2" class="form-control form-control-sm" value="{{ old('cycle_gaji_pokok_2') }}">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="cycle_gaji_pokok_2" class="form-label fw-bold">Cycle Gaji Pokok</label>
+                                <input type="text" id="cycle_gaji_pokok_2" name="cycle_gaji_pokok_2" class="form-control form-control-sm" value="{{ old('cycle_gaji_pokok_2') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="gaji_tambahan_2" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Gaji Tambahan</label>
-                            <input type="text" id="gaji_tambahan_2" name="gaji_tambahan_2" class="form-control form-control-sm" value="{{ old('gaji_tambahan_2') }}">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="gaji_tambahan_2" class="form-label fw-bold">Gaji Tambahan</label>
+                                <input type="text" id="gaji_tambahan_2" name="gaji_tambahan_2" class="form-control form-control-sm" value="{{ old('gaji_tambahan_2') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="daftar_cicilan_2" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Daftar Cicilan</label>
-                            <input type="text" id="daftar_cicilan_2" name="daftar_cicilan_2" class="form-control form-control-sm" value="{{ old('daftar_cicilan_2') }}">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="daftar_cicilan_2" class="form-label fw-bold">Daftar Cicilan</label>
+                                <input type="text" id="daftar_cicilan_2" name="daftar_cicilan_2" class="form-control form-control-sm" value="{{ old('daftar_cicilan_2') }}">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -542,7 +680,7 @@
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="nama_usaha_1" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Nama Usaha</label>
+                            <label for="nama_usaha_1" class="form-label fw-bold">Nama Usaha</label>
                             <input type="text" id="nama_usaha_1" name="nama_usaha_1" class="form-control form-control-sm" value="{{ old('nama_usaha_1') }}">
                         </div>
                     </div>
@@ -591,7 +729,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="bidang_wirausaha_1" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Bidang Usaha</label>
+                            <label for="bidang_wirausaha_1" class="form-label fw-bold">Bidang Usaha</label>
                             <input type="number" id="bidang_wirausaha_1" name="bidang_wirausaha_1" class="form-control form-control-sm" value="{{ old('bidang_wirausaha_1') }}">
                         </div>
                     </div>
@@ -612,123 +750,127 @@
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="pendapatan_kotor_1" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Pendapatan Kotor</label>
+                            <label for="pendapatan_kotor_1" class="form-label fw-bold">Pendapatan Kotor</label>
                             <input type="text" id="pendapatan_kotor_1" name="pendapatan_kotor_1" class="form-control form-control-sm" value="{{ old('pendapatan_kotor_1') }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="pendapatan_bersih_1" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Pendapatan Bersih</label>
+                            <label for="pendapatan_bersih_1" class="form-label fw-bold">Pendapatan Bersih</label>
                             <input type="text" id="pendapatan_bersih_1" name="pendapatan_bersih_1" class="form-control form-control-sm" value="{{ old('pendapatan_bersih_1') }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="pendapatan_tambahan_1" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Pendapatan Tambahan</label>
+                            <label for="pendapatan_tambahan_1" class="form-label fw-bold">Pendapatan Tambahan</label>
                             <input type="text" id="pendapatan_tambahan_1" name="pendapatan_tambahan_1" class="form-control form-control-sm" value="{{ old('pendapatan_tambahan_1') }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="daftar_cicilan_wirausaha_1" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Daftar Cicilan</label>
+                            <label for="daftar_cicilan_wirausaha_1" class="form-label fw-bold">Daftar Cicilan</label>
                             <input type="text" id="daftar_cicilan_wirausaha_1" name="daftar_cicilan_wirausaha_1" class="form-control form-control-sm" value="{{ old('daftar_cicilan_wirausaha_1') }}">
                         </div>
                     </div>
                 </div>
-                <h6 class="font-weight-bold">Data Usaha Pasangan Calon Konsumen (Wirausaha)</h6>
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="nama_usaha_2" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Nama Usaha</label>
-                            <input type="text" id="nama_usaha_2" name="nama_usaha_2" class="form-control form-control-sm" value="{{ old('nama_usaha_2') }}">
+                <div id="data_pasangan_id_3">
+                    <h6 class="font-weight-bold">Data Usaha Pasangan Calon Konsumen (Wirausaha)</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="nama_usaha_2" class="form-label fw-bold">Nama Usaha</label>
+                                <input type="text" id="nama_usaha_2" name="nama_usaha_2" class="form-control form-control-sm" value="{{ old('nama_usaha_2') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="provinsi_code_7" class="form-label fw-bold">Provinsi Usaha</label>
-                            <select id="provinsi_code_7" name="provinsi_code_7">
-                                <option value="" disabled {{ old('provinsi_code_7') ? '' : 'selected' }}> --Pilih Provinsi-- </option>
-                                @foreach ($provinces as $p)
-                                <option value="{{ $p->code }}" {{ old('provinsi_code_7') === $p->code ? 'selected' : '' }}>
-                                    {{ $p->name }}
-                                </option>
-                                @endforeach
-                            </select>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="provinsi_code_7" class="form-label fw-bold">Provinsi Usaha</label>
+                                <select id="provinsi_code_7" name="provinsi_code_7">
+                                    <option value="" disabled {{ old('provinsi_code_7') ? '' : 'selected' }}> --Pilih Provinsi-- </option>
+                                    @foreach ($provinces as $p)
+                                    <option value="{{ $p->code }}" {{ old('provinsi_code_7') === $p->code ? 'selected' : '' }}>
+                                        {{ $p->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="kota_code_7" class="form-label fw-bold">Kota Usaha</label>
-                            <select id="kota_code_7" name="kota_code_7">
-                                <option value="" {{ old('kota_code_7') ? '' : 'selected' }}> --Pilih Kota-- </option>
-                            </select>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="kota_code_7" class="form-label fw-bold">Kota Usaha</label>
+                                <select id="kota_code_7" name="kota_code_7">
+                                    <option value="" {{ old('kota_code_7') ? '' : 'selected' }}> --Pilih Kota-- </option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="kecamatan_code_7">Kecamatan Usaha</label>
-                            <select id="kecamatan_code_7" name="kecamatan_code_7">
-                                <option value="" {{ old('kecamatan_code_7') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
-                            </select>                                     
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="kecamatan_code_7">Kecamatan Usaha</label>
+                                <select id="kecamatan_code_7" name="kecamatan_code_7">
+                                    <option value="" {{ old('kecamatan_code_7') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
+                                </select>                                     
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="kelurahan_code_7">Kelurahan Usaha</label>
-                            <select id="kelurahan_code_7" name="kelurahan_code_7">
-                                <option value="" {{ old('kelurahan_code_7') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
-                            </select>                                     
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="kelurahan_code_7">Kelurahan Usaha</label>
+                                <select id="kelurahan_code_7" name="kelurahan_code_7">
+                                    <option value="" {{ old('kelurahan_code_7') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
+                                </select>                                     
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="alamat_7" class="form-label">Alamat Usaha</label>
-                            <textarea id="alamat_7" name="alamat_7" class="form-control form-control-sm" rows="2">{{ old('alamat_7') }}</textarea>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="alamat_7" class="form-label">Alamat Usaha</label>
+                                <textarea id="alamat_7" name="alamat_7" class="form-control form-control-sm" rows="2">{{ old('alamat_7') }}</textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="bidang_wirausaha_2" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Bidang Usaha</label>
-                            <input type="number" id="bidang_wirausaha_2" name="bidang_wirausaha_2" class="form-control form-control-sm" value="{{ old('bidang_wirausaha_2') }}">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="bidang_wirausaha_2" class="form-label fw-bold">Bidang Usaha</label>
+                                <input type="number" id="bidang_wirausaha_2" name="bidang_wirausaha_2" class="form-control form-control-sm" value="{{ old('bidang_wirausaha_2') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Lama Usaha</label>
-                            <input type="text" class="form-control form-control-sm  mb-3" name="lama_usaha_2" value="{{ old('lama_usaha_2') }}">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Lama Usaha</label>
+                                <input type="text" class="form-control form-control-sm  mb-3" name="lama_usaha_2" value="{{ old('lama_usaha_2') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Legalitas Usaha</label>
-                            <input type="text" class="form-control form-control-sm  mb-3" name="legalitas_2" value="{{ old('legalitas_2') }}">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Legalitas Usaha</label>
+                                <input type="text" class="form-control form-control-sm  mb-3" name="legalitas_2" value="{{ old('legalitas_2') }}">
+                            </div>
                         </div>
                     </div>
                 </div>
-                <h6 class="font-weight-bold">Nominal Pendapatan Pasangan Calon Konsumen (Wirausaha)</h6>
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="pendapatan_kotor_2" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Pendapatan Kotor</label>
-                            <input type="text" id="pendapatan_kotor_2" name="pendapatan_kotor_2" class="form-control form-control-sm" value="{{ old('pendapatan_kotor_2') }}">
+                <div id="data_pasangan_id_4">
+                    <h6 class="font-weight-bold">Nominal Pendapatan Pasangan Calon Konsumen (Wirausaha)</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="pendapatan_kotor_2" class="form-label fw-bold">Pendapatan Kotor</label>
+                                <input type="text" id="pendapatan_kotor_2" name="pendapatan_kotor_2" class="form-control form-control-sm" value="{{ old('pendapatan_kotor_2') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="pendapatan_bersih_2" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Pendapatan Bersih</label>
-                            <input type="text" id="pendapatan_bersih_2" name="pendapatan_bersih_2" class="form-control form-control-sm" value="{{ old('pendapatan_bersih_2') }}">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="pendapatan_bersih_2" class="form-label fw-bold">Pendapatan Bersih</label>
+                                <input type="text" id="pendapatan_bersih_2" name="pendapatan_bersih_2" class="form-control form-control-sm" value="{{ old('pendapatan_bersih_2') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="pendapatan_tambahan_2" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Pendapatan Tambahan</label>
-                            <input type="text" id="pendapatan_tambahan_2" name="pendapatan_tambahan_2" class="form-control form-control-sm" value="{{ old('pendapatan_tambahan_2') }}">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="pendapatan_tambahan_2" class="form-label fw-bold">Pendapatan Tambahan</label>
+                                <input type="text" id="pendapatan_tambahan_2" name="pendapatan_tambahan_2" class="form-control form-control-sm" value="{{ old('pendapatan_tambahan_2') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="daftar_cicilan_wirausaha_2" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Daftar Cicilan</label>
-                            <input type="text" id="daftar_cicilan_wirausaha_2" name="daftar_cicilan_wirausaha_2" class="form-control form-control-sm" value="{{ old('daftar_cicilan_wirausaha_2') }}">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="daftar_cicilan_wirausaha_2" class="form-label fw-bold">Daftar Cicilan</label>
+                                <input type="text" id="daftar_cicilan_wirausaha_2" name="daftar_cicilan_wirausaha_2" class="form-control form-control-sm" value="{{ old('daftar_cicilan_wirausaha_2') }}">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -833,6 +975,54 @@
                     maxItems: 1
                 });
             });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const statusPernikahanSelect = document.getElementById('status_pernikahan_ids');
+            const dataPasangan0 = document.getElementById('data_pasangan_id_0');
+            const dataPasangan1 = document.getElementById('data_pasangan_id_1');
+            const dataPasangan2 = document.getElementById('data_pasangan_id_2');
+            const dataPasangan3 = document.getElementById('data_pasangan_id_3');
+            const dataPasangan4 = document.getElementById('data_pasangan_id_4');
+
+            function toggleFields() {
+                const selectedValue = statusPernikahanSelect.value;
+
+                if (selectedValue === '1') {
+                    dataPasangan0.style.display = 'none';
+                    dataPasangan1.style.display = 'none';
+                    dataPasangan2.style.display = 'none';
+                    dataPasangan3.style.display = 'none';
+                    dataPasangan4.style.display = 'none';
+                } else if (selectedValue === '2') {
+                    dataPasangan0.style.display = '';
+                    dataPasangan1.style.display = '';
+                    dataPasangan2.style.display = '';
+                    dataPasangan3.style.display = '';
+                    dataPasangan4.style.display = '';
+                } else if (selectedValue === '3') {
+                    dataPasangan0.style.display = 'none';
+                    dataPasangan1.style.display = 'none';
+                    dataPasangan2.style.display = 'none';
+                    dataPasangan3.style.display = 'none';
+                    dataPasangan4.style.display = 'none';
+                } else if (selectedValue === '4') {
+                    dataPasangan0.style.display = 'none';
+                    dataPasangan1.style.display = 'none';
+                    dataPasangan2.style.display = 'none';
+                    dataPasangan3.style.display = 'none';
+                    dataPasangan4.style.display = 'none';
+                } else {
+                    dataPasangan0.style.display = 'none';
+                    dataPasangan1.style.display = 'none';
+                    dataPasangan2.style.display = 'none';
+                    dataPasangan3.style.display = 'none';
+                    dataPasangan4.style.display = 'none';
+                }
+            }
+            statusPernikahanSelect.addEventListener('change', toggleFields);
+            toggleFields();
         });
     </script>
 @endsection

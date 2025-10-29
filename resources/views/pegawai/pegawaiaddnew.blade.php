@@ -222,7 +222,7 @@
                             <label>Kecamatan</label>
                             <select id="kecamatan" name="kecamatan_code" class="@error('kecamatan_code') is-invalid @enderror">
                                 <option value="" {{ old('kecamatan_code') ? '' : 'selected' }}> --Pilih Kecamatan-- </option>
-                            </select>                                     
+                            </select>
                             @error('kecamatan_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                     </div>
@@ -231,7 +231,7 @@
                             <label>Kelurahan</label>
                             <select id="kelurahan" name="kelurahan_code" class="@error('kelurahan_code') is-invalid @enderror">
                                 <option value="" {{ old('kelurahan_code') ? '' : 'selected' }}> --Pilih Kelurahan-- </option>
-                            </select>                                     
+                            </select>
                             @error('kelurahan_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                     </div>
@@ -343,8 +343,12 @@
                     <div class="mb-15 row align-items-center">
                         <div class="col">
                             <div class="">
-                                <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-save mr-2"></i>Simpan</button>
-                                <a href="{{ route('pegawai/list/page') }}" class="btn btn-primary float-left veiwbutton ml-2"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                                <a href="{{ route('pegawai/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary buttonedit">
+                                    <i class="fas fa-save mr-2"></i>Simpan
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -384,35 +388,35 @@
             const oldProv       = "{{ old('provinsi_code') }}";
             const oldKota       = "{{ old('kota_code') }}";
             const oldKecamatan  = "{{ old('kecamatan_code') }}";
-            const oldKelurahan  = "{{ old('kelurahan_code') }}";  
-            const kelurahanText = document.querySelector('input[name="kelurahan_code"]'); 
+            const oldKelurahan  = "{{ old('kelurahan_code') }}";
+            const kelurahanText = document.querySelector('input[name="kelurahan_code"]');
 
             const provTS = new TomSelect('#provinsi', {
-                create: false,                 
+                create: false,
                 maxItems: 1,
                 sortField: { field: "text", direction: "asc" }
             });
 
             const kotaTS = new TomSelect('#kota', {
-                create: false,                 
+                create: false,
                 maxItems: 1,
                 sortField: { field: "text", direction: "asc" }
             });
             kotaTS.disable();
 
             const kecamatanTS = new TomSelect('#kecamatan', {
-                create: false,                 
+                create: false,
                 maxItems: 1,
                 sortField: { field: "text", direction: "asc" }
             });
             kecamatanTS.disable();
 
-            const kelurahanTS = new TomSelect('#kelurahan', {  
-                create: false,                 
+            const kelurahanTS = new TomSelect('#kelurahan', {
+                create: false,
                 maxItems: 1,
                 sortField: { field: "text", direction: "asc" }
             });
-            kelurahanTS.disable();                                    
+            kelurahanTS.disable();
 
             async function loadCities(provCode, selectedCity = null) {
                 kotaTS.disable();
@@ -541,7 +545,7 @@
                 kelurahanTS.disable();
                 if (kelurahanText) kelurahanText.value = '';
             }
-            
+
             if (oldProv) {
                 provTS.setValue(oldProv, true);
                 await loadCities(oldProv, oldKota);
@@ -578,7 +582,7 @@
                 }
             });
 
-            kecamatanTS.on('change', async (kec) => {    
+            kecamatanTS.on('change', async (kec) => {
                 if (kec) {
                 await loadVillages(kec);
                 } else {
@@ -586,7 +590,7 @@
                 }
             });
 
-            kelurahanTS.on('change', (kel) => {              
+            kelurahanTS.on('change', (kel) => {
                 if (kelurahanText) {
                 const opt = kelurahanTS.options[kel];
                 kelurahanText.value = opt ? opt.text : '';

@@ -14,11 +14,11 @@
                 <div class="tab-content profile-tab-cont">
                     <div class="profile-menu">
                         <ul class="nav nav-tabs nav-tabs-solid">
-                            <li class="nav-item"> 
-                                <a class="nav-link active" data-toggle="tab" href="#umum">Umum</a> 
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#umum">Umum</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen</a> 
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen</a>
                             </li>
                         </ul>
                     </div>
@@ -73,7 +73,7 @@
                                                     @error('no_barang')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
-                                                </div>                                                
+                                                </div>
                                                 <div class="form-group">
                                                     <label>Nama Barang</label>
                                                     <input type="text" class="form-control form-control-sm  @error('nama_barang') is-invalid @enderror" name="nama_barang" value="{{ old('nama_barang') }}">
@@ -182,20 +182,20 @@
                 <div class="tab-content profile-tab-cont">
                     <div class="profile-menu">
                         <ul class="nav nav-tabs nav-tabs-solid">
-                            <li class="nav-item"> 
-                                <a class="nav-link active font-weight-bold" data-toggle="tab" href="#detail">Detail</a> 
+                            <li class="nav-item">
+                                <a class="nav-link active font-weight-bold" data-toggle="tab" href="#detail">Detail</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#satuan">Satuan</a> 
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#satuan">Satuan</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#akun">Akun</a> 
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#akun">Akun</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#bebandanharga">Beban dan Harga</a> 
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#bebandanharga">Beban dan Harga</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#upc">UPC dan PLU</a> 
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#upc">UPC dan PLU</a>
                             </li>
                         </ul>
                     </div>
@@ -270,7 +270,7 @@
                                             <div class="form-group">
                                                 <label>Tanggal</label>
                                                 <div class="cal-icon">
-                                                    <input type="text" class="form-control form-control-sm  datetimepicker @error('tanggal_mulai') is-invalid @enderror" name="tanggal_mulai" value="{{ old('tanggal_mulai') }}"> 
+                                                    <input type="text" class="form-control form-control-sm  datetimepicker @error('tanggal_mulai') is-invalid @enderror" name="tanggal_mulai" value="{{ old('tanggal_mulai') }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -346,7 +346,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                     <div id="akun" class="tab-pane fade">
                         <div class="container mt-4">
                             <!-- Umur Perkiraan -->
@@ -511,7 +511,7 @@
                                 <div class="row">
                                     <div class="col-lg-8">
                                         <div class="row formtype">
-                                            <div class="col-md-8">                                              
+                                            <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label>Minimal Harga Jual</label>
                                                     <input type="text" class="form-control form-control-sm  @error('minimal_harga_jual') is-invalid @enderror" name="minimal_harga_jual" value="{{ old('minimal_harga_jual') }}">
@@ -541,7 +541,7 @@
                                 <div class="row">
                                     <div class="col-lg-8">
                                         <div class="row formtype">
-                                            <div class="col-md-8">                                              
+                                            <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label>No. UPC/Barcode</label>
                                                     <input type="text" class="form-control form-control-sm  @error('nomor_upc') is-invalid @enderror" name="nomor_upc" value="{{ old('nomor_upc') }}">
@@ -562,8 +562,12 @@
                     <div class="mb-15 row align-items-center">
                         <div class="col">
                             <div class="">
-                                <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-save mr-2"></i>Simpan</button>
-                                <a href="{{ route('barang/list/page') }}" class="btn btn-primary float-left veiwbutton ml-2"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                                <a href="{{ route('barang/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary buttonedit">
+                                    <i class="fas fa-save mr-2"></i>Simpan
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -576,7 +580,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             const checkbox = document.getElementById("sub_barang_check");
             const tipeAkunForm = document.getElementById("tipe_barang_form");
-    
+
             function toggleTipeAkunForm() {
                 if (checkbox.checked) {
                     tipeAkunForm.style.display = "block";
@@ -584,9 +588,9 @@
                     tipeAkunForm.style.display = "none";
                 }
             }
-    
+
             toggleTipeAkunForm();
-    
+
             checkbox.addEventListener("change", toggleTipeAkunForm);
         });
     </script>
@@ -600,16 +604,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('kuantitas_saldo_awal');
-    
+
             input.addEventListener('input', () => {
                 let angka = input.value.replace(/\D/g, '');
                 input.value = formatRupiah(angka);
             });
-    
+
             input.closest('form').addEventListener('submit', () => {
                 input.value = input.value.replace(/\D/g, '');
             });
-    
+
             function formatRupiah(angka, prefix = '') {
                 return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
@@ -618,16 +622,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('biaya_satuan_saldo_awal');
-    
+
             input.addEventListener('input', () => {
                 let angka = input.value.replace(/\D/g, '');
                 input.value = formatRupiah(angka);
             });
-    
+
             input.closest('form').addEventListener('submit', () => {
                 input.value = input.value.replace(/\D/g, '');
             });
-    
+
             function formatRupiah(angka, prefix = '') {
                 return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
@@ -646,10 +650,10 @@
                     hitungTotal();
                 });
             }
-    
+
             handleInputFormat(biaya_satuan_saldo_awal);
             handleInputFormat(kuantitas_saldo_awal);
-    
+
             function hitungTotal() {
                 let saldo = parseInt(biaya_satuan_saldo_awal.value.replace(/\D/g, '')) || 0;
                 let tambahan = parseInt(kuantitas_saldo_awal.value.replace(/\D/g, '')) || 0;
@@ -657,11 +661,11 @@
                 total_saldo.value = formatRupiah(String(total));
                 document.getElementById('total_saldo_awal').value = total;
             }
-    
+
             function formatRupiah(angka, prefix = '') {
                 return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
-    
+
             const form = biaya_satuan_saldo_awal.closest('form');
             if (form) {
                 form.addEventListener('submit', () => {
@@ -696,7 +700,7 @@
                         </div>
                     </div>
                 </div>
-            
+
             `;
 
             fieldContainer.appendChild(newField);

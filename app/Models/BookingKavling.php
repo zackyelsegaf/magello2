@@ -36,6 +36,11 @@ class BookingKavling extends Model
         'status_pengajuan',
     ];
 
+    public function timeline()
+    {
+        return $this->morphMany(BookingTimeline::class, 'statusable');
+    }
+
     public function files()
     {
         return $this->morphMany(ArsipFile::class, 'arsipmultimenu');

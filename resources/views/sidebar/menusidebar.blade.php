@@ -59,7 +59,7 @@
                         <li><a class="{{ set_active(['pegawai/list/page']) }}" href="{{ route('pegawai/list/page') }}"><i class="fas fa-briefcase ml-0 mr-3"></i>Pegawai</a></li>
                         {{-- <li><a class="{{ set_active(['konsumen/list/page']) }}" href="{{ route('konsumen/list/page') }}"><i class="fas fa-users ml-0 mr-3"></i>Konsumen</a></li> --}}
                         <li><a class="{{ set_active(['pemasok/list/page']) }}" href="{{ route('pemasok/list/page') }}"><i class="fas fa-users ml-0 mr-3"></i>Pemasok</a></li>
-                        <li><a class="{{ set_active(['penjual/list/page']) }}" href="{{ route('penjual/list/page') }}"><i class="fas fa-users ml-0 mr-3"></i>Penjual</a></li>
+                        <li><a class="{{ set_active(['penjual/list/page']) }}" href="{{ route('penjual/list/page') }}"><i class="fas fa-users ml-0 mr-3"></i>Distributor</a></li>
                         <li><a class="{{ set_active(['departemen/list/page']) }}" href="{{ route('departemen/list/page') }}"><i class="fas fa-warehouse ml-0 mr-3"></i>Departemen</a></li>
                         <li class="submenu"> <a href="#"></i> <span> Proyek </span> <span class="menu-arrow"></span></a>
                             <ul class="submenu_class" style="display: none;">
@@ -214,28 +214,28 @@
                         <li><a class="{{ set_active(['pajak/list/page']) }}" href="{{ route('pajak/list/page') }}">Pajak</a></li> --}}
                     </ul>
                 </li>
-                <li class="submenu"> <a href="#"></i><i class="fas fa-book ml-0 mr-2"></i><span> Buku Besar  <span class="badge bg-light text-dark">New Update!</span></span> <span class="menu-arrow"></span></a>
-                    <ul class="submenu_class" style="display: none;">
-                        <li><a class="{{ set_active(['akun/list/page']) }}" href="{{ route('akun/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Daftar Akun</a></li>
-                        <li><a @class(['active' => request()->is('jurnal/*')]) href="{{ route('jurnal/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Jurnal Umum</a></li>
-                        <li><a @class(['active' => request()->is('anggaranakun/*')]) href="{{ route('anggaranakun/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Anggaran Akun</a></li>
-                        <li><a @class(['active' => request()->is('pembayaranlainnya/*')]) href="{{ route('pembayaranlainnya/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Pembayaran Lainnya</a></li>
-                        <li><a @class(['active' => request()->is('penerimaanlainnya/*')]) href="{{ route('penerimaanlainnya/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Penerimaan Lainnya</a></li>
-                        {{-- <li><a class="{{ set_active(['gudang/list/page']) }}" href="{{ route('gudang/list/page') }}">Gudang</a></li>
-                        <li><a class="{{ set_active(['kategoribarang/list/page']) }}" href="{{ route('kategoribarang/list/page') }}">Kategori Barang</a></li> --}}
-                        {{-- <li><a class="{{ set_active(['pegawai/list/page']) }}" href="{{ route('pegawai/list/page') }}">Pegawai</a></li> --}}
-                        {{-- <li><a class="{{ set_active(['matauang/list/page']) }}" href="{{ route('matauang/list/page') }}">Mata Uang</a></li>
-                        <li><a class="{{ set_active(['statuspemasok/list/page']) }}" href="{{ route('statuspemasok/list/page') }}">Status Pelanggan & Pemasok</a></li>
-                        <li><a class="{{ set_active(['tipepelanggan/list/page']) }}" href="{{ route('tipepelanggan/list/page') }}">Tipe Pelanggan</a></li>
-                        <li><a class="{{ set_active(['pelanggan/list/page']) }}" href="{{ route('pelanggan/list/page') }}">Pelanggan</a></li>
-                        <li><a class="{{ set_active(['pemasok/list/page']) }}" href="{{ route('pemasok/list/page') }}">Pemasok</a></li>
-                        <li><a class="{{ set_active(['penjual/list/page']) }}" href="{{ route('penjual/list/page') }}">Penjual</a></li>
-                        <li><a class="{{ set_active(['departemen/list/page']) }}" href="{{ route('departemen/list/page') }}">Departemen</a></li>
-                        <li><a class="{{ set_active(['proyek/list/page']) }}" href="{{ route('proyek/list/page') }}">Proyek</a></li>
-                        <li><a class="{{ set_active(['syarat/list/page']) }}" href="{{ route('syarat/list/page') }}">Syarat Pembayaran</a></li>
-                        <li><a class="{{ set_active(['pajak/list/page']) }}" href="{{ route('pajak/list/page') }}">Pajak</a></li> --}}
-                    </ul>
-                </li>
+{{--                <li class="submenu"> <a href="#"></i><i class="fas fa-book ml-0 mr-2"></i><span> Buku Besar  <span class="badge bg-light text-dark">New Update!</span></span> <span class="menu-arrow"></span></a>--}}
+{{--                    <ul class="submenu_class" style="display: none;">--}}
+{{--                        <li><a class="{{ set_active(['akun/list/page']) }}" href="{{ route('akun/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Daftar Akun</a></li>--}}
+{{--                        <li><a @class(['active' => request()->is('jurnal/*')]) href="{{ route('jurnal/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Jurnal Umum</a></li>--}}
+{{--                        <li><a @class(['active' => request()->is('anggaranakun/*')]) href="{{ route('anggaranakun/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Anggaran Akun</a></li>--}}
+{{--                        <li><a @class(['active' => request()->is('pembayaranlainnya/*')]) href="{{ route('pembayaranlainnya/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Pembayaran Lainnya</a></li>--}}
+{{--                        <li><a @class(['active' => request()->is('penerimaanlainnya/*')]) href="{{ route('penerimaanlainnya/list/page') }}"><i class="fas fa-money-check ml-0 mr-3"></i>Penerimaan Lainnya</a></li>--}}
+{{--                         <li><a class="{{ set_active(['gudang/list/page']) }}" href="{{ route('gudang/list/page') }}">Gudang</a></li>--}}
+{{--                        <li><a class="{{ set_active(['kategoribarang/list/page']) }}" href="{{ route('kategoribarang/list/page') }}">Kategori Barang</a></li> --}}
+{{--                         <li><a class="{{ set_active(['pegawai/list/page']) }}" href="{{ route('pegawai/list/page') }}">Pegawai</a></li> --}}
+{{--                         <li><a class="{{ set_active(['matauang/list/page']) }}" href="{{ route('matauang/list/page') }}">Mata Uang</a></li>--}}
+{{--                        <li><a class="{{ set_active(['statuspemasok/list/page']) }}" href="{{ route('statuspemasok/list/page') }}">Status Pelanggan & Pemasok</a></li>--}}
+{{--                        <li><a class="{{ set_active(['tipepelanggan/list/page']) }}" href="{{ route('tipepelanggan/list/page') }}">Tipe Pelanggan</a></li>--}}
+{{--                        <li><a class="{{ set_active(['pelanggan/list/page']) }}" href="{{ route('pelanggan/list/page') }}">Pelanggan</a></li>--}}
+{{--                        <li><a class="{{ set_active(['pemasok/list/page']) }}" href="{{ route('pemasok/list/page') }}">Pemasok</a></li>--}}
+{{--                        <li><a class="{{ set_active(['penjual/list/page']) }}" href="{{ route('penjual/list/page') }}">Penjual</a></li>--}}
+{{--                        <li><a class="{{ set_active(['departemen/list/page']) }}" href="{{ route('departemen/list/page') }}">Departemen</a></li>--}}
+{{--                        <li><a class="{{ set_active(['proyek/list/page']) }}" href="{{ route('proyek/list/page') }}">Proyek</a></li>--}}
+{{--                        <li><a class="{{ set_active(['syarat/list/page']) }}" href="{{ route('syarat/list/page') }}">Syarat Pembayaran</a></li>--}}
+{{--                        <li><a class="{{ set_active(['pajak/list/page']) }}" href="{{ route('pajak/list/page') }}">Pajak</a></li> --}}
+{{--                    </ul>--}}
+{{--                </li>--}}
                 <li class="submenu"> <a href="#"></i><i class="fas fa-clipboard ml-0 mr-2"></i><span>Laporan  <span class="badge bg-light text-dark">New!</span></span><span class="menu-arrow"></span></a>
                     <ul class="submenu_class">
                         <li>

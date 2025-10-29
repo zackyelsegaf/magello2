@@ -115,7 +115,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                    </div>                                            
+                                    </div>
                                     <div class="modal-body">
                                         <div class="table-responsive">
                                             <table class="datatable table table-striped table-bordered table-hover table-center mb-0" id="tabelPilihBarang" style="margin: 0; border-collapse: collapse; width: 100%;">
@@ -151,7 +151,7 @@
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
-                                            </table>                                                    
+                                            </table>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -173,7 +173,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Modal Item RAP & RAB -->
                         <div class="table-responsive">
                             {{-- Tabel  --}}
@@ -224,15 +224,18 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="mb-4 row align-items-center">
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-check mr-2"></i> Simpan
-                        </button>
-                        <a href="{{ route('rabrap/list/page') }}" class="btn btn-primary ml-3">
-                            <i class="fas fa-chevron-left mr-2"></i> Batal
-                        </a>
+                <div class="page-header">
+                    <div class="mb-15 row align-items-center">
+                        <div class="col">
+                            <div class="">
+                                <a href="{{ route('rabrap/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary buttonedit">
+                                    <i class="fas fa-save mr-2"></i>Simpan
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -288,7 +291,7 @@
                 fetchFilteredData();
             });
         });
-    </script>    
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const cleaveMap = new WeakMap();
@@ -331,7 +334,7 @@
             $('#checkAll').click(function () {
                 $('.check-barang').prop('checked', this.checked);
             });
-        
+
             $('#tambahBarangTerpilih').click(function () {
                 $('.check-barang:checked').each(function () {
                     let id = $(this).data('id');
@@ -340,7 +343,7 @@
                     let kuantitas = $(this).data('kuantitas');
                     let biaya_satuan_saldo_awal = $(this).data('biaya_satuan_saldo_awal');
                     let kode_pajak = $(this).data('kode_pajak') || '';
-        
+
                     let newRow = `
                     <tr class="barang-row">
                         <td style="display: none;"><input style="width: 150px;" type="text" class="form-control form-control-sm" name="no_item[]" value="${id}" readonly></td>
@@ -358,7 +361,7 @@
                         </td>
                         <td><button type="button" style="width: 120px;" class="btn btn-primary buttonedit2 mr-2 remove-row"><strong><i class="fas fa-trash-alt mr-3"></i>Hapus</strong></button></td>
                     </tr>`;
-                    
+
                     $('#barangTableBody').append(newRow);
 
                     if (window.initCleaveIn) {
@@ -366,7 +369,7 @@
                         window.initCleaveIn(lastRow);
                     }
                 });
-        
+
                 $('#modalBarang').modal('hide');
             });
 
@@ -451,8 +454,8 @@
                     setTimeout(function(){
                         const $row = $('#barangTableBody tr.barang-row').last();
                         $(document).trigger('input');
-                        $row.each(function(){ 
-                            
+                        $row.each(function(){
+
                         });
                     }, 0);
                 });

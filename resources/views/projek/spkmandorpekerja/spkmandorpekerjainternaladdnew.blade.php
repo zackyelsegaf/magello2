@@ -23,7 +23,7 @@
                                 <span>&times;</span>
                             </button>
                         </div>
-                        <form method="POST" action="{{ route('form/spkmandorpekerja/save') }}" enctype="multipart/form-data">                            
+                        <form method="POST" action="{{ route('form/spkmandorpekerja/save') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="modal-body">
                                 <div class="form-group mb-1">
@@ -285,7 +285,7 @@
                                             Item pekerjaan, bobot prosentase pekerjaan, volume pekerjaan, gambar kerja dan Rencana Kerja dan Syarat — Syarat (RKS) merupakan bagian yang tidak terpisahkan dari Surat Perintah Kerja (SPK) ini.
                                         </li>
                                         <li>
-                                            Keterlambatan terhadap penyelesaian pekerjaan (100%), sesuai dengan Surat Perjanjian Kerjasama pasal 4 butir 2, akan dikenakan denda 0,2% dari Nilai Pekerjaan untuk setiap minggunya.   
+                                            Keterlambatan terhadap penyelesaian pekerjaan (100%), sesuai dengan Surat Perjanjian Kerjasama pasal 4 butir 2, akan dikenakan denda 0,2% dari Nilai Pekerjaan untuk setiap minggunya.
                                         </li>
                                         <li>
                                             Apabila dalam masa pelaksanaan pekerjaan ada perubahan — perubahan secara teknis, maka akan diatur dan dituangkan dalam bentuk SPK Tambahan, yang akan diberitahukan oleh Pihak I.
@@ -296,14 +296,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="mb-4 row align-items-center">
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-check mr-2"></i> Simpan
-                        </button>
-                        <a href="{{ route('spkmandorpekerja/list/page') }}" class="btn btn-primary ml-3">
-                            <i class="fas fa-chevron-left mr-2"></i> Batal
-                        </a>
+                <div class="page-header">
+                    <div class="mb-15 row align-items-center">
+                        <div class="col">
+                            <div class="">
+                                <a href="{{ route('spkmandorpekerja/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary buttonedit">
+                                    <i class="fas fa-save mr-2"></i>Simpan
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>

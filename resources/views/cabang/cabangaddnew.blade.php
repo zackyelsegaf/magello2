@@ -58,8 +58,8 @@
                     <div class="mb-15 row align-items-center">
                         <div class="col">
                             <div class="">
+                                <a href="{{ route('cabang/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
                                 <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-save mr-2"></i>Simpan</button>
-                                <a href="{{ route('statuspemasok/list/page') }}" class="btn btn-primary float-left veiwbutton ml-2"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
                             </div>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
 <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
     @section('script')
-    <script>    
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('select.tomselect').forEach(function (el) {
                 new TomSelect(el, {

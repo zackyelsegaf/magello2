@@ -20,15 +20,15 @@
                                     <div class="form-group">
                                         <label>No. Pindah</label>
                                         <input type="text" class="form-control form-control-sm " name="no_pindah" value="{{ $kodeBaru }}">
-                                    </div>  
+                                    </div>
                                     <div class="form-group" style="display: none">
                                         <label>Pengguna</label>
                                         <input type="text" class="form-control form-control-sm " name="pengguna_pindah" value="{{ old('pengguna_pindah', Auth::user()->name) }}">
-                                    </div>  
+                                    </div>
                                     <div class="form-group">
                                         <label>Tanggal Pindah</label>
                                         <div class="cal-icon">
-                                            <input type="text" class="form-control form-control-sm  datetimepicker @error('tgl_pindah') is-invalid @enderror" name="tgl_pindah" value="{{ old('tgl_pindah') }}"> 
+                                            <input type="text" class="form-control form-control-sm  datetimepicker @error('tgl_pindah') is-invalid @enderror" name="tgl_pindah" value="{{ old('tgl_pindah') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -39,11 +39,11 @@
                 <div class="tab-content profile-tab-cont">
                     <div class="profile-menu">
                         <ul class="nav nav-tabs nav-tabs-solid">
-                            <li class="nav-item"> 
-                                <a class="nav-link active font-weight-bold" data-toggle="tab" href="#rincian">Rincian Data</a> 
+                            <li class="nav-item">
+                                <a class="nav-link active font-weight-bold" data-toggle="tab" href="#rincian">Rincian Data</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen</a> 
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen</a>
                             </li>
                         </ul>
                     </div>
@@ -63,10 +63,10 @@
                                                     </option>
                                                     @endforeach
                                                 </select>
-                                            </div> 
+                                            </div>
                                             <div class="form-group">
                                                 <textarea class="form-control form-control-sm  @error('dari_alamat') is-invalid @enderror" name="dari_alamat" value="{{ old('dari_alamat') }}" placeholder="Dari Alamat">{{ old('dari_alamat') }}</textarea>
-                                            </div>                                       
+                                            </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -79,10 +79,10 @@
                                                     </option>
                                                     @endforeach
                                                 </select>
-                                            </div>  
+                                            </div>
                                             <div class="form-group">
                                                 <textarea class="form-control form-control-sm " name="ke_alamat" value="{{ old('ke_alamat') }}" placeholder="Ke Alamat">{{ old('ke_alamat') }}</textarea>
-                                            </div>                                         
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -126,7 +126,7 @@
                                                 <select style="width: 150px; cursor: pointer;" class="form-control form-control-sm  no-barang-select" name="no_barang[]">
                                                     <option disabled {{ $noBarang ? '' : 'selected' }}></option>
                                                     @foreach ($nama_barang as $item)
-                                                        <option 
+                                                        <option
                                                             value="{{ $item->id }}"  {{-- pakai ID, bukan no_barang --}}
                                                             data-no="{{ $item->no_barang }}"
                                                             data-nama="{{ $item->nama_barang }}"
@@ -163,7 +163,7 @@
                                         @endforeach
                                     </tbody>
                                     </table>
-                                </div>                                
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -194,12 +194,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="page-header"></div>
+                <div class="page-header">
                     <div class="mb-15 row align-items-center">
                         <div class="col">
                             <div class="">
-                                <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-save mr-2"></i>Simpan</button>
-                                <a href="{{ route('pindahbarang/list/page') }}" class="btn btn-primary float-left veiwbutton ml-2"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                                <a href="{{ route('pindahbarang/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary buttonedit">
+                                    <i class="fas fa-save mr-2"></i>Simpan
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -212,21 +216,21 @@
         $(document).ready(function () {
             $('#tambahBarangBtn').click(function () {
                 let row = $('.barang-row:first').clone();
-    
+
                 row.find('select').val('');
                 row.find('input').val('');
                 $('#barangTableBody').append(row);
             });
-    
+
             $(document).on('change', '.no-barang-select', function () {
                 let selected = $(this).find(':selected');
                 let row = $(this).closest('tr');
-    
+
                 row.find('.deskripsi-barang-input').val(selected.data('nama'));
                 row.find('.kts-barang-input').val(selected.data('kts'));
                 row.find('select[name="satuan[]"]').val(selected.data('satuan'));
             });
-    
+
             $(document).on('click', '.remove-row', function () {
                 if ($('#barangTableBody .barang-row').length > 1) {
                     $(this).closest('tr').remove();
@@ -235,7 +239,7 @@
                 }
             });
         });
-    </script>    
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const namaBarangSelect = document.getElementById('namaBarangSelect');
@@ -243,7 +247,7 @@
             const kuantitasBarangInput = document.getElementById('kuantitasBarangInput');
             const satuanSelect = document.getElementById('satuanSelect');
 
-        
+
         namaBarangSelect.addEventListener('change', function () {
             const selectedOption = this.options[this.selectedIndex];
             deskripsiBarangInput.value = selectedOption.getAttribute('data-nama') || '';
@@ -251,7 +255,7 @@
             satuanSelect.value = selectedOption.getAttribute('data-satuan') || '';
         });
     });
-    </script>    
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const dariSelect = document.getElementById('gudangDariSelect');
@@ -275,11 +279,11 @@
         document.addEventListener('DOMContentLoaded', function () {
             const noAkunSelect = document.getElementById('noAkunSelect');
             const namaAkunSelect = document.getElementById('namaAkunSelect');
-        
+
         noAkunSelect.addEventListener('change', function () {
             const selectedNo = this.value;
             const nama = this.options[this.selectedIndex].getAttribute('data-nama');
-    
+
             for (let i = 0; i < namaAkunSelect.options.length; i++) {
                 if (namaAkunSelect.options[i].value === nama) {
                     namaAkunSelect.selectedIndex = i;
@@ -287,11 +291,11 @@
                 }
             }
         });
-    
+
         namaAkunSelect.addEventListener('change', function () {
             const selectedNama = this.value;
             const no = this.options[this.selectedIndex].getAttribute('data-no');
-    
+
             for (let i = 0; i < noAkunSelect.options.length; i++) {
                 if (noAkunSelect.options[i].value === no) {
                     noAkunSelect.selectedIndex = i;
@@ -333,7 +337,7 @@
                         </div>
                     </div>
                 </div>
-            
+
             `;
 
             fieldContainer.appendChild(newField);

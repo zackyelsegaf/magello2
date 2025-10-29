@@ -21,6 +21,15 @@ use App\Models\ArsipFile;
 use App\Models\JadwalBiayaBooking;
 use App\Models\BiayaBooking;
 use App\Models\SuratPemesananRumah;
+use App\Models\BookingStatus0Pemberkasan;
+use App\Models\BookingStatus1Proses;
+use App\Models\BookingStatus2AnalisaBank;
+use App\Models\BookingStatus3Sp3k;
+use App\Models\BookingStatus4AkadKredit;
+use App\Models\BookingStatus5Ajb;
+use App\Models\BookingStatus6DitolakBank;
+use App\Models\BookingStatus7Mundur;
+use App\Models\BookingTimeline;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class KavlingController extends Controller
@@ -455,6 +464,764 @@ class KavlingController extends Controller
 
         return view('marketing.perumahan.kavling.spraddnew', compact('kota','nomorPreview', 'booking'));
     }
+
+    public function addStatusBooking(BookingKavling $booking)
+    {
+        $detailPemberkasan = BookingStatus0Pemberkasan::where('booking_id', $booking->id)->first();
+        $detailProses      = BookingStatus1Proses::where('booking_id', $booking->id)->first();
+        $detailAnalisa     = BookingStatus2AnalisaBank::where('booking_id', $booking->id)->first();
+        $detailSp3k        = BookingStatus3Sp3k::where('booking_id', $booking->id)->first();
+        $detailAkad        = BookingStatus4AkadKredit::where('booking_id', $booking->id)->first();
+        $detailAjb         = BookingStatus5Ajb::where('booking_id', $booking->id)->first();
+        $detailDitolakBank = BookingStatus6DitolakBank::where('booking_id', $booking->id)->first();
+        $detailMundur      = BookingStatus7Mundur::where('booking_id', $booking->id)->first();
+        $arsip = collect();
+        if ($detailSp3k) {
+            $arsip = $detailSp3k->arsipFiles()->get()->map(function ($a) {
+                return [
+                    'id'               => $a->id,
+                    'nama_arsip'       => $a->nama_arsip,
+                    'nomor_arsip'      => $a->nomor_arsip,
+                    'keterangan_arsip' => $a->keterangan_arsip,
+                    'original_name'    => $a->original_name,
+                    'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
+                    'file_label'       => 'Ganti File',
+                ];
+            });
+        }
+            
+        $timelineBooking = BookingTimeline::where('booking_id', $booking->id)
+            ->where('status_code', 0)
+            ->latest('changed_at')
+            ->first();
+
+        $kota = DB::table('kota')
+            ->select('id', 'nama')
+            ->union(
+                DB::table('provinsi')->select('id', 'nama')
+            )
+            ->orderBy('nama')
+            ->get();
+
+        if (empty($booking->nomor_booking)) {
+            $tanggal = $booking->tanggal_booking ?? Carbon::now('Asia/Jakarta')->toDateString();
+            $booking->tanggal_booking = $tanggal;
+            $booking->nomor_booking   = BookingKavling::generateNomorBooking($tanggal);
+            $booking->save();
+        }
+
+        $tanggalPemberkasan = optional($detailPemberkasan)->tanggal_pemberkasan;
+        $tanggalProses = optional($detailProses)->tanggal_masuk_bank;
+        $tanggalAnalisa = optional($detailAnalisa)->tanggal_masuk_analisa_bank;
+        $tanggalSp3k = optional($detailSp3k)->tanggal_sp3k;
+        $tanggalAkad = optional($detailAkad)->tanggal_akad;
+        $tanggalAjb = optional($detailAjb)->tanggal_ajb;
+        $tanggalDitolakBank = optional($detailDitolakBank)->tanggal_ditolak;
+        $tanggalMundur = optional($detailMundur)->tanggal_mundur;
+
+        $tanggalPemberkasan = $tanggalPemberkasan ? Carbon::parse($tanggalPemberkasan)->format('d/m/Y') : null;
+        $tanggalProses      = $tanggalProses ? Carbon::parse($tanggalProses)->format('d/m/Y') : null;
+        $tanggalAnalisa     = $tanggalAnalisa ? Carbon::parse($tanggalAnalisa)->format('d/m/Y') : null;
+        $tanggalSp3k        = $tanggalSp3k ? Carbon::parse($tanggalSp3k)->format('d/m/Y') : null;
+        $tanggalAkad        = $tanggalAkad ? Carbon::parse($tanggalAkad)->format('d/m/Y') : null;
+        $tanggalAjb         = $tanggalAjb ? Carbon::parse($tanggalAjb)->format('d/m/Y') : null;
+        $tanggalDitolakBank = $tanggalDitolakBank ? Carbon::parse($tanggalDitolakBank)->format('d/m/Y') : null;
+        $tanggalMundur      = $tanggalMundur ? Carbon::parse($tanggalMundur)->format('d/m/Y') : null;
+
+        $nomorPreview = 'SPR' . substr($booking->nomor_booking, 2);
+
+        return view('marketing.perumahan.kavling.statusbookingaddnew', compact('kota','nomorPreview', 'booking', 'detailPemberkasan', 'timelineBooking', 'detailProses', 'detailAnalisa', 'detailSp3k', 'arsip', 'detailAkad', 'detailAjb', 'detailDitolakBank', 'detailMundur', 'tanggalPemberkasan', 'tanggalProses', 'tanggalAnalisa', 'tanggalSp3k', 'tanggalAkad', 'tanggalAjb', 'tanggalDitolakBank', 'tanggalMundur'));
+    }
+
+    // public function storePemberkasan(Request $request, $booking_id)
+    // {
+    //     $rules = [
+    //         'tanggal_pemberkasan' => 'nullable|string|max:255',
+    //         'catatan_pemberkasan' => 'nullable|string',
+    //         'action'              => 'nullable|string|in:save,set',
+    //     ];
+
+    //     $validator = Validator::make($request->all(), $rules);
+    //     if ($validator->fails()) {
+    //         sweetalert()->error('Validasi gagal! Mohon lengkapi data.');
+    //         return redirect()->back()->withErrors($validator)->withInput();
+    //     }
+
+    //     DB::beginTransaction();
+    //     try {
+    //         $booking = BookingKavling::findOrFail($booking_id);
+
+    //         $timeline = new BookingTimeline();
+    //         $timeline->booking_id         = $booking->id;
+    //         $timeline->status_code        = 0;
+    //         $timeline->notes              = $request->catatan_pemberkasan;
+    //         $timeline->changed_by         = auth()->id();
+    //         $timeline->changed_at         = now();
+    //         $timeline->statusable_id      = $booking->id;
+    //         $timeline->statusable_type    = BookingKavling::class;
+    //         $timeline->save();
+
+    //         if ($request->action === 'set') {
+    //             $booking->status_pengajuan = 0;
+    //             $booking->save();
+    //         }
+
+    //         DB::commit();
+    //         sweetalert()->success($request->action === 'set' ? 'Status berhasil diubah ke Pemberkasan.' : 'Data pemberkasan berhasil disimpan.');
+    //         return redirect()->back();
+
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         sweetalert()->error('Gagal menyimpan data: ' . $e->getMessage());
+    //         return redirect()->back()->withInput();
+    //     }
+    // }
+
+    // public function storePemberkasan(Request $request, $booking_id)
+    // {
+    //     $rules = [
+    //         'tanggal_pemberkasan' => 'nullable|string|max:255',
+    //         'catatan_pemberkasan' => 'nullable|string',
+    //         'action'              => 'nullable|string|in:save,set',
+    //     ];
+
+    //     $validator = Validator::make($request->all(), $rules);
+    //     if ($validator->fails()) {
+    //         sweetalert()->error('Validasi gagal! Mohon lengkapi data.');
+    //         return back()->withErrors($validator)->withInput();
+    //     }
+
+    //     DB::beginTransaction();
+    //     try {
+    //         $booking = BookingKavling::findOrFail($booking_id);
+
+    //         $detail = BookingStatus0Pemberkasan::updateOrCreate(
+    //             ['booking_id' => $booking->id],
+    //             [
+    //                 'tanggal_pemberkasan' => $request->tanggal_pemberkasan,
+    //                 'catatan_pemberkasan' => $request->catatan_pemberkasan,
+    //                 'updated_by'          => auth()->id() ?? null,
+    //             ]
+    //         );
+
+    //         BookingTimeline::create([
+    //             'booking_id'      => $booking->id,
+    //             'status_code'     => 0,
+    //             'notes'           => $request->catatan_pemberkasan,
+    //             'changed_by'      => auth()->id(),
+    //             'changed_at'      => now(),
+    //             'statusable_id'   => $detail->id,
+    //             'statusable_type' => BookingStatus0Pemberkasan::class,
+    //         ]);
+
+    //         if ($request->action === 'set') {
+    //             $booking->update(['status_pengajuan' => 0]);
+    //         }
+
+    //         DB::commit();
+    //         sweetalert()->success($request->action === 'set' ? 'Status berhasil diubah ke Pemberkasan.' : 'Data pemberkasan berhasil disimpan.');
+    //         return back();
+
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         sweetalert()->error('Gagal menyimpan data: ' . $e->getMessage());
+    //         return back()->withInput();
+    //     }
+    // }
+
+    // public function storePemberkasan(Request $request, $booking_id)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'tanggal_pemberkasan' => 'nullable|string|max:255',
+    //         'catatan_pemberkasan' => 'nullable|string',
+    //         'action'              => 'nullable|in:save,set',
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         sweetalert()->error('Validasi gagal! Mohon lengkapi data.');
+    //         return back()->withErrors($validator)->withInput();
+    //     }
+
+    //     DB::beginTransaction();
+    //     try {
+    //         $booking = BookingKavling::findOrFail($booking_id);
+
+    //         $detail = BookingStatus0Pemberkasan::updateOrCreate(
+    //             ['booking_id' => $booking->id],
+    //             [
+    //                 'tanggal_pemberkasan' => $request->tanggal_pemberkasan,
+    //                 'catatan_pemberkasan'             => $request->catatan_pemberkasan,
+    //             ]
+    //         );
+    //         BookingTimeline::where('booking_id', $booking->id)
+    //             ->where('status_code', 0) // pemberkasan
+    //             ->where('statusable_type', BookingStatus0Pemberkasan::class)
+    //             ->delete();
+
+    //         // 3) Buat timeline baru via relasi (auto isi statusable_id/type)
+    //         $detail->timeline()->create([
+    //             'booking_id'  => $booking->id,
+    //             'status_code' => 0,
+    //             'notes'       => $request->catatan_pemberkasan,
+    //             'changed_by'  => auth()->id(),
+    //             'changed_at'  => now(),
+    //         ]);
+
+    //         // 4) Optional: update status utama kalau klik "Set Status"
+    //         if ($request->action === 'set') {
+    //             $booking->update(['status_pengajuan' => 0]);
+    //         }
+
+    //         DB::commit();
+    //         sweetalert()->success($request->action === 'set'
+    //             ? 'Status berhasil diubah ke Pemberkasan.'
+    //             : 'Data pemberkasan berhasil disimpan.');
+    //         return back();
+
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         sweetalert()->error('Gagal menyimpan data: '.$e->getMessage());
+    //         return back()->withInput();
+    //     }
+    // }
+
+    public function storePemberkasan(Request $request, $booking_id)
+    {
+        $validator = Validator::make($request->all(), [
+            'tanggal_pemberkasan' => 'nullable|string|max:255',
+            'catatan_pemberkasan' => 'nullable|string',
+            'action'              => 'nullable|in:save,set',
+        ]);
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi gagal! Mohon lengkapi data.');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        DB::beginTransaction();
+        try {
+            $booking = BookingKavling::findOrFail($booking_id);
+
+            $detail = BookingStatus0Pemberkasan::updateOrCreate(
+                ['booking_id' => $booking->id],
+                [
+                    'tanggal_pemberkasan' => $request->tanggal_pemberkasan ? Carbon::createFromFormat('d/m/Y', $request->tanggal_pemberkasan)->format('Y-m-d') : null,
+                    'catatan_pemberkasan' => $request->catatan_pemberkasan,
+                ]
+            );
+
+            $timeline = BookingTimeline::updateOrCreate(
+                [
+                    'booking_id'      => $booking->id,
+                    'status_code'     => 0,
+                    'statusable_type' => BookingStatus0Pemberkasan::class,
+                ],
+                [
+                    'statusable_id' => $detail->id,
+                    'notes'         => $request->catatan_pemberkasan,
+                    'changed_by'    => auth()->id(),
+                    'changed_at'    => now(),
+                ]
+            );
+
+            if ($request->action === 'set') {
+                $label = "Pemberkasan";
+                if (!empty($detail->tanggal_pemberkasan)) {
+                    $label .= '<strong>'."<br>Tanggal: {$detail->tanggal_pemberkasan}".'</strong>';
+                }
+                $booking->update(['status_pengajuan' => $label]);
+                $timeline->update(['is_current' => true]); // NEW
+            }
+
+            DB::commit();
+            sweetalert()->success($request->action === 'set'
+                ? 'Status berhasil diubah ke Pemberkasan.'
+                : 'Data pemberkasan berhasil disimpan.');
+            return  redirect()->route('booking/list/page');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            sweetalert()->error('Gagal menyimpan data: '.$e->getMessage());
+            return back()->withInput();
+        }
+    }
+
+    public function storeProses(Request $request, $booking_id)
+    {
+        $validator = Validator::make($request->all(), [
+            'tanggal_masuk_bank'  => 'nullable|string|max:255',
+            'nama_bank_proses'    => 'nullable|string|max:255',
+            'catatan_proses'      => 'nullable|string',
+            'action'              => 'nullable|in:save,set',
+        ]);
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi gagal! Mohon lengkapi data.');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        DB::beginTransaction();
+        try {
+            $booking = BookingKavling::findOrFail($booking_id);
+
+            $detail = BookingStatus1Proses::updateOrCreate(
+                ['booking_id' => $booking->id],
+                [
+                    'tanggal_masuk_bank'  => $request->tanggal_masuk_bank ? Carbon::createFromFormat('d/m/Y', $request->tanggal_masuk_bank)->format('Y-m-d') : null,
+                    'nama_bank_proses'    => $request->nama_bank_proses,
+                    'catatan_proses' => $request->catatan_proses,
+                ]
+            );
+
+            BookingTimeline::updateOrCreate(
+                [
+                    'booking_id'      => $booking->id,
+                    'status_code'     => 1,
+                    'statusable_type' => BookingStatus1Proses::class,
+                ],
+                [
+                    'statusable_id' => $detail->id,
+                    'notes'         => $request->catatan_proses,
+                    'changed_by'    => auth()->id(),
+                    'changed_at'    => now(),
+                ]
+            );
+
+            if ($request->action === 'set') {
+                $parts = [];
+                if (!empty($detail->tanggal_masuk_bank)) {
+                    $parts[] = 'Tanggal: '.$detail->tanggal_masuk_bank;
+                }
+                if (!empty($detail->nama_bank_proses)) {
+                    $parts[] = 'Bank: '.$detail->nama_bank_proses;
+                }
+
+                $label = "Proses Ke Bank";
+                if (!empty($detail->tanggal_masuk_bank)) {
+                    $label .= '<strong>'."<br>Tanggal: {$detail->tanggal_masuk_bank}".'</strong>';
+                }
+                if (!empty($detail->nama_bank_proses)) {
+                    $label .= '<strong>'."<br>Bank: {$detail->nama_bank_proses}".'</strong>';
+                }
+
+                $booking->update(['status_pengajuan' => $label]);
+            }
+
+            DB::commit();
+            sweetalert()->success($request->action === 'set'
+                ? 'Status berhasil diubah ke Proses Ke Bank.'
+                : 'Data Proses Ke Bank berhasil disimpan.');
+            return  redirect()->route('booking/list/page');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            sweetalert()->error('Gagal menyimpan data: '.$e->getMessage());
+            return back()->withInput();
+        }
+    }
+
+    public function storeAnalisa(Request $request, $booking_id)
+    {
+        $validator = Validator::make($request->all(), [
+            'tanggal_masuk_analisa_bank' => 'nullable|string|max:255',
+            'nama_bank_analisa'          => 'nullable|string|max:255',
+            'catatan_analisa'            => 'nullable|string',
+            'action'                     => 'nullable|in:save,set',
+        ]);
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi gagal! Mohon lengkapi data.');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        DB::beginTransaction();
+        try {
+            $booking = BookingKavling::findOrFail($booking_id);
+
+            $detail = BookingStatus2AnalisaBank::updateOrCreate(
+                ['booking_id' => $booking->id],
+                [
+                    'tanggal_masuk_analisa_bank'  => $request->tanggal_masuk_analisa_bank ? Carbon::createFromFormat('d/m/Y', $request->tanggal_masuk_analisa_bank)->format('Y-m-d') : null,
+                    'nama_bank_analisa'    => $request->nama_bank_analisa,
+                    'catatan_analisa' => $request->catatan_analisa,
+                ]
+            );
+
+            BookingTimeline::updateOrCreate(
+                [
+                    'booking_id'      => $booking->id,
+                    'status_code'     => 2,
+                    'statusable_type' => BookingStatus2AnalisaBank::class,
+                ],
+                [
+                    'statusable_id' => $detail->id,
+                    'notes'         => $request->catatan_analisa,
+                    'changed_by'    => auth()->id(),
+                    'changed_at'    => now(),
+                ]
+            );
+
+            if ($request->action === 'set') {
+                $parts = [];
+                if (!empty($detail->tanggal_masuk_analisa_bank)) {
+                    $parts[] = 'Tanggal: '.$detail->tanggal_masuk_analisa_bank;
+                }
+                if (!empty($detail->nama_bank_analisa)) {
+                    $parts[] = 'Bank: '.$detail->nama_bank_analisa;
+                }
+
+                $label = "Analisa Bank";
+                if (!empty($detail->tanggal_masuk_analisa_bank)) {
+                    $label .= '<strong>'."<br>Tanggal: {$detail->tanggal_masuk_analisa_bank}".'</strong>';
+                }
+                if (!empty($detail->nama_bank_analisa)) {
+                    $label .= '<strong>'."<br>Bank: {$detail->nama_bank_analisa}".'</strong>';
+                }
+
+                $booking->update(['status_pengajuan' => $label]);
+            }
+
+            DB::commit();
+            sweetalert()->success($request->action === 'set'
+                ? 'Status berhasil diubah ke Analisa Bank.'
+                : 'Data Analisa Bank berhasil disimpan.');
+            return  redirect()->route('booking/list/page');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            sweetalert()->error('Gagal menyimpan data: '.$e->getMessage());
+            return back()->withInput();
+        }
+    }
+
+    public function storeSp3k(Request $request, $booking_id)
+    {
+        $validator = Validator::make($request->all(), [
+            'nomor_sp3k'      => 'nullable|string|max:255',
+            'tanggal_sp3k'    => 'nullable|string|max:255',
+            'file_sp3k'       => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'plafond_sp3k'    => 'nullable|string|max:255',
+            'cicilan_sp3k'    => 'nullable|string|max:255',
+            'tenor_sp3k'      => 'nullable|string|max:255',
+            'bank_sp3k'       => 'nullable|string|max:255',
+            'program_subsidi' => 'nullable|string|max:255',
+            'action'          => 'nullable|in:save,set',
+        ]);
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi gagal! Mohon lengkapi data.');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        DB::beginTransaction();
+        try {
+            $booking = BookingKavling::findOrFail($booking_id);
+
+            $filePath = null;
+            if ($request->hasFile('file_sp3k')) {
+                $filePath = $request->file('file_sp3k')->store('sp3k', 'public');
+            }
+
+            $detail = BookingStatus3Sp3k::updateOrCreate(
+                ['booking_id' => $booking->id],
+                [
+                    'nomor_sp3k'      => $request->nomor_sp3k,
+                    'tanggal_sp3k'    => $request->tanggal_sp3k ? Carbon::createFromFormat('d/m/Y', $request->tanggal_sp3k)->format('Y-m-d') : null,
+                    'file_sp3k'       => $filePath,
+                    'plafond_sp3k'    => $request->plafond_sp3k,
+                    'cicilan_sp3k'    => $request->cicilan_sp3k,
+                    'tenor_sp3k'      => $request->tenor_sp3k,
+                    'bank_sp3k'       => $request->bank_sp3k,
+                    'program_subsidi' => $request->program_subsidi,
+                ]
+            );
+
+            if ($filePath) { 
+                $uploaded = $request->file('file_sp3k');
+                ArsipFile::create([
+                    'arsipmultimenu_type' => get_class($detail),
+                    'arsipmultimenu_id'   => $detail->id,
+                    'nama_arsip'          => $detail['nomor_sp3k'] ?? 'Lampiran SP3K',
+                    'nomor_arsip'         => null,
+                    'tanggal_arsip'       => $detail['tanggal_sp3k'],
+                    'disk'                => 'public',
+                    'file_arsip'          => $filePath,
+                    'keterangan_arsip'    => 'Lampiran SP3K',
+                    'original_name'       => $uploaded?->getClientOriginalName(),
+                    'mime_type'           => $uploaded?->getClientMimeType(),
+                    'file_size'           => $uploaded?->getSize(),
+                    'uploaded_by'         => optional($request->user())->id,
+                ]);
+            }
+
+            BookingTimeline::updateOrCreate(
+                [
+                    'booking_id'      => $booking->id,
+                    'status_code'     => 3,
+                    'statusable_type' => BookingStatus3Sp3k::class,
+                ],
+                [
+                    'statusable_id' => $detail->id,
+                    'notes'         => $request->catatan_analisa,
+                    'changed_by'    => auth()->id(),
+                    'changed_at'    => now(),
+                ]
+            );
+
+            if ($request->action === 'set') {
+                $parts = [];
+                if (!empty($detail->tanggal_sp3k)) {
+                    $parts[] = 'Tanggal: '.$detail->tanggal_sp3k;
+                }
+                // if (!empty($detail->nama_bank_analisa)) {
+                //     $parts[] = 'Bank: '.$detail->nama_bank_analisa;
+                // }
+
+                $label = "SP3K";
+                if (!empty($detail->tanggal_sp3k)) {
+                    $label .= '<strong>'."<br>Tanggal: {$detail->tanggal_sp3k}".'</strong>';
+                }
+                // if (!empty($detail->nama_bank_analisa)) {
+                //     $label .= '<strong>'."<br>Bank: {$detail->nama_bank_analisa}".'</strong>';
+                // }
+
+                $booking->update(['status_pengajuan' => $label]);
+            }
+
+            DB::commit();
+            sweetalert()->success($request->action === 'set'
+                ? 'Status berhasil diubah ke Analisa Bank.'
+                : 'Data Analisa Bank berhasil disimpan.');
+            return  redirect()->route('booking/list/page');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            sweetalert()->error('Gagal menyimpan data: '.$e->getMessage());
+            return back()->withInput();
+        }
+    }
+
+    public function storeAkad(Request $request, $booking_id)
+    {
+        $validator = Validator::make($request->all(), [
+            'tanggal_akad' => 'nullable|string|max:255',
+            'nama_akad'    => 'nullable|string|max:255',
+            'plafond_akad' => 'nullable|string',
+            'action'       => 'nullable|in:save,set',
+        ]);
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi gagal! Mohon lengkapi data.');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        DB::beginTransaction();
+        try {
+            $booking = BookingKavling::findOrFail($booking_id);
+
+            $detail = BookingStatus4AkadKredit::updateOrCreate(
+                ['booking_id' => $booking->id],
+                [
+                    'tanggal_akad' => $request->tanggal_akad ? Carbon::createFromFormat('d/m/Y', $request->tanggal_akad)->format('Y-m-d') : null,
+                    'nama_akad'    => $request->nama_akad,
+                    'plafond_akad' => $request->plafond_akad,
+                ]
+            );
+
+            BookingTimeline::updateOrCreate(
+                [
+                    'booking_id'      => $booking->id,
+                    'status_code'     => 4,
+                    'statusable_type' => BookingStatus4AkadKredit::class,
+                ],
+                [
+                    'statusable_id' => $detail->id,
+                    'notes'         => $request->plafond_akad,
+                    'changed_by'    => auth()->id(),
+                    'changed_at'    => now(),
+                ]
+            );
+
+            if ($request->action === 'set') {
+                $parts = [];
+                if (!empty($detail->tanggal_akad)) {
+                    $parts[] = 'Tanggal: '.$detail->tanggal_akad;
+                }
+                if (!empty($detail->nama_akad)) {
+                    $parts[] = 'Bank: '.$detail->nama_akad;
+                }
+                if (!empty($detail->plafond_akad)) {
+                    $parts[] = 'Plafond: '.$detail->plafond_akad;
+                }
+
+                $label = "Akad Kredit";
+                if (!empty($detail->tanggal_akad)) {
+                    $label .= '<strong>'."<br>Tanggal: {$detail->tanggal_akad}".'</strong>';
+                }
+                if (!empty($detail->nama_akad)) {
+                    $label .= '<strong>'."<br>Bank: {$detail->nama_akad}".'</strong>';
+                }
+                if (!empty($detail->plafond_akad)) {
+                    $label .= '<strong>'."<br>Plafond: {$detail->plafond_akad}".'</strong>';
+                }
+
+                $booking->update(['status_pengajuan' => $label]);
+            }
+
+            DB::commit();
+            sweetalert()->success($request->action === 'set'
+                ? 'Status berhasil diubah ke Proses Ke Bank.'
+                : 'Data Proses Ke Bank berhasil disimpan.');
+            return  redirect()->route('booking/list/page');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            sweetalert()->error('Gagal menyimpan data: '.$e->getMessage());
+            return back()->withInput();
+        }
+    }
+
+    public function storeAjb(Request $request, $booking_id)
+    {
+        $validator = Validator::make($request->all(), [
+            'tanggal_ajb' => 'nullable|string|max:255',
+            'catatan_ajb' => 'nullable|string',
+            'action'      => 'nullable|in:save,set',
+        ]);
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi gagal! Mohon lengkapi data.');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        DB::beginTransaction();
+        try {
+            $booking = BookingKavling::findOrFail($booking_id);
+
+            $detail = BookingStatus5Ajb::updateOrCreate(
+                ['booking_id' => $booking->id],
+                [
+                    'tanggal_ajb' => $request->tanggal_ajb ? Carbon::createFromFormat('d/m/Y', $request->tanggal_ajb)->format('Y-m-d') : null,
+                    'catatan_ajb' => $request->catatan_ajb,
+                ]
+            );
+
+            BookingTimeline::updateOrCreate(
+                [
+                    'booking_id'      => $booking->id,
+                    'status_code'     => 5,
+                    'statusable_type' => BookingStatus5Ajb::class,
+                ],
+                [
+                    'statusable_id' => $detail->id,
+                    'notes'         => $request->catatan_ajb,
+                    'changed_by'    => auth()->id(),
+                    'changed_at'    => now(),
+                ]
+            );
+
+            if ($request->action === 'set') {
+                $parts = [];
+                if (!empty($detail->tanggal_ajb)) {
+                    $parts[] = 'Tgl: '.$detail->tanggal_ajb;
+                }
+                // if (!empty($detail->catatan_ajb)) {
+                //     $parts[] = 'Catatan: '.$detail->catatan_ajb;
+                // }
+
+                $label = "AJB";
+                if (!empty($detail->tanggal_ajb)) {
+                    $label .= '<strong>'."<br>Tanggal: {$detail->tanggal_ajb}".'</strong>';
+                }
+                // if (!empty($detail->catatan_ajb)) {
+                //     $label .= "<br>Catatan: {$detail->catatan_ajb}";
+                // }
+
+                $booking->update(['status_pengajuan' => $label]);
+            }
+
+            DB::commit();
+            sweetalert()->success($request->action === 'set'
+                ? 'Status berhasil diubah ke AJB.'
+                : 'Data AJB berhasil disimpan.');
+            return  redirect()->route('booking/list/page');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            sweetalert()->error('Gagal menyimpan data: '.$e->getMessage());
+            return back()->withInput();
+        }
+    }
+
+    public function storeMundur(Request $request, $booking_id)
+    {
+        $validator = Validator::make($request->all(), [
+            'tanggal_mundur' => 'nullable|string|max:255',
+            'alasan_mundur' => 'nullable|string',
+            'action'      => 'nullable|in:save,set',
+        ]);
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi gagal! Mohon lengkapi data.');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        DB::beginTransaction();
+        try {
+            $booking = BookingKavling::findOrFail($booking_id);
+
+            $detail = BookingStatus7Mundur::updateOrCreate(
+                ['booking_id' => $booking->id],
+                [
+                    'tanggal_mundur' => $request->tanggal_mundur ? Carbon::createFromFormat('d/m/Y', $request->tanggal_mundur)->format('Y-m-d') : null,
+                    'alasan_mundur' => $request->alasan_mundur,
+                ]
+            );
+
+            BookingTimeline::updateOrCreate(
+                [
+                    'booking_id'      => $booking->id,
+                    'status_code'     => 7,
+                    'statusable_type' => BookingStatus7Mundur::class,
+                ],
+                [
+                    'statusable_id' => $detail->id,
+                    'notes'         => $request->alasan_mundur,
+                    'changed_by'    => auth()->id(),
+                    'changed_at'    => now(),
+                ]
+            );
+
+            if ($request->action === 'set') {
+                $parts = [];
+                if (!empty($detail->tanggal_mundur)) {
+                    $parts[] = 'Tgl: '.$detail->tanggal_mundur;
+                }
+                // if (!empty($detail->alasan_mundur)) {
+                //     $parts[] = 'Alasan: '.$detail->alasan_mundur;
+                // }
+
+                $label = "Mundur";
+                if (!empty($detail->tanggal_mundur)) {
+                    $label .= '<strong>'."<br>Tanggal: {$detail->tanggal_mundur}".'</strong>';
+                }
+                // if (!empty($detail->alasan_mundur)) {
+                //     $label .= "<br>Alasan: {$detail->alasan_mundur}";
+                // }
+
+                $booking->update(['status_pengajuan' => $label]);
+            }
+
+            DB::commit();
+            sweetalert()->success($request->action === 'set'
+                ? 'Status berhasil diubah ke Mundur.'
+                : 'Data Mundur berhasil disimpan.');
+            return  redirect()->route('booking/list/page');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            sweetalert()->error('Gagal menyimpan data: '.$e->getMessage());
+            return back()->withInput();
+        }
+    }
+
+    // public function show(BookingKavling $booking) 
+    // {
+    //     return view('marketing.perumahan.kavling.statusbookingaddnew', compact('booking'));
+    // }
 
     public function editSPR(BookingKavling $booking, $id)
     {
@@ -1852,7 +2619,7 @@ class KavlingController extends Controller
                                 <span class="dropdown-content">   Customer Detail</span>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="'.url('konsumen/edit/'.$record->konsumen_id).'">
+                            <a class="dropdown-item" href="'.route('booking/status-update/show', $record->id).'">
                                 <div class="dropdown-icon">
                                     <i class="fas fa-clipboard-list"></i>
                                 </div>

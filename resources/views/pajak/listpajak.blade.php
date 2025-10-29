@@ -18,7 +18,7 @@
                     <div class="form-group">
                         <label>Pencarian</label>
                         <input type="text" name="kode" class="form-control key-filter" placeholder="Kode Pajak">
-                    </div> 
+                    </div>
                     <div class="form-group">
                         <input type="text" name="nama" class="form-control key-filter" placeholder="Nama Pajak">
                     </div>
@@ -79,8 +79,8 @@
                     }
                 },
                 dom: "<'row'<'col-sm-12'B>>" +
-                    "<'row'<'col-sm-12 mt-3'tr>>" + 
-                    "<'row'<'col-sm-12 col-md-6 mt-2'l><'col-sm-12 col-md-6'p>>", 
+                    "<'row'<'col-sm-12 mt-3'tr>>" +
+                    "<'row'<'col-sm-12 col-md-6 mt-2'l><'col-sm-12 col-md-6'p>>",
                 buttons: [
                     {
                         extend: 'copyHtml5',

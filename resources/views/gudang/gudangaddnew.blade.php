@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="row formtype">
-                            <div class="col-md-6">                                              
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Nama Gudang</label>
                                     <input type="text" class="form-control form-control-sm  @error('nama_gudang') is-invalid @enderror" name="nama_gudang" value="{{ old('nama_gudang') }}">
@@ -50,8 +50,12 @@
                     <div class="mb-15 row align-items-center">
                         <div class="col">
                             <div class="">
-                                <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-save mr-2"></i>Simpan</button>
-                                <a href="{{ route('gudang/list/page') }}" class="btn btn-primary float-left veiwbutton ml-2"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                                <a href="{{ route('gudang/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary buttonedit">
+                                    <i class="fas fa-save mr-2"></i>Simpan
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -59,6 +63,6 @@
             </form>
         </div>
     </div>
-    @section('script')     
+    @section('script')
     @endsection
 @endsection

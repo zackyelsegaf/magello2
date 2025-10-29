@@ -23,7 +23,7 @@
                                 <span>&times;</span>
                             </button>
                         </div>
-                        <form method="POST" action="{{ route('spkmandorpekerjainternal/update', $updateSpk->id) }}" enctype="multipart/form-data">                            
+                        <form method="POST" action="{{ route('spkmandorpekerjainternal/update', $updateSpk->id) }}" enctype="multipart/form-data">
                             @csrf
                             <div class="modal-body">
                                 <div class="form-group mb-1">
@@ -247,10 +247,10 @@
                                                         <tr class="fee-row">
                                                         <td style="min-width:220px">
                                                             {{-- tampilkan apa adanya, tidak pakai select --}}
-                                                            <input type="text" class="form-control form-control-sm show-nama" 
+                                                            <input type="text" class="form-control form-control-sm show-nama"
                                                                 value="{{ $fee->nama_kapling }}" readonly>
                                                             {{-- tetap kirim ke server --}}
-                                                            <input type="hidden" name="fee[{{ $i }}][nama_kapling]" 
+                                                            <input type="hidden" name="fee[{{ $i }}][nama_kapling]"
                                                                 class="input-nama-kapling" value="{{ $fee->nama_kapling }}">
                                                         </td>
                                                         <td><input type="text"   name="fee[{{ $i }}][pekerjaan]" class="form-control form-control-sm" value="{{ $fee->pekerjaan }}"></td>
@@ -276,7 +276,7 @@
                                                     Item pekerjaan, bobot prosentase pekerjaan, volume pekerjaan, gambar kerja dan Rencana Kerja dan Syarat — Syarat (RKS) merupakan bagian yang tidak terpisahkan dari Surat Perintah Kerja (SPK) ini.
                                                 </li>
                                                 <li>
-                                                    Keterlambatan terhadap penyelesaian pekerjaan (100%), sesuai dengan Surat Perjanjian Kerjasama pasal 4 butir 2, akan dikenakan denda 0,2% dari Nilai Pekerjaan untuk setiap minggunya.   
+                                                    Keterlambatan terhadap penyelesaian pekerjaan (100%), sesuai dengan Surat Perjanjian Kerjasama pasal 4 butir 2, akan dikenakan denda 0,2% dari Nilai Pekerjaan untuk setiap minggunya.
                                                 </li>
                                                 <li>
                                                     Apabila dalam masa pelaksanaan pekerjaan ada perubahan — perubahan secara teknis, maka akan diatur dan dituangkan dalam bentuk SPK Tambahan, yang akan diberitahukan oleh Pihak I.
@@ -289,14 +289,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="mb-4 row align-items-center">
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-check mr-2"></i> Simpan
-                        </button>
-                        <a href="{{ route('spkmandorpekerja/list/page') }}" class="btn btn-primary ml-3">
-                            <i class="fas fa-chevron-left mr-2"></i> Batal
-                        </a>
+                <div class="page-header">
+                    <div class="mb-15 row align-items-center">
+                        <div class="col">
+                            <div class="">
+                                <a href="{{ route('spkmandorpekerja/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary buttonedit">
+                                    <i class="fas fa-save mr-2"></i>Update
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>

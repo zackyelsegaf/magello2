@@ -24,11 +24,17 @@ class KonsumenController extends Controller
 
     public function tambahKonsumen()
     {
-        $data_jenis_kelamin = DB::table('gender')->orderBy('nama', 'asc')->get();
-        $data_pekerjaan = DB::table('tipe_pelanggan')->orderBy('nama', 'asc')->get();
-        $data_cluster = DB::table('cluster')->orderBy('nama', 'asc')->get();
+        $data_jenis_kelamin = DB::table('gender')->get();
+        $data_pekerjaan = DB::table('tipe_pelanggan')->get();
+        $data_cluster = DB::table('cluster')->get();
         $kapling = DB::table('kapling')->get();
-        $data_status_pengajuan = DB::table('status_pengajuan')->orderBy('nama', 'asc')->get();
+        $pajak = DB::table('pajak')->get();
+        $syarat = DB::table('syarat')->get();
+        $golongan_darah = DB::table('golongan_darah')->get();
+        $level_harga = DB::table('level_harga')->get();
+        $agama = DB::table('religion')->get();
+        $status_pernikahan = DB::table('status_pemasok')->get();
+        $data_status_pengajuan = DB::table('status_pengajuan')->get();
         $provinces = Province::orderBy('name')->get(['code','name']);
         $kota = DB::table('kota')
             ->select('id', 'nama')
@@ -37,7 +43,7 @@ class KonsumenController extends Controller
             )
             ->orderBy('nama')
             ->get();
-        return view('marketing.konsumen.konsumenaddnew', compact('kota', 'provinces', 'kapling', 'data_jenis_kelamin', 'data_pekerjaan', 'data_cluster', 'data_status_pengajuan'));
+        return view('marketing.konsumen.konsumenaddnew', compact('kota', 'provinces', 'kapling', 'data_jenis_kelamin', 'data_pekerjaan', 'data_cluster', 'data_status_pengajuan','golongan_darah','syarat','agama','pajak','level_harga','status_pernikahan'));
     }
 
     public function citiesByProvince(Request $request)
@@ -368,7 +374,7 @@ class KonsumenController extends Controller
             'kota_code'                  => 'required|string|max:255',
             'kecamatan_code'             => 'nullable|string|max:255',
             'kelurahan_code'             => 'nullable|string|max:255',
-            'alamat_konsumen'            => 'nullable|string|max:255',
+            'alamat_konsumen'            => 'required|string|max:255',
             'provinsi_code_1'            => 'nullable|string|max:255',
             'kota_code_1'                => 'nullable|string|max:255',
             'kecamatan_code_1'           => 'nullable|string|max:255',
@@ -376,11 +382,23 @@ class KonsumenController extends Controller
             'alamat_1'                   => 'nullable|string|max:255',
             'pekerjaan_1_id'             => 'required|string|max:255',
             'marketing'                  => 'required|string|max:255',
+            'email'                      => 'required|string|max:255',
             'tanggal_booking'            => 'nullable|string|max:255',
             'booking_fee'                => 'nullable|string|max:255',
-            'email'                      => 'required|string|max:255',
-            'booking_fee'                => 'nullable|string|max:255',
-
+            'pajak_1_id'                 => 'nullable|string|max:255',
+            'pajak_2_id'                 => 'nullable|string|max:255',
+            'syarat_id'                  => 'nullable|string|max:255',
+            'level_harga_id'             => 'nullable|string|max:255',
+            'religion_id'                => 'required|string|max:255',
+            'status_pernikahan_id'       => 'required|string|max:255',
+            'nppkp_konsumen'             => 'nullable|string|max:255',
+            'nama_ayah'                  => 'nullable|string|max:255',
+            'nama_ibu'                   => 'nullable|string|max:255',
+            'batas_maks_hutang'          => 'nullable|string|max:255',
+            'batas_umur_hutang'          => 'nullable|string|max:255',
+            'diskon_penjualan'           => 'nullable|string|max:255',
+            'alamat_pajak_1'             => 'nullable|string|max:255',
+            'alamat_pajak_2'             => 'nullable|string|max:255',
             'konsumen_id'                => 'nullable|string|max:255',
             'pekerjaan_2_id'             => 'nullable|string|max:255',
             'nama_2'                     => 'nullable|string|max:255',
@@ -458,6 +476,8 @@ class KonsumenController extends Controller
         $message = [
             'nama_1.required' => 'Nama konsumen wajib diisi',
             'nik_1.required' => 'NIK konsumen wajib diisi',
+            'religion_id.required' => 'Agama wajib diisi',
+            'status_pernikahan_id.required' => 'Status pernikahan wajib diisi',
             'no_hp_1.required' => 'No HP wajib diisi',
             'status_pengajuan_id.required' => 'Status pengajuan wajib diisi',
             'jenis_kelamin_id.required' => 'Jenis kelamin wajib diisi',
@@ -467,6 +487,8 @@ class KonsumenController extends Controller
             'email.required' => 'Email wajib diisi',
             'pekerjaan_1_id.required' => 'Pekerjaan wajib diisi',
             'marketing.required' => 'Marketing wajib diisi',
+            'alamat_konsumen.required' => 'Alamat konsumen wajib diisi',
+
         ];
 
         $validator = Validator::make($request->all(), $rules, $message);
@@ -579,11 +601,17 @@ class KonsumenController extends Controller
 
     public function editKonsumen($id)
     {
-        $data_jenis_kelamin = DB::table('gender')->orderBy('nama', 'asc')->get();
-        $data_pekerjaan = DB::table('tipe_pelanggan')->orderBy('nama', 'asc')->get();
-        $data_cluster = DB::table('cluster')->orderBy('nama', 'asc')->get();
+        $data_jenis_kelamin = DB::table('gender')->get();
+        $data_pekerjaan = DB::table('tipe_pelanggan')->get();
+        $data_cluster = DB::table('cluster')->get();
         $kapling = DB::table('kapling')->get();
-        $data_status_pengajuan = DB::table('status_pengajuan')->orderBy('nama', 'asc')->get();
+        $pajak = DB::table('pajak')->get();
+        $syarat = DB::table('syarat')->get();
+        $golongan_darah = DB::table('golongan_darah')->get();
+        $level_harga = DB::table('level_harga')->get();
+        $agama = DB::table('religion')->get();
+        $status_pernikahan = DB::table('status_pemasok')->get();
+        $data_status_pengajuan = DB::table('status_pengajuan')->get();
         $Konsumen = Konsumen::findOrFail($id);
         if (!$Konsumen) {
             return redirect()->back()->with('error', 'Data tidak ditemukan');
@@ -592,7 +620,7 @@ class KonsumenController extends Controller
         $citySelected     = $Konsumen->kota ? City::where('code', $Konsumen->kota)->first(['code','name']) : null;
         $districtSelected = $Konsumen->kecamatan ? District::where('code', $Konsumen->kecamatan)->first(['code','name']) : null;
         $villageSelected  = $Konsumen->kelurahan ? Village::where('code', $Konsumen->kelurahan)->first(['code','name']) : null;
-        return view('marketing.konsumen.ubahkonsumen', compact('Konsumen','provinces','citySelected', 'districtSelected', 'villageSelected', 'kapling', 'data_jenis_kelamin', 'data_pekerjaan', 'data_cluster', 'data_status_pengajuan'));
+        return view('marketing.konsumen.ubahkonsumen', compact('Konsumen','provinces','citySelected', 'districtSelected', 'villageSelected', 'kapling', 'data_jenis_kelamin', 'data_pekerjaan', 'data_cluster', 'data_status_pengajuan','golongan_darah','syarat','agama','pajak','level_harga','status_pernikahan'));
     }
 
     public function konsumenDetail($id)
@@ -665,7 +693,7 @@ class KonsumenController extends Controller
             'detail.city2:code,name',
             'detail.district2:code,name',
             'detail.village2:code,name',
-        ])->findOrFail($id);
+        ])->findOrFail($id)->fresh();
 
         $pdf = Pdf::loadView('marketing.konsumen.konsumenpdf', compact('konsumen'))->setPaper('A4','portrait');
 
@@ -688,7 +716,7 @@ class KonsumenController extends Controller
             'kota_code'                  => 'required|string|max:255',
             'kecamatan_code'             => 'nullable|string|max:255',
             'kelurahan_code'             => 'nullable|string|max:255',
-            'alamat_konsumen'            => 'nullable|string|max:255',
+            'alamat_konsumen'            => 'required|string|max:255',
             'provinsi_code_1'            => 'nullable|string|max:255',
             'kota_code_1'                => 'nullable|string|max:255',
             'kecamatan_code_1'           => 'nullable|string|max:255',
@@ -696,11 +724,23 @@ class KonsumenController extends Controller
             'alamat_1'                   => 'nullable|string|max:255',
             'pekerjaan_1_id'             => 'required|string|max:255',
             'marketing'                  => 'required|string|max:255',
+            'email'                      => 'required|string|max:255',
             'tanggal_booking'            => 'nullable|string|max:255',
             'booking_fee'                => 'nullable|string|max:255',
-            'email'                      => 'required|string|max:255',
-            'booking_fee'                => 'nullable|string|max:255',
-
+            'pajak_1_id'                 => 'nullable|string|max:255',
+            'pajak_2_id'                 => 'nullable|string|max:255',
+            'syarat_id'                  => 'nullable|string|max:255',
+            'level_harga_id'             => 'nullable|string|max:255',
+            'religion_id'                => 'nullable|string|max:255',
+            'status_pernikahan_id'       => 'nullable|string|max:255',
+            'nppkp_konsumen'             => 'nullable|string|max:255',
+            'nama_ayah'                  => 'nullable|string|max:255',
+            'nama_ibu'                   => 'nullable|string|max:255',
+            'batas_maks_hutang'          => 'nullable|string|max:255',
+            'batas_umur_hutang'          => 'nullable|string|max:255',
+            'diskon_penjualan'           => 'nullable|string|max:255',
+            'alamat_pajak_1'             => 'nullable|string|max:255',
+            'alamat_pajak_2'             => 'nullable|string|max:255',
             'konsumen_id'                => 'nullable|string|max:255',
             'pekerjaan_2_id'             => 'nullable|string|max:255',
             'nama_2'                     => 'nullable|string|max:255',
@@ -778,6 +818,8 @@ class KonsumenController extends Controller
         $message = [
             'nama_1.required' => 'Nama konsumen wajib diisi',
             'nik_1.required' => 'NIK konsumen wajib diisi',
+            'religion_id.required' => 'Agama wajib diisi',
+            'status_pernikahan_id.required' => 'Status pernikahan wajib diisi',
             'no_hp_1.required' => 'No HP wajib diisi',
             'status_pengajuan_id.required' => 'Status pengajuan wajib diisi',
             'jenis_kelamin_id.required' => 'Jenis kelamin wajib diisi',
@@ -787,6 +829,8 @@ class KonsumenController extends Controller
             'email.required' => 'Email wajib diisi',
             'pekerjaan_1_id.required' => 'Pekerjaan wajib diisi',
             'marketing.required' => 'Marketing wajib diisi',
+            'alamat_konsumen.required' => 'Alamat konsumen wajib diisi',
+
         ];
 
         $validator = Validator::make($request->all(), $rules, $message);

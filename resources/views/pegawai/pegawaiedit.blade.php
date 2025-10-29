@@ -38,7 +38,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Kota Kelahiran</label>  
+                            <label>Kota Kelahiran</label>
                             <select class="tomselect @error('tempat_lahir_pegawai') is-invalid @enderror"  name="tempat_lahir_pegawai" placeholder="Ketik untuk cari!">
                                 <option selected disabled {{ old('tempat_lahir_pegawai', $Pegawai->tempat_lahir_pegawai) ? '' : 'selected' }}> --Pilih Kota Lahir-- </option>
                                 @foreach ($kota as $k )
@@ -228,7 +228,7 @@
                                 <option value="{{ $citySelected->code }}" selected>{{ $citySelected->name }}</option>
                                 @else
                                 <option value="" disabled selected> --Pilih Kota-- </option>
-                                @endif                            
+                                @endif
                             </select>
                             @error('kota_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
@@ -242,7 +242,7 @@
                                 @else
                                 <option value="" disabled selected> --Pilih Kecamatan-- </option>
                                 @endif
-                            </select>                                     
+                            </select>
                             @error('kecamatan_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                     </div>
@@ -255,7 +255,7 @@
                                 @else
                                 <option value="" disabled selected> --Pilih Kelurahan-- </option>
                                 @endif
-                            </select>                                     
+                            </select>
                             @error('kelurahan_code')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                     </div>
@@ -367,7 +367,20 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary buttonedit">Update</button>
+                <div class="page-header">
+                    <div class="mb-15 row align-items-center">
+                        <div class="col">
+                            <div class="">
+                                <a href="{{ route('pegawai/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary buttonedit">
+                                    <i class="fas fa-save mr-2"></i>Update
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

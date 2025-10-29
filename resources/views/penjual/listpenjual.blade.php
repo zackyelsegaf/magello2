@@ -6,7 +6,7 @@
             <div class="row align-items-center">
                 <div class="col">
                     <div class="mt-5">
-                        <h4 class="card-title float-left mt-2">Data Penjual</h4>
+                        <h4 class="card-title float-left mt-2">Data Distributor</h4>
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                         <div class="form-group mb-1">
                             <label>Pencarian</label>
                             <input type="text" name="nama_depan_penjual" class="form-control form-control-sm" onchange="this.form.submit()" placeholder="Nama Depan Penjual" value="{{ request('nama_depan_penjual') }}">
-                        </div> 
+                        </div>
                         <div class="form-group mb-1">
                             <label>Dihentikan</label><br>
                             <div class="form-check mb-1">
@@ -95,8 +95,8 @@
                     }
                 },
                 dom: "<'row'<'col-sm-12'B>>" +
-                    "<'row'<'col-sm-12 mt-3'tr>>" + 
-                    "<'row'<'col-sm-12 col-md-6 mt-2'l><'col-sm-12 col-md-6'p>>", 
+                    "<'row'<'col-sm-12 mt-3'tr>>" +
+                    "<'row'<'col-sm-12 col-md-6 mt-2'l><'col-sm-12 col-md-6'p>>",
                 buttons: [
                     {
                         extend: 'copyHtml5',
@@ -198,8 +198,8 @@
             });
 
             $('form').on('submit', function(e) {
-                e.preventDefault(); 
-                table.draw();      
+                e.preventDefault();
+                table.draw();
             });
 
             $('#select_all').on('click', function() {

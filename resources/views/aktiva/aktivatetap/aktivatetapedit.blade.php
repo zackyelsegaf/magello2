@@ -26,7 +26,7 @@
                                     <select id="tipeAktivaTetap" class="form-control form-control-sm @error('tipe_aktiva') is-invalid @enderror" name="tipe_aktiva">
                                         <option disabled selected></option>
                                         @foreach ($tipeAktivaTetap as $items )
-                                        <option value="{{ $items->tipe_aktiva_tetap }}" 
+                                        <option value="{{ $items->tipe_aktiva_tetap }}"
                                             data-umur_perkiraan="{{ $items->umur_perkiraan }}"
                                             data-nilai_penyusutan="{{ $items->nilai_penyusutan }}"
                                             {{ old('tipe_aktiva', $aktivaTetap->tipe_aktiva) == $items->tipe_aktiva_tetap ? 'selected' : '' }}>{{ $items->tipe_aktiva_tetap }}</option>
@@ -184,7 +184,7 @@
                                                             <input type="text" name="nama_akun_indonesia" id="nama_akun_indonesia" class="form-control form-control-sm" placeholder="Nama Akun">
                                                         </div>
                                                     </div>
-                                                </div>                                            
+                                                </div>
                                                 <div class="modal-body">
                                                     <div class="table-responsive">
                                                         <table class="datatable table table-striped table-bordered table-hover table-center mb-0" id="tabelPilihBarang" style="margin: 0; border-collapse: collapse; width: 100%;">
@@ -211,7 +211,7 @@
                                                                     </tr>
                                                                 @endforeach
                                                             </tbody>
-                                                        </table>                                                    
+                                                        </table>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -220,7 +220,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered table-hover table-center mb-0" id="DataBarangAddSatuan">
                                             <thead class="thead-dark">
@@ -243,7 +243,7 @@
                                                         <td>
                                                             <div class="checkbox-wrapper-4">
                                                                 <input type="hidden" name="rekonsiliasi_check[{{ $index }}]" value="0">
-                                                                <input class="inp-cbx" name="rekonsiliasi_check[{{ $index }}]" id="rekonsiliasi_check_{{ $index }}" type="checkbox" value="1" 
+                                                                <input class="inp-cbx" name="rekonsiliasi_check[{{ $index }}]" id="rekonsiliasi_check_{{ $index }}" type="checkbox" value="1"
                                                                     {{ old("rekonsiliasi_check.$index", $detail->rekonsiliasi_check) ? 'checked' : '' }}>
                                                                 <label class="cbx" for="rekonsiliasi_check_{{ $index }}">
                                                                     <span><svg width="12px" height="10px"><use xlink:href="#check-4"></use></svg></span>
@@ -310,10 +310,12 @@
                     <div class="mb-15 row align-items-center">
                         <div class="col">
                             <div class="">
-                                <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-save mr-2"></i>Simpan</button>
-                                <a href="{{ route('aktivatetap/list/page') }}"
-                                    class="btn btn-primary float-left veiwbutton ml-3"><i
-                                        class="fas fa-chevron-left mr-2"></i>Batal</a>
+                                <a href="{{ route('aktivatetap/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary buttonedit">
+                                    <i class="fas fa-save mr-2"></i>Update
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -390,14 +392,14 @@
         document.addEventListener('DOMContentLoaded', function () {
             const checkbox = document.getElementById('rekonsiliasi_check');
             const kolomNilai = document.querySelectorAll('.kolom-nilai');
-    
+
             function toggleKolomNilai() {
                 const show = checkbox.checked;
                 kolomNilai.forEach(kolom => {
                     kolom.style.display = show ? '' : 'none';
                 });
             }
-    
+
             toggleKolomNilai();
             checkbox.addEventListener('change', toggleKolomNilai);
         });

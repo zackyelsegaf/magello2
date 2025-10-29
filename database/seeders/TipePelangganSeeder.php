@@ -14,12 +14,14 @@ class TipePelangganSeeder extends Seeder
     public function run(): void
     {
         $tipePelanggan = [
-            'PNS',
+            'Wirausaha',
             'KOMERSIL',
-            'TAPERA',
+            'ASN/PNS',
+            'TNI',
             'POLRI',
-            'P3K',
-            'UMUM',
+            'BUMN',
+            'Karyawan Swasta',
+            'Guru/Dosen/Pengajar'
         ];
 
         foreach ($tipePelanggan as $nama) {

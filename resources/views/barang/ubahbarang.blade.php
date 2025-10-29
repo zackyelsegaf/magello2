@@ -5,7 +5,7 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title mt-5">Edit Barang</h3> 
+                        <h3 class="page-title mt-5">Edit Barang</h3>
                     </div>
                 </div>
             </div>
@@ -14,11 +14,11 @@
                 <div class="tab-content profile-tab-cont">
                     <div class="profile-menu">
                         <ul class="nav nav-tabs nav-tabs-solid">
-                            <li class="nav-item"> 
-                                <a class="nav-link active" data-toggle="tab" href="#umum">Umum</a> 
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#umum">Umum</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen</a> 
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#dokumen">Dokumen</a>
                             </li>
                         </ul>
                     </div>
@@ -60,7 +60,7 @@
                                                 <div class="form-group">
                                                     <label>No. Barang</label>
                                                     <input type="text" class="form-control form-control-sm  @error('no_barang') is-invalid @enderror" name="no_barang" value="{{ $Barang->no_barang }}">
-                                                </div>                                                
+                                                </div>
                                                 <div class="form-group">
                                                     <label>Nama Barang</label>
                                                     <input type="text" class="form-control form-control-sm  @error('nama_barang') is-invalid @enderror" name="nama_barang" value="{{ $Barang->nama_barang }}">
@@ -72,7 +72,7 @@
                                                         <input type="checkbox" name="sub_barang_check" id="sub_barang_check" value="1" {{ old('sub_barang_check', $Barang->sub_barang_check) ? 'checked' : '' }}>
                                                         <span class="slider round"></span>
                                                     </label>
-                                                </div>  
+                                                </div>
                                                 <div class="form-group" id="tipe_barang_form" style="display: none;">
                                                     {{-- <label>Subdari</label> --}}
                                                     <select class="form-control form-control-sm  @error('sub_barang') is-invalid @enderror"  name="sub_barang">
@@ -131,7 +131,7 @@
                                                         <span class="slider round"></span>
                                                     </label>
                                                     <span class="ml-2" id="dihentikan-status">{{ old('dihentikan', $Barang->dihentikan) ? 'Aktif' : 'Tidak Aktif' }}</span>
-                                                </div>  
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -176,17 +176,17 @@
                 <div class="tab-content profile-tab-cont">
                     <div class="profile-menu">
                         <ul class="nav nav-tabs nav-tabs-solid">
-                            <li class="nav-item"> 
-                                <a class="nav-link active font-weight-bold" data-toggle="tab" href="#detail">Detail</a> 
+                            <li class="nav-item">
+                                <a class="nav-link active font-weight-bold" data-toggle="tab" href="#detail">Detail</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#satuan">Satuan</a> 
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#satuan">Satuan</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#bebandanharga">Beban dan Harga</a> 
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#bebandanharga">Beban dan Harga</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link" data-toggle="tab" href="#upc">UPC dan PLU</a> 
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#upc">UPC dan PLU</a>
                             </li>
                         </ul>
                     </div>
@@ -248,11 +248,11 @@
                                                 <label>Kalkulasi</label>
                                                 <input type="text" id="total_saldo" class="form-control form-control-sm " value="{{ 'Rp ' . number_format($Barang->total_saldo_awal ?? 0, 0, ',', '.') }}" readonly>
                                                 <input type="hidden" id="total_saldo_awal" name="total_saldo_awal" value="{{ $Barang->total_saldo_awal ?? 0 }}">
-                                            </div>     
+                                            </div>
                                             <div class="form-group">
                                                 <label>Total Awal</label>
                                                 <input class="form-control form-control-sm " value="{{ 'Rp '. number_format($Barang->total_saldo_awal ?? 0, 0, ',', '.') }}" readonly>
-                                            </div>    
+                                            </div>
                                             <div class="form-group">
                                                 <h5 class="card-title">Informasi Pembelian</h5>
                                                 <label>Gudang</label>
@@ -266,7 +266,7 @@
                                             <div class="form-group">
                                                 <label>Tanggal</label>
                                                 <div class="cal-icon">
-                                                    <input type="text" class="form-control form-control-sm  datetimepicker @error('tanggal_mulai') is-invalid @enderror" name="tanggal_mulai" value="{{ $Barang->tanggal_mulai }}"> 
+                                                    <input type="text" class="form-control form-control-sm  datetimepicker @error('tanggal_mulai') is-invalid @enderror" name="tanggal_mulai" value="{{ $Barang->tanggal_mulai }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -342,7 +342,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                     <div id="bebandanharga" class="tab-pane fade">
                         <div class="card">
                             <div class="card-body">
@@ -350,7 +350,7 @@
                                 <div class="row">
                                     <div class="col-lg-8">
                                         <div class="row formtype">
-                                            <div class="col-md-8">                                              
+                                            <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label>Minimal Harga Jual</label>
                                                     <input type="text" class="form-control form-control-sm  @error('minimal_harga_jual') is-invalid @enderror" name="minimal_harga_jual" value="{{ $Barang->minimal_harga_jual }}">
@@ -380,7 +380,7 @@
                                 <div class="row">
                                     <div class="col-lg-8">
                                         <div class="row formtype">
-                                            <div class="col-md-8">                                              
+                                            <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label>No. UPC/Barcode</label>
                                                     <input type="text" class="form-control form-control-sm  @error('nomor_upc') is-invalid @enderror" name="nomor_upc" value="{{ $Barang->nomor_upc }}">
@@ -401,8 +401,12 @@
                     <div class="mb-15 row align-items-center">
                         <div class="col">
                             <div class="">
-                                <button type="submit" class="btn btn-primary buttonedit">Update</button>
-                                <a href="{{ route('barang/list/page') }}" class="btn btn-primary float-left veiwbutton ml-3 mb-5"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                                <a href="{{ route('barang/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                                    <i class="fas fa-chevron-left mr-2"></i>Batal
+                                </a>
+                                <button type="submit" class="btn btn-primary buttonedit">
+                                    <i class="fas fa-save mr-2"></i>Update
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -414,16 +418,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('total_saldo_awal');
-    
+
             input.addEventListener('input', () => {
                 let angka = input.value.replace(/\D/g, '');
                 input.value = formatRupiah(angka);
             });
-    
+
             input.closest('form').addEventListener('submit', () => {
                 input.value = input.value.replace(/\D/g, '');
             });
-    
+
             function formatRupiah(angka, prefix = 'Rp ') {
                 return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
@@ -433,7 +437,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             const checkbox = document.getElementById("sub_barang_check");
             const tipeAkunForm = document.getElementById("tipe_barang_form");
-    
+
             function toggleTipeAkunForm() {
                 if (checkbox.checked) {
                     tipeAkunForm.style.display = "block";
@@ -441,9 +445,9 @@
                     tipeAkunForm.style.display = "none";
                 }
             }
-    
+
             toggleTipeAkunForm();
-    
+
             checkbox.addEventListener("change", toggleTipeAkunForm);
         });
     </script>
@@ -451,7 +455,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             const checkbox = document.getElementById("sub_barang_check");
             const tipeAkunForm = document.getElementById("tipe_barang_form");
-    
+
             function toggleTipeAkunForm() {
                 if (checkbox.checked) {
                     tipeAkunForm.style.display = "block";
@@ -459,9 +463,9 @@
                     tipeAkunForm.style.display = "none";
                 }
             }
-    
+
             toggleTipeAkunForm();
-    
+
             checkbox.addEventListener("change", toggleTipeAkunForm);
         });
     </script>
@@ -473,12 +477,12 @@
             function updateStatusText() {
                 statusText.textContent = checkbox.checked ? 'Ya' : 'Tidak';
             }
-    
+
             updateStatusText();
-    
+
             checkbox.addEventListener('change', updateStatusText);
         });
-    </script>    
+    </script>
     <script>
         $(function() {
             $('#datetimepicker3').datetimepicker({
@@ -489,16 +493,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('kuantitas_saldo_awal');
-    
+
             input.addEventListener('input', () => {
                 let angka = input.value.replace(/\D/g, '');
                 input.value = formatRupiah(angka);
             });
-    
+
             input.closest('form').addEventListener('submit', () => {
                 input.value = input.value.replace(/\D/g, '');
             });
-    
+
             function formatRupiah(angka, prefix = '') {
                 return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
@@ -507,16 +511,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('biaya_pokok_sekarang');
-    
+
             input.addEventListener('input', () => {
                 let angka = input.value.replace(/\D/g, '');
                 input.value = formatRupiah(angka);
             });
-    
+
             input.closest('form').addEventListener('submit', () => {
                 input.value = input.value.replace(/\D/g, '');
             });
-    
+
             function formatRupiah(angka, prefix = 'Rp ') {
                 return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
@@ -543,16 +547,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('biaya_satuan_saldo_awal');
-    
+
             input.addEventListener('input', () => {
                 let angka = input.value.replace(/\D/g, '');
                 input.value = formatRupiah(angka);
             });
-    
+
             input.closest('form').addEventListener('submit', () => {
                 input.value = input.value.replace(/\D/g, '');
             });
-    
+
             function formatRupiah(angka, prefix = 'Rp ') {
                 return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
@@ -564,7 +568,7 @@
             const kuantitas_saldo_awal = document.getElementById('kuantitas_saldo_awal');
             const total_saldo = document.getElementById('total_saldo');
             const total_saldo_awal = document.getElementById('total_saldo_awal'); // hidden input untuk data bersih
-        
+
             function handleInputFormat(input) {
                 input.addEventListener('input', () => {
                     let angka = input.value.replace(/\D/g, '');
@@ -572,23 +576,23 @@
                     hitungTotal();
                 });
             }
-        
+
             handleInputFormat(biaya_satuan_saldo_awal);
             handleInputFormat(kuantitas_saldo_awal);
-        
+
             function hitungTotal() {
                 let saldo = parseInt(biaya_satuan_saldo_awal.value.replace(/\D/g, '')) || 0;
                 let tambahan = parseInt(kuantitas_saldo_awal.value.replace(/\D/g, '')) || 0;
                 let total = saldo * tambahan;
-        
+
                 total_saldo.value = formatRupiah(total.toString());
                 total_saldo_awal.value = total;
             }
-        
+
             function formatRupiah(angka, prefix = '') {
                 return prefix + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             }
-        
+
             const form = biaya_satuan_saldo_awal.closest('form');
             if (form) {
                 form.addEventListener('submit', () => {
@@ -602,15 +606,15 @@
     <script>
         let fieldCount = {{ $i - 1 }};
         const maxFields = 7;
-    
+
         document.getElementById('fileuploads_btn_update').addEventListener('click', function () {
             if (fieldCount >= maxFields) {
                 alert('Maksimal hanya boleh 7 file.');
                 return;
             }
-            
+
             fieldCount++;
-    
+
             const fieldRow = `
                 <div class="row formtype mb-2" id="fieldRow_${fieldCount}">
                     <div class="col-md-6">
@@ -621,16 +625,16 @@
                     </div>
                 </div>
             `;
-    
+
             document.getElementById('fileuploads_loop').insertAdjacentHTML('beforeend', fieldRow);
         });
-    
+
         document.addEventListener('click', function (e) {
             if (e.target.classList.contains('removeField')) {
                 const id = e.target.dataset.id;
                 document.getElementById('fieldRow_' + id).remove();
             }
         });
-    </script>    
+    </script>
     @endsection
 @endsection

@@ -786,8 +786,21 @@ Route::controller(KavlingController::class)->group(function () {
     Route::post('booking/update/{id}', 'updateBooking')->middleware('auth')->name('booking/update');
     Route::get('/booking/file/delete/{file}', [KavlingController::class, 'deleteFile'])->name('booking/file/delete');
     Route::get('kavling/{id}/booking/new', 'kavlingAddBooking')->middleware('auth')->name('kavling/booking/new');
-    Route::get('booking/{booking}/status/update', 'addStatusBooking')->middleware('auth')->name('booking/status/update');
-    Route::post('form/{id}/booking/status/save', 'saveRecordStatusBooking')->middleware('auth')->name('form/booking/status/save');
+    // Route::get('booking/{booking}/status-update', 'addStatusBooking')->middleware('auth')->name('booking/status-update');
+    // Route::post('form/booking/status-update/save', 'saveRecordStatusBooking')->middleware('auth')->name('form/booking/status-update/save');
+    Route::get('booking/{booking}/status-update', [KavlingController::class, 'addStatusBooking'])->middleware('auth')->name('booking/status-update/show');
+    Route::middleware('auth')->group(function () {
+        Route::prefix('booking/{booking}/status-update')->name('booking.status-update.')->group(function () {
+            Route::post('pemberkasan',   [KavlingController::class,'storePemberkasan'])->name('pemberkasan.store');
+            Route::post('proses',        [KavlingController::class,'storeProses'])->name('proses.store');
+            Route::post('analisa-bank',  [KavlingController::class,'storeAnalisa'])->name('analisa.store');
+            Route::post('sp3k',          [KavlingController::class,'storeSp3k'])->name('sp3k.store');
+            Route::post('akad-kredit',   [KavlingController::class,'storeAkad'])->name('akad.store');
+            Route::post('ajb',           [KavlingController::class,'storeAjb'])->name('ajb.store');
+            Route::post('ditolak-bank',  [KavlingController::class,'storeDitolak'])->name('ditolak.store');
+            Route::post('mundur',        [KavlingController::class,'storeMundur'])->name('mundur.store');
+        });
+    });
     Route::get('spr/{booking}/add/new', [KavlingController::class, 'kavlingAddSpr'])->middleware('auth')->name('spr/add/new');
     Route::post('spr/update/{id}', 'updateSPR')->middleware('auth')->name('spr/update');
     Route::get('spr/edit/{id}', 'editSPR')->middleware('auth')->name('spr/edit');
