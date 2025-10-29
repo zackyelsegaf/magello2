@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ArsipFile extends Model
 {
     protected $table = 'arsip_files';
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     public function arsipmultimenu()
     {

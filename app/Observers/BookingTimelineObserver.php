@@ -11,11 +11,11 @@ class BookingTimelineObserver
      */
     public function created(BookingTimeline $bookingTimeline): void
     {
-        if ($bookingTimeline->is_current) {
-            $bookingTimeline->booking()->update([
-                'current_status_code' => $bookingTimeline->status_code,
-            ]);
-        }
+        // if ($bookingTimeline->is_current) {
+        //     $bookingTimeline->booking()->update([
+        //         'current_status_code' => $bookingTimeline->status_code,
+        //     ]);
+        // }
     }
 
     /**

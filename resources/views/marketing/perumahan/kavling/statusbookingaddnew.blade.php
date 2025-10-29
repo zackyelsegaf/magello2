@@ -31,6 +31,13 @@
                                                     <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailPemberkasan->tanggal_pemberkasan)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
                                                 @endif
                                             </div>
+                                            <div class="w-200">
+                                                @if($has0)
+                                                    <span class="ml-2 badge badge-{{ $isAktif0 ? 'primary' : 'success' }}">
+                                                    {{ $isAktif0 ? 'Status saat ini' : 'Selesai' }}
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </div>
                                     </a>
                                 </div>
@@ -53,6 +60,13 @@
                                                 <div class="text-dark font-weight-bold text-truncate"><h6>Proses Ke Bank</h6></div>
                                                 @if($detailProses)
                                                     <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailProses->tanggal_masuk_bank)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
+                                                @endif
+                                            </div>
+                                            <div class="w-200">
+                                                @if($has1)
+                                                    <span class="ml-2 badge badge-{{ $isAktif1 ? 'primary' : 'success' }}">
+                                                    {{ $isAktif1 ? 'Status saat ini' : 'Selesai' }}
+                                                    </span>
                                                 @endif
                                             </div>
                                         </div>
@@ -79,6 +93,13 @@
                                                     <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailAnalisa->tanggal_masuk_analisa_bank)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
                                                 @endif
                                             </div>
+                                            <div class="w-200">
+                                                @if($has2)
+                                                    <span class="ml-2 badge badge-{{ $isAktif2 ? 'primary' : 'success' }}">
+                                                    {{ $isAktif2 ? 'Status saat ini' : 'Selesai' }}
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </div>
                                     </a>
                                 </div>
@@ -101,6 +122,13 @@
                                                 <div class="text-dark font-weight-bold text-truncate"><h6>SP3K</h6></div>
                                                 @if($detailSp3k)
                                                     <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailSp3k->tanggal_sp3k)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
+                                                @endif
+                                            </div>
+                                            <div class="w-200">
+                                                @if($has3)
+                                                    <span class="ml-2 badge badge-{{ $isAktif3 ? 'primary' : 'success' }}">
+                                                    {{ $isAktif3 ? 'Status saat ini' : 'Selesai' }}
+                                                    </span>
                                                 @endif
                                             </div>
                                         </div>
@@ -127,6 +155,13 @@
                                                     <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailAkad->tanggal_akad)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
                                                 @endif
                                             </div>
+                                            <div class="w-200">
+                                                @if($has4)
+                                                    <span class="ml-2 badge badge-{{ $isAktif4 ? 'primary' : 'success' }}">
+                                                    {{ $isAktif4 ? 'Status saat ini' : 'Selesai' }}
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </div>
                                     </a>
                                 </div>
@@ -149,6 +184,13 @@
                                                 <div class="text-dark font-weight-bold text-truncate"><h6>AJB</h6></div>
                                                 @if($detailAjb)
                                                     <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailAjb->tanggal_ajb)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
+                                                @endif
+                                            </div>
+                                            <div class="w-200">
+                                                @if($has5)
+                                                    <span class="ml-2 badge badge-{{ $isAktif5 ? 'primary' : 'success' }}">
+                                                    {{ $isAktif5 ? 'Status saat ini' : 'Selesai' }}
+                                                    </span>
                                                 @endif
                                             </div>
                                         </div>
@@ -177,6 +219,13 @@
                                                     <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailDitolakBank->tanggal_ditolak)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
                                                 @endif
                                             </div>
+                                            <div class="w-200">
+                                                @if($has6)
+                                                    <span class="ml-2 badge badge-{{ $isAktif6 ? 'primary' : 'success' }}">
+                                                    {{ $isAktif6 ? 'Status saat ini' : 'Selesai' }}
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </div>
                                     </a>
                                 </div>
@@ -201,6 +250,13 @@
                                                     <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailMundur->tanggal_mundur)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
                                                 @endif
                                             </div>
+                                            <div class="w-200">
+                                                @if($has7)
+                                                    <span class="ml-2 badge badge-{{ $isAktif7 ? 'primary' : 'success' }}">
+                                                    {{ $isAktif7 ? 'Status saat ini' : 'Selesai' }}
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </div>
                                     </a>
                                 </div>
@@ -220,15 +276,6 @@
                                                 <i class="fas fa-book text-white"></i>
                                             </div>
                                             <h3 class="font-weight-bold mb-0">Pemberkasan</h3>
-                                            @php
-    $isAktif = $detailPemberkasan?->timeline()?->where('is_current', true) ?? false;
-@endphp
-
-<span class="ml-2 badge badge-{{ $isAktif ? 'success' : 'secondary' }}">
-    {{ $isAktif ? 'Aktif' : 'Draft' }}
-</span>
-
-
                                         </div>
 
                                         <div class="border bg-white my-rounded-2 p-3">
@@ -279,7 +326,7 @@
                             <form method="POST" action="{{ route('booking.status-update.proses.store', $booking) }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="col px-0 mb-3 timeline-panel" id="panel-proses-ke-bank">
-                                    <div class="timeline-container warning">
+                                    <div class="timeline-container warning-custom">
                                         <div class="timeline-icon">
                                             <i class="fas fa-university text-white"></i>
                                         </div>
@@ -312,7 +359,7 @@
                             <form method="POST" action="{{ route('booking.status-update.analisa.store', $booking->id) }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="col px-0 mb-3 timeline-panel" id="panel-analisa-bank">
-                                    <div class="timeline-container warning">
+                                    <div class="timeline-container warning-custom">
                                         <div class="timeline-icon">
                                             <i class="fas fa-search text-white"></i>
                                         </div>
@@ -345,7 +392,7 @@
                             <form method="POST" action="{{ route('booking.status-update.sp3k.store', $booking->id) }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="col px-0 mb-3 timeline-panel" id="panel-sp3k">
-                                    <div class="timeline-container success">
+                                    <div class="timeline-container success-custom">
                                         <div class="timeline-icon">
                                             <i class="fas fa-clipboard-check text-white"></i>
                                         </div>
@@ -373,12 +420,12 @@
                                             <div class="form-group mb-2">
                                                 @if($arsip && $arsip->isNotEmpty())
                                                     @foreach($arsip as $a)
-                                                        <div class="form-group mb-2">
+                                                        <div class="form-group mb-5">
                                                             @if($a['file_url'])
                                                                 <label>File Arsip</label>
                                                                 <small class="d-block mt-1">
                                                                     <a class="btn btn-primary buttonedit-sm mr-2" href="{{ $a['file_url'] }}" target="_blank"><strong><i class="fas fa-file mr-2"></i></strong>Download File{{-- $a['original_name'] ?? 'lihat' --}}</a>
-                                                                    {{-- <a class="btn btn-primary buttonedit2-sm" href="{{ route('spkmandorpekerjainternal/file/delete', $a['id']) }}" ><i class="fas fa-trash-alt mr-2"></i>Hapus</a> --}}
+                                                                    <a href="{{ route('booking/file/delete', $a['id']) }}" class="btn btn-primary buttonedit2-sm"><i class="fas fa-trash-alt mr-2"></i>Hapus</a>
                                                                 </small>
                                                             @endif
                                                         </div>
@@ -431,7 +478,7 @@
                             <form method="POST" action="{{ route('booking.status-update.akad.store', $booking->id) }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="col px-0 mb-3 timeline-panel" id="panel-akad-kredit">
-                                    <div class="timeline-container success">
+                                    <div class="timeline-container success-custom">
                                         <div class="timeline-icon">
                                             <i class="fas fa-edit text-white"></i>
                                         </div>
@@ -464,7 +511,7 @@
                             <form method="POST" action="{{ route('booking.status-update.ajb.store', $booking->id) }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="col px-0 mb-3 timeline-panel" id="panel-ajb">
-                                    <div class="timeline-container success">
+                                    <div class="timeline-container success-custom">
                                         <div class="timeline-icon">
                                             <i class="fas fa-edit text-white"></i>
                                         </div>
@@ -493,7 +540,7 @@
                             <form method="POST" action="{{ route('booking.status-update.ditolak.store', ['booking' => $booking->id]) }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="col px-0 mb-3 timeline-panel" id="panel-ditolak-bank">
-                                    <div class="timeline-container danger">
+                                    <div class="timeline-container danger-custom">
                                         <div class="timeline-icon">
                                             <i class="fas fa-times-circle text-white"></i>
                                         </div>

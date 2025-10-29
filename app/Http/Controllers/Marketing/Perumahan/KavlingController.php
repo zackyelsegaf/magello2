@@ -467,6 +467,10 @@ class KavlingController extends Controller
 
     public function addStatusBooking(BookingKavling $booking)
     {
+        // $activeCode = BookingTimeline::where('booking_id', $booking->id)
+        //     ->where('is_current', 1)
+        //     ->value('status_code');
+            
         $detailPemberkasan = BookingStatus0Pemberkasan::where('booking_id', $booking->id)->first();
         $detailProses      = BookingStatus1Proses::where('booking_id', $booking->id)->first();
         $detailAnalisa     = BookingStatus2AnalisaBank::where('booking_id', $booking->id)->first();
@@ -477,18 +481,45 @@ class KavlingController extends Controller
         $detailMundur      = BookingStatus7Mundur::where('booking_id', $booking->id)->first();
         $arsip = collect();
         if ($detailSp3k) {
-            $arsip = $detailSp3k->arsipFiles()->get()->map(function ($a) {
-                return [
-                    'id'               => $a->id,
-                    'nama_arsip'       => $a->nama_arsip,
-                    'nomor_arsip'      => $a->nomor_arsip,
-                    'keterangan_arsip' => $a->keterangan_arsip,
-                    'original_name'    => $a->original_name,
-                    'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
-                    'file_label'       => 'Ganti File',
-                ];
-            });
+            $arsip = $detailSp3k->arsipFiles()
+                ->latest('id')
+                ->get()
+                ->map(function ($a) {
+                    return [
+                        'id'               => $a->id,
+                        'nama_arsip'       => $a->nama_arsip,
+                        'nomor_arsip'      => $a->nomor_arsip,
+                        'keterangan_arsip' => $a->keterangan_arsip,
+                        'original_name'    => $a->original_name,
+                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
+                        'file_label'       => 'Ganti File',
+                    ];
+                });
         }
+
+        $has0     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 0)->whereIn('is_current', [0,1])->exists();
+        $isAktif0 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 0)->where('is_current', 1)->exists();
+
+        $has1     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 1)->whereIn('is_current', [0,1])->exists();
+        $isAktif1 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 1)->where('is_current', 1)->exists();
+
+        $has2     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 2)->whereIn('is_current', [0,1])->exists();
+        $isAktif2 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 2)->where('is_current', 1)->exists();
+
+        $has3     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 3)->whereIn('is_current', [0,1])->exists();
+        $isAktif3 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 3)->where('is_current', 1)->exists();
+
+        $has4     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 4)->whereIn('is_current', [0,1])->exists();
+        $isAktif4 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 4)->where('is_current', 1)->exists();
+
+        $has5     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 5)->whereIn('is_current', [0,1])->exists();
+        $isAktif5 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 5)->where('is_current', 1)->exists();
+
+        $has6     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 6)->whereIn('is_current', [0,1])->exists();
+        $isAktif6 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 6)->where('is_current', 1)->exists();
+
+        $has7     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 7)->whereIn('is_current', [0,1])->exists();
+        $isAktif7 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 7)->where('is_current', 1)->exists();
             
         $timelineBooking = BookingTimeline::where('booking_id', $booking->id)
             ->where('status_code', 0)
@@ -530,7 +561,7 @@ class KavlingController extends Controller
 
         $nomorPreview = 'SPR' . substr($booking->nomor_booking, 2);
 
-        return view('marketing.perumahan.kavling.statusbookingaddnew', compact('kota','nomorPreview', 'booking', 'detailPemberkasan', 'timelineBooking', 'detailProses', 'detailAnalisa', 'detailSp3k', 'arsip', 'detailAkad', 'detailAjb', 'detailDitolakBank', 'detailMundur', 'tanggalPemberkasan', 'tanggalProses', 'tanggalAnalisa', 'tanggalSp3k', 'tanggalAkad', 'tanggalAjb', 'tanggalDitolakBank', 'tanggalMundur'));
+        return view('marketing.perumahan.kavling.statusbookingaddnew', compact('kota','nomorPreview', 'booking', 'detailPemberkasan', 'timelineBooking', 'detailProses', 'detailAnalisa', 'detailSp3k', 'arsip', 'detailAkad', 'detailAjb', 'detailDitolakBank', 'detailMundur', 'tanggalPemberkasan', 'tanggalProses', 'tanggalAnalisa', 'tanggalSp3k', 'tanggalAkad', 'tanggalAjb', 'tanggalDitolakBank', 'tanggalMundur', 'has0', 'has1', 'has2', 'has3', 'has4', 'has5', 'has6', 'has7', 'isAktif0', 'isAktif1', 'isAktif2', 'isAktif3', 'isAktif4', 'isAktif5', 'isAktif6', 'isAktif7'));
     }
 
     // public function storePemberkasan(Request $request, $booking_id)
@@ -723,14 +754,24 @@ class KavlingController extends Controller
                 ]
             );
 
+            if ($request->action === 'save') {
+
+                $timeline->update(['is_current' => '']);
+            }
+
             if ($request->action === 'set') {
                 $label = "Pemberkasan";
                 if (!empty($detail->tanggal_pemberkasan)) {
                     $label .= '<strong>'."<br>Tanggal: {$detail->tanggal_pemberkasan}".'</strong>';
                 }
+
                 $booking->update(['status_pengajuan' => $label]);
-                $timeline->update(['is_current' => true]); // NEW
+
+                BookingTimeline::where('booking_id', $booking->id)->update(['is_current' => false]);
+
+                $timeline->update(['is_current' => true]);
             }
+
 
             DB::commit();
             sweetalert()->success($request->action === 'set'
@@ -771,7 +812,7 @@ class KavlingController extends Controller
                 ]
             );
 
-            BookingTimeline::updateOrCreate(
+            $timeline = BookingTimeline::updateOrCreate(
                 [
                     'booking_id'      => $booking->id,
                     'status_code'     => 1,
@@ -785,14 +826,19 @@ class KavlingController extends Controller
                 ]
             );
 
+            if ($request->action === 'save') {
+
+                $timeline->update(['is_current' => '']);
+            }
+
             if ($request->action === 'set') {
-                $parts = [];
-                if (!empty($detail->tanggal_masuk_bank)) {
-                    $parts[] = 'Tanggal: '.$detail->tanggal_masuk_bank;
-                }
-                if (!empty($detail->nama_bank_proses)) {
-                    $parts[] = 'Bank: '.$detail->nama_bank_proses;
-                }
+                // $parts = [];
+                // if (!empty($detail->tanggal_masuk_bank)) {
+                //     $parts[] = 'Tanggal: '.$detail->tanggal_masuk_bank;
+                // }
+                // if (!empty($detail->nama_bank_proses)) {
+                //     $parts[] = 'Bank: '.$detail->nama_bank_proses;
+                // }
 
                 $label = "Proses Ke Bank";
                 if (!empty($detail->tanggal_masuk_bank)) {
@@ -803,6 +849,10 @@ class KavlingController extends Controller
                 }
 
                 $booking->update(['status_pengajuan' => $label]);
+
+                BookingTimeline::where('booking_id', $booking->id)->update(['is_current' => false]);
+
+                $timeline->update(['is_current' => true]);
             }
 
             DB::commit();
@@ -844,7 +894,7 @@ class KavlingController extends Controller
                 ]
             );
 
-            BookingTimeline::updateOrCreate(
+            $timeline = BookingTimeline::updateOrCreate(
                 [
                     'booking_id'      => $booking->id,
                     'status_code'     => 2,
@@ -858,14 +908,19 @@ class KavlingController extends Controller
                 ]
             );
 
+            if ($request->action === 'save') {
+
+                $timeline->update(['is_current' => '']);
+            }
+
             if ($request->action === 'set') {
-                $parts = [];
-                if (!empty($detail->tanggal_masuk_analisa_bank)) {
-                    $parts[] = 'Tanggal: '.$detail->tanggal_masuk_analisa_bank;
-                }
-                if (!empty($detail->nama_bank_analisa)) {
-                    $parts[] = 'Bank: '.$detail->nama_bank_analisa;
-                }
+                // $parts = [];
+                // if (!empty($detail->tanggal_masuk_analisa_bank)) {
+                //     $parts[] = 'Tanggal: '.$detail->tanggal_masuk_analisa_bank;
+                // }
+                // if (!empty($detail->nama_bank_analisa)) {
+                //     $parts[] = 'Bank: '.$detail->nama_bank_analisa;
+                // }
 
                 $label = "Analisa Bank";
                 if (!empty($detail->tanggal_masuk_analisa_bank)) {
@@ -876,6 +931,10 @@ class KavlingController extends Controller
                 }
 
                 $booking->update(['status_pengajuan' => $label]);
+
+                BookingTimeline::where('booking_id', $booking->id)->update(['is_current' => false]);
+
+                $timeline->update(['is_current' => true]);
             }
 
             DB::commit();
@@ -934,23 +993,21 @@ class KavlingController extends Controller
 
             if ($filePath) { 
                 $uploaded = $request->file('file_sp3k');
-                ArsipFile::create([
-                    'arsipmultimenu_type' => get_class($detail),
-                    'arsipmultimenu_id'   => $detail->id,
-                    'nama_arsip'          => $detail['nomor_sp3k'] ?? 'Lampiran SP3K',
-                    'nomor_arsip'         => null,
-                    'tanggal_arsip'       => $detail['tanggal_sp3k'],
-                    'disk'                => 'public',
-                    'file_arsip'          => $filePath,
-                    'keterangan_arsip'    => 'Lampiran SP3K',
-                    'original_name'       => $uploaded?->getClientOriginalName(),
-                    'mime_type'           => $uploaded?->getClientMimeType(),
-                    'file_size'           => $uploaded?->getSize(),
-                    'uploaded_by'         => optional($request->user())->id,
+                $detail->arsipFiles()->create([
+                    'nama_arsip'       => $detail['nomor_sp3k'] ?? 'Lampiran SP3K',
+                    'nomor_arsip'      => null,
+                    'tanggal_arsip'    => $detail['tanggal_sp3k'],
+                    'disk'             => 'public',
+                    'file_arsip'       => $filePath,
+                    'keterangan_arsip' => 'Lampiran SP3K',
+                    'original_name'    => $uploaded?->getClientOriginalName(),
+                    'mime_type'        => $uploaded?->getClientMimeType(),
+                    'file_size'        => $uploaded?->getSize(),
+                    'uploaded_by'      => optional($request->user())->id,
                 ]);
             }
 
-            BookingTimeline::updateOrCreate(
+            $timeline = BookingTimeline::updateOrCreate(
                 [
                     'booking_id'      => $booking->id,
                     'status_code'     => 3,
@@ -964,11 +1021,16 @@ class KavlingController extends Controller
                 ]
             );
 
+            if ($request->action === 'save') {
+
+                $timeline->update(['is_current' => '']);
+            }
+
             if ($request->action === 'set') {
-                $parts = [];
-                if (!empty($detail->tanggal_sp3k)) {
-                    $parts[] = 'Tanggal: '.$detail->tanggal_sp3k;
-                }
+                // $parts = [];
+                // if (!empty($detail->tanggal_sp3k)) {
+                //     $parts[] = 'Tanggal: '.$detail->tanggal_sp3k;
+                // }
                 // if (!empty($detail->nama_bank_analisa)) {
                 //     $parts[] = 'Bank: '.$detail->nama_bank_analisa;
                 // }
@@ -982,6 +1044,10 @@ class KavlingController extends Controller
                 // }
 
                 $booking->update(['status_pengajuan' => $label]);
+
+                BookingTimeline::where('booking_id', $booking->id)->update(['is_current' => false]);
+
+                $timeline->update(['is_current' => true]);
             }
 
             DB::commit();
@@ -996,6 +1062,7 @@ class KavlingController extends Controller
             return back()->withInput();
         }
     }
+    
 
     public function storeAkad(Request $request, $booking_id)
     {
@@ -1023,7 +1090,7 @@ class KavlingController extends Controller
                 ]
             );
 
-            BookingTimeline::updateOrCreate(
+            $timeline = BookingTimeline::updateOrCreate(
                 [
                     'booking_id'      => $booking->id,
                     'status_code'     => 4,
@@ -1037,17 +1104,22 @@ class KavlingController extends Controller
                 ]
             );
 
+            if ($request->action === 'save') {
+
+                $timeline->update(['is_current' => '']);
+            }
+
             if ($request->action === 'set') {
-                $parts = [];
-                if (!empty($detail->tanggal_akad)) {
-                    $parts[] = 'Tanggal: '.$detail->tanggal_akad;
-                }
-                if (!empty($detail->nama_akad)) {
-                    $parts[] = 'Bank: '.$detail->nama_akad;
-                }
-                if (!empty($detail->plafond_akad)) {
-                    $parts[] = 'Plafond: '.$detail->plafond_akad;
-                }
+                // $parts = [];
+                // if (!empty($detail->tanggal_akad)) {
+                //     $parts[] = 'Tanggal: '.$detail->tanggal_akad;
+                // }
+                // if (!empty($detail->nama_akad)) {
+                //     $parts[] = 'Bank: '.$detail->nama_akad;
+                // }
+                // if (!empty($detail->plafond_akad)) {
+                //     $parts[] = 'Plafond: '.$detail->plafond_akad;
+                // }
 
                 $label = "Akad Kredit";
                 if (!empty($detail->tanggal_akad)) {
@@ -1061,6 +1133,10 @@ class KavlingController extends Controller
                 }
 
                 $booking->update(['status_pengajuan' => $label]);
+
+                BookingTimeline::where('booking_id', $booking->id)->update(['is_current' => false]);
+
+                $timeline->update(['is_current' => true]);
             }
 
             DB::commit();
@@ -1100,7 +1176,7 @@ class KavlingController extends Controller
                 ]
             );
 
-            BookingTimeline::updateOrCreate(
+            $timeline = BookingTimeline::updateOrCreate(
                 [
                     'booking_id'      => $booking->id,
                     'status_code'     => 5,
@@ -1114,11 +1190,16 @@ class KavlingController extends Controller
                 ]
             );
 
+            if ($request->action === 'save') {
+
+                $timeline->update(['is_current' => '']);
+            }
+
             if ($request->action === 'set') {
-                $parts = [];
-                if (!empty($detail->tanggal_ajb)) {
-                    $parts[] = 'Tgl: '.$detail->tanggal_ajb;
-                }
+                // $parts = [];
+                // if (!empty($detail->tanggal_ajb)) {
+                //     $parts[] = 'Tgl: '.$detail->tanggal_ajb;
+                // }
                 // if (!empty($detail->catatan_ajb)) {
                 //     $parts[] = 'Catatan: '.$detail->catatan_ajb;
                 // }
@@ -1132,6 +1213,10 @@ class KavlingController extends Controller
                 // }
 
                 $booking->update(['status_pengajuan' => $label]);
+
+                BookingTimeline::where('booking_id', $booking->id)->update(['is_current' => false]);
+
+                $timeline->update(['is_current' => true]);
             }
 
             DB::commit();
@@ -1171,7 +1256,7 @@ class KavlingController extends Controller
                 ]
             );
 
-            BookingTimeline::updateOrCreate(
+            $timeline = BookingTimeline::updateOrCreate(
                 [
                     'booking_id'      => $booking->id,
                     'status_code'     => 7,
@@ -1185,11 +1270,16 @@ class KavlingController extends Controller
                 ]
             );
 
+            if ($request->action === 'save') {
+
+                $timeline->update(['is_current' => '']);
+            }
+
             if ($request->action === 'set') {
-                $parts = [];
-                if (!empty($detail->tanggal_mundur)) {
-                    $parts[] = 'Tgl: '.$detail->tanggal_mundur;
-                }
+                // $parts = [];
+                // if (!empty($detail->tanggal_mundur)) {
+                //     $parts[] = 'Tgl: '.$detail->tanggal_mundur;
+                // }
                 // if (!empty($detail->alasan_mundur)) {
                 //     $parts[] = 'Alasan: '.$detail->alasan_mundur;
                 // }
@@ -1203,6 +1293,10 @@ class KavlingController extends Controller
                 // }
 
                 $booking->update(['status_pengajuan' => $label]);
+
+                BookingTimeline::where('booking_id', $booking->id)->update(['is_current' => false]);
+
+                $timeline->update(['is_current' => true]);
             }
 
             DB::commit();

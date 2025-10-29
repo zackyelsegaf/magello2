@@ -201,7 +201,7 @@ table.table td h2 a {
 }
 
 table.table td h2 a:hover {
-    color: #2962ff
+    color: #007bff
 }
 
 table.table td h2 span {
@@ -407,7 +407,7 @@ table.table td h2 span {
 
 .bg-primary,
 .badge-primary {
-    background-color: #2962ff !important;
+    background-color: #007bff !important;
     color: white;
     padding: 8px;
 }
@@ -492,7 +492,7 @@ button.bg-danger:hover {
 
 .text-primary,
 .dropdown-menu>li>a.text-primary {
-    color: #2962ff !important
+    color: #007bff !important
 }
 
 .text-success,
@@ -574,8 +574,8 @@ button.bg-danger:hover {
 
 .btn-primary.disabled,
 .btn-primary:disabled {
-    background-color: #2962ff;
-    border-color: #2962ff;
+    background-color: #007bff;
+    border-color: #007bff;
     color: #fff
 }
 
@@ -793,13 +793,13 @@ button.bg-danger:hover {
 }
 
 .btn-outline-primary {
-    color: #2962ff;
-    border-color: #2962ff
+    color: #007bff;
+    border-color: #007bff
 }
 
 .btn-outline-primary:hover {
-    background-color: #2962ff;
-    border-color: #2962ff
+    background-color: #007bff;
+    border-color: #007bff
 }
 
 .btn-outline-primary:focus,
@@ -809,15 +809,15 @@ button.bg-danger:hover {
 
 .btn-outline-primary.disabled,
 .btn-outline-primary:disabled {
-    color: #2962ff;
+    color: #007bff;
     background-color: transparent
 }
 
 .btn-outline-primary:not(:disabled):not(.disabled):active,
 .btn-outline-primary:not(:disabled):not(.disabled).active,
 .show>.btn-outline-primary.dropdown-toggle {
-    background-color: #2962ff;
-    border-color: #2962ff
+    background-color: #007bff;
+    border-color: #007bff
 }
 
 .btn-outline-primary:not(:disabled):not(.disabled):active:focus,
@@ -1083,12 +1083,12 @@ button.bg-danger:hover {
 
 .bootstrap-datetimepicker-widget table td.active,
 .bootstrap-datetimepicker-widget table td.active:hover {
-    background-color: #2962ff;
+    background-color: #007bff;
     text-shadow: unset
 }
 
 .bootstrap-datetimepicker-widget table td.today:before {
-    border-bottom-color: #2962ff
+    border-bottom-color: #007bff
 }
 
 .bg-info-light {
@@ -1167,7 +1167,7 @@ button.bg-danger:hover {
 }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background-color: #2962ff
+    background-color: #007bff
 }
 
 .select2-container--default .select2-selection--multiple {
@@ -1202,8 +1202,8 @@ button.bg-danger:hover {
 .nav-tabs.nav-tabs-solid>.active>a,
 .nav-tabs.nav-tabs-solid>.active>a:hover,
 .nav-tabs.nav-tabs-solid>.active>a:focus {
-    background-color: #2962ff;
-    border-color: #2962ff;
+    background-color: #007bff;
+    border-color: #007bff;
     color: #fff
 }
 
@@ -1313,7 +1313,7 @@ button.bg-danger:hover {
 .nav-tabs.nav-tabs-top>li>a.active,
 .nav-tabs.nav-tabs-top>li>a.active:hover,
 .nav-tabs.nav-tabs-top>li>a.active:focus {
-    border-top-color: #2962ff
+    border-top-color: #007bff
 }
 
 .nav-tabs.nav-tabs-bottom>li {
@@ -1325,7 +1325,7 @@ button.bg-danger:hover {
 .nav-tabs.nav-tabs-bottom>li>a.active:focus {
     border-bottom-width: 2px;
     border-color: transparent;
-    border-bottom-color: #2962ff;
+    border-bottom-color: #007bff;
     background-color: transparent;
     transition: none 0s ease 0s;
     -moz-transition: none 0s ease 0s;
@@ -1378,7 +1378,7 @@ button.bg-danger:hover {
 }
 
 .line {
-    background-color: #2962ff;
+    background-color: #007bff;
     height: 2px;
     margin: 0;
     width: 60px
@@ -1447,7 +1447,7 @@ button.bg-danger:hover {
 .avatar-title {
     width: 100%;
     height: 100%;
-    background-color: #2962ff;
+    background-color: #007bff;
     color: #fff;
     display: flex;
     align-items: center;
@@ -3017,7 +3017,7 @@ html.menu-opened body {
 .fc-state-down,
 .fc-state-active,
 .fc-state-disabled {
-    background-color: #2962ff !important;
+    background-color: #007bff !important;
     color: #fff !important;
     text-shadow: none !important
 }
@@ -3095,7 +3095,7 @@ html.menu-opened body {
 }
 
 .mail-list>li.active>a {
-    color: #2962ff;
+    color: #007bff;
     font-weight: 700
 }
 
@@ -3712,7 +3712,7 @@ table.table-inbox tbody tr.checked {
 .chat-window .chat-cont-right .chat-footer .input-group .input-group-append .btn.msg-send-btn {
     background: linear-gradient(to right, #8971ea, #7f72ea, #7574ea, #6a75e9, #5f76e8);
     background: -webkit-linear-gradient(to right, #8971ea, #7f72ea, #7574ea, #6a75e9, #5f76e8);
-    border-color: #2962ff;
+    border-color: #007bff;
     color: #fff;
     margin-left: 100px;
 }
@@ -5042,7 +5042,7 @@ h3.page-sub-title {
 }
 
 .skin-settings .skin-colors .skin-purple {
-    background-color: #2962ff
+    background-color: #007bff
 }
 
 .skin-settings .skin-colors li a.active:after {
@@ -7347,12 +7347,12 @@ input:checked+.slider:before {
 } */
 
 :root {
-    --primary: #1d8cf8;
-    --secondary: #1d8cf8;
-    --info: #11cdef;
-    --success: #00bf9a;
-    --warning: #ff8d72;
-    --danger: #fd5d93;
+    --primary-custom: #1d8cf8;
+    --secondary-custom: #1d8cf8;
+    --info-custom: #11cdef;
+    --success-custom: #00bf9a;
+    --warning-custom: #ff8d72;
+    --danger-custom: #fd5d93;
     --body-bg: #1e1e2f;
     --timeline-before-bg : #222a42;
     --timeline-body-bg: #27293d;
@@ -7389,7 +7389,7 @@ input:checked+.slider:before {
             border-radius: 50%;
             text-align: center;
             font-size: 1rem;
-            background: var(--primary);
+            background: var(--primary-custom);
 
             i {
                 position: absolute;
@@ -7426,8 +7426,8 @@ input:checked+.slider:before {
             .timeline-title {
                 margin-bottom: 1.4rem;
 
-                .badge {
-                    background: var(--secondary);
+                .badge-custom {
+                    background: var(--secondary-custom);
                     padding: 4px 8px;
                     border-radius: 3px;
                     font-size: 12px;
@@ -7444,38 +7444,38 @@ input:checked+.slider:before {
             }
         }
 
-        &.primary {
-            .badge,
+        &.primary-custom {
+            .badge-custom,
             .timeline-icon {
-                background: var(--primary) !important;
+                background: var(--primary-custom) !important;
             }
         }
 
-        &.info {
-            .badge,
+        &.info-custom {
+            .badge-custom,
             .timeline-icon {
-                background: var(--info) !important;
+                background: var(--info-custom) !important;
             }
         }
 
-        &.success {
-            .badge,
+        &.success-custom {
+            .badge-custom,
             .timeline-icon {
-                background: var(--success) !important;
+                background: var(--success-custom) !important;
             }
         }
 
-        &.warning {
-            .badge,
+        &.warning-custom {
+            .badge-custom,
             .timeline-icon {
-                background: var(--warning) !important;
+                background: var(--warning-custom) !important;
             }
         }
 
-        &.danger {
-            .badge,
+        &.danger-custom {
+            .badge-custom,
             .timeline-icon {
-                background: var(--danger) !important;
+                background: var(--danger-custom) !important;
             }
         }
 
@@ -7511,7 +7511,7 @@ input:checked+.slider:before {
             border-radius: 50%;
             text-align: center;
             font-size: 1rem;
-            background: var(--primary);
+            background: var(--primary-custom);
 
             i {
                 position: absolute;
@@ -7548,8 +7548,8 @@ input:checked+.slider:before {
             .timeline-title {
                 margin-bottom: 1.4rem;
 
-                .badge {
-                    background: var(--secondary);
+                .badge-custom {
+                    background: var(--secondary-custom);
                     padding: 4px 8px;
                     border-radius: 3px;
                     font-size: 12px;
@@ -7566,38 +7566,38 @@ input:checked+.slider:before {
             }
         }
 
-        &.primary {
-            .badge,
+        &.primary-custom {
+            .badge-custom,
             .timeline-icon {
-                background: var(--primary) !important;
+                background: var(--primary-custom) !important;
             }
         }
 
-        &.info {
-            .badge,
+        &.info-custom {
+            .badge-custom,
             .timeline-icon {
-                background: var(--info) !important;
+                background: var(--info-custom) !important;
             }
         }
 
-        &.success {
-            .badge,
+        &.success-custom {
+            .badge-custom,
             .timeline-icon {
-                background: var(--success) !important;
+                background: var(--success-custom) !important;
             }
         }
 
-        &.warning {
-            .badge,
+        &.warning-custom {
+            .badge-custom,
             .timeline-icon {
-                background: var(--warning) !important;
+                background: var(--warning-custom) !important;
             }
         }
 
-        &.danger {
-            .badge,
+        &.danger-custom {
+            .badge-custom,
             .timeline-icon {
-                background: var(--danger) !important;
+                background: var(--danger-custom) !important;
             }
         }
 
@@ -7662,21 +7662,6 @@ input:checked+.slider:before {
     text-decoration: none !important;
 }
 
-.rich-list-append, 
-.rich-list-prepend {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    color: #757575;
-}
-
-.rich-list-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
 .timeline-content {
     width: 100%;
     color: var(--bs-text-level-3);
@@ -7703,43 +7688,3 @@ input:checked+.slider:before {
     border: 1px solid rgba(0, 0, 0, .15);
     border-radius: .25rem
 }
-
-.doc-card {
-      display:flex;
-      align-items:center;
-      flex-wrap:nowrap;          /* tetap satu baris di semua ukuran layar */
-      padding:12px 16px;
-      background:#f7f7f7;        /* seperti pada contoh */
-      border-radius:6px;
-    }
-    .doc-card .doc-icon {
-      flex:0 0 48px;             /* ukuran ikon fix */
-      width:48px;height:48px;
-      border-radius:6px;
-      background:#1abc9c;        /* hijau toska */
-      display:flex;align-items:center;justify-content:center;
-      margin-right:12px;
-    }
-    .doc-card .doc-icon svg { width:22px;height:22px; fill:#fff; }
-
-    .doc-card .doc-content {
-      min-width:0;               /* agar text-truncate bekerja di flex item */
-    }
-    .doc-card .doc-title {
-      margin:0;
-      line-height:1.2;
-      font-weight:600;
-      white-space:nowrap;        /* cegah pindah baris */
-      overflow:hidden;
-      text-overflow:ellipsis;    /* potong dengan “…” jika terlalu panjang */
-    }
-    .doc-card .doc-date {
-      margin:2px 0 0;
-      font-size:14px;
-      color:#6c757d;
-      white-space:nowrap;        /* tetap satu baris */
-    }
-
-    /* Opsional: efek hover klik */
-    .doc-link { text-decoration:none; color:inherit; display:block; }
-    .doc-link:hover .doc-title { text-decoration:underline; }

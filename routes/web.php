@@ -801,6 +801,7 @@ Route::controller(KavlingController::class)->group(function () {
             Route::post('mundur',        [KavlingController::class,'storeMundur'])->name('mundur.store');
         });
     });
+    Route::get('/booking/file/delete/{file}', [KavlingController::class, 'deleteFile'])->name('booking/file/delete');
     Route::get('spr/{booking}/add/new', [KavlingController::class, 'kavlingAddSpr'])->middleware('auth')->name('spr/add/new');
     Route::post('spr/update/{id}', 'updateSPR')->middleware('auth')->name('spr/update');
     Route::get('spr/edit/{id}', 'editSPR')->middleware('auth')->name('spr/edit');
