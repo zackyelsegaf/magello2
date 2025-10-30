@@ -59,7 +59,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="nik_1" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;NIK</label>
-                            <input type="number" id="nik_1" name="nik_1" class="form-control form-control-sm @error('nik_1') is-invalid @enderror" value="{{ old('nik_1', $Konsumen->nik_1) }}">
+                            <input type="text" id="nik_1" name="nik_1" class="form-control form-control-sm input-nik @error('nik_1') is-invalid @enderror" value="{{ old('nik_1', $Konsumen->nik_1) }}">
                             @error('nik_1')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                     </div>
@@ -260,13 +260,13 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>No NPWP</label>
-                            <input type="text" class="form-control form-control-sm  mb-3" name="npwp_1" value="{{ old('npwp_1', $Konsumen->npwp_1) }}">
+                            <input type="text" class="form-control form-control-sm  mb-3 npwp" name="npwp_1" value="{{ old('npwp_1', $Konsumen->npwp_1) }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>NPPKP</label>
-                            <input type="text" class="form-control form-control-sm mb-3" name="nppkp_konsumen" value="{{ old('nppkp_konsumen', $Konsumen->nppkp_konsumen) }}">
+                            <input type="text" class="form-control form-control-sm mb-3 npwp" name="nppkp_konsumen" value="{{ old('nppkp_konsumen', $Konsumen->nppkp_konsumen) }}">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -497,13 +497,13 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="nik_2" class="form-label fw-bold">NIK KTP</label>
-                                <input type="number" id="nik_2" name="nik_2" class="form-control form-control-sm" value="{{ old('nik_2', $detail->nik_2) }}">
+                                <input type="text" id="nik_2" name="nik_2" class="form-control form-control-sm input-nik" value="{{ old('nik_2', $detail->nik_2) }}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>No NPWP</label>
-                                <input type="text" class="form-control form-control-sm  mb-3" name="npwp_2" value="{{ old('npwp_2', $detail->npwp_2) }}">
+                                <input type="text" class="form-control form-control-sm  mb-3 npwp" name="npwp_2" value="{{ old('npwp_2', $detail->npwp_2) }}">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -592,7 +592,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="bidang_usaha_1" class="form-label fw-bold">Bidang Usaha</label>
-                            <input type="number" id="bidang_usaha_1" name="bidang_usaha_1" class="form-control form-control-sm" value="{{ old('bidang_usaha_1', $detail->bidang_usaha_1) }}">
+                            <input type="text" id="bidang_usaha_1" name="bidang_usaha_1" class="form-control form-control-sm" value="{{ old('bidang_usaha_1', $detail->bidang_usaha_1) }}">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -619,25 +619,25 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="gaji_pokok_1" class="form-label fw-bold">Gaji Pokok</label>
-                            <input type="text" id="gaji_pokok_1" name="gaji_pokok_1" class="form-control form-control-sm" value="{{ old('gaji_pokok_1', $detail->gaji_pokok_1) }}">
+                            <input type="text" id="gaji_pokok_1" name="gaji_pokok_1" class="form-control form-control-sm rupiah" value="{{ old('gaji_pokok_1', $detail->gaji_pokok_1) }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="cycle_gaji_pokok_1" class="form-label fw-bold">Cycle Gaji Pokok</label>
-                            <input type="text" id="cycle_gaji_pokok_1" name="cycle_gaji_pokok_1" class="form-control form-control-sm" value="{{ old('cycle_gaji_pokok_1', $detail->cycle_gaji_pokok_1) }}">
+                            <input type="text" id="cycle_gaji_pokok_1" name="cycle_gaji_pokok_1" class="form-control form-control-sm rupiah" value="{{ old('cycle_gaji_pokok_1', $detail->cycle_gaji_pokok_1) }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="gaji_tambahan_1" class="form-label fw-bold">Gaji Tambahan</label>
-                            <input type="text" id="gaji_tambahan_1" name="gaji_tambahan_1" class="form-control form-control-sm" value="{{ old('gaji_tambahan_1', $detail->gaji_tambahan_1) }}">
+                            <input type="text" id="gaji_tambahan_1" name="gaji_tambahan_1" class="form-control form-control-sm rupiah" value="{{ old('gaji_tambahan_1', $detail->gaji_tambahan_1) }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="daftar_cicilan_1" class="form-label fw-bold">Daftar Cicilan</label>
-                            <input type="text" id="daftar_cicilan_1" name="daftar_cicilan_1" class="form-control form-control-sm" value="{{ old('daftar_cicilan_1', $detail->daftar_cicilan_1) }}">
+                            <input type="text" id="daftar_cicilan_1" name="daftar_cicilan_1" class="form-control form-control-sm rupiah" value="{{ old('daftar_cicilan_1', $detail->daftar_cicilan_1) }}">
                         </div>
                     </div>
                 </div>
@@ -708,7 +708,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="bidang_usaha_2" class="form-label fw-bold">Bidang Usaha</label>
-                                <input type="number" id="bidang_usaha_2" name="bidang_usaha_2" class="form-control form-control-sm" value="{{ old('bidang_usaha_2', $detail->bidang_usaha_2) }}">
+                                <input type="text" id="bidang_usaha_2" name="bidang_usaha_2" class="form-control form-control-sm" value="{{ old('bidang_usaha_2', $detail->bidang_usaha_2) }}">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -737,25 +737,25 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="gaji_pokok_2" class="form-label fw-bold">Gaji Pokok</label>
-                                <input type="text" id="gaji_pokok_2" name="gaji_pokok_2" class="form-control form-control-sm" value="{{ old('gaji_pokok_2', $detail->gaji_pokok_2) }}">
+                                <input type="text" id="gaji_pokok_2" name="gaji_pokok_2" class="form-control form-control-sm rupiah" value="{{ old('gaji_pokok_2', $detail->gaji_pokok_2) }}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="cycle_gaji_pokok_2" class="form-label fw-bold">Cycle Gaji Pokok</label>
-                                <input type="text" id="cycle_gaji_pokok_2" name="cycle_gaji_pokok_2" class="form-control form-control-sm" value="{{ old('cycle_gaji_pokok_2', $detail->cycle_gaji_pokok_2) }}">
+                                <input type="text" id="cycle_gaji_pokok_2" name="cycle_gaji_pokok_2" class="form-control form-control-sm rupiah" value="{{ old('cycle_gaji_pokok_2', $detail->cycle_gaji_pokok_2) }}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="gaji_tambahan_2" class="form-label fw-bold">Gaji Tambahan</label>
-                                <input type="text" id="gaji_tambahan_2" name="gaji_tambahan_2" class="form-control form-control-sm" value="{{ old('gaji_tambahan_2', $detail->gaji_tambahan_2) }}">
+                                <input type="text" id="gaji_tambahan_2" name="gaji_tambahan_2" class="form-control form-control-sm rupiah" value="{{ old('gaji_tambahan_2', $detail->gaji_tambahan_2) }}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="daftar_cicilan_2" class="form-label fw-bold">Daftar Cicilan</label>
-                                <input type="text" id="daftar_cicilan_2" name="daftar_cicilan_2" class="form-control form-control-sm" value="{{ old('daftar_cicilan_2', $detail->daftar_cicilan_2) }}">
+                                <input type="text" id="daftar_cicilan_2" name="daftar_cicilan_2" class="form-control form-control-sm rupiah" value="{{ old('daftar_cicilan_2', $detail->daftar_cicilan_2) }}">
                             </div>
                         </div>
                     </div>
@@ -826,7 +826,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="bidang_wirausaha_1" class="form-label fw-bold">Bidang Usaha</label>
-                            <input type="number" id="bidang_wirausaha_1" name="bidang_wirausaha_1" class="form-control form-control-sm" value="{{ old('bidang_wirausaha_1', $detail->bidang_wirausaha_1) }}">
+                            <input type="text" id="bidang_wirausaha_1" name="bidang_wirausaha_1" class="form-control form-control-sm" value="{{ old('bidang_wirausaha_1', $detail->bidang_wirausaha_1) }}">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -847,25 +847,25 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="pendapatan_kotor_1" class="form-label fw-bold">Pendapatan Kotor</label>
-                            <input type="text" id="pendapatan_kotor_1" name="pendapatan_kotor_1" class="form-control form-control-sm" value="{{ old('pendapatan_kotor_1', $detail->pendapatan_kotor_1) }}">
+                            <input type="text" id="pendapatan_kotor_1" name="pendapatan_kotor_1" class="form-control form-control-sm rupiah" value="{{ old('pendapatan_kotor_1', $detail->pendapatan_kotor_1) }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="pendapatan_bersih_1" class="form-label fw-bold">Pendapatan Bersih</label>
-                            <input type="text" id="pendapatan_bersih_1" name="pendapatan_bersih_1" class="form-control form-control-sm" value="{{ old('pendapatan_bersih_1', $detail->pendapatan_bersih_1) }}">
+                            <input type="text" id="pendapatan_bersih_1" name="pendapatan_bersih_1" class="form-control form-control-sm rupiah" value="{{ old('pendapatan_bersih_1', $detail->pendapatan_bersih_1) }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="pendapatan_tambahan_1" class="form-label fw-bold">Pendapatan Tambahan</label>
-                            <input type="text" id="pendapatan_tambahan_1" name="pendapatan_tambahan_1" class="form-control form-control-sm" value="{{ old('pendapatan_tambahan_1', $detail->pendapatan_tambahan_1) }}">
+                            <input type="text" id="pendapatan_tambahan_1" name="pendapatan_tambahan_1" class="form-control form-control-sm rupiah" value="{{ old('pendapatan_tambahan_1', $detail->pendapatan_tambahan_1) }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="daftar_cicilan_wirausaha_1" class="form-label fw-bold">Daftar Cicilan</label>
-                            <input type="text" id="daftar_cicilan_wirausaha_1" name="daftar_cicilan_wirausaha_1" class="form-control form-control-sm" value="{{ old('daftar_cicilan_wirausaha_1', $detail->daftar_cicilan_wirausaha_1) }}">
+                            <input type="text" id="daftar_cicilan_wirausaha_1" name="daftar_cicilan_wirausaha_1" class="form-control form-control-sm rupiah" value="{{ old('daftar_cicilan_wirausaha_1', $detail->daftar_cicilan_wirausaha_1) }}">
                         </div>
                     </div>
                 </div>
@@ -936,7 +936,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="bidang_wirausaha_2" class="form-label fw-bold">Bidang Usaha</label>
-                                <input type="number" id="bidang_wirausaha_2" name="bidang_wirausaha_2" class="form-control form-control-sm" value="{{ old('bidang_wirausaha_2', $detail->bidang_wirausaha_2) }}">
+                                <input type="text" id="bidang_wirausaha_2" name="bidang_wirausaha_2" class="form-control form-control-sm" value="{{ old('bidang_wirausaha_2', $detail->bidang_wirausaha_2) }}">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -959,25 +959,25 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="pendapatan_kotor_2" class="form-label fw-bold">Pendapatan Kotor</label>
-                                <input type="text" id="pendapatan_kotor_2" name="pendapatan_kotor_2" class="form-control form-control-sm" value="{{ old('pendapatan_kotor_2', $detail->pendapatan_kotor_2) }}">
+                                <input type="text" id="pendapatan_kotor_2" name="pendapatan_kotor_2" class="form-control form-control-sm rupiah" value="{{ old('pendapatan_kotor_2', $detail->pendapatan_kotor_2) }}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="pendapatan_bersih_2" class="form-label fw-bold">Pendapatan Bersih</label>
-                                <input type="text" id="pendapatan_bersih_2" name="pendapatan_bersih_2" class="form-control form-control-sm" value="{{ old('pendapatan_bersih_2', $detail->pendapatan_bersih_2) }}">
+                                <input type="text" id="pendapatan_bersih_2" name="pendapatan_bersih_2" class="form-control form-control-sm rupiah" value="{{ old('pendapatan_bersih_2', $detail->pendapatan_bersih_2) }}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="pendapatan_tambahan_2" class="form-label fw-bold">Pendapatan Tambahan</label>
-                                <input type="text" id="pendapatan_tambahan_2" name="pendapatan_tambahan_2" class="form-control form-control-sm" value="{{ old('pendapatan_tambahan_2', $detail->pendapatan_tambahan_2) }}">
+                                <input type="text" id="pendapatan_tambahan_2" name="pendapatan_tambahan_2" class="form-control form-control-sm rupiah" value="{{ old('pendapatan_tambahan_2', $detail->pendapatan_tambahan_2) }}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="daftar_cicilan_wirausaha_2" class="form-label fw-bold">Daftar Cicilan</label>
-                                <input type="text" id="daftar_cicilan_wirausaha_2" name="daftar_cicilan_wirausaha_2" class="form-control form-control-sm" value="{{ old('daftar_cicilan_wirausaha_2', $detail->daftar_cicilan_wirausaha_2) }}">
+                                <input type="text" id="daftar_cicilan_wirausaha_2" name="daftar_cicilan_wirausaha_2" class="form-control form-control-sm rupiah" value="{{ old('daftar_cicilan_wirausaha_2', $detail->daftar_cicilan_wirausaha_2) }}">
                             </div>
                         </div>
                     </div>
@@ -1003,7 +1003,7 @@
                                 <div class="row mb-3">
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold">NIK Pasangan</label>
-                                        <input type="number" name="nik_pasangan" class="form-control form-control-sm" value="{{ $Konsumen->nik_pasangan }}">
+                                        <input type="text" name="nik_pasangan" class="form-control form-control-sm input-nik" value="{{ $Konsumen->nik_pasangan }}">
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold">Nama Pasangan</label>
@@ -1011,7 +1011,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold">Nomor HP Pasangan</label>
-                                        <input type="number" name="no_hp_pasangan" class="form-control form-control-sm" value="{{ $Konsumen->no_hp_pasangan }}">
+                                        <input type="text" name="no_hp_pasangan" class="form-control form-control-sm" value="{{ $Konsumen->no_hp_pasangan }}">
                                     </div>
                                 </div>
                             </div>
@@ -1032,7 +1032,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label for="booking_fee" class="form-label fw-bold">Booking Fee</label>
-                                        <input type="number" id="booking_fee" name="booking_fee" class="form-control form-control-sm" value="{{ old('booking_fee', $Konsumen->booking_fee) }}">
+                                        <input type="text" id="booking_fee" name="booking_fee" class="form-control form-control-sm" value="{{ old('booking_fee', $Konsumen->booking_fee) }}">
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold">Tanggal Booking</label>
@@ -1067,6 +1067,7 @@
     </div>
 <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
 @section('script')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -1079,6 +1080,82 @@
                     },
                     maxOptions: null,
                     maxItems: 1
+                });
+            });
+        });
+    </script>
+    <script>
+        var cleave = new Cleave('.input-nik', {
+            delimiter: '-',
+            blocks: [4, 4, 4, 4],
+            uppercase: true
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cleaveMap = new WeakMap();
+            window.__cleaveMap = cleaveMap;
+
+            function initCleave(el) {
+                if (!el || el.classList.contains('cleave-initialized-npwp')) return;
+                const instance = new Cleave(el, {
+                    delimiters: ['.', '.', '.','-','.'],
+                    blocks: [3, 3, 3, 1, 3, 3],
+                    uppercase: true
+                });
+                el.classList.add('cleave-initialized-npwp');
+                cleaveMap.set(el, instance);
+            }
+
+            window.initCleaveIn = function(container) {
+                container.querySelectorAll('input.npwp').forEach(initCleave);
+            };
+
+            document.querySelectorAll('input.npwp').forEach(initCleave);
+
+            document.querySelectorAll('form').forEach(function (form) {
+                form.addEventListener('submit', function () {
+                    form.querySelectorAll('input.npwp').forEach(function (el) {
+                        const inst = cleaveMap.get(el);
+                        if (inst) el.value = inst.getRawValue();
+                    });
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cleaveMap = new WeakMap();
+            window.__cleaveMap = cleaveMap;
+
+            function initCleave(el) {
+                if (!el || el.classList.contains('cleave-initialized')) return;
+                const instance = new Cleave(el, {
+                    numeral: true,
+                    numeralPositiveOnly: true,
+                    numeralDecimalScale: 2,
+                    numeralThousandsGroupStyle: 'thousand',
+                    numeralDecimalMark: '.',
+                    delimiter: ',',
+                    prefix: 'Rp ',
+                    rawValueTrimPrefix: true
+                });
+                el.classList.add('cleave-initialized');
+                cleaveMap.set(el, instance);
+            }
+
+            window.initCleaveIn = function(container) {
+                container.querySelectorAll('input.rupiah').forEach(initCleave);
+            };
+
+            document.querySelectorAll('input.rupiah').forEach(initCleave);
+
+            document.querySelectorAll('form').forEach(function (form) {
+                form.addEventListener('submit', function () {
+                    form.querySelectorAll('input.rupiah').forEach(function (el) {
+                        const inst = cleaveMap.get(el);
+                        if (inst) el.value = inst.getRawValue();
+                    });
                 });
             });
         });
