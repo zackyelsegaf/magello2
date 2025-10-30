@@ -1055,7 +1055,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="{{ url()->previous() }}" class="btn btn-primary buttonedit mr-2">
+                <a href="{{ route('konsumen/list/page') }}" class="btn btn-primary buttonedit mr-2">
                     <i class="fas fa-chevron-left mr-2"></i>Batal
                 </a>
                 <button type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>

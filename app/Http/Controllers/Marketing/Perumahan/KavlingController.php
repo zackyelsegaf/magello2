@@ -479,9 +479,27 @@ class KavlingController extends Controller
         $detailAjb         = BookingStatus5Ajb::where('booking_id', $booking->id)->first();
         $detailDitolakBank = BookingStatus6DitolakBank::where('booking_id', $booking->id)->first();
         $detailMundur      = BookingStatus7Mundur::where('booking_id', $booking->id)->first();
-        $arsip = collect();
+        $arsip0 = collect();
         if ($detailSp3k) {
-            $arsip = $detailSp3k->arsipFiles()
+            $arsip0 = $detailSp3k->arsipFiles()
+                ->latest('id')
+                ->get()
+                ->map(function ($a) {
+                    return [
+                        'id'               => $a->id,
+                        'nama_arsip'       => $a->nama_arsip,
+                        'nomor_arsip'      => $a->nomor_arsip,
+                        'keterangan_arsip' => $a->keterangan_arsip,
+                        'original_name'    => $a->original_name,
+                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
+                        'file_label'       => 'Ganti File',
+                    ];
+                });
+        }
+
+        $arsip1 = collect();
+        if ($detailDitolakBank) {
+            $arsip1 = $detailDitolakBank->arsipFiles()
                 ->latest('id')
                 ->get()
                 ->map(function ($a) {
@@ -561,7 +579,7 @@ class KavlingController extends Controller
 
         $nomorPreview = 'SPR' . substr($booking->nomor_booking, 2);
 
-        return view('marketing.perumahan.kavling.statusbookingaddnew', compact('kota','nomorPreview', 'booking', 'detailPemberkasan', 'timelineBooking', 'detailProses', 'detailAnalisa', 'detailSp3k', 'arsip', 'detailAkad', 'detailAjb', 'detailDitolakBank', 'detailMundur', 'tanggalPemberkasan', 'tanggalProses', 'tanggalAnalisa', 'tanggalSp3k', 'tanggalAkad', 'tanggalAjb', 'tanggalDitolakBank', 'tanggalMundur', 'has0', 'has1', 'has2', 'has3', 'has4', 'has5', 'has6', 'has7', 'isAktif0', 'isAktif1', 'isAktif2', 'isAktif3', 'isAktif4', 'isAktif5', 'isAktif6', 'isAktif7'));
+        return view('marketing.perumahan.kavling.statusbookingaddnew', compact('kota','nomorPreview', 'booking', 'detailPemberkasan', 'timelineBooking', 'detailProses', 'detailAnalisa', 'detailSp3k', 'arsip0', 'arsip1', 'detailAkad', 'detailAjb', 'detailDitolakBank', 'detailMundur', 'tanggalPemberkasan', 'tanggalProses', 'tanggalAnalisa', 'tanggalSp3k', 'tanggalAkad', 'tanggalAjb', 'tanggalDitolakBank', 'tanggalMundur', 'has0', 'has1', 'has2', 'has3', 'has4', 'has5', 'has6', 'has7', 'isAktif0', 'isAktif1', 'isAktif2', 'isAktif3', 'isAktif4', 'isAktif5', 'isAktif6', 'isAktif7'));
     }
 
     // public function storePemberkasan(Request $request, $booking_id)
@@ -1052,8 +1070,8 @@ class KavlingController extends Controller
 
             DB::commit();
             sweetalert()->success($request->action === 'set'
-                ? 'Status berhasil diubah ke Analisa Bank.'
-                : 'Data Analisa Bank berhasil disimpan.');
+                ? 'Status berhasil diubah ke SP3K.'
+                : 'Data SP3K berhasil disimpan.');
             return  redirect()->route('booking/list/page');
 
         } catch (\Exception $e) {
@@ -1141,8 +1159,8 @@ class KavlingController extends Controller
 
             DB::commit();
             sweetalert()->success($request->action === 'set'
-                ? 'Status berhasil diubah ke Proses Ke Bank.'
-                : 'Data Proses Ke Bank berhasil disimpan.');
+                ? 'Status berhasil diubah ke Akad Kredit.'
+                : 'Data Akad Kredit berhasil disimpan.');
             return  redirect()->route('booking/list/page');
 
         } catch (\Exception $e) {
@@ -1223,6 +1241,109 @@ class KavlingController extends Controller
             sweetalert()->success($request->action === 'set'
                 ? 'Status berhasil diubah ke AJB.'
                 : 'Data AJB berhasil disimpan.');
+            return  redirect()->route('booking/list/page');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            sweetalert()->error('Gagal menyimpan data: '.$e->getMessage());
+            return back()->withInput();
+        }
+    }
+
+    public function storeDitolak(Request $request, $booking_id)
+    {
+        $validator = Validator::make($request->all(), [
+            'tanggal_ditolak' => 'nullable|string|max:255',
+            'alasan_ditolak'  => 'nullable|string|max:255',
+            'file_ditolak'    => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'action'          => 'nullable|in:save,set',
+        ]);
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi gagal! Mohon lengkapi data.');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        DB::beginTransaction();
+        try {
+            $booking = BookingKavling::findOrFail($booking_id);
+
+            $filePath = null;
+            if ($request->hasFile('file_ditolak')) {
+                $filePath = $request->file('file_ditolak')->store('ditolakBank', 'public');
+            }
+
+            $detail = BookingStatus6DitolakBank::updateOrCreate(
+                ['booking_id' => $booking->id],
+                [
+                    'tanggal_ditolak' => $request->tanggal_ditolak ? Carbon::createFromFormat('d/m/Y', $request->tanggal_ditolak)->format('Y-m-d') : null,
+                    'file_ditolak'    => $filePath,
+                    'alasan_ditolak'  => $request->alasan_ditolak,
+                ]
+            );
+
+            if ($filePath) { 
+                $uploaded = $request->file('file_ditolak');
+                $detail->arsipFiles()->create([
+                    'nama_arsip'       => 'Lampiran Ditolak Bank',
+                    'nomor_arsip'      => null,
+                    'tanggal_arsip'    => $detail['tanggal_ditolak'],
+                    'disk'             => 'public',
+                    'file_arsip'       => $filePath,
+                    'keterangan_arsip' => 'Lampiran Ditolak Bank',
+                    'original_name'    => $uploaded?->getClientOriginalName(),
+                    'mime_type'        => $uploaded?->getClientMimeType(),
+                    'file_size'        => $uploaded?->getSize(),
+                    'uploaded_by'      => optional($request->user())->id,
+                ]);
+            }
+
+            $timeline = BookingTimeline::updateOrCreate(
+                [
+                    'booking_id'      => $booking->id,
+                    'status_code'     => 6,
+                    'statusable_type' => BookingStatus6DitolakBank::class,
+                ],
+                [
+                    'statusable_id' => $detail->id,
+                    'notes'         => $request->catatan_analisa,
+                    'changed_by'    => auth()->id(),
+                    'changed_at'    => now(),
+                ]
+            );
+
+            if ($request->action === 'save') {
+
+                $timeline->update(['is_current' => '']);
+            }
+
+            if ($request->action === 'set') {
+                // $parts = [];
+                // if (!empty($detail->tanggal_sp3k)) {
+                //     $parts[] = 'Tanggal: '.$detail->tanggal_sp3k;
+                // }
+                // if (!empty($detail->nama_bank_analisa)) {
+                //     $parts[] = 'Bank: '.$detail->nama_bank_analisa;
+                // }
+
+                $label = "Ditolak Bank";
+                if (!empty($detail->tanggal_ditolak)) {
+                    $label .= '<strong>'."<br>Tanggal: {$detail->tanggal_ditolak}".'</strong>';
+                }
+                // if (!empty($detail->nama_bank_analisa)) {
+                //     $label .= '<strong>'."<br>Bank: {$detail->nama_bank_analisa}".'</strong>';
+                // }
+
+                $booking->update(['status_pengajuan' => $label]);
+
+                BookingTimeline::where('booking_id', $booking->id)->update(['is_current' => false]);
+
+                $timeline->update(['is_current' => true]);
+            }
+
+            DB::commit();
+            sweetalert()->success($request->action === 'set'
+                ? 'Status berhasil diubah ke Ditolak Bank.'
+                : 'Data Ditolak Bank berhasil disimpan.');
             return  redirect()->route('booking/list/page');
 
         } catch (\Exception $e) {

@@ -86,7 +86,7 @@
                 <div class="mb-15 row align-items-center">
                     <div class="col">
                         <div class="">
-                            <a href="{{ url()->previous() }}" class="btn btn-primary float-left veiwbutton mr-2"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
+                            <a href="{{ route('cluster/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2"><i class="fas fa-chevron-left mr-2"></i>Batal</a>
                             <button type="submit" class="btn btn-primary buttonedit"><i class="fa fa-save mr-2"></i>Simpan</button>
                         </div>
                     </div>

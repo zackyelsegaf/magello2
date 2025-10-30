@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
             MataUangSeeder::class,
             SatuanSeeder::class,
             GudangSeeder::class,
-            LevelhargaSeeder::class,
+            LevelHargaSeeder::class,
             KategoriBarangSeeder::class,
             RoomTypeSeeder::class,
             MetodePenyusutanSeeder::class,
@@ -79,7 +79,10 @@ class DatabaseSeeder extends Seeder
             SiklusPembayaranSeeder::class,
             BarangSeeder::class,
             JenisBiayaKonsumenSeeder::class,
-            JenisDokumenPersyaratanSeeder::class
+            JenisDokumenPersyaratanSeeder::class,
+            NegaraSeeder::class,
+            ProvinsiSeeder::class,
+            KotaSeeder::class
         ]);
     }
 }

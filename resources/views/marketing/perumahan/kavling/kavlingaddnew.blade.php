@@ -101,7 +101,7 @@
 
                 <div class="mb-4 row align-items-center">
                     <div class="col">
-                        <a href="{{ url()->previous() }}" class="btn btn-primary mr-2 buttonedit">
+                        <a href="{{ route('kavling/list/page') }}" class="btn btn-primary mr-2 buttonedit">
                             <i class="fas fa-chevron-left mr-2"></i> Batal
                         </a>
                         <button type="submit" class="btn btn-primary buttonedit">

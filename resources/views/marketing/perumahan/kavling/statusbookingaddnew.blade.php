@@ -13,9 +13,9 @@
                 <div class="col-md-6 px-2">
                     <div class="timeline">
                         <div class="timeline-container primary">
-                            <div class="timeline-icon">
+                            {{-- <div class="timeline-icon">
                                 <i class="fas fa-dot-circle"></i>
-                            </div>
+                            </div> --}}
                             <div class="card my-rounded-2">
                                 <div class="col-12 border col-md-12 px-0 my-rounded-2">
                                     <a href="#" class="d-block text-reset my-rounded-2 tl-link" data-target="panel-pemberkasan">
@@ -44,9 +44,9 @@
                             </div>
                         </div>
                         <div class="timeline-container primary">
-                            <div class="timeline-icon">
+                            {{-- <div class="timeline-icon">
                                 <i class="fas fa-dot-circle"></i>
-                            </div>
+                            </div> --}}
                             <div class="card my-rounded-2">
                                 <div class="col-12 border col-md-12 px-0 my-rounded-2">
                                     <a href="#" class="d-block text-reset my-rounded-2 tl-link" data-target="panel-proses-ke-bank">
@@ -75,9 +75,9 @@
                             </div>
                         </div>
                         <div class="timeline-container primary">
-                            <div class="timeline-icon">
+                            {{-- <div class="timeline-icon">
                                 <i class="fas fa-dot-circle"></i>
-                            </div>
+                            </div> --}}
                             <div class="card my-rounded-2">
                                 <div class="col-12 border col-md-12 px-0 my-rounded-2">
                                     <a href="#" class="d-block text-reset my-rounded-2 tl-link" data-target="panel-analisa-bank">
@@ -106,9 +106,9 @@
                             </div>
                         </div>
                         <div class="timeline-container primary">
-                            <div class="timeline-icon">
+                            {{-- <div class="timeline-icon">
                                 <i class="fas fa-dot-circle"></i>
-                            </div>
+                            </div> --}}
                             <div class="card my-rounded-2">
                                 <div class="col-12 border col-md-12 px-0 my-rounded-2">
                                     <a href="#" class="d-block text-reset my-rounded-2 tl-link" data-target="panel-sp3k">
@@ -137,9 +137,9 @@
                             </div>
                         </div>
                         <div class="timeline-container primary">
-                            <div class="timeline-icon">
+                            {{-- <div class="timeline-icon">
                                 <i class="fas fa-dot-circle"></i>
-                            </div>
+                            </div> --}}
                             <div class="card my-rounded-2">
                                 <div class="col-12 border col-md-12 px-0 my-rounded-2">
                                     <a href="#" class="d-block text-reset my-rounded-2 tl-link" data-target="panel-akad-kredit">
@@ -168,9 +168,9 @@
                             </div>
                         </div>
                         <div class="timeline-container primary">
-                            <div class="timeline-icon">
+                            {{-- <div class="timeline-icon">
                                 <i class="fas fa-dot-circle"></i>
-                            </div>
+                            </div> --}}
                             <div class="card my-rounded-2">
                                 <div class="col-12 border col-md-12 px-0 my-rounded-2">
                                     <a href="#" class="d-block text-reset my-rounded-2 tl-link" data-target="panel-ajb">
@@ -181,7 +181,7 @@
                                                 </div>
                                             </div>
                                             <div class="w-100">
-                                                <div class="text-dark font-weight-bold text-truncate"><h6>AJB</h6></div>
+                                                <div class="text-dark font-weight-bold text-truncate"><h6>AJB (Akad Jual Beli)</h6></div>
                                                 @if($detailAjb)
                                                     <h6 class="text-muted font-weight-bold mt-1 d-block">{{ \Illuminate\Support\Carbon::parse($detailAjb->tanggal_ajb)->locale('id')->isoFormat('dddd, D MMMM Y') }}</h6>
                                                 @endif
@@ -199,9 +199,9 @@
                             </div>
                         </div>
                         <div class="timeline-container primary">
-                            <div class="timeline-icon">
+                            {{-- <div class="timeline-icon">
                                 <i class="fas fa-dot-circle"></i>
-                            </div>
+                            </div> --}}
                             <div class="card my-rounded-2">
                                 <div class="col-12 border col-md-12 px-0 my-rounded-2">
                                     <a href="#" class="d-block text-reset my-rounded-2 tl-link" data-target="panel-ditolak-bank">
@@ -232,9 +232,9 @@
                             </div>
                         </div>
                         <div class="timeline-container primary">
-                            <div class="timeline-icon">
+                            {{-- <div class="timeline-icon">
                                 <i class="fas fa-dot-circle"></i>
-                            </div>
+                            </div> --}}
                             <div class="card my-rounded-2">
                                 <div class="col-12 border col-md-12 px-0 my-rounded-2">
                                     <a href="#" class="d-block text-reset my-rounded-2 tl-link" data-target="panel-mundur">
@@ -271,50 +271,29 @@
                                 @csrf
                                 <div class="col px-0 mb-3 timeline-panel" id="panel-pemberkasan">
                                     <div class="timeline-container primary">
-                                        <div class="d-flex align-items-center mb-2">
-                                            <div class="timeline-icon mr-2">
-                                                <i class="fas fa-book text-white"></i>
-                                            </div>
-                                            <h3 class="font-weight-bold mb-0">Pemberkasan</h3>
-                                        </div>
-
+                                        {{-- <div class="timeline-icon mr-2">
+                                            <i class="fas fa-book text-white"></i>
+                                        </div> --}}
+                                        <h3 class="font-weight-bold mb-3">Pemberkasan</h3>
                                         <div class="border bg-white my-rounded-2 p-3">
-                                            {{-- Tanggal --}}
                                             <div class="form-group mb-2">
-                                                <label class="d-flex align-items-center">
-                                                    <span>Tanggal Pemberkasan</span>
-                                                </label>
-
-                                                <input
-                                                    type="text" {{-- ganti ke type="date" kalau tak pakai datetimepicker --}}
-                                                    name="tanggal_pemberkasan"
-                                                    class="form-control form-control-sm datetimepicker @error('tanggal_pemberkasan') is-invalid @enderror"
-                                                    value="{{ old('tanggal_pemberkasan', $tanggalPemberkasan ?? '') }}"
-                                                >
+                                                <label class="d-flex align-items-center"><span>Tanggal Pemberkasan</span></label>
+                                                <input type="text" name="tanggal_pemberkasan" class="form-control form-control-sm datetimepicker @error('tanggal_pemberkasan') is-invalid @enderror" value="{{ old('tanggal_pemberkasan', $tanggalPemberkasan ?? '') }}">
                                                 @error('tanggal_pemberkasan')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-
-                                            {{-- Catatan --}}
                                             <div class="form-group mb-2">
                                                 <label>Catatan</label>
-                                                <textarea
-                                                    name="catatan_pemberkasan"
-                                                    rows="2"
-                                                    class="form-control @error('catatan_pemberkasan') is-invalid @enderror"
-                                                >{{ old('catatan_pemberkasan', $detailPemberkasan->catatan_pemberkasan ?? '') }}</textarea>
+                                                <textarea name="catatan_pemberkasan" rows="2" class="form-control @error('catatan_pemberkasan') is-invalid @enderror">{{ old('catatan_pemberkasan', $detailPemberkasan->catatan_pemberkasan ?? '') }}</textarea>
                                                 @error('catatan_pemberkasan')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-
-                                            {{-- Aksi --}}
                                             <div class="text-right pt-1 pb-5">
                                                 <button type="submit" class="btn btn-primary buttonedit4 btn-remove ml-2" name="action" value="save">
                                                     <strong><i class="fas fa-save mr-2"></i>Simpan Data</strong>
                                                 </button>
-
                                                 <button type="submit" class="btn btn-outline-primary buttonedit5 text-dark btn-remove" name="action" value="set">
                                                     <strong><i class="fas fa-cog mr-2"></i>Set Status</strong>
                                                 </button>
@@ -327,9 +306,9 @@
                                 @csrf
                                 <div class="col px-0 mb-3 timeline-panel" id="panel-proses-ke-bank">
                                     <div class="timeline-container warning-custom">
-                                        <div class="timeline-icon">
+                                        {{-- <div class="timeline-icon">
                                             <i class="fas fa-university text-white"></i>
-                                        </div>
+                                        </div> --}}
                                         <h3 class="font-weight-bold mb-3">Proses ke Bank</h3>
                                         <div class="border bg-white my-rounded-2 p-3">
                                             <div class="form-group mb-2">
@@ -360,9 +339,9 @@
                                 @csrf
                                 <div class="col px-0 mb-3 timeline-panel" id="panel-analisa-bank">
                                     <div class="timeline-container warning-custom">
-                                        <div class="timeline-icon">
+                                        {{-- <div class="timeline-icon">
                                             <i class="fas fa-search text-white"></i>
-                                        </div>
+                                        </div> --}}
                                         <h3 class="font-weight-bold mb-3">Analisa Bank</h3>
                                         <div class="border bg-white my-rounded-2 p-3">
                                             <div class="form-group mb-2">
@@ -393,9 +372,9 @@
                                 @csrf
                                 <div class="col px-0 mb-3 timeline-panel" id="panel-sp3k">
                                     <div class="timeline-container success-custom">
-                                        <div class="timeline-icon">
+                                        {{-- <div class="timeline-icon">
                                             <i class="fas fa-clipboard-check text-white"></i>
-                                        </div>
+                                        </div> --}}
                                         <h3 class="font-weight-bold mb-3">SP3K</h3>
                                         <div class="border bg-white my-rounded-2 p-3">
                                             <div class="form-group mb-2">
@@ -418,8 +397,8 @@
                                                 </small>
                                             </div> --}}
                                             <div class="form-group mb-2">
-                                                @if($arsip && $arsip->isNotEmpty())
-                                                    @foreach($arsip as $a)
+                                                @if($arsip0 && $arsip0->isNotEmpty())
+                                                    @foreach($arsip0 as $a)
                                                         <div class="form-group mb-5">
                                                             @if($a['file_url'])
                                                                 <label>File Arsip</label>
@@ -479,9 +458,9 @@
                                 @csrf
                                 <div class="col px-0 mb-3 timeline-panel" id="panel-akad-kredit">
                                     <div class="timeline-container success-custom">
-                                        <div class="timeline-icon">
+                                        {{-- <div class="timeline-icon">
                                             <i class="fas fa-edit text-white"></i>
-                                        </div>
+                                        </div> --}}
                                         <h3 class="font-weight-bold mb-3">Akad Kredit</h3>
                                         <div class="border bg-white my-rounded-2 p-3">
                                             <div class="form-group mb-2">
@@ -512,10 +491,10 @@
                                 @csrf
                                 <div class="col px-0 mb-3 timeline-panel" id="panel-ajb">
                                     <div class="timeline-container success-custom">
-                                        <div class="timeline-icon">
+                                        {{-- <div class="timeline-icon">
                                             <i class="fas fa-edit text-white"></i>
-                                        </div>
-                                        <h3 class="font-weight-bold mb-3">AJB</h3>
+                                        </div> --}}
+                                        <h3 class="font-weight-bold mb-3">AJB (Akad Jual Beli)</h3>
                                         <div class="border bg-white my-rounded-2 p-3">
                                             <div class="form-group mb-2">
                                                 <label>Tanggal AJB</label>
@@ -541,9 +520,9 @@
                                 @csrf
                                 <div class="col px-0 mb-3 timeline-panel" id="panel-ditolak-bank">
                                     <div class="timeline-container danger-custom">
-                                        <div class="timeline-icon">
+                                        {{-- <div class="timeline-icon">
                                             <i class="fas fa-times-circle text-white"></i>
-                                        </div>
+                                        </div> --}}
                                         <h3 class="font-weight-bold mb-3">Ditolak Bank</h3>
                                         <div class="border bg-white my-rounded-2 p-3">
                                             <div class="form-group mb-2">
@@ -555,15 +534,30 @@
                                                 <textarea name="alasan_ditolak" rows="2" class="form-control"></textarea>
                                             </div>
                                             <div class="form-group mb-2">
-                                                <label>Upload Surat Penolakan</label>
-                                                <div class="custom-file">
-                                                    <input type="file" name="file_ditolak"
-                                                        class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                    <label class="custom-file-label">Pilih File</label>
-                                                </div>
-                                                {{-- <small class="d-block mt-1">
-                                                    File lama:<a class="btn btn-primary buttonedit4" href="" target="_blank"><strong><i class="fas fa-file mr-2 ml-1"></i></strong>Download File</a>
-                                                </small> --}}
+                                                @if($arsip1 && $arsip1->isNotEmpty())
+                                                    @foreach($arsip as $a)
+                                                        <div class="form-group mb-5">
+                                                            @if($a['file_url'])
+                                                                <label>File Arsip</label>
+                                                                <small class="d-block mt-1">
+                                                                    <a class="btn btn-primary buttonedit-sm mr-2" href="{{ $a['file_url'] }}" target="_blank"><strong><i class="fas fa-file mr-2"></i></strong>Download File{{-- $a['original_name'] ?? 'lihat' --}}</a>
+                                                                    <a href="{{ route('booking/file/delete', $a['id']) }}" class="btn btn-primary buttonedit2-sm"><i class="fas fa-trash-alt mr-2"></i>Hapus</a>
+                                                                </small>
+                                                            @endif
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                    <div class="form-group mb-2">
+                                                        <label for="file_ditolak">File Arsip</label>
+                                                        <div class="custom-file">
+                                                            <input type="file" id="file_ditolak" name="file_ditolak" class="custom-file-input" value="{{ old('file_ditolak', $detailDitolakBank->file_ditolak ?? '')  }}" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                                                            <label class="custom-file-label">Pilih File</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="alert alert-info mt-2" role="alert">
+                                                        <i class="fas fa-info mr-2"></i>Tidak ada file yang diunggah.
+                                                    </div>
+                                                @endif
                                             </div>
                                             <div class="text-right pt-1 pb-5">
                                                 <button type="submit" class="btn btn-primary buttonedit4 btn-remove ml-2" name="action" value="save">
@@ -581,9 +575,9 @@
                                 @csrf
                                 <div class="col px-0 mb-3 timeline-panel" id="panel-mundur">
                                     <div class="timeline-container info">
-                                        <div class="timeline-icon">
+                                        {{-- <div class="timeline-icon">
                                             <i class="fas fa-hiking text-white"></i>
-                                        </div>
+                                        </div> --}}
                                         <h3 class="font-weight-bold mb-3">Mundur</h3>
                                         <div class="border bg-white my-rounded-2 p-3">
                                             <div class="form-group mb-2">
@@ -606,6 +600,13 @@
                                     </div>
                                 </div>
                             </form>
+                            <div class="mb-4 row align-items-center">
+                                <div class="col">
+                                    <a href="{{ route('booking/list/page') }}" class="btn btn-primary mr-2 buttonedit">
+                                        <i class="fas fa-chevron-left mr-2"></i> kembali
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -19,5 +19,4 @@ class BookingStatus5Ajb extends Model
     {
         return $this->morphMany(BookingTimeline::class, 'statusable');
     }
-
 }

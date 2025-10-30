@@ -80,7 +80,7 @@
             <div class="mb-15 row align-items-center">
                 <div class="col">
                     <div class="">
-                        <a href="{{ url()->previous() }}"
+                        <a href="{{ route('prospek/list/page') }}"
                             class="btn btn-primary float-left mr-2 buttonedit">
                             <i class="fas fa-chevron-left mr-2"></i>Batal
                         </a>

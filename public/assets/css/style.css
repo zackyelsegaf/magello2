@@ -7362,8 +7362,8 @@ input:checked+.slider:before {
 
 .timeline {
     position: relative;
-    padding-left: 4rem;
-    margin: 0 0 0 30px;
+    /* padding-left: 4rem; */
+    margin: 0 0 0 10px;
     color: white;
 
     &:before {
@@ -7371,7 +7371,7 @@ input:checked+.slider:before {
         position: absolute;
         left: 0;
         top: 0;
-        width: 3px;
+        /* width: 3px; */
         height: 100%;
         background: #27548A;
     }
@@ -7484,8 +7484,8 @@ input:checked+.slider:before {
 
 .timeline-2 {
     position: relative;
-    padding-left: 4rem;
-    margin: 0 0 0 30px;
+    /* padding-left: 4rem; */
+    margin: 0 0 0 10px;
     /* color: white; */
 
     &:before {
@@ -7493,7 +7493,7 @@ input:checked+.slider:before {
         position: absolute;
         left: 0;
         top: 0;
-        width: 3px;
+        /* width: 3px; */
         height: 100%;
         background: #27548A;
     }

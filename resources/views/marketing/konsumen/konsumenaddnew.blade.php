@@ -948,7 +948,7 @@
                 </div>
                 <div class="mb-15 row align-items-center">
                     <div class="col">
-                        <a href="{{ url()->previous() }}" class="btn btn-primary float-left mr-2 buttonedit">
+                        <a href="{{ route('konsumen/list/page') }}" class="btn btn-primary float-left mr-2 buttonedit">
                             <i class="fas fa-chevron-left mr-2"></i>Batal
                         </a>
                         <button type="submit" class="btn btn-primary buttonedit">
