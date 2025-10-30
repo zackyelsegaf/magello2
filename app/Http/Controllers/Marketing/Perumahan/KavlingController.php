@@ -582,6 +582,124 @@ class KavlingController extends Controller
         return view('marketing.perumahan.kavling.statusbookingaddnew', compact('kota','nomorPreview', 'booking', 'detailPemberkasan', 'timelineBooking', 'detailProses', 'detailAnalisa', 'detailSp3k', 'arsip0', 'arsip1', 'detailAkad', 'detailAjb', 'detailDitolakBank', 'detailMundur', 'tanggalPemberkasan', 'tanggalProses', 'tanggalAnalisa', 'tanggalSp3k', 'tanggalAkad', 'tanggalAjb', 'tanggalDitolakBank', 'tanggalMundur', 'has0', 'has1', 'has2', 'has3', 'has4', 'has5', 'has6', 'has7', 'isAktif0', 'isAktif1', 'isAktif2', 'isAktif3', 'isAktif4', 'isAktif5', 'isAktif6', 'isAktif7'));
     }
 
+    public function addPembayaranBooking(BookingKavling $booking)
+    {
+        // $activeCode = BookingTimeline::where('booking_id', $booking->id)
+        //     ->where('is_current', 1)
+        //     ->value('status_code');
+            
+        $data_status_pengajuan = DB::table('status_pengajuan')->get();
+        $detailPemberkasan = BookingStatus0Pemberkasan::where('booking_id', $booking->id)->first();
+        $detailProses      = BookingStatus1Proses::where('booking_id', $booking->id)->first();
+        $detailAnalisa     = BookingStatus2AnalisaBank::where('booking_id', $booking->id)->first();
+        $detailSp3k        = BookingStatus3Sp3k::where('booking_id', $booking->id)->first();
+        $detailAkad        = BookingStatus4AkadKredit::where('booking_id', $booking->id)->first();
+        $detailAjb         = BookingStatus5Ajb::where('booking_id', $booking->id)->first();
+        $detailDitolakBank = BookingStatus6DitolakBank::where('booking_id', $booking->id)->first();
+        $detailMundur      = BookingStatus7Mundur::where('booking_id', $booking->id)->first();
+        $arsip0 = collect();
+        if ($detailSp3k) {
+            $arsip0 = $detailSp3k->arsipFiles()
+                ->latest('id')
+                ->get()
+                ->map(function ($a) {
+                    return [
+                        'id'               => $a->id,
+                        'nama_arsip'       => $a->nama_arsip,
+                        'nomor_arsip'      => $a->nomor_arsip,
+                        'keterangan_arsip' => $a->keterangan_arsip,
+                        'original_name'    => $a->original_name,
+                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
+                        'file_label'       => 'Ganti File',
+                    ];
+                });
+        }
+
+        $arsip1 = collect();
+        if ($detailDitolakBank) {
+            $arsip1 = $detailDitolakBank->arsipFiles()
+                ->latest('id')
+                ->get()
+                ->map(function ($a) {
+                    return [
+                        'id'               => $a->id,
+                        'nama_arsip'       => $a->nama_arsip,
+                        'nomor_arsip'      => $a->nomor_arsip,
+                        'keterangan_arsip' => $a->keterangan_arsip,
+                        'original_name'    => $a->original_name,
+                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
+                        'file_label'       => 'Ganti File',
+                    ];
+                });
+        }
+
+        $has0     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 0)->whereIn('is_current', [0,1])->exists();
+        $isAktif0 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 0)->where('is_current', 1)->exists();
+
+        $has1     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 1)->whereIn('is_current', [0,1])->exists();
+        $isAktif1 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 1)->where('is_current', 1)->exists();
+
+        $has2     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 2)->whereIn('is_current', [0,1])->exists();
+        $isAktif2 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 2)->where('is_current', 1)->exists();
+
+        $has3     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 3)->whereIn('is_current', [0,1])->exists();
+        $isAktif3 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 3)->where('is_current', 1)->exists();
+
+        $has4     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 4)->whereIn('is_current', [0,1])->exists();
+        $isAktif4 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 4)->where('is_current', 1)->exists();
+
+        $has5     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 5)->whereIn('is_current', [0,1])->exists();
+        $isAktif5 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 5)->where('is_current', 1)->exists();
+
+        $has6     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 6)->whereIn('is_current', [0,1])->exists();
+        $isAktif6 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 6)->where('is_current', 1)->exists();
+
+        $has7     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 7)->whereIn('is_current', [0,1])->exists();
+        $isAktif7 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 7)->where('is_current', 1)->exists();
+            
+        $timelineBooking = BookingTimeline::where('booking_id', $booking->id)
+            ->where('status_code', 0)
+            ->latest('changed_at')
+            ->first();
+
+        $kota = DB::table('kota')
+            ->select('id', 'nama')
+            ->union(
+                DB::table('provinsi')->select('id', 'nama')
+            )
+            ->orderBy('nama')
+            ->get();
+
+        if (empty($booking->nomor_booking)) {
+            $tanggal = $booking->tanggal_booking ?? Carbon::now('Asia/Jakarta')->toDateString();
+            $booking->tanggal_booking = $tanggal;
+            $booking->nomor_booking   = BookingKavling::generateNomorBooking($tanggal);
+            $booking->save();
+        }
+
+        $tanggalPemberkasan = optional($detailPemberkasan)->tanggal_pemberkasan;
+        $tanggalProses = optional($detailProses)->tanggal_masuk_bank;
+        $tanggalAnalisa = optional($detailAnalisa)->tanggal_masuk_analisa_bank;
+        $tanggalSp3k = optional($detailSp3k)->tanggal_sp3k;
+        $tanggalAkad = optional($detailAkad)->tanggal_akad;
+        $tanggalAjb = optional($detailAjb)->tanggal_ajb;
+        $tanggalDitolakBank = optional($detailDitolakBank)->tanggal_ditolak;
+        $tanggalMundur = optional($detailMundur)->tanggal_mundur;
+
+        $tanggalPemberkasan = $tanggalPemberkasan ? Carbon::parse($tanggalPemberkasan)->format('d/m/Y') : null;
+        $tanggalProses      = $tanggalProses ? Carbon::parse($tanggalProses)->format('d/m/Y') : null;
+        $tanggalAnalisa     = $tanggalAnalisa ? Carbon::parse($tanggalAnalisa)->format('d/m/Y') : null;
+        $tanggalSp3k        = $tanggalSp3k ? Carbon::parse($tanggalSp3k)->format('d/m/Y') : null;
+        $tanggalAkad        = $tanggalAkad ? Carbon::parse($tanggalAkad)->format('d/m/Y') : null;
+        $tanggalAjb         = $tanggalAjb ? Carbon::parse($tanggalAjb)->format('d/m/Y') : null;
+        $tanggalDitolakBank = $tanggalDitolakBank ? Carbon::parse($tanggalDitolakBank)->format('d/m/Y') : null;
+        $tanggalMundur      = $tanggalMundur ? Carbon::parse($tanggalMundur)->format('d/m/Y') : null;
+
+        $nomorPreview = 'SPR' . substr($booking->nomor_booking, 2);
+
+        return view('marketing.perumahan.kavling.pembayaranbookingaddnew', compact('data_status_pengajuan','kota','nomorPreview', 'booking', 'detailPemberkasan', 'timelineBooking', 'detailProses', 'detailAnalisa', 'detailSp3k', 'arsip0', 'arsip1', 'detailAkad', 'detailAjb', 'detailDitolakBank', 'detailMundur', 'tanggalPemberkasan', 'tanggalProses', 'tanggalAnalisa', 'tanggalSp3k', 'tanggalAkad', 'tanggalAjb', 'tanggalDitolakBank', 'tanggalMundur', 'has0', 'has1', 'has2', 'has3', 'has4', 'has5', 'has6', 'has7', 'isAktif0', 'isAktif1', 'isAktif2', 'isAktif3', 'isAktif4', 'isAktif5', 'isAktif6', 'isAktif7'));
+    }
+
     // public function storePemberkasan(Request $request, $booking_id)
     // {
     //     $rules = [
@@ -2805,7 +2923,7 @@ class KavlingController extends Controller
                         <span class="dropdown-content">SPR</span>
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="'.url('konsumen/edit/'.$record->konsumen_id).'">
+                    <a class="dropdown-item" href="'.route('booking/pembayaran-booking/payment', $record->id).'">
                         <div class="dropdown-icon">
                             <i class="fas fa-dollar-sign"></i>
                         </div>

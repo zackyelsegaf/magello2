@@ -789,6 +789,7 @@ Route::controller(KavlingController::class)->group(function () {
     // Route::get('booking/{booking}/status-update', 'addStatusBooking')->middleware('auth')->name('booking/status-update');
     // Route::post('form/booking/status-update/save', 'saveRecordStatusBooking')->middleware('auth')->name('form/booking/status-update/save');
     Route::get('booking/{booking}/status-update', [KavlingController::class, 'addStatusBooking'])->middleware('auth')->name('booking/status-update/show');
+    Route::get('booking/{booking}/pembayaran-booking', [KavlingController::class, 'addPembayaranBooking'])->middleware('auth')->name('booking/pembayaran-booking/payment');
     Route::middleware('auth')->group(function () {
         Route::prefix('booking/{booking}/status-update')->name('booking.status-update.')->group(function () {
             Route::post('pemberkasan',   [KavlingController::class,'storePemberkasan'])->name('pemberkasan.store');

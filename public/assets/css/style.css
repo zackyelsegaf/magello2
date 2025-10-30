@@ -431,6 +431,12 @@ button.bg-primary:hover {
   padding: 8px;
 }
 
+.bg-secondary-card{
+    background-color: #fafafa !important;
+    color: white;
+    padding: 8px;
+}
+
 a.bg-success:focus,
 a.bg-success:hover,
 button.bg-success:focus,
@@ -442,6 +448,18 @@ button.bg-success:hover {
 .badge-info {
     background-color: #009efb !important;
     color: white;
+    padding: 8px;
+}
+
+.bg-info-card{
+    background-color: #f2faff !important;
+    /* color: white; */
+    padding: 8px;
+}
+
+.bg-warning-card{
+    background-color: #fffcf2 !important;
+    /* color: white; */
     padding: 8px;
 }
 
@@ -467,8 +485,13 @@ button.bg-warning:hover {
 
 .bg-danger,
 .badge-danger {
-    background-color: #27548A !important;
+    background-color: #dc3545 !important;
     color: white;
+    padding: 8px;
+}
+
+.bg-danger-card{
+    background-color: #fff6f6 !important;
     padding: 8px;
 }
 
@@ -502,7 +525,7 @@ button.bg-danger:hover {
 
 .text-danger,
 .dropdown-menu>li>a.text-danger {
-    color: #27548A !important
+    color: #dc3545 !important
 }
 
 .text-info,
@@ -2781,7 +2804,7 @@ html.menu-opened body {
 .dash-widget-header {
     align-items: center;
     display: flex;
-    margin-bottom: 5px
+    /* margin-bottom: 5px; */
 }
 
 .card-chart .card-body {
@@ -7142,6 +7165,13 @@ input:checked+.slider:before {
     padding: 4px 8px !important;
     justify-content: center;
     font-size: 12px;
+    vertical-align: middle;
+}
+
+#PembayaranBooking th,
+#PembayaranBooking td {
+    padding: 10px 14px !important;
+    justify-content: center;
     vertical-align: middle;
 }
 

@@ -424,11 +424,11 @@
                                             </div>
                                             <div class="form-group mb-2">
                                                 <label>Plafond Acc</label>
-                                                <input type="number" name="plafond_sp3k" class="form-control form-control-sm" value="{{ old('plafond_sp3k', $detailSp3k->plafond_sp3k ?? '') }}">
+                                                <input type="text" name="plafond_sp3k" class="form-control form-control-sm rupiah" value="{{ old('plafond_sp3k', $detailSp3k->plafond_sp3k ?? '') }}">
                                             </div>
                                             <div class="form-group mb-2">
                                                 <label>Cicilan per Bulan</label>
-                                                <input type="number" name="cicilan_sp3k" class="form-control form-control-sm" value="{{ old('cicilan_sp3k', $detailSp3k->cicilan_sp3k ?? '') }}">
+                                                <input type="text" name="cicilan_sp3k" class="form-control form-control-sm rupiah" value="{{ old('cicilan_sp3k', $detailSp3k->cicilan_sp3k ?? '') }}">
                                             </div>
                                             <div class="form-group mb-2">
                                                 <label>Tenor</label>
@@ -473,7 +473,7 @@
                                             </div>
                                             <div class="form-group mb-2">
                                                 <label>Plafond Acc</label>
-                                                <input type="number" name="plafond_akad" class="form-control form-control-sm" value="{{ old('plafond_akad', $detailAkad->plafond_akad  ?? '') }}">
+                                                <input type="text" name="plafond_akad" class="form-control form-control-sm rupiah" value="{{ old('plafond_akad', $detailAkad->plafond_akad  ?? '') }}">
                                             </div>
                                             <div class="text-right pt-1 pb-5">
                                                 <button type="submit" class="btn btn-primary buttonedit4 btn-remove ml-2" name="action" value="save">
@@ -616,6 +616,7 @@
     @section('script')
     <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.custom-file-input').forEach(function (inp) {
@@ -625,6 +626,43 @@
                 if (f && label && label.classList.contains('custom-file-label')) {
                     label.textContent = f.name;
                 }
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cleaveMap = new WeakMap();
+            window.__cleaveMap = cleaveMap;
+
+            function initCleave(el) {
+                if (!el || el.classList.contains('cleave-initialized')) return;
+                const instance = new Cleave(el, {
+                    numeral: true,
+                    numeralPositiveOnly: true,
+                    numeralDecimalScale: 2,
+                    numeralThousandsGroupStyle: 'thousand',
+                    numeralDecimalMark: '.',
+                    delimiter: ',',
+                    prefix: 'Rp ',
+                    rawValueTrimPrefix: true
+                });
+                el.classList.add('cleave-initialized');
+                cleaveMap.set(el, instance);
+            }
+
+            window.initCleaveIn = function(container) {
+                container.querySelectorAll('input.rupiah').forEach(initCleave);
+            };
+
+            document.querySelectorAll('input.rupiah').forEach(initCleave);
+
+            document.querySelectorAll('form').forEach(function (form) {
+                form.addEventListener('submit', function () {
+                    form.querySelectorAll('input.rupiah').forEach(function (el) {
+                        const inst = cleaveMap.get(el);
+                        if (inst) el.value = inst.getRawValue();
+                    });
                 });
             });
         });
