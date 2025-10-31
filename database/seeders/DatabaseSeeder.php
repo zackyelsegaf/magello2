@@ -51,6 +51,7 @@ class DatabaseSeeder extends Seeder
             KategoriBarangSeeder::class,
             RoomTypeSeeder::class,
             MetodePenyusutanSeeder::class,
+            BiayaPembayaranSeeder::class,
             ProyekSeeder::class,
             ClusterSeeder::class,
             SyaratSeeder::class,

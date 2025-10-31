@@ -789,7 +789,7 @@ Route::controller(KavlingController::class)->group(function () {
     // Route::get('booking/{booking}/status-update', 'addStatusBooking')->middleware('auth')->name('booking/status-update');
     // Route::post('form/booking/status-update/save', 'saveRecordStatusBooking')->middleware('auth')->name('form/booking/status-update/save');
     Route::get('booking/{booking}/status-update', [KavlingController::class, 'addStatusBooking'])->middleware('auth')->name('booking/status-update/show');
-    Route::get('booking/{booking}/pembayaran-booking', [KavlingController::class, 'addPembayaranBooking'])->middleware('auth')->name('booking/pembayaran-booking/payment');
+    // Route::get('booking/{id}/pembayaran-booking', [KavlingController::class, 'addPembayaranBooking'])->middleware('auth')->name('booking/pembayaran-booking/payment');
     Route::middleware('auth')->group(function () {
         Route::prefix('booking/{booking}/status-update')->name('booking.status-update.')->group(function () {
             Route::post('pemberkasan',   [KavlingController::class,'storePemberkasan'])->name('pemberkasan.store');
@@ -800,6 +800,19 @@ Route::controller(KavlingController::class)->group(function () {
             Route::post('ajb',           [KavlingController::class,'storeAjb'])->name('ajb.store');
             Route::post('ditolak-bank',  [KavlingController::class,'storeDitolak'])->name('ditolak.store');
             Route::post('mundur',        [KavlingController::class,'storeMundur'])->name('mundur.store');
+        });
+    });
+    Route::get('booking/{id}/pembayaran-booking', [KavlingController::class, 'addPembayaranBooking'])->middleware('auth')->name('booking/pembayaran-booking/payment');
+    Route::middleware('auth')->group(function () {
+        Route::prefix('booking/{id}/pembayaran-booking')->name('booking.pembayaran-booking.')->group(function () {
+            Route::post('booking-fee',   [KavlingController::class,'storeBookingFee'])->name('pembayaran0.store');
+            Route::post('uang-muka',        [KavlingController::class,'storeUangMuka'])->name('pembayaran1.store');
+            Route::post('biaya-kelebihan-tanah',  [KavlingController::class,'storeBiayaKelebihanTanah'])->name('pembayaran2.store');
+            Route::post('biaya-penambahan-bangunan',          [KavlingController::class,'storeBiayaPenambahanBangunan'])->name('pembayaran3.store');
+            Route::post('biaya-lainnya',   [KavlingController::class,'storeBiayaLainnya'])->name('pembayaran4.store');
+            Route::post('biaya-akad-kredit',           [KavlingController::class,'storeBiayaAkadKredit'])->name('pembayaran5.store');
+            Route::post('biaya-penambahan-fasilitas',  [KavlingController::class,'storeBiayaPenambahanFasilitas'])->name('pembayaran6.store');
+            Route::post('penerimaan-kpr',        [KavlingController::class,'storePenerimaanKpr'])->name('pembayaran7.store');
         });
     });
     Route::get('/booking/file/delete/{file}', [KavlingController::class, 'deleteFile'])->name('booking/file/delete');

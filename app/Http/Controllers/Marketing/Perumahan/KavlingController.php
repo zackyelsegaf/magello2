@@ -30,6 +30,7 @@ use App\Models\BookingStatus5Ajb;
 use App\Models\BookingStatus6DitolakBank;
 use App\Models\BookingStatus7Mundur;
 use App\Models\BookingTimeline;
+use App\Models\BiayaPembayaran;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class KavlingController extends Controller
@@ -582,122 +583,229 @@ class KavlingController extends Controller
         return view('marketing.perumahan.kavling.statusbookingaddnew', compact('kota','nomorPreview', 'booking', 'detailPemberkasan', 'timelineBooking', 'detailProses', 'detailAnalisa', 'detailSp3k', 'arsip0', 'arsip1', 'detailAkad', 'detailAjb', 'detailDitolakBank', 'detailMundur', 'tanggalPemberkasan', 'tanggalProses', 'tanggalAnalisa', 'tanggalSp3k', 'tanggalAkad', 'tanggalAjb', 'tanggalDitolakBank', 'tanggalMundur', 'has0', 'has1', 'has2', 'has3', 'has4', 'has5', 'has6', 'has7', 'isAktif0', 'isAktif1', 'isAktif2', 'isAktif3', 'isAktif4', 'isAktif5', 'isAktif6', 'isAktif7'));
     }
 
-    public function addPembayaranBooking(BookingKavling $booking)
+    public function addPembayaranBooking($id)
     {
-        // $activeCode = BookingTimeline::where('booking_id', $booking->id)
-        //     ->where('is_current', 1)
-        //     ->value('status_code');
-            
-        $data_status_pengajuan = DB::table('status_pengajuan')->get();
-        $detailPemberkasan = BookingStatus0Pemberkasan::where('booking_id', $booking->id)->first();
-        $detailProses      = BookingStatus1Proses::where('booking_id', $booking->id)->first();
-        $detailAnalisa     = BookingStatus2AnalisaBank::where('booking_id', $booking->id)->first();
-        $detailSp3k        = BookingStatus3Sp3k::where('booking_id', $booking->id)->first();
-        $detailAkad        = BookingStatus4AkadKredit::where('booking_id', $booking->id)->first();
-        $detailAjb         = BookingStatus5Ajb::where('booking_id', $booking->id)->first();
-        $detailDitolakBank = BookingStatus6DitolakBank::where('booking_id', $booking->id)->first();
-        $detailMundur      = BookingStatus7Mundur::where('booking_id', $booking->id)->first();
-        $arsip0 = collect();
-        if ($detailSp3k) {
-            $arsip0 = $detailSp3k->arsipFiles()
-                ->latest('id')
-                ->get()
-                ->map(function ($a) {
-                    return [
-                        'id'               => $a->id,
-                        'nama_arsip'       => $a->nama_arsip,
-                        'nomor_arsip'      => $a->nomor_arsip,
-                        'keterangan_arsip' => $a->keterangan_arsip,
-                        'original_name'    => $a->original_name,
-                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
-                        'file_label'       => 'Ganti File',
-                    ];
-                });
-        }
+        $detailBooking = BookingKavling::with('konsumen:id,nama_1,booking_fee')
+            ->select('id','konsumen_id','metode_pembayaran','nomor_booking')
+            ->findOrFail($id);
 
-        $arsip1 = collect();
-        if ($detailDitolakBank) {
-            $arsip1 = $detailDitolakBank->arsipFiles()
-                ->latest('id')
-                ->get()
-                ->map(function ($a) {
-                    return [
-                        'id'               => $a->id,
-                        'nama_arsip'       => $a->nama_arsip,
-                        'nomor_arsip'      => $a->nomor_arsip,
-                        'keterangan_arsip' => $a->keterangan_arsip,
-                        'original_name'    => $a->original_name,
-                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
-                        'file_label'       => 'Ganti File',
-                    ];
-                });
-        }
+        $biaya_pembayaran = BiayaPembayaran::orderBy('id')->get();
 
-        $has0     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 0)->whereIn('is_current', [0,1])->exists();
-        $isAktif0 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 0)->where('is_current', 1)->exists();
-
-        $has1     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 1)->whereIn('is_current', [0,1])->exists();
-        $isAktif1 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 1)->where('is_current', 1)->exists();
-
-        $has2     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 2)->whereIn('is_current', [0,1])->exists();
-        $isAktif2 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 2)->where('is_current', 1)->exists();
-
-        $has3     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 3)->whereIn('is_current', [0,1])->exists();
-        $isAktif3 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 3)->where('is_current', 1)->exists();
-
-        $has4     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 4)->whereIn('is_current', [0,1])->exists();
-        $isAktif4 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 4)->where('is_current', 1)->exists();
-
-        $has5     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 5)->whereIn('is_current', [0,1])->exists();
-        $isAktif5 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 5)->where('is_current', 1)->exists();
-
-        $has6     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 6)->whereIn('is_current', [0,1])->exists();
-        $isAktif6 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 6)->where('is_current', 1)->exists();
-
-        $has7     = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 7)->whereIn('is_current', [0,1])->exists();
-        $isAktif7 = BookingTimeline::where('booking_id', $booking->id)->where('status_code', 7)->where('is_current', 1)->exists();
-            
-        $timelineBooking = BookingTimeline::where('booking_id', $booking->id)
-            ->where('status_code', 0)
-            ->latest('changed_at')
-            ->first();
-
-        $kota = DB::table('kota')
-            ->select('id', 'nama')
-            ->union(
-                DB::table('provinsi')->select('id', 'nama')
+        $cluster = DB::table('cluster')
+            ->leftJoin('konsumen','konsumen.cluster_id','=','cluster.id')
+            ->select(
+                'cluster.id as cluster_id',
+                'cluster.nama_cluster',
+                'konsumen.id as konsumen_id',
+                'konsumen.nama_1',
+                'konsumen.booking_fee'
             )
-            ->orderBy('nama')
+            ->orderBy('cluster.nama_cluster')
+            ->orderBy('konsumen.nama_1')
+            ->get()
+            ->groupBy('cluster_id');
+
+        $konsumen = (object)[
+            'metode_pembayaran' => $detailBooking->metode_pembayaran,
+            'nomor_booking'     => $detailBooking->nomor_booking,
+            'konsumen_id'       => $detailBooking->konsumen_id,
+            'nama_1'     => $detailBooking->konsumen?->nama_1,
+            'booking_fee'       => $detailBooking->konsumen?->booking_fee,
+        ];
+
+
+        $rap_rab = DB::table('rap_rab')->get();
+
+        $selectedKaplingId = old('kapling_id', $detailBooking->kapling_id);
+        $tanggalBooking = $detailBooking->tanggal_booking ? Carbon::parse($detailBooking->tanggal_booking)->format('d/m/Y') : null;
+
+        $today = Carbon::now('Asia/Jakarta')->toDateString();
+        $nomorPreview = BookingKavling::generateNomorBooking($today);
+
+        // $jenisDokumen = DB::table('jenis_dokumen_persyaratan')
+        //     ->select('id','nama','urutan')
+        //     ->orderBy('urutan')
+        //     ->get();
+
+        $dokumenList = DokumenBooking::with(['files' => function ($q) {
+                $q->orderByDesc('created_at');
+            }])
+            ->where('booking_id', $detailBooking->id)
             ->get();
 
-        if (empty($booking->nomor_booking)) {
-            $tanggal = $booking->tanggal_booking ?? Carbon::now('Asia/Jakarta')->toDateString();
-            $booking->tanggal_booking = $tanggal;
-            $booking->nomor_booking   = BookingKavling::generateNomorBooking($tanggal);
-            $booking->save();
+        $dokumenByJenis = $dokumenList->keyBy('jenis_dokumen_persyaratan_id');
+
+        $jenisBiaya = DB::table('jenis_biaya_konsumen')->orderBy('urutan')->get();
+        $jenisDokumen = DB::table('jenis_dokumen_persyaratan')->orderBy('urutan')->get();
+        $jenisByNama = DB::table('jenis_dokumen_persyaratan')->pluck('id', 'nama');
+
+        $ruleByMetode = [
+            'Cash Keras' => [
+                'Surat Perjanjian Cash Bertahap',
+                'Kartu Tanda Penduduk (KTP)',
+                'Kartu Keluarga (KK)',
+                'Pas Photo 3x4',
+            ],
+            'Cash Bertahap' => [
+                'Surat Perjanjian Cash Bertahap',
+                'Kartu Tanda Penduduk (KTP)',
+                'Kartu Keluarga (KK)',
+                'Pas Photo 3x4',
+            ],
+            'KPR' => [
+                'SBOM',
+                'Kartu Tanda Penduduk (KTP)',
+                'Kartu Keluarga (KK)',
+                'Pas Photo 3x4',
+                'FC Buku Tabungan',
+                'NPWP',
+                'Slip Gaji',
+                'Surat Keterangan Kerja',
+                'Rekening Koran',
+                'Surat Keterangan Belum Memiliki Rumah',
+                'Surat Keterangan Usaha (Wiraswasta)',
+                'Neraca Keuangan (Wirausaha)',
+            ],
+        ];
+
+        $showIdsByMetode = [];
+        foreach ($ruleByMetode as $metode => $namaList) {
+            $ids = [];
+            foreach ($namaList as $nama) {
+                if (isset($jenisByNama[$nama])) $ids[] = (int) $jenisByNama[$nama];
+            }
+            $showIdsByMetode[$metode] = $ids;
         }
 
-        $tanggalPemberkasan = optional($detailPemberkasan)->tanggal_pemberkasan;
-        $tanggalProses = optional($detailProses)->tanggal_masuk_bank;
-        $tanggalAnalisa = optional($detailAnalisa)->tanggal_masuk_analisa_bank;
-        $tanggalSp3k = optional($detailSp3k)->tanggal_sp3k;
-        $tanggalAkad = optional($detailAkad)->tanggal_akad;
-        $tanggalAjb = optional($detailAjb)->tanggal_ajb;
-        $tanggalDitolakBank = optional($detailDitolakBank)->tanggal_ditolak;
-        $tanggalMundur = optional($detailMundur)->tanggal_mundur;
+        $selectedMetode = $detailBooking->metode_pembayaran;
+        if ($selectedMetode && isset($showIdsByMetode[$selectedMetode])) {
+            $jenisDokumen = $jenisDokumen->whereIn('id', $showIdsByMetode[$selectedMetode]);
+        }
 
-        $tanggalPemberkasan = $tanggalPemberkasan ? Carbon::parse($tanggalPemberkasan)->format('d/m/Y') : null;
-        $tanggalProses      = $tanggalProses ? Carbon::parse($tanggalProses)->format('d/m/Y') : null;
-        $tanggalAnalisa     = $tanggalAnalisa ? Carbon::parse($tanggalAnalisa)->format('d/m/Y') : null;
-        $tanggalSp3k        = $tanggalSp3k ? Carbon::parse($tanggalSp3k)->format('d/m/Y') : null;
-        $tanggalAkad        = $tanggalAkad ? Carbon::parse($tanggalAkad)->format('d/m/Y') : null;
-        $tanggalAjb         = $tanggalAjb ? Carbon::parse($tanggalAjb)->format('d/m/Y') : null;
-        $tanggalDitolakBank = $tanggalDitolakBank ? Carbon::parse($tanggalDitolakBank)->format('d/m/Y') : null;
-        $tanggalMundur      = $tanggalMundur ? Carbon::parse($tanggalMundur)->format('d/m/Y') : null;
+        $dokumenByJenis = DokumenBooking::where('booking_id', $detailBooking->id)
+            ->with('files')
+            ->get()
+            ->keyBy('jenis_dokumen_persyaratan_id');
 
-        $nomorPreview = 'SPR' . substr($booking->nomor_booking, 2);
+            // $arsip = $updateKavling->arsip()->get()->map(function($a){
+            //     return [
+            //         'id'               => $a->id,
+            //         'nama_arsip'       => $a->nama_arsip,
+            //         'nomor_arsip'      => $a->nomor_arsip,
+            //         'tanggal_arsip'    => $a->tanggal_arsip ? $a->tanggal_arsip->format('Y-m-d') : null,
+            //         'keterangan_arsip' => $a->keterangan_arsip,
+            //         'original_name'    => $a->original_name,
+            //         'file_url'         => $a->file_arsip ? asset('storage/'.$a->file_arsip) : null,
+            //         'file_label'       => 'Ganti File',
+            //     ];
+            // });
 
-        return view('marketing.perumahan.kavling.pembayaranbookingaddnew', compact('data_status_pengajuan','kota','nomorPreview', 'booking', 'detailPemberkasan', 'timelineBooking', 'detailProses', 'detailAnalisa', 'detailSp3k', 'arsip0', 'arsip1', 'detailAkad', 'detailAjb', 'detailDitolakBank', 'detailMundur', 'tanggalPemberkasan', 'tanggalProses', 'tanggalAnalisa', 'tanggalSp3k', 'tanggalAkad', 'tanggalAjb', 'tanggalDitolakBank', 'tanggalMundur', 'has0', 'has1', 'has2', 'has3', 'has4', 'has5', 'has6', 'has7', 'isAktif0', 'isAktif1', 'isAktif2', 'isAktif3', 'isAktif4', 'isAktif5', 'isAktif6', 'isAktif7'));
+        $biayaRows = BiayaBooking::with(['jenisBiayaBooking:id,kode,nama'])
+            ->where('booking_id', $detailBooking->id)
+            ->get();
+
+        $codeToProp = [
+            'BF'   => 'booking_fee',
+            'UM'   => 'uang_muka',
+            'ADM'  => 'biaya_administrasi',
+            'AKAD' => 'biaya_akad_kredit',
+            'KLT'  => 'biaya_kelebihan_tanah',
+            'PENB' => 'biaya_penambahan_bangunan',
+            'LAIN' => 'biaya_lainnya',
+            'FAS'  => 'biaya_penambahan_fasilitas',
+            'KPR'  => 'penerimaan_kpr',
+            'TPC'  => 'total_penjualan_cash',
+            'CIC'  => 'cicilan_cash',
+        ];
+
+        $costDefaults = array_fill_keys(array_values($codeToProp), 0);
+
+        $costFilled = [];
+        foreach ($biayaRows as $row) {
+            $kode = $row->jenisBiayaBooking?->kode;
+            if (!$kode) continue;
+
+            $prop = $codeToProp[$kode] ?? null;
+            if (!$prop) continue;
+
+            $val = (int) preg_replace('/[^\d]/', '', (string) $row->nominal_biaya);
+            $costFilled[$prop] = $val;
+        }
+
+
+        $costs = (object) array_merge($costDefaults, $costFilled);
+
+        return view('marketing.perumahan.kavling.pembayaranbookingaddnew', compact('detailBooking', 'cluster', 'konsumen', 'rap_rab', 'nomorPreview', 'selectedKaplingId', 'tanggalBooking','jenisDokumen', 'dokumenByJenis', 'showIdsByMetode', 'costs', 'biaya_pembayaran'));
+    }
+
+    public function storeBookingFee(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'tanggal_pemberkasan' => 'nullable|string|max:255',
+            'catatan_pemberkasan' => 'nullable|string',
+            'action'              => 'nullable|in:save,set',
+        ]);
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi gagal! Mohon lengkapi data.');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        DB::beginTransaction();
+        try {
+            $booking = BookingKavling::findOrFail($id);
+
+            $detail = BookingStatus0Pemberkasan::updateOrCreate(
+                ['booking_id' => $booking->id],
+                [
+                    'tanggal_pemberkasan' => $request->tanggal_pemberkasan ? Carbon::createFromFormat('d/m/Y', $request->tanggal_pemberkasan)->format('Y-m-d') : null,
+                    'catatan_pemberkasan' => $request->catatan_pemberkasan,
+                ]
+            );
+
+            $timeline = BookingTimeline::updateOrCreate(
+                [
+                    'booking_id'      => $booking->id,
+                    'status_code'     => 0,
+                    'statusable_type' => BookingStatus0Pemberkasan::class,
+                ],
+                [
+                    'statusable_id' => $detail->id,
+                    'notes'         => $request->catatan_pemberkasan,
+                    'changed_by'    => auth()->id(),
+                    'changed_at'    => now(),
+                ]
+            );
+
+            if ($request->action === 'save') {
+
+                $timeline->update(['is_current' => '']);
+            }
+
+            if ($request->action === 'set') {
+                $label = "Pemberkasan";
+                if (!empty($detail->tanggal_pemberkasan)) {
+                    $label .= '<strong>'."<br>Tanggal: {$detail->tanggal_pemberkasan}".'</strong>';
+                }
+
+                $booking->update(['status_pengajuan' => $label]);
+
+                BookingTimeline::where('booking_id', $booking->id)->update(['is_current' => false]);
+
+                $timeline->update(['is_current' => true]);
+            }
+
+
+            DB::commit();
+            sweetalert()->success($request->action === 'set'
+                ? 'Status berhasil diubah ke Pemberkasan.'
+                : 'Data pemberkasan berhasil disimpan.');
+            return  redirect()->route('booking/list/page');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            sweetalert()->error('Gagal menyimpan data: '.$e->getMessage());
+            return back()->withInput();
+        }
     }
 
     // public function storePemberkasan(Request $request, $booking_id)

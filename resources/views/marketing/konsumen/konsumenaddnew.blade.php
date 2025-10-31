@@ -38,7 +38,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="status_pernikahan_id" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Status Pernikahan</label>
+                            <label for="status_pernikahan_ids" class="form-label fw-bold"><strong class="text-danger align-middle">*</strong>&nbsp;Status Pernikahan</label>
                             <select class="tomselect @error('status_pernikahan_id') is-invalid @enderror" name="status_pernikahan_id" id="status_pernikahan_ids">
                                 <option {{ old('status_pernikahan_id') ? '' : 'selected' }} disabled>--Status Pernikahan--</option>
                                 @foreach ($status_pernikahan as $items )
