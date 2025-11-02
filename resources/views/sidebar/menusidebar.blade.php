@@ -143,6 +143,12 @@
                     </ul>
                 </li>
 
+                <li class="submenu"> <a href="#"></i><i class="fas fa-database mr-2"></i><span> Keuangan </span> <span class="menu-arrow"></span></a>
+                    <ul class="submenu_class" style="display: none;">
+                        <li><a class="{{ set_active(['pembayaran-konsumen/list/page']) }}" href="{{ route('pembayaran-konsumen/list/page') }}"><i class="fas fa-users ml-0 mr-3"></i>Otorisasi Pembayaran</a></li>
+                    </ul>
+                </li>
+
                 <li class="submenu"> <a href="#"></i><i class="fas fa-boxes mr-2"></i><span> Modul Utama  <span class="badge bg-light text-dark">New Update!</span></span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Pembelian </span> <span class="menu-arrow"></span></a>

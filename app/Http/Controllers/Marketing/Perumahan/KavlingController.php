@@ -31,6 +31,10 @@ use App\Models\BookingStatus6DitolakBank;
 use App\Models\BookingStatus7Mundur;
 use App\Models\BookingTimeline;
 use App\Models\BiayaPembayaran;
+use App\Models\PembayaranBookingKonsumen;
+use App\Models\PembayaranBookingKonsumenCicilan;
+use App\Models\JenisBiayaKonsumen;
+use App\Models\Akun;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class KavlingController extends Controller
@@ -40,6 +44,13 @@ class KavlingController extends Controller
         $cluster = DB::table('cluster')->get();
         $rap_rab = DB::table('rap_rab')->get();
         return view('marketing.perumahan.kavling.kavling', compact('cluster', 'rap_rab'));
+    }
+
+    public function PembayaranKonsumen()
+    {
+        $cluster = DB::table('cluster')->get();
+        $rap_rab = DB::table('rap_rab')->get();
+        return view('keuangan.otorisasipembayaran.datapembayaranbooking', compact('cluster', 'rap_rab'));
     }
 
     public function bookingList()
@@ -585,11 +596,474 @@ class KavlingController extends Controller
 
     public function addPembayaranBooking($id)
     {
-        $detailBooking = BookingKavling::with('konsumen:id,nama_1,booking_fee')
-            ->select('id','konsumen_id','metode_pembayaran','nomor_booking')
-            ->findOrFail($id);
+        $detailBooking = BookingKavling::findOrFail($id);
 
-        $biaya_pembayaran = BiayaPembayaran::orderBy('id')->get();
+        // $biaya_pembayaran = JenisBiayaKonsumen::orderBy('urutan')->get();
+        $metode = $detailBooking->metode_pembayaran; // 'Cash Keras' | 'Cash Bertahap' | 'KPR'
+
+        $map = [
+            'Cash Keras' => [1,2,3,4,5,6,7],
+            'Cash Bertahap' => [1,2,3,4,5,6,8],
+            'KPR' => [1,3,4,5,6,9,10,11],
+        ];
+
+        $ids = $map[$metode] ?? [];
+        // $ids = $map[$metode] ?? [1,2,3,4,5,6,7,8,9,10,11]; // alternatif: tampilkan semua
+
+        
+        $dataku1 = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 1)
+            ->orderBy('id')
+            ->get();
+
+        $arsip1 = collect();
+        if ($dataku1->isNotEmpty()) {
+            $first = $dataku1->first();
+            $arsip1 = $first->arsipFiles()
+                ->latest('id')
+                ->get()
+                ->map(function ($a) {
+                    return [
+                        'id'               => $a->id,
+                        'nama_arsip'       => $a->nama_arsip,
+                        'nomor_arsip'      => $a->nomor_arsip,
+                        'keterangan_arsip' => $a->keterangan_arsip,
+                        'original_name'    => $a->original_name,
+                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
+                        'file_label'       => 'Ganti File',
+                    ];
+                })
+                ->values();
+        }
+
+        $dataku2 = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 2)
+            ->orderBy('id')
+            ->get();
+
+        $arsip2 = collect();
+        if ($dataku2->isNotEmpty()) {
+            $first = $dataku2->first();
+            $arsip2 = $first->arsipFiles()
+                ->latest('id')
+                ->get()
+                ->map(function ($a) {
+                    return [
+                        'id'               => $a->id,
+                        'nama_arsip'       => $a->nama_arsip,
+                        'nomor_arsip'      => $a->nomor_arsip,
+                        'keterangan_arsip' => $a->keterangan_arsip,
+                        'original_name'    => $a->original_name,
+                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
+                        'file_label'       => 'Ganti File',
+                    ];
+                })
+                ->values();
+        }
+
+        $dataku3 = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 3)
+            ->orderBy('id')
+            ->get();
+
+        $arsip3 = collect();
+        if ($dataku3->isNotEmpty()) {
+            $first = $dataku3->first();
+            $arsip3 = $first->arsipFiles()
+                ->latest('id')
+                ->get()
+                ->map(function ($a) {
+                    return [
+                        'id'               => $a->id,
+                        'nama_arsip'       => $a->nama_arsip,
+                        'nomor_arsip'      => $a->nomor_arsip,
+                        'keterangan_arsip' => $a->keterangan_arsip,
+                        'original_name'    => $a->original_name,
+                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
+                        'file_label'       => 'Ganti File',
+                    ];
+                })
+                ->values();
+        }
+
+        $dataku4 = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia','booking'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 4)
+            ->orderBy('id')
+            ->get();
+
+        $arsip4 = collect();
+        if ($dataku4->isNotEmpty()) {
+            $first = $dataku4->first();
+            $arsip4 = $first->arsipFiles()
+                ->latest('id')
+                ->get()
+                ->map(function ($a) {
+                    return [
+                        'id'               => $a->id,
+                        'nama_arsip'       => $a->nama_arsip,
+                        'nomor_arsip'      => $a->nomor_arsip,
+                        'keterangan_arsip' => $a->keterangan_arsip,
+                        'original_name'    => $a->original_name,
+                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
+                        'file_label'       => 'Ganti File',
+                    ];
+                })
+                ->values();
+        }
+
+        $dataku5 = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 5)
+            ->orderBy('id')
+            ->get();
+
+        $arsip5 = collect();
+        if ($dataku5->isNotEmpty()) {
+            $first = $dataku5->first();
+            $arsip5 = $first->arsipFiles()
+                ->latest('id')
+                ->get()
+                ->map(function ($a) {
+                    return [
+                        'id'               => $a->id,
+                        'nama_arsip'       => $a->nama_arsip,
+                        'nomor_arsip'      => $a->nomor_arsip,
+                        'keterangan_arsip' => $a->keterangan_arsip,
+                        'original_name'    => $a->original_name,
+                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
+                        'file_label'       => 'Ganti File',
+                    ];
+                })
+                ->values();
+        }
+
+        $dataku6 = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 6)
+            ->orderBy('id')
+            ->get();
+
+        $arsip6 = collect();
+        if ($dataku6->isNotEmpty()) {
+            $first = $dataku6->first();
+            $arsip6 = $first->arsipFiles()
+                ->latest('id')
+                ->get()
+                ->map(function ($a) {
+                    return [
+                        'id'               => $a->id,
+                        'nama_arsip'       => $a->nama_arsip,
+                        'nomor_arsip'      => $a->nomor_arsip,
+                        'keterangan_arsip' => $a->keterangan_arsip,
+                        'original_name'    => $a->original_name,
+                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
+                        'file_label'       => 'Ganti File',
+                    ];
+                })
+                ->values();
+        }
+
+        $dataku7 = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 7)
+            ->orderBy('id')
+            ->get();
+
+        $arsip7 = collect();
+        if ($dataku7->isNotEmpty()) {
+            $first = $dataku7->first();
+            $arsip7 = $first->arsipFiles()
+                ->latest('id')
+                ->get()
+                ->map(function ($a) {
+                    return [
+                        'id'               => $a->id,
+                        'nama_arsip'       => $a->nama_arsip,
+                        'nomor_arsip'      => $a->nomor_arsip,
+                        'keterangan_arsip' => $a->keterangan_arsip,
+                        'original_name'    => $a->original_name,
+                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
+                        'file_label'       => 'Ganti File',
+                    ];
+                })
+                ->values();
+        }
+
+        $dataku8 = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 8)
+            ->orderBy('id')
+            ->get();
+
+        $arsip8 = collect();
+        if ($dataku8->isNotEmpty()) {
+            $first = $dataku8->first();
+            $arsip8 = $first->arsipFiles()
+                ->latest('id')
+                ->get()
+                ->map(function ($a) {
+                    return [
+                        'id'               => $a->id,
+                        'nama_arsip'       => $a->nama_arsip,
+                        'nomor_arsip'      => $a->nomor_arsip,
+                        'keterangan_arsip' => $a->keterangan_arsip,
+                        'original_name'    => $a->original_name,
+                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
+                        'file_label'       => 'Ganti File',
+                    ];
+                })
+                ->values();
+        }
+            
+        $dataku9 = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 9)
+            ->orderBy('id')
+            ->get();
+
+        $arsip9 = collect();
+        if ($dataku9->isNotEmpty()) {
+            $first = $dataku9->first();
+            $arsip9 = $first->arsipFiles()
+                ->latest('id')
+                ->get()
+                ->map(function ($a) {
+                    return [
+                        'id'               => $a->id,
+                        'nama_arsip'       => $a->nama_arsip,
+                        'nomor_arsip'      => $a->nomor_arsip,
+                        'keterangan_arsip' => $a->keterangan_arsip,
+                        'original_name'    => $a->original_name,
+                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
+                        'file_label'       => 'Ganti File',
+                    ];
+                })
+                ->values();
+        }
+
+        $dataku10 = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 10)
+            ->orderBy('id')
+            ->get();
+
+        $arsip10 = collect();
+        if ($dataku10->isNotEmpty()) {
+            $first = $dataku10->first();
+            $arsip10 = $first->arsipFiles()
+                ->latest('id')
+                ->get()
+                ->map(function ($a) {
+                    return [
+                        'id'               => $a->id,
+                        'nama_arsip'       => $a->nama_arsip,
+                        'nomor_arsip'      => $a->nomor_arsip,
+                        'keterangan_arsip' => $a->keterangan_arsip,
+                        'original_name'    => $a->original_name,
+                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
+                        'file_label'       => 'Ganti File',
+                    ];
+                })
+                ->values();
+        }
+
+        $dataku11 = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id',11)
+            ->orderBy('id')
+            ->get();
+
+        $arsip11 = collect();
+        if ($dataku11->isNotEmpty()) {
+            $first = $dataku11->first();
+            $arsip11 = $first->arsipFiles()
+                ->latest('id')
+                ->get()
+                ->map(function ($a) {
+                    return [
+                        'id'               => $a->id,
+                        'nama_arsip'       => $a->nama_arsip,
+                        'nomor_arsip'      => $a->nomor_arsip,
+                        'keterangan_arsip' => $a->keterangan_arsip,
+                        'original_name'    => $a->original_name,
+                        'file_url'         => $a->file_arsip ? Storage::url($a->file_arsip) : null,
+                        'file_label'       => 'Ganti File',
+                    ];
+                })
+                ->values();
+        }
+
+        $biaya_pembayaran = JenisBiayaKonsumen::query()
+            ->when(!empty($ids), fn($q) => $q->whereIn('id', $ids))
+            ->orderBy('urutan')
+            ->get();
+
+
+        $totalPembayaran = DB::table('pembayaran_konsumen')
+            ->where('booking_id', $id)
+            ->where('is_approved', true)
+            ->sum('nominal_pembayaran');
+
+        $totalKontrak = DB::table('biaya_booking')
+            ->where('booking_id', $id)
+            ->sum('nominal_biaya');
+
+        $sisaHutang = max(0, $totalKontrak - $totalPembayaran);
+
+        // $jenisList = DB::table('jenis_biaya_konsumen')->pluck('nama', 'id');
+        // $sisaPerJenis = [];
+        // foreach ($jenisList as $jenisId => $nama) {
+        //     $tagihan = DB::table('biaya_booking')
+        //         ->where('booking_id', $id)
+        //         ->where('jenis_biaya_id', $jenisId)
+        //         ->sum('nominal_biaya');
+
+        //     $dibayar = DB::table('pembayaran_konsumen')
+        //         ->where('booking_id', $id)
+        //         ->where('jenis_biaya_konsumen_id', $jenisId)
+        //         ->where('is_approved', 1)
+        //         ->sum('nominal_pembayaran');
+
+        //     $sisaPerJenis[$nama] = max(0, $tagihan - $dibayar);
+        // }
+
+        $tagihan0 = DB::table('biaya_booking')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_id', 1)
+            ->sum('nominal_biaya');
+        $tagihan1 = DB::table('biaya_booking')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_id', 2)
+            ->sum('nominal_biaya');
+        $tagihan2 = DB::table('biaya_booking')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_id', 3)
+            ->sum('nominal_biaya');
+        $tagihan3 = DB::table('biaya_booking')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_id', 4)
+            ->sum('nominal_biaya');
+        $tagihan4 = DB::table('biaya_booking')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_id', 5)
+            ->sum('nominal_biaya');
+        $tagihan5 = DB::table('biaya_booking')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_id', 6)
+            ->sum('nominal_biaya');
+        $tagihan6 = DB::table('biaya_booking')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_id', 7)
+            ->sum('nominal_biaya');
+        $tagihan7 = DB::table('biaya_booking')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_id', 8)
+            ->sum('nominal_biaya');
+        $tagihan8 = DB::table('biaya_booking')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_id', 9)
+            ->sum('nominal_biaya');
+        $tagihan9 = DB::table('biaya_booking')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_id', 10)
+            ->sum('nominal_biaya');
+        $tagihan10 = DB::table('biaya_booking')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_id', 11)
+            ->sum('nominal_biaya');
+
+        // $tagihan = DB::table('biaya_booking')
+        //     ->where('booking_id', $id)
+        //     ->where('jenis_biaya_id', 1)
+        //     ->sum('nominal_biaya');
+
+        $dibayar0 = DB::table('pembayaran_konsumen')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 1)
+            ->where('is_approved', 1)
+            ->sum('nominal_pembayaran');
+        $dibayar1 = DB::table('pembayaran_konsumen')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 2)
+            ->where('is_approved', 1)
+            ->sum('nominal_pembayaran');
+        $dibayar2 = DB::table('pembayaran_konsumen')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 3)
+            ->where('is_approved', 1)
+            ->sum('nominal_pembayaran');
+        $dibayar3 = DB::table('pembayaran_konsumen')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 4)
+            ->where('is_approved', 1)
+            ->sum('nominal_pembayaran');
+        $dibayar4 = DB::table('pembayaran_konsumen')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 5)
+            ->where('is_approved', 1)
+            ->sum('nominal_pembayaran');
+        $dibayar5 = DB::table('pembayaran_konsumen')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 6)
+            ->where('is_approved', 1)
+            ->sum('nominal_pembayaran');
+        $dibayar6 = DB::table('pembayaran_konsumen')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 7)
+            ->where('is_approved', 1)
+            ->sum('nominal_pembayaran');
+        $dibayar7 = DB::table('pembayaran_konsumen')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 8)
+            ->where('is_approved', 1)
+            ->sum('nominal_pembayaran');
+        $dibayar8 = DB::table('pembayaran_konsumen')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 9)
+            ->where('is_approved', 1)
+            ->sum('nominal_pembayaran');
+        $dibayar9 = DB::table('pembayaran_konsumen')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 10)
+            ->where('is_approved', 1)
+            ->sum('nominal_pembayaran');
+        $dibayar10 = DB::table('pembayaran_konsumen')
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 11)
+            ->where('is_approved', 1)
+            ->sum('nominal_pembayaran');
+
+        $sisaPerJenis0 = max(0, $tagihan0 - $dibayar0);
+        $sisaPerJenis1 = max(0, $tagihan1 - $dibayar1);
+        $sisaPerJenis2 = max(0, $tagihan2 - $dibayar2);
+        $sisaPerJenis3 = max(0, $tagihan3 - $dibayar3);
+        $sisaPerJenis4 = max(0, $tagihan4 - $dibayar4);
+        $sisaPerJenis5 = max(0, $tagihan5 - $dibayar5);
+        $sisaPerJenis6 = max(0, $tagihan6 - $dibayar6);
+        $sisaPerJenis7 = max(0, $tagihan7 - $dibayar7);
+        $sisaPerJenis8 = max(0, $tagihan8 - $dibayar8);
+        $sisaPerJenis9 = max(0, $tagihan9 - $dibayar9);
+        $sisaPerJenis10 = max(0, $tagihan10 - $dibayar10);
+
+        $akun = Akun::where('dihentikan', 0)
+            ->orderBy('no_akun')
+            ->orderBy('nama_akun_indonesia')
+            ->get();
 
         $cluster = DB::table('cluster')
             ->leftJoin('konsumen','konsumen.cluster_id','=','cluster.id')
@@ -735,8 +1209,229 @@ class KavlingController extends Controller
 
         $costs = (object) array_merge($costDefaults, $costFilled);
 
-        return view('marketing.perumahan.kavling.pembayaranbookingaddnew', compact('detailBooking', 'cluster', 'konsumen', 'rap_rab', 'nomorPreview', 'selectedKaplingId', 'tanggalBooking','jenisDokumen', 'dokumenByJenis', 'showIdsByMetode', 'costs', 'biaya_pembayaran'));
+        $edit = null;
+        if (request('edit')) {
+            $edit = PembayaranBookingKonsumen::with('akun')->find(request('edit'));
+        }
+
+        return view('marketing.perumahan.kavling.pembayaranbookingaddnew', compact('edit','dataku1', 'dataku2','dataku3', 'dataku4','dataku5', 'dataku6','dataku7', 'dataku8', 'dataku9','dataku10', 'dataku11','biaya_pembayaran','akun','detailBooking', 'cluster', 'konsumen', 'rap_rab', 'nomorPreview', 'selectedKaplingId', 'tanggalBooking','jenisDokumen', 'dokumenByJenis', 'showIdsByMetode', 'costs', 'biaya_pembayaran', 'tagihan0', 'tagihan1', 'tagihan2', 'tagihan3', 'tagihan4', 'tagihan5', 'tagihan6', 'tagihan7', 'tagihan8', 'tagihan9', 'tagihan10', 'dibayar0', 'dibayar1', 'dibayar2', 'dibayar3', 'dibayar4', 'dibayar5', 'dibayar6', 'dibayar7', 'dibayar8', 'dibayar9', 'dibayar10', 'sisaPerJenis0', 'sisaPerJenis1', 'sisaPerJenis2', 'sisaPerJenis3', 'sisaPerJenis4', 'sisaPerJenis5', 'sisaPerJenis6', 'sisaPerJenis7', 'sisaPerJenis8', 'sisaPerJenis9', 'sisaPerJenis10', 'totalPembayaran', 'totalKontrak', 'sisaHutang','arsip1','arsip2','arsip3','arsip4','arsip5','arsip6','arsip7','arsip8','arsip9','arsip10','arsip11'));
     }
+
+    // public function storeGenericPayment(Request $request, $id, int $jenis)
+    // {
+    //     $validated = $request->validate([
+    //         'tanggal_pembayaran' => ['required','date'],
+    //         'nominal_pembayaran' => ['required','numeric','min:1'],
+    //         'akun_id'            => ['required','exists:akun,id'],
+    //         'catatan_pembayaran' => ['nullable','string'],
+    //         'bukti_pembayaran'   => ['nullable','file','mimes:pdf,jpg,jpeg,png','max:2048'],
+    //         'approve'            => ['nullable','boolean'], // checkbox optional
+    //     ]);
+
+    //     return DB::transaction(function () use ($validated, $request, $id, $jenis) {
+            
+    //         $path = null;
+    //         if ($request->hasFile('bukti_pembayaran')) {
+    //             $path = $request->file('bukti_pembayaran')->store("arsip/booking/{$id}/pembayaran",'public');
+    //         }
+
+    //         $tgl = Carbon::parse($validated['tanggal_pembayaran']);
+    //         $prefix = 'INV'.$tgl->format('Ym');
+    //         $last = PembayaranBookingKonsumen::where('nomor_referensi','like',$prefix.'%')
+    //                 ->orderBy('nomor_referensi','desc')->value('nomor_referensi');
+    //         $seq = $last ? (int)substr($last,-4) + 1 : 1;
+    //         $nomor = $prefix . str_pad((string)$seq, 4, '0', STR_PAD_LEFT);
+
+    //         $pay = PembayaranBookingKonsumen::create([
+    //             'booking_id'               => $id,
+    //             'jenis_biaya_konsumen_id'  => $jenis,
+    //             'akun_id'                  => $validated['akun_id'],
+    //             'nomor_referensi'          => $nomor,
+    //             'tanggal_pembayaran'       => $tgl->toDateString(),
+    //             'nominal_pembayaran'       => (int)$validated['nominal_pembayaran'],
+    //             'catatan_pembayaran'       => $validated['catatan_pembayaran'] ?? null,
+    //             'bukti_pembayaran'         => $path,
+    //             'is_approved'              => (bool)($validated['approve'] ?? false),
+    //             'approved_by'              => ($validated['approve'] ?? false) ? auth()->id() : null,
+    //             'approved_at'              => ($validated['approve'] ?? false) ? $tgl->toDateString() : null,
+    //             'created_by'               => auth()->id(),
+    //             'changed_by'               => auth()->id(),
+    //         ]);
+    //         return redirect()->back()->with('success','Pembayaran tersimpan: '.$pay->nomor_referensi);
+    //     });
+    // }
+
+    private const INDEX_TO_JENIS_ID = [1,2,3,4,5,6,7,8,9,10,11];
+    public function storeGenericPayment(Request $request, $id, int $jenis)
+    {
+        $jenisId = $request->input('jenis_biaya_konsumen_id');
+        if ($jenisId === null && $jenis !== null) {
+            $jenisId = self::INDEX_TO_JENIS_ID[$jenis] ?? null;
+        }
+        if ($jenisId === null) {
+            sweetalert()->error('Jenis pembayaran tidak dikenali.');
+            return back()->withInput();
+        }
+
+        $rules = [
+            'pembayaran_id'      => 'nullable|exists:pembayaran_konsumen,id',
+            'tanggal_pembayaran' => 'required|string|max:255',
+            'nominal_pembayaran' => 'required|string|max:255',
+            'akun_id'            => 'required|exists:akun,id',
+            'catatan_pembayaran' => 'nullable|string|max:5000',
+            'bukti_pembayaran'   => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:3072',
+            'approve'            => 'nullable|boolean',
+        ];
+        $message = [
+            'tanggal_pembayaran.required' => 'Tanggal pembayaran wajib diisi',
+            'nominal_pembayaran.required' => 'Nominal pembayaran wajib diisi',
+            'akun_id.required'            => 'Akun penerimaan wajib dipilih',
+            'akun_id.exists'              => 'Akun tidak ditemukan',
+        ];
+        $validator = Validator::make($request->all(), $rules, $message);
+        if ($validator->fails()) {
+            sweetalert()->error('Validasi Gagal, Beberapa Input Wajib Belum Terisi!');
+            return back()->withErrors($validator)->withInput();
+        }
+
+        DB::beginTransaction();
+        try {
+            $tgl = $request->filled('tanggal_pembayaran')
+                ? Carbon::createFromFormat('d/m/Y', $request->tanggal_pembayaran)->format('Y-m-d')
+                : null;
+
+            $existing = null;
+            if ($request->filled('pembayaran_id')) {
+                $existing = PembayaranBookingKonsumen::find($request->pembayaran_id);
+            }
+
+            $path = $existing?->bukti_pembayaran;
+            if ($request->hasFile('bukti_pembayaran')) {
+                $path = $request->file('bukti_pembayaran')
+                                ->store("arsip/booking/{$id}/pembayaran", 'public');
+            }
+
+            $today = Carbon::now('Asia/Jakarta')->toDateString();
+            $generator = new PembayaranBookingKonsumen();
+            $nomorRef = $existing?->nomor_referensi ?? $generator->generateNomorReferensi($today);
+
+            $isApprove = (bool) $request->boolean('approve');
+
+            $keys = [];
+            if ($request->filled('pembayaran_id')) {
+                $keys['id'] = (int) $request->pembayaran_id;
+            } else {
+                $keys['nomor_referensi'] = $nomorRef;
+            }
+
+            $values = [
+                'booking_id'              => (int) $id,
+                'jenis_biaya_konsumen_id' => (int) $jenisId,
+                'akun_id'                 => (int) $request->akun_id,
+                'tanggal_pembayaran'      => $tgl,
+                'nominal_pembayaran'      => $request->nominal_pembayaran,
+                'catatan_pembayaran'      => $request->catatan_pembayaran,
+                'bukti_pembayaran'        => $path,
+                'is_approved'             => $isApprove,
+                'approved_by'             => $isApprove ? auth()->id() : ($existing?->approved_by),
+                'approved_at'             => $isApprove ? $tgl : ($existing?->approved_at),
+                'changed_by'              => auth()->id(),
+            ];
+
+            if (!$request->filled('pembayaran_id')) {
+                $values['nomor_referensi'] = $nomorRef;
+                $values['created_by']      = auth()->id();
+            }
+
+            $pay = PembayaranBookingKonsumen::updateOrCreate($keys, $values);
+
+            DB::commit();
+            sweetalert()->success(($request->filled('pembayaran_id') ? 'Pembayaran diperbarui: ' : 'Pembayaran tersimpan: ').$pay->nomor_referensi);
+            return back();
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            sweetalert()->error('Tambah/Update Pembayaran Gagal: '.$e->getMessage());
+            return back()->withInput();
+        }
+    }
+
+    // DEPRECATED
+    // private const INDEX_TO_JENIS_ID = [1,2,3,4,5,6,7,8,9,10,11];
+    // public function storeGenericPayment(Request $request, $id, int $jenis)
+    // {
+    //     $jenisId = $request->input('jenis_biaya_konsumen_id');
+
+    //     if ($jenisId === null && $jenis !== null) {
+    //         $jenisId = self::INDEX_TO_JENIS_ID[$jenis] ?? null;
+    //     }
+
+    //     if ($jenisId === null) {
+    //         sweetalert()->error('Jenis pembayaran tidak dikenali.');
+    //         return redirect()->back()->withInput();
+    //     }
+
+    //     $rules = [
+    //         'tanggal_pembayaran' => 'required|string|max:255',
+    //         'nominal_pembayaran' => 'required|string|max:255',
+    //         'akun_id'            => 'required|exists:akun,id',
+    //         'catatan_pembayaran' => 'nullable|string|max:5000',
+    //         'bukti_pembayaran'   => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:3072',
+    //         'approve'            => 'nullable|boolean',
+    //     ];
+
+    //     $message = [
+    //         'tanggal_pembayaran.required' => 'Tanggal pembayaran wajib diisi',
+    //         'nominal_pembayaran.required' => 'Nominal pembayaran wajib diisi',
+    //         'akun_id.required'            => 'Akun penerimaan wajib dipilih',
+    //         'akun_id.exists'              => 'Akun tidak ditemukan',
+    //     ];
+
+    //     $validator = Validator::make($request->all(), $rules, $message);
+    //     if ($validator->fails()) {
+    //         sweetalert()->error('Validasi Gagal, Beberapa Input Wajib Belum Terisi!');
+    //         return redirect()->back()->withErrors($validator)->withInput();
+    //     }
+
+    //     DB::beginTransaction();
+    //     try {
+    //         $tgl = $request->filled('tanggal_pembayaran') ? Carbon::createFromFormat('d/m/Y', $request->tanggal_pembayaran)->format('Y-m-d') : null;
+
+    //         $path = null;
+    //         if ($request->hasFile('bukti_pembayaran')) {
+    //             $path = $request->file('bukti_pembayaran')->store("arsip/booking/{$id}/pembayaran", 'public');
+    //         }
+
+    //         $today = Carbon::now('Asia/Jakarta')->toDateString();
+
+    //         $isApprove = (bool) $request->boolean('approve');
+
+    //         $pay = new PembayaranBookingKonsumen();
+    //         $pay->booking_id               = (int) $id;
+    //         $pay->jenis_biaya_konsumen_id  = (int) $jenisId;
+    //         $pay->akun_id                  = (int) $request->akun_id;
+    //         $pay->nomor_referensi          = $pay->generateNomorReferensi($today);;
+    //         $pay->tanggal_pembayaran       = $tgl;
+    //         $pay->nominal_pembayaran       = $request->nominal_pembayaran;
+    //         $pay->catatan_pembayaran       = $request->catatan_pembayaran;
+    //         $pay->bukti_pembayaran         = $path;
+    //         $pay->is_approved              = $isApprove;
+    //         $pay->approved_by              = $isApprove ? auth()->id() : null;
+    //         $pay->approved_at              = $isApprove ? $tgl : null;
+    //         $pay->created_by               = auth()->id();
+    //         $pay->changed_by               = auth()->id();
+    //         $pay->save();
+
+    //         DB::commit();
+    //         sweetalert()->success('Pembayaran tersimpan: '.$pay->nomor_referensi);
+    //         return redirect()->back();
+
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         sweetalert()->error('Tambah Pembayaran Gagal: '.$e->getMessage());
+    //         return redirect()->back()->withInput();
+    //     }
+    // }
 
     public function storeBookingFee(Request $request, $id)
     {
@@ -2815,6 +3510,699 @@ class KavlingController extends Controller
         ])->header('Content-Type', 'application/json');
     }
 
+    public function getBookingFee(Request $request, $id)
+    {
+        // Hapus semua logika DataTables (draw, start, length, filter, sort)
+
+        $dataku1 = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 1)
+            ->get(); // Ambil semua data sekaligus
+
+        // Kembalikan view dan kirim data 'records' ke view tersebut
+        return view('marketing.perumahan.kavling.pembayaranbookingaddnew', compact('dataku1', 'id'));
+    }
+
+    // public function getBookingFee(Request $request, $id)
+    // {
+    //     $draw            = $request->get('draw');
+    //     $start           = $request->get("start");
+    //     $length          = $request->get("length");
+    //     $columnIndex_arr = $request->get('order');
+    //     $columnName_arr  = $request->get('columns');
+    //     $order_arr       = $request->get('order');
+    //     $columnIndex     = $columnIndex_arr[0]['column'];
+    //     $columnName      = $columnName_arr[$columnIndex]['data'];
+    //     $columnSortOrder = $order_arr[0]['dir'];
+
+    //     $query = PembayaranBookingKonsumen::query()
+    //         ->with(['akun:id,no_akun,nama_akun_indonesia'])
+    //         ->where('booking_id', $id)
+    //         ->where('jenis_biaya_konsumen_id', 1);
+
+    //     $totalRecordsWithFilter = $query->count();
+    //     $totalRecords = PembayaranBookingKonsumen::count();
+
+    //     $records = $query
+    //         ->orderBy($columnName, $columnSortOrder)
+    //         ->offset($start)
+    //         ->limit($length)
+    //         ->get();
+
+    //     $data_arr = [];
+
+    //     foreach ($records as $key => $record) {
+    //         $data_arr[] = [
+    //             "no"                 => $start + $key + 1,
+    //             "id"                 => $record->id,
+    //             "nomor_referensi"    => $record->nomor_referensi,
+    //             "tanggal_pembayaran" => $record->tanggal_pembayaran,
+    //             "nominal_pembayaran" => 'Rp ' . number_format($record->nominal_pembayaran ?? 0, 0, '.', ','),
+    //             "akun_id"            => $record->akun_id,
+    //             "nama_akun"          => $record->akun?->nama_akun_indonesia,
+    //             'is_approved'        => $record->is_approved ? '<span class="badge badge-success">Disetujui</span>' : '<span class="badge badge-secondary">Menunggu</span>',
+    //             "catatan_pembayaran" => $record->catatan_pembayaran,
+    //         ];
+    //     }
+
+    //     return response()->json([
+    //         "draw"            => intval($draw),
+    //         "recordsTotal"    => $totalRecords,
+    //         "recordsFiltered" => $totalRecordsWithFilter,
+    //         "data"            => $data_arr
+    //     ])->header('Content-Type', 'application/json');
+    // }
+
+    public function getBiayaAdministrasi(Request $request, $id)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $length          = $request->get("length");
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr  = $request->get('columns');
+        $order_arr       = $request->get('order');
+        $columnIndex     = $columnIndex_arr[0]['column'];
+        $columnName      = $columnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+
+        $query = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 2);
+
+        $totalRecordsWithFilter = $query->count();
+        $totalRecords = PembayaranBookingKonsumen::count();
+
+        $records = $query
+            ->orderBy($columnName, $columnSortOrder)
+            ->offset($start)
+            ->limit($length)
+            ->get();
+
+        $data_arr = [];
+
+        foreach ($records as $key => $record) {
+
+            $checkbox = '<input type="checkbox" class="biayaAdministrasi_checkbox" value="'.$record->id.'">';
+
+            $data_arr[] = [
+                "checkbox"           => $checkbox,
+                "no"                 => $start + $key + 1,
+                "id"                 => $record->id,
+                "nomor_referensi"    => $record->nomor_referensi,
+                "tanggal_pembayaran" => $record->tanggal_pembayaran,
+                "nominal_pembayaran" => 'Rp ' . number_format($record->nominal_pembayaran ?? 0, 0, '.', ','),
+                "akun_id"            => $record->akun_id,
+                "nama_akun"          => $record->akun?->nama_akun_indonesia,
+                'is_approved'        => $record->is_approved ? '<span class="badge badge-success">Disetujui</span>' : '<span class="badge badge-secondary">Menunggu</span>',
+                "catatan_pembayaran" => $record->catatan_pembayaran,
+            ];
+        }
+
+        return response()->json([
+            "draw"            => intval($draw),
+            "recordsTotal"    => $totalRecords,
+            "recordsFiltered" => $totalRecordsWithFilter,
+            "data"            => $data_arr
+        ])->header('Content-Type', 'application/json');
+    }
+
+    public function getUangMuka(Request $request, $id)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $length          = $request->get("length");
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr  = $request->get('columns');
+        $order_arr       = $request->get('order');
+        $kavlingNamaByClusterFilter = $request->get('cluster_id');
+        $columnIndex     = $columnIndex_arr[0]['column'];
+        $columnName      = $columnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+
+        $query = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 3);
+
+        if ($kavlingNamaByClusterFilter) {
+            $query->where('kapling.cluster_id', 'like', '%' . $kavlingNamaByClusterFilter . '%');
+        }
+
+        $totalRecordsWithFilter = $query->count();
+        $totalRecords = PembayaranBookingKonsumen::count();
+
+        $records = $query
+            ->orderBy($columnName, $columnSortOrder)
+            ->offset($start)
+            ->limit($length)
+            ->get();
+
+        $data_arr = [];
+
+        foreach ($records as $key => $record) {
+
+            $checkbox = '<input type="checkbox" class="bookingfee_checkbox" value="'.$record->id.'">';
+
+            $data_arr[] = [
+                "checkbox"           => $checkbox,
+                "no"                 => $start + $key + 1,
+                "id"                 => $record->id,
+                "nomor_referensi"    => $record->nomor_referensi,
+                "tanggal_pembayaran" => $record->tanggal_pembayaran,
+                "nominal_pembayaran" => 'Rp ' . number_format($record->nominal_pembayaran ?? 0, 0, '.', ','),
+                "akun_id"            => $record->akun_id,
+                "nama_akun"          => $record->akun?->nama_akun_indonesia,
+                'is_approved'        => $record->is_approved ? '<span class="badge badge-success">Disetujui</span>' : '<span class="badge badge-secondary">Menunggu</span>',
+                "catatan_pembayaran" => $record->catatan_pembayaran,
+            ];
+        }
+
+        return response()->json([
+            "draw"            => intval($draw),
+            "recordsTotal"    => $totalRecords,
+            "recordsFiltered" => $totalRecordsWithFilter,
+            "data"            => $data_arr
+        ])->header('Content-Type', 'application/json');
+    }
+
+    public function getBiayaKelebihanTanah(Request $request, $id)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $length          = $request->get("length");
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr  = $request->get('columns');
+        $order_arr       = $request->get('order');
+        $kavlingNamaByClusterFilter = $request->get('cluster_id');
+        $columnIndex     = $columnIndex_arr[0]['column'];
+        $columnName      = $columnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+
+        $query = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 4);
+
+        if ($kavlingNamaByClusterFilter) {
+            $query->where('kapling.cluster_id', 'like', '%' . $kavlingNamaByClusterFilter . '%');
+        }
+
+        $totalRecordsWithFilter = $query->count();
+        $totalRecords = PembayaranBookingKonsumen::count();
+
+        $records = $query
+            ->orderBy($columnName, $columnSortOrder)
+            ->offset($start)
+            ->limit($length)
+            ->get();
+
+        $data_arr = [];
+
+        foreach ($records as $key => $record) {
+
+            $checkbox = '<input type="checkbox" class="bookingfee_checkbox" value="'.$record->id.'">';
+
+            $data_arr[] = [
+                "checkbox"           => $checkbox,
+                "no"                 => $start + $key + 1,
+                "id"                 => $record->id,
+                "nomor_referensi"    => $record->nomor_referensi,
+                "tanggal_pembayaran" => $record->tanggal_pembayaran,
+                "nominal_pembayaran" => 'Rp ' . number_format($record->nominal_pembayaran ?? 0, 0, '.', ','),
+                "akun_id"            => $record->akun_id,
+                "nama_akun"          => $record->akun?->nama_akun_indonesia,
+                'is_approved'        => $record->is_approved ? '<span class="badge badge-success">Disetujui</span>' : '<span class="badge badge-secondary">Menunggu</span>',
+                "catatan_pembayaran" => $record->catatan_pembayaran,
+            ];
+        }
+
+        return response()->json([
+            "draw"            => intval($draw),
+            "recordsTotal"    => $totalRecords,
+            "recordsFiltered" => $totalRecordsWithFilter,
+            "data"            => $data_arr
+        ])->header('Content-Type', 'application/json');
+    }
+
+    public function getBiayaPenambahanBangunan(Request $request, $id)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $length          = $request->get("length");
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr  = $request->get('columns');
+        $order_arr       = $request->get('order');
+        $kavlingNamaByClusterFilter = $request->get('cluster_id');
+        $columnIndex     = $columnIndex_arr[0]['column'];
+        $columnName      = $columnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+
+        $query = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 5);
+
+        if ($kavlingNamaByClusterFilter) {
+            $query->where('kapling.cluster_id', 'like', '%' . $kavlingNamaByClusterFilter . '%');
+        }
+
+        $totalRecordsWithFilter = $query->count();
+        $totalRecords = PembayaranBookingKonsumen::count();
+
+        $records = $query
+            ->orderBy($columnName, $columnSortOrder)
+            ->offset($start)
+            ->limit($length)
+            ->get();
+
+        $data_arr = [];
+
+        foreach ($records as $key => $record) {
+
+            $checkbox = '<input type="checkbox" class="bookingfee_checkbox" value="'.$record->id.'">';
+
+            $data_arr[] = [
+                "checkbox"           => $checkbox,
+                "no"                 => $start + $key + 1,
+                "id"                 => $record->id,
+                "nomor_referensi"    => $record->nomor_referensi,
+                "tanggal_pembayaran" => $record->tanggal_pembayaran,
+                "nominal_pembayaran" => 'Rp ' . number_format($record->nominal_pembayaran ?? 0, 0, '.', ','),
+                "akun_id"            => $record->akun_id,
+                "nama_akun"          => $record->akun?->nama_akun_indonesia,
+                'is_approved'        => $record->is_approved ? '<span class="badge badge-success">Disetujui</span>' : '<span class="badge badge-secondary">Menunggu</span>',
+                "catatan_pembayaran" => $record->catatan_pembayaran,
+            ];
+        }
+
+        return response()->json([
+            "draw"            => intval($draw),
+            "recordsTotal"    => $totalRecords,
+            "recordsFiltered" => $totalRecordsWithFilter,
+            "data"            => $data_arr
+        ])->header('Content-Type', 'application/json');
+    }
+
+    public function getBiayaLainnya(Request $request, $id)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $length          = $request->get("length");
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr  = $request->get('columns');
+        $order_arr       = $request->get('order');
+        $kavlingNamaByClusterFilter = $request->get('cluster_id');
+        $columnIndex     = $columnIndex_arr[0]['column'];
+        $columnName      = $columnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+
+        $query = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 6);
+
+        if ($kavlingNamaByClusterFilter) {
+            $query->where('kapling.cluster_id', 'like', '%' . $kavlingNamaByClusterFilter . '%');
+        }
+
+        $totalRecordsWithFilter = $query->count();
+        $totalRecords = PembayaranBookingKonsumen::count();
+
+        $records = $query
+            ->orderBy($columnName, $columnSortOrder)
+            ->offset($start)
+            ->limit($length)
+            ->get();
+
+        $data_arr = [];
+
+        foreach ($records as $key => $record) {
+
+            $checkbox = '<input type="checkbox" class="bookingfee_checkbox" value="'.$record->id.'">';
+
+            $data_arr[] = [
+                "checkbox"           => $checkbox,
+                "no"                 => $start + $key + 1,
+                "id"                 => $record->id,
+                "nomor_referensi"    => $record->nomor_referensi,
+                "tanggal_pembayaran" => $record->tanggal_pembayaran,
+                "nominal_pembayaran" => 'Rp ' . number_format($record->nominal_pembayaran ?? 0, 0, '.', ','),
+                "akun_id"            => $record->akun_id,
+                "nama_akun"          => $record->akun?->nama_akun_indonesia,
+                'is_approved'        => $record->is_approved ? '<span class="badge badge-success">Disetujui</span>' : '<span class="badge badge-secondary">Menunggu</span>',
+                "catatan_pembayaran" => $record->catatan_pembayaran,
+            ];
+        }
+
+        return response()->json([
+            "draw"            => intval($draw),
+            "recordsTotal"    => $totalRecords,
+            "recordsFiltered" => $totalRecordsWithFilter,
+            "data"            => $data_arr
+        ])->header('Content-Type', 'application/json');
+    }
+    public function getTotalPenjualanCash(Request $request, $id)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $length          = $request->get("length");
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr  = $request->get('columns');
+        $order_arr       = $request->get('order');
+        $kavlingNamaByClusterFilter = $request->get('cluster_id');
+        $columnIndex     = $columnIndex_arr[0]['column'];
+        $columnName      = $columnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+
+        $query = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 7);
+
+        if ($kavlingNamaByClusterFilter) {
+            $query->where('kapling.cluster_id', 'like', '%' . $kavlingNamaByClusterFilter . '%');
+        }
+
+        $totalRecordsWithFilter = $query->count();
+        $totalRecords = PembayaranBookingKonsumen::count();
+
+        $records = $query
+            ->orderBy($columnName, $columnSortOrder)
+            ->offset($start)
+            ->limit($length)
+            ->get();
+
+        $data_arr = [];
+
+        foreach ($records as $key => $record) {
+
+            $checkbox = '<input type="checkbox" class="bookingfee_checkbox" value="'.$record->id.'">';
+
+            $data_arr[] = [
+                "checkbox"           => $checkbox,
+                "no"                 => $start + $key + 1,
+                "id"                 => $record->id,
+                "nomor_referensi"    => $record->nomor_referensi,
+                "tanggal_pembayaran" => $record->tanggal_pembayaran,
+                "nominal_pembayaran" => 'Rp ' . number_format($record->nominal_pembayaran ?? 0, 0, '.', ','),
+                "akun_id"            => $record->akun_id,
+                "nama_akun"          => $record->akun?->nama_akun_indonesia,
+                'is_approved'        => $record->is_approved ? '<span class="badge badge-success">Disetujui</span>' : '<span class="badge badge-secondary">Menunggu</span>',
+                "catatan_pembayaran" => $record->catatan_pembayaran,
+            ];
+        }
+
+        return response()->json([
+            "draw"            => intval($draw),
+            "recordsTotal"    => $totalRecords,
+            "recordsFiltered" => $totalRecordsWithFilter,
+            "data"            => $data_arr
+        ])->header('Content-Type', 'application/json');
+    }
+
+    public function getCicilanCash(Request $request, $id)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $length          = $request->get("length");
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr  = $request->get('columns');
+        $order_arr       = $request->get('order');
+        $kavlingNamaByClusterFilter = $request->get('cluster_id');
+        $columnIndex     = $columnIndex_arr[0]['column'];
+        $columnName      = $columnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+
+        $query = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 8);
+
+        if ($kavlingNamaByClusterFilter) {
+            $query->where('kapling.cluster_id', 'like', '%' . $kavlingNamaByClusterFilter . '%');
+        }
+
+        $totalRecordsWithFilter = $query->count();
+        $totalRecords = PembayaranBookingKonsumen::count();
+
+        $records = $query
+            ->orderBy($columnName, $columnSortOrder)
+            ->offset($start)
+            ->limit($length)
+            ->get();
+
+        $data_arr = [];
+
+        foreach ($records as $key => $record) {
+
+            $checkbox = '<input type="checkbox" class="bookingfee_checkbox" value="'.$record->id.'">';
+
+            $data_arr[] = [
+                "checkbox"           => $checkbox,
+                "no"                 => $start + $key + 1,
+                "id"                 => $record->id,
+                "nomor_referensi"    => $record->nomor_referensi,
+                "tanggal_pembayaran" => $record->tanggal_pembayaran,
+                "nominal_pembayaran" => 'Rp ' . number_format($record->nominal_pembayaran ?? 0, 0, '.', ','),
+                "akun_id"            => $record->akun_id,
+                "nama_akun"          => $record->akun?->nama_akun_indonesia,
+                'is_approved'        => $record->is_approved ? '<span class="badge badge-success">Disetujui</span>' : '<span class="badge badge-secondary">Menunggu</span>',
+                "catatan_pembayaran" => $record->catatan_pembayaran,
+            ];
+        }
+
+        return response()->json([
+            "draw"            => intval($draw),
+            "recordsTotal"    => $totalRecords,
+            "recordsFiltered" => $totalRecordsWithFilter,
+            "data"            => $data_arr
+        ])->header('Content-Type', 'application/json');
+    }
+
+    public function getBiayaAkadKredit(Request $request, $id)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $length          = $request->get("length");
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr  = $request->get('columns');
+        $order_arr       = $request->get('order');
+        $kavlingNamaByClusterFilter = $request->get('cluster_id');
+        $columnIndex     = $columnIndex_arr[0]['column'];
+        $columnName      = $columnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+
+        $query = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 9);
+
+        if ($kavlingNamaByClusterFilter) {
+            $query->where('kapling.cluster_id', 'like', '%' . $kavlingNamaByClusterFilter . '%');
+        }
+
+        $totalRecordsWithFilter = $query->count();
+        $totalRecords = PembayaranBookingKonsumen::count();
+
+        $records = $query
+            ->orderBy($columnName, $columnSortOrder)
+            ->offset($start)
+            ->limit($length)
+            ->get();
+
+        $data_arr = [];
+
+        foreach ($records as $key => $record) {
+
+            $checkbox = '<input type="checkbox" class="bookingfee_checkbox" value="'.$record->id.'">';
+
+            $data_arr[] = [
+                "checkbox"           => $checkbox,
+                "no"                 => $start + $key + 1,
+                "id"                 => $record->id,
+                "nomor_referensi"    => $record->nomor_referensi,
+                "tanggal_pembayaran" => $record->tanggal_pembayaran,
+                "nominal_pembayaran" => 'Rp ' . number_format($record->nominal_pembayaran ?? 0, 0, '.', ','),
+                "akun_id"            => $record->akun_id,
+                "nama_akun"          => $record->akun?->nama_akun_indonesia,
+                'is_approved'        => $record->is_approved ? '<span class="badge badge-success">Disetujui</span>' : '<span class="badge badge-secondary">Menunggu</span>',
+                "catatan_pembayaran" => $record->catatan_pembayaran,
+            ];
+        }
+
+        return response()->json([
+            "draw"            => intval($draw),
+            "recordsTotal"    => $totalRecords,
+            "recordsFiltered" => $totalRecordsWithFilter,
+            "data"            => $data_arr
+        ])->header('Content-Type', 'application/json');
+    }
+
+    public function getBiayaPenambahanFasilitas(Request $request, $id)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $length          = $request->get("length");
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr  = $request->get('columns');
+        $order_arr       = $request->get('order');
+        $kavlingNamaByClusterFilter = $request->get('cluster_id');
+        $columnIndex     = $columnIndex_arr[0]['column'];
+        $columnName      = $columnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+
+        $query = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 10);
+
+        if ($kavlingNamaByClusterFilter) {
+            $query->where('kapling.cluster_id', 'like', '%' . $kavlingNamaByClusterFilter . '%');
+        }
+
+        $totalRecordsWithFilter = $query->count();
+        $totalRecords = PembayaranBookingKonsumen::count();
+
+        $records = $query
+            ->orderBy($columnName, $columnSortOrder)
+            ->offset($start)
+            ->limit($length)
+            ->get();
+
+        $data_arr = [];
+
+        foreach ($records as $key => $record) {
+
+            $checkbox = '<input type="checkbox" class="bookingfee_checkbox" value="'.$record->id.'">';
+
+            $data_arr[] = [
+                "checkbox"           => $checkbox,
+                "no"                 => $start + $key + 1,
+                "id"                 => $record->id,
+                "nomor_referensi"    => $record->nomor_referensi,
+                "tanggal_pembayaran" => $record->tanggal_pembayaran,
+                "nominal_pembayaran" => 'Rp ' . number_format($record->nominal_pembayaran ?? 0, 0, '.', ','),
+                "akun_id"            => $record->akun_id,
+                "nama_akun"          => $record->akun?->nama_akun_indonesia,
+                'is_approved'        => $record->is_approved ? '<span class="badge badge-success">Disetujui</span>' : '<span class="badge badge-secondary">Menunggu</span>',
+                "catatan_pembayaran" => $record->catatan_pembayaran,
+            ];
+        }
+
+        return response()->json([
+            "draw"            => intval($draw),
+            "recordsTotal"    => $totalRecords,
+            "recordsFiltered" => $totalRecordsWithFilter,
+            "data"            => $data_arr
+        ])->header('Content-Type', 'application/json');
+    }
+
+    public function getPenerimaanKpr(Request $request, $id)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $length          = $request->get("length");
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr  = $request->get('columns');
+        $order_arr       = $request->get('order');
+        $kavlingNamaByClusterFilter = $request->get('cluster_id');
+        $columnIndex     = $columnIndex_arr[0]['column'];
+        $columnName      = $columnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+
+        $query = PembayaranBookingKonsumen::query()
+            ->with(['akun:id,no_akun,nama_akun_indonesia'])
+            ->where('booking_id', $id)
+            ->where('jenis_biaya_konsumen_id', 11);
+
+        if ($kavlingNamaByClusterFilter) {
+            $query->where('kapling.cluster_id', 'like', '%' . $kavlingNamaByClusterFilter . '%');
+        }
+
+        $totalRecordsWithFilter = $query->count();
+        $totalRecords = PembayaranBookingKonsumen::count();
+
+        $records = $query
+            ->orderBy($columnName, $columnSortOrder)
+            ->offset($start)
+            ->limit($length)
+            ->get();
+
+        $data_arr = [];
+
+        foreach ($records as $key => $record) {
+
+            $checkbox = '<input type="checkbox" class="bookingfee_checkbox" value="'.$record->id.'">';
+
+            $data_arr[] = [
+                "checkbox"           => $checkbox,
+                "no"                 => $start + $key + 1,
+                "id"                 => $record->id,
+                "nomor_referensi"    => $record->nomor_referensi,
+                "tanggal_pembayaran" => $record->tanggal_pembayaran,
+                "nominal_pembayaran" => 'Rp ' . number_format($record->nominal_pembayaran ?? 0, 0, '.', ','),
+                "akun_id"            => $record->akun_id,
+                "nama_akun"          => $record->akun?->nama_akun_indonesia,
+                'is_approved'        => $record->is_approved ? '<span class="badge badge-success">Disetujui</span>' : '<span class="badge badge-secondary">Menunggu</span>',
+                "catatan_pembayaran" => $record->catatan_pembayaran,
+            ];
+        }
+
+        return response()->json([
+            "draw"            => intval($draw),
+            "recordsTotal"    => $totalRecords,
+            "recordsFiltered" => $totalRecordsWithFilter,
+            "data"            => $data_arr
+        ])->header('Content-Type', 'application/json');
+    }
+
+    // public function getBookingFee(Request $request, $id)
+    // {
+    //     $draw            = (int) $request->get('draw', 1);
+    //     $start           = (int) $request->get('start', 0);
+    //     $length          = (int) $request->get('length', 10);
+    //     $order           = $request->get('order', []);
+    //     $columns         = $request->get('columns', []);
+
+    //     // base query: khusus booking ini + khusus Booking Fee (id = 1)
+    //     $base = PembayaranBookingKonsumen::query()
+    //         ->with(['akun:id,no_akun,nama_akun_indonesia'])
+    //         ->where('booking_id', $id)
+    //         ->where('jenis_biaya_konsumen_id', 1);
+
+    //     $totalRecords = (clone $base)->count();
+
+    //     // (kamu set semua kolom orderable:false di DataTable, jadi aman kalau skip sorting)
+    //     $records = (clone $base)
+    //         ->offset($start)
+    //         ->limit($length)
+    //         ->get();
+
+    //     $data = [];
+    //     foreach ($records as $i => $r) {
+    //         $data[] = [
+    //             'id'                  => $r->id,
+    //             'nomor_referensi'     => $r->nomor_referensi,
+    //             'tanggal_pembayaran'  => \Carbon\Carbon::parse($r->tanggal_pembayaran)->format('d/m/Y'),
+    //             'nominal_pembayaran'  => 'Rp ' . number_format((int)$r->nominal_pembayaran, 0, '.', ','),
+    //             'nama_akun'           => $r->akun?->no_akun.' — '.$r->akun?->nama_akun_indonesia,
+    //             'is_approved'         => $r->is_approved
+    //                 ? '<span class="badge badge-success">Disetujui</span>'
+    //                 : '<span class="badge badge-secondary">Menunggu</span>',
+    //             'catatan_pembayaran'  => e($r->catatan_pembayaran),
+    //         ];
+    //     }
+
+    //     return response()->json([
+    //         'draw'            => $draw,
+    //         'recordsTotal'    => $totalRecords,
+    //         'recordsFiltered' => $totalRecords,  // karena tidak ada search tambahan
+    //         'data'            => $data,
+    //     ]);
+    // }
+
     // public function getBookingKavling(Request $request)
     // {
     //     $draw            = $request->get('draw');
@@ -2968,6 +4356,31 @@ class KavlingController extends Controller
         return $pdf->stream('Detail Konsumen '.$booking->konsumen->nama_1.'.pdf');
     }
 
+    public function cetakKwitansi($id)
+    {
+        $booking = PembayaranBookingKonsumen::with([
+            'kapling:id,cluster_id,blok_kapling,nomor_unit_kapling,luas_tanah,luas_bangunan,harga_kapling',
+            'kapling.cluster:id,nama_cluster',
+            'jenis',
+            'booking'
+        ])->findOrFail($id)->fresh();
+
+        $tanggalSppForForm = $booking->tanggal_pembayaran
+            ? Carbon::parse($booking->tanggal_pembayaran)->format('d/m/Y')
+            : null;
+
+        $tanggalSppHuman = $booking->tanggal_pembayaran
+            ? Carbon::parse($booking->tanggal_pembayaran)->locale('id')->isoFormat('dddd, D MMMM Y')
+            : null;
+
+        $pdf = Pdf::loadView(
+            'marketing.perumahan.kavling.kwitansibookingpdf',
+            compact('booking','tanggalSppForForm','tanggalSppHuman')
+        )->setPaper('A4','portrait');
+
+        return $pdf->stream('INV-'.$booking->nomor_referensi.'.pdf');
+    }
+
     public function generateSpr(BookingKavling $booking)
     {
         $spr = $booking->generateNomorSPR();
@@ -3090,6 +4503,108 @@ class KavlingController extends Controller
                 'suratPemesananRumah' => $record->suratPemesananRumah?->nomor_spr ?? ' - ',
                 'status_pengajuan' => $record->status_pengajuan,
                 'modify'           => $modify,
+            ];
+        }
+
+        return response()->json([
+            "draw"            => intval($draw),
+            "recordsTotal"    => $totalRecords,
+            "recordsFiltered" => $totalRecordsWithFilter,
+            "data"            => $data_arr
+        ])->header('Content-Type', 'application/json');
+    }
+
+    public function getDataPembayaranKonsumen(Request $request)
+    {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $length          = $request->get("length");
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr  = $request->get('columns');
+        $order_arr       = $request->get('order');
+        $kavlingNamaByClusterFilter = $request->get('cluster_id');
+        $columnIndex     = $columnIndex_arr[0]['column'];
+        $columnName      = $columnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+        $kaplingId       = $request->get('kapling_id');
+
+        $query = PembayaranBookingKonsumen::query()
+            ->with([
+                'booking',
+                'jenis',
+                'kapling:id,cluster_id,blok_kapling,nomor_unit_kapling',
+                'kapling.cluster:id,nama_cluster',
+            ]);
+
+        if ($kaplingId) {
+            $query->where('kapling_id', $kaplingId);
+        }
+
+        $totalRecords = PembayaranBookingKonsumen::count();
+
+        if ($kavlingNamaByClusterFilter) {
+            $query->where('kapling.cluster_id', 'like', '%' . $kavlingNamaByClusterFilter . '%');
+        }
+
+        $totalRecordsWithFilter = $query->count();
+
+        $records = $query
+            ->orderBy($columnName, $columnSortOrder)
+            ->offset($start)
+            ->limit($length)
+            ->get();
+
+        $data_arr = [];
+
+        foreach ($records as $key => $record) {
+            $konsumen = $record->booking->konsumen->nama_1 ?? '';
+            $clusterNama  = $record->booking->kapling?->cluster?->nama_cluster ?? '-';
+            $kaplingLabel = ($record->booking->kapling->blok_kapling ?? '-').' / '.($record->booking->kapling->nomor_unit_kapling ?? '-');
+
+            $konsumen_all = $konsumen . '<br>' . $clusterNama . '<br>' . $kaplingLabel;
+
+            $approved = (!($record->is_approved ?? 0)) 
+                ? '<a class="dropdown-item" href="#">
+                        <div class="dropdown-icon"><i class="fas fa-exclamation"></i></div>
+                        <span class="dropdown-content">Invoice belum tersedia!</span>
+                    </a>'
+                : ' <a class="dropdown-item" href="'.route('booking/pembayaran-booking/payment/kwitansipdf', $record->id).'">
+                        <div class="dropdown-icon"><i class="fas fa-file-alt"></i></div>
+                        <span class="dropdown-content">Invoice</span>
+                    </a>'
+                ;
+
+            $modify = '
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary buttonedit-sm konsumen-btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Aksi</button>
+                        <div class="dropdown-menu">
+                            ' . $approved . '
+                        </div>
+                    </div>
+                </div>
+            ';
+
+            $checkbox = '<input type="checkbox" class="datapembayaran_checkbox" value="'.$record->id.'">';
+            $penyetuju = $record->approvedByUser?->name;
+            $disetujui = $record->approved_by . $penyetuju;
+            $no_akun = $record->akun?->no_akun;
+            $akun = $no_akun .'<br>'. $record->akun?->nama_akun_indonesia;
+            $jenis = $record->jenis?->nama;
+            $tanggal_dan_jenis = $record->tanggal_pembayaran . '<br>' . $jenis;
+            $data_arr[] = [
+                "checkbox"         => $checkbox,
+                "no"               => $start + $key + 1,
+                "id"               => $record->id,
+                "nomor_referensi"    => $record->nomor_referensi,
+                "tanggal_pembayaran" => $tanggal_dan_jenis,
+                "nominal_pembayaran" => 'Rp ' . number_format($record->nominal_pembayaran ?? 0, 0, '.', ','),
+                "konsumen"           => $konsumen_all,
+                "akun_id"            => $record->akun_id,
+                "nama_akun"          => $akun,
+                "catatan_pembayaran" => $record->catatan_pembayaran,
+                "is_approved"        => $penyetuju ?? '-',
+                "modify"             => $modify,
             ];
         }
 

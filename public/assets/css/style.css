@@ -463,6 +463,12 @@ button.bg-success:hover {
     padding: 8px;
 }
 
+.bg-secondary-card{
+    background-color: #ececec !important;
+    /* color: white; */
+    padding: 8px;
+}
+
 a.bg-info:focus,
 a.bg-info:hover,
 button.bg-info:focus,
@@ -7178,6 +7184,76 @@ input:checked+.slider:before {
     padding: 10px 14px !important;
     justify-content: center;
     vertical-align: middle;
+}
+
+#PembayaranBooking th,
+#PembayaranBooking td,
+#BiayaAdministrasiList th,
+#BiayaAdministrasiList td,
+#UangMukaList th,
+#UangMukaList td,
+#BiayaKelebihanTanahList th,
+#BiayaKelebihanTanahList td,
+#BiayaPenambahanBangunanList th,
+#BiayaPenambahanBangunanList td,
+#BiayaLainnyaList th,
+#BiayaLainnyaList td,
+#TotalPenjualanCashList th,
+#TotalPenjualanCashList td,
+#CicilanCashList th,
+#CicilanCashList td,
+#BiayaAkadKreditList th,
+#BiayaAkadKreditList td,
+#BiayaPenambahanFasilitasList th,
+#BiayaPenambahanFasilitasList td,
+#PenerimaanKprList th,
+#PenerimaanKprList td {
+    padding: 10px 14px !important;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+#th-1 {
+    border-radius: 10px 0px 0px 10px  !important;
+}
+
+#th-2 {
+    border-radius: 0px 10px 10px 0px  !important;
+}
+
+#tbody-1 {
+    padding: 10px  !important;
+}
+
+.table-wrap { 
+  margin-top: -12px; 
+  margin-bottom: -12px; 
+}
+
+.separates {
+    border-collapse: separate;
+    border-spacing: 0 12px;
+}
+
+.separates tbody tr:first-child td:first-child {
+    border-top-left-radius: 12px;
+}
+
+.separates tbody tr:first-child td:last-child {
+    border-top-right-radius: 12px;
+}
+
+.separates tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 12px;
+}
+
+.separates tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 12px;
+}
+
+.my-tbody-spacing {
+    padding-top: 30px !important;
+    border-bottom: 20px solid transparent; /* Adjust color and size as needed */
 }
 
 .checkbox-wrapper-4 * {

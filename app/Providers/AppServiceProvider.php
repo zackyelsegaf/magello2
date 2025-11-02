@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\ArsipFile;
 use App\Models\Kapling;
 use App\Models\BookingKavling;
 use App\Models\DokumenBooking;
@@ -14,6 +15,7 @@ use App\Models\BookingStatus4AkadKredit;
 use App\Models\BookingStatus5Ajb;
 use App\Models\BookingStatus6DitolakBank;
 use App\Models\BookingStatus7Mundur;
+use App\Models\PembayaranBookingKonsumen;
 use App\Observers\BookingKavlingObserver;
 use App\Observers\BookingTimelineObserver;
 use App\Observers\KaplingObserver;
@@ -54,6 +56,8 @@ class AppServiceProvider extends ServiceProvider
             'kapling'      => Kapling::class,
             'booking'      => BookingKavling::class,
             'dokumen_booking' => DokumenBooking::class,
+            'arsip_file'      => ArsipFile::class,
+            'pembayaran_booking' => PembayaranBookingKonsumen::class,
         ]);
     }
 }
