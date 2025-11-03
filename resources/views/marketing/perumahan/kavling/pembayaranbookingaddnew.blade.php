@@ -328,6 +328,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <h4 class="font-weight-bold m-2">Booking Fee</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -486,6 +487,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <h4 class="font-weight-bold m-2">Biaya Administrasi</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover separates">
                                         <thead class="thead-dark">
@@ -644,6 +646,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <h4 class="font-weight-bold m-2">Uang Muka</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -802,6 +805,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <h4 class="font-weight-bold m-2">Biaya Kelebihan Tanah</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -960,6 +964,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <h4 class="font-weight-bold m-2">Biaya Penambahan Bangunan</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -1118,6 +1123,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <h4 class="font-weight-bold m-2">Biaya Lainnya</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -1276,6 +1282,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <h4 class="font-weight-bold m-2">Total Penjualan Cash</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -1434,6 +1441,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <h4 class="font-weight-bold m-2">Cicilan Cash (Bertahap)</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -1592,6 +1600,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <h4 class="font-weight-bold m-2">Biaya Akad Kredit</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -1742,6 +1751,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <h4 class="font-weight-bold m-2">Biaya Penambahan Fasilitas</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -1900,6 +1910,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <h4 class="font-weight-bold m-2">Penerimaan KPR dari Bank</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -1950,7 +1961,7 @@
                                                     </td>
                                                 </tr>
                                             @empty
-                                                <tr><td><h6 class="text-truncate"><i class="fas fa-seedling mr-2"></i>Tidak ada data pembayaran.</h6></td></tr>
+                                                <tr><td colspan="8"><h6 class="text-truncate text-center"><i class="fas fa-seedling mr-2"></i>Tidak ada data pembayaran.</h6></td></tr>
                                             @endforelse
                                         </tbody>
                                     </table>

@@ -264,7 +264,11 @@
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format((int)$detailBookingFee->nominal_pembayaran, 0, '.', '.')) }}">
+                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBookingFee->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                        <h6 class="font-weight-bold">{{ $detailBookingFee->jenis->nama }}</h6>
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Masuk ke Akun</label>
@@ -278,10 +282,11 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-2">
-                                                        @if(!empty($detailBookingFee->bukti_pembayaran))
                                                         @php
+                                                            $testing = !empty($detailBookingFee->bukti_pembayaran);
                                                             $url = Storage::url($detailBookingFee->bukti_pembayaran);
                                                         @endphp
+                                                        @if($testing)
                                                             <div class="form-group mb-2">
                                                                 <label class="fw-bold">Bukti Pembayaran</label>
                                                                 <small class="d-block">
@@ -290,6 +295,11 @@
                                                                     </a>
                                                                 </small>
                                                             </div><br>
+                                                        @else
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                            </div>
                                                         @endif
                                                     </div>
                                                     <div class="form-group mb-2">
@@ -297,12 +307,26 @@
                                                         <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBookingFee->catatan_pembayaran) }}</textarea>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_edit_{{ $detailBookingFee->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBookingFee->is_approved) ? 'checked' : '' }}>
-                                                            <label for="approve_edit_{{ $detailBookingFee->id }}" class="custom-control-label">
-                                                                Sekaligus setujui (approve)
-                                                            </label>
-                                                        </div>
+                                                        @php
+                                                            $disetujui = (int)($detailBookingFee->is_approved ?? 0) === 1;
+                                                        @endphp
+
+                                                        @if(!$disetujui)
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailBookingFee->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBookingFee->is_approved) ? 'checked' : '' }}>
+                                                                <label for="approve_edit_{{ $detailBookingFee->id }}" class="custom-control-label">
+                                                                    Setujui pembayaran
+                                                                </label>
+                                                            </div>
+                                                        @else
+                                                            <div class="col-md-12 px-0">
+                                                                <div class="p-3 bg-success-card my-rounded-2">
+                                                                    <span class="font-weight-bold text-success">
+                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -315,6 +339,7 @@
                                     </div>
                                 </div>
                                 @endforeach
+                                <h4 class="font-weight-bold m-2">Booking Fee</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -418,7 +443,7 @@
                                                 </h6>
                                                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran0.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran1.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="pembayaran_id" value="{{ $detailBiayaAdministrasi->id }}">
                                                 <input type="hidden" name="jenis_id" value="0">
@@ -429,7 +454,11 @@
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format((int)$detailBiayaAdministrasi->nominal_pembayaran, 0, '.', '.')) }}">
+                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaAdministrasi->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                        <h6 class="font-weight-bold">{{ $detailBiayaAdministrasi->jenis->nama }}</h6>
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Masuk ke Akun</label>
@@ -443,10 +472,11 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-2">
-                                                        @if(!empty($detailBiayaAdministrasi->bukti_pembayaran))
                                                         @php
+                                                            $testing = !empty($detailBiayaAdministrasi->bukti_pembayaran);
                                                             $url = Storage::url($detailBiayaAdministrasi->bukti_pembayaran);
                                                         @endphp
+                                                        @if($testing)
                                                             <div class="form-group mb-2">
                                                                 <label class="fw-bold">Bukti Pembayaran</label>
                                                                 <small class="d-block">
@@ -455,6 +485,11 @@
                                                                     </a>
                                                                 </small>
                                                             </div><br>
+                                                        @else
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                            </div>
                                                         @endif
                                                     </div>
                                                     <div class="form-group mb-2">
@@ -462,12 +497,26 @@
                                                         <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaAdministrasi->catatan_pembayaran) }}</textarea>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaAdministrasi->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaAdministrasi->is_approved) ? 'checked' : '' }}>
-                                                            <label for="approve_edit_{{ $detailBiayaAdministrasi->id }}" class="custom-control-label">
-                                                                Sekaligus setujui (approve)
-                                                            </label>
-                                                        </div>
+                                                        @php
+                                                            $disetujui = (int)($detailBiayaAdministrasi->is_approved ?? 0) === 1;
+                                                        @endphp
+
+                                                        @if(!$disetujui)
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaAdministrasi->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaAdministrasi->is_approved) ? 'checked' : '' }}>
+                                                                <label for="approve_edit_{{ $detailBiayaAdministrasi->id }}" class="custom-control-label">
+                                                                    Setujui pembayaran
+                                                                </label>
+                                                            </div>
+                                                        @else
+                                                            <div class="col-md-12 px-0">
+                                                                <div class="p-3 bg-success-card my-rounded-2">
+                                                                    <span class="font-weight-bold text-success">
+                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -480,6 +529,7 @@
                                     </div>
                                 </div>
                                 @endforeach
+                                <h4 class="font-weight-bold m-2">Biaya Administrasi</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover separates">
                                         <thead class="thead-dark">
@@ -584,63 +634,103 @@
                                 @endif
                             </div>
                             <div id="bk_2_2">
-                                <div class="modal fade" id="bk_2_2_2" tabindex="-1" role="dialog" aria-labelledby="modalBiayaUangMuka" aria-hidden="true">
+                                @foreach ($dataku3 as $detailUangMuka)
+                                <div class="modal fade" id="modal-edit-um-{{ $detailUangMuka->id }}" tabindex="-1" role="dialog" aria-labelledby="modalEditUM{{ $detailUangMuka->id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                                         <div class="modal-content my-rounded-2">
                                             <div class="modal-header">
-                                                <h5 class="modal-title">Tambah Biaya Uang Muka</h5>
-                                                <button type="button" class="close" data-dismiss="modal">
-                                                    <span>&times;</span>
-                                                </button>
+                                                <h6 class="modal-title font-weight-bold" id="modalEditUM{{ $detailUangMuka->id }}">
+                                                    Edit Pembayaran — {{ $detailUangMuka->nomor_referensi }}
+                                                </h6>
+                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
                                             <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran2.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
+                                                <input type="hidden" name="pembayaran_id" value="{{ $detailUangMuka->id }}">
+                                                <input type="hidden" name="jenis_id" value="0">
                                                 <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="2">
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailUangMuka->tanggal_pembayaran)->format('d/m/Y')) }}">
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailUangMuka->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                        <h6 class="font-weight-bold">{{ $detailUangMuka->jenis->nama }}</h6>
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Masuk ke Akun</label>
                                                         <select name="akun_id" class="tomselect">
                                                             @foreach($akun as $a)
                                                             <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                                {{ (old('akun_id', $detailUangMuka->akun_id)==$a->id) ? 'selected' : '' }}>
                                                                 {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
                                                             </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
+                                                        @php
+                                                            $testing = !empty($detailUangMuka->bukti_pembayaran);
+                                                            $url = Storage::url($detailUangMuka->bukti_pembayaran);
+                                                        @endphp
+                                                        @if($testing)
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <small class="d-block">
+                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                    </a>
+                                                                </small>
+                                                            </div><br>
+                                                        @else
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
+                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailUangMuka->catatan_pembayaran) }}</textarea>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_bum" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_bum" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                        @php
+                                                            $disetujui = (int)($detailUangMuka->is_approved ?? 0) === 1;
+                                                        @endphp
+
+                                                        @if(!$disetujui)
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailUangMuka->id }}" value="1" class="custom-control-input" {{ old('approve', $detailUangMuka->is_approved) ? 'checked' : '' }}>
+                                                                <label for="approve_edit_{{ $detailUangMuka->id }}" class="custom-control-label">
+                                                                    Setujui pembayaran
+                                                                </label>
+                                                            </div>
+                                                        @else
+                                                            <div class="col-md-12 px-0">
+                                                                <div class="p-3 bg-success-card my-rounded-2">
+                                                                    <span class="font-weight-bold text-success">
+                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button id="tambahBiayaUangMuka" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                    <button type="submit" class="btn btn-primary buttonedit">
+                                                        <i class="fas fa-save mr-2"></i>Update
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
+                                <h4 class="font-weight-bold m-2">Uang Muka</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -674,7 +764,7 @@
                                                     </td>
                                                     <td>{{ $record->catatan_pembayaran }}</td>
                                                     <td>
-                                                        <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
+                                                        {{-- <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
                                                             <i class="fas fa-receipt mr-2"></i> Invoice
                                                         </a>
                                                         @if(!empty($record->bukti_pembayaran))
@@ -684,10 +774,13 @@
                                                             <a class="btn btn-primary buttonedit-sm ml-2" href="{{ $url }}" target="_blank">
                                                                 <strong><i class="fas fa-receipt mr-2"></i></strong>Bukti
                                                             </a>
-                                                            {{-- <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
+                                                            <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
                                                                 <i class="fas fa-trash-alt mr-2"></i>Hapus
-                                                            </a> --}}
-                                                        @endif
+                                                            </a>
+                                                        @endif --}}
+                                                        <a href="#modal-edit-um-{{ $record->id }}" class="btn btn-primary buttonedit-sm" data-toggle="modal">
+                                                            <i class="fas fa-edit mr-2 h7"></i>Edit
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @empty
@@ -742,63 +835,103 @@
                                 @endif
                             </div>
                             <div id="bk_3_3">
-                                <div class="modal fade" id="bk_3_3_3" tabindex="-1" role="dialog" aria-labelledby="modalBiayaKelebihanTanah" aria-hidden="true">
+                                @foreach ($dataku4 as $detailBiayaKelebihanTanah)
+                                <div class="modal fade" id="modal-edit-bkt-{{ $detailBiayaKelebihanTanah->id }}" tabindex="-1" role="dialog" aria-labelledby="modalEditBKT{{ $detailBiayaKelebihanTanah->id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                                         <div class="modal-content my-rounded-2">
                                             <div class="modal-header">
-                                                <h6 class="modal-title font-weight-bold">Tambah Pembayaran Biaya Kelebihan Tanah</h6>
-                                                <button type="button" class="close" data-dismiss="modal">
-                                                    <span>&times;</span>
-                                                </button>
+                                                <h6 class="modal-title font-weight-bold" id="modalEditBKT{{ $detailBiayaKelebihanTanah->id }}">
+                                                    Edit Pembayaran — {{ $detailBiayaKelebihanTanah->nomor_referensi }}
+                                                </h6>
+                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
                                             <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran3.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
+                                                <input type="hidden" name="pembayaran_id" value="{{ $detailBiayaKelebihanTanah->id }}">
+                                                <input type="hidden" name="jenis_id" value="0">
                                                 <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="3">
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaKelebihanTanah->tanggal_pembayaran)->format('d/m/Y')) }}">
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaKelebihanTanah->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                        <h6 class="font-weight-bold">{{ $detailBiayaKelebihanTanah->jenis->nama }}</h6>
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Masuk ke Akun</label>
                                                         <select name="akun_id" class="tomselect">
                                                             @foreach($akun as $a)
                                                             <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                                {{ (old('akun_id', $detailBiayaKelebihanTanah->akun_id)==$a->id) ? 'selected' : '' }}>
                                                                 {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
                                                             </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
+                                                        @php
+                                                            $testing = !empty($detailBiayaKelebihanTanah->bukti_pembayaran);
+                                                            $url = Storage::url($detailBiayaKelebihanTanah->bukti_pembayaran);
+                                                        @endphp
+                                                        @if($testing)
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <small class="d-block">
+                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                    </a>
+                                                                </small>
+                                                            </div><br>
+                                                        @else
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
+                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaKelebihanTanah->catatan_pembayaran) }}</textarea>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_bkt" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_bkt" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                        @php
+                                                            $disetujui = (int)($detailBiayaKelebihanTanah->is_approved ?? 0) === 1;
+                                                        @endphp
+
+                                                        @if(!$disetujui)
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaKelebihanTanah->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaKelebihanTanah->is_approved) ? 'checked' : '' }}>
+                                                                <label for="approve_edit_{{ $detailBiayaKelebihanTanah->id }}" class="custom-control-label">
+                                                                    Setujui pembayaran
+                                                                </label>
+                                                            </div>
+                                                        @else
+                                                            <div class="col-md-12 px-0">
+                                                                <div class="p-3 bg-success-card my-rounded-2">
+                                                                    <span class="font-weight-bold text-success">
+                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button id="tambahBiayaKelebihanTanah" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                    <button type="submit" class="btn btn-primary buttonedit">
+                                                        <i class="fas fa-save mr-2"></i>Update
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
+                                <h4 class="font-weight-bold m-2">Biaya Kelebihan Tanah</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -832,7 +965,7 @@
                                                     </td>
                                                     <td>{{ $record->catatan_pembayaran }}</td>
                                                     <td>
-                                                        <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
+                                                        {{-- <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
                                                             <i class="fas fa-receipt mr-2"></i> Invoice
                                                         </a>
                                                         @if(!empty($record->bukti_pembayaran))
@@ -842,10 +975,13 @@
                                                             <a class="btn btn-primary buttonedit-sm ml-2" href="{{ $url }}" target="_blank">
                                                                 <strong><i class="fas fa-receipt mr-2"></i></strong>Bukti
                                                             </a>
-                                                            {{-- <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
+                                                            <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
                                                                 <i class="fas fa-trash-alt mr-2"></i>Hapus
-                                                            </a> --}}
-                                                        @endif
+                                                            </a>
+                                                        @endif --}}
+                                                        <a href="#modal-edit-bkt-{{ $record->id }}" class="btn btn-primary buttonedit-sm" data-toggle="modal">
+                                                            <i class="fas fa-edit mr-2 h7"></i>Edit
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @empty
@@ -900,63 +1036,103 @@
                                 @endif
                             </div>
                             <div id="bk_4_4">
-                                <div class="modal fade" id="bk_4_4_4" tabindex="-1" role="dialog" aria-labelledby="modalBiayaPenambahanBangunan" aria-hidden="true">
+                                @foreach ($dataku5 as $detailBiayaPenambahanBangunan)
+                                <div class="modal fade" id="modal-edit-bpb-{{ $detailBiayaPenambahanBangunan->id }}" tabindex="-1" role="dialog" aria-labelledby="modalEditBPB{{ $detailBiayaPenambahanBangunan->id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                                         <div class="modal-content my-rounded-2">
                                             <div class="modal-header">
-                                                <h6 class="modal-title font-weight-bold">Tambah Pembayaran Biaya Penambahan Bangunan</h6>
-                                                <button type="button" class="close" data-dismiss="modal">
-                                                    <span>&times;</span>
-                                                </button>
+                                                <h6 class="modal-title font-weight-bold" id="modalEditBPB{{ $detailBiayaPenambahanBangunan->id }}">
+                                                    Edit Pembayaran — {{ $detailBiayaPenambahanBangunan->nomor_referensi }}
+                                                </h6>
+                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
                                             <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran4.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
+                                                <input type="hidden" name="pembayaran_id" value="{{ $detailBiayaPenambahanBangunan->id }}">
+                                                <input type="hidden" name="jenis_id" value="0">
                                                 <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="4">
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaPenambahanBangunan->tanggal_pembayaran)->format('d/m/Y')) }}">
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaPenambahanBangunan->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                        <h6 class="font-weight-bold">{{ $detailBiayaPenambahanBangunan->jenis->nama }}</h6>
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Masuk ke Akun</label>
                                                         <select name="akun_id" class="tomselect">
                                                             @foreach($akun as $a)
                                                             <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                                {{ (old('akun_id', $detailBiayaPenambahanBangunan->akun_id)==$a->id) ? 'selected' : '' }}>
                                                                 {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
                                                             </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
+                                                        @php
+                                                            $testing = !empty($detailBiayaPenambahanBangunan->bukti_pembayaran);
+                                                            $url = Storage::url($detailBiayaPenambahanBangunan->bukti_pembayaran);
+                                                        @endphp
+                                                        @if($testing)
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <small class="d-block">
+                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                    </a>
+                                                                </small>
+                                                            </div><br>
+                                                        @else
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
+                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaPenambahanBangunan->catatan_pembayaran) }}</textarea>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_bpb" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_bpb" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                        @php
+                                                            $disetujui = (int)($detailBiayaPenambahanBangunan->is_approved ?? 0) === 1;
+                                                        @endphp
+
+                                                        @if(!$disetujui)
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaPenambahanBangunan->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaPenambahanBangunan->is_approved) ? 'checked' : '' }}>
+                                                                <label for="approve_edit_{{ $detailBiayaPenambahanBangunan->id }}" class="custom-control-label">
+                                                                    Setujui pembayaran
+                                                                </label>
+                                                            </div>
+                                                        @else
+                                                            <div class="col-md-12 px-0">
+                                                                <div class="p-3 bg-success-card my-rounded-2">
+                                                                    <span class="font-weight-bold text-success">
+                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button id="tambahBiayaPenambahanBangunan" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                    <button type="submit" class="btn btn-primary buttonedit">
+                                                        <i class="fas fa-save mr-2"></i>Update
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
+                                <h4 class="font-weight-bold m-2">Biaya Penambahan Pembangunan</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -990,7 +1166,7 @@
                                                     </td>
                                                     <td>{{ $record->catatan_pembayaran }}</td>
                                                     <td>
-                                                        <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
+                                                        {{-- <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
                                                             <i class="fas fa-receipt mr-2"></i> Invoice
                                                         </a>
                                                         @if(!empty($record->bukti_pembayaran))
@@ -1000,10 +1176,13 @@
                                                             <a class="btn btn-primary buttonedit-sm ml-2" href="{{ $url }}" target="_blank">
                                                                 <strong><i class="fas fa-receipt mr-2"></i></strong>Bukti
                                                             </a>
-                                                            {{-- <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
+                                                            <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
                                                                 <i class="fas fa-trash-alt mr-2"></i>Hapus
-                                                            </a> --}}
-                                                        @endif
+                                                            </a>
+                                                        @endif --}}
+                                                        <a href="#modal-edit-bpb-{{ $record->id }}" class="btn btn-primary buttonedit-sm" data-toggle="modal">
+                                                            <i class="fas fa-edit mr-2 h7"></i>Edit
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @empty
@@ -1058,63 +1237,103 @@
                                 @endif
                             </div>
                             <div id="bk_5_5">
-                                <div class="modal fade" id="bk_5_5_5" tabindex="-1" role="dialog" aria-labelledby="modalBiayaLainnya" aria-hidden="true">
+                                @foreach ($dataku6 as $detailBiayaLainnya)
+                                <div class="modal fade" id="modal-edit-bl-{{ $detailBiayaLainnya->id }}" tabindex="-1" role="dialog" aria-labelledby="modalEditBL{{ $detailBiayaLainnya->id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                                         <div class="modal-content my-rounded-2">
                                             <div class="modal-header">
-                                                <h6 class="modal-title font-weight-bold">Tambah Pembayaran Biaya Lainnya</h6>
-                                                <button type="button" class="close" data-dismiss="modal">
-                                                    <span>&times;</span>
-                                                </button>
+                                                <h6 class="modal-title font-weight-bold" id="modalEditBL{{ $detailBiayaLainnya->id }}">
+                                                    Edit Pembayaran — {{ $detailBiayaLainnya->nomor_referensi }}
+                                                </h6>
+                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
                                             <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran5.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
+                                                <input type="hidden" name="pembayaran_id" value="{{ $detailBiayaLainnya->id }}">
+                                                <input type="hidden" name="jenis_id" value="0">
                                                 <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="5">
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaLainnya->tanggal_pembayaran)->format('d/m/Y')) }}">
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaLainnya->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                        <h6 class="font-weight-bold">{{ $detailBiayaLainnya->jenis->nama }}</h6>
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Masuk ke Akun</label>
                                                         <select name="akun_id" class="tomselect">
                                                             @foreach($akun as $a)
                                                             <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                                {{ (old('akun_id', $detailBiayaLainnya->akun_id)==$a->id) ? 'selected' : '' }}>
                                                                 {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
                                                             </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
+                                                        @php
+                                                            $testing = !empty($detailBiayaLainnya->bukti_pembayaran);
+                                                            $url = Storage::url($detailBiayaLainnya->bukti_pembayaran);
+                                                        @endphp
+                                                        @if($testing)
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <small class="d-block">
+                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                    </a>
+                                                                </small>
+                                                            </div><br>
+                                                        @else
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
+                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaLainnya->catatan_pembayaran) }}</textarea>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_bl" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_bl" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                        @php
+                                                            $disetujui = (int)($detailBiayaLainnya->is_approved ?? 0) === 1;
+                                                        @endphp
+
+                                                        @if(!$disetujui)
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaLainnya->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaLainnya->is_approved) ? 'checked' : '' }}>
+                                                                <label for="approve_edit_{{ $detailBiayaLainnya->id }}" class="custom-control-label">
+                                                                    Setujui pembayaran
+                                                                </label>
+                                                            </div>
+                                                        @else
+                                                            <div class="col-md-12 px-0">
+                                                                <div class="p-3 bg-success-card my-rounded-2">
+                                                                    <span class="font-weight-bold text-success">
+                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button id="tambahBiayaLainnya" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                    <button type="submit" class="btn btn-primary buttonedit">
+                                                        <i class="fas fa-save mr-2"></i>Update
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
+                                <h4 class="font-weight-bold m-2">Biaya Lainnya</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -1148,7 +1367,7 @@
                                                     </td>
                                                     <td>{{ $record->catatan_pembayaran }}</td>
                                                     <td>
-                                                        <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
+                                                        {{-- <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
                                                             <i class="fas fa-receipt mr-2"></i> Invoice
                                                         </a>
                                                         @if(!empty($record->bukti_pembayaran))
@@ -1158,10 +1377,13 @@
                                                             <a class="btn btn-primary buttonedit-sm ml-2" href="{{ $url }}" target="_blank">
                                                                 <strong><i class="fas fa-receipt mr-2"></i></strong>Bukti
                                                             </a>
-                                                            {{-- <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
+                                                            <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
                                                                 <i class="fas fa-trash-alt mr-2"></i>Hapus
-                                                            </a> --}}
-                                                        @endif
+                                                            </a>
+                                                        @endif --}}
+                                                        <a href="#modal-edit-bl-{{ $record->id }}" class="btn btn-primary buttonedit-sm" data-toggle="modal">
+                                                            <i class="fas fa-edit mr-2 h7"></i>Edit
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @empty
@@ -1216,63 +1438,103 @@
                                 @endif
                             </div>
                             <div id="bk_6_6">
-                                <div class="modal fade" id="bk_6_6_6" tabindex="-1" role="dialog" aria-labelledby="modalTotalPenjualanCash" aria-hidden="true">
+                                @foreach ($dataku7 as $detailTotalPenjualanCash)
+                                <div class="modal fade" id="modal-edit-tpc-{{ $detailTotalPenjualanCash->id }}" tabindex="-1" role="dialog" aria-labelledby="modalEditTPC{{ $detailTotalPenjualanCash->id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                                         <div class="modal-content my-rounded-2">
                                             <div class="modal-header">
-                                                <h6 class="modal-title font-weight-bold">Tambah Pembayaran Total Penjualan Cash</h6>
-                                                <button type="button" class="close" data-dismiss="modal">
-                                                    <span>&times;</span>
-                                                </button>
+                                                <h6 class="modal-title font-weight-bold" id="modalEditTPC{{ $detailTotalPenjualanCash->id }}">
+                                                    Edit Pembayaran — {{ $detailTotalPenjualanCash->nomor_referensi }}
+                                                </h6>
+                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
                                             <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran6.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
+                                                <input type="hidden" name="pembayaran_id" value="{{ $detailTotalPenjualanCash->id }}">
+                                                <input type="hidden" name="jenis_id" value="0">
                                                 <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="6">
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailTotalPenjualanCash->tanggal_pembayaran)->format('d/m/Y')) }}">
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailTotalPenjualanCash->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                        <h6 class="font-weight-bold">{{ $detailTotalPenjualanCash->jenis->nama }}</h6>
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Masuk ke Akun</label>
                                                         <select name="akun_id" class="tomselect">
                                                             @foreach($akun as $a)
                                                             <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                                {{ (old('akun_id', $detailTotalPenjualanCash->akun_id)==$a->id) ? 'selected' : '' }}>
                                                                 {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
                                                             </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
+                                                        @php
+                                                            $testing = !empty($detailTotalPenjualanCash->bukti_pembayaran);
+                                                            $url = Storage::url($detailTotalPenjualanCash->bukti_pembayaran);
+                                                        @endphp
+                                                        @if($testing)
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <small class="d-block">
+                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                    </a>
+                                                                </small>
+                                                            </div><br>
+                                                        @else
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
+                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailTotalPenjualanCash->catatan_pembayaran) }}</textarea>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_tpc" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_tpc" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                        @php
+                                                            $disetujui = (int)($detailTotalPenjualanCash->is_approved ?? 0) === 1;
+                                                        @endphp
+
+                                                        @if(!$disetujui)
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailTotalPenjualanCash->id }}" value="1" class="custom-control-input" {{ old('approve', $detailTotalPenjualanCash->is_approved) ? 'checked' : '' }}>
+                                                                <label for="approve_edit_{{ $detailTotalPenjualanCash->id }}" class="custom-control-label">
+                                                                    Setujui pembayaran
+                                                                </label>
+                                                            </div>
+                                                        @else
+                                                            <div class="col-md-12 px-0">
+                                                                <div class="p-3 bg-success-card my-rounded-2">
+                                                                    <span class="font-weight-bold text-success">
+                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button id="tambahTotalPenjualanCash" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                    <button type="submit" class="btn btn-primary buttonedit">
+                                                        <i class="fas fa-save mr-2"></i>Update
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
+                                <h4 class="font-weight-bold m-2">Total Penjualan Cash</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -1306,7 +1568,7 @@
                                                     </td>
                                                     <td>{{ $record->catatan_pembayaran }}</td>
                                                     <td>
-                                                        <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
+                                                        {{-- <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
                                                             <i class="fas fa-receipt mr-2"></i> Invoice
                                                         </a>
                                                         @if(!empty($record->bukti_pembayaran))
@@ -1316,10 +1578,13 @@
                                                             <a class="btn btn-primary buttonedit-sm ml-2" href="{{ $url }}" target="_blank">
                                                                 <strong><i class="fas fa-receipt mr-2"></i></strong>Bukti
                                                             </a>
-                                                            {{-- <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
+                                                            <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
                                                                 <i class="fas fa-trash-alt mr-2"></i>Hapus
-                                                            </a> --}}
-                                                        @endif
+                                                            </a>
+                                                        @endif --}}
+                                                        <a href="#modal-edit-tpc-{{ $record->id }}" class="btn btn-primary buttonedit-sm" data-toggle="modal">
+                                                            <i class="fas fa-edit mr-2 h7"></i>Edit
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @empty
@@ -1374,63 +1639,103 @@
                                 @endif
                             </div>
                             <div id="bk_7_7">
-                                <div class="modal fade" id="bk_7_7_7" tabindex="-1" role="dialog" aria-labelledby="modalLabelCicilanCash" aria-hidden="true">
+                                @foreach ($dataku8 as $detailCicilanCash)
+                                <div class="modal fade" id="modal-edit-cc-{{ $detailCicilanCash->id }}" tabindex="-1" role="dialog" aria-labelledby="modalEditCC{{ $detailCicilanCash->id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                                         <div class="modal-content my-rounded-2">
                                             <div class="modal-header">
-                                                <h6 class="modal-title font-weight-bold">Tambah Pembayaran Cicilan Cash (Bertahap)</h6>
-                                                <button type="button" class="close" data-dismiss="modal">
-                                                    <span>&times;</span>
-                                                </button>
+                                                <h6 class="modal-title font-weight-bold" id="modalEditCC{{ $detailCicilanCash->id }}">
+                                                    Edit Pembayaran — {{ $detailCicilanCash->nomor_referensi }}
+                                                </h6>
+                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
                                             <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran7.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
+                                                <input type="hidden" name="pembayaran_id" value="{{ $detailCicilanCash->id }}">
+                                                <input type="hidden" name="jenis_id" value="0">
                                                 <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="7">
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailCicilanCash->tanggal_pembayaran)->format('d/m/Y')) }}">
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailCicilanCash->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                        <h6 class="font-weight-bold">{{ $detailCicilanCash->jenis->nama }}</h6>
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Masuk ke Akun</label>
                                                         <select name="akun_id" class="tomselect">
                                                             @foreach($akun as $a)
                                                             <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                                {{ (old('akun_id', $detailCicilanCash->akun_id)==$a->id) ? 'selected' : '' }}>
                                                                 {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
                                                             </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
+                                                        @php
+                                                            $testing = !empty($detailCicilanCash->bukti_pembayaran);
+                                                            $url = Storage::url($detailCicilanCash->bukti_pembayaran);
+                                                        @endphp
+                                                        @if($testing)
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <small class="d-block">
+                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                    </a>
+                                                                </small>
+                                                            </div><br>
+                                                        @else
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
+                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailCicilanCash->catatan_pembayaran) }}</textarea>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_cc" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_cc" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                        @php
+                                                            $disetujui = (int)($detailCicilanCash->is_approved ?? 0) === 1;
+                                                        @endphp
+
+                                                        @if(!$disetujui)
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailCicilanCash->id }}" value="1" class="custom-control-input" {{ old('approve', $detailCicilanCash->is_approved) ? 'checked' : '' }}>
+                                                                <label for="approve_edit_{{ $detailCicilanCash->id }}" class="custom-control-label">
+                                                                    Setujui pembayaran
+                                                                </label>
+                                                            </div>
+                                                        @else
+                                                            <div class="col-md-12 px-0">
+                                                                <div class="p-3 bg-success-card my-rounded-2">
+                                                                    <span class="font-weight-bold text-success">
+                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button id="tambahCicilanCash" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                    <button type="submit" class="btn btn-primary buttonedit">
+                                                        <i class="fas fa-save mr-2"></i>Update
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
+                                <h4 class="font-weight-bold m-2">Cicilan Cash (Bertahap)</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -1464,7 +1769,7 @@
                                                     </td>
                                                     <td>{{ $record->catatan_pembayaran }}</td>
                                                     <td>
-                                                        <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
+                                                        {{-- <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
                                                             <i class="fas fa-receipt mr-2"></i> Invoice
                                                         </a>
                                                         @if(!empty($record->bukti_pembayaran))
@@ -1474,10 +1779,13 @@
                                                             <a class="btn btn-primary buttonedit-sm ml-2" href="{{ $url }}" target="_blank">
                                                                 <strong><i class="fas fa-receipt mr-2"></i></strong>Bukti
                                                             </a>
-                                                            {{-- <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
+                                                            <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
                                                                 <i class="fas fa-trash-alt mr-2"></i>Hapus
-                                                            </a> --}}
-                                                        @endif
+                                                            </a>
+                                                        @endif --}}
+                                                        <a href="#modal-edit-cc-{{ $record->id }}" class="btn btn-primary buttonedit-sm" data-toggle="modal">
+                                                            <i class="fas fa-edit mr-2 h7"></i>Edit
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @empty
@@ -1532,63 +1840,103 @@
                                 @endif
                             </div>
                             <div id="bk_8_8">
-                                <div class="modal fade" id="bk_8_8_8" tabindex="-1" role="dialog" aria-labelledby="modalLabelBiayaAkadKredit" aria-hidden="true">
+                                @foreach ($dataku9 as $detailBiayaAkadKredit)
+                                <div class="modal fade" id="modal-edit-bak-{{ $detailBiayaAkadKredit->id }}" tabindex="-1" role="dialog" aria-labelledby="modalEditBAK{{ $detailBiayaAkadKredit->id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                                         <div class="modal-content my-rounded-2">
                                             <div class="modal-header">
-                                                <h6 class="modal-title font-weight-bold">Tambah Pembayaran Biaya Akad Kredit</h6>
-                                                <button type="button" class="close" data-dismiss="modal">
-                                                    <span>&times;</span>
-                                                </button>
+                                                <h6 class="modal-title font-weight-bold" id="modalEditBAK{{ $detailBiayaAkadKredit->id }}">
+                                                    Edit Pembayaran — {{ $detailBiayaAkadKredit->nomor_referensi }}
+                                                </h6>
+                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
                                             <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran8.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
+                                                <input type="hidden" name="pembayaran_id" value="{{ $detailBiayaAkadKredit->id }}">
+                                                <input type="hidden" name="jenis_id" value="0">
                                                 <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="8">
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaAkadKredit->tanggal_pembayaran)->format('d/m/Y')) }}">
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaAkadKredit->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                        <h6 class="font-weight-bold">{{ $detailBiayaAkadKredit->jenis->nama }}</h6>
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Masuk ke Akun</label>
                                                         <select name="akun_id" class="tomselect">
                                                             @foreach($akun as $a)
                                                             <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                                {{ (old('akun_id', $detailBiayaAkadKredit->akun_id)==$a->id) ? 'selected' : '' }}>
                                                                 {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
                                                             </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
+                                                        @php
+                                                            $testing = !empty($detailBiayaAkadKredit->bukti_pembayaran);
+                                                            $url = Storage::url($detailBiayaAkadKredit->bukti_pembayaran);
+                                                        @endphp
+                                                        @if($testing)
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <small class="d-block">
+                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                    </a>
+                                                                </small>
+                                                            </div><br>
+                                                        @else
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
+                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaAkadKredit->catatan_pembayaran) }}</textarea>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_bak" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_bak" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                        @php
+                                                            $disetujui = (int)($detailBiayaAkadKredit->is_approved ?? 0) === 1;
+                                                        @endphp
+
+                                                        @if(!$disetujui)
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaAkadKredit->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaAkadKredit->is_approved) ? 'checked' : '' }}>
+                                                                <label for="approve_edit_{{ $detailBiayaAkadKredit->id }}" class="custom-control-label">
+                                                                    Setujui pembayaran
+                                                                </label>
+                                                            </div>
+                                                        @else
+                                                            <div class="col-md-12 px-0">
+                                                                <div class="p-3 bg-success-card my-rounded-2">
+                                                                    <span class="font-weight-bold text-success">
+                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button id="tambahBiayaAkadKredit" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                    <button type="submit" class="btn btn-primary buttonedit">
+                                                        <i class="fas fa-save mr-2"></i>Update
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
+                                <h4 class="font-weight-bold m-2">Biaya Akad Kredit</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -1622,7 +1970,7 @@
                                                     </td>
                                                     <td>{{ $record->catatan_pembayaran }}</td>
                                                     <td>
-                                                        <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
+                                                        {{-- <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
                                                             <i class="fas fa-receipt mr-2"></i> Invoice
                                                         </a>
                                                         @if(!empty($record->bukti_pembayaran))
@@ -1632,10 +1980,13 @@
                                                             <a class="btn btn-primary buttonedit-sm ml-2" href="{{ $url }}" target="_blank">
                                                                 <strong><i class="fas fa-receipt mr-2"></i></strong>Bukti
                                                             </a>
-                                                            {{-- <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
+                                                            <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
                                                                 <i class="fas fa-trash-alt mr-2"></i>Hapus
-                                                            </a> --}}
-                                                        @endif
+                                                            </a>
+                                                        @endif --}}
+                                                        <a href="#modal-edit-bak-{{ $record->id }}" class="btn btn-primary buttonedit-sm" data-toggle="modal">
+                                                            <i class="fas fa-edit mr-2 h7"></i>Edit
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @empty
@@ -1682,63 +2033,103 @@
                                 @endif
                             </div>
                             <div id="bk_9_9">
-                                <div class="modal fade" id="bk_9_9_9" tabindex="-1" role="dialog" aria-labelledby="modalLabelBiayaPenambahanFasilitas" aria-hidden="true">
+                                @foreach ($dataku10 as $detailBiayaPenambahanFasilitas)
+                                <div class="modal fade" id="modal-edit-bpf-{{ $detailBiayaPenambahanFasilitas->id }}" tabindex="-1" role="dialog" aria-labelledby="modalEditBPF{{ $detailBiayaPenambahanFasilitas->id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                                         <div class="modal-content my-rounded-2">
                                             <div class="modal-header">
-                                                <h6 class="modal-title font-weight-bold">Tambah Pembayaran Biaya Penambahan Fasilitas</h6>
-                                                <button type="button" class="close" data-dismiss="modal">
-                                                    <span>&times;</span>
-                                                </button>
+                                                <h6 class="modal-title font-weight-bold" id="modalEditBPF{{ $detailBiayaPenambahanFasilitas->id }}">
+                                                    Edit Pembayaran — {{ $detailBiayaPenambahanFasilitas->nomor_referensi }}
+                                                </h6>
+                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
                                             <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran9.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
+                                                <input type="hidden" name="pembayaran_id" value="{{ $detailBiayaPenambahanFasilitas->id }}">
+                                                <input type="hidden" name="jenis_id" value="0">
                                                 <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="9">
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaPenambahanFasilitas->tanggal_pembayaran)->format('d/m/Y')) }}">
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaPenambahanFasilitas->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                        <h6 class="font-weight-bold">{{ $detailBiayaPenambahanFasilitas->jenis->nama }}</h6>
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Masuk ke Akun</label>
                                                         <select name="akun_id" class="tomselect">
                                                             @foreach($akun as $a)
                                                             <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                                {{ (old('akun_id', $detailBiayaPenambahanFasilitas->akun_id)==$a->id) ? 'selected' : '' }}>
                                                                 {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
                                                             </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
+                                                        @php
+                                                            $testing = !empty($detailBiayaPenambahanFasilitas->bukti_pembayaran);
+                                                            $url = Storage::url($detailBiayaPenambahanFasilitas->bukti_pembayaran);
+                                                        @endphp
+                                                        @if($testing)
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <small class="d-block">
+                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                    </a>
+                                                                </small>
+                                                            </div><br>
+                                                        @else
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
+                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaPenambahanFasilitas->catatan_pembayaran) }}</textarea>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_bpf" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_bpf" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                        @php
+                                                            $disetujui = (int)($detailBiayaPenambahanFasilitas->is_approved ?? 0) === 1;
+                                                        @endphp
+
+                                                        @if(!$disetujui)
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaPenambahanFasilitas->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaPenambahanFasilitas->is_approved) ? 'checked' : '' }}>
+                                                                <label for="approve_edit_{{ $detailBiayaPenambahanFasilitas->id }}" class="custom-control-label">
+                                                                    Setujui pembayaran
+                                                                </label>
+                                                            </div>
+                                                        @else
+                                                            <div class="col-md-12 px-0">
+                                                                <div class="p-3 bg-success-card my-rounded-2">
+                                                                    <span class="font-weight-bold text-success">
+                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button id="tambahBiayaPenambahanFasilitas" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                    <button type="submit" class="btn btn-primary buttonedit">
+                                                        <i class="fas fa-save mr-2"></i>Update
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
+                                <h4 class="font-weight-bold m-2">Biaya Penambahan Fasilitas</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -1772,7 +2163,7 @@
                                                     </td>
                                                     <td>{{ $record->catatan_pembayaran }}</td>
                                                     <td>
-                                                        <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
+                                                        {{-- <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
                                                             <i class="fas fa-receipt mr-2"></i> Invoice
                                                         </a>
                                                         @if(!empty($record->bukti_pembayaran))
@@ -1782,10 +2173,13 @@
                                                             <a class="btn btn-primary buttonedit-sm ml-2" href="{{ $url }}" target="_blank">
                                                                 <strong><i class="fas fa-receipt mr-2"></i></strong>Bukti
                                                             </a>
-                                                            {{-- <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
+                                                            <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
                                                                 <i class="fas fa-trash-alt mr-2"></i>Hapus
-                                                            </a> --}}
-                                                        @endif
+                                                            </a>
+                                                        @endif --}}
+                                                        <a href="#modal-edit-bpf-{{ $record->id }}" class="btn btn-primary buttonedit-sm" data-toggle="modal">
+                                                            <i class="fas fa-edit mr-2 h7"></i>Edit
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @empty
@@ -1840,63 +2234,103 @@
                                 @endif
                             </div>
                             <div id="bk_10_10">
-                                <div class="modal fade" id="bk_10_10_10" tabindex="-1" role="dialog" aria-labelledby="modalLabelPenerimaanKpr" aria-hidden="true">
+                                @foreach ($dataku11 as $detailBiayaPenerimaanKpr)
+                                <div class="modal fade" id="modal-edit-kpr-{{ $detailBiayaPenerimaanKpr->id }}" tabindex="-1" role="dialog" aria-labelledby="modalEditKPR{{ $detailBiayaPenerimaanKpr->id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                                         <div class="modal-content my-rounded-2">
                                             <div class="modal-header">
-                                                <h6 class="modal-title font-weight-bold">Tambah Pembayaran Penerimaan KPR dari Bank</h6>
-                                                <button type="button" class="close" data-dismiss="modal">
-                                                    <span>&times;</span>
-                                                </button>
+                                                <h6 class="modal-title font-weight-bold" id="modalEditKPR{{ $detailBiayaPenerimaanKpr->id }}">
+                                                    Edit Pembayaran — {{ $detailBiayaPenerimaanKpr->nomor_referensi }}
+                                                </h6>
+                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
                                             <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran10.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
+                                                <input type="hidden" name="pembayaran_id" value="{{ $detailBiayaPenerimaanKpr->id }}">
+                                                <input type="hidden" name="jenis_id" value="0">
                                                 <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="10">
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaPenerimaanKpr->tanggal_pembayaran)->format('d/m/Y')) }}">
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaPenerimaanKpr->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                        <h6 class="font-weight-bold">{{ $detailBiayaPenerimaanKpr->jenis->nama }}</h6>
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Masuk ke Akun</label>
                                                         <select name="akun_id" class="tomselect">
                                                             @foreach($akun as $a)
                                                             <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                                {{ (old('akun_id', $detailBiayaPenerimaanKpr->akun_id)==$a->id) ? 'selected' : '' }}>
                                                                 {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
                                                             </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
+                                                        @php
+                                                            $testing = !empty($detailBiayaPenerimaanKpr->bukti_pembayaran);
+                                                            $url = Storage::url($detailBiayaPenerimaanKpr->bukti_pembayaran);
+                                                        @endphp
+                                                        @if($testing)
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <small class="d-block">
+                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                    </a>
+                                                                </small>
+                                                            </div><br>
+                                                        @else
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
+                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaPenerimaanKpr->catatan_pembayaran) }}</textarea>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_kpr" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_kpr" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                        @php
+                                                            $disetujui = (int)($detailBiayaPenerimaanKpr->is_approved ?? 0) === 1;
+                                                        @endphp
+
+                                                        @if(!$disetujui)
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaPenerimaanKpr->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaPenerimaanKpr->is_approved) ? 'checked' : '' }}>
+                                                                <label for="approve_edit_{{ $detailBiayaPenerimaanKpr->id }}" class="custom-control-label">
+                                                                    Setujui pembayaran
+                                                                </label>
+                                                            </div>
+                                                        @else
+                                                            <div class="col-md-12 px-0">
+                                                                <div class="p-3 bg-success-card my-rounded-2">
+                                                                    <span class="font-weight-bold text-success">
+                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button id="tambahPenerimaanKpr" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                    <button type="submit" class="btn btn-primary buttonedit">
+                                                        <i class="fas fa-save mr-2"></i>Update
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
+                                <h4 class="font-weight-bold m-2">Penerimaan KPR dari Bank</h4>
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -1930,7 +2364,7 @@
                                                     </td>
                                                     <td>{{ $record->catatan_pembayaran }}</td>
                                                     <td>
-                                                        <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
+                                                        {{-- <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
                                                             <i class="fas fa-receipt mr-2"></i> Invoice
                                                         </a>
                                                         @if(!empty($record->bukti_pembayaran))
@@ -1940,14 +2374,17 @@
                                                             <a class="btn btn-primary buttonedit-sm ml-2" href="{{ $url }}" target="_blank">
                                                                 <strong><i class="fas fa-receipt mr-2"></i></strong>Bukti
                                                             </a>
-                                                            {{-- <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
+                                                            <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
                                                                 <i class="fas fa-trash-alt mr-2"></i>Hapus
-                                                            </a> --}}
-                                                        @endif
+                                                            </a>
+                                                        @endif --}}
+                                                        <a href="#modal-edit-kpr-{{ $record->id }}" class="btn btn-primary buttonedit-sm" data-toggle="modal">
+                                                            <i class="fas fa-edit mr-2 h7"></i>Edit
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @empty
-                                                <tr><td><h6 class="text-truncate"><i class="fas fa-seedling mr-2"></i>Tidak ada data pembayaran.</h6></td></tr>
+                                                <tr><td colspan="8"><h6 class="text-truncate"><i class="fas fa-seedling mr-2"></i>Tidak ada data pembayaran.</h6></td></tr>
                                             @endforelse
                                         </tbody>
                                     </table>
@@ -2003,7 +2440,7 @@
                 <div class="mt-3 row align-items-center">
                     <div class="col">
                         <div class="">
-                            <a href="{{ route('booking/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
+                            <a href="{{ route('pembayaran-konsumen/list/page') }}" class="btn btn-primary float-left veiwbutton mr-2">
                                 <i class="fas fa-chevron-left mr-2"></i>Batal
                             </a>
                             {{-- <button type="submit" class="btn btn-primary buttonedit">
@@ -2714,7 +3151,7 @@
                 const selectedValue = biayaPembayaranSelect.value;
 
                 if (selectedValue === '1') {
-                    bK_0.style.display = '';
+                    bK_0.style.display = 'none';
                     bK_0_0.style.display = '';
                     bK_1.style.display = 'none';
                     bK_1_1.style.display = 'none';
@@ -2739,7 +3176,7 @@
                 } else if (selectedValue === '2') {
                     bK_0.style.display = 'none';
                     bK_0_0.style.display = 'none';
-                    bK_1.style.display = '';
+                    bK_1.style.display = 'none';
                     bK_1_1.style.display = '';
                     bK_2.style.display = 'none';
                     bK_2_2.style.display = 'none';
@@ -2764,7 +3201,7 @@
                     bK_0_0.style.display = 'none';
                     bK_1.style.display = 'none';
                     bK_1_1.style.display = 'none';
-                    bK_2.style.display = '';
+                    bK_2.style.display = 'none';
                     bK_2_2.style.display = '';
                     bK_3.style.display = 'none';
                     bK_3_3.style.display = 'none';
@@ -2789,7 +3226,7 @@
                     bK_1_1.style.display = 'none';
                     bK_2.style.display = 'none';
                     bK_2_2.style.display = 'none';
-                    bK_3.style.display = '';
+                    bK_3.style.display = 'none';
                     bK_3_3.style.display = '';
                     bK_4.style.display = 'none';
                     bK_4_4.style.display = 'none';
@@ -2814,7 +3251,7 @@
                     bK_2_2.style.display = 'none';
                     bK_3.style.display = 'none';
                     bK_3_3.style.display = 'none';
-                    bK_4.style.display = '';
+                    bK_4.style.display = 'none';
                     bK_4_4.style.display = '';
                     bK_5.style.display = 'none';
                     bK_5_5.style.display = 'none';
@@ -2839,7 +3276,7 @@
                     bK_3_3.style.display = 'none';
                     bK_4.style.display = 'none';
                     bK_4_4.style.display = 'none';
-                    bK_5.style.display = '';
+                    bK_5.style.display = 'none';
                     bK_5_5.style.display = '';
                     bK_6.style.display = 'none';
                     bK_6_6.style.display = 'none';
@@ -2864,7 +3301,7 @@
                     bK_4_4.style.display = 'none';
                     bK_5.style.display = 'none';
                     bK_5_5.style.display = 'none';
-                    bK_6.style.display = '';
+                    bK_6.style.display = 'none';
                     bK_6_6.style.display = '';
                     bK_7.style.display = 'none';
                     bK_7_7.style.display = 'none';
@@ -2889,7 +3326,7 @@
                     bK_5_5.style.display = 'none';
                     bK_6.style.display = 'none';
                     bK_6_6.style.display = 'none';
-                    bK_7.style.display = '';
+                    bK_7.style.display = 'none';
                     bK_7_7.style.display = '';
                     bK_8.style.display = 'none';
                     bK_8_8.style.display = 'none';
@@ -2914,7 +3351,7 @@
                     bK_6_6.style.display = 'none';
                     bK_7.style.display = 'none';
                     bK_7_7.style.display = 'none';
-                    bK_8.style.display = '';
+                    bK_8.style.display = 'none';
                     bK_8_8.style.display = '';
                     bK_9.style.display = 'none';
                     bK_9_9.style.display = 'none';
@@ -2939,7 +3376,7 @@
                     bK_7_7.style.display = 'none';
                     bK_8.style.display = 'none';
                     bK_8_8.style.display = 'none';
-                    bK_9.style.display = '';
+                    bK_9.style.display = 'none';
                     bK_9_9.style.display = '';
                     bK_10.style.display = 'none';
                     bK_10_10.style.display = 'none';
@@ -2964,10 +3401,10 @@
                     bK_8_8.style.display = 'none';
                     bK_9.style.display = 'none';
                     bK_9_9.style.display = 'none';
-                    bK_10.style.display = '';
+                    bK_10.style.display = 'none';
                     bK_10_10.style.display = '';
                 } else {
-                    bK_0.style.display = '';
+                    bK_0.style.display = 'none';
                     bK_0_0.style.display = '';
                     bK_1.style.display = 'none';
                     bK_1_1.style.display = 'none';

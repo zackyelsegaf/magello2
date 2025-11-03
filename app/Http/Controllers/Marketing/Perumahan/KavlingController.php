@@ -2706,7 +2706,6 @@ class KavlingController extends Controller
         $detailBooking = $pembayaran->booking;
         $bookingId = $detailBooking->id; // ambil ID booking-nya dengan benar
 
-
         // $biaya_pembayaran = JenisBiayaKonsumen::orderBy('urutan')->get();
         $metode = $detailBooking->metode_pembayaran; // 'Cash Keras' | 'Cash Bertahap' | 'KPR'
 
@@ -2750,7 +2749,7 @@ class KavlingController extends Controller
 
         $dataku2 = PembayaranBookingKonsumen::query()
             ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 2)
             ->orderBy('id')
             ->get();
@@ -2777,7 +2776,7 @@ class KavlingController extends Controller
 
         $dataku3 = PembayaranBookingKonsumen::query()
             ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 3)
             ->orderBy('id')
             ->get();
@@ -2804,7 +2803,7 @@ class KavlingController extends Controller
 
         $dataku4 = PembayaranBookingKonsumen::query()
             ->with(['akun:id,no_akun,nama_akun_indonesia','booking'])
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 4)
             ->orderBy('id')
             ->get();
@@ -2831,7 +2830,7 @@ class KavlingController extends Controller
 
         $dataku5 = PembayaranBookingKonsumen::query()
             ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 5)
             ->orderBy('id')
             ->get();
@@ -2858,7 +2857,7 @@ class KavlingController extends Controller
 
         $dataku6 = PembayaranBookingKonsumen::query()
             ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 6)
             ->orderBy('id')
             ->get();
@@ -2885,7 +2884,7 @@ class KavlingController extends Controller
 
         $dataku7 = PembayaranBookingKonsumen::query()
             ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 7)
             ->orderBy('id')
             ->get();
@@ -2912,7 +2911,7 @@ class KavlingController extends Controller
 
         $dataku8 = PembayaranBookingKonsumen::query()
             ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 8)
             ->orderBy('id')
             ->get();
@@ -2939,7 +2938,7 @@ class KavlingController extends Controller
             
         $dataku9 = PembayaranBookingKonsumen::query()
             ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 9)
             ->orderBy('id')
             ->get();
@@ -2966,7 +2965,7 @@ class KavlingController extends Controller
 
         $dataku10 = PembayaranBookingKonsumen::query()
             ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 10)
             ->orderBy('id')
             ->get();
@@ -2993,7 +2992,7 @@ class KavlingController extends Controller
 
         $dataku11 = PembayaranBookingKonsumen::query()
             ->with(['akun:id,no_akun,nama_akun_indonesia', 'approvedByUser'])
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id',11)
             ->orderBy('id')
             ->get();
@@ -3025,12 +3024,12 @@ class KavlingController extends Controller
 
 
         $totalPembayaran = DB::table('pembayaran_konsumen')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('is_approved', true)
             ->sum('nominal_pembayaran');
 
         $totalKontrak = DB::table('biaya_booking')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->sum('nominal_biaya');
 
         $sisaHutang = max(0, $totalKontrak - $totalPembayaran);
@@ -3053,47 +3052,47 @@ class KavlingController extends Controller
         // }
 
         $tagihan0 = DB::table('biaya_booking')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_id', 1)
             ->sum('nominal_biaya');
         $tagihan1 = DB::table('biaya_booking')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_id', 2)
             ->sum('nominal_biaya');
         $tagihan2 = DB::table('biaya_booking')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_id', 3)
             ->sum('nominal_biaya');
         $tagihan3 = DB::table('biaya_booking')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_id', 4)
             ->sum('nominal_biaya');
         $tagihan4 = DB::table('biaya_booking')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_id', 5)
             ->sum('nominal_biaya');
         $tagihan5 = DB::table('biaya_booking')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_id', 6)
             ->sum('nominal_biaya');
         $tagihan6 = DB::table('biaya_booking')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_id', 7)
             ->sum('nominal_biaya');
         $tagihan7 = DB::table('biaya_booking')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_id', 8)
             ->sum('nominal_biaya');
         $tagihan8 = DB::table('biaya_booking')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_id', 9)
             ->sum('nominal_biaya');
         $tagihan9 = DB::table('biaya_booking')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_id', 10)
             ->sum('nominal_biaya');
         $tagihan10 = DB::table('biaya_booking')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_id', 11)
             ->sum('nominal_biaya');
 
@@ -3103,57 +3102,57 @@ class KavlingController extends Controller
         //     ->sum('nominal_biaya');
 
         $dibayar0 = DB::table('pembayaran_konsumen')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 1)
             ->where('is_approved', 1)
             ->sum('nominal_pembayaran');
         $dibayar1 = DB::table('pembayaran_konsumen')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 2)
             ->where('is_approved', 1)
             ->sum('nominal_pembayaran');
         $dibayar2 = DB::table('pembayaran_konsumen')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 3)
             ->where('is_approved', 1)
             ->sum('nominal_pembayaran');
         $dibayar3 = DB::table('pembayaran_konsumen')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 4)
             ->where('is_approved', 1)
             ->sum('nominal_pembayaran');
         $dibayar4 = DB::table('pembayaran_konsumen')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 5)
             ->where('is_approved', 1)
             ->sum('nominal_pembayaran');
         $dibayar5 = DB::table('pembayaran_konsumen')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 6)
             ->where('is_approved', 1)
             ->sum('nominal_pembayaran');
         $dibayar6 = DB::table('pembayaran_konsumen')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 7)
             ->where('is_approved', 1)
             ->sum('nominal_pembayaran');
         $dibayar7 = DB::table('pembayaran_konsumen')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 8)
             ->where('is_approved', 1)
             ->sum('nominal_pembayaran');
         $dibayar8 = DB::table('pembayaran_konsumen')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 9)
             ->where('is_approved', 1)
             ->sum('nominal_pembayaran');
         $dibayar9 = DB::table('pembayaran_konsumen')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 10)
             ->where('is_approved', 1)
             ->sum('nominal_pembayaran');
         $dibayar10 = DB::table('pembayaran_konsumen')
-            ->where('booking_id', $id)
+            ->where('booking_id', $bookingId)
             ->where('jenis_biaya_konsumen_id', 11)
             ->where('is_approved', 1)
             ->sum('nominal_pembayaran');
