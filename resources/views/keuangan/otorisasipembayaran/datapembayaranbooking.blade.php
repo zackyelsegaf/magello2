@@ -6,7 +6,7 @@
                 <div class="row align-items-center">
                     <div class="col">
                         <div class="mt-5">
-                            <h4 class="card-title float-left mt-2">Data Booking</h4>
+                            <h4 class="card-title float-left mt-2">Otorisasi Pembayaran</h4>
                         </div>
                     </div>
                 </div>
@@ -250,7 +250,7 @@
 
                 var data = table.row(this).data();
                     if (data) {
-                        window.location.href = "/booking/edit/" + data.id;
+                        window.location.href = "/pembayaran-konsumen/edit/" + data.id;
                     }
             });
 

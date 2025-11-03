@@ -243,91 +243,78 @@
                     <div class="my-rounded-2">
                         <div class="col-md-12 p-3 bg-white border my-rounded-2">
                             <div id="bk_0_0">
-                                <div class="modal fade" id="bk_0_0_0" tabindex="-1" role="dialog" aria-labelledby="modalBookingFee" aria-hidden="true">
+                                @foreach ($dataku1 as $detailBookingFee)
+                                <div class="modal fade" id="modal-edit-bf-{{ $detailBookingFee->id }}" tabindex="-1" role="dialog" aria-labelledby="modalEditBF{{ $detailBookingFee->id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                                         <div class="modal-content my-rounded-2">
                                             <div class="modal-header">
-                                                <h6 class="modal-title font-weight-bold">Tambah Pembayaran Booking Fee</h6>
-                                                <button type="button" class="close" data-dismiss="modal">
-                                                    <span>&times;</span>
-                                                </button>
+                                                <h6 class="modal-title font-weight-bold" id="modalEditBF{{ $detailBookingFee->id }}">
+                                                    Edit Pembayaran — {{ $detailBookingFee->nomor_referensi }}
+                                                </h6>
+                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
-                                            <form method="POST" id="formFilterPembayaran" action="{{ route('booking.pembayaran-booking/payment.pembayaran0.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran0.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
-                                                @if(isset($edit))
-                                                    <input type="hidden" name="pembayaran_id" value="{{ $edit->id }}">
-                                                @endif
+                                                <input type="hidden" name="pembayaran_id" value="{{ $detailBookingFee->id }}">
                                                 <input type="hidden" name="jenis_id" value="0">
                                                 <div class="modal-body">
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran"
-                                                            class="form-control form-control-sm datetimepicker"
-                                                            value="{{ old('tanggal_pembayaran', isset($edit) && $edit->tanggal_pembayaran ? \Carbon\Carbon::parse($edit->tanggal_pembayaran)->format('d/m/Y') : null) }}">
+                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBookingFee->tanggal_pembayaran)->format('d/m/Y')) }}">
                                                     </div>
-
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran"
-                                                            class="form-control form-control-sm rupiah"
-                                                            placeholder="contoh: 3.750.000"
-                                                            value="{{ old('nominal_pembayaran', isset($edit) ? number_format((int)$edit->nominal_pembayaran, 0, '.', '.') : null) }}">
+                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format((int)$detailBookingFee->nominal_pembayaran, 0, '.', '.')) }}">
                                                     </div>
-
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Masuk ke Akun</label>
                                                         <select name="akun_id" class="tomselect">
                                                             @foreach($akun as $a)
-                                                                <option value="{{ $a->id }}"
-                                                                    {{ (string)old('akun_id', isset($edit)? (string)$edit->akun_id : '') === (string)$a->id ? 'selected' : '' }}>
-                                                                    {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                                </option>
+                                                            <option value="{{ $a->id }}"
+                                                                {{ (old('akun_id', $detailBookingFee->akun_id)==$a->id) ? 'selected' : '' }}>
+                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                            </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
-
                                                     <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
-
-                                                        {{-- jika EDIT & sudah ada file, tampilkan tombol lihat --}}
-                                                        @if(isset($edit) && $edit->bukti_pembayaran)
-                                                            <small class="d-block mt-2">
-                                                                <a class="btn btn-primary buttonedit-sm"
-                                                                href="{{ Storage::url($edit->bukti_pembayaran) }}" target="_blank">
-                                                                    <i class="fas fa-file mr-2"></i>Lihat File Lama
-                                                                </a>
-                                                            </small>
+                                                        @if(!empty($detailBookingFee->bukti_pembayaran))
+                                                        @php
+                                                            $url = Storage::url($detailBookingFee->bukti_pembayaran);
+                                                        @endphp
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <small class="d-block">
+                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                    </a>
+                                                                </small>
+                                                            </div><br>
                                                         @endif
                                                     </div>
-
                                                     <div class="form-group mb-2">
                                                         <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $edit->catatan_pembayaran ?? '') }}</textarea>
+                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBookingFee->catatan_pembayaran) }}</textarea>
                                                     </div>
-
                                                     <div class="form-group mb-3">
                                                         <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_ba" value="1"
-                                                                class="custom-control-input"
-                                                                {{ old('approve', isset($edit) ? (int)$edit->is_approved : 0) ? 'checked' : '' }}>
-                                                            <label for="approve_ba" class="custom-control-label">Sekaligus setujui (approve)</label>
+                                                            <input type="checkbox" name="approve" id="approve_edit_{{ $detailBookingFee->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBookingFee->is_approved) ? 'checked' : '' }}>
+                                                            <label for="approve_edit_{{ $detailBookingFee->id }}" class="custom-control-label">
+                                                                Sekaligus setujui (approve)
+                                                            </label>
                                                         </div>
                                                     </div>
-
-                                                    <div class="modal-footer">
-                                                        <button id="tambahBookingFee" type="submit" class="btn btn-primary buttonedit">
-                                                            <i class="fas fa-save mr-2"></i>{{ isset($edit) ? 'Update' : 'Simpan' }}
-                                                        </button>
-                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary buttonedit">
+                                                        <i class="fas fa-save mr-2"></i>Update
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover m-0 p-0 separates">
                                         <thead class="thead-dark">
@@ -361,20 +348,12 @@
                                                     </td>
                                                     <td>{{ $record->catatan_pembayaran }}</td>
                                                     <td>
-                                                        <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
+                                                        {{-- <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
                                                             <i class="fas fa-receipt mr-2"></i> Invoice
+                                                        </a> --}}
+                                                        <a href="#modal-edit-bf-{{ $record->id }}" class="btn btn-primary buttonedit-sm" data-toggle="modal">
+                                                            <i class="fas fa-edit mr-2 h7"></i>Edit
                                                         </a>
-                                                        @if(!empty($record->bukti_pembayaran))
-                                                        @php
-                                                            $url = Storage::url($record->bukti_pembayaran);
-                                                        @endphp
-                                                            <a class="btn btn-primary buttonedit-sm ml-2" href="{{ $url }}" target="_blank">
-                                                                <strong><i class="fas fa-receipt mr-2"></i></strong>Bukti
-                                                            </a>
-                                                            {{-- <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
-                                                                <i class="fas fa-trash-alt mr-2"></i>Hapus
-                                                            </a> --}}
-                                                        @endif
                                                     </td>
                                                 </tr>
                                             @empty
@@ -429,63 +408,78 @@
                                 @endif
                             </div>
                             <div id="bk_1_1">
-                                <div class="modal fade" id="bk_1_1_1" tabindex="-1" role="dialog" aria-labelledby="modalBiayaAdministrasi" aria-hidden="true">
+                                @foreach ($dataku2 as $detailBiayaAdministrasi)
+                                <div class="modal fade" id="modal-edit-ba-{{ $detailBiayaAdministrasi->id }}" tabindex="-1" role="dialog" aria-labelledby="modalEditBA{{ $detailBiayaAdministrasi->id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                                         <div class="modal-content my-rounded-2">
                                             <div class="modal-header">
-                                                <h6 class="modal-title font-weight-bold">Tambah Pembayaran Biaya Administrasi</h6>
-                                                <button type="button" class="close" data-dismiss="modal">
-                                                    <span>&times;</span>
-                                                </button>
+                                                <h6 class="modal-title font-weight-bold" id="modalEditBA{{ $detailBiayaAdministrasi->id }}">
+                                                    Edit Pembayaran — {{ $detailBiayaAdministrasi->nomor_referensi }}
+                                                </h6>
+                                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
-                                            <form method="POST" id="formFilterPembayaran" action="{{ route('booking.pembayaran-booking/payment.pembayaran1.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran0.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
+                                                <input type="hidden" name="pembayaran_id" value="{{ $detailBiayaAdministrasi->id }}">
+                                                <input type="hidden" name="jenis_id" value="0">
                                                 <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="1">
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaAdministrasi->tanggal_pembayaran)->format('d/m/Y')) }}">
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format((int)$detailBiayaAdministrasi->nominal_pembayaran, 0, '.', '.')) }}">
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label class="fw-bold">Masuk ke Akun</label>
                                                         <select name="akun_id" class="tomselect">
                                                             @foreach($akun as $a)
                                                             <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                                {{ (old('akun_id', $detailBiayaAdministrasi->akun_id)==$a->id) ? 'selected' : '' }}>
                                                                 {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
                                                             </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
+                                                        @if(!empty($detailBiayaAdministrasi->bukti_pembayaran))
+                                                        @php
+                                                            $url = Storage::url($detailBiayaAdministrasi->bukti_pembayaran);
+                                                        @endphp
+                                                            <div class="form-group mb-2">
+                                                                <label class="fw-bold">Bukti Pembayaran</label>
+                                                                <small class="d-block">
+                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                    </a>
+                                                                </small>
+                                                            </div><br>
+                                                        @endif
                                                     </div>
                                                     <div class="form-group mb-2">
                                                         <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
+                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaAdministrasi->catatan_pembayaran) }}</textarea>
                                                     </div>
                                                     <div class="form-group mb-3">
                                                         <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_bf" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_bf" class="custom-control-label">Sekaligus setujui (approve)</label>
+                                                            <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaAdministrasi->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaAdministrasi->is_approved) ? 'checked' : '' }}>
+                                                            <label for="approve_edit_{{ $detailBiayaAdministrasi->id }}" class="custom-control-label">
+                                                                Sekaligus setujui (approve)
+                                                            </label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button id="tambahBiayaAdministrasi" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                    <button type="submit" class="btn btn-primary buttonedit">
+                                                        <i class="fas fa-save mr-2"></i>Update
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
                                 <div class="table-responsive pt-2 table-wrap">
                                     <table class="table table-borderless table-striped table-hover separates">
                                         <thead class="thead-dark">
@@ -519,7 +513,7 @@
                                                     </td>
                                                     <td>{{ $record->catatan_pembayaran }}</td>
                                                     <td>
-                                                        <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
+                                                        {{-- <a href="{{ route('booking/pembayaran-booking/payment/kwitansipdf', $record->id) }}" class="btn btn-primary ml-2 buttonedit-sm" target="_blank">
                                                             <i class="fas fa-receipt mr-2"></i> Invoice
                                                         </a>
                                                         @if(!empty($record->bukti_pembayaran))
@@ -529,10 +523,13 @@
                                                             <a class="btn btn-primary buttonedit-sm ml-2" href="{{ $url }}" target="_blank">
                                                                 <strong><i class="fas fa-receipt mr-2"></i></strong>Bukti
                                                             </a>
-                                                            {{-- <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
+                                                            <a class="btn btn-primary buttonedit2-sm" href="{{ route('pembayaran/arsip/delete', $record->id) }}">
                                                                 <i class="fas fa-trash-alt mr-2"></i>Hapus
-                                                            </a> --}}
-                                                        @endif
+                                                            </a>
+                                                        @endif --}}
+                                                        <a href="#modal-edit-ba-{{ $record->id }}" class="btn btn-primary buttonedit-sm" data-toggle="modal">
+                                                            <i class="fas fa-edit mr-2 h7"></i>Edit
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @empty

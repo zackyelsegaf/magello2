@@ -815,10 +815,10 @@ Route::controller(KavlingController::class)->group(function () {
     //         Route::post('penerimaan-kpr',        [KavlingController::class,'storePenerimaanKpr'])->name('pembayaran7.store');
     //     });
     // });
-    Route::get('booking/{id}/pembayaran-booking', [KavlingController::class, 'addPembayaranBooking'])->middleware('auth')->name('booking/pembayaran-booking/payment');
+    Route::get('booking/{id}/pembayaran-booking/payment', [KavlingController::class, 'addPembayaranBooking'])->middleware('auth')->name('booking/pembayaran-booking/payment');
     Route::get('booking/{id}/pembayaran-booking/payment/kwitansipdf', [KavlingController::class, 'cetakKwitansi'])->name('booking/pembayaran-booking/payment/kwitansipdf');
     Route::middleware('auth')->group(function () {
-        Route::prefix('booking/{id}/pembayaran-booking')->name('booking.pembayaran-booking.')->group(function () {
+        Route::prefix('booking/{id}/pembayaran-booking/payment')->name('booking.pembayaran-booking/payment.')->group(function () {
             Route::post('booking-fee',                [KavlingController::class, 'storeGenericPayment'])->defaults('jenis', 0)->name('pembayaran0.store');
             Route::post('biaya-administrasi',         [KavlingController::class, 'storeGenericPayment'])->defaults('jenis', 1)->name('pembayaran1.store');
             Route::post('uang-muka',                  [KavlingController::class, 'storeGenericPayment'])->defaults('jenis', 2)->name('pembayaran2.store');
@@ -841,6 +841,7 @@ Route::controller(KavlingController::class)->group(function () {
     // Route::get('booking/{id}/pembayaran-booking/booking-fee/data',[KavlingController::class,'getBookingFee'])->middleware('auth')->name('get-booking-fee-data');
     Route::get('pembayaran-konsumen/list/page', 'PembayaranKonsumen')->middleware('auth')->name('pembayaran-konsumen/list/page');
     Route::get('get-pembayaran-konsumen-data', 'getDataPembayaranKonsumen')->middleware('auth')->name('get-pembayaran-konsumen-data');
+    Route::get('pembayaran-konsumen/edit/{id}', 'editPembayaranKonsumen')->middleware('auth')->name('pembayaran-konsumen/edit');
     Route::get('booking/{id}/pembayaran-booking/uang-muka/data',[KavlingController::class,'getUangMuka'])->middleware('auth')->name('get-uang-muka-data');
     Route::get('booking/{id}/pembayaran-booking/biaya-kelebihan-tanah/data',[KavlingController::class,'getBiayaKelebihanTanah'])->middleware('auth')->name('get-biaya-kelebihan-tanah-data');
     Route::get('booking/{id}/pembayaran-booking/biaya-penambahan-bangunan/data',[KavlingController::class,'getBiayaPenambahanBangunan'])->middleware('auth')->name('get-biaya-penambahan-bangunan-data');
