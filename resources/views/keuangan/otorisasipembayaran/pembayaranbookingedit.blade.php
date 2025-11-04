@@ -253,88 +253,98 @@
                                                 </h6>
                                                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran0.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran0.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="pembayaran_id" value="{{ $detailBookingFee->id }}">
                                                 <input type="hidden" name="jenis_id" value="0">
-                                                <div class="modal-body">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBookingFee->tanggal_pembayaran)->format('d/m/Y')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBookingFee->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
-                                                        <h6 class="font-weight-bold">{{ $detailBookingFee->jenis->nama }}</h6>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ (old('akun_id', $detailBookingFee->akun_id)==$a->id) ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        @php
-                                                            $testing = !empty($detailBookingFee->bukti_pembayaran);
-                                                            $url = Storage::url($detailBookingFee->bukti_pembayaran);
-                                                        @endphp
-                                                        @if($testing)
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <small class="d-block">
-                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
-                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
-                                                                    </a>
-                                                                </small>
-                                                            </div><br>
-                                                        @else
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBookingFee->catatan_pembayaran) }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        @php
-                                                            $disetujui = (int)($detailBookingFee->is_approved ?? 0) === 1;
-                                                        @endphp
-
-                                                        @if(!$disetujui)
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailBookingFee->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBookingFee->is_approved) ? 'checked' : '' }}>
-                                                                <label for="approve_edit_{{ $detailBookingFee->id }}" class="custom-control-label">
-                                                                    Setujui pembayaran
-                                                                </label>
-                                                            </div>
-                                                        @else
-                                                            <div class="col-md-12 px-0">
-                                                                <div class="p-3 bg-success-card my-rounded-2">
-                                                                    <span class="font-weight-bold text-success">
-                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        @endif
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBookingFee->tanggal_pembayaran)->format('d/m/Y')) }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBookingFee->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                    <h6 class="font-weight-bold">{{ $detailBookingFee->jenis->nama }}</h6>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ (old('akun_id', $detailBookingFee->akun_id)==$a->id) ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    @php
+                                                        $testing = !empty($detailBookingFee->bukti_pembayaran);
+                                                        $url = Storage::url($detailBookingFee->bukti_pembayaran);
+                                                    @endphp
+                                                    @if($testing)
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <small class="d-block">
+                                                                <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                    <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                </a>
+                                                            </small>
+                                                        </div><br>
+                                                    @else
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBookingFee->catatan_pembayaran) }}</textarea>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailBookingFee->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBookingFee->is_approved) ? 'checked' : '' }}>
+                                                        <label for="approve_edit_{{ $detailBookingFee->id }}" class="custom-control-label">
+                                                            Setujui pembayaran
+                                                        </label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary buttonedit">
-                                                        <i class="fas fa-save mr-2"></i>Update
-                                                    </button>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                @php
+                                                    $disetujui = (int)($detailBookingFee->is_approved ?? 0) === 1;
+                                                @endphp
+                                                <div class="row justify-content-between">
+                                                @if(!$disetujui)
+                                                    <div class="col-8">
+                                                        <div class="bg-secondary-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-secondary">
+                                                                <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="col-8">
+                                                        <div class="bg-success-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-success">
+                                                                <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                    <div class="col-4 float-right">
+                                                        <button type="submit" class="btn btn-primary buttonedit float-right">
+                                                            <i class="fas fa-save mr-2"></i>Update
+                                                        </button>
+                                                    </div>  
+                                                </form>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -443,88 +453,98 @@
                                                 </h6>
                                                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran1.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran1.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="pembayaran_id" value="{{ $detailBiayaAdministrasi->id }}">
-                                                <input type="hidden" name="jenis_id" value="0">
-                                                <div class="modal-body">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaAdministrasi->tanggal_pembayaran)->format('d/m/Y')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaAdministrasi->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
-                                                        <h6 class="font-weight-bold">{{ $detailBiayaAdministrasi->jenis->nama }}</h6>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ (old('akun_id', $detailBiayaAdministrasi->akun_id)==$a->id) ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        @php
-                                                            $testing = !empty($detailBiayaAdministrasi->bukti_pembayaran);
-                                                            $url = Storage::url($detailBiayaAdministrasi->bukti_pembayaran);
-                                                        @endphp
-                                                        @if($testing)
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <small class="d-block">
-                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
-                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
-                                                                    </a>
-                                                                </small>
-                                                            </div><br>
-                                                        @else
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaAdministrasi->catatan_pembayaran) }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        @php
-                                                            $disetujui = (int)($detailBiayaAdministrasi->is_approved ?? 0) === 1;
-                                                        @endphp
-
-                                                        @if(!$disetujui)
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaAdministrasi->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaAdministrasi->is_approved) ? 'checked' : '' }}>
-                                                                <label for="approve_edit_{{ $detailBiayaAdministrasi->id }}" class="custom-control-label">
-                                                                    Setujui pembayaran
-                                                                </label>
-                                                            </div>
-                                                        @else
-                                                            <div class="col-md-12 px-0">
-                                                                <div class="p-3 bg-success-card my-rounded-2">
-                                                                    <span class="font-weight-bold text-success">
-                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        @endif
+                                                <input type="hidden" name="jenis_id" value="1">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaAdministrasi->tanggal_pembayaran)->format('d/m/Y')) }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaAdministrasi->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                    <h6 class="font-weight-bold">{{ $detailBiayaAdministrasi->jenis->nama }}</h6>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ (old('akun_id', $detailBiayaAdministrasi->akun_id)==$a->id) ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    @php
+                                                        $testing = !empty($detailBiayaAdministrasi->bukti_pembayaran);
+                                                        $url = Storage::url($detailBiayaAdministrasi->bukti_pembayaran);
+                                                    @endphp
+                                                    @if($testing)
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <small class="d-block">
+                                                                <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                    <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                </a>
+                                                            </small>
+                                                        </div><br>
+                                                    @else
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaAdministrasi->catatan_pembayaran) }}</textarea>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaAdministrasi->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaAdministrasi->is_approved) ? 'checked' : '' }}>
+                                                        <label for="approve_edit_{{ $detailBiayaAdministrasi->id }}" class="custom-control-label">
+                                                            Setujui pembayaran
+                                                        </label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary buttonedit">
-                                                        <i class="fas fa-save mr-2"></i>Update
-                                                    </button>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                @php
+                                                    $disetujui = (int)($detailBiayaAdministrasi->is_approved ?? 0) === 1;
+                                                @endphp
+                                                <div class="row justify-content-between">
+                                                @if(!$disetujui)
+                                                    <div class="col-8">
+                                                        <div class="bg-secondary-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-secondary">
+                                                                <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="col-8">
+                                                        <div class="bg-success-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-success">
+                                                                <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                    <div class="col-4 float-right">
+                                                        <button type="submit" class="btn btn-primary buttonedit float-right">
+                                                            <i class="fas fa-save mr-2"></i>Update
+                                                        </button>
+                                                    </div>  
+                                                </form>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -644,88 +664,98 @@
                                                 </h6>
                                                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran2.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran2.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="pembayaran_id" value="{{ $detailUangMuka->id }}">
-                                                <input type="hidden" name="jenis_id" value="0">
-                                                <div class="modal-body">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailUangMuka->tanggal_pembayaran)->format('d/m/Y')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailUangMuka->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
-                                                        <h6 class="font-weight-bold">{{ $detailUangMuka->jenis->nama }}</h6>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ (old('akun_id', $detailUangMuka->akun_id)==$a->id) ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        @php
-                                                            $testing = !empty($detailUangMuka->bukti_pembayaran);
-                                                            $url = Storage::url($detailUangMuka->bukti_pembayaran);
-                                                        @endphp
-                                                        @if($testing)
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <small class="d-block">
-                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
-                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
-                                                                    </a>
-                                                                </small>
-                                                            </div><br>
-                                                        @else
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailUangMuka->catatan_pembayaran) }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        @php
-                                                            $disetujui = (int)($detailUangMuka->is_approved ?? 0) === 1;
-                                                        @endphp
-
-                                                        @if(!$disetujui)
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailUangMuka->id }}" value="1" class="custom-control-input" {{ old('approve', $detailUangMuka->is_approved) ? 'checked' : '' }}>
-                                                                <label for="approve_edit_{{ $detailUangMuka->id }}" class="custom-control-label">
-                                                                    Setujui pembayaran
-                                                                </label>
-                                                            </div>
-                                                        @else
-                                                            <div class="col-md-12 px-0">
-                                                                <div class="p-3 bg-success-card my-rounded-2">
-                                                                    <span class="font-weight-bold text-success">
-                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        @endif
+                                                <input type="hidden" name="jenis_id" value="2">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailUangMuka->tanggal_pembayaran)->format('d/m/Y')) }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailUangMuka->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                    <h6 class="font-weight-bold">{{ $detailUangMuka->jenis->nama }}</h6>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ (old('akun_id', $detailUangMuka->akun_id)==$a->id) ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    @php
+                                                        $testing = !empty($detailUangMuka->bukti_pembayaran);
+                                                        $url = Storage::url($detailUangMuka->bukti_pembayaran);
+                                                    @endphp
+                                                    @if($testing)
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <small class="d-block">
+                                                                <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                    <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                </a>
+                                                            </small>
+                                                        </div><br>
+                                                    @else
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailUangMuka->catatan_pembayaran) }}</textarea>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailUangMuka->id }}" value="1" class="custom-control-input" {{ old('approve', $detailUangMuka->is_approved) ? 'checked' : '' }}>
+                                                        <label for="approve_edit_{{ $detailUangMuka->id }}" class="custom-control-label">
+                                                            Setujui pembayaran
+                                                        </label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary buttonedit">
-                                                        <i class="fas fa-save mr-2"></i>Update
-                                                    </button>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                @php
+                                                    $disetujui = (int)($detailUangMuka->is_approved ?? 0) === 1;
+                                                @endphp
+                                                <div class="row justify-content-between">
+                                                @if(!$disetujui)
+                                                    <div class="col-8">
+                                                        <div class="bg-secondary-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-secondary">
+                                                                <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="col-8">
+                                                        <div class="bg-success-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-success">
+                                                                <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                    <div class="col-4 float-right">
+                                                        <button type="submit" class="btn btn-primary buttonedit float-right">
+                                                            <i class="fas fa-save mr-2"></i>Update
+                                                        </button>
+                                                    </div>  
+                                                </form>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -845,88 +875,98 @@
                                                 </h6>
                                                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran3.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran3.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="pembayaran_id" value="{{ $detailBiayaKelebihanTanah->id }}">
-                                                <input type="hidden" name="jenis_id" value="0">
-                                                <div class="modal-body">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaKelebihanTanah->tanggal_pembayaran)->format('d/m/Y')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaKelebihanTanah->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
-                                                        <h6 class="font-weight-bold">{{ $detailBiayaKelebihanTanah->jenis->nama }}</h6>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ (old('akun_id', $detailBiayaKelebihanTanah->akun_id)==$a->id) ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        @php
-                                                            $testing = !empty($detailBiayaKelebihanTanah->bukti_pembayaran);
-                                                            $url = Storage::url($detailBiayaKelebihanTanah->bukti_pembayaran);
-                                                        @endphp
-                                                        @if($testing)
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <small class="d-block">
-                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
-                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
-                                                                    </a>
-                                                                </small>
-                                                            </div><br>
-                                                        @else
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaKelebihanTanah->catatan_pembayaran) }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        @php
-                                                            $disetujui = (int)($detailBiayaKelebihanTanah->is_approved ?? 0) === 1;
-                                                        @endphp
-
-                                                        @if(!$disetujui)
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaKelebihanTanah->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaKelebihanTanah->is_approved) ? 'checked' : '' }}>
-                                                                <label for="approve_edit_{{ $detailBiayaKelebihanTanah->id }}" class="custom-control-label">
-                                                                    Setujui pembayaran
-                                                                </label>
-                                                            </div>
-                                                        @else
-                                                            <div class="col-md-12 px-0">
-                                                                <div class="p-3 bg-success-card my-rounded-2">
-                                                                    <span class="font-weight-bold text-success">
-                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        @endif
+                                                <input type="hidden" name="jenis_id" value="3">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaKelebihanTanah->tanggal_pembayaran)->format('d/m/Y')) }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaKelebihanTanah->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                    <h6 class="font-weight-bold">{{ $detailBiayaKelebihanTanah->jenis->nama }}</h6>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ (old('akun_id', $detailBiayaKelebihanTanah->akun_id)==$a->id) ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    @php
+                                                        $testing = !empty($detailBiayaKelebihanTanah->bukti_pembayaran);
+                                                        $url = Storage::url($detailBiayaKelebihanTanah->bukti_pembayaran);
+                                                    @endphp
+                                                    @if($testing)
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <small class="d-block">
+                                                                <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                    <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                </a>
+                                                            </small>
+                                                        </div><br>
+                                                    @else
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaKelebihanTanah->catatan_pembayaran) }}</textarea>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaKelebihanTanah->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaKelebihanTanah->is_approved) ? 'checked' : '' }}>
+                                                        <label for="approve_edit_{{ $detailBiayaKelebihanTanah->id }}" class="custom-control-label">
+                                                            Setujui pembayaran
+                                                        </label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary buttonedit">
-                                                        <i class="fas fa-save mr-2"></i>Update
-                                                    </button>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                @php
+                                                    $disetujui = (int)($detailBiayaKelebihanTanah->is_approved ?? 0) === 1;
+                                                @endphp
+                                                <div class="row justify-content-between">
+                                                @if(!$disetujui)
+                                                    <div class="col-8">
+                                                        <div class="bg-secondary-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-secondary">
+                                                                <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="col-8">
+                                                        <div class="bg-success-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-success">
+                                                                <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                    <div class="col-4 float-right">
+                                                        <button type="submit" class="btn btn-primary buttonedit float-right">
+                                                            <i class="fas fa-save mr-2"></i>Update
+                                                        </button>
+                                                    </div>  
+                                                </form>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1046,88 +1086,98 @@
                                                 </h6>
                                                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran4.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran4.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="pembayaran_id" value="{{ $detailBiayaPenambahanBangunan->id }}">
-                                                <input type="hidden" name="jenis_id" value="0">
-                                                <div class="modal-body">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaPenambahanBangunan->tanggal_pembayaran)->format('d/m/Y')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaPenambahanBangunan->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
-                                                        <h6 class="font-weight-bold">{{ $detailBiayaPenambahanBangunan->jenis->nama }}</h6>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ (old('akun_id', $detailBiayaPenambahanBangunan->akun_id)==$a->id) ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        @php
-                                                            $testing = !empty($detailBiayaPenambahanBangunan->bukti_pembayaran);
-                                                            $url = Storage::url($detailBiayaPenambahanBangunan->bukti_pembayaran);
-                                                        @endphp
-                                                        @if($testing)
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <small class="d-block">
-                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
-                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
-                                                                    </a>
-                                                                </small>
-                                                            </div><br>
-                                                        @else
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaPenambahanBangunan->catatan_pembayaran) }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        @php
-                                                            $disetujui = (int)($detailBiayaPenambahanBangunan->is_approved ?? 0) === 1;
-                                                        @endphp
-
-                                                        @if(!$disetujui)
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaPenambahanBangunan->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaPenambahanBangunan->is_approved) ? 'checked' : '' }}>
-                                                                <label for="approve_edit_{{ $detailBiayaPenambahanBangunan->id }}" class="custom-control-label">
-                                                                    Setujui pembayaran
-                                                                </label>
-                                                            </div>
-                                                        @else
-                                                            <div class="col-md-12 px-0">
-                                                                <div class="p-3 bg-success-card my-rounded-2">
-                                                                    <span class="font-weight-bold text-success">
-                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        @endif
+                                                <input type="hidden" name="jenis_id" value="4">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaPenambahanBangunan->tanggal_pembayaran)->format('d/m/Y')) }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaPenambahanBangunan->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                    <h6 class="font-weight-bold">{{ $detailBiayaPenambahanBangunan->jenis->nama }}</h6>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ (old('akun_id', $detailBiayaPenambahanBangunan->akun_id)==$a->id) ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    @php
+                                                        $testing = !empty($detailBiayaPenambahanBangunan->bukti_pembayaran);
+                                                        $url = Storage::url($detailBiayaPenambahanBangunan->bukti_pembayaran);
+                                                    @endphp
+                                                    @if($testing)
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <small class="d-block">
+                                                                <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                    <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                </a>
+                                                            </small>
+                                                        </div><br>
+                                                    @else
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaPenambahanBangunan->catatan_pembayaran) }}</textarea>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaPenambahanBangunan->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaPenambahanBangunan->is_approved) ? 'checked' : '' }}>
+                                                        <label for="approve_edit_{{ $detailBiayaPenambahanBangunan->id }}" class="custom-control-label">
+                                                            Setujui pembayaran
+                                                        </label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary buttonedit">
-                                                        <i class="fas fa-save mr-2"></i>Update
-                                                    </button>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                @php
+                                                    $disetujui = (int)($detailBiayaPenambahanBangunan->is_approved ?? 0) === 1;
+                                                @endphp
+                                                <div class="row justify-content-between">
+                                                @if(!$disetujui)
+                                                    <div class="col-8">
+                                                        <div class="bg-secondary-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-secondary">
+                                                                <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="col-8">
+                                                        <div class="bg-success-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-success">
+                                                                <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                    <div class="col-4 float-right">
+                                                        <button type="submit" class="btn btn-primary buttonedit float-right">
+                                                            <i class="fas fa-save mr-2"></i>Update
+                                                        </button>
+                                                    </div>  
+                                                </form>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1247,88 +1297,98 @@
                                                 </h6>
                                                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran5.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran5.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="pembayaran_id" value="{{ $detailBiayaLainnya->id }}">
-                                                <input type="hidden" name="jenis_id" value="0">
-                                                <div class="modal-body">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaLainnya->tanggal_pembayaran)->format('d/m/Y')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaLainnya->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
-                                                        <h6 class="font-weight-bold">{{ $detailBiayaLainnya->jenis->nama }}</h6>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ (old('akun_id', $detailBiayaLainnya->akun_id)==$a->id) ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        @php
-                                                            $testing = !empty($detailBiayaLainnya->bukti_pembayaran);
-                                                            $url = Storage::url($detailBiayaLainnya->bukti_pembayaran);
-                                                        @endphp
-                                                        @if($testing)
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <small class="d-block">
-                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
-                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
-                                                                    </a>
-                                                                </small>
-                                                            </div><br>
-                                                        @else
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaLainnya->catatan_pembayaran) }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        @php
-                                                            $disetujui = (int)($detailBiayaLainnya->is_approved ?? 0) === 1;
-                                                        @endphp
-
-                                                        @if(!$disetujui)
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaLainnya->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaLainnya->is_approved) ? 'checked' : '' }}>
-                                                                <label for="approve_edit_{{ $detailBiayaLainnya->id }}" class="custom-control-label">
-                                                                    Setujui pembayaran
-                                                                </label>
-                                                            </div>
-                                                        @else
-                                                            <div class="col-md-12 px-0">
-                                                                <div class="p-3 bg-success-card my-rounded-2">
-                                                                    <span class="font-weight-bold text-success">
-                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        @endif
+                                                <input type="hidden" name="jenis_id" value="5">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaLainnya->tanggal_pembayaran)->format('d/m/Y')) }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaLainnya->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                    <h6 class="font-weight-bold">{{ $detailBiayaLainnya->jenis->nama }}</h6>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ (old('akun_id', $detailBiayaLainnya->akun_id)==$a->id) ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    @php
+                                                        $testing = !empty($detailBiayaLainnya->bukti_pembayaran);
+                                                        $url = Storage::url($detailBiayaLainnya->bukti_pembayaran);
+                                                    @endphp
+                                                    @if($testing)
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <small class="d-block">
+                                                                <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                    <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                </a>
+                                                            </small>
+                                                        </div><br>
+                                                    @else
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaLainnya->catatan_pembayaran) }}</textarea>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaLainnya->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaLainnya->is_approved) ? 'checked' : '' }}>
+                                                        <label for="approve_edit_{{ $detailBiayaLainnya->id }}" class="custom-control-label">
+                                                            Setujui pembayaran
+                                                        </label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary buttonedit">
-                                                        <i class="fas fa-save mr-2"></i>Update
-                                                    </button>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                @php
+                                                    $disetujui = (int)($detailBiayaLainnya->is_approved ?? 0) === 1;
+                                                @endphp
+                                                <div class="row justify-content-between">
+                                                @if(!$disetujui)
+                                                    <div class="col-8">
+                                                        <div class="bg-secondary-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-secondary">
+                                                                <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="col-8">
+                                                        <div class="bg-success-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-success">
+                                                                <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                    <div class="col-4 float-right">
+                                                        <button type="submit" class="btn btn-primary buttonedit float-right">
+                                                            <i class="fas fa-save mr-2"></i>Update
+                                                        </button>
+                                                    </div>  
+                                                </form>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1422,7 +1482,7 @@
                                             <div class="p-3 bg-success-card my-rounded-2 m-2">
                                                 <h8 class="font-weight-bold m-0 text-success">
                                                     <i class="fas fa-handshake mr-3 my-0 text-success h6"></i>
-                                                    Nilai Kontrak {{ 'Rp ' . number_format($tagihan4 ?? 0, 0, '.', ',') }}
+                                                    Nilai Kontrak {{ 'Rp ' . number_format($tagihan5 ?? 0, 0, '.', ',') }}
                                                 </h8>
                                             </div>
                                         </div>
@@ -1448,88 +1508,98 @@
                                                 </h6>
                                                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran6.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran6.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="pembayaran_id" value="{{ $detailTotalPenjualanCash->id }}">
-                                                <input type="hidden" name="jenis_id" value="0">
-                                                <div class="modal-body">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailTotalPenjualanCash->tanggal_pembayaran)->format('d/m/Y')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailTotalPenjualanCash->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
-                                                        <h6 class="font-weight-bold">{{ $detailTotalPenjualanCash->jenis->nama }}</h6>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ (old('akun_id', $detailTotalPenjualanCash->akun_id)==$a->id) ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        @php
-                                                            $testing = !empty($detailTotalPenjualanCash->bukti_pembayaran);
-                                                            $url = Storage::url($detailTotalPenjualanCash->bukti_pembayaran);
-                                                        @endphp
-                                                        @if($testing)
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <small class="d-block">
-                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
-                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
-                                                                    </a>
-                                                                </small>
-                                                            </div><br>
-                                                        @else
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailTotalPenjualanCash->catatan_pembayaran) }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        @php
-                                                            $disetujui = (int)($detailTotalPenjualanCash->is_approved ?? 0) === 1;
-                                                        @endphp
-
-                                                        @if(!$disetujui)
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailTotalPenjualanCash->id }}" value="1" class="custom-control-input" {{ old('approve', $detailTotalPenjualanCash->is_approved) ? 'checked' : '' }}>
-                                                                <label for="approve_edit_{{ $detailTotalPenjualanCash->id }}" class="custom-control-label">
-                                                                    Setujui pembayaran
-                                                                </label>
-                                                            </div>
-                                                        @else
-                                                            <div class="col-md-12 px-0">
-                                                                <div class="p-3 bg-success-card my-rounded-2">
-                                                                    <span class="font-weight-bold text-success">
-                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        @endif
+                                                <input type="hidden" name="jenis_id" value="6">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailTotalPenjualanCash->tanggal_pembayaran)->format('d/m/Y')) }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailTotalPenjualanCash->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                    <h6 class="font-weight-bold">{{ $detailTotalPenjualanCash->jenis->nama }}</h6>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ (old('akun_id', $detailTotalPenjualanCash->akun_id)==$a->id) ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    @php
+                                                        $testing = !empty($detailTotalPenjualanCash->bukti_pembayaran);
+                                                        $url = Storage::url($detailTotalPenjualanCash->bukti_pembayaran);
+                                                    @endphp
+                                                    @if($testing)
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <small class="d-block">
+                                                                <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                    <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                </a>
+                                                            </small>
+                                                        </div><br>
+                                                    @else
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailTotalPenjualanCash->catatan_pembayaran) }}</textarea>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailTotalPenjualanCash->id }}" value="1" class="custom-control-input" {{ old('approve', $detailTotalPenjualanCash->is_approved) ? 'checked' : '' }}>
+                                                        <label for="approve_edit_{{ $detailTotalPenjualanCash->id }}" class="custom-control-label">
+                                                            Setujui pembayaran
+                                                        </label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary buttonedit">
-                                                        <i class="fas fa-save mr-2"></i>Update
-                                                    </button>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                @php
+                                                    $disetujui = (int)($detailTotalPenjualanCash->is_approved ?? 0) === 1;
+                                                @endphp
+                                                <div class="row justify-content-between">
+                                                @if(!$disetujui)
+                                                    <div class="col-8">
+                                                        <div class="bg-secondary-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-secondary">
+                                                                <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="col-8">
+                                                        <div class="bg-success-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-success">
+                                                                <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                    <div class="col-4 float-right">
+                                                        <button type="submit" class="btn btn-primary buttonedit float-right">
+                                                            <i class="fas fa-save mr-2"></i>Update
+                                                        </button>
+                                                    </div>  
+                                                </form>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1649,88 +1719,98 @@
                                                 </h6>
                                                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran7.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran7.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="pembayaran_id" value="{{ $detailCicilanCash->id }}">
-                                                <input type="hidden" name="jenis_id" value="0">
-                                                <div class="modal-body">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailCicilanCash->tanggal_pembayaran)->format('d/m/Y')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailCicilanCash->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
-                                                        <h6 class="font-weight-bold">{{ $detailCicilanCash->jenis->nama }}</h6>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ (old('akun_id', $detailCicilanCash->akun_id)==$a->id) ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        @php
-                                                            $testing = !empty($detailCicilanCash->bukti_pembayaran);
-                                                            $url = Storage::url($detailCicilanCash->bukti_pembayaran);
-                                                        @endphp
-                                                        @if($testing)
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <small class="d-block">
-                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
-                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
-                                                                    </a>
-                                                                </small>
-                                                            </div><br>
-                                                        @else
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailCicilanCash->catatan_pembayaran) }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        @php
-                                                            $disetujui = (int)($detailCicilanCash->is_approved ?? 0) === 1;
-                                                        @endphp
-
-                                                        @if(!$disetujui)
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailCicilanCash->id }}" value="1" class="custom-control-input" {{ old('approve', $detailCicilanCash->is_approved) ? 'checked' : '' }}>
-                                                                <label for="approve_edit_{{ $detailCicilanCash->id }}" class="custom-control-label">
-                                                                    Setujui pembayaran
-                                                                </label>
-                                                            </div>
-                                                        @else
-                                                            <div class="col-md-12 px-0">
-                                                                <div class="p-3 bg-success-card my-rounded-2">
-                                                                    <span class="font-weight-bold text-success">
-                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        @endif
+                                                <input type="hidden" name="jenis_id" value="7">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailCicilanCash->tanggal_pembayaran)->format('d/m/Y')) }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailCicilanCash->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                    <h6 class="font-weight-bold">{{ $detailCicilanCash->jenis->nama }}</h6>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ (old('akun_id', $detailCicilanCash->akun_id)==$a->id) ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    @php
+                                                        $testing = !empty($detailCicilanCash->bukti_pembayaran);
+                                                        $url = Storage::url($detailCicilanCash->bukti_pembayaran);
+                                                    @endphp
+                                                    @if($testing)
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <small class="d-block">
+                                                                <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                    <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                </a>
+                                                            </small>
+                                                        </div><br>
+                                                    @else
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailCicilanCash->catatan_pembayaran) }}</textarea>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailCicilanCash->id }}" value="1" class="custom-control-input" {{ old('approve', $detailCicilanCash->is_approved) ? 'checked' : '' }}>
+                                                        <label for="approve_edit_{{ $detailCicilanCash->id }}" class="custom-control-label">
+                                                            Setujui pembayaran
+                                                        </label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary buttonedit">
-                                                        <i class="fas fa-save mr-2"></i>Update
-                                                    </button>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                @php
+                                                    $disetujui = (int)($detailCicilanCash->is_approved ?? 0) === 1;
+                                                @endphp
+                                                <div class="row justify-content-between">
+                                                @if(!$disetujui)
+                                                    <div class="col-8">
+                                                        <div class="bg-secondary-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-secondary">
+                                                                <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="col-8">
+                                                        <div class="bg-success-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-success">
+                                                                <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                    <div class="col-4 float-right">
+                                                        <button type="submit" class="btn btn-primary buttonedit float-right">
+                                                            <i class="fas fa-save mr-2"></i>Update
+                                                        </button>
+                                                    </div>  
+                                                </form>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1850,88 +1930,98 @@
                                                 </h6>
                                                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran8.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran8.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="pembayaran_id" value="{{ $detailBiayaAkadKredit->id }}">
-                                                <input type="hidden" name="jenis_id" value="0">
-                                                <div class="modal-body">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaAkadKredit->tanggal_pembayaran)->format('d/m/Y')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaAkadKredit->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
-                                                        <h6 class="font-weight-bold">{{ $detailBiayaAkadKredit->jenis->nama }}</h6>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ (old('akun_id', $detailBiayaAkadKredit->akun_id)==$a->id) ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        @php
-                                                            $testing = !empty($detailBiayaAkadKredit->bukti_pembayaran);
-                                                            $url = Storage::url($detailBiayaAkadKredit->bukti_pembayaran);
-                                                        @endphp
-                                                        @if($testing)
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <small class="d-block">
-                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
-                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
-                                                                    </a>
-                                                                </small>
-                                                            </div><br>
-                                                        @else
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaAkadKredit->catatan_pembayaran) }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        @php
-                                                            $disetujui = (int)($detailBiayaAkadKredit->is_approved ?? 0) === 1;
-                                                        @endphp
-
-                                                        @if(!$disetujui)
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaAkadKredit->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaAkadKredit->is_approved) ? 'checked' : '' }}>
-                                                                <label for="approve_edit_{{ $detailBiayaAkadKredit->id }}" class="custom-control-label">
-                                                                    Setujui pembayaran
-                                                                </label>
-                                                            </div>
-                                                        @else
-                                                            <div class="col-md-12 px-0">
-                                                                <div class="p-3 bg-success-card my-rounded-2">
-                                                                    <span class="font-weight-bold text-success">
-                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        @endif
+                                                <input type="hidden" name="jenis_id" value="8">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaAkadKredit->tanggal_pembayaran)->format('d/m/Y')) }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaAkadKredit->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                    <h6 class="font-weight-bold">{{ $detailBiayaAkadKredit->jenis->nama }}</h6>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ (old('akun_id', $detailBiayaAkadKredit->akun_id)==$a->id) ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    @php
+                                                        $testing = !empty($detailBiayaAkadKredit->bukti_pembayaran);
+                                                        $url = Storage::url($detailBiayaAkadKredit->bukti_pembayaran);
+                                                    @endphp
+                                                    @if($testing)
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <small class="d-block">
+                                                                <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                    <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                </a>
+                                                            </small>
+                                                        </div><br>
+                                                    @else
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaAkadKredit->catatan_pembayaran) }}</textarea>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaAkadKredit->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaAkadKredit->is_approved) ? 'checked' : '' }}>
+                                                        <label for="approve_edit_{{ $detailBiayaAkadKredit->id }}" class="custom-control-label">
+                                                            Setujui pembayaran
+                                                        </label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary buttonedit">
-                                                        <i class="fas fa-save mr-2"></i>Update
-                                                    </button>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                @php
+                                                    $disetujui = (int)($detailBiayaAkadKredit->is_approved ?? 0) === 1;
+                                                @endphp
+                                                <div class="row justify-content-between">
+                                                @if(!$disetujui)
+                                                    <div class="col-8">
+                                                        <div class="bg-secondary-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-secondary">
+                                                                <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="col-8">
+                                                        <div class="bg-success-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-success">
+                                                                <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                    <div class="col-4 float-right">
+                                                        <button type="submit" class="btn btn-primary buttonedit float-right">
+                                                            <i class="fas fa-save mr-2"></i>Update
+                                                        </button>
+                                                    </div>  
+                                                </form>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1998,16 +2088,24 @@
                                     </table>
                                 </div>
                                 @php
-                                    $isEmpty = blank($tagihan8) && blank($sisaPerJenis8);
+                                    $noJenis = (int)($tagihan8 ?? 0) === 0;
                                 @endphp
-
-                                @if($isEmpty)
+                                @if($noJenis)
                                     <div class="row pt-2 pl-2 pr-2">
-                                        <div class="col-12 px-0">
-                                            <div class="p-3 bg-warning-card my-rounded-2 m-2">
-                                                <h8 class="font-weight-bold m-0 text-warning">
-                                                    <i class="fas fa-info-circle mr-3 h6"></i> Jenis tidak dipilih
-                                                </h8>
+                                        <div class="col-md-12 px-0">
+                                            <div class="p-3 bg-secondary-card my-rounded-2 m-2">
+                                                <div class="row pt-0 pl-2 pr-2 justify-content-between">
+                                                    <div class="col">
+                                                        <h8 class="font-weight-bold m-0 text-secondary">
+                                                            <i class="fas fa-info-circle mr-3 h7"></i> Nilai kontrak belum diisi!
+                                                        </h8>
+                                                    </div>
+                                                    <div class="col">
+                                                        <a class="font-weight-bold text-secondary float-right" href="{{ route('booking/edit', $detailBooking->id) }}">
+                                                            Detail Booking<i class="fas fa-chevron-circle-right ml-2 h7"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -2043,88 +2141,98 @@
                                                 </h6>
                                                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran9.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran9.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="pembayaran_id" value="{{ $detailBiayaPenambahanFasilitas->id }}">
-                                                <input type="hidden" name="jenis_id" value="0">
-                                                <div class="modal-body">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaPenambahanFasilitas->tanggal_pembayaran)->format('d/m/Y')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaPenambahanFasilitas->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
-                                                        <h6 class="font-weight-bold">{{ $detailBiayaPenambahanFasilitas->jenis->nama }}</h6>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ (old('akun_id', $detailBiayaPenambahanFasilitas->akun_id)==$a->id) ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        @php
-                                                            $testing = !empty($detailBiayaPenambahanFasilitas->bukti_pembayaran);
-                                                            $url = Storage::url($detailBiayaPenambahanFasilitas->bukti_pembayaran);
-                                                        @endphp
-                                                        @if($testing)
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <small class="d-block">
-                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
-                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
-                                                                    </a>
-                                                                </small>
-                                                            </div><br>
-                                                        @else
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaPenambahanFasilitas->catatan_pembayaran) }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        @php
-                                                            $disetujui = (int)($detailBiayaPenambahanFasilitas->is_approved ?? 0) === 1;
-                                                        @endphp
-
-                                                        @if(!$disetujui)
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaPenambahanFasilitas->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaPenambahanFasilitas->is_approved) ? 'checked' : '' }}>
-                                                                <label for="approve_edit_{{ $detailBiayaPenambahanFasilitas->id }}" class="custom-control-label">
-                                                                    Setujui pembayaran
-                                                                </label>
-                                                            </div>
-                                                        @else
-                                                            <div class="col-md-12 px-0">
-                                                                <div class="p-3 bg-success-card my-rounded-2">
-                                                                    <span class="font-weight-bold text-success">
-                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        @endif
+                                                <input type="hidden" name="jenis_id" value="10">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaPenambahanFasilitas->tanggal_pembayaran)->format('d/m/Y')) }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaPenambahanFasilitas->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                    <h6 class="font-weight-bold">{{ $detailBiayaPenambahanFasilitas->jenis->nama }}</h6>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ (old('akun_id', $detailBiayaPenambahanFasilitas->akun_id)==$a->id) ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    @php
+                                                        $testing = !empty($detailBiayaPenambahanFasilitas->bukti_pembayaran);
+                                                        $url = Storage::url($detailBiayaPenambahanFasilitas->bukti_pembayaran);
+                                                    @endphp
+                                                    @if($testing)
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <small class="d-block">
+                                                                <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                    <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                </a>
+                                                            </small>
+                                                        </div><br>
+                                                    @else
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaPenambahanFasilitas->catatan_pembayaran) }}</textarea>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaPenambahanFasilitas->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaPenambahanFasilitas->is_approved) ? 'checked' : '' }}>
+                                                        <label for="approve_edit_{{ $detailBiayaPenambahanFasilitas->id }}" class="custom-control-label">
+                                                            Setujui pembayaran
+                                                        </label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary buttonedit">
-                                                        <i class="fas fa-save mr-2"></i>Update
-                                                    </button>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                @php
+                                                    $disetujui = (int)($detailBiayaPenambahanFasilitas->is_approved ?? 0) === 1;
+                                                @endphp
+                                                <div class="row justify-content-between">
+                                                @if(!$disetujui)
+                                                    <div class="col-8">
+                                                        <div class="bg-secondary-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-secondary">
+                                                                <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="col-8">
+                                                        <div class="bg-success-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-success">
+                                                                <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                    <div class="col-4 float-right">
+                                                        <button type="submit" class="btn btn-primary buttonedit float-right">
+                                                            <i class="fas fa-save mr-2"></i>Update
+                                                        </button>
+                                                    </div>  
+                                                </form>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -2244,88 +2352,98 @@
                                                 </h6>
                                                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran10.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran10.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="pembayaran_id" value="{{ $detailBiayaPenerimaanKpr->id }}">
-                                                <input type="hidden" name="jenis_id" value="0">
-                                                <div class="modal-body">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaPenerimaanKpr->tanggal_pembayaran)->format('d/m/Y')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaPenerimaanKpr->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
-                                                        <h6 class="font-weight-bold">{{ $detailBiayaPenerimaanKpr->jenis->nama }}</h6>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ (old('akun_id', $detailBiayaPenerimaanKpr->akun_id)==$a->id) ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        @php
-                                                            $testing = !empty($detailBiayaPenerimaanKpr->bukti_pembayaran);
-                                                            $url = Storage::url($detailBiayaPenerimaanKpr->bukti_pembayaran);
-                                                        @endphp
-                                                        @if($testing)
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <small class="d-block">
-                                                                    <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
-                                                                        <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
-                                                                    </a>
-                                                                </small>
-                                                            </div><br>
-                                                        @else
-                                                            <div class="form-group mb-2">
-                                                                <label class="fw-bold">Bukti Pembayaran</label>
-                                                                <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaPenerimaanKpr->catatan_pembayaran) }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        @php
-                                                            $disetujui = (int)($detailBiayaPenerimaanKpr->is_approved ?? 0) === 1;
-                                                        @endphp
-
-                                                        @if(!$disetujui)
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaPenerimaanKpr->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaPenerimaanKpr->is_approved) ? 'checked' : '' }}>
-                                                                <label for="approve_edit_{{ $detailBiayaPenerimaanKpr->id }}" class="custom-control-label">
-                                                                    Setujui pembayaran
-                                                                </label>
-                                                            </div>
-                                                        @else
-                                                            <div class="col-md-12 px-0">
-                                                                <div class="p-3 bg-success-card my-rounded-2">
-                                                                    <span class="font-weight-bold text-success">
-                                                                        <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        @endif
+                                                <input type="hidden" name="jenis_id" value="11">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran', \Carbon\Carbon::parse($detailBiayaPenerimaanKpr->tanggal_pembayaran)->format('d/m/Y')) }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" value="{{ old('nominal_pembayaran', number_format($detailBiayaPenerimaanKpr->nominal_pembayaran ?? 0, 0, '.', ',')) }}">
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-bold mb-2">Tipe Pembayaran Konsumen</label><br>
+                                                    <h6 class="font-weight-bold">{{ $detailBiayaPenerimaanKpr->jenis->nama }}</h6>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ (old('akun_id', $detailBiayaPenerimaanKpr->akun_id)==$a->id) ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    @php
+                                                        $testing = !empty($detailBiayaPenerimaanKpr->bukti_pembayaran);
+                                                        $url = Storage::url($detailBiayaPenerimaanKpr->bukti_pembayaran);
+                                                    @endphp
+                                                    @if($testing)
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <small class="d-block">
+                                                                <a class="btn btn-primary buttonedit-sm" href="{{ $url }}" target="_blank">
+                                                                    <strong><i class="fas fa-eye mr-2"></i></strong>Lihat
+                                                                </a>
+                                                            </small>
+                                                        </div><br>
+                                                    @else
+                                                        <div class="form-group mb-2">
+                                                            <label class="fw-bold">Bukti Pembayaran</label>
+                                                            <h6 class="font-weight-bold text-info">Tidak ada bukti pembayaran!</h6>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaPenerimaanKpr->catatan_pembayaran) }}</textarea>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaPenerimaanKpr->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaPenerimaanKpr->is_approved) ? 'checked' : '' }}>
+                                                        <label for="approve_edit_{{ $detailBiayaPenerimaanKpr->id }}" class="custom-control-label">
+                                                            Setujui pembayaran
+                                                        </label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary buttonedit">
-                                                        <i class="fas fa-save mr-2"></i>Update
-                                                    </button>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                @php
+                                                    $disetujui = (int)($detailBiayaPenerimaanKpr->is_approved ?? 0) === 1;
+                                                @endphp
+                                                <div class="row justify-content-between">
+                                                @if(!$disetujui)
+                                                    <div class="col-8">
+                                                        <div class="bg-secondary-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-secondary">
+                                                                <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="col-8">
+                                                        <div class="bg-success-card my-rounded-3">
+                                                            <h8 class="font-weight-bold text-success">
+                                                                <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
+                                                            </h8>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                    <div class="col-4 float-right">
+                                                        <button type="submit" class="btn btn-primary buttonedit float-right">
+                                                            <i class="fas fa-save mr-2"></i>Update
+                                                        </button>
+                                                    </div>  
+                                                </form>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

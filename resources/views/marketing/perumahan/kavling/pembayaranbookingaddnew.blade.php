@@ -252,79 +252,71 @@
                                                     <span>&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="POST" id="formFilterPembayaran" action="{{ route('booking.pembayaran-booking/payment.pembayaran0.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" id="formFilterPembayaran" action="{{ route('booking.pembayaran-booking/payment.pembayaran0.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
                                                 @if(isset($edit))
                                                     <input type="hidden" name="pembayaran_id" value="{{ $edit->id }}">
                                                 @endif
                                                 <input type="hidden" name="jenis_id" value="0">
-                                                <div class="modal-body">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran"
-                                                            class="form-control form-control-sm datetimepicker"
-                                                            value="{{ old('tanggal_pembayaran', isset($edit) && $edit->tanggal_pembayaran ? \Carbon\Carbon::parse($edit->tanggal_pembayaran)->format('d/m/Y') : null) }}">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran"
+                                                        class="form-control form-control-sm datetimepicker"
+                                                        value="{{ old('tanggal_pembayaran', isset($edit) && $edit->tanggal_pembayaran ? \Carbon\Carbon::parse($edit->tanggal_pembayaran)->format('d/m/Y') : null) }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran"
+                                                        class="form-control form-control-sm rupiah"
+                                                        placeholder="contoh: 3.750.000"
+                                                        value="{{ old('nominal_pembayaran', isset($edit) ? number_format((int)$edit->nominal_pembayaran, 0, '.', '.') : null) }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                            <option value="{{ $a->id }}"
+                                                                {{ (string)old('akun_id', isset($edit)? (string)$edit->akun_id : '') === (string)$a->id ? 'selected' : '' }}>
+                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Bukti Pembayaran</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
+                                                        <label class="custom-file-label">Pilih File</label>
                                                     </div>
-
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran"
-                                                            class="form-control form-control-sm rupiah"
-                                                            placeholder="contoh: 3.750.000"
-                                                            value="{{ old('nominal_pembayaran', isset($edit) ? number_format((int)$edit->nominal_pembayaran, 0, '.', '.') : null) }}">
-                                                    </div>
-
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                                <option value="{{ $a->id }}"
-                                                                    {{ (string)old('akun_id', isset($edit)? (string)$edit->akun_id : '') === (string)$a->id ? 'selected' : '' }}>
-                                                                    {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
-
-                                                        {{-- jika EDIT & sudah ada file, tampilkan tombol lihat --}}
-                                                        @if(isset($edit) && $edit->bukti_pembayaran)
-                                                            <small class="d-block mt-2">
-                                                                <a class="btn btn-primary buttonedit-sm"
-                                                                href="{{ Storage::url($edit->bukti_pembayaran) }}" target="_blank">
-                                                                    <i class="fas fa-file mr-2"></i>Lihat File Lama
-                                                                </a>
-                                                            </small>
-                                                        @endif
-                                                    </div>
-
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $edit->catatan_pembayaran ?? '') }}</textarea>
-                                                    </div>
-
-                                                    <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_ba" value="1"
-                                                                class="custom-control-input"
-                                                                {{ old('approve', isset($edit) ? (int)$edit->is_approved : 0) ? 'checked' : '' }}>
-                                                            <label for="approve_ba" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="modal-footer">
-                                                        <button id="tambahBookingFee" type="submit" class="btn btn-primary buttonedit">
-                                                            <i class="fas fa-save mr-2"></i>{{ isset($edit) ? 'Update' : 'Simpan' }}
-                                                        </button>
+                                                    @if(isset($edit) && $edit->bukti_pembayaran)
+                                                        <small class="d-block mt-2">
+                                                            <a class="btn btn-primary buttonedit-sm"
+                                                            href="{{ Storage::url($edit->bukti_pembayaran) }}" target="_blank">
+                                                                <i class="fas fa-file mr-2"></i>Lihat File Lama
+                                                            </a>
+                                                        </small>
+                                                    @endif
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $edit->catatan_pembayaran ?? '') }}</textarea>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_ba" value="1"
+                                                            class="custom-control-input"
+                                                            {{ old('approve', isset($edit) ? (int)$edit->is_approved : 0) ? 'checked' : '' }}>
+                                                        <label for="approve_ba" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
                                                 </div>
-                                            </form>
+                                            </div>
+                                            <div class="p-3 border-top">  
+                                                <button id="tambahBookingFee" type="submit" class="btn btn-primary buttonedit float-right">
+                                                    <i class="fas fa-save mr-2"></i>{{ isset($edit) ? 'Update' : 'Simpan' }}
+                                                </button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -439,51 +431,51 @@
                                                     <span>&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="POST" id="formFilterPembayaran" action="{{ route('booking.pembayaran-booking/payment.pembayaran1.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
-                                                @csrf
-                                                <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="1">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_bf" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_bf" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                            <div class="modal-body">
+                                                <form method="POST" id="formFilterPembayaran" action="{{ route('booking.pembayaran-booking/payment.pembayaran1.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                                @csrf   
+                                                <input type="hidden" name="jenis_id" value="1">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Bukti Pembayaran</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
+                                                        <label class="custom-file-label">Pilih File</label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button id="tambahBiayaAdministrasi" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                            </form>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_bf" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <label for="approve_bf" class="custom-control-label">Sekaligus setujui (approve)</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                <button id="tambahBiayaAdministrasi" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -598,51 +590,51 @@
                                                     <span>&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran2.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran2.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
-                                                <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="2">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_bum" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_bum" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                <input type="hidden" name="jenis_id" value="2">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Bukti Pembayaran</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
+                                                        <label class="custom-file-label">Pilih File</label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button id="tambahBiayaUangMuka" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                            </form>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_bum" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <label for="approve_bum" class="custom-control-label">Sekaligus setujui (approve)</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                <button id="tambahBiayaUangMuka" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -757,51 +749,51 @@
                                                     <span>&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran3.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran3.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
-                                                <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="3">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_bkt" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_bkt" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                <input type="hidden" name="jenis_id" value="3">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Bukti Pembayaran</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
+                                                        <label class="custom-file-label">Pilih File</label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button id="tambahBiayaKelebihanTanah" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                            </form>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_bkt" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <label for="approve_bkt" class="custom-control-label">Sekaligus setujui (approve)</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                <button id="tambahBiayaKelebihanTanah" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -916,51 +908,51 @@
                                                     <span>&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran4.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran4.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
-                                                <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="4">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_bpb" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_bpb" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                <input type="hidden" name="jenis_id" value="4">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Bukti Pembayaran</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
+                                                        <label class="custom-file-label">Pilih File</label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button id="tambahBiayaPenambahanBangunan" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                            </form>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_bpb" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <label for="approve_bpb" class="custom-control-label">Sekaligus setujui (approve)</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                <button id="tambahBiayaPenambahanBangunan" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1075,51 +1067,51 @@
                                                     <span>&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran5.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran5.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
-                                                <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="5">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_bl" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_bl" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                <input type="hidden" name="jenis_id" value="5">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Bukti Pembayaran</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
+                                                        <label class="custom-file-label">Pilih File</label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button id="tambahBiayaLainnya" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                            </form>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_bl" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <label for="approve_bl" class="custom-control-label">Sekaligus setujui (approve)</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                <button id="tambahBiayaLainnya" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1209,7 +1201,7 @@
                                             <div class="p-3 bg-success-card my-rounded-2 m-2">
                                                 <h8 class="font-weight-bold m-0 text-success">
                                                     <i class="fas fa-handshake mr-3 my-0 text-success h6"></i>
-                                                    Nilai Kontrak {{ 'Rp ' . number_format($tagihan4 ?? 0, 0, '.', ',') }}
+                                                    Nilai Kontrak {{ 'Rp ' . number_format($tagihan5 ?? 0, 0, '.', ',') }}
                                                 </h8>
                                             </div>
                                         </div>
@@ -1234,51 +1226,51 @@
                                                     <span>&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran6.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran6.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
-                                                <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="6">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_tpc" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_tpc" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                <input type="hidden" name="jenis_id" value="6">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Bukti Pembayaran</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
+                                                        <label class="custom-file-label">Pilih File</label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button id="tambahTotalPenjualanCash" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                            </form>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_tpc" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <label for="approve_tpc" class="custom-control-label">Sekaligus setujui (approve)</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                <button id="tambahTotalPenjualanCash" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1393,51 +1385,51 @@
                                                     <span>&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran7.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran7.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
-                                                <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="7">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_cc" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_cc" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                <input type="hidden" name="jenis_id" value="7">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Bukti Pembayaran</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
+                                                        <label class="custom-file-label">Pilih File</label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button id="tambahCicilanCash" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                            </form>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_cc" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <label for="approve_cc" class="custom-control-label">Sekaligus setujui (approve)</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                <button id="tambahCicilanCash" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1552,51 +1544,51 @@
                                                     <span>&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran8.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran8.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
-                                                <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="8">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_bak" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_bak" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                <input type="hidden" name="jenis_id" value="8">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Bukti Pembayaran</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
+                                                        <label class="custom-file-label">Pilih File</label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button id="tambahBiayaAkadKredit" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                            </form>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_bak" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <label for="approve_bak" class="custom-control-label">Sekaligus setujui (approve)</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                <button id="tambahBiayaAkadKredit" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1659,16 +1651,24 @@
                                     </table>
                                 </div>
                                 @php
-                                    $isEmpty = blank($tagihan8) && blank($sisaPerJenis8);
+                                    $noJenis = (int)($tagihan8 ?? 0) === 0;
                                 @endphp
-
-                                @if($isEmpty)
+                                @if($noJenis)
                                     <div class="row pt-2 pl-2 pr-2">
-                                        <div class="col-12 px-0">
-                                            <div class="p-3 bg-warning-card my-rounded-2 m-2">
-                                                <h8 class="font-weight-bold m-0 text-warning">
-                                                    <i class="fas fa-info-circle mr-3 h6"></i> Jenis tidak dipilih
-                                                </h8>
+                                        <div class="col-md-12 px-0">
+                                            <div class="p-3 bg-secondary-card my-rounded-2 m-2">
+                                                <div class="row pt-0 pl-2 pr-2 justify-content-between">
+                                                    <div class="col">
+                                                        <h8 class="font-weight-bold m-0 text-secondary">
+                                                            <i class="fas fa-info-circle mr-3 h7"></i> Nilai kontrak belum diisi!
+                                                        </h8>
+                                                    </div>
+                                                    <div class="col">
+                                                        <a class="font-weight-bold text-secondary float-right" href="{{ route('booking/edit', $detailBooking->id) }}">
+                                                            Detail Booking<i class="fas fa-chevron-circle-right ml-2 h7"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1703,51 +1703,51 @@
                                                     <span>&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran9.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran9.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
-                                                <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="9">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_bpf" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_bpf" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                <input type="hidden" name="jenis_id" value="9">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Bukti Pembayaran</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
+                                                        <label class="custom-file-label">Pilih File</label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button id="tambahBiayaPenambahanFasilitas" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                            </form>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_bpf" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <label for="approve_bpf" class="custom-control-label">Sekaligus setujui (approve)</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                <button id="tambahBiayaPenambahanFasilitas" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1862,51 +1862,51 @@
                                                     <span>&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran10.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('booking.pembayaran-booking/payment.pembayaran10.store', ['id' => $detailBooking->id]) }}" enctype="multipart/form-data">
                                                 @csrf
-                                                <div class="modal-body">
-                                                    <input type="hidden" name="jenis_id" value="10">
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Tanggal Pembayaran</label>
-                                                        <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Nominal</label>
-                                                        <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Masuk ke Akun</label>
-                                                        <select name="akun_id" class="tomselect">
-                                                            @foreach($akun as $a)
-                                                            <option value="{{ $a->id }}"
-                                                                {{ old('akun_id')==$a->id ? 'selected' : '' }}>
-                                                                {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
-                                                            </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label class="fw-bold">Bukti Pembayaran</label>
-                                                        <div class="custom-file">
-                                                            <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
-                                                            <label class="custom-file-label">Pilih File</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group mb-2">
-                                                        <label>Catatan</label>
-                                                        <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
-                                                    </div>
-                                                    <div class="form-group mb-3">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" name="approve" id="approve_kpr" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
-                                                            <label for="approve_kpr" class="custom-control-label">Sekaligus setujui (approve)</label>
-                                                        </div>
+                                                <input type="hidden" name="jenis_id" value="10">
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Tanggal Pembayaran</label>
+                                                    <input type="text" name="tanggal_pembayaran" class="form-control form-control-sm datetimepicker" value="{{ old('tanggal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Nominal</label>
+                                                    <input type="text" name="nominal_pembayaran" class="form-control form-control-sm rupiah" placeholder="contoh: 3.750.000" value="{{ old('nominal_pembayaran') }}">
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Masuk ke Akun</label>
+                                                    <select name="akun_id" class="tomselect">
+                                                        @foreach($akun as $a)
+                                                        <option value="{{ $a->id }}"
+                                                            {{ old('akun_id')==$a->id ? 'selected' : '' }}>
+                                                            {{ $a->no_akun }} — {{ $a->nama_akun_indonesia }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="fw-bold">Bukti Pembayaran</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" name="bukti_pembayaran" class="custom-file-input" accept=".pdf,.jpg,.jpeg,.png">
+                                                        <label class="custom-file-label">Pilih File</label>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button id="tambahPenerimaanKpr" type="submit" class="btn btn-primary buttonedit"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                <div class="form-group mb-2">
+                                                    <label>Catatan</label>
+                                                    <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                            </form>
+                                                <div class="form-group mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" name="approve" id="approve_kpr" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <label for="approve_kpr" class="custom-control-label">Sekaligus setujui (approve)</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-3 border-top">
+                                                <button id="tambahPenerimaanKpr" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

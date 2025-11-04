@@ -169,12 +169,12 @@
                 </div>
                 <div class="mb-4 row align-items-center">
                     <div class="col">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-check mr-2"></i> Simpan
-                        </button>
-                        <a href="{{ route('kavling/list/page') }}" class="btn btn-primary ml-3">
+                        <a href="{{ route('booking/list/page') }}" class="btn btn-primary mr-2 buttonedit">
                             <i class="fas fa-chevron-left mr-2"></i> Batal
                         </a>
+                        <button type="submit" class="btn btn-primary buttonedit">
+                            <i class="fa fa-save mr-2"></i> Simpan
+                        </button>
                     </div>
                 </div>
             </form>

@@ -179,7 +179,7 @@
                             <i class="fas fa-chevron-left mr-2"></i> Batal
                         </a>
                         <button type="submit" class="btn btn-primary buttonedit">
-                            <i class="fa fa-save ml-2"></i> Simpan
+                            <i class="fa fa-save mr-2"></i> Simpan
                         </button>
                     </div>
                 </div>
