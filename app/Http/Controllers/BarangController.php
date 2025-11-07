@@ -9,6 +9,7 @@ use App\Models\PenyesuaianBarangDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class BarangController extends Controller
 {
@@ -267,7 +268,7 @@ class BarangController extends Controller
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
-        $rowPerPage      = $request->get("length"); // total number of rows per page
+        $length      = $request->get("length"); // total number of rows per page
         $columnIndex_arr = $request->get('order');
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
@@ -311,11 +312,18 @@ class BarangController extends Controller
 
         $totalRecordsWithFilter = $barang->count();
 
-        $records = $barang
-            ->orderBy('no_barang', 'asc')            
-            ->skip($start)
-            ->take($rowPerPage)
-            ->get();
+        // $records = $barang
+        //     ->orderBy('no_barang', 'asc')            
+        //     ->skip($start)
+        //     ->take($length)
+        //     ->get();
+
+        $tableName  = (new Barang)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $barang->orderBy($sortColumn, $sortDir)->skip($start)->take($length)->get();
         
         $data_arr = [];
 

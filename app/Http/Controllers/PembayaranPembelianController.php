@@ -8,6 +8,7 @@ use App\Models\PembayaranPembelianDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class PembayaranPembelianController extends Controller
 {
@@ -499,11 +500,18 @@ class PembayaranPembelianController extends Controller
         $totalRecordsWithFilter = $pembayaran->count();
         $totalRecords = DB::table('pembayaran_pembelian')->count();
 
-        $records = $pembayaran
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $pembayaran
+        //     ->orderBy($columnName, $columnSortOrder)
+        //     ->offset($start)
+        //     ->limit($length)
+        //     ->get();
+
+        $tableName  = (new PembayaranPembelian)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $pembayaran->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
         
         $data_arr = [];
 

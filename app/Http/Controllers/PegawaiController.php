@@ -10,6 +10,7 @@ use App\Models\Province;
 use App\Models\Village;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 
 class PegawaiController extends Controller
@@ -321,7 +322,7 @@ class PegawaiController extends Controller
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
-        $rowPerPage      = $request->get("length"); // total number of rows per page
+        $length      = $request->get("length"); // total number of rows per page
         $columnIndex_arr = $request->get('order');
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
@@ -336,21 +337,37 @@ class PegawaiController extends Controller
         $totalRecords = Pegawai::count();
 
         $totalRecordsWithFilter = $pegawai->where(function ($query) use ($searchValue) {
-            $query->where('nama_depan_penjual', 'like', '%' . $searchValue . '%');
+            $query->where('nama_pegawai', 'like', '%' . $searchValue . '%');
             $query->orWhere('nik_pegawai', 'like', '%' . $searchValue . '%');
         })->count();
 
         if ($columnName == 'nama_pegawai') {
             $columnName = 'nama_pegawai';
         }
-        $records = $pegawai->orderBy($columnName, $columnSortOrder)
+        // $records = $pegawai->orderBy($columnName, $columnSortOrder)
+        //     ->where(function ($query) use ($searchValue) {
+        //         $query->where('nama_pegawai', 'like', '%' . $searchValue . '%');
+        //         $query->orWhere('nik_pegawai', 'like', '%' . $searchValue . '%');
+        //     })
+        //     ->skip($start)
+        //     ->take($length)
+        //     ->get();
+
+        $tableName  = (new Pegawai)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $pegawai
+            ->orderBy($sortColumn, $sortDir)
             ->where(function ($query) use ($searchValue) {
                 $query->where('nama_pegawai', 'like', '%' . $searchValue . '%');
                 $query->orWhere('nik_pegawai', 'like', '%' . $searchValue . '%');
             })
             ->skip($start)
-            ->take($rowPerPage)
+            ->take($length)
             ->get();
+            
         $data_arr = [];
 
         foreach ($records as $key => $record) {

@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Schema;
+
 
 class KonsumenController extends Controller
 {
@@ -955,7 +957,7 @@ class KonsumenController extends Controller
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
-        $rowPerPage      = $request->get("length"); // total number of rows per page
+        $length      = $request->get("length"); // total number of rows per page
         $columnIndex_arr = $request->get('order');
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
@@ -974,11 +976,18 @@ class KonsumenController extends Controller
 
         $totalRecordsWithFilter = $konsumen->count();
 
-        $records = $konsumen
-            ->orderBy($columnName, $columnSortOrder)
-            ->skip($start)
-            ->take($rowPerPage)
-            ->get();
+        // $records = $konsumen
+        //     ->orderBy($columnName, $columnSortOrder)
+        //     ->skip($start)
+        //     ->take($length)
+        //     ->get();
+
+        $tableName  = (new Konsumen)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $konsumen->orderBy($sortColumn, $sortDir)->skip($start)->take($length)->get();
 
         $data_arr = [];
 

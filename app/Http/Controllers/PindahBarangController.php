@@ -8,6 +8,8 @@ use App\Models\StokBarang;
 use App\Models\PindahBarangDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
 
 class PindahBarangController extends Controller
 {
@@ -32,7 +34,7 @@ class PindahBarangController extends Controller
         $pemasok = DB::table('pemasok')->get();
         $satuan = DB::table('satuan')->get();
         $mata_uang = DB::table('mata_uang')->orderBy('nama', 'asc')->get();
-        $nama_akun = DB::table('akun')->orderBy('nama', 'asc')->get();
+        $nama_akun = DB::table('akun')->orderBy('nama_akun_indonesia', 'asc')->get();
         $prefix = 'GMP';
         $latest = PindahBarang::orderBy('no_pindah', 'desc')->first();
         $nextID = $latest ? intval(substr($latest->no_pindah, strlen($prefix))) + 1 : 1;
@@ -133,7 +135,7 @@ class PindahBarangController extends Controller
         $satuan = DB::table('satuan')->get();
         $sub_barang = DB::table('barang')->get();
         $mata_uang = DB::table('mata_uang')->orderBy('nama', 'asc')->get();
-        $nama_akun = DB::table('akun')->orderBy('nama', 'asc')->get();
+        $nama_akun = DB::table('akun')->orderBy('nama_akun_indonesia', 'asc')->get();
         // $penyesuaianBarangEdit = DB::table('penyesuaian_barang')->where('no_penyesuaian',$no_penyesuaian)->first();
         $pindahBarang = PindahBarang::with('detail')->findOrFail($id);
         if (!$pindahBarang) {
@@ -227,7 +229,7 @@ class PindahBarangController extends Controller
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
-        $rowPerPage      = $request->get("length"); // total number of rows per page
+        $length      = $request->get("length"); // total number of rows per page
         $columnIndex_arr = $request->get('order');
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
@@ -279,11 +281,18 @@ class PindahBarangController extends Controller
 
         $totalRecordsWithFilter = $pindahBarang->count();
 
-        $records = $pindahBarang
-            ->orderBy($columnName, $columnSortOrder)
-            ->skip($start)
-            ->take($rowPerPage)
-            ->get();
+        // $records = $pindahBarang
+        //     ->orderBy($columnName, $columnSortOrder)
+        //     ->skip($start)
+        //     ->take($length)
+        //     ->get();
+
+        $tableName  = (new PindahBarang)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $pindahBarang->orderBy($sortColumn, $sortDir)->skip($start)->take($length)->get();
         
         $data_arr = [];
 

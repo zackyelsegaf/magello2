@@ -4340,6 +4340,21 @@ card-title {
     padding: 10px 25px 10px 25px;
 }
 
+.buttonedit-outline-sm {
+    float: left;
+    font-size: .7rem;
+    border-radius: 8px;
+    width: fit-content;
+    padding: 5px 15px 5px 15px;
+    padding: 10px 25px 10px 25px;
+}
+
+.stick-table {
+    overflow-y: auto;
+    height: 62vh;
+    border-radius: 10px;
+}
+
 .dropdown-icon{
     display: flex;
     align-items: center;
@@ -7134,6 +7149,12 @@ input:checked+.slider:before {
     vertical-align: middle;
 }
 
+#RoleList th,
+#RoleList td{
+    font-size: 13px;
+}
+
+
 #tabelPilihBarang th,
 #tabelPilihBarang td{
     padding: 4px 8px !important;
@@ -7161,6 +7182,13 @@ input:checked+.slider:before {
     justify-content: center;
     font-size: 13px;
     border: 1.5px solid #adb7be;
+    vertical-align: middle;
+}
+
+#DataIzinList th {
+    padding: 4px 8px !important;
+    justify-content: center;
+    font-size: 13px;
     vertical-align: middle;
 }
 
@@ -7250,6 +7278,50 @@ input:checked+.slider:before {
 .separates tbody tr:last-child td:last-child {
     border-bottom-right-radius: 12px;
 }
+
+.separates1 {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+}
+
+.separates1 tbody tr:first-child td:first-child {
+    border-top-left-radius: 12px;
+}
+
+.separates1 tbody tr:first-child td:last-child {
+    border-top-right-radius: 12px;
+}
+
+.separates1 tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 12px;
+}
+
+.separates1 tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 12px;
+}
+
+.th-default {
+    border-radius: 10px 10px 10px 10px  !important;
+}
+
+.th-default thead tr:first-child th:first-child {
+    border-top-left-radius: 12px;
+}
+
+.th-default thead tr:first-child th:last-child {
+    border-top-right-radius: 12px;
+}
+
+.th-default thead tr:last-child th:first-child {
+    border-bottom-left-radius: 12px;
+}
+
+.th-default thead tr:last-child th:last-child {
+    border-bottom-right-radius: 12px;
+}
+
+
+
 
 .my-tbody-spacing {
     padding-top: 30px !important;
@@ -7396,11 +7468,6 @@ input:checked+.slider:before {
 }
 .my-rounded-2{
     border-radius: 15px 15px 15px 15px;
-}
-
-.my-rounded-3{
-    border-radius: 10px;
-    padding: 10px 25px 10px 25px;
 }
 
 .my-padding{

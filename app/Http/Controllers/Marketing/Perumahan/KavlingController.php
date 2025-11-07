@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Marketing\Perumahan;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -93,6 +94,27 @@ class KavlingController extends Controller
             if (!empty($data['tanggal_booking'])) {
                 $data['tanggal_booking'] = Carbon::createFromFormat('d/m/Y', $data['tanggal_booking'])->format('Y-m-d');
             }
+
+            $mapStatus = [
+                'booking'       => 0,
+                'proses'        => 1,
+                'analisa_bank'  => 2,
+                'sp3k'          => 3,
+                'akad_kredit'   => 4,
+                'ajb'           => 5,
+                'ditolak_bank'  => 6,
+                'mundur'        => 7,
+            ];
+
+            if (array_key_exists('status_pengajuan', $data) && $data['status_pengajuan'] !== null && $data['status_pengajuan'] !== '') {
+                $sp = $data['status_pengajuan'];
+                $data['status_pengajuan'] = is_numeric($sp)
+                    ? (int) $sp
+                    : ($mapStatus[strtolower(trim((string) $sp))] ?? 0);
+            } else {
+                $data['status_pengajuan'] = 0;
+            }
+
 
             $bookingKavling = new BookingKavling($data);
             $bookingKavling->save();
@@ -1280,13 +1302,15 @@ class KavlingController extends Controller
             'akun_id'            => 'required|exists:akun,id',
             'catatan_pembayaran' => 'nullable|string|max:5000',
             'bukti_pembayaran'   => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:3072',
-            'approve'            => 'nullable|boolean',
+            'is_approved'        => 'nullable|boolean',
+            'approved_by'        => 'nullable|exists:users,id',
         ];
         $message = [
             'tanggal_pembayaran.required' => 'Tanggal pembayaran wajib diisi',
             'nominal_pembayaran.required' => 'Nominal pembayaran wajib diisi',
             'akun_id.required'            => 'Akun penerimaan wajib dipilih',
             'akun_id.exists'              => 'Akun tidak ditemukan',
+            'approved_by.exists'              => 'Akun tidak ditemukan',
         ];
         $validator = Validator::make($request->all(), $rules, $message);
         if ($validator->fails()) {
@@ -1315,7 +1339,7 @@ class KavlingController extends Controller
             $generator = new PembayaranBookingKonsumen();
             $nomorRef = $existing?->nomor_referensi ?? $generator->generateNomorReferensi($today);
 
-            $isApprove = (bool) $request->boolean('approve');
+            $isApprove = (bool) $request->boolean('is_approved');
 
             $keys = [];
             if ($request->filled('pembayaran_id')) {
@@ -1333,7 +1357,6 @@ class KavlingController extends Controller
                 'catatan_pembayaran'      => $request->catatan_pembayaran,
                 'bukti_pembayaran'        => $path,
                 'is_approved'             => $isApprove,
-                'approved_by'             => $isApprove ? auth()->id() : ($existing?->approved_by),
                 'approved_at'             => $isApprove ? $tgl : ($existing?->approved_at),
                 'changed_by'              => auth()->id(),
             ];
@@ -4107,11 +4130,18 @@ class KavlingController extends Controller
         $totalRecordsWithFilter = $query->count();
         $totalRecords = DB::table('kapling')->count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $query
+            //->orderBy($columnName, $columnSortOrder)
+            //->offset($start)
+            //->limit($length)
+            //->get();
+
+        $tableName  = (new PembayaranBookingKonsumen)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 
@@ -4230,11 +4260,18 @@ class KavlingController extends Controller
         $totalRecordsWithFilter = $query->count();
         $totalRecords = PembayaranBookingKonsumen::count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $query
+            //->orderBy($columnName, $columnSortOrder)
+            //->offset($start)
+            //->limit($length)
+            //->get();
+
+        $tableName  = (new PembayaranBookingKonsumen)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 
@@ -4289,11 +4326,18 @@ class KavlingController extends Controller
         $totalRecordsWithFilter = $query->count();
         $totalRecords = PembayaranBookingKonsumen::count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $query
+            //->orderBy($columnName, $columnSortOrder)
+            //->offset($start)
+            //->limit($length)
+            //->get();
+
+        $tableName  = (new PembayaranBookingKonsumen)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 
@@ -4348,11 +4392,18 @@ class KavlingController extends Controller
         $totalRecordsWithFilter = $query->count();
         $totalRecords = PembayaranBookingKonsumen::count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $query
+            //->orderBy($columnName, $columnSortOrder)
+            //->offset($start)
+            //->limit($length)
+            //->get();
+
+        $tableName  = (new PembayaranBookingKonsumen)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 
@@ -4407,11 +4458,18 @@ class KavlingController extends Controller
         $totalRecordsWithFilter = $query->count();
         $totalRecords = PembayaranBookingKonsumen::count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $query
+            //->orderBy($columnName, $columnSortOrder)
+            //->offset($start)
+            //->limit($length)
+            //->get();
+
+        $tableName  = (new PembayaranBookingKonsumen)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 
@@ -4466,11 +4524,18 @@ class KavlingController extends Controller
         $totalRecordsWithFilter = $query->count();
         $totalRecords = PembayaranBookingKonsumen::count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $query
+            //->orderBy($columnName, $columnSortOrder)
+            //->offset($start)
+            //->limit($length)
+            //->get();
+
+        $tableName  = (new PembayaranBookingKonsumen)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 
@@ -4524,11 +4589,18 @@ class KavlingController extends Controller
         $totalRecordsWithFilter = $query->count();
         $totalRecords = PembayaranBookingKonsumen::count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $query
+            //->orderBy($columnName, $columnSortOrder)
+            //->offset($start)
+            //->limit($length)
+            //->get();
+
+        $tableName  = (new PembayaranBookingKonsumen)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 
@@ -4583,11 +4655,18 @@ class KavlingController extends Controller
         $totalRecordsWithFilter = $query->count();
         $totalRecords = PembayaranBookingKonsumen::count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $query
+            //->orderBy($columnName, $columnSortOrder)
+            //->offset($start)
+            //->limit($length)
+            //->get();
+
+        $tableName  = (new PembayaranBookingKonsumen)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 
@@ -4642,11 +4721,18 @@ class KavlingController extends Controller
         $totalRecordsWithFilter = $query->count();
         $totalRecords = PembayaranBookingKonsumen::count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $query
+            //->orderBy($columnName, $columnSortOrder)
+            //->offset($start)
+            //->limit($length)
+            //->get();
+
+        $tableName  = (new PembayaranBookingKonsumen)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 
@@ -4701,11 +4787,18 @@ class KavlingController extends Controller
         $totalRecordsWithFilter = $query->count();
         $totalRecords = PembayaranBookingKonsumen::count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $query
+            //->orderBy($columnName, $columnSortOrder)
+            //->offset($start)
+            //->limit($length)
+            //->get();
+
+        $tableName  = (new PembayaranBookingKonsumen)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 
@@ -4760,11 +4853,18 @@ class KavlingController extends Controller
         $totalRecordsWithFilter = $query->count();
         $totalRecords = PembayaranBookingKonsumen::count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $query
+            //->orderBy($columnName, $columnSortOrder)
+            //->offset($start)
+            //->limit($length)
+            //->get();
+
+        $tableName  = (new PembayaranBookingKonsumen)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 
@@ -5058,11 +5158,12 @@ class KavlingController extends Controller
 
         $totalRecordsWithFilter = $query->count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        $tableName  = (new BookingKavling)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 
@@ -5184,11 +5285,18 @@ class KavlingController extends Controller
 
         $totalRecordsWithFilter = $query->count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $query
+            //->orderBy($columnName, $columnSortOrder)
+            //->offset($start)
+            //->limit($length)
+            //->get();
+
+        $tableName  = (new PembayaranBookingKonsumen)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 

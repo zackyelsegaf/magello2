@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Schema;
+
 
 class RabrapController extends Controller
 {
@@ -56,7 +58,7 @@ class RabrapController extends Controller
         $pemasok = DB::table('pemasok')->get();
         $satuan = DB::table('satuan')->get();
         $mata_uang = DB::table('mata_uang')->orderBy('nama', 'asc')->get();
-        $nama_akun = DB::table('akun')->orderBy('nama', 'asc')->get();
+        $nama_akun = DB::table('akun')->orderBy('nama_akun_indonesia', 'asc')->get();
         return view('projek.rabrap.rabrapaddnew', compact('cluster', 'satuan', 'barang', 'tipe_barang', 'tipe_persediaan', 'kategori_barang', 'gudang', 'departemen', 'proyek', 'pemasok', 'satuan', 'mata_uang', 'nama_akun'));
     }
 
@@ -141,7 +143,7 @@ class RabrapController extends Controller
         $pemasok = DB::table('pemasok')->get();
         $satuan = DB::table('satuan')->get();
         $mata_uang = DB::table('mata_uang')->orderBy('nama', 'asc')->get();
-        $nama_akun = DB::table('akun')->orderBy('nama', 'asc')->get();
+        $nama_akun = DB::table('akun')->orderBy('nama_akun_indonesia', 'asc')->get();
         // $penyesuaianBarangEdit = DB::table('penyesuaian_barang')->where('no_penyesuaian',$no_penyesuaian)->first();
         $updateRabRap = RabRap::with(['detail', 'detail2'])->findOrFail($id);
         if (!$updateRabRap) {
@@ -259,11 +261,18 @@ class RabrapController extends Controller
         $totalRecordsWithFilter = $query->count();
         $totalRecords = DB::table('rap_rab')->count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $query
+            //->orderBy($columnName, $columnSortOrder)
+            //->offset($start)
+            //->limit($length)
+            //->get();
+
+        $tableName  = (new RabRap)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Fasos;
 use App\Models\Arsip;
+use Illuminate\Support\Facades\Schema;
+
 
 class FasosController extends Controller
 {
@@ -322,11 +324,18 @@ class FasosController extends Controller
         $totalRecordsWithFilter = $query->count();
         $totalRecords = DB::table('fasos')->count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $query
+            //->orderBy($columnName, $columnSortOrder)
+            //->offset($start)
+            //->limit($length)
+            //->get();
+
+        $tableName  = (new Fasos)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 

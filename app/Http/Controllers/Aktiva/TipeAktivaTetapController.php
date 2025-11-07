@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\TipeAktivaTetap;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Schema;
 
 class TipeAktivaTetapController extends Controller
 {
@@ -71,7 +72,7 @@ class TipeAktivaTetapController extends Controller
     {
         $draw             = $request->get('draw');
         $start            = $request->get("start");
-        $rowPerPage       = $request->get("length"); // total number of rows per page
+        $length       = $request->get("length"); // total number of rows per page
         $columnIndex_arr  = $request->get('order');
         $columnName_arr   = $request->get('columns');
         $order_arr        = $request->get('order');
@@ -90,11 +91,18 @@ class TipeAktivaTetapController extends Controller
 
         $totalRecordsWithFilter = $tipeAktivaTetap->count();
 
-        $records = $tipeAktivaTetap
-            ->orderBy($columnName, $columnSortOrder)
-            ->skip($start)
-            ->take($rowPerPage)
-            ->get();
+        // $records = $tipeAktivaTetap
+        //     ->orderBy($columnName, $columnSortOrder)
+            //->skip($start)
+           // ->take($length)
+            //->get();
+
+        $tableName  = (new TipeAktivaTetap)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $tipeAktivaTetap->orderBy($sortColumn, $sortDir)->skip($start)->take($length)->get();
         $data_arr = [];
 
         foreach ($records as $key => $record) {

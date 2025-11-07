@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Pemasok;
 use App\Http\Controllers\DependentDropdownController;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
 
 class PemasokController extends Controller
 {
@@ -227,7 +229,7 @@ class PemasokController extends Controller
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
-        $rowPerPage      = $request->get("length"); // total number of rows per page
+        $length      = $request->get("length"); // total number of rows per page
         $columnIndex_arr = $request->get('order');
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
@@ -261,11 +263,18 @@ class PemasokController extends Controller
 
         $totalRecordsWithFilter = $pemasok->count();
 
-        $records = $pemasok
-            ->orderBy($columnName, $columnSortOrder)
-            ->skip($start)
-            ->take($rowPerPage)
-            ->get();
+        // $records = $pemasok
+        //     ->orderBy($columnName, $columnSortOrder)
+        //     ->skip($start)
+        //     ->take($length)
+        //     ->get();
+
+        $tableName  = (new Pemasok)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $pemasok->orderBy($sortColumn, $sortDir)->skip($start)->take($length)->get();
 
         $data_arr = [];
 

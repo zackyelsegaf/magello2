@@ -8,6 +8,8 @@ use App\Models\ReturPembelianDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
 
 class ReturPembelianController extends Controller
 {
@@ -363,7 +365,7 @@ class ReturPembelianController extends Controller
         $satuan = DB::table('satuan')->get();
         $sub_barang = DB::table('barang')->get();
         $mata_uang = DB::table('mata_uang')->orderBy('nama', 'asc')->get();
-        $nama_akun = DB::table('akun')->orderBy('nama', 'asc')->get();
+        $nama_akun = DB::table('akun')->orderBy('nama_akun_indonesia', 'asc')->get();
         // $penyesuaianBarangEdit = DB::table('penyesuaian_barang')->where('no_penyesuaian',$no_penyesuaian)->first();
         $returPembelian = ReturPembelian::with(['detail', 'detail2'])->findOrFail($id);
         if (!$returPembelian) {
@@ -545,11 +547,18 @@ class ReturPembelianController extends Controller
         $totalRecordsWithFilter = $retur->count();
         $totalRecords = DB::table('permintaan_pembelian')->count();
 
-        $records = $retur
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $retur
+            //->orderBy($columnName, $columnSortOrder)
+            //->offset($start)
+            //->limit($length)
+            //->get();
+
+        $tableName  = (new ReturPembelian)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $retur->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
         
         $data_arr = [];
 

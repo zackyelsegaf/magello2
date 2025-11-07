@@ -36,7 +36,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Role Name</label>
-                                    <input type="text" class="form-control form-control-sm  @error('role_name') is-invalid @enderror" name="role_name" value="{{ $userEdit->role_name }}" readonly>
+                                    <input type="text" class="form-control form-control-sm  @error('role_name') is-invalid @enderror" name="role_name" value="{{ $userEdit->role_name }}">
                                 </div>
                             </div>
                             <div class="col-md-4">

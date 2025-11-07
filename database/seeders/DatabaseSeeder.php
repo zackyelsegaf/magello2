@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use App\Models\ModulUtama\Aktiva\AkunAktiva;
 use Database\Seeders\MetodePenyusutanSeeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,22 +17,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
-
+        User::factory(1)->SuperAdmin()->create();
+        User::factory(10)->Marketing()->create();
+        User::factory(25)->Logistik()->create();
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-        User::factory()->create([
-            'name' => 'Superadmin',
-            'email' => 'superadmin@gmail.com',
+            'name' => 'Zacky Sheesh',
+            'email' => 'user.zacky@gmail.com',
+            'role_name' => 'SuperAdmin',
+            'password' => Hash::make('zacky'. 123),
         ]);
 
         \App\Models\Barang::factory()->count(50)->create();
 
         // Panggil seeder lain
         $this->call([
-            RolePermissionSeeder::class,
+            RolePermSeeder::class,
             \Laravolt\Indonesia\Seeds\DatabaseSeeder::class,
             TipeAkunSeeder::class,
             TipeBarangSeeder::class,

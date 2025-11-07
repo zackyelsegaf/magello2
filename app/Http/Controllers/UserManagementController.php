@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;                 // + ADD
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Schema;
+                   // + ADD
 
 class UserManagementController extends Controller
 {
@@ -23,8 +27,8 @@ class UserManagementController extends Controller
     /** View Record */
     public function userView($user_id)
     {
-        $userData = User::where('user_id',$user_id)->first();
-        return view('usermanagement.useredit',compact('userData'));
+        $userData = User::where('user_id', $user_id)->first();
+        return view('usermanagement.useredit', compact('userData'));
     }
 
     /** Update Record */
@@ -39,6 +43,9 @@ class UserManagementController extends Controller
             } else {
                 $file_name = $request->hidden_avatar;
             }
+
+            $user = User::where('user_id', $request->user_id)->first();
+
             $updateRecord = [
                 'name'         => $request->name,
                 'email'        => $request->email,
@@ -46,19 +53,50 @@ class UserManagementController extends Controller
                 'position'     => $request->position,
                 'avatar'       => $file_name,
                 'department'   => $request->department,
+                'role_name'    => $request->role_name,                    // + ADD
             ];
-            User::where('user_id',$request->user_id)->update($updateRecord);
-        
+            // kalau ada password diisi, hash dan simpan
+            if (filled($request->password)) {                             // + ADD
+                $updateRecord['password'] = Hash::make($request->password);
+            }                                                             // + ADD
+
+            if ($user) {
+                // MODE UPDATE (tetap sesuai punyamu)
+                User::where('user_id', $request->user_id)->update($updateRecord);
+                $userModel = User::where('user_id', $request->user_id)->first(); // + ADD
+            } else {
+                // MODE CREATE (pakai method yang sama, tanpa ganggu alurmu)  // + ADD
+                // jika user_id kosong, buat sederhana
+                $newUserId = $request->user_id ?: ('USR-' . now()->format('ymdHis') . rand(10, 99)); // + ADD
+                $updateRecord['user_id'] = $newUserId;                       // + ADD
+                // default status optional (biar aman)
+                if (!isset($updateRecord['status']) && property_exists(User::class, 'status')) { /* no-op */
+                } // + ADD
+                $userModel = User::create($updateRecord);                    // + ADD
+            }
+
+            // === Spatie role assign (otomatis dari role_name) ===           // + ADD
+            if (filled($request->role_name)) {                               // + ADD
+                // bikin role kalau belum ada; guard 'web'
+                $role = Role::firstOrCreate(
+                    ['name' => $request->role_name, 'guard_name' => 'web']
+                );
+                // assign/sync ke user
+                $userModel->syncRoles([$role->name]);
+            }                                                                 // + ADD
+            // ====================================================
+
             DB::commit();
-            sweetalert()->success('Updated record successfully :)');
-            return redirect()->route('users/list/page');    
-        } catch(\Exception $e) {
+            sweetalert()->success($user ? 'Updated record successfully :)' : 'Created record successfully :)'); // + tweak pesan ringan
+            return redirect()->route('users/list/page');
+        } catch (\Exception $e) {
             DB::rollback();
-            sweetalert()->error('Update record fail :)');
+            sweetalert()->error('Update record fail :)' . $e->getMessage());
             \Log::error($e->getMessage());
             return redirect()->back();
         }
     }
+
 
     /** Delete Record */
     public function userDelete($id)
@@ -69,8 +107,7 @@ class UserManagementController extends Controller
             $deleteRecord->delete();
             sweetalert()->success('User deleted successfully :)');
             return redirect()->back();
-        
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             sweetalert()->error('User delete fail :)');
             \Log::error($e->getMessage());
@@ -92,7 +129,7 @@ class UserManagementController extends Controller
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
-        $rowPerPage      = $request->get("length"); // total number of rows per page
+        $length      = $request->get("length"); // total number of rows per page
         $columnIndex_arr = $request->get('order');
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
@@ -117,7 +154,25 @@ class UserManagementController extends Controller
         if ($columnName == 'name') {
             $columnName = 'name';
         }
-        $records = $users->orderBy($columnName, $columnSortOrder)
+        // $records = $users->orderBy($columnName, $columnSortOrder)
+        //     ->where(function ($query) use ($searchValue) {
+        //         $query->where('name', 'like', '%' . $searchValue . '%');
+        //         $query->orWhere('email', 'like', '%' . $searchValue . '%');
+        //         $query->orWhere('position', 'like', '%' . $searchValue . '%');
+        //         $query->orWhere('phone_number', 'like', '%' . $searchValue . '%');
+        //         $query->orWhere('status', 'like', '%' . $searchValue . '%');
+        //     })
+            //->skip($start)
+           // ->take($length)
+            //->get();
+
+        $tableName  = (new User)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $users
+            ->orderBy($sortColumn, $sortDir)
             ->where(function ($query) use ($searchValue) {
                 $query->where('name', 'like', '%' . $searchValue . '%');
                 $query->orWhere('email', 'like', '%' . $searchValue . '%');
@@ -126,20 +181,20 @@ class UserManagementController extends Controller
                 $query->orWhere('status', 'like', '%' . $searchValue . '%');
             })
             ->skip($start)
-            ->take($rowPerPage)
+            ->take($length)
             ->get();
         $data_arr = [];
-        
-        foreach ($records as $key => $record) {
-            $checkbox = '<input type="checkbox" class="userlist_checkbox" value="'.$record->user_id.'">';
 
-            if (!empty($record->avatar) && file_exists(public_path('assets/img/'.$record->avatar))) {
-                $avatarUrl = asset('../../public/assets/img/'.$record->avatar);
+        foreach ($records as $key => $record) {
+            $checkbox = '<input type="checkbox" class="userlist_checkbox" value="' . $record->user_id . '">';
+
+            if (!empty($record->avatar) && file_exists(public_path('assets/img/' . $record->avatar))) {
+                $avatarUrl = asset('../../public/assets/img/' . $record->avatar);
             } else {
                 $avatarUrl = asset('assets/img/profile.png');
             }
-        
-            $avatarImg = '<img src="'.$avatarUrl.'" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">';
+
+            $avatarImg = '<img src="' . $avatarUrl . '" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">';
 
             // $modify = '
             //     <td class="text-right">
@@ -158,7 +213,7 @@ class UserManagementController extends Controller
             //         </div>
             //     </td>
             // ';
-        
+
             $data_arr[] = [
                 "checkbox"     => $checkbox,
                 "no"           => $start + $key + 1,
@@ -169,7 +224,7 @@ class UserManagementController extends Controller
                 "email"        => $record->email,
                 "position"     => $record->position,
                 "phone_number" => $record->phone_number,
-                "status"       => $record->status, 
+                "status"       => $record->status,
                 // "modify"       => $modify, 
             ];
         }
@@ -178,6 +233,6 @@ class UserManagementController extends Controller
             "recordsTotal"         => $totalRecords,
             "recordsFiltered"      => $totalRecordsWithFilter,
             "data"                 => $data_arr
-        ])->header('Content-Type', 'application/json');        
+        ])->header('Content-Type', 'application/json');
     }
 }

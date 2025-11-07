@@ -304,9 +304,9 @@
                                                 </div>
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_ba" value="1"
+                                                        <input type="checkbox" name="is_approved" id="approve_ba" value="1"
                                                             class="custom-control-input"
-                                                            {{ old('approve', isset($edit) ? (int)$edit->is_approved : 0) ? 'checked' : '' }}>
+                                                            {{ old('is_approved', isset($edit) ? (int)$edit->is_approved : 0) ? 'checked' : '' }}>
                                                         <label for="approve_ba" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
                                                 </div>
@@ -465,12 +465,17 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_bf" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_bf" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_bf" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 <button id="tambahBiayaAdministrasi" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
@@ -624,12 +629,17 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_bum" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_bum" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_bum" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 <button id="tambahBiayaUangMuka" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
@@ -783,12 +793,17 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_bkt" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_bkt" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_bkt" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 <button id="tambahBiayaKelebihanTanah" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
@@ -942,12 +957,17 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_bpb" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_bpb" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_bpb" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 <button id="tambahBiayaPenambahanBangunan" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
@@ -1101,12 +1121,17 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_bl" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_bl" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_bl" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 <button id="tambahBiayaLainnya" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
@@ -1260,12 +1285,17 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_tpc" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_tpc" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_tpc" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 <button id="tambahTotalPenjualanCash" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
@@ -1419,12 +1449,17 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_cc" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_cc" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_cc" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 <button id="tambahCicilanCash" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
@@ -1578,12 +1613,17 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_bak" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_bak" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_bak" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 <button id="tambahBiayaAkadKredit" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
@@ -1737,12 +1777,17 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_bpf" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_bpf" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_bpf" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 <button id="tambahBiayaPenambahanFasilitas" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>
@@ -1896,12 +1941,17 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_kpr" value="1" class="custom-control-input" {{ old('approve') ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_kpr" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_kpr" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 <button id="tambahPenerimaanKpr" type="submit" class="btn btn-primary buttonedit float-right"><i class="fas fa-save mr-2"></i>Simpan</button>

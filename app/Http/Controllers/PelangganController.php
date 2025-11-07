@@ -10,6 +10,8 @@ use App\Models\Village;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
 
 class PelangganController extends Controller
 {
@@ -328,7 +330,7 @@ class PelangganController extends Controller
     {
         $draw               = $request->get('draw');
         $start              = $request->get("start");
-        $rowPerPage         = $request->get("length");
+        $length         = $request->get("length");
         $columnIndex_arr    = $request->get('order');
         $columnName_arr     = $request->get('columns');
         $order_arr          = $request->get('order');
@@ -367,11 +369,18 @@ class PelangganController extends Controller
 
         $totalRecordsWithFilter = $query->count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->skip($start)
-            ->take($rowPerPage)
-            ->get();
+        // $records = $query
+        //     ->orderBy($columnName, $columnSortOrder)
+        //     ->skip($start)
+        //     ->take($length)
+        //     ->get();
+
+        $tableName  = (new Pelanggan)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->skip($start)->take($length)->get();
         $data_arr = [];
 
         foreach ($records as $key => $record) {

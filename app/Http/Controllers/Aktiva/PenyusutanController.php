@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Penyusutan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 
 class PenyusutanController extends Controller
@@ -103,7 +104,7 @@ class PenyusutanController extends Controller
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
-        $rowPerPage      = $request->get("length"); // total number of rows per page
+        $length      = $request->get("length"); // total number of rows per page
         $columnIndex_arr = $request->get('order');
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
@@ -122,11 +123,18 @@ class PenyusutanController extends Controller
 
         $totalRecordsWithFilter = $penyusutan->count();
 
-        $records = $penyusutan
-            ->orderBy($columnName, $columnSortOrder)
-            ->skip($start)
-            ->take($rowPerPage)
-            ->get();
+        // $records = $penyusutan
+        //     ->orderBy($columnName, $columnSortOrder)
+            //->skip($start)
+           // ->take($length)
+            //->get();
+
+        $tableName  = (new Penyusutan)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $penyusutan->orderBy($sortColumn, $sortDir)->skip($start)->take($length)->get();
         $data_arr = [];
 
         foreach ($records as $key => $record) {

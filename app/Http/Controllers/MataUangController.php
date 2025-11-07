@@ -6,6 +6,7 @@ use App\Models\MataUang;
 use Illuminate\Support\Facades\DB;
 use DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 
 class MataUangController extends Controller
@@ -152,7 +153,7 @@ class MataUangController extends Controller
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
-        $rowPerPage      = $request->get("length");
+        $length          = $request->get("length");
         $columnIndex_arr = $request->get('order');
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
@@ -174,11 +175,12 @@ class MataUangController extends Controller
 
         $totalRecordsWithFilter = $query->count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->skip($start)
-            ->take($rowPerPage)
-            ->get();
+        $tableName  = (new MataUang)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 

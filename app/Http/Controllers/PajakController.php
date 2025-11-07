@@ -6,6 +6,8 @@ use App\Models\Pajak;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DataTables;
+use Illuminate\Support\Facades\Schema;
+
 
 class PajakController extends Controller
 {
@@ -108,7 +110,7 @@ class PajakController extends Controller
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
-        $rowPerPage      = $request->get("length"); // total number of rows per page
+        $length      = $request->get("length"); // total number of rows per page
         $columnIndex_arr = $request->get('order');
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
@@ -132,11 +134,18 @@ class PajakController extends Controller
 
         $totalRecordsWithFilter = $pajak->count();
 
-        $records = $pajak
-            ->orderBy($columnName, $columnSortOrder)
-            ->skip($start)
-            ->take($rowPerPage)
-            ->get();
+        // $records = $pajak
+        //     ->orderBy($columnName, $columnSortOrder)
+        //     ->skip($start)
+        //    ->take($length)
+        //     ->get();
+
+        $tableName  = (new Pajak)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $pajak->orderBy($sortColumn, $sortDir)->skip($start)->take($length)->get();
         $data_arr = [];
 
         foreach ($records as $key => $record) {

@@ -74,6 +74,8 @@ use App\Http\Controllers\Projek\PekerjaController;
 use App\Http\Controllers\Marketing\SuratPerintahPembangunanController;
 use App\Http\Controllers\Marketing\TiketKostumer\KategoriTiketKostumerController;
 use App\Http\Controllers\Marketing\TiketKostumer\TiketKostumerController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionMatrixController;
 
 
 
@@ -173,16 +175,35 @@ Route::controller(ResetPasswordController::class)->group(function () {
 //     Route::post('form/room/update', 'updateRecord')->middleware('auth')->name('form/room/update');
 // });
 
+Route::middleware(['auth', 'permission:pengaturan.view'])->prefix('pengaturan')->name('pengaturan/')->group(function () {
+    Route::get('/roles', [RoleController::class, 'index'])->middleware(['auth', 'permission:role.view'])->name('roles/dataroles');
+    Route::post('/roles', [RoleController::class, 'saveRecordRole'])->middleware(['auth', 'permission:role.create'])->name('roles/store');
+    Route::post('/roles/{role}/delete', [RoleController::class, 'destroy'])->middleware(['auth','permission:role.delete'])->name('roles/destroy');
+    Route::get('/izin-pengguna', [PermissionMatrixController::class, 'index'])->middleware(['auth', 'permission:permission.view'])->name('perm/dataizin');
+    Route::post('/izin-pengguna', [PermissionMatrixController::class, 'update'])->middleware(['auth', 'permission:permission.create'])->name('perm/update');
+});
+
 // ----------------------- User Management -------------------------//
+// Route::controller(UserManagementController::class)->group(function () {
+//     Route::get('users/list/page', 'userList')->middleware('auth')->name('users/list/page');
+//     Route::get('users/add/new', 'userAddNew')->middleware('auth')->name('users/add/new'); /** add new users */
+//     Route::get('users/add/edit/{user_id}', 'userView'); /** add new users */
+//     Route::post('users/update', 'userUpdate')->name('users/update'); /** update record */
+//     Route::get('users/edit/{id}', [UserManagementController::class, 'edit'])->name('usermanagement.edit');
+//     Route::post('users/update', [UserManagementController::class, 'update'])->name('usermanagement.update');
+//     Route::get('users/delete/{id}', 'userDelete')->name('users/delete'); /** delere record */
+//     Route::get('get-users-data', 'getUsersData')->name('get-users-data'); /** get all data users */
+// });
+
 Route::controller(UserManagementController::class)->group(function () {
-    Route::get('users/list/page', 'userList')->middleware('auth')->name('users/list/page');
-    Route::get('users/add/new', 'userAddNew')->middleware('auth')->name('users/add/new'); /** add new users */
+    Route::get('users/list/page', 'userList')->middleware(['auth','permission:user.view'])->name('users/list/page');
+    Route::get('users/add/new', 'userAddNew')->middleware(['auth','permission:user.create'])->name('users/add/new'); /** add new users */
     Route::get('users/add/edit/{user_id}', 'userView'); /** add new users */
-    Route::post('users/update', 'userUpdate')->name('users/update'); /** update record */
-    Route::get('users/edit/{id}', [UserManagementController::class, 'edit'])->name('usermanagement.edit');
-    Route::post('users/update', [UserManagementController::class, 'update'])->name('usermanagement.update');
+    Route::post('users/update', 'userUpdate')->middleware(['auth','permission:user.create'])->name('users/update'); /** update record */
+    Route::get('users/edit/{id}', [UserManagementController::class, 'edit'])->middleware(['auth','permission:user.edit'])->name('usermanagement.edit');
+    Route::post('users/update', [UserManagementController::class, 'update'])->middleware(['auth','permission:user.edit'])->name('usermanagement.update');
     Route::get('users/delete/{id}', 'userDelete')->name('users/delete'); /** delere record */
-    Route::get('get-users-data', 'getUsersData')->name('get-users-data'); /** get all data users */
+    Route::get('get-users-data', 'getUsersData')->middleware(['auth','permission:user.view'])->name('get-users-data'); /** get all data users */
 });
 
 // ----------------------------- employee -----------------------------//
@@ -744,10 +765,10 @@ Route::controller(PencatatanNomorSerialController::class)->group(function () {
 
 Route::get('prospek/add/new', ProspekForm::class)->middleware('auth')->name('prospek/add/new');
 Route::get('/prospek/edit/{id}', ProspekForm::class)->name('prospek/edit');
+Route::get('prospek/list/page', [ProspekForm::class, 'ProspekList'])->middleware('auth')->name('prospek/list/page');
+Route::get('get-prospek-data', [ProspekForm::class, 'getProspek'])->name('get-prospek-data');
     Route::controller(ProspekController::class)->group(function () {
-    Route::get('prospek/list/page', 'ProspekList')->middleware('auth')->name('prospek/list/page');
     Route::post('/prospek/delete', 'delete')->name('prospek/delete');
-    Route::get('get-prospek-data', 'getProspek')->name('get-prospek-data');
 });
 
 // ----------------------------- Konsumen (deprecated) -----------------------------//
@@ -774,22 +795,27 @@ Route::controller(SitePlanController::class)->group(function () {
 
 Route::controller(KavlingController::class)->group(function () {
     Route::get('kavling/list/page', 'KavlingList')->middleware('auth')->name('kavling/list/page');
-    Route::get('booking/list/page', 'BookingList')->middleware('auth')->name('booking/list/page');
+    Route::get('booking/list/page', 'BookingList')->middleware(['auth', 'permission:booking.view'])->name('booking/list/page');
     Route::get('kavling/add/new', 'KavlingAddNew')->middleware('auth')->name('kavling/add/new');
     Route::post('form/kavling/save', 'saveRecordKavling')->middleware('auth')->name('form/kavling/save');
     Route::get('kavling/edit/{id}', 'edit')->middleware('auth')->name('kavling/edit');
-    Route::get('booking/edit/{id}', 'editBooking')->middleware('auth')->name('booking/edit');
-    Route::get('booking/detail/{id}', 'detailBooking')->middleware('auth')->name('booking/detail');
+    Route::get('booking/edit/{id}', 'editBooking')->middleware(['auth','permission:booking.edit'])->name('booking/edit');
+    Route::get('booking/detail/{id}', 'detailBooking')->middleware(['auth','permission:booking.edit'])->name('booking/detail');
     Route::get('booking/konsumen/detail/{id}', 'detailKonsumen')->middleware('auth')->name('booking/konsumen/detail');
     Route::get('booking/konsumen/detail/{id}/pdf', [KavlingController::class, 'cetakKonsumen'])->name('booking/konsumen/detail/pdf');
     Route::post('kavling/update/{id}', 'updateKavling')->middleware('auth')->name('kavling/update');
     Route::post('booking/update/{id}', 'updateBooking')->middleware('auth')->name('booking/update');
     Route::get('/booking/file/delete/{file}', [KavlingController::class, 'deleteFile'])->name('booking/file/delete');
-    Route::get('kavling/{id}/booking/new', 'kavlingAddBooking')->middleware('auth')->name('kavling/booking/new');
+    Route::get('kavling/{id}/booking/new', 'kavlingAddBooking')->middleware(['auth','permission:booking.create'])->name('kavling/booking/new');
     // Route::get('booking/{booking}/status-update', 'addStatusBooking')->middleware('auth')->name('booking/status-update');
     // Route::post('form/booking/status-update/save', 'saveRecordStatusBooking')->middleware('auth')->name('form/booking/status-update/save');
     Route::get('booking/{booking}/status-update', [KavlingController::class, 'addStatusBooking'])->middleware('auth')->name('booking/status-update/show');
     // Route::get('booking/{id}/pembayaran-booking', [KavlingController::class, 'addPembayaranBooking'])->middleware('auth')->name('booking/pembayaran-booking/payment');
+    Route::middleware(['auth', 'permission:pembayaran-booking.view'])->group(function () {
+        Route::get('pembayaran-konsumen/list/page', 'PembayaranKonsumen')->middleware(['auth', 'permission:pembayaran-booking.view'])->name('pembayaran-konsumen/list/page');
+        Route::get('get-pembayaran-konsumen-data', 'getDataPembayaranKonsumen')->middleware(['auth', 'permission:pembayaran-booking.view'])->name('get-pembayaran-konsumen-data');
+    });
+    
     Route::middleware('auth')->group(function () {
         Route::prefix('booking/{booking}/status-update')->name('booking.status-update.')->group(function () {
             Route::post('pemberkasan',   [KavlingController::class,'storePemberkasan'])->name('pemberkasan.store');
@@ -815,9 +841,8 @@ Route::controller(KavlingController::class)->group(function () {
     //         Route::post('penerimaan-kpr',        [KavlingController::class,'storePenerimaanKpr'])->name('pembayaran7.store');
     //     });
     // });
-    Route::get('booking/{id}/pembayaran-booking/payment', [KavlingController::class, 'addPembayaranBooking'])->middleware('auth')->name('booking/pembayaran-booking/payment');
-    Route::get('booking/{id}/pembayaran-booking/payment/kwitansipdf', [KavlingController::class, 'cetakKwitansi'])->name('booking/pembayaran-booking/payment/kwitansipdf');
-    Route::middleware('auth')->group(function () {
+
+    Route::middleware(['auth', 'permission:pembayaran-booking.create'])->group(function () {
         Route::prefix('booking/{id}/pembayaran-booking/payment')->name('booking.pembayaran-booking/payment.')->group(function () {
             Route::post('booking-fee',                [KavlingController::class, 'storeGenericPayment'])->defaults('jenis', 0)->name('pembayaran0.store');
             Route::post('biaya-administrasi',         [KavlingController::class, 'storeGenericPayment'])->defaults('jenis', 1)->name('pembayaran1.store');
@@ -831,6 +856,8 @@ Route::controller(KavlingController::class)->group(function () {
             Route::post('biaya-penambahan-fasilitas', [KavlingController::class, 'storeGenericPayment'])->defaults('jenis', 9)->name('pembayaran9.store');
             Route::post('penerimaan-kpr',             [KavlingController::class, 'storeGenericPayment'])->defaults('jenis', 10)->name('pembayaran10.store');
         });
+        Route::get('booking/{id}/pembayaran-booking/payment', [KavlingController::class, 'addPembayaranBooking'])->middleware(['auth', 'permission:pembayaran-booking.create'])->name('booking/pembayaran-booking/payment');
+        Route::get('booking/{id}/pembayaran-booking/payment/kwitansipdf', [KavlingController::class, 'cetakKwitansi'])->middleware(['auth', 'permission:pembayaran-booking.create'])->name('booking/pembayaran-booking/payment/kwitansipdf');
     });
     // routes/web.php
     // routes/web.php
@@ -839,8 +866,6 @@ Route::controller(KavlingController::class)->group(function () {
     // Route::get('booking/{id}/pembayaran-booking/booking-fee', 'getBookingFee')->name('booking/pembayaran-booking/booking-fee')->middleware('auth');
     // Route::get('booking/{id}/pembayaran-booking/booking-fee', [KavlingController::class, 'getBookingFee'])->middleware('auth')->name('booking-fee.index');
     // Route::get('booking/{id}/pembayaran-booking/booking-fee/data',[KavlingController::class,'getBookingFee'])->middleware('auth')->name('get-booking-fee-data');
-    Route::get('pembayaran-konsumen/list/page', 'PembayaranKonsumen')->middleware('auth')->name('pembayaran-konsumen/list/page');
-    Route::get('get-pembayaran-konsumen-data', 'getDataPembayaranKonsumen')->middleware('auth')->name('get-pembayaran-konsumen-data');
     Route::get('pembayaran-konsumen/edit/{id}', 'editPembayaranKonsumen')->middleware('auth')->name('pembayaran-konsumen/edit');
     Route::get('booking/{id}/pembayaran-booking/uang-muka/data',[KavlingController::class,'getUangMuka'])->middleware('auth')->name('get-uang-muka-data');
     Route::get('booking/{id}/pembayaran-booking/biaya-kelebihan-tanah/data',[KavlingController::class,'getBiayaKelebihanTanah'])->middleware('auth')->name('get-biaya-kelebihan-tanah-data');
@@ -858,14 +883,14 @@ Route::controller(KavlingController::class)->group(function () {
     Route::post('spr/update/{id}', 'updateSPR')->middleware('auth')->name('spr/update');
     Route::get('spr/edit/{id}', 'editSPR')->middleware('auth')->name('spr/edit');
     Route::post('form/spr/save', 'saveRecordSpr')->middleware('auth')->name('form/spr/save');
-    Route::post('form/{id}/booking/save', 'saveRecordKavlingBooking')->middleware('auth')->name('form/booking/save');
+    Route::post('form/{id}/booking/save', 'saveRecordKavlingBooking')->middleware(['auth','permission:booking.create'])->name('form/booking/save');
     // Route::get('/booking/{booking}/generate-spr', [KavlingController::class, 'generateSpr'])->name('booking.generate-spr');
     Route::get('booking/list/page/{id}/pdf', [KavlingController::class, 'cetak'])->name('booking/list/page/pdf');
     // Route::post('kavling/{id}/booking', 'kavlingAddBooking')->middleware('auth')->name('kavling/update');
     Route::post('kavling/delete', 'delete')->middleware('auth')->name('kavling/delete');
-    Route::post('booking/delete', 'deleteBooking')->middleware('auth')->name('booking/delete');
+    Route::post('booking/delete', 'deleteBooking')->middleware(['auth', 'permission:booking.delete'])->name('booking/delete');
     Route::get('get-kavling-data', 'getKavling')->middleware('auth')->name('get-kavling-data');
-    Route::get('get-booking-data', 'getBookingKavling')->middleware('auth')->name('get-booking-data');
+    Route::get('get-booking-data', 'getBookingKavling')->middleware(['auth', 'permission:booking.view'])->name('get-booking-data');
 });
 
 Route::controller(FasumController::class)->group(function () {

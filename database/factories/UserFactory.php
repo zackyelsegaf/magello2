@@ -22,9 +22,31 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => Hash::make(12345), // password
+            'password' => Hash::make(12345),
             'remember_token' => Str::random(10),
+            'role_name' => 'SuperAdmin'
         ];
+    }
+
+    public function SuperAdmin(): Factory
+    {
+        return $this->state(fn (array $attributes) => [
+            'role_name' => 'SuperAdmin',
+        ]);
+    }
+
+    public function Marketing(): Factory
+    {
+        return $this->state(fn (array $attributes) => [
+            'role_name' => 'Marketing',
+        ]);
+    }
+
+    public function Logistik(): Factory
+    {
+        return $this->state(fn (array $attributes) => [
+            'role_name' => 'Logistik',
+        ]);
     }
 
     /**

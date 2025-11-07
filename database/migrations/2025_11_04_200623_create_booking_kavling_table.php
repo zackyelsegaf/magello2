@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('tanggal_booking')->nullable();
             $table->string('metode_pembayaran')->nullable();
             $table->unsignedTinyInteger('current_status_code')->nullable()->index()->comment();
-            $table->foreignId('spr_id')->nullable()->constrained('surat_pemesanan_rumah')->onDelete('cascade');
-            $table->unsignedTinyInteger('status_pengajuan')->default(0)->check('status_pengajuan BETWEEN 0 AND 7');
+            $table->unsignedBigInteger('spr_id')->nullable()->index();
+            // $table->unsignedTinyInteger('status_pengajuan')->default(0)->check('status_pengajuan BETWEEN 0 AND 7');
+            $table->string('status_pengajuan')->nullable();
             $table->boolean('is_active')->default(true)->index();
             $table->timestamps();
             $table->unique(['kapling_id', 'is_active']);

@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class ProspekController extends Controller
 {
-    public function ProspekList()
-    {
-        $cluster = DB::table('cluster')->get();
-        $rap_rab = DB::table('rap_rab')->get();
-        return view('marketing.prospek.prospek', compact('cluster', 'rap_rab'));
-    }
+    // public function ProspekList()
+    // {
+    //     $cluster = DB::table('cluster')->get();
+    //     $rap_rab = DB::table('rap_rab')->get();
+    //     return view('marketing.prospek.prospek', compact('cluster', 'rap_rab'));
+    // }
 
     public function ProspekAddNew()
     {
@@ -49,6 +49,13 @@ class ProspekController extends Controller
             ->offset($start)
             ->limit($length)
             ->get();
+
+        // $tableName  = (new PenerimaanPembelian)->getTable();
+        // $cols       = Schema::getColumnListing($tableName);
+        // $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        // $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        // $records = $penerimaan->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 

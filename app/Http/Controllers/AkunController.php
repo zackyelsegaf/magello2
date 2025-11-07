@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Akun;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Schema;
 
 class AkunController extends Controller
 {
@@ -171,7 +172,7 @@ class AkunController extends Controller
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
-        $rowPerPage      = $request->get("length"); // total number of rows per page
+        $length      = $request->get("length"); // total number of rows per page
         $columnIndex_arr = $request->get('order');
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
@@ -205,11 +206,18 @@ class AkunController extends Controller
 
         $totalRecordsWithFilter = $Akun->count();
 
-        $records = $Akun
-            ->orderBy('no_akun', 'asc')            
-            ->skip($start)
-            ->take($rowPerPage)
-            ->get();
+        // $records = $Akun
+        //     ->orderBy('no_akun', 'asc')            
+        //     ->skip($start)
+        //     ->take($length)
+        //     ->get();
+
+        $tableName  = (new Akun)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $Akun->orderBy($sortColumn, $sortDir)->skip($start)->take($length)->get();
             
         $data_arr = [];
 

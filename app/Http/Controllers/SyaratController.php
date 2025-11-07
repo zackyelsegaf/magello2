@@ -6,6 +6,8 @@ use App\Models\Syarat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DataTables;
+use Illuminate\Support\Facades\Schema;
+
 
 class SyaratController extends Controller
 {
@@ -105,7 +107,7 @@ class SyaratController extends Controller
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
-        $rowPerPage      = $request->get("length"); // total number of rows per page
+        $length      = $request->get("length"); // total number of rows per page
         $columnIndex_arr = $request->get('order');
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
@@ -124,11 +126,18 @@ class SyaratController extends Controller
 
         $totalRecordsWithFilter = $syarat->count();
 
-        $records = $syarat
-            ->orderBy($columnName, $columnSortOrder)
-            ->skip($start)
-            ->take($rowPerPage)
-            ->get();
+        // $records = $syarat
+        //     ->orderBy($columnName, $columnSortOrder)
+            //->skip($start)
+           // ->take($length)
+            //->get();
+
+        $tableName  = (new Syarat)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $syarat->orderBy($sortColumn, $sortDir)->skip($start)->take($length)->get();
         $data_arr = [];
 
         foreach ($records as $key => $record) {

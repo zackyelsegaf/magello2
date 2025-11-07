@@ -6,6 +6,7 @@ use App\Models\TipePelanggan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DataTables;
+use Illuminate\Support\Facades\Schema;
 
 class TipePelangganController extends Controller
 {
@@ -100,7 +101,7 @@ class TipePelangganController extends Controller
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
-        $rowPerPage      = $request->get("length"); // total number of rows per page
+        $length      = $request->get("length"); // total number of rows per page
         $columnIndex_arr = $request->get('order');
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
@@ -119,11 +120,18 @@ class TipePelangganController extends Controller
 
         $totalRecordsWithFilter = $tipe_pelanggan->count();
 
-        $records = $tipe_pelanggan
-            ->orderBy($columnName, $columnSortOrder)
-            ->skip($start)
-            ->take($rowPerPage)
-            ->get();
+        // $records = $tipe_pelanggan
+            // ->orderBy($columnName, $columnSortOrder)
+            //->skip($start)
+           // ->take($length)
+            //->get();
+
+        $tableName  = (new TipePelanggan)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $tipe_pelanggan->orderBy($sortColumn, $sortDir)->skip($start)->take($length)->get();
 
         $data_arr = [];
 

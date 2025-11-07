@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Schema;
+
 
 class SpkMandorPekerjaController extends Controller
 {
@@ -1060,8 +1062,13 @@ class SpkMandorPekerjaController extends Controller
 
         $totalRecords = (clone $baseQuery)->count();
 
+        $tableName  = (new SuratPerintahKerjaInternal)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
         $records = (clone $baseQuery)
-            ->orderBy($columnName, $columnSortOrder)
+            ->orderBy($sortColumn, $sortDir)
             ->skip($start)
             ->take($length)
             ->get(['id','nomor_spk','tanggal_spk','status_spk','dibuat_oleh', 'disetujui_oleh','created_at']);

@@ -7,6 +7,32 @@
                     <div class="col"><h7 class="page-title">Edit Kavling</h7></div>
                     <div class="col">
                         @if(!$isBooked)
+                            @can('booking.create')
+                            <a href="{{ route('kavling/booking/new', $updateKavling->id) }}" class="btn btn-primary float-right veiwbutton">
+                                <i class="fas fa-home mr-2"></i>Booking
+                            </a>
+                            @endcan
+                        @else
+                            @can('booking.view')
+                            @php $active = $updateKavling->activeBooking; @endphp
+
+                            <button class="btn btn-outline-danger buttonedit-outline float-right" disabled>
+                                <strong><i class="fas fa-ban mr-2"></i>Sudah dibooking 
+                                    @can('booking.view')
+                                        {{ $active->nomor_booking }}
+                                    @endcan
+                                </strong>
+                            </button>
+                            @can('booking.edit')
+                            @if($active)
+                            <a href="{{ route('booking/edit', $active->id) }}" class="btn btn-primary veiwbutton mr-2 float-right">
+                                <i class="fas fa-check-circle mr-2"></i>Lihat Booking {{ $active->nomor_booking }}
+                            </a>
+                            @endif
+                            @endcan
+                            @endcan
+                        @endif
+                        {{-- @if(!$isBooked)
                             <a href="{{ route('kavling/booking/new', $updateKavling->id) }}" class="btn btn-primary float-right veiwbutton">
                                 <i class="fas fa-home mr-2"></i>Booking
                             </a>
@@ -22,7 +48,7 @@
                                 <i class="fas fa-check-circle mr-2"></i>Lihat Booking {{ $active->nomor_booking }}
                             </a>
                             @endif
-                        @endif
+                        @endif --}}
                     </div>
                 </div>
             </div>

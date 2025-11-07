@@ -306,14 +306,20 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBookingFee->catatan_pembayaran) }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="is_approved" value="{{ old('is_approved', $detailBookingFee->is_approved) }}">
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailBookingFee->approved_by) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailBookingFee->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBookingFee->is_approved) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailBookingFee->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailBookingFee->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailBookingFee->id }}" class="custom-control-label">
                                                             Setujui pembayaran
                                                         </label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 @php
@@ -322,7 +328,7 @@
                                                 <div class="row justify-content-between">
                                                 @if(!$disetujui)
                                                     <div class="col-8">
-                                                        <div class="bg-secondary-card my-rounded-3">
+                                                        <div class="bg-secondary-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-secondary">
                                                                 <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
                                                             </h8>
@@ -330,7 +336,7 @@
                                                     </div>
                                                 @else
                                                     <div class="col-8">
-                                                        <div class="bg-success-card my-rounded-3">
+                                                        <div class="bg-success-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-success">
                                                                 <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
                                                             </h8>
@@ -506,14 +512,20 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaAdministrasi->catatan_pembayaran) }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="is_approved" value="{{ old('is_approved', $detailBiayaAdministrasi->is_approved) }}">
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailBiayaAdministrasi->approved_by) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaAdministrasi->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaAdministrasi->is_approved) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailBiayaAdministrasi->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailBiayaAdministrasi->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailBiayaAdministrasi->id }}" class="custom-control-label">
                                                             Setujui pembayaran
                                                         </label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 @php
@@ -522,7 +534,7 @@
                                                 <div class="row justify-content-between">
                                                 @if(!$disetujui)
                                                     <div class="col-8">
-                                                        <div class="bg-secondary-card my-rounded-3">
+                                                        <div class="bg-secondary-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-secondary">
                                                                 <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
                                                             </h8>
@@ -530,7 +542,7 @@
                                                     </div>
                                                 @else
                                                     <div class="col-8">
-                                                        <div class="bg-success-card my-rounded-3">
+                                                        <div class="bg-success-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-success">
                                                                 <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
                                                             </h8>
@@ -717,14 +729,20 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailUangMuka->catatan_pembayaran) }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="is_approved" value="{{ old('is_approved', $detailUangMuka->is_approved) }}">
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailUangMuka->approved_by) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailUangMuka->id }}" value="1" class="custom-control-input" {{ old('approve', $detailUangMuka->is_approved) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailUangMuka->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailUangMuka->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailUangMuka->id }}" class="custom-control-label">
                                                             Setujui pembayaran
                                                         </label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 @php
@@ -733,7 +751,7 @@
                                                 <div class="row justify-content-between">
                                                 @if(!$disetujui)
                                                     <div class="col-8">
-                                                        <div class="bg-secondary-card my-rounded-3">
+                                                        <div class="bg-secondary-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-secondary">
                                                                 <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
                                                             </h8>
@@ -741,7 +759,7 @@
                                                     </div>
                                                 @else
                                                     <div class="col-8">
-                                                        <div class="bg-success-card my-rounded-3">
+                                                        <div class="bg-success-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-success">
                                                                 <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
                                                             </h8>
@@ -928,14 +946,20 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaKelebihanTanah->catatan_pembayaran) }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="is_approved" value="{{ old('is_approved', $detailBiayaKelebihanTanah->is_approved) }}">
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailBiayaKelebihanTanah->approved_by) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaKelebihanTanah->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaKelebihanTanah->is_approved) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailBiayaKelebihanTanah->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailBiayaKelebihanTanah->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailBiayaKelebihanTanah->id }}" class="custom-control-label">
                                                             Setujui pembayaran
                                                         </label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 @php
@@ -944,7 +968,7 @@
                                                 <div class="row justify-content-between">
                                                 @if(!$disetujui)
                                                     <div class="col-8">
-                                                        <div class="bg-secondary-card my-rounded-3">
+                                                        <div class="bg-secondary-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-secondary">
                                                                 <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
                                                             </h8>
@@ -952,7 +976,7 @@
                                                     </div>
                                                 @else
                                                     <div class="col-8">
-                                                        <div class="bg-success-card my-rounded-3">
+                                                        <div class="bg-success-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-success">
                                                                 <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
                                                             </h8>
@@ -1139,14 +1163,20 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaPenambahanBangunan->catatan_pembayaran) }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="is_approved" value="{{ old('is_approved', $detailBiayaPenambahanBangunan->is_approved) }}">
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailBiayaPenambahanBangunan->approved_by) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaPenambahanBangunan->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaPenambahanBangunan->is_approved) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailBiayaPenambahanBangunan->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailBiayaPenambahanBangunan->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailBiayaPenambahanBangunan->id }}" class="custom-control-label">
                                                             Setujui pembayaran
                                                         </label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 @php
@@ -1155,7 +1185,7 @@
                                                 <div class="row justify-content-between">
                                                 @if(!$disetujui)
                                                     <div class="col-8">
-                                                        <div class="bg-secondary-card my-rounded-3">
+                                                        <div class="bg-secondary-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-secondary">
                                                                 <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
                                                             </h8>
@@ -1163,7 +1193,7 @@
                                                     </div>
                                                 @else
                                                     <div class="col-8">
-                                                        <div class="bg-success-card my-rounded-3">
+                                                        <div class="bg-success-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-success">
                                                                 <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
                                                             </h8>
@@ -1350,14 +1380,20 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaLainnya->catatan_pembayaran) }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="is_approved" value="{{ old('is_approved', $detailBiayaLainnya->is_approved) }}">
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailBiayaLainnya->approved_by) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaLainnya->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaLainnya->is_approved) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailBiayaLainnya->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailBiayaLainnya->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailBiayaLainnya->id }}" class="custom-control-label">
                                                             Setujui pembayaran
                                                         </label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 @php
@@ -1366,7 +1402,7 @@
                                                 <div class="row justify-content-between">
                                                 @if(!$disetujui)
                                                     <div class="col-8">
-                                                        <div class="bg-secondary-card my-rounded-3">
+                                                        <div class="bg-secondary-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-secondary">
                                                                 <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
                                                             </h8>
@@ -1374,7 +1410,7 @@
                                                     </div>
                                                 @else
                                                     <div class="col-8">
-                                                        <div class="bg-success-card my-rounded-3">
+                                                        <div class="bg-success-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-success">
                                                                 <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
                                                             </h8>
@@ -1561,14 +1597,20 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailTotalPenjualanCash->catatan_pembayaran) }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="is_approved" value="{{ old('is_approved', $detailTotalPenjualanCash->is_approved) }}">
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailTotalPenjualanCash->approved_by) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailTotalPenjualanCash->id }}" value="1" class="custom-control-input" {{ old('approve', $detailTotalPenjualanCash->is_approved) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailTotalPenjualanCash->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailTotalPenjualanCash->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailTotalPenjualanCash->id }}" class="custom-control-label">
                                                             Setujui pembayaran
                                                         </label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 @php
@@ -1577,7 +1619,7 @@
                                                 <div class="row justify-content-between">
                                                 @if(!$disetujui)
                                                     <div class="col-8">
-                                                        <div class="bg-secondary-card my-rounded-3">
+                                                        <div class="bg-secondary-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-secondary">
                                                                 <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
                                                             </h8>
@@ -1585,7 +1627,7 @@
                                                     </div>
                                                 @else
                                                     <div class="col-8">
-                                                        <div class="bg-success-card my-rounded-3">
+                                                        <div class="bg-success-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-success">
                                                                 <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
                                                             </h8>
@@ -1772,14 +1814,20 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailCicilanCash->catatan_pembayaran) }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="is_approved" value="{{ old('is_approved', $detailCicilanCash->is_approved) }}">
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailCicilanCash->approved_by) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailCicilanCash->id }}" value="1" class="custom-control-input" {{ old('approve', $detailCicilanCash->is_approved) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailCicilanCash->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailCicilanCash->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailCicilanCash->id }}" class="custom-control-label">
                                                             Setujui pembayaran
                                                         </label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 @php
@@ -1788,7 +1836,7 @@
                                                 <div class="row justify-content-between">
                                                 @if(!$disetujui)
                                                     <div class="col-8">
-                                                        <div class="bg-secondary-card my-rounded-3">
+                                                        <div class="bg-secondary-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-secondary">
                                                                 <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
                                                             </h8>
@@ -1796,7 +1844,7 @@
                                                     </div>
                                                 @else
                                                     <div class="col-8">
-                                                        <div class="bg-success-card my-rounded-3">
+                                                        <div class="bg-success-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-success">
                                                                 <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
                                                             </h8>
@@ -1983,14 +2031,20 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaAkadKredit->catatan_pembayaran) }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="is_approved" value="{{ old('is_approved', $detailBiayaAkadKredit->is_approved) }}">
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailBiayaAkadKredit->approved_by) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaAkadKredit->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaAkadKredit->is_approved) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailBiayaAkadKredit->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailBiayaAkadKredit->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailBiayaAkadKredit->id }}" class="custom-control-label">
                                                             Setujui pembayaran
                                                         </label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 @php
@@ -1999,7 +2053,7 @@
                                                 <div class="row justify-content-between">
                                                 @if(!$disetujui)
                                                     <div class="col-8">
-                                                        <div class="bg-secondary-card my-rounded-3">
+                                                        <div class="bg-secondary-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-secondary">
                                                                 <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
                                                             </h8>
@@ -2007,7 +2061,7 @@
                                                     </div>
                                                 @else
                                                     <div class="col-8">
-                                                        <div class="bg-success-card my-rounded-3">
+                                                        <div class="bg-success-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-success">
                                                                 <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
                                                             </h8>
@@ -2194,14 +2248,20 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaPenambahanFasilitas->catatan_pembayaran) }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="is_approved" value="{{ old('is_approved', $detailBiayaPenambahanFasilitas->is_approved) }}">
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailBiayaPenambahanFasilitas->approved_by) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaPenambahanFasilitas->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaPenambahanFasilitas->is_approved) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailBiayaPenambahanFasilitas->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailBiayaPenambahanFasilitas->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailBiayaPenambahanFasilitas->id }}" class="custom-control-label">
                                                             Setujui pembayaran
                                                         </label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 @php
@@ -2210,7 +2270,7 @@
                                                 <div class="row justify-content-between">
                                                 @if(!$disetujui)
                                                     <div class="col-8">
-                                                        <div class="bg-secondary-card my-rounded-3">
+                                                        <div class="bg-secondary-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-secondary">
                                                                 <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
                                                             </h8>
@@ -2218,7 +2278,7 @@
                                                     </div>
                                                 @else
                                                     <div class="col-8">
-                                                        <div class="bg-success-card my-rounded-3">
+                                                        <div class="bg-success-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-success">
                                                                 <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
                                                             </h8>
@@ -2405,14 +2465,20 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailBiayaPenerimaanKpr->catatan_pembayaran) }}</textarea>
                                                 </div>
+                                                @unlessrole('Finance')
+                                                <input type="hidden" name="is_approved" value="{{ old('is_approved', $detailBiayaPenerimaanKpr->is_approved) }}">
+                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailBiayaPenerimaanKpr->approved_by) }}">
+                                                @endunlessrole
+                                                @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" name="approve" id="approve_edit_{{ $detailBiayaPenerimaanKpr->id }}" value="1" class="custom-control-input" {{ old('approve', $detailBiayaPenerimaanKpr->is_approved) ? 'checked' : '' }}>
+                                                        <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailBiayaPenerimaanKpr->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailBiayaPenerimaanKpr->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailBiayaPenerimaanKpr->id }}" class="custom-control-label">
                                                             Setujui pembayaran
                                                         </label>
                                                     </div>
                                                 </div>
+                                                @endrole
                                             </div>
                                             <div class="p-3 border-top">
                                                 @php
@@ -2421,7 +2487,7 @@
                                                 <div class="row justify-content-between">
                                                 @if(!$disetujui)
                                                     <div class="col-8">
-                                                        <div class="bg-secondary-card my-rounded-3">
+                                                        <div class="bg-secondary-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-secondary">
                                                                 <i class="fas fa-info-circle mr-2"></i>Pembayaran belum disetujui
                                                             </h8>
@@ -2429,7 +2495,7 @@
                                                     </div>
                                                 @else
                                                     <div class="col-8">
-                                                        <div class="bg-success-card my-rounded-3">
+                                                        <div class="bg-success-card my-rounded-2">
                                                             <h8 class="font-weight-bold text-success">
                                                                 <i class="fas fa-check-circle mr-2"></i>Pembayaran telah disetujui
                                                             </h8>

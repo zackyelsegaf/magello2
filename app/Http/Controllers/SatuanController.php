@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Satuan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Schema;
+
 
 class SatuanController extends Controller
 {
@@ -110,7 +112,7 @@ class SatuanController extends Controller
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
-        $rowPerPage      = $request->get("length"); // total number of rows per page
+        $length      = $request->get("length"); // total number of rows per page
         $columnIndex_arr = $request->get('order');
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
@@ -129,11 +131,18 @@ class SatuanController extends Controller
 
         $totalRecordsWithFilter = $satuan->count();
 
-        $records = $satuan
-            ->orderBy($columnName, $columnSortOrder)
-            ->skip($start)
-            ->take($rowPerPage)
-            ->get();
+        // $records = $satuan
+        //     ->orderBy($columnName, $columnSortOrder)
+            //->skip($start)
+           // ->take($length)
+            //->get();
+
+        $tableName  = (new Satuan)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $satuan->orderBy($sortColumn, $sortDir)->skip($start)->take($length)->get();
 
         $data_arr = [];
 

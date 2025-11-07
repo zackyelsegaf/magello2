@@ -7,6 +7,8 @@ use App\Models\PesananPembelianDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
 
 class PesananPembelianController extends Controller
 {
@@ -99,7 +101,7 @@ class PesananPembelianController extends Controller
         $syarat = DB::table('syarat')->get();
         $satuan = DB::table('satuan')->get();
         $mata_uang = DB::table('mata_uang')->orderBy('nama', 'asc')->get();
-        $nama_akun = DB::table('akun')->orderBy('nama', 'asc')->get();
+        $nama_akun = DB::table('akun')->orderBy('nama_akun_indonesia', 'asc')->get();
         $prefix = 'GMP';
         $latest = PesananPembelian::orderBy('no_pesanan', 'desc')->first();
         $nextID = $latest ? intval(substr($latest->no_pesanan, strlen($prefix))) + 1 : 1;
@@ -285,7 +287,7 @@ class PesananPembelianController extends Controller
             ->get();        $satuan = DB::table('satuan')->get();
         $sub_barang = DB::table('barang')->get();
         $mata_uang = DB::table('mata_uang')->orderBy('nama', 'asc')->get();
-        $nama_akun = DB::table('akun')->orderBy('nama', 'asc')->get();
+        $nama_akun = DB::table('akun')->orderBy('nama_akun_indonesia', 'asc')->get();
         // $penyesuaianBarangEdit = DB::table('penyesuaian_barang')->where('no_penyesuaian',$no_penyesuaian)->first();
         $pesananPembelian = PesananPembelian::with(['detail', 'detail2'])->findOrFail($id);
         if (!$pesananPembelian) {
@@ -532,11 +534,18 @@ class PesananPembelianController extends Controller
         $totalRecordsWithFilter = $pesanan->count();
         $totalRecords = DB::table('permintaan_pembelian')->count();
 
-        $records = $pesanan
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $pesanan
+        //     ->orderBy($columnName, $columnSortOrder)
+        //     ->offset($start)
+        //     ->limit($length)
+        //     ->get();
+
+        $tableName  = (new PesananPembelian)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $pesanan->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
         
         $data_arr = [];
 

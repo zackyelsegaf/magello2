@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Fasum;
 use App\Models\Arsip;
+use Illuminate\Support\Facades\Schema;
 
 class FasumController extends Controller
 {
@@ -321,11 +322,18 @@ class FasumController extends Controller
         $totalRecordsWithFilter = $query->count();
         $totalRecords = DB::table('fasum')->count();
 
-        $records = $query
-            ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
-            ->get();
+        // $records = $query
+            //->orderBy($columnName, $columnSortOrder)
+            //->offset($start)
+            //->limit($length)
+            //->get();
+
+        $tableName  = (new Fasum)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $query->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
 
         $data_arr = [];
 

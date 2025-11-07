@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\ArsipFile;
 use App\Models\Kapling;
 use App\Models\Fasum;
+use App\Models\User;
 use App\Models\Fasos;
 use App\Models\BookingKavling;
 use App\Models\DokumenBooking;
@@ -64,6 +65,7 @@ class AppServiceProvider extends ServiceProvider
             'spk_internal' => SuratPerintahKerjaInternal::class,
             'arsip_file'      => ArsipFile::class,
             'pembayaran_booking' => PembayaranBookingKonsumen::class,
+            'users' => User::class,
         ]);
     }
 }

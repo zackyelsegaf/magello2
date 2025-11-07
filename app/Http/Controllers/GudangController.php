@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Gudang;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Schema;
 
 class GudangController extends Controller
 {
@@ -135,7 +136,7 @@ class GudangController extends Controller
     {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
-        $rowPerPage      = $request->get("length"); // total number of rows per page
+        $length      = $request->get("length"); // total number of rows per page
         $columnIndex_arr = $request->get('order');
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
@@ -154,11 +155,19 @@ class GudangController extends Controller
 
         $totalRecordsWithFilter = $gudang->count();
 
-        $records = $gudang
-            ->orderBy($columnName, $columnSortOrder)
-            ->skip($start)
-            ->take($rowPerPage)
-            ->get();
+        // $records = $gudang
+        //     ->orderBy($columnName, $columnSortOrder)
+        //     ->skip($start)
+        //     ->take($length)
+        //     ->get();
+
+        $tableName  = (new Gudang)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $gudang->orderBy($sortColumn, $sortDir)->skip($start)->take($length)->get();
+
         $data_arr = [];
 
         foreach ($records as $key => $record) {

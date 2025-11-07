@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('cluster_id')->nullable()->constrained('cluster')->onDelete('cascade');
             $table->foreignId('jenis_kelamin_id')->nullable()->constrained('gender')->onDelete('cascade');
             $table->foreignId('pekerjaan_1_id')->nullable()->constrained('tipe_pelanggan')->onDelete('cascade');
-            $table->foreignId('booking_id')->nullable()->constrained('booking_kavling')->nullOnDelete();
+            // $table->foreignId('booking_id')->nullable()->constrained('booking_kavling')->nullOnDelete();
             $table->foreignId('status_pernikahan_id')->nullable()->constrained('status_pemasok')->onDelete('cascade');
             $table->foreignId('pajak_1_id')->nullable()->constrained('pajak')->onDelete('cascade');
             $table->foreignId('pajak_2_id')->nullable()->constrained('pajak')->onDelete('cascade');
