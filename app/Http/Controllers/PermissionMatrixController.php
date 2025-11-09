@@ -12,15 +12,6 @@ use Illuminate\Support\Facades\Artisan;
 class PermissionMatrixController extends Controller
 {
     private array $groups = [
-        'Pengaturan' => [
-            'pengaturan.view',
-        ],
-        'Pembayaran Booking' => [
-            'pembayaran-booking.view',
-            'pembayaran-booking.create',
-            'pembayaran-booking.edit',
-            'pembayaran-booking.delete',
-        ],
     ];
 
     public function index()
@@ -391,14 +382,13 @@ class PermissionMatrixController extends Controller
 
     public function update(Request $r)
     {
-        // Validasi sederhana: matrix[role_id][] = permission_name
         $validated = $r->validate([
             'matrix'       => 'nullable|array',
             'matrix.*'     => 'array',
             'matrix.*.*'   => 'string',
         ]);
 
-        $matrix = $validated['matrix'] ?? []; // matrix[role_id] = [permission_name,...]
+        $matrix = $validated['matrix'] ?? [];
 
         DB::beginTransaction();
         try {
@@ -417,8 +407,8 @@ class PermissionMatrixController extends Controller
                 $role->syncPermissions($permNames);
             }
 
-            // reset cache permission biar langsung ngefek
             Artisan::call('permission:cache-reset');
+            Artisan::call('roles:sync-legacy'); 
 
             DB::commit();
             sweetalert()->success('Update izin role berhasil :)');

@@ -5,11 +5,15 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
+use Illuminate\Support\Facades\Artisan;
 
 class RolePermSeeder extends Seeder
 {
     public function run(): void
     {
+
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         $perms = [
         
@@ -154,6 +158,9 @@ class RolePermSeeder extends Seeder
             'progress.delete',
 
             'pembayaran-booking.view',
+            'pembayaran-booking.create',
+            'pembayaran-booking.edit',
+            'pembayaran-booking.delete',
     
             'pembelian.view',
             'pembelian.create',
@@ -242,6 +249,8 @@ class RolePermSeeder extends Seeder
 
             'laporan.view',
 
+            'pengaturan.view',
+
             'user.create',
             'user.edit',
             'user.view',
@@ -258,9 +267,17 @@ class RolePermSeeder extends Seeder
             'permission.delete',
         ];
 
-        foreach ($perms as $p) {
+         foreach ($perms as $p) {
             Permission::findOrCreate($p, 'web');
         }
+
+        $super = Role::findOrCreate('SuperAdmin', 'web');
+
+        $super->syncPermissions(Permission::all());
+
+        Artisan::call('roles:sync-legacy'); 
+
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // $roles = [
         //     ['name' => 'SuperAdmin', 'department' => 'General'],
