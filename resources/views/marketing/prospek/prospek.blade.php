@@ -1,4 +1,3 @@
-
 @extends('layouts.master')
 @section('content')
     <div class="page-wrapper">
@@ -12,6 +11,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-3">
                     <div class="card rounded-default p-3 filterBox text-white">
@@ -37,13 +37,14 @@
                             <label>Klaster/Perumahan</label>
                             <select class="form-control form-control-sm mb-2 click-filter" name="cluster">
                                 <option value="" selected>--Klaster/Perumahan--</option>
-                                @foreach ($cluster as $item)
-                                    <option value="{{ $item->nama_cluster }}">{{ $item->nama_cluster }}</option>
+                                @foreach ($cluster_id as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nama_cluster }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <script>
+                            // Fungsi toggle
                             document.getElementById('filterTanggal').addEventListener('change', function() {
                                 document.getElementById('tanggalInputs').style.display = this.checked ? 'block' : 'none';
                             });
@@ -55,7 +56,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover table-center mb-0"
-                                    id="DepartemenList">
+                                    id="ProyekList">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th width="20"><input type="checkbox" id="select_all"></th>
@@ -78,7 +79,7 @@
                             <div class="col">
                                 <a href="{{ Route('prospek/add/new') }}" class="btn btn-primary float-left veiwbutton"><i
                                         class="fas fa-plus mr-2"></i>Tambah</a>
-                                <button id="deleteSelected" class="btn btn-primary float-left veiwbutton ml-2"><i
+                                <button id="deleteSelected" class="btn btn-primary float-left veiwbutton ml-3"><i
                                         class="fas fa-trash mr-2"></i>Hapus</button>
                             </div>
                         </div>
@@ -96,7 +97,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                var table = $('#DepartemenList').DataTable({
+                var table = $('#ProyekList').DataTable({
                     processing: true,
                     serverSide: true,
                     ordering: true,
@@ -104,16 +105,18 @@
                     ajax: {
                         url: "{{ route('get-prospek-data') }}",
                         data: function(d) {
-                        d.nama = $('input[name=nama]').val();
-                        d.cluster = $('select[name=cluster]').val();
-                        d.tanggal_awal = $('input[name=tanggal_awal]').val();
-                        d.tanggal_akhir = $('input[name=tanggal_akhir]').val();
-                        d.filter_tanggal = $('input[name=filterTanggal]:checked').val();
+                            d.nama = $('input[name=nama]').val();
+                            d.cluster = $('select[name=cluster]').val();
+                            d.tanggal_awal = $('input[name=tanggal_awal]').val();
+                            d.tanggal_akhir = $('input[name=tanggal_akhir]').val();
+                            d.filter_tanggal = $('input[name=filterTanggal]:checked').val();
+                            console.log(d);
+                            
                         }
                     },
                     dom: "<'row'<'col-sm-12'B>>" +
-                        "<'row'<'col-sm-12 mt-3'tr>>" +
-                        "<'row'<'col-sm-12 col-md-6 mt-2'l><'col-sm-12 col-md-6'p>>",
+                        "<'row'<'col-sm-12 mt-3'tr>>" + 
+                        "<'row'<'col-sm-12 col-md-6 mt-2'l><'col-sm-12 col-md-6'p>>", 
                     buttons: [
                         {
                             extend: 'copyHtml5',
@@ -153,17 +156,59 @@
                             }
                         },
                     ],
-                    columns: [
-                        { data: 'checkbox', name: 'checkbox', orderable: false, searchable: false },
-                        { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                        { data: 'id', name: 'id', visible: false },
-                        { data: 'calon_kustomer', name: 'calon_kustomer', orderable: false, searchable: false },
-                        { data: 'marketing', name: 'marketing', orderable: false, searchable: false },
-                        { data: 'status', name: 'status', orderable: false, searchable: false },
-                        { data: 'sumber', name: 'sumber', orderable: false, searchable: false },
-                        { data: 'klaster', name: 'klaster', orderable: false, searchable: false },
-                        { data: 'tags_html', name: 'tags', orderable: false, searchable: false },
-                        { data: 'dibuat_pada', name: 'dibuat_pada', orderable: false, searchable: false },
+                    columns: [{
+                            data: 'checkbox',
+                            name: 'checkbox',
+                            orderable: false,
+                            searchable: false,
+                        },
+                        {
+                            data: 'no',
+                            name: 'no',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'id',
+                            name: 'id',
+                            visible: false
+                        },
+                        {
+                            data: 'calon_kustomer',
+                            name: 'calon_kustomer',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'marketing',
+                            name: 'marketing',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'status',
+                            name: 'status',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'sumber',
+                            name: 'sumber',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'nama_cluster',
+                            name: 'nama_cluster',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'dibuat_pada',
+                            name: 'dibuat_pada',
+                            orderable: false,
+                            searchable: false
+                        },
                     ]
                 });
 
@@ -178,7 +223,7 @@
                     $('.prospek_checkbox').prop('checked', this.checked);
                 });
 
-                $('#DepartemenList tbody').on('mouseenter', 'tr', function() {
+                $('#ProyekList tbody').on('mouseenter', 'tr', function() {
                     $(this).css('cursor', 'pointer');
                 });
 
@@ -206,9 +251,10 @@
                     }
                 });
 
-                $('#DepartemenList tbody').on('click', 'tr', function(e) {
+                $('#ProyekList tbody').on('click', 'tr', function(e) {
+                    // Cek apakah yang diklik adalah checkbox atau elemen dalam checkbox
                     if ($(e.target).is('input[type="checkbox"], label')) {
-                        return;
+                        return; // Jika iya, hentikan eksekusi supaya tidak redirect
                     }
 
                     var data = table.row(this).data();
@@ -218,5 +264,5 @@
                 });
             });
         </script>
-@endsection
+    @endsection
 @endsection

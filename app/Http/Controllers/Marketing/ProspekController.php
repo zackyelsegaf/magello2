@@ -2,92 +2,110 @@
 
 namespace App\Http\Controllers\Marketing;
 
+use App\Models\Cluster;
+use App\Models\Prospek;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 
 class ProspekController extends Controller
 {
-    // public function ProspekList()
-    // {
-    //     $cluster = DB::table('cluster')->get();
-    //     $rap_rab = DB::table('rap_rab')->get();
-    //     return view('marketing.prospek.prospek', compact('cluster', 'rap_rab'));
-    // }
+    public function ProspekList()
+    {
+        $cluster = Cluster::all('nama_cluster');
+        return view('marketing.prospek.prospek', compact('cluster'));
+    }
 
     public function ProspekAddNew()
     {
         return view('marketing.prospek.prospekaddnew');
     }
 
-    public function getProspek(Request $request)
+    public function delete(Request $request)
     {
+        try {
+            $ids = $request->ids;
+            Prospek::whereIn('id', $ids)->delete();
+            sweetalert()->success('Data berhasil dihapus :)');
+            return redirect()->route('klusterperumahan/list/page');    
+            
+        } catch(\Exception $e) {
+            DB::rollback();
+            sweetalert()->error('Data gagal dihapus :)');
+            \Log::error($e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function getProspek(Request $request) {
         $draw            = $request->get('draw');
         $start           = $request->get("start");
-        $length          = $request->get("length");
+        $rowPerPage      = $request->get("length"); // total number of rows per page
         $columnIndex_arr = $request->get('order');
         $columnName_arr  = $request->get('columns');
         $order_arr       = $request->get('order');
-        $kavlingNamaByClusterFilter = $request->get('cluster_id');
-        $columnIndex     = $columnIndex_arr[0]['column'];
-        $columnName      = $columnName_arr[$columnIndex]['data'];
-        $columnSortOrder = $order_arr[0]['dir'];
+        $namaFilter      = $request->get('nama');
+        $clusterFilter      = $request->get('cluster');
+        $tanggalFilter      = $request->get('filter_tanggal');
+        $tanggalAwalFilter  = $request->get('tanggal_awal');
+        $tanggalAkhirFilter = $request->get('tanggal_akhir');
 
-        $query = DB::table('kapling')
-            ->leftJoin('cluster','cluster.id','=','kapling.cluster_id')
-            ->select('kapling.*','cluster.nama_cluster');
+        $columnIndex     = $columnIndex_arr[0]['column']; // Column index
+        $columnName      = $columnName_arr[$columnIndex]['data']; // Column name
+        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
 
-        if ($kavlingNamaByClusterFilter) {
-            $query->where('kapling.cluster_id', 'like', '%' . $kavlingNamaByClusterFilter . '%');
+        $prospek =  DB::table('prospek');
+        $totalRecords = $prospek->count();
+
+        if ($namaFilter) {
+            $prospek->where('nama', 'like', '%' . $namaFilter . '%');
+        }
+        if ($clusterFilter) {
+            $prospek->where('cluster', 'like', '%' . $clusterFilter . '%');
         }
 
-        $totalRecordsWithFilter = $query->count();
-        $totalRecords = DB::table('kapling')->count();
 
-        $records = $query
+        $totalRecordsWithFilter = $prospek->count();
+
+        $records = $prospek
             ->orderBy($columnName, $columnSortOrder)
-            ->offset($start)
-            ->limit($length)
+            ->skip($start)
+            ->take($rowPerPage)
             ->get();
 
-        // $tableName  = (new PenerimaanPembelian)->getTable();
-        // $cols       = Schema::getColumnListing($tableName);
-        // $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
-        // $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+        if($tanggalFilter && $tanggalAwalFilter && $tanggalAkhirFilter){
+            $tanggalAwal = Carbon::parse($tanggalAwalFilter);
+            $tanggalAkhir = Carbon::parse($tanggalAkhirFilter);
 
-        // $records = $penerimaan->orderBy($sortColumn, $sortDir)->offset($start)->limit($length)->get();
-
-        $data_arr = [];
-
-        foreach ($records as $key => $record) {
-
-            $checkbox = '<input type="checkbox" class="kavling_checkbox" value="'.$record->id.'">';
-
-            $data_arr[] = [
-                "checkbox"                  => $checkbox,
-                "no"                        => $start + $key + 1,
-                "id"                        => $record->id,
-                "cluster_id"                => $record->nama_cluster,
-                "rap_rab_id"                => $record->rap_rab_id,
-                "tipe_model"                => $record->tipe_model,
-                "blok_kapling"              => $record->blok_kapling,
-                "nomor_unit_kapling"        => $record->nomor_unit_kapling,
-                "jumlah_lantai"             => $record->jumlah_lantai,
-                "luas_tanah"                => $record->luas_tanah,
-                "luas_bangunan"             => $record->luas_bangunan,
-                "harga_kapling"             => $record->harga_kapling,
-                "spesifikasi"               => $record->spesifikasi,
-                "status_penjualan"          => $record->status_penjualan,
-                "status_pembangunan"        => $record->status_pembangunan,
-            ];
+            $records = $records->filter(function ($prospek) use ($tanggalAwal, $tanggalAkhir) {
+                $tanggal = Carbon::parse($prospek->created_at);
+                return $tanggal->between($tanggalAwal, $tanggalAkhir);
+            });
         }
 
-        return response()->json([
-            "draw"            => intval($draw),
-            "recordsTotal"    => $totalRecords,
-            "recordsFiltered" => $totalRecordsWithFilter,
-            "data"            => $data_arr
-        ])->header('Content-Type', 'application/json');
-    }
+        $data_arr = [];
+        foreach ($records as $key => $record) {
+            $checkbox = '<input type="checkbox" class="prospek_checkbox" value="'.$record->id.'">';
 
+            $data_arr[] = [
+                "checkbox"       => $checkbox,
+                "no"             => $start + $key + 1,
+                "id"             => $record->id,
+                "calon_kustomer" => $record->nama,
+                'marketing'      => $record->ditugaskan_ke,
+                "status"         => $record->status,
+                'sumber'         => $record->sumber_prospek,
+                'klaster'        => $record->cluster,
+                'dibuat_pada'    => date('d/m/Y', strtotime($record->created_at)),
+            ];
+        }
+        
+        return response()->json([
+            "draw"                 => intval($draw),
+            "recordsTotal"         => $totalRecords,
+            "recordsFiltered"      => $totalRecordsWithFilter,
+            "data"                 => $data_arr
+        ])->header('Content-Type', 'application/json');        
+    }
 }

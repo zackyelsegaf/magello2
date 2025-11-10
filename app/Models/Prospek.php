@@ -14,7 +14,7 @@ class Prospek extends Model
         'tags' => 'array',
     ];
     protected $fillable = [
-        'cluster',
+        'cluster_id',
         'nama',
         'email',
         'no_hp',
@@ -24,5 +24,10 @@ class Prospek extends Model
         'tags',
         'status',
     ];
+
+    public function cluster()
+    {
+        return $this->belongsTo(Cluster::class, 'cluster_id');
+    }
 
 }

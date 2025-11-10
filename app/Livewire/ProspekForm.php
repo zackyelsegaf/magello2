@@ -3,16 +3,20 @@
 namespace App\Livewire;
 
 use App\Models\Prospek;
+use App\Models\Cluster;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Schema;
 
 class ProspekForm extends Component
 {
+    
+
     public $prospekId;
-    public $cluster;
+    public $cluster_id;
     public $nama;
     public $email;
     public $no_hp;
@@ -22,13 +26,18 @@ class ProspekForm extends Component
     public $status = 'Walk In Customer';
     public $tags = []; 
 
+    public function ProspekList()
+    {
+        $cluster_id = DB::table('cluster')->get();
+        return view('marketing.prospek.prospek', compact('cluster_id'));
+    }
     public function mount($id = null)
     {
         if ($id) {
             $prospek = Prospek::findOrFail($id);
 
             $this->prospekId      = $prospek->id;
-            $this->cluster        = $prospek->cluster;
+            $this->cluster_id        = $prospek->cluster_id;
             $this->nama           = $prospek->nama;
             $this->email          = $prospek->email;
             $this->no_hp          = $prospek->no_hp;
@@ -44,7 +53,7 @@ class ProspekForm extends Component
     public function save()
     {
         $data = $this->validate([
-            'cluster'        => 'nullable|string|max:255',
+            'cluster_id'     => 'nullable|string|max:255',
             'nama'           => 'nullable|string|max:255',
             'email'          => 'nullable|email',
             'no_hp'          => 'nullable|numeric',
@@ -118,50 +127,85 @@ class ProspekForm extends Component
         return [];
     }
 
-    public function getProspek(Request $request)
-    {
-        $q = Prospek::query();
+    public function getProspek(Request $request) {
+        $draw            = $request->get('draw');
+        $start           = $request->get("start");
+        $length      = $request->get("length"); // total number of rows per page
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr  = $request->get('columns');
+        $order_arr       = $request->get('order');
+        $namaFilter      = $request->get('nama');
+        $clusterFilter      = $request->get('cluster');
+        $tanggalFilter      = $request->get('filter_tanggal');
+        $tanggalAwalFilter  = $request->get('tanggal_awal');
+        $tanggalAkhirFilter = $request->get('tanggal_akhir');
 
-        if ($nama = $request->input('nama')) {
-            $q->where('nama', 'like', "%{$nama}%");
+        $columnIndex     = $columnIndex_arr[0]['column']; // Column index
+        $columnName      = $columnName_arr[$columnIndex]['data']; // Column name
+        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
+
+        $prospek = Prospek::query()
+            ->with([
+                'cluster',
+            ]);
+        $totalRecords = Prospek::count();
+
+        if ($namaFilter) {
+            $prospek->where('nama', 'like', '%' . $namaFilter . '%');
         }
-        if ($request->boolean('filter_tanggal')) {
-            if ($request->filled('tanggal_awal')) {
-                $q->whereDate('created_at', '>=', $request->input('tanggal_awal'));
-            }
-            if ($request->filled('tanggal_akhir')) {
-                $q->whereDate('created_at', '<=', $request->input('tanggal_akhir'));
-            }
-        }
-        if ($cluster = $request->input('cluster')) {
-            $q->where('cluster', $cluster);
+        if ($clusterFilter) {
+            $prospek->where('id', 'like', '%' . $clusterFilter . '%');
         }
 
-        return DataTables::of($q)
-            ->addIndexColumn()
-            ->addColumn('checkbox', fn($r) =>
-                '<input type="checkbox" class="prospek_checkbox" value="'.$r->id.'">'
-            )
-            ->addColumn('calon_kustomer', fn($r) => e($r->nama))
-            ->addColumn('marketing', fn($r) => e($r->ditugaskan_ke))
-            ->addColumn('status', fn($r) => e($r->status))
-            ->addColumn('sumber', fn($r) => e($r->sumber_prospek))
-            ->addColumn('klaster', fn($r) => e($r->cluster))
-            ->addColumn('dibuat_pada', fn($r) =>
-                optional($r->created_at)->format('d M Y H:i') ?? '-'
-            )
-            ->addColumn('tags_html', function ($r) {
-                // normalisasi tags jadi array
-                $tags = is_array($r->tags) ? $r->tags : (json_decode($r->tags, true) ?: []);
-                if (empty($tags)) return '-';
 
-                // render badges
-                return collect($tags)->map(function ($t) {
-                    $t = e($t);
-                    return "<span class=\"badge badge-info mr-1\">{$t}</span>";
-                })->implode(' ');
-            })
-            ->rawColumns(['checkbox', 'tags_html']) // izinkan HTML utk kolom ini
-            ->make(true);
+        $totalRecordsWithFilter = $prospek->count();
+
+        // $records = $prospek
+        //     ->orderBy($columnName, $columnSortOrder)
+        //     ->skip($start)
+        //    ->take($length)
+        //     ->get();
+
+        $tableName  = (new Prospek)->getTable();
+        $cols       = Schema::getColumnListing($tableName);
+        $sortColumn = in_array($columnName, $cols, true) ? $columnName : 'id';
+        $sortDir    = strtolower($columnSortOrder) === 'desc' ? 'desc' : 'asc';
+
+        $records = $prospek->orderBy($sortColumn, $sortDir)->skip($start)->take($length)->get();
+
+        if($tanggalFilter && $tanggalAwalFilter && $tanggalAkhirFilter){
+            $tanggalAwal = Carbon::parse($tanggalAwalFilter);
+            $tanggalAkhir = Carbon::parse($tanggalAkhirFilter);
+
+            $records = $records->filter(function ($prospek) use ($tanggalAwal, $tanggalAkhir) {
+                $tanggal = Carbon::parse($prospek->created_at);
+                return $tanggal->between($tanggalAwal, $tanggalAkhir);
+            });
+        }
+
+        $data_arr = [];
+        foreach ($records as $key => $record) {
+            $checkbox = '<input type="checkbox" class="prospek_checkbox" value="'.$record->id.'">';
+
+            $data_arr[] = [
+                "checkbox"       => $checkbox,
+                "no"             => $start + $key + 1,
+                "id"             => $record->id,
+                "calon_kustomer" => $record->nama,
+                'marketing'      => $record->ditugaskan_ke,
+                "status"         => $record->status,
+                'sumber'         => $record->sumber_prospek,
+                'cluster_id'     => $record->cluster_id,
+                'nama_cluster'   => $record->cluster?->nama_cluster,
+                'dibuat_pada'    => date('d/m/Y', strtotime($record->created_at)),
+            ];
+        }
+        
+        return response()->json([
+            "draw"                 => intval($draw),
+            "recordsTotal"         => $totalRecords,
+            "recordsFiltered"      => $totalRecordsWithFilter,
+            "data"                 => $data_arr
+        ])->header('Content-Type', 'application/json');        
     }
 }
