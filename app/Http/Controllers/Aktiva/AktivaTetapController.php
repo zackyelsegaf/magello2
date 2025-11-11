@@ -53,25 +53,25 @@ class AktivaTetapController extends Controller
         $tipeAktivaTetap = DB::table('tipe_aktiva_tetaps')->get();
         $penyusutan = DB::table('penyusutan')->get();
         $akunAktiva = DB::table('akun')
-            ->whereIn('tipe_akun', ['Aktiva Tetap',])
-            ->where('sub_akun_check', '1')
-            ->orderBy('nama', 'asc')
+            ->whereIn('tipe_id', ['5'])
+            ->where('parent_id', '58')
+            ->orderBy('nama_akun_indonesia', 'asc')
             ->get();
         $akunAktivaAP = DB::table('akun')
-            ->whereIn('tipe_akun', ['Akumulasi Penyusutan',])
-            ->where('sub_akun_check', '1')
-            ->orderBy('nama', 'asc')
+            ->whereIn('tipe_id', ['6',])
+            ->where('parent_id', '68')
+            ->orderBy('nama_akun_indonesia', 'asc')
             ->get();
         $akunAktivaBP = DB::table('akun')
             ->where(function ($query) {
-                $query->where('tipe_akun', 'Beban')
-                    ->where('sub_akun_check', 0);
+                $query->where('tipe_id', '12')
+                    ->where('sub_akun_check', 144);
             })
             ->orWhere(function ($query) {
-                $query->where('tipe_akun', 'Harga Pokok Penjualan')
+                $query->where('tipe_id', 'Harga Pokok Penjualan')
                     ->where('sub_akun_check', 1);
             })
-            ->orderBy('nama', 'asc')
+            ->orderBy('nama_akun_indonesia', 'asc')
             ->get();
         $prefix = 'AKT';
         $latest = AktivaTetap::orderBy('kode_aktiva', 'desc')->first();
@@ -246,25 +246,25 @@ class AktivaTetapController extends Controller
         $tipeAktivaTetap = DB::table('tipe_aktiva_tetaps')->get();
         $penyusutan = DB::table('penyusutan')->get();
         $akunAktiva = DB::table('akun')
-            ->whereIn('tipe_akun', ['Aktiva Tetap',])
-            ->where('sub_akun_check', '1')
-            ->orderBy('nama', 'asc')
+            ->whereIn('tipe_id', ['5'])
+            ->where('parent_id', '58')
+            ->orderBy('nama_akun_indonesia', 'asc')
             ->get();
         $akunAktivaAP = DB::table('akun')
-            ->whereIn('tipe_akun', ['Akumulasi Penyusutan',])
+            ->whereIn('tipe_id', ['Akumulasi Penyusutan',])
             ->where('sub_akun_check', '1')
-            ->orderBy('nama', 'asc')
+            ->orderBy('nama_akun_indonesia', 'asc')
             ->get();
         $akunAktivaBP = DB::table('akun')
             ->where(function ($query) {
-                $query->where('tipe_akun', 'Beban')
+                $query->where('tipe_id', 'Beban')
                     ->where('sub_akun_check', 0);
             })
             ->orWhere(function ($query) {
-                $query->where('tipe_akun', 'Harga Pokok Penjualan')
+                $query->where('tipe_id', 'Harga Pokok Penjualan')
                     ->where('sub_akun_check', 1);
             })
-            ->orderBy('nama', 'asc')
+            ->orderBy('nama_akun_indonesia', 'asc')
             ->get();
 
         $aktivaTetap = AktivaTetap::with(['detail', 'detail2'])->findOrFail($id);

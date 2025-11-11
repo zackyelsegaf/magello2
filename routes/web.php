@@ -1048,3 +1048,23 @@ Route::controller(KemajuanPembangunanController::class)->group(function () {
     Route::post('kemajuanpembangunan/delete', [KemajuanPembangunanController::class, 'delete'])->name('kemajuanpembangunan/delete');
     Route::get('get-kemajuanpembangunan-data', [KemajuanPembangunanController::class, 'getKemajuanPembangunan'])->name('get-kemajuanpembangunan-data');
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::prefix('devina-cashbook')->name('devina-cashbook.')->group(function () {
+
+        // Kas / Rekening (BCA, Mandiri, BRI, Kas Tunai, dll)
+        Route::resource('cashbooks', CashbookController::class)->only(['index','create','store','show','edit','update','destroy']);
+
+        // Entry per kas (pemasukan/pengeluaran)
+        Route::resource('cashbooks.entries', CashbookEntryController::class)
+            ->shallow() // jadi /entries/{entry} utk show/edit/destroy
+            ->only(['index','create','store','show','edit','update','destroy']);
+
+        // Transfer antar kas
+        Route::post('transfers', [CashbookTransferController::class, 'store'])->name('transfers.store');
+        Route::get('transfers', [CashbookTransferController::class, 'index'])->name('transfers.index');
+
+        // (Opsional) Export
+        Route::get('cashbooks/{cashbook}/export', [CashbookExportController::class, 'csv'])->name('cashbooks.export');
+    });
+});
