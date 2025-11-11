@@ -465,12 +465,10 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                                @unlessrole('Finance')
-                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
-                                                @endunlessrole
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_bf" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_bf" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
@@ -629,12 +627,10 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                                @unlessrole('Finance')
-                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
-                                                @endunlessrole
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_bum" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_bum" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
@@ -793,12 +789,10 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                                @unlessrole('Finance')
-                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
-                                                @endunlessrole
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_bkt" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_bkt" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
@@ -957,12 +951,10 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                                @unlessrole('Finance')
-                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
-                                                @endunlessrole
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_bpb" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_bpb" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
@@ -1121,12 +1113,10 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                                @unlessrole('Finance')
-                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
-                                                @endunlessrole
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_bl" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_bl" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
@@ -1285,12 +1275,10 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                                @unlessrole('Finance')
-                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
-                                                @endunlessrole
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_tpc" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_tpc" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
@@ -1449,12 +1437,10 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                                @unlessrole('Finance')
-                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
-                                                @endunlessrole
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_cc" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_cc" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
@@ -1613,12 +1599,10 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                                @unlessrole('Finance')
-                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
-                                                @endunlessrole
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_bak" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_bak" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
@@ -1777,12 +1761,10 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                                @unlessrole('Finance')
-                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
-                                                @endunlessrole
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_bpf" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_bpf" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
@@ -1941,12 +1923,10 @@
                                                     <label>Catatan</label>
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran') }}</textarea>
                                                 </div>
-                                                @unlessrole('Finance')
-                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
-                                                @endunlessrole
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', Auth::user()->id) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_kpr" value="1" class="custom-control-input" {{ old('is_approved') ? 'checked' : '' }}>
                                                         <label for="approve_kpr" class="custom-control-label">Sekaligus setujui (approve)</label>
                                                     </div>
