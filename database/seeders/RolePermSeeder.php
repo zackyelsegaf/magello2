@@ -265,6 +265,15 @@ class RolePermSeeder extends Seeder
             'permission.view',
             'permission.edit',
             'permission.delete',
+
+            'cashbook.create',
+            'cashbook.view',
+            'cashbook.edit',
+            'cashbook.delete',
+
+            'cashbooksidebar.view',
+            
+            'menusidebar.view',
         ];
 
          foreach ($perms as $p) {

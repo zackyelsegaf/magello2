@@ -12,6 +12,20 @@ use Illuminate\Support\Facades\Artisan;
 class PermissionMatrixController extends Controller
 {
     private array $groups = [
+        'Cashbook' => [
+            'cashbook.create',
+            'cashbook.view',
+            'cashbook.edit',
+            'cashbook.delete',
+        ],
+    
+        'Cashbook Sidebar' => [
+            'cashbooksidebar.view'
+        ],
+
+        'Menu Sidebar' => [
+            'menusidebar.view'
+        ],
     ];
 
     public function index()
@@ -158,12 +172,29 @@ class PermissionMatrixController extends Controller
                     ],
                 ],
             ],
-            
+            'Buku Kas' => [
+                'Cashbook' => [
+                    'Menu Cashbook' => [
+                        'cashbook.create',
+                        'cashbook.view',
+                        'cashbook.edit',
+                        'cashbook.delete',
+                    ],
+                ],
+            ],
 
             'Pengaturan' => [
                 'Pengaturan' => [
                     'Menu Pengaturan' => [
                         'pengaturan.view',
+                    ],
+
+                    'Sidebar Utama' => [
+                        'menusidebar.view'
+                    ],
+
+                    'Sidebar Bukukas' => [
+                        'cashbooksidebar.view'
                     ],
 
                     'Data Pengguna' => [

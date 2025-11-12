@@ -1049,8 +1049,9 @@ Route::controller(KemajuanPembangunanController::class)->group(function () {
     Route::get('get-kemajuanpembangunan-data', [KemajuanPembangunanController::class, 'getKemajuanPembangunan'])->name('get-kemajuanpembangunan-data');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'permission:cashbooksidebar.view'])->group(function () {
     Route::prefix('devina-cashbook')->name('devina-cashbook.')->group(function () {
+        Route::get('bukukas/list/page', [KavlingController::class, 'getBukukas'])->middleware('auth', 'permission:cashbook.view')->name('bukukas.list.page');
 
         // Kas / Rekening (BCA, Mandiri, BRI, Kas Tunai, dll)
         Route::resource('cashbooks', CashbookController::class)->only(['index','create','store','show','edit','update','destroy']);

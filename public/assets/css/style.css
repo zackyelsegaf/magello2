@@ -4487,6 +4487,24 @@ card-title {
     border-color: #27548A;
 }
 
+.veiwbutton1 {
+    font-size: .8rem;
+    border-radius: 8px;
+    width: fit-content;
+    padding: 5px 20px 5px 20px;
+    background: #1FAB89;
+    border-color: #1FAB89;
+}
+
+.veiwbutton2 {
+    font-size: .8rem;
+    border-radius: 8px;
+    width: fit-content;
+    padding: 5px 20px 5px 20px;
+    background: #850E35;
+    border-color: #850E35;
+}
+
 .search_button {
     background: #009688;
     border-color: #009688

@@ -7,7 +7,7 @@ use Illuminate\Routing\Controller;
 
 class KlusterPerumahanController extends Controller
 {
-        public function KlusterPerumahanList()
+    public function KlusterPerumahanList()
     {
         return view('marketing.perumahan.klusterperumahan.klusterperumahan');
     }
