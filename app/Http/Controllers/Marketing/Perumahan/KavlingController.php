@@ -5376,10 +5376,4 @@ class KavlingController extends Controller
             "data"            => $data_arr
         ])->header('Content-Type', 'application/json');
     }
-     
-    public function getBukukas(Request $request)
-    {
-        return view('keuangan.otorisasipembayaran.bukukas', ['is_cashbook_dashboard' => true,]);
-    }
-
 }

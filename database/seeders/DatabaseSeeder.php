@@ -83,7 +83,10 @@ class DatabaseSeeder extends Seeder
             JenisDokumenPersyaratanSeeder::class,
             NegaraSeeder::class,
             ProvinsiSeeder::class,
-            KotaSeeder::class
+            KotaSeeder::class,
+            BukuKasSeeder::class,
+            TipeBukuKasSeeder::class,
+            KategoriBukuKasSeeder::class,
         ]);
     }
 }

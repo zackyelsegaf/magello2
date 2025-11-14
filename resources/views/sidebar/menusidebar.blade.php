@@ -82,7 +82,7 @@
                 <li class="submenu"> <a href="#"></i><i class="fas fa-database mr-2"></i><span> Keuangan </span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li><a class="{{ set_active(['pembayaran-konsumen/list/page']) }}" href="{{ route('pembayaran-konsumen/list/page') }}"><i class="fas fa-users ml-0 mr-3"></i>Transaksi Booking</a></li>
-                        <li><a class="{{ set_active(['devina-cashbook.bukukas.list.page']) }}" href="{{ route('devina-cashbook.bukukas.list.page') }}"><i class="fas fa-book ml-0 mr-3"></i>Buku Kas</a></li>
+                        <li><a class="{{ set_active(['devina-cashbook.buku-kas.list.page']) }}" href="{{ route('devina-cashbook.buku-kas.list.page') }}"><i class="fas fa-book ml-0 mr-3"></i>Buku Kas</a></li>
                     </ul>
                 </li>
                 @endcan

@@ -4488,19 +4488,19 @@ card-title {
 }
 
 .veiwbutton1 {
-    font-size: .8rem;
-    border-radius: 8px;
+    font-size: .9rem;
+    border-radius: 10px;
     width: fit-content;
-    padding: 5px 20px 5px 20px;
+    padding: 10px 25px 10px 25px;
     background: #1FAB89;
     border-color: #1FAB89;
 }
 
 .veiwbutton2 {
-    font-size: .8rem;
-    border-radius: 8px;
+    font-size: .9rem;
+    border-radius: 10px;
     width: fit-content;
-    padding: 5px 20px 5px 20px;
+    padding: 10px 25px 10px 25px;
     background: #850E35;
     border-color: #850E35;
 }
