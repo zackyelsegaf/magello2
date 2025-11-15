@@ -42,7 +42,9 @@
                 <div class="mb-15 row align-items-center">
                     <div class="col">
                         <div class="">
+                            @can('user.create')
                             <a href="{{ route('users/add/new') }}" class="btn btn-primary float-left veiwbutton"><i class="fas fa-plus mr-2"></i>Tambah</a>
+                            @endcan
                         </div>
                     </div>
                 </div>

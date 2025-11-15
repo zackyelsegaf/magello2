@@ -13,13 +13,12 @@
             <div class="row mb-3">
                 <div class="col-md-4" wire:ignore>
                     <label for="klaster" class="form-label fw-bold">Nama Klaster</label>
-                    <select class="tomselect @error('cluster') is-invalid @enderror" wire:model="cluster" id="klaster" wire:ignore>
-                        <option value="">--Nama Klaster--</option>
-                        @foreach ($data_cluster as $items)
-                            <option value="{{ $items->nama_cluster }}"
-                                @selected($cluster === $items->nama_cluster)>
-                                {{ $items->nama_cluster }}
-                            </option>
+                    <select class="tomselect @error('cluster_id') is-invalid @enderror" wire:model="cluster_id" id="klaster" wire:ignore>
+                        <option {{ old('cluster_id') ? '' : 'selected' }} disabled>--Nama Klaster--</option>
+                        @foreach ($data_cluster as $items )
+                            <option value="{{ $items->id }}" {{ old('cluster_id') == $items->id ? 'selected' : '' }} 
+                                {{-- @if($items->id == 1) selected @endif --}}
+                                >{{ $items->nama_cluster }}</option>
                         @endforeach
                     </select>
                 </div>

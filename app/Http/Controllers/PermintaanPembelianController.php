@@ -365,5 +365,4 @@ class PermintaanPembelianController extends Controller
             "data"            => $data_arr
         ])->header('Content-Type', 'application/json');
     }
-
 }

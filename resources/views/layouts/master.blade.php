@@ -160,7 +160,12 @@
 			</div> --}}
         </div>
         {{-- menu --}}
-        @include('sidebar.menusidebar')
+        @if (isset($is_cashbook_dashboard) && $is_cashbook_dashboard)
+            @include('sidebar.cashbooksidebar')
+        @else
+            @include('sidebar.menusidebar')
+        @endif
+
         @yield('content')
     </div>
     {{-- <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> --}}

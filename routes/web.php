@@ -76,8 +76,7 @@ use App\Http\Controllers\Marketing\TiketKostumer\KategoriTiketKostumerController
 use App\Http\Controllers\Marketing\TiketKostumer\TiketKostumerController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionMatrixController;
-
-
+use App\Http\Controllers\BukuKasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -1047,4 +1046,26 @@ Route::controller(KemajuanPembangunanController::class)->group(function () {
     Route::post('kemajuanpembangunan/update/{id}', [KemajuanPembangunanController::class, 'update'])->name('kemajuanpembangunan/update');
     Route::post('kemajuanpembangunan/delete', [KemajuanPembangunanController::class, 'delete'])->name('kemajuanpembangunan/delete');
     Route::get('get-kemajuanpembangunan-data', [KemajuanPembangunanController::class, 'getKemajuanPembangunan'])->name('get-kemajuanpembangunan-data');
+});
+
+Route::middleware(['auth', 'permission:cashbooksidebar.view'])->group(function () {
+    Route::prefix('devina-cashbook')->name('devina-cashbook.')->group(function () {
+        Route::controller(BukuKasController::class)->group(function (){
+            Route::get('kas/data/list', 'kasList')->name('kas.data.list');
+            Route::get('get-kas-data', 'getKasData')->name('get-kas-data');
+            Route::get('/kas/tambah', 'kasList')->name('kas.tambah');
+            Route::post('kas/tambah/form', 'storeKas')->name('kas.tambah.form');
+            Route::get('kas/ubah/{id}', [BukuKasController::class, 'edit'])->middleware(['auth'])->name('kas.edit');
+            Route::post('kas/ubah/{id}', [BukuKasController::class, 'update'])->middleware(['auth'])->name('kas.update');
+            Route::get('kas/hapus/{id}', 'kasDelete')->name('kas.hapus');
+
+            Route::get('buku-kas/list/page', 'bukuKasList')->name('buku-kas.list.page');
+            Route::get('get-buku-kas-data', 'getBukuKasData')->middleware('auth', 'permission:cashbook.view')->name('get-buku-kas-data');
+            Route::get('/buku-kas/tambah', 'bukuKasList')->name('buku-kas.tambah');
+            Route::post('buku-kas/tambah/form', 'storeBukuKas')->name('buku-kas.tambah.form');
+            Route::get('buku-kas/ubah/{id}', [BukuKasController::class, 'bukuKasEdit'])->middleware(['auth'])->name('buku-kas.edit');
+            Route::post('buku-kas/ubah/{id}', [BukuKasController::class, 'bukuKasUpdate'])->middleware(['auth'])->name('buku-kas.update');
+            Route::get('buku-kas/hapus/{id}', 'bukuKasDelete')->name('buku-kas.hapus');
+        });
+    });
 });

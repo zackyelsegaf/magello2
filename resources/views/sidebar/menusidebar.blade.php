@@ -25,7 +25,6 @@
                         <li><a class="{{ set_active(['pajak/list/page']) }}" href="{{ route('pajak/list/page') }}"><i class="fas fa-money-check-alt mr-3"></i>Pajak</a></li>
                     </ul>
                 </li>
-
                 <li class="submenu"> <a href="#"></i><i class="fas fa-database mr-2"></i><span> Marketing  <span class="badge bg-light text-dark">New!</span></span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li><a class="{{ set_active(['prospek/list/page']) }}" href="{{ route('prospek/list/page') }}"><i class="fas fa-money-check-alt mr-3"></i>Prospek</a></li>
@@ -63,7 +62,6 @@
                         <li><a class="{{ set_active(['suratperintahpembangunan/list/page']) }}" href="{{ route('suratperintahpembangunan/list/page') }}"><i class="fas fa-warehouse ml-0 mr-3"></i>Surat Perintah Pembangunan</a></li>
                     </ul>
                 </li>
-
                 <li class="submenu"> <a href="#"></i><i class="fas fa-database mr-2"></i><span> Projek </span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Lahan </span> <span class="menu-arrow"></span></a>
@@ -80,15 +78,14 @@
                         <li><a class="{{ set_active(['kemajuanpembangunan/list/page']) }}" href="{{ route('kemajuanpembangunan/list/page') }}"><i class="fas fa-warehouse ml-0 mr-3"></i>Kemajuan Pembangunan</a></li>
                     </ul>
                 </li>
-
                 @can('pembayaran-booking.view')
                 <li class="submenu"> <a href="#"></i><i class="fas fa-database mr-2"></i><span> Keuangan </span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li><a class="{{ set_active(['pembayaran-konsumen/list/page']) }}" href="{{ route('pembayaran-konsumen/list/page') }}"><i class="fas fa-users ml-0 mr-3"></i>Transaksi Booking</a></li>
+                        <li><a class="{{ set_active(['devina-cashbook.buku-kas.list.page']) }}" href="{{ route('devina-cashbook.buku-kas.list.page') }}"><i class="fas fa-book ml-0 mr-3"></i>Buku Kas</a></li>
                     </ul>
                 </li>
                 @endcan
-
                 <li class="submenu"> <a href="#"></i><i class="fas fa-boxes mr-2"></i><span> Modul Utama  <span class="badge bg-light text-dark">New Update!</span></span> <span class="menu-arrow"></span></a>
                     <ul class="submenu_class" style="display: none;">
                         <li class="submenu"> <a href="#"></i><i class="fas fa-box ml-0 mr-2"></i><span> Pembelian </span> <span class="menu-arrow"></span></a>
