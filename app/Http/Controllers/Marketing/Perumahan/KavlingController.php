@@ -1303,14 +1303,14 @@ class KavlingController extends Controller
             'catatan_pembayaran' => 'nullable|string|max:5000',
             'bukti_pembayaran'   => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:3072',
             'is_approved'        => 'nullable|boolean',
-            'approved_by'        => 'nullable|exists:users,id',
+            'approved_by'        => 'nullable|integer|exists:users,id',
         ];
         $message = [
             'tanggal_pembayaran.required' => 'Tanggal pembayaran wajib diisi',
             'nominal_pembayaran.required' => 'Nominal pembayaran wajib diisi',
             'akun_id.required'            => 'Akun penerimaan wajib dipilih',
             'akun_id.exists'              => 'Akun tidak ditemukan',
-            'approved_by.exists'              => 'Akun tidak ditemukan',
+            'approved_by.exists'          => 'User tidak ditemukan'
         ];
         $validator = Validator::make($request->all(), $rules, $message);
         if ($validator->fails()) {
@@ -1339,7 +1339,22 @@ class KavlingController extends Controller
             $generator = new PembayaranBookingKonsumen();
             $nomorRef = $existing?->nomor_referensi ?? $generator->generateNomorReferensi($today);
 
-            $isApprove = (bool) $request->boolean('is_approved');
+            $isApprove    = (bool) $request->boolean('is_approved');
+            $wasApproved  = (bool) ($existing?->is_approved);
+            $approveAtNew = $tgl ?? Carbon::now('Asia/Jakarta')->toDateString();
+
+            if ($wasApproved && !$isApprove) {
+                $approvedBy = null;
+                $approvedAt = null;
+
+            } elseif (!$wasApproved && $isApprove) {
+                $approvedBy = auth()->id();
+                $approvedAt = $approveAtNew;
+
+            } else {
+                $approvedBy = $existing?->approved_by ?? $request->approved_by;
+                $approvedAt = $existing?->approved_at;
+            }
 
             $keys = [];
             if ($request->filled('pembayaran_id')) {
@@ -1357,7 +1372,9 @@ class KavlingController extends Controller
                 'catatan_pembayaran'      => $request->catatan_pembayaran,
                 'bukti_pembayaran'        => $path,
                 'is_approved'             => $isApprove,
-                'approved_at'             => $isApprove ? $tgl : ($existing?->approved_at),
+                // 'approved_at' => $isApprove ? $tgl : ($existing?->approved_at), // <-- ganti
+                'approved_by'             => $approvedBy,
+                'approved_at'             => $approvedAt,
                 'changed_by'              => auth()->id(),
             ];
 
@@ -5359,5 +5376,4 @@ class KavlingController extends Controller
             "data"            => $data_arr
         ])->header('Content-Type', 'application/json');
     }
-
 }

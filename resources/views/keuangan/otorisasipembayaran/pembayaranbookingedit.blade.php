@@ -313,6 +313,8 @@
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="is_approved" value="0">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailBookingFee->approved_by ?? Auth::id()) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailBookingFee->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailBookingFee->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailBookingFee->id }}" class="custom-control-label">
                                                             Setujui pembayaran
@@ -519,6 +521,8 @@
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="is_approved" value="0">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailBiayaAdministrasi->approved_by ?? Auth::id()) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailBiayaAdministrasi->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailBiayaAdministrasi->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailBiayaAdministrasi->id }}" class="custom-control-label">
                                                             Setujui pembayaran
@@ -730,12 +734,14 @@
                                                     <textarea name="catatan_pembayaran" rows="2" class="form-control" placeholder="opsional">{{ old('catatan_pembayaran', $detailUangMuka->catatan_pembayaran) }}</textarea>
                                                 </div>
                                                 @unlessrole('Finance')
-                                                <input type="hidden" name="is_approved" value="{{ old('is_approved', $detailUangMuka->is_approved) }}">
-                                                <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailUangMuka->approved_by) }}">
+                                                    <input type="hidden" name="is_approved" value="{{ old('is_approved', $detailUangMuka->is_approved) }}">
+                                                    <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailUangMuka->approved_by) }}">
                                                 @endunlessrole
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="is_approved" value="0">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailUangMuka->approved_by ?? Auth::id()) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailUangMuka->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailUangMuka->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailUangMuka->id }}" class="custom-control-label">
                                                             Setujui pembayaran
@@ -953,6 +959,8 @@
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="is_approved" value="0">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailBiayaKelebihanTanah->approved_by ?? Auth::id()) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailBiayaKelebihanTanah->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailBiayaKelebihanTanah->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailBiayaKelebihanTanah->id }}" class="custom-control-label">
                                                             Setujui pembayaran
@@ -1170,6 +1178,8 @@
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="is_approved" value="0">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailBiayaPenambahanBangunan->approved_by ?? Auth::id()) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailBiayaPenambahanBangunan->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailBiayaPenambahanBangunan->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailBiayaPenambahanBangunan->id }}" class="custom-control-label">
                                                             Setujui pembayaran
@@ -1387,6 +1397,8 @@
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="is_approved" value="0">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailBiayaLainnya->approved_by ?? Auth::id()) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailBiayaLainnya->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailBiayaLainnya->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailBiayaLainnya->id }}" class="custom-control-label">
                                                             Setujui pembayaran
@@ -1604,6 +1616,8 @@
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="is_approved" value="0">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailTotalPenjualanCash->approved_by ?? Auth::id()) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailTotalPenjualanCash->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailTotalPenjualanCash->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailTotalPenjualanCash->id }}" class="custom-control-label">
                                                             Setujui pembayaran
@@ -1821,6 +1835,8 @@
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="is_approved" value="0">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailCicilanCash->approved_by ?? Auth::id()) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailCicilanCash->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailCicilanCash->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailCicilanCash->id }}" class="custom-control-label">
                                                             Setujui pembayaran
@@ -2038,6 +2054,8 @@
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="is_approved" value="0">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailBiayaAkadKredit->approved_by ?? Auth::id()) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailBiayaAkadKredit->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailBiayaAkadKredit->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailBiayaAkadKredit->id }}" class="custom-control-label">
                                                             Setujui pembayaran
@@ -2255,6 +2273,8 @@
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="is_approved" value="0">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailBiayaPenambahanFasilitas->approved_by ?? Auth::id()) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailBiayaPenambahanFasilitas->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailBiayaPenambahanFasilitas->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailBiayaPenambahanFasilitas->id }}" class="custom-control-label">
                                                             Setujui pembayaran
@@ -2472,6 +2492,8 @@
                                                 @role('Finance')
                                                 <div class="form-group mb-3">
                                                     <div class="custom-control custom-checkbox">
+                                                        <input type="hidden" name="is_approved" value="0">
+                                                        <input type="hidden" name="approved_by" value="{{ old('approved_by', $detailBiayaPenerimaanKpr->approved_by ?? Auth::id()) }}">
                                                         <input type="checkbox" name="is_approved" id="approve_edit_{{ $detailBiayaPenerimaanKpr->id }}" value="1" class="custom-control-input" {{ old('is_approved', $detailBiayaPenerimaanKpr->is_approved) ? 'checked' : '' }}>
                                                         <label for="approve_edit_{{ $detailBiayaPenerimaanKpr->id }}" class="custom-control-label">
                                                             Setujui pembayaran
